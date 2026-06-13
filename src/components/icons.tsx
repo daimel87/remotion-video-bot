@@ -151,6 +151,45 @@ export const MagnifierIcon: React.FC<{size?: number}> = ({size = 48}) => (
   </svg>
 );
 
+export const ChartIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <path d="M6 42 V10 M6 42 H42" stroke="#9be1ff" strokeWidth="2.5" strokeLinecap="round" />
+    <path
+      d="M10 34 L18 24 L26 28 L40 8"
+      stroke="#9be1ff"
+      strokeWidth="3"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path d="M32 8 H40 V16" stroke="#9be1ff" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+export const FlameIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <path
+      d="M24 6 C24 6 14 16 14 26 C14 33 18.5 38 24 38 C29.5 38 34 33 34 26 C34 20 30 16 28 12 C28 18 24 20 24 24 C24 18 20 16 24 6 Z"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const CrossIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <circle cx="24" cy="24" r="22" stroke="#9be1ff" strokeWidth="2.5" />
+    <path
+      d="M24 14 V34 M14 24 H34"
+      stroke="#9be1ff"
+      strokeWidth="4"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
 export const TagIcon: React.FC<{size?: number}> = ({size = 48}) => (
   <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
     <path
