@@ -23,6 +23,77 @@ export const ZincIcon: React.FC<{size?: number}> = ({size = 48}) => (
   </svg>
 );
 
+export const BrainIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <path
+      d="M16 8c-4 0-7 3-7 7 0 2 1 3.5 2.5 4.5C10 21 9 23 9 25c0 3.5 2.5 6 6 6.5V36c0 2 1.5 4 4 4h2V8h-5z"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+    />
+    <path
+      d="M32 8c4 0 7 3 7 7 0 2-1 3.5-2.5 4.5 1.5 1.5 2.5 3.5 2.5 5.5 0 3.5-2.5 6-6 6.5V36c0 2-1.5 4-4 4h-2V8h5z"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+    />
+  </svg>
+);
+
+export const EnergyIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <circle cx="24" cy="24" r="22" stroke="#9be1ff" strokeWidth="2.5" />
+    <path d="M26 8 L14 26 H22 L20 40 L34 20 H26 Z" fill="#9be1ff" />
+  </svg>
+);
+
+export const HeartIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <path
+      d="M24 40 C24 40 6 29 6 17 C6 11 10 7 16 7 C20 7 23 9.5 24 13 C25 9.5 28 7 32 7 C38 7 42 11 42 17 C42 29 24 40 24 40 Z"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+    />
+    <path
+      d="M12 22 L18 22 L21 16 L26 28 L29 22 L36 22"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const StepsIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <path
+      d="M6 40 V32 H16 V24 H26 V16 H36 V8 H42"
+      stroke="#9be1ff"
+      strokeWidth="3"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <circle cx="42" cy="8" r="3" fill="#9be1ff" />
+  </svg>
+);
+
+export const RouteIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <circle cx="10" cy="38" r="4" stroke="#9be1ff" strokeWidth="2.5" />
+    <path
+      d="M10 34 C10 20 38 28 38 14"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+      strokeDasharray="4 4"
+    />
+    <path d="M32 6 L44 12 L32 18 Z" fill="#9be1ff" />
+  </svg>
+);
+
 export const SunIcon: React.FC<{size?: number}> = ({size = 48}) => (
   <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
     <circle cx="24" cy="24" r="10" fill="#9be1ff" />
