@@ -1,15 +1,15 @@
 import {Composition} from 'remotion';
-import {MyComposition} from './Composition';
+import {VideoEdit} from './VideoEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <Composition
-      id="MyComposition"
-      component={MyComposition}
-      durationInFrames={150}
-      fps={30}
-      width={1920}
-      height={1080}
+      id="VideoEdit"
+      component={VideoEdit}
+      durationInFrames={1500}
+      fps={25}
+      width={1280}
+      height={720}
     />
   );
 };
