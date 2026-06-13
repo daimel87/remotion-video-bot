@@ -276,6 +276,33 @@ export const AvocadoIcon: React.FC<{size?: number}> = ({size = 48}) => (
   </svg>
 );
 
+export const TurmericIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <path
+      d="M8 24 C8 16 16 12 24 14 C32 16 40 14 40 22 C40 30 32 34 24 32 C16 30 8 32 8 24 Z"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+    />
+    <path d="M14 22 C18 20 22 24 26 22 M16 28 C20 26 24 30 28 28" stroke="#9be1ff" strokeWidth="2" fill="none" strokeLinecap="round" />
+  </svg>
+);
+
+export const PomegranateIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <path
+      d="M24 12 C34 12 40 20 40 28 C40 36 33 42 24 42 C15 42 8 36 8 28 C8 20 14 12 24 12 Z"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+    />
+    <path d="M18 12 L20 6 H28 L30 12" stroke="#9be1ff" strokeWidth="2.5" fill="none" strokeLinejoin="round" />
+    {[[18, 24], [28, 22], [22, 32], [30, 32]].map(([x, y], i) => (
+      <circle key={i} cx={x} cy={y} r="2.5" fill="#9be1ff" />
+    ))}
+  </svg>
+);
+
 export const TagIcon: React.FC<{size?: number}> = ({size = 48}) => (
   <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
     <path
