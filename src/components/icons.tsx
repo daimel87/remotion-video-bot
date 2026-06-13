@@ -250,6 +250,32 @@ export const ChiliIcon: React.FC<{size?: number}> = ({size = 48}) => (
   </svg>
 );
 
+export const OnionIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <path
+      d="M24 10 C34 10 40 18 40 28 C40 36 32 42 24 42 C16 42 8 36 8 28 C8 18 14 10 24 10 Z"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+    />
+    <path d="M24 10 C20 16 20 36 24 42 M24 10 C28 16 28 36 24 42" stroke="#9be1ff" strokeWidth="2" fill="none" />
+    <path d="M24 10 C24 10 22 4 20 3 M24 10 C24 10 26 4 28 3" stroke="#9be1ff" strokeWidth="2" fill="none" strokeLinecap="round" />
+  </svg>
+);
+
+export const AvocadoIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <path
+      d="M24 6 C32 6 38 16 38 27 C38 37 32 43 24 43 C16 43 10 37 10 27 C10 16 16 6 24 6 Z"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+    />
+    <circle cx="24" cy="29" r="8" stroke="#9be1ff" strokeWidth="2.5" fill="none" />
+    <path d="M20 8 C20 8 18 5 21 4" stroke="#9be1ff" strokeWidth="2" fill="none" strokeLinecap="round" />
+  </svg>
+);
+
 export const TagIcon: React.FC<{size?: number}> = ({size = 48}) => (
   <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
     <path

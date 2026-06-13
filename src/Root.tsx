@@ -5,6 +5,7 @@ import {DoctorIntroEdit} from './DoctorIntroEdit';
 import {JitomatePepitaEdit} from './JitomatePepitaEdit';
 import {AjoNopalEdit} from './AjoNopalEdit';
 import {FrijolChileEdit} from './FrijolChileEdit';
+import {CebollaAguacateEdit} from './CebollaAguacateEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -53,6 +54,14 @@ export const RemotionRoot: React.FC = () => {
         id="FrijolChileEdit"
         component={FrijolChileEdit}
         durationInFrames={1274}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="CebollaAguacateEdit"
+        component={CebollaAguacateEdit}
+        durationInFrames={1346}
         fps={25}
         width={1920}
         height={1080}
