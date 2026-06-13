@@ -4,6 +4,7 @@ import {ProstateEdit} from './ProstateEdit';
 import {DoctorIntroEdit} from './DoctorIntroEdit';
 import {JitomatePepitaEdit} from './JitomatePepitaEdit';
 import {AjoNopalEdit} from './AjoNopalEdit';
+import {FrijolChileEdit} from './FrijolChileEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -44,6 +45,14 @@ export const RemotionRoot: React.FC = () => {
         id="AjoNopalEdit"
         component={AjoNopalEdit}
         durationInFrames={1115}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="FrijolChileEdit"
+        component={FrijolChileEdit}
+        durationInFrames={1274}
         fps={25}
         width={1920}
         height={1080}

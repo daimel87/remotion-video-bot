@@ -219,6 +219,37 @@ export const CactusIcon: React.FC<{size?: number}> = ({size = 48}) => (
   </svg>
 );
 
+export const BeanIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <path
+      d="M14 30 C8 24 10 12 20 8 C32 4 42 12 42 24 C42 36 30 44 20 40 C14 38 12 34 14 30 Z"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+    />
+    <path d="M16 28 C22 24 28 24 34 18" stroke="#9be1ff" strokeWidth="2" fill="none" strokeLinecap="round" />
+  </svg>
+);
+
+export const ChiliIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <path
+      d="M16 8 C20 6 24 8 24 8"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+      strokeLinecap="round"
+    />
+    <path
+      d="M22 9 C12 12 6 22 8 32 C10 40 18 42 26 38 C36 33 42 22 38 14 C35 8 28 7 22 9 Z"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 export const TagIcon: React.FC<{size?: number}> = ({size = 48}) => (
   <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
     <path
