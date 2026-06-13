@@ -118,3 +118,48 @@ export const SunIcon: React.FC<{size?: number}> = ({size = 48}) => (
     })}
   </svg>
 );
+
+export const TomatoIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <circle cx="24" cy="26" r="16" stroke="#9be1ff" strokeWidth="2.5" />
+    <path
+      d="M24 10 C22 13 20 14 17 14 M24 10 C26 13 28 14 31 14 M24 10 V16"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+export const LeafIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <path
+      d="M10 38 C10 18 30 10 40 10 C40 22 32 40 10 38 Z"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+    />
+    <path d="M12 36 C18 28 26 20 38 12" stroke="#9be1ff" strokeWidth="2" fill="none" />
+  </svg>
+);
+
+export const MagnifierIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <circle cx="21" cy="21" r="13" stroke="#9be1ff" strokeWidth="3" />
+    <line x1="30" y1="30" x2="40" y2="40" stroke="#9be1ff" strokeWidth="3" strokeLinecap="round" />
+  </svg>
+);
+
+export const TagIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <path
+      d="M6 22 L22 6 H38 V22 L22 38 Z"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+      strokeLinejoin="round"
+    />
+    <circle cx="30" cy="14" r="3" fill="#9be1ff" />
+  </svg>
+);

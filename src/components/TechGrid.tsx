@@ -1,13 +1,16 @@
-import {AbsoluteFill} from 'remotion';
+import {AbsoluteFill, useVideoConfig} from 'remotion';
 
 export const TechGrid: React.FC = () => {
+  const {width} = useVideoConfig();
+  const scale = width / 1280;
+
   return (
     <AbsoluteFill style={{backgroundColor: '#050b1f'}}>
       <AbsoluteFill
         style={{
           backgroundImage:
             'linear-gradient(rgba(70,110,255,0.18) 1px, transparent 1px), linear-gradient(90deg, rgba(70,110,255,0.18) 1px, transparent 1px)',
-          backgroundSize: '48px 48px',
+          backgroundSize: `${48 * scale}px ${48 * scale}px`,
         }}
       />
       <AbsoluteFill
