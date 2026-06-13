@@ -1,13 +1,13 @@
 export const ZincIcon: React.FC<{size?: number}> = ({size = 48}) => (
   <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="22" stroke="#9be15d" strokeWidth="3" />
-    <circle cx="24" cy="24" r="4" fill="#9be15d" />
+    <circle cx="24" cy="24" r="22" stroke="#9be1ff" strokeWidth="3" />
+    <circle cx="24" cy="24" r="4" fill="#9be1ff" />
     <ellipse
       cx="24"
       cy="24"
       rx="18"
       ry="8"
-      stroke="#9be15d"
+      stroke="#9be1ff"
       strokeWidth="2.5"
       transform="rotate(30 24 24)"
     />
@@ -16,7 +16,7 @@ export const ZincIcon: React.FC<{size?: number}> = ({size = 48}) => (
       cy="24"
       rx="18"
       ry="8"
-      stroke="#9be15d"
+      stroke="#9be1ff"
       strokeWidth="2.5"
       transform="rotate(-30 24 24)"
     />
@@ -25,7 +25,7 @@ export const ZincIcon: React.FC<{size?: number}> = ({size = 48}) => (
 
 export const SunIcon: React.FC<{size?: number}> = ({size = 48}) => (
   <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="10" fill="#ffd166" />
+    <circle cx="24" cy="24" r="10" fill="#9be1ff" />
     {Array.from({length: 8}).map((_, i) => {
       const angle = (i * Math.PI) / 4;
       const x1 = 24 + Math.cos(angle) * 15;
@@ -39,20 +39,11 @@ export const SunIcon: React.FC<{size?: number}> = ({size = 48}) => (
           y1={y1}
           x2={x2}
           y2={y2}
-          stroke="#ffd166"
+          stroke="#9be1ff"
           strokeWidth="3"
           strokeLinecap="round"
         />
       );
     })}
-  </svg>
-);
-
-export const SparkleIcon: React.FC<{size?: number}> = ({size = 48}) => (
-  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-    <path
-      d="M24 4 L29 19 L44 24 L29 29 L24 44 L19 29 L4 24 L19 19 Z"
-      fill="#9be15d"
-    />
   </svg>
 );
