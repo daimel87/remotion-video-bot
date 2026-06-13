@@ -1,0 +1,22 @@
+{
+  "name": "remotion-video-bot",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "setup:browser": "npx @puppeteer/browsers install chrome-headless-shell@131.0.6778.204 --path .chrome",
+    "dev": "remotion studio",
+    "build": "remotion render",
+    "upgrade": "remotion upgrade"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.477",
+    "@remotion/eslint-config": "4.0.477",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.477"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.1",
+    "typescript": "5.8.2"
+  }
+}
