@@ -6,8 +6,8 @@ import {RecapGraphic} from './components/RecapGraphic';
 import {BrainIcon, EnergyIcon, HeartIcon, StepsIcon, RouteIcon} from './components/icons';
 
 const BLOCK = 250; // 10s at 25fps
-const VIDEO_PART = 175; // 7s of talking head with caption
-const GRAPHIC_PART = BLOCK - VIDEO_PART; // 3s explainer cutaway
+const VIDEO_PART = 100; // 4s of talking head before the cutaway
+const GRAPHIC_PART = BLOCK - VIDEO_PART; // 6s explainer cutaway (with hold time at the end)
 
 const blocks: {caption: string; graphic: React.ReactNode}[] = [
   {
@@ -80,11 +80,11 @@ export const VideoEdit: React.FC = () => {
         const blockStart = i * BLOCK;
         return (
           <React.Fragment key={i}>
-            <Sequence from={blockStart + 20} durationInFrames={110}>
-              <CaptionBox text={block.caption} />
-            </Sequence>
             <Sequence from={blockStart + VIDEO_PART} durationInFrames={GRAPHIC_PART}>
               {block.graphic}
+            </Sequence>
+            <Sequence from={blockStart + VIDEO_PART} durationInFrames={110}>
+              <CaptionBox text={block.caption} />
             </Sequence>
           </React.Fragment>
         );
