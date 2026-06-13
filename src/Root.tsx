@@ -3,6 +3,7 @@ import {VideoEdit} from './VideoEdit';
 import {ProstateEdit} from './ProstateEdit';
 import {DoctorIntroEdit} from './DoctorIntroEdit';
 import {JitomatePepitaEdit} from './JitomatePepitaEdit';
+import {AjoNopalEdit} from './AjoNopalEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -35,6 +36,14 @@ export const RemotionRoot: React.FC = () => {
         id="JitomatePepitaEdit"
         component={JitomatePepitaEdit}
         durationInFrames={1214}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="AjoNopalEdit"
+        component={AjoNopalEdit}
+        durationInFrames={1115}
         fps={25}
         width={1920}
         height={1080}

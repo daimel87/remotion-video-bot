@@ -190,6 +190,35 @@ export const CrossIcon: React.FC<{size?: number}> = ({size = 48}) => (
   </svg>
 );
 
+export const GarlicIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <path
+      d="M24 6 C14 6 10 16 10 26 C10 34 16 42 24 42 C32 42 38 34 38 26 C38 16 34 6 24 6 Z"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+    />
+    <path d="M24 6 V12 M18 8 C18 12 20 14 20 18 M30 8 C30 12 28 14 28 18" stroke="#9be1ff" strokeWidth="2" fill="none" strokeLinecap="round" />
+    <path d="M24 12 V36 M16 18 C16 26 18 34 24 36 M32 18 C32 26 30 34 24 36" stroke="#9be1ff" strokeWidth="2" fill="none" />
+  </svg>
+);
+
+export const CactusIcon: React.FC<{size?: number}> = ({size = 48}) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <ellipse cx="22" cy="26" rx="14" ry="18" stroke="#9be1ff" strokeWidth="2.5" fill="none" />
+    <path
+      d="M34 20 C40 20 42 26 38 30 C35 33 32 32 32 28"
+      stroke="#9be1ff"
+      strokeWidth="2.5"
+      fill="none"
+      strokeLinecap="round"
+    />
+    {[[14, 14], [26, 16], [16, 26], [28, 28], [18, 36], [26, 38]].map(([x, y], i) => (
+      <circle key={i} cx={x} cy={y} r="1.6" fill="#9be1ff" />
+    ))}
+  </svg>
+);
+
 export const TagIcon: React.FC<{size?: number}> = ({size = 48}) => (
   <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
     <path
