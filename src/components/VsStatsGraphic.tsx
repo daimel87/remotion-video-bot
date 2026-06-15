@@ -1,25 +1,24 @@
-import {AbsoluteFill, useCurrentFrame, useVideoConfig, spring, interpolate} from 'remotion';
+import {AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig, spring, interpolate} from 'remotion';
 import {TechGrid} from './TechGrid';
 
 const PlayerPanel: React.FC<{
   side: 'left' | 'right';
   name: string;
   badge: string;
-  value: number;
+  photoSrc?: string;
+  currentValue: number;
   maxValue: number;
   color: string;
   unitLabel: string;
   growthLabel: string;
   growthValue: string;
   delay: number;
-}> = ({side, name, badge, value, maxValue, color, unitLabel, growthLabel, growthValue, delay}) => {
+}> = ({side, name, badge, photoSrc, currentValue, maxValue, color, unitLabel, growthLabel, growthValue, delay}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
 
   const enter = spring({frame: Math.max(0, frame - delay), fps, config: {damping: 200, stiffness: 120}});
-  const countFrame = Math.max(0, frame - delay - 10);
-  const counted = Math.round(interpolate(countFrame, [0, 50], [0, value], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}));
-  const barFill = interpolate(enter, [0, 1], [0, (value / maxValue) * 100]);
+  const barFill = interpolate(currentValue, [0, maxValue], [0, 100], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
   const slideFrom = side === 'left' ? -60 : 60;
 
@@ -41,25 +40,40 @@ const PlayerPanel: React.FC<{
         margin: '0 16px',
       }}
     >
-      <div
-        style={{
-          width: 96,
-          height: 96,
-          borderRadius: '50%',
-          background: color,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontFamily: 'Helvetica, Arial, sans-serif',
-          fontWeight: 900,
-          fontSize: 32,
-          color: '#0a0f24',
-          marginBottom: 18,
-          boxShadow: `0 0 25px ${color}aa`,
-        }}
-      >
-        {badge}
-      </div>
+      {photoSrc ? (
+        <Img
+          src={staticFile(photoSrc)}
+          style={{
+            width: 110,
+            height: 110,
+            borderRadius: '50%',
+            objectFit: 'cover',
+            border: `3px solid ${color}`,
+            boxShadow: `0 0 25px ${color}aa`,
+            marginBottom: 18,
+          }}
+        />
+      ) : (
+        <div
+          style={{
+            width: 96,
+            height: 96,
+            borderRadius: '50%',
+            background: color,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontWeight: 900,
+            fontSize: 32,
+            color: '#0a0f24',
+            marginBottom: 18,
+            boxShadow: `0 0 25px ${color}aa`,
+          }}
+        >
+          {badge}
+        </div>
+      )}
 
       <div
         style={{
@@ -84,9 +98,10 @@ const PlayerPanel: React.FC<{
           color,
           textShadow: `0 0 20px ${color}aa`,
           lineHeight: 1,
+          fontVariantNumeric: 'tabular-nums',
         }}
       >
-        {counted.toLocaleString('en-US')}
+        {currentValue.toLocaleString('en-US')}
       </div>
       <div
         style={{
@@ -140,21 +155,126 @@ const PlayerPanel: React.FC<{
   );
 };
 
+const YearTicker: React.FC<{minYear: number; maxYear: number; progress: number; color: string}> = ({
+  minYear,
+  maxYear,
+  progress,
+  color,
+}) => {
+  const currentYear = Math.round(interpolate(progress, [0, 1], [minYear, maxYear]));
+  const markerTop = interpolate(progress, [0, 1], [100, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+
+  return (
+    <div
+      style={{
+        flex: '0 0 170px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'rgba(15, 25, 55, 0.85)',
+        border: '2px solid rgba(91, 140, 255, 0.6)',
+        boxShadow: '0 0 30px rgba(91, 140, 255, 0.35)',
+        borderRadius: 18,
+        padding: '28px 16px',
+        margin: '0 0 0 8px',
+      }}
+    >
+      <div
+        style={{
+          fontFamily: 'Helvetica, Arial, sans-serif',
+          fontWeight: 700,
+          fontSize: 16,
+          color: '#9be1ff',
+          textTransform: 'uppercase',
+          letterSpacing: 2,
+          marginBottom: 12,
+        }}
+      >
+        Year
+      </div>
+      <div
+        style={{
+          fontFamily: 'Helvetica, Arial, sans-serif',
+          fontWeight: 900,
+          fontSize: 42,
+          color: '#fff',
+          textShadow: `0 0 20px ${color}aa`,
+          marginBottom: 20,
+          fontVariantNumeric: 'tabular-nums',
+        }}
+      >
+        {currentYear}
+      </div>
+
+      <div style={{position: 'relative', width: 10, height: 220, borderRadius: 5, background: 'rgba(255,255,255,0.12)'}}>
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            width: '100%',
+            height: `${100 - markerTop}%`,
+            borderRadius: 5,
+            background: color,
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            top: `${markerTop}%`,
+            left: '50%',
+            width: 22,
+            height: 22,
+            marginLeft: -11,
+            marginTop: -11,
+            borderRadius: '50%',
+            background: '#fff',
+            border: `3px solid ${color}`,
+            boxShadow: `0 0 14px ${color}aa`,
+          }}
+        />
+      </div>
+
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '100%',
+          marginTop: 14,
+          fontFamily: 'Helvetica, Arial, sans-serif',
+          fontWeight: 600,
+          fontSize: 14,
+          color: '#cfe6ff',
+        }}
+      >
+        <span>{minYear}</span>
+        <span>{maxYear}</span>
+      </div>
+    </div>
+  );
+};
+
 export const VsStatsGraphic: React.FC<{
   category: string;
   dateLabel: string;
   leftName: string;
   leftBadge: string;
+  leftPhoto?: string;
   leftValue: number;
   leftColor: string;
+  leftStartYear: number;
   leftGrowthLabel: string;
   leftGrowthValue: string;
   rightName: string;
   rightBadge: string;
+  rightPhoto?: string;
   rightValue: number;
   rightColor: string;
+  rightStartYear: number;
   rightGrowthLabel: string;
   rightGrowthValue: string;
+  endYear: number;
   unitLabel: string;
   gapLabel: string;
 }> = ({
@@ -162,16 +282,21 @@ export const VsStatsGraphic: React.FC<{
   dateLabel,
   leftName,
   leftBadge,
+  leftPhoto,
   leftValue,
   leftColor,
+  leftStartYear,
   leftGrowthLabel,
   leftGrowthValue,
   rightName,
   rightBadge,
+  rightPhoto,
   rightValue,
   rightColor,
+  rightStartYear,
   rightGrowthLabel,
   rightGrowthValue,
+  endYear,
   unitLabel,
   gapLabel,
 }) => {
@@ -185,9 +310,28 @@ export const VsStatsGraphic: React.FC<{
     extrapolateRight: 'clamp',
   });
 
+  const minStartYear = Math.min(leftStartYear, rightStartYear);
+  const yearProgress = interpolate(frame, [40, durationInFrames - 20], [0, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+  const currentYearContinuous = interpolate(yearProgress, [0, 1], [minStartYear, endYear]);
+
+  const leftFrac = interpolate(currentYearContinuous, [leftStartYear, endYear], [0, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+  const rightFrac = interpolate(currentYearContinuous, [rightStartYear, endYear], [0, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+
+  const leftCurrentValue = Math.round(leftFrac * leftValue);
+  const rightCurrentValue = Math.round(rightFrac * rightValue);
+
   const maxValue = Math.max(leftValue, rightValue);
-  const gap = Math.abs(leftValue - rightValue);
-  const leaderColor = leftValue >= rightValue ? leftColor : rightColor;
+  const gap = Math.abs(leftCurrentValue - rightCurrentValue);
+  const leaderColor = leftCurrentValue >= rightCurrentValue ? leftColor : rightColor;
 
   return (
     <AbsoluteFill style={{opacity: exit}}>
@@ -232,7 +376,8 @@ export const VsStatsGraphic: React.FC<{
             side="left"
             name={leftName}
             badge={leftBadge}
-            value={leftValue}
+            photoSrc={leftPhoto}
+            currentValue={leftCurrentValue}
             maxValue={maxValue}
             color={leftColor}
             unitLabel={unitLabel}
@@ -244,7 +389,8 @@ export const VsStatsGraphic: React.FC<{
             side="right"
             name={rightName}
             badge={rightBadge}
-            value={rightValue}
+            photoSrc={rightPhoto}
+            currentValue={rightCurrentValue}
             maxValue={maxValue}
             color={rightColor}
             unitLabel={unitLabel}
@@ -252,6 +398,7 @@ export const VsStatsGraphic: React.FC<{
             growthValue={rightGrowthValue}
             delay={25}
           />
+          <YearTicker minYear={minStartYear} maxYear={endYear} progress={yearProgress} color={leaderColor} />
         </div>
 
         <div
@@ -288,6 +435,7 @@ export const VsStatsGraphic: React.FC<{
               fontSize: 38,
               color: leaderColor,
               textShadow: `0 0 20px ${leaderColor}aa`,
+              fontVariantNumeric: 'tabular-nums',
             }}
           >
             {gap.toLocaleString('en-US')}
