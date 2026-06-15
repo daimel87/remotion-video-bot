@@ -12,24 +12,24 @@ const MESSI_PHOTO = 'messi.webp';
 const MESSI_PHOTO_POSITION = '70% 35%';
 const RONALDO_PHOTO = 'ronaldo.webp';
 
-// Timeline (30fps, 1110 frames total = 37s)
-// 0-90      Intro title
-// 90-240    Total career goals (club + country)
-// 240-390   Club career goals
-// 390-540   International goals
-// 540-690   UEFA Champions League goals
-// 690-840   Career hat-tricks
-// 840-990   Penalty goals
-// 990-1110  Outro / CTA
+// Timeline (30fps, 5400 frames total = 180s / 3 minutes)
+// 0-150        Intro title
+// 150-1000     Total career goals (club + country)
+// 1000-1850    Club career goals
+// 1850-2700    International goals
+// 2700-3550    UEFA Champions League goals
+// 3550-4400    Career hat-tricks
+// 4400-5250    Penalty goals
+// 5250-5400    Outro / CTA
 
 export const MessiRonaldoEdit: React.FC = () => {
   return (
     <AbsoluteFill style={{backgroundColor: '#050b1f'}}>
-      <Sequence from={0} durationInFrames={90}>
+      <Sequence from={0} durationInFrames={150}>
         <BigTextGraphic text="MESSI vs RONALDO: GOAL WARS" highlight="GOAL WARS" />
       </Sequence>
 
-      <Sequence from={90} durationInFrames={150}>
+      <Sequence from={150} durationInFrames={850}>
         <VsStatsGraphic
           category="Total Career Goals (Club & Country)"
           dateLabel={DATE_LABEL}
@@ -56,7 +56,7 @@ export const MessiRonaldoEdit: React.FC = () => {
         />
       </Sequence>
 
-      <Sequence from={240} durationInFrames={150}>
+      <Sequence from={1000} durationInFrames={850}>
         <VsStatsGraphic
           category="Club Career Goals"
           dateLabel={DATE_LABEL}
@@ -83,7 +83,7 @@ export const MessiRonaldoEdit: React.FC = () => {
         />
       </Sequence>
 
-      <Sequence from={390} durationInFrames={150}>
+      <Sequence from={1850} durationInFrames={850}>
         <VsStatsGraphic
           category="International Goals (National Team)"
           dateLabel={DATE_LABEL}
@@ -110,7 +110,7 @@ export const MessiRonaldoEdit: React.FC = () => {
         />
       </Sequence>
 
-      <Sequence from={540} durationInFrames={150}>
+      <Sequence from={2700} durationInFrames={850}>
         <VsStatsGraphic
           category="UEFA Champions League Goals"
           dateLabel={DATE_LABEL}
@@ -137,7 +137,7 @@ export const MessiRonaldoEdit: React.FC = () => {
         />
       </Sequence>
 
-      <Sequence from={690} durationInFrames={150}>
+      <Sequence from={3550} durationInFrames={850}>
         <VsStatsGraphic
           category="Career Hat-Tricks"
           dateLabel={DATE_LABEL}
@@ -164,7 +164,7 @@ export const MessiRonaldoEdit: React.FC = () => {
         />
       </Sequence>
 
-      <Sequence from={840} durationInFrames={150}>
+      <Sequence from={4400} durationInFrames={850}>
         <VsStatsGraphic
           category="Penalty Goals"
           dateLabel={DATE_LABEL}
@@ -191,7 +191,7 @@ export const MessiRonaldoEdit: React.FC = () => {
         />
       </Sequence>
 
-      <Sequence from={990} durationInFrames={120}>
+      <Sequence from={5250} durationInFrames={150}>
         <BigTextGraphic text="WHO IS THE REAL GOAT? DROP YOUR PICK BELOW!" highlight="GOAT" />
       </Sequence>
     </AbsoluteFill>

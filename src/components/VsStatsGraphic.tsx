@@ -45,21 +45,21 @@ const PlayerPanel: React.FC<{
         <Img
           src={staticFile(photoSrc)}
           style={{
-            width: 110,
-            height: 110,
+            width: 220,
+            height: 220,
             borderRadius: '50%',
             objectFit: 'cover',
             objectPosition: photoPosition ?? 'center',
-            border: `3px solid ${color}`,
-            boxShadow: `0 0 25px ${color}aa`,
-            marginBottom: 18,
+            border: `5px solid ${color}`,
+            boxShadow: `0 0 35px ${color}aa`,
+            marginBottom: 24,
           }}
         />
       ) : (
         <div
           style={{
-            width: 96,
-            height: 96,
+            width: 220,
+            height: 220,
             borderRadius: '50%',
             background: color,
             display: 'flex',
@@ -67,9 +67,9 @@ const PlayerPanel: React.FC<{
             justifyContent: 'center',
             fontFamily: 'Helvetica, Arial, sans-serif',
             fontWeight: 900,
-            fontSize: 32,
+            fontSize: 64,
             color: '#0a0f24',
-            marginBottom: 18,
+            marginBottom: 24,
             boxShadow: `0 0 25px ${color}aa`,
           }}
         >
