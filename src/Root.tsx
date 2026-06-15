@@ -8,6 +8,7 @@ import {FrijolChileEdit} from './FrijolChileEdit';
 import {CebollaAguacateEdit} from './CebollaAguacateEdit';
 import {CurcuminaGranadaEdit} from './CurcuminaGranadaEdit';
 import {CierreEdit} from './CierreEdit';
+import {WindowsXliteEdit} from './WindowsXliteEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -81,6 +82,14 @@ export const RemotionRoot: React.FC = () => {
         component={CierreEdit}
         durationInFrames={1447}
         fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="WindowsXliteEdit"
+        component={WindowsXliteEdit}
+        durationInFrames={531}
+        fps={30}
         width={1920}
         height={1080}
       />
