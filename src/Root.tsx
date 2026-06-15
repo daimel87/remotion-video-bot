@@ -11,6 +11,7 @@ import {CierreEdit} from './CierreEdit';
 import {WindowsXliteEdit} from './WindowsXliteEdit';
 import {WindowsXlite2Edit} from './WindowsXlite2Edit';
 import {WindowsXlite3Edit} from './WindowsXlite3Edit';
+import {WindowsXlite4Edit} from './WindowsXlite4Edit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -107,6 +108,14 @@ export const RemotionRoot: React.FC = () => {
         id="WindowsXlite3Edit"
         component={WindowsXlite3Edit}
         durationInFrames={1519}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="WindowsXlite4Edit"
+        component={WindowsXlite4Edit}
+        durationInFrames={444}
         fps={30}
         width={1920}
         height={1080}
