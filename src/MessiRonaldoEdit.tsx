@@ -8,8 +8,9 @@ const DATE_LABEL = 'As of June 2026';
 const MESSI_START_YEAR = 2004;
 const RONALDO_START_YEAR = 2002;
 const END_YEAR = 2025;
-const MESSI_PHOTO = 'messi.jpg';
-const RONALDO_PHOTO = 'ronaldo.jpg';
+const MESSI_PHOTO = 'messi.webp';
+const MESSI_PHOTO_POSITION = '70% 35%';
+const RONALDO_PHOTO = 'ronaldo.webp';
 
 // Timeline (30fps, 1110 frames total = 37s)
 // 0-90      Intro title
@@ -37,6 +38,7 @@ export const MessiRonaldoEdit: React.FC = () => {
           leftValue={850}
           leftColor={MESSI_COLOR}
           leftPhoto={MESSI_PHOTO}
+          leftPhotoPosition={MESSI_PHOTO_POSITION}
           leftStartYear={MESSI_START_YEAR}
           leftGrowthLabel="2024/25 Season Goals"
           leftGrowthValue="+28"
@@ -63,6 +65,7 @@ export const MessiRonaldoEdit: React.FC = () => {
           leftValue={720}
           leftColor={MESSI_COLOR}
           leftPhoto={MESSI_PHOTO}
+          leftPhotoPosition={MESSI_PHOTO_POSITION}
           leftStartYear={MESSI_START_YEAR}
           leftGrowthLabel="Clubs Played For"
           leftGrowthValue="Barcelona, PSG, Inter Miami"
@@ -89,6 +92,7 @@ export const MessiRonaldoEdit: React.FC = () => {
           leftValue={112}
           leftColor={MESSI_COLOR}
           leftPhoto={MESSI_PHOTO}
+          leftPhotoPosition={MESSI_PHOTO_POSITION}
           leftStartYear={MESSI_START_YEAR}
           leftGrowthLabel="National Team"
           leftGrowthValue="Argentina"
@@ -115,6 +119,7 @@ export const MessiRonaldoEdit: React.FC = () => {
           leftValue={129}
           leftColor={MESSI_COLOR}
           leftPhoto={MESSI_PHOTO}
+          leftPhotoPosition={MESSI_PHOTO_POSITION}
           leftStartYear={MESSI_START_YEAR}
           leftGrowthLabel="Competition"
           leftGrowthValue="UEFA Champions League"
@@ -141,6 +146,7 @@ export const MessiRonaldoEdit: React.FC = () => {
           leftValue={57}
           leftColor={MESSI_COLOR}
           leftPhoto={MESSI_PHOTO}
+          leftPhotoPosition={MESSI_PHOTO_POSITION}
           leftStartYear={MESSI_START_YEAR}
           leftGrowthLabel="Career Stat"
           leftGrowthValue="Hat-Tricks Scored"
@@ -167,6 +173,7 @@ export const MessiRonaldoEdit: React.FC = () => {
           leftValue={104}
           leftColor={MESSI_COLOR}
           leftPhoto={MESSI_PHOTO}
+          leftPhotoPosition={MESSI_PHOTO_POSITION}
           leftStartYear={MESSI_START_YEAR}
           leftGrowthLabel="Career Stat"
           leftGrowthValue="Penalties Converted"

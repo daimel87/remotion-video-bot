@@ -6,6 +6,7 @@ const PlayerPanel: React.FC<{
   name: string;
   badge: string;
   photoSrc?: string;
+  photoPosition?: string;
   currentValue: number;
   maxValue: number;
   color: string;
@@ -13,7 +14,7 @@ const PlayerPanel: React.FC<{
   growthLabel: string;
   growthValue: string;
   delay: number;
-}> = ({side, name, badge, photoSrc, currentValue, maxValue, color, unitLabel, growthLabel, growthValue, delay}) => {
+}> = ({side, name, badge, photoSrc, photoPosition, currentValue, maxValue, color, unitLabel, growthLabel, growthValue, delay}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
 
@@ -48,6 +49,7 @@ const PlayerPanel: React.FC<{
             height: 110,
             borderRadius: '50%',
             objectFit: 'cover',
+            objectPosition: photoPosition ?? 'center',
             border: `3px solid ${color}`,
             boxShadow: `0 0 25px ${color}aa`,
             marginBottom: 18,
@@ -261,6 +263,7 @@ export const VsStatsGraphic: React.FC<{
   leftName: string;
   leftBadge: string;
   leftPhoto?: string;
+  leftPhotoPosition?: string;
   leftValue: number;
   leftColor: string;
   leftStartYear: number;
@@ -269,6 +272,7 @@ export const VsStatsGraphic: React.FC<{
   rightName: string;
   rightBadge: string;
   rightPhoto?: string;
+  rightPhotoPosition?: string;
   rightValue: number;
   rightColor: string;
   rightStartYear: number;
@@ -283,6 +287,7 @@ export const VsStatsGraphic: React.FC<{
   leftName,
   leftBadge,
   leftPhoto,
+  leftPhotoPosition,
   leftValue,
   leftColor,
   leftStartYear,
@@ -291,6 +296,7 @@ export const VsStatsGraphic: React.FC<{
   rightName,
   rightBadge,
   rightPhoto,
+  rightPhotoPosition,
   rightValue,
   rightColor,
   rightStartYear,
@@ -377,6 +383,7 @@ export const VsStatsGraphic: React.FC<{
             name={leftName}
             badge={leftBadge}
             photoSrc={leftPhoto}
+            photoPosition={leftPhotoPosition}
             currentValue={leftCurrentValue}
             maxValue={maxValue}
             color={leftColor}
@@ -390,6 +397,7 @@ export const VsStatsGraphic: React.FC<{
             name={rightName}
             badge={rightBadge}
             photoSrc={rightPhoto}
+            photoPosition={rightPhotoPosition}
             currentValue={rightCurrentValue}
             maxValue={maxValue}
             color={rightColor}
