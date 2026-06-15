@@ -13,14 +13,9 @@ const MESSI_PHOTO_POSITION = '70% 35%';
 const RONALDO_PHOTO = 'ronaldo.webp';
 
 // Timeline (30fps, 5400 frames total = 180s / 3 minutes)
-// 0-150        Intro title
-// 150-1000     Total career goals (club + country)
-// 1000-1850    Club career goals
-// 1850-2700    International goals
-// 2700-3550    UEFA Champions League goals
-// 3550-4400    Career hat-tricks
-// 4400-5250    Penalty goals
-// 5250-5400    Outro / CTA
+// 0-150       Intro title (5s)
+// 150-5250    Single main scene: Total Career Goals counting slowly 0→final (168s)
+// 5250-5400   Outro / CTA (5s)
 
 export const MessiRonaldoEdit: React.FC = () => {
   return (
@@ -29,165 +24,30 @@ export const MessiRonaldoEdit: React.FC = () => {
         <BigTextGraphic text="MESSI vs RONALDO: GOAL WARS" highlight="GOAL WARS" />
       </Sequence>
 
-      <Sequence from={150} durationInFrames={850}>
+      <Sequence from={150} durationInFrames={5100}>
         <VsStatsGraphic
           category="Total Career Goals (Club & Country)"
           dateLabel={DATE_LABEL}
           leftName="Messi"
           leftBadge="10"
-          leftValue={850}
-          leftColor={MESSI_COLOR}
           leftPhoto={MESSI_PHOTO}
           leftPhotoPosition={MESSI_PHOTO_POSITION}
+          leftValue={850}
+          leftColor={MESSI_COLOR}
           leftStartYear={MESSI_START_YEAR}
           leftGrowthLabel="2024/25 Season Goals"
           leftGrowthValue="+28"
           rightName="Ronaldo"
           rightBadge="CR7"
+          rightPhoto={RONALDO_PHOTO}
           rightValue={938}
           rightColor={RONALDO_COLOR}
-          rightPhoto={RONALDO_PHOTO}
           rightStartYear={RONALDO_START_YEAR}
           endYear={END_YEAR}
           rightGrowthLabel="2024/25 Season Goals"
           rightGrowthValue="+35"
           unitLabel="Goals"
           gapLabel="Goal Gap"
-        />
-      </Sequence>
-
-      <Sequence from={1000} durationInFrames={850}>
-        <VsStatsGraphic
-          category="Club Career Goals"
-          dateLabel={DATE_LABEL}
-          leftName="Messi"
-          leftBadge="10"
-          leftValue={720}
-          leftColor={MESSI_COLOR}
-          leftPhoto={MESSI_PHOTO}
-          leftPhotoPosition={MESSI_PHOTO_POSITION}
-          leftStartYear={MESSI_START_YEAR}
-          leftGrowthLabel="Clubs Played For"
-          leftGrowthValue="Barcelona, PSG, Inter Miami"
-          rightName="Ronaldo"
-          rightBadge="CR7"
-          rightValue={730}
-          rightColor={RONALDO_COLOR}
-          rightPhoto={RONALDO_PHOTO}
-          rightStartYear={RONALDO_START_YEAR}
-          endYear={END_YEAR}
-          rightGrowthLabel="Clubs Played For"
-          rightGrowthValue="Man Utd, Real Madrid, Juventus, Al Nassr"
-          unitLabel="Goals"
-          gapLabel="Goal Gap"
-        />
-      </Sequence>
-
-      <Sequence from={1850} durationInFrames={850}>
-        <VsStatsGraphic
-          category="International Goals (National Team)"
-          dateLabel={DATE_LABEL}
-          leftName="Messi"
-          leftBadge="10"
-          leftValue={112}
-          leftColor={MESSI_COLOR}
-          leftPhoto={MESSI_PHOTO}
-          leftPhotoPosition={MESSI_PHOTO_POSITION}
-          leftStartYear={MESSI_START_YEAR}
-          leftGrowthLabel="National Team"
-          leftGrowthValue="Argentina"
-          rightName="Ronaldo"
-          rightBadge="CR7"
-          rightValue={135}
-          rightColor={RONALDO_COLOR}
-          rightPhoto={RONALDO_PHOTO}
-          rightStartYear={RONALDO_START_YEAR}
-          endYear={END_YEAR}
-          rightGrowthLabel="National Team"
-          rightGrowthValue="Portugal"
-          unitLabel="Goals"
-          gapLabel="Goal Gap"
-        />
-      </Sequence>
-
-      <Sequence from={2700} durationInFrames={850}>
-        <VsStatsGraphic
-          category="UEFA Champions League Goals"
-          dateLabel={DATE_LABEL}
-          leftName="Messi"
-          leftBadge="10"
-          leftValue={129}
-          leftColor={MESSI_COLOR}
-          leftPhoto={MESSI_PHOTO}
-          leftPhotoPosition={MESSI_PHOTO_POSITION}
-          leftStartYear={MESSI_START_YEAR}
-          leftGrowthLabel="Competition"
-          leftGrowthValue="UEFA Champions League"
-          rightName="Ronaldo"
-          rightBadge="CR7"
-          rightValue={140}
-          rightColor={RONALDO_COLOR}
-          rightPhoto={RONALDO_PHOTO}
-          rightStartYear={RONALDO_START_YEAR}
-          endYear={END_YEAR}
-          rightGrowthLabel="Competition"
-          rightGrowthValue="UEFA Champions League"
-          unitLabel="Goals"
-          gapLabel="Goal Gap"
-        />
-      </Sequence>
-
-      <Sequence from={3550} durationInFrames={850}>
-        <VsStatsGraphic
-          category="Career Hat-Tricks"
-          dateLabel={DATE_LABEL}
-          leftName="Messi"
-          leftBadge="10"
-          leftValue={57}
-          leftColor={MESSI_COLOR}
-          leftPhoto={MESSI_PHOTO}
-          leftPhotoPosition={MESSI_PHOTO_POSITION}
-          leftStartYear={MESSI_START_YEAR}
-          leftGrowthLabel="Career Stat"
-          leftGrowthValue="Hat-Tricks Scored"
-          rightName="Ronaldo"
-          rightBadge="CR7"
-          rightValue={62}
-          rightColor={RONALDO_COLOR}
-          rightPhoto={RONALDO_PHOTO}
-          rightStartYear={RONALDO_START_YEAR}
-          endYear={END_YEAR}
-          rightGrowthLabel="Career Stat"
-          rightGrowthValue="Hat-Tricks Scored"
-          unitLabel="Hat-Tricks"
-          gapLabel="Hat-Trick Gap"
-        />
-      </Sequence>
-
-      <Sequence from={4400} durationInFrames={850}>
-        <VsStatsGraphic
-          category="Penalty Goals"
-          dateLabel={DATE_LABEL}
-          leftName="Messi"
-          leftBadge="10"
-          leftValue={104}
-          leftColor={MESSI_COLOR}
-          leftPhoto={MESSI_PHOTO}
-          leftPhotoPosition={MESSI_PHOTO_POSITION}
-          leftStartYear={MESSI_START_YEAR}
-          leftGrowthLabel="Career Stat"
-          leftGrowthValue="Penalties Converted"
-          rightName="Ronaldo"
-          rightBadge="CR7"
-          rightValue={145}
-          rightColor={RONALDO_COLOR}
-          rightPhoto={RONALDO_PHOTO}
-          rightStartYear={RONALDO_START_YEAR}
-          endYear={END_YEAR}
-          rightGrowthLabel="Career Stat"
-          rightGrowthValue="Penalties Converted"
-          unitLabel="Penalty Goals"
-          gapLabel="Penalty Gap"
         />
       </Sequence>
 
