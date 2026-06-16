@@ -4,17 +4,19 @@ import {BigTextGraphic} from './components/BigTextGraphic';
 import {InfielTitleGraphic} from './components/InfielTitleGraphic';
 
 // Timeline (25fps) — clip: gacrux_1.mp4 (35s = 875 frames)
-// Timestamps via ffmpeg silencedetect
+// Silences >0.7s: 4.52-5.40, 6.57-7.40, 9.17-10.05, 12.78-13.67, 22.93-23.70, 26.58-27.54
 //
-// Silences at: 1.24-1.85, 2.82-3.33, 4.51-5.40, 6.51-7.40, 9.17-10.05, 11.10-11.59, 12.69-13.67, 22.93-23.70, 26.58-27.54, 30.57-31.15, 32.71-33.17
+// Phrase 1 has internal pauses (dramatic delivery):
+//   "Llega a casa." (0-1.27) + "Te da un beso." (1.85-2.82)
+//   + "Te pregunta cómo te fue." (3.23-4.52) + "Todo parece normal." (5.40-6.57)
+//   → Full phrase: 0.00 - 6.57
 //
-//   0.00-5.40    "Llega a casa. Te da un beso. Te pregunta cómo te fue. Todo parece normal."
-//   5.40-10.05   "Pero hay algo que no encaja. No sabes qué es. Solo lo sientes."
-//   10.05-22.93  "Lo que muchos hombres no saben es que una mujer infiel, sin darse cuenta, repite ciertos comportamientos..."
-//   23.70-35.00  big text: "Hoy te voy a mostrar exactamente qué hace. Y cuando termines este video, ya no vas a poder ignorarlo."
-//   875-1050     InfielTitleGraphic
+// Phrase 2: "Pero hay algo que no encaja." (7.40-9.17) + "No sabes qué es. Solo lo sientes." (10.05-12.78)
+//   → Full phrase: 7.40 - 12.78
 //
-// Total: 1050 frames (42 segundos)
+// Phrase 3: "Lo que muchos hombres no saben..." 13.67 - 22.93
+// Phrase 4 (BigText): "Hoy te voy a mostrar..." 23.70 - 35
+// Title graphic: 875 - 1050
 
 export const Gacrux1Edit: React.FC = () => {
   return (
@@ -22,18 +24,18 @@ export const Gacrux1Edit: React.FC = () => {
 
       <OffthreadVideo src={staticFile('gacrux_1.mp4')} />
 
-      {/* 0.00s - 5.40s = frame 0-135 */}
-      <Sequence from={0} durationInFrames={135}>
+      {/* 0.00s - 6.57s = frame 0-164 */}
+      <Sequence from={0} durationInFrames={164}>
         <CaptionBox text="Llega a casa. Te da un beso. Te pregunta cómo te fue. Todo parece normal." />
       </Sequence>
 
-      {/* 5.40s - 10.05s = frame 135-251 */}
-      <Sequence from={135} durationInFrames={116}>
+      {/* 7.40s - 12.78s = frame 185-320 */}
+      <Sequence from={185} durationInFrames={135}>
         <CaptionBox text="Pero hay algo que no encaja. No sabes qué es. Solo lo sientes." />
       </Sequence>
 
-      {/* 10.05s - 22.93s = frame 251-573 */}
-      <Sequence from={251} durationInFrames={322}>
+      {/* 13.67s - 22.93s = frame 342-573 */}
+      <Sequence from={342} durationInFrames={231}>
         <CaptionBox text="Lo que muchos hombres no saben es que una mujer infiel repite ciertos comportamientos cada vez que cruza esa puerta. Patrones que la psicología lleva años estudiando." />
       </Sequence>
 
