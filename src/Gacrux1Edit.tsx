@@ -15,30 +15,30 @@ export const Gacrux1Edit: React.FC = () => {
     <AbsoluteFill style={{backgroundColor: '#000'}}>
       <OffthreadVideo src={staticFile('gacrux_1.mp4')} />
 
-      <Sequence from={0} durationInFrames={112}>
+      <Sequence from={0} durationInFrames={142}>
         <CaptionBox text="Hay hombres que las mujeres recuerdan años después de que todo terminó" />
       </Sequence>
 
-      <Sequence from={112} durationInFrames={102}>
+      <Sequence from={112} durationInFrames={132}>
         <BigTextGraphic
           text="No porque fueran los más guapos. No porque tuvieran más dinero."
           highlight="más guapos"
         />
       </Sequence>
 
-      <Sequence from={214} durationInFrames={168}>
+      <Sequence from={214} durationInFrames={198}>
         <CaptionBox text="Se queda grabado en el sistema nervioso de una mujer" />
       </Sequence>
 
-      <Sequence from={382} durationInFrames={84}>
+      <Sequence from={382} durationInFrames={114}>
         <CaptionBox text="Hoy te voy a contar exactamente qué es" />
       </Sequence>
 
-      <Sequence from={466} durationInFrames={121}>
+      <Sequence from={466} durationInFrames={151}>
         <CaptionBox text="Esto no es lo que te enseñaron" />
       </Sequence>
 
-      <Sequence from={587} durationInFrames={111}>
+      <Sequence from={587} durationInFrames={141}>
         <BigTextGraphic
           text="Esto va contra todo lo que crees que funciona con las mujeres"
           highlight="contra todo lo que crees"
