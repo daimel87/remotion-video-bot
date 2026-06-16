@@ -1,7 +1,7 @@
 import path from 'path';
 import {Config} from '@remotion/cli/config';
 
-Config.setVideoImageFormat('jpeg');
+Config.setVideoImageFormat('png');
 Config.setOverwriteOutput(true);
 
 // Use a locally installed Chrome Headless Shell (downloaded via
