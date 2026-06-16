@@ -18,6 +18,7 @@ import {WindowsXlite7Edit} from './WindowsXlite7Edit';
 import {WindowsXliteFinalEdit} from './WindowsXliteFinalEdit';
 import {Gacrux1Edit} from './Gacrux1Edit';
 import {Gacrux2Edit} from './Gacrux2Edit';
+import {Gacrux3Edit} from './Gacrux3Edit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -170,6 +171,14 @@ export const RemotionRoot: React.FC = () => {
         id="Gacrux2Edit"
         component={Gacrux2Edit}
         durationInFrames={1440}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Gacrux3Edit"
+        component={Gacrux3Edit}
+        durationInFrames={1310}
         fps={25}
         width={1920}
         height={1080}
