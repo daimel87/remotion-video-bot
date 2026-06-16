@@ -3,3 +3,5 @@ out
 .chrome
 .DS_Store
 *.log
+output/
+.chrome/
