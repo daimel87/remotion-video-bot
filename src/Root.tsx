@@ -22,7 +22,6 @@ import {Gacrux3Edit} from './Gacrux3Edit';
 import {Gacrux4Edit} from './Gacrux4Edit';
 import {Gacrux5Edit} from './Gacrux5Edit';
 import {GacruxFinalEdit} from './GacruxFinalEdit';
-import {Infiel1Edit} from './Infiel1Edit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -166,7 +165,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="Gacrux1Edit"
         component={Gacrux1Edit}
-        durationInFrames={698}
+        durationInFrames={770}
         fps={25}
         width={1920}
         height={1080}
@@ -199,14 +198,6 @@ export const RemotionRoot: React.FC = () => {
         id="Gacrux5Edit"
         component={Gacrux5Edit}
         durationInFrames={1685}
-        fps={25}
-        width={1920}
-        height={1080}
-      />
-      <Composition
-        id="Infiel1Edit"
-        component={Infiel1Edit}
-        durationInFrames={770}
         fps={25}
         width={1920}
         height={1080}

@@ -1,49 +1,49 @@
 import {AbsoluteFill, OffthreadVideo, Sequence, staticFile} from 'remotion';
 import {CaptionBox} from './components/CaptionBox';
-import {BigTextGraphic} from './components/BigTextGraphic';
+import {InfielTitleGraphic} from './components/InfielTitleGraphic';
 
-// Timeline (25fps, 698 frames total, no overlaps):
-// 0-112      caption: "Hay hombres que las mujeres recuerdan años después de que todo terminó"
-// 112-214    big text: "No porque fueran los más guapos. No porque tuvieran más dinero."
-// 214-382    caption: "Se queda grabado en el sistema nervioso de una mujer"
-// 382-466    caption: "Hoy te voy a contar exactamente qué es"
-// 466-587    caption: "Esto no es lo que te enseñaron"
-// 587-698    big text: "Esto va contra todo lo que crees que funciona con las mujeres."
+// Timeline (25fps):
+// ⚠️ Ajusta los frames según la duración real del clip de HeyGen
+//
+// CLIP INTRO: gacrux_1.mp4
+//   0-112    "Llega a casa. Te da un beso. Te pregunta cómo te fue. Todo parece normal."
+//   112-187  "Pero hay algo que no encaja. No sabes qué es. Solo lo sientes."
+//   187-460  "Una mujer infiel, sin darse cuenta, repite ciertos comportamientos cada vez que cruza esa puerta."
+//   460-595  "Hoy te voy a mostrar exactamente qué hace. Y cuando termines este video, ya no vas a poder ignorarlo."
+//
+// GRÁFICO 1 TÍTULO: 595-770 (7 segundos = 175 frames)
+// Total: 770 frames
 
 export const Gacrux1Edit: React.FC = () => {
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
-      <OffthreadVideo src={staticFile('gacrux_1.mp4')} />
+
+      <OffthreadVideo
+        src={staticFile('gacrux_1.mp4')}
+        endAt={595}
+      />
 
       <Sequence from={0} durationInFrames={112}>
-        <CaptionBox text="Hay hombres que las mujeres recuerdan años después de que todo terminó" />
+        <CaptionBox text="Llega a casa. Te da un beso. Te pregunta cómo te fue. Todo parece normal." />
       </Sequence>
 
-      <Sequence from={112} durationInFrames={102}>
-        <BigTextGraphic
-          text="No porque fueran los más guapos. No porque tuvieran más dinero."
-          highlight="más guapos"
-        />
+      <Sequence from={112} durationInFrames={75}>
+        <CaptionBox text="Pero hay algo que no encaja. No sabes qué es. Solo lo sientes." />
       </Sequence>
 
-      <Sequence from={214} durationInFrames={168}>
-        <CaptionBox text="Se queda grabado en el sistema nervioso de una mujer" />
+      <Sequence from={187} durationInFrames={273}>
+        <CaptionBox text="Una mujer infiel, sin darse cuenta, repite ciertos comportamientos cada vez que cruza esa puerta." />
       </Sequence>
 
-      <Sequence from={382} durationInFrames={84}>
-        <CaptionBox text="Hoy te voy a contar exactamente qué es" />
+      <Sequence from={460} durationInFrames={135}>
+        <CaptionBox text="Hoy te voy a mostrar exactamente qué hace. Y cuando termines este video, ya no vas a poder ignorarlo." />
       </Sequence>
 
-      <Sequence from={466} durationInFrames={121}>
-        <CaptionBox text="Esto no es lo que te enseñaron" />
+      {/* GRÁFICO 1 — Título animado */}
+      <Sequence from={595} durationInFrames={175}>
+        <InfielTitleGraphic />
       </Sequence>
 
-      <Sequence from={587} durationInFrames={111}>
-        <BigTextGraphic
-          text="Esto va contra todo lo que crees que funciona con las mujeres"
-          highlight="contra todo lo que crees"
-        />
-      </Sequence>
     </AbsoluteFill>
   );
 };
