@@ -165,7 +165,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="Gacrux1Edit"
         component={Gacrux1Edit}
-        durationInFrames={770}
+        durationInFrames={1050}
         fps={25}
         width={1920}
         height={1080}
