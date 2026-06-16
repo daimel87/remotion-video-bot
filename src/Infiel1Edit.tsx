@@ -24,7 +24,7 @@ export const Infiel1Edit: React.FC = () => {
 
       {/* Avatar clip — cambia el nombre del archivo si es diferente */}
       <OffthreadVideo
-        src={staticFile('gacrux_infiel_1.mp4')}
+        src={staticFile('gacrux_1.mp4')}
         endAt={595}
       />
 
