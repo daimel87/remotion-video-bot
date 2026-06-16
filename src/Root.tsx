@@ -1,4 +1,5 @@
 import {Composition} from 'remotion';
+import {GacruxEdit} from './GacruxEdit';
 import {VideoEdit} from './VideoEdit';
 import {ProstateEdit} from './ProstateEdit';
 import {DoctorIntroEdit} from './DoctorIntroEdit';
@@ -20,6 +21,14 @@ import {WindowsXliteFinalEdit} from './WindowsXliteFinalEdit';
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="GacruxEdit"
+        component={GacruxEdit}
+        durationInFrames={698}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="VideoEdit"
         component={VideoEdit}
