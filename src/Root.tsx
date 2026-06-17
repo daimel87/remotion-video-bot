@@ -27,6 +27,7 @@ import {PSA2Edit} from './PSA2Edit';
 import {PSA3Edit} from './PSA3Edit';
 import {PSA4Edit} from './PSA4Edit';
 import {PSA5Edit} from './PSA5Edit';
+import {PSA6Edit} from './PSA6Edit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -251,6 +252,14 @@ export const RemotionRoot: React.FC = () => {
         id="PSA5Edit"
         component={PSA5Edit}
         durationInFrames={506}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="PSA6Edit"
+        component={PSA6Edit}
+        durationInFrames={661}
         fps={25}
         width={1920}
         height={1080}
