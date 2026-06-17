@@ -6,3 +6,6 @@ export {DrawArrow} from './DrawArrow';
 export {DrawBox} from './DrawBox';
 export {WhiteboardScene} from './WhiteboardScene';
 export {SvgIcons} from './SvgIcons';
+export {DrawingHand} from './DrawingHand';
+export {RevealImage} from './RevealImage';
+export {DetailedIcons} from './DetailedIcons';
