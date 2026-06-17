@@ -31,12 +31,12 @@ export const Gacrux4Edit: React.FC = () => {
 
       {/* 15.09s - 24.60s = frame 377-615 */}
       <Sequence from={377} durationInFrames={238}>
-        <CaptionBox text="Esto es uno de los gestos más estudiados en psicología de la infidelidad. Se llama comportamiento de ocultamiento reactivo." />
+        <CaptionBox text="Esto es uno de los gestos más estudiados en psicología de la infidelidad. Se llama comportamiento de ocultamiento reactivo — básicamente, el cerebro actúa por instinto para proteger información antes de que haya una amenaza real." />
       </Sequence>
 
       {/* 25.39s - 33.36s = frame 635-834 */}
       <Sequence from={635} durationInFrames={199}>
-        <CaptionBox text="El cerebro actúa por instinto para proteger información. Ella ni siquiera lo piensa. Lo hace automáticamente." />
+        <CaptionBox text="Ella ni siquiera lo piensa. Lo hace automáticamente." />
       </Sequence>
 
       {/* 34.26s - 45s = frame 857-1132 — BigTextGraphic */}

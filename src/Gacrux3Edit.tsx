@@ -26,17 +26,17 @@ export const Gacrux3Edit: React.FC = () => {
 
       {/* 10.54s - 19.67s = frame 264-492 */}
       <Sequence from={264} durationInFrames={228}>
-        <CaptionBox text="No hablo de cuando llega del gimnasio. Hablo de cuando esto se convierte en un hábito nuevo. Algo que antes no hacía." />
+        <CaptionBox text="Y no hablo de cuando llega del gimnasio o de un día de calor. Hablo de cuando esto se convierte en un hábito nuevo. Algo que antes no hacía." />
       </Sequence>
 
       {/* 20.42s - 31.86s = frame 511-797 */}
       <Sequence from={511} durationInFrames={286}>
-        <CaptionBox text="La psicología lo explica: el baño es el primer lugar donde puede eliminar evidencia. Perfume, mensajes, el estado de ánimo que traía de afuera." />
+        <CaptionBox text="La psicología lo explica de forma simple: el baño es el primer lugar donde puede eliminar evidencia. Perfume, mensajes, el estado de ánimo que traía de afuera." />
       </Sequence>
 
       {/* 32.47s - 39.64s = frame 812-991 */}
       <Sequence from={812} durationInFrames={179}>
-        <CaptionBox text="¿Antes llegaba y te buscaba? ¿Y ahora lo primero que hace es desaparecer diez minutos?" />
+        <CaptionBox text="Pregúntate: ¿antes llegaba y te buscaba? ¿Y ahora lo primero que hace es desaparecer diez minutos?" />
       </Sequence>
 
       {/* 40.23s - 43s = frame 1006-1075 — BigTextGraphic */}
