@@ -8,7 +8,7 @@ export const RomeFallIntro: React.FC = () => {
 		<AbsoluteFill style={{backgroundColor: 'black'}}>
 			<Audio src={staticFile('rome-fall/audio/escena1.wav')} />
 
-			{/* 0:00-0:05 — "Imagina un imperio tan grande..." + Mapa */}
+			{/* 0:00-0:05 (frames 0-150) — Mapa */}
 			<KenBurnsImage
 				src={staticFile('rome-fall/1a-mapa-imperio.jpg')}
 				startFrame={0}
@@ -18,49 +18,49 @@ export const RomeFallIntro: React.FC = () => {
 			<NarrationSubtitle
 				text="Imagina un imperio tan grande que controlaba desde las arenas de Egipto hasta los bosques helados de Britania..."
 				startFrame={0}
-				durationFrames={155}
+				durationFrames={150}
 			/>
 
-			{/* 0:06-0:08 — "caminos que conectaban el mundo" + Mercado */}
+			{/* 0:06-0:08 (frames 180-240) — Mercado */}
 			<KenBurnsImage
 				src={staticFile('rome-fall/2b-mercado-romano.jpg')}
-				startFrame={150}
+				startFrame={165}
 				durationFrames={90}
 				effect="panRight"
 			/>
 			<NarrationSubtitle
 				text="Roma lo tenía todo: caminos que conectaban el mundo..."
-				startFrame={155}
-				durationFrames={80}
+				startFrame={170}
+				durationFrames={75}
 			/>
 
-			{/* 0:08-0:11 — "ejércitos invencibles" + Legiones */}
+			{/* 0:08-0:11 (frames 240-330) — Legiones */}
 			<KenBurnsImage
 				src={staticFile('rome-fall/1b-legiones-marchando.jpg')}
-				startFrame={225}
+				startFrame={240}
 				durationFrames={105}
 				effect="panLeftZoomIn"
 			/>
 			<NarrationSubtitle
 				text="...ejércitos invencibles..."
-				startFrame={230}
-				durationFrames={90}
+				startFrame={245}
+				durationFrames={85}
 			/>
 
-			{/* 0:11-0:14 — "ciudades que hacían llorar de envidia" + Roma panorámica */}
+			{/* 0:11-0:14 (frames 330-420) — Roma panorámica */}
 			<KenBurnsImage
 				src={staticFile('rome-fall/2a-roma-panoramica.jpg')}
-				startFrame={315}
-				durationFrames={120}
+				startFrame={330}
+				durationFrames={105}
 				effect="zoomOutSlow"
 			/>
 			<NarrationSubtitle
 				text="...y ciudades que hacían llorar de envidia."
-				startFrame={320}
-				durationFrames={100}
+				startFrame={335}
+				durationFrames={85}
 			/>
 
-			{/* 0:14-0:21 — "Pero todo eso... se derrumbó" + Legionario closeup */}
+			{/* 0:14-0:21 (frames 420-639) — Legionario closeup */}
 			<KenBurnsImage
 				src={staticFile('rome-fall/1c-legionario-closeup.jpg')}
 				startFrame={420}
