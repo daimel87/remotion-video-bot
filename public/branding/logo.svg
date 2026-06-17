@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <!-- Parchment gradient -->
+    <radialGradient id="parchmentGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F5E6C8"/>
+      <stop offset="100%" stop-color="#E8D5A8"/>
+    </radialGradient>
+    <!-- Gold gradient -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4A853"/>
+      <stop offset="100%" stop-color="#C49A3C"/>
+    </linearGradient>
+    <!-- Cross-hatch pattern -->
+    <pattern id="crosshatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#3E2723" stroke-width="0.5" opacity="0.15"/>
+    </pattern>
+    <!-- Ink splatter filter -->
+    <filter id="roughEdge">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2"/>
+    </filter>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="400" cy="400" r="380" fill="url(#parchmentGrad)" stroke="#3E2723" stroke-width="4"/>
+  <circle cx="400" cy="400" r="380" fill="url(#crosshatch)"/>
+
+  <!-- Decorative outer ring -->
+  <circle cx="400" cy="400" r="365" fill="none" stroke="#C49A3C" stroke-width="2.5" stroke-dasharray="12,4"/>
+  <circle cx="400" cy="400" r="355" fill="none" stroke="#5D4037" stroke-width="1"/>
+
+  <!-- Open book / scroll base -->
+  <g transform="translate(400, 340)" filter="url(#roughEdge)">
+    <!-- Left page -->
+    <path d="M-10,0 C-10,-20 -160,-30 -180,-10 L-180,120 C-160,100 -10,110 -10,130 Z"
+          fill="#F5E6C8" stroke="#3E2723" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- Right page -->
+    <path d="M10,0 C10,-20 160,-30 180,-10 L180,120 C160,100 10,110 10,130 Z"
+          fill="#F5E6C8" stroke="#3E2723" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- Book spine -->
+    <path d="M-10,0 L-10,130 M10,0 L10,130" stroke="#3E2723" stroke-width="2"/>
+    <!-- Spine shadow -->
+    <path d="M-10,0 C-5,10 5,10 10,0 L10,130 C5,120 -5,120 -10,130 Z" fill="#5D4037" opacity="0.3"/>
+
+    <!-- Faux text lines on left page -->
+    <g stroke="#5D4037" stroke-width="1" opacity="0.3">
+      <line x1="-160" y1="20" x2="-30" y2="20"/>
+      <line x1="-155" y1="35" x2="-35" y2="35"/>
+      <line x1="-160" y1="50" x2="-30" y2="50"/>
+      <line x1="-150" y1="65" x2="-35" y2="65"/>
+      <line x1="-160" y1="80" x2="-30" y2="80"/>
+      <line x1="-155" y1="95" x2="-40" y2="95"/>
+    </g>
+    <!-- Comic panel lines on right page -->
+    <g stroke="#5D4037" stroke-width="1.5" opacity="0.35">
+      <rect x="30" y="10" width="60" height="45" rx="2" fill="none"/>
+      <rect x="100" y="10" width="60" height="45" rx="2" fill="none"/>
+      <rect x="30" y="65" width="130" height="45" rx="2" fill="none"/>
+    </g>
+  </g>
+
+  <!-- Quill pen -->
+  <g transform="translate(480, 230) rotate(35)">
+    <!-- Feather -->
+    <path d="M0,0 C-15,-60 -5,-120 0,-180 C5,-120 15,-60 0,0"
+          fill="url(#goldGrad)" stroke="#3E2723" stroke-width="2"/>
+    <!-- Feather detail lines -->
+    <path d="M0,-180 C-8,-140 -12,-100 0,-20" fill="none" stroke="#3E2723" stroke-width="1" opacity="0.4"/>
+    <path d="M0,-180 C8,-140 12,-100 0,-20" fill="none" stroke="#3E2723" stroke-width="1" opacity="0.4"/>
+    <!-- Barbs -->
+    <g stroke="#5D4037" stroke-width="0.8" opacity="0.5">
+      <line x1="-12" y1="-140" x2="0" y2="-150"/>
+      <line x1="12" y1="-130" x2="0" y2="-140"/>
+      <line x1="-14" y1="-110" x2="0" y2="-120"/>
+      <line x1="14" y1="-100" x2="0" y2="-110"/>
+      <line x1="-13" y1="-80" x2="0" y2="-90"/>
+      <line x1="13" y1="-70" x2="0" y2="-80"/>
+    </g>
+    <!-- Quill shaft -->
+    <line x1="0" y1="0" x2="0" y2="40" stroke="#5D4037" stroke-width="3"/>
+    <!-- Nib -->
+    <path d="M-3,40 L0,65 L3,40" fill="#3E2723" stroke="#3E2723" stroke-width="1"/>
+  </g>
+
+  <!-- Ink drop from nib -->
+  <circle cx="510" cy="310" r="4" fill="#3E2723" opacity="0.8"/>
+
+  <!-- Ink splatter dots -->
+  <g fill="#3E2723" opacity="0.25">
+    <circle cx="520" cy="320" r="2"/>
+    <circle cx="515" cy="325" r="1.5"/>
+    <circle cx="525" cy="318" r="1"/>
+    <circle cx="530" cy="322" r="1.8"/>
+    <circle cx="518" cy="330" r="1.2"/>
+    <circle cx="280" cy="450" r="2.5"/>
+    <circle cx="285" cy="455" r="1.2"/>
+    <circle cx="540" cy="400" r="2"/>
+    <circle cx="545" cy="395" r="1"/>
+    <circle cx="260" cy="300" r="1.8"/>
+    <circle cx="265" cy="305" r="1"/>
+  </g>
+
+  <!-- Decorative scroll flourishes -->
+  <g fill="none" stroke="#C49A3C" stroke-width="2" opacity="0.6">
+    <path d="M200,520 C220,510 230,520 220,535 C210,550 230,555 245,545"/>
+    <path d="M600,520 C580,510 570,520 580,535 C590,550 570,555 555,545"/>
+  </g>
+
+  <!-- Main title: CRONICAS -->
+  <text x="400" y="570" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif"
+        font-size="72" font-weight="bold" letter-spacing="8" fill="#8B2500" stroke="#3E2723" stroke-width="1.5">
+    CRONICAS
+  </text>
+  <!-- Accent on O -->
+  <text x="259" y="545" text-anchor="middle" font-family="Georgia, serif" font-size="30" fill="#8B2500">&#x301;</text>
+
+  <!-- Subtitle: ILUSTRADAS -->
+  <text x="400" y="630" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif"
+        font-size="52" font-weight="bold" letter-spacing="12" fill="#C49A3C" stroke="#5D4037" stroke-width="1">
+    ILUSTRADAS
+  </text>
+
+  <!-- Decorative line under title -->
+  <line x1="220" y1="650" x2="580" y2="650" stroke="#C49A3C" stroke-width="2"/>
+  <line x1="250" y1="656" x2="550" y2="656" stroke="#5D4037" stroke-width="1" opacity="0.5"/>
+
+  <!-- Small decorative diamonds -->
+  <polygon points="400,648 404,652 400,656 396,652" fill="#D4A853"/>
+  <polygon points="250,648 253,652 250,656 247,652" fill="#C49A3C" opacity="0.6"/>
+  <polygon points="550,648 553,652 550,656 547,652" fill="#C49A3C" opacity="0.6"/>
+
+  <!-- Corner cross-hatch decorations -->
+  <g stroke="#5D4037" stroke-width="0.7" opacity="0.2">
+    <!-- Top-left corner hatching -->
+    <line x1="80" y1="120" x2="120" y2="80"/>
+    <line x1="85" y1="130" x2="130" y2="85"/>
+    <line x1="90" y1="140" x2="140" y2="90"/>
+    <!-- Top-right corner hatching -->
+    <line x1="680" y1="80" x2="720" y2="120"/>
+    <line x1="670" y1="85" x2="715" y2="130"/>
+    <line x1="660" y1="90" x2="710" y2="140"/>
+    <!-- Bottom-left -->
+    <line x1="80" y1="680" x2="120" y2="720"/>
+    <line x1="85" y1="670" x2="130" y2="715"/>
+    <line x1="90" y1="660" x2="140" y2="710"/>
+    <!-- Bottom-right -->
+    <line x1="680" y1="720" x2="720" y2="680"/>
+    <line x1="670" y1="715" x2="715" y2="670"/>
+    <line x1="660" y1="710" x2="710" y2="660"/>
+  </g>
+
+  <!-- Small tagline -->
+  <text x="400" y="690" text-anchor="middle" font-family="Georgia, serif"
+        font-size="20" font-style="italic" fill="#5D4037" opacity="0.7">
+    Historia contada en vi&#xF1;etas
+  </text>
+</svg>
