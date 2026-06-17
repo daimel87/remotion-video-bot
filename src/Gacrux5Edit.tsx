@@ -7,10 +7,9 @@ import {InfielSignalGraphic} from './components/InfielSignalGraphic';
 // Major silences: 6.20-6.90, 17.06-17.77, 25.38-26.05, 34.93-35.67, 40.32-40.95
 //
 //   0.00-6.20    "Esta es la señal que más confunde a los hombres. Porque puede ir en dos direcciones opuestas."
-//   6.90-17.06   "Hay mujeres que llegan... extremadamente cariñosas... comportamiento compensatorio."
-//   17.77-25.38  "Pero hay otras que llegan completamente apagadas. Monosílabos. Sin contacto visual."
-//   26.05-34.93  "Ambos extremos... señalan lo mismo: algo pasó afuera..."
-//   35.67-40.32  "...que está afectando su equilibrio emocional en casa."
+//   6.90-17.06   "Hay mujeres que llegan a casa y de repente son extremadamente cariñosas. Te abrazan más, te preguntan cómo estás, están más atentas que nunca. Esto se llama comportamiento compensatorio — el cerebro intenta equilibrar la culpa con exceso de afecto."
+//   17.77-25.38  "Pero hay otras que llegan completamente apagadas. Monosílabos. Sin contacto visual. Como si estuvieran en otro lugar."
+//   26.05-40.32  "Ambos extremos, cuando son nuevos y repetidos, señalan lo mismo: algo pasó afuera que está afectando su equilibrio emocional en casa."
 //   40.95-48.64  BigText: "Y ese algo rara vez es el trabajo."
 //   1216-1391    gráfico: "#4 CAMBIA SU RUTINA SIN EXPLICACIÓN"
 
@@ -27,7 +26,7 @@ export const Gacrux5Edit: React.FC = () => {
 
       {/* 6.90s - 17.06s = frame 173-427 */}
       <Sequence from={173} durationInFrames={254}>
-        <CaptionBox text="Hay mujeres que de repente son extremadamente cariñosas. Te abrazan más, están más atentas que nunca. Esto se llama comportamiento compensatorio." />
+        <CaptionBox text="Hay mujeres que llegan a casa y de repente son extremadamente cariñosas. Te abrazan más, te preguntan cómo estás, están más atentas que nunca. Esto se llama comportamiento compensatorio — el cerebro intenta equilibrar la culpa con exceso de afecto." />
       </Sequence>
 
       {/* 17.77s - 25.38s = frame 444-635 */}
