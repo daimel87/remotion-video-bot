@@ -4,13 +4,14 @@ import {BigTextGraphic} from './components/BigTextGraphic';
 import {InfielSignalGraphic} from './components/InfielSignalGraphic';
 
 // Timeline (25fps) — clip: senales_5.mp4 (48.64s = 1216 frames)
-// Major silences: 6.20-6.90, 17.06-17.77, 25.38-26.05, 34.93-35.67, 40.32-40.95
+// Silences: 3.14-3.53, 6.20-6.90, 11.65-12.14, 17.06-17.77, 20.66-21.17, 25.38-26.05, 34.93-35.67, 40.32-40.95
 //
 //   0.00-6.20    "Esta es la señal que más confunde a los hombres. Porque puede ir en dos direcciones opuestas."
-//   6.90-17.06   "Hay mujeres que llegan a casa y de repente son extremadamente cariñosas. Te abrazan más, te preguntan cómo estás, están más atentas que nunca. Esto se llama comportamiento compensatorio — el cerebro intenta equilibrar la culpa con exceso de afecto."
+//   6.90-11.65   "Hay mujeres que llegan a casa y de repente son extremadamente cariñosas. Te abrazan más, te preguntan cómo estás, están más atentas que nunca."
+//   12.14-17.06  "Esto se llama comportamiento compensatorio — el cerebro intenta equilibrar la culpa con exceso de afecto."
 //   17.77-25.38  "Pero hay otras que llegan completamente apagadas. Monosílabos. Sin contacto visual. Como si estuvieran en otro lugar."
-//   26.05-40.32  "Ambos extremos, cuando son nuevos y repetidos, señalan lo mismo: algo pasó afuera que está afectando su equilibrio emocional en casa."
-//   40.95-48.64  BigText: "Y ese algo rara vez es el trabajo."
+//   26.05-34.93  "Ambos extremos, cuando son nuevos y repetidos, señalan lo mismo: algo pasó afuera que está afectando su equilibrio emocional en casa."
+//   35.67-40.32  BigText: "Y ese algo rara vez es el trabajo."
 //   1216-1391    gráfico: "#4 CAMBIA SU RUTINA SIN EXPLICACIÓN"
 
 export const Gacrux5Edit: React.FC = () => {
@@ -24,9 +25,14 @@ export const Gacrux5Edit: React.FC = () => {
         <CaptionBox text="Esta es la señal que más confunde a los hombres. Porque puede ir en dos direcciones opuestas." />
       </Sequence>
 
-      {/* 6.90s - 17.06s = frame 173-427 */}
-      <Sequence from={173} durationInFrames={254}>
-        <CaptionBox text="Hay mujeres que llegan a casa y de repente son extremadamente cariñosas. Te abrazan más, te preguntan cómo estás, están más atentas que nunca. Esto se llama comportamiento compensatorio — el cerebro intenta equilibrar la culpa con exceso de afecto." />
+      {/* 6.90s - 11.65s = frame 173-291 */}
+      <Sequence from={173} durationInFrames={118}>
+        <CaptionBox text="Hay mujeres que llegan a casa y de repente son extremadamente cariñosas. Te abrazan más, te preguntan cómo estás, están más atentas que nunca." />
+      </Sequence>
+
+      {/* 12.14s - 17.06s = frame 304-427 */}
+      <Sequence from={304} durationInFrames={123}>
+        <CaptionBox text="Esto se llama comportamiento compensatorio — el cerebro intenta equilibrar la culpa con exceso de afecto." />
       </Sequence>
 
       {/* 17.77s - 25.38s = frame 444-635 */}
@@ -34,13 +40,13 @@ export const Gacrux5Edit: React.FC = () => {
         <CaptionBox text="Pero hay otras que llegan completamente apagadas. Monosílabos. Sin contacto visual. Como si estuvieran en otro lugar." />
       </Sequence>
 
-      {/* 26.05s - 40.32s = frame 651-1008 */}
-      <Sequence from={651} durationInFrames={357}>
+      {/* 26.05s - 34.93s = frame 651-873 */}
+      <Sequence from={651} durationInFrames={222}>
         <CaptionBox text="Ambos extremos, cuando son nuevos y repetidos, señalan lo mismo: algo pasó afuera que está afectando su equilibrio emocional en casa." />
       </Sequence>
 
-      {/* 40.95s - 48.64s = frame 1024-1216 — BigTextGraphic */}
-      <Sequence from={1024} durationInFrames={192}>
+      {/* 35.67s - 48.64s = frame 892-1216 — BigTextGraphic */}
+      <Sequence from={892} durationInFrames={324}>
         <BigTextGraphic
           text="Y ese algo rara vez es el trabajo."
           highlight="rara vez es el trabajo."
