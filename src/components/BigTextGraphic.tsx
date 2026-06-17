@@ -1,7 +1,7 @@
 import {AbsoluteFill, useCurrentFrame, useVideoConfig, spring, interpolate} from 'remotion';
 import {TechGrid} from './TechGrid';
 
-export const BigTextGraphic: React.FC<{text: string; highlight?: string}> = ({text, highlight}) => {
+export const BigTextGraphic: React.FC<{text: string; highlight?: string; highlightColor?: string}> = ({text, highlight, highlightColor = '#9be1ff'}) => {
   const frame = useCurrentFrame();
   const {fps, durationInFrames, width} = useVideoConfig();
   const scale = width / 1920;
@@ -37,7 +37,7 @@ export const BigTextGraphic: React.FC<{text: string; highlight?: string}> = ({te
           {highlight ? (
             <>
               {parts[0]}
-              <span style={{color: '#9be1ff', textShadow: '0 0 20px rgba(91,140,255,0.8)'}}>{highlight}</span>
+              <span style={{color: highlightColor, textShadow: `0 0 20px ${highlightColor}80`}}>{highlight}</span>
               {parts[1]}
             </>
           ) : (
