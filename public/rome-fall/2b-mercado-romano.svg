@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="marketSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a90c4"/>
+      <stop offset="60%" style="stop-color:#7ab8e0"/>
+      <stop offset="100%" style="stop-color:#e8d4a0"/>
+    </linearGradient>
+    <linearGradient id="awning1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#cc3333"/>
+      <stop offset="100%" style="stop-color:#991a1a"/>
+    </linearGradient>
+    <linearGradient id="awning2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#cc8833"/>
+      <stop offset="100%" style="stop-color:#996620"/>
+    </linearGradient>
+    <linearGradient id="awning3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#336699"/>
+      <stop offset="100%" style="stop-color:#1a4466"/>
+    </linearGradient>
+    <linearGradient id="awning4" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#669933"/>
+      <stop offset="100%" style="stop-color:#446622"/>
+    </linearGradient>
+    <linearGradient id="stoneWall" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4c4a0"/>
+      <stop offset="100%" style="stop-color:#b0a080"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#c4a878"/>
+      <stop offset="100%" style="stop-color:#a08858"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#marketSky)"/>
+  <!-- Background buildings -->
+  <rect x="0" y="200" width="1920" height="880" fill="url(#stoneWall)"/>
+  <rect x="0" y="200" width="300" height="500" fill="#c4b490"/>
+  <rect x="350" y="250" width="250" height="450" fill="#baa880"/>
+  <rect x="700" y="220" width="200" height="480" fill="#c8b898"/>
+  <rect x="1000" y="240" width="280" height="460" fill="#c0b088"/>
+  <rect x="1350" y="200" width="250" height="500" fill="#c4b490"/>
+  <rect x="1650" y="230" width="270" height="470" fill="#baa880"/>
+  <!-- Windows -->
+  <g fill="#4a3a20" opacity="0.6">
+    <rect x="50" y="300" width="40" height="55" rx="20 20 0 0"/>
+    <rect x="150" y="300" width="40" height="55" rx="20 20 0 0"/>
+    <rect x="400" y="340" width="35" height="50" rx="17 17 0 0"/>
+    <rect x="500" y="340" width="35" height="50" rx="17 17 0 0"/>
+    <rect x="750" y="310" width="40" height="55" rx="20 20 0 0"/>
+    <rect x="1050" y="330" width="40" height="55" rx="20 20 0 0"/>
+    <rect x="1150" y="330" width="40" height="55" rx="20 20 0 0"/>
+    <rect x="1400" y="300" width="40" height="55" rx="20 20 0 0"/>
+    <rect x="1700" y="320" width="40" height="55" rx="20 20 0 0"/>
+  </g>
+  <!-- Ground/street -->
+  <rect x="0" y="700" width="1920" height="380" fill="url(#ground)"/>
+  <!-- Stone tiles pattern -->
+  <g stroke="#9a8050" stroke-width="1" opacity="0.3">
+    <line x1="0" y1="750" x2="1920" y2="750"/>
+    <line x1="0" y1="820" x2="1920" y2="820"/>
+    <line x1="0" y1="900" x2="1920" y2="900"/>
+    <line x1="0" y1="980" x2="1920" y2="980"/>
+  </g>
+  <!-- Market stalls -->
+  <!-- Stall 1 - Red awning -->
+  <rect x="80" y="580" width="250" height="120" fill="#8b7050"/>
+  <path d="M60,560 L100,500 L310,500 L350,560 Z" fill="url(#awning1)"/>
+  <path d="M60,560 L350,560" stroke="#881111" stroke-width="3"/>
+  <!-- Stall goods -->
+  <circle cx="140" cy="630" r="15" fill="#cc4444"/>
+  <circle cx="175" cy="635" r="12" fill="#cc4444"/>
+  <circle cx="210" cy="630" r="14" fill="#dd6633"/>
+  <circle cx="250" cy="632" r="13" fill="#dd6633"/>
+  <circle cx="285" cy="630" r="15" fill="#cc4444"/>
+  <!-- Stall 2 - Orange awning -->
+  <rect x="450" y="570" width="280" height="130" fill="#8b7050"/>
+  <path d="M430,550 L470,485 L710,485 L750,550 Z" fill="url(#awning2)"/>
+  <!-- Pottery -->
+  <ellipse cx="520" cy="620" rx="20" ry="30" fill="#b06030"/>
+  <ellipse cx="570" cy="625" rx="18" ry="25" fill="#a05020"/>
+  <ellipse cx="620" cy="618" rx="22" ry="32" fill="#b06030"/>
+  <ellipse cx="670" cy="622" rx="19" ry="28" fill="#a05020"/>
+  <!-- Stall 3 - Blue awning -->
+  <rect x="850" y="575" width="260" height="125" fill="#8b7050"/>
+  <path d="M830,555 L870,490 L1090,490 L1130,555 Z" fill="url(#awning3)"/>
+  <!-- Fabrics -->
+  <rect x="870" y="590" width="50" height="80" fill="#884488" rx="3"/>
+  <rect x="930" y="590" width="50" height="80" fill="#448888" rx="3"/>
+  <rect x="990" y="590" width="50" height="80" fill="#888844" rx="3"/>
+  <rect x="1050" y="590" width="40" height="80" fill="#884444" rx="3"/>
+  <!-- Stall 4 - Green awning -->
+  <rect x="1250" y="580" width="270" height="120" fill="#8b7050"/>
+  <path d="M1230,560 L1270,495 L1500,495 L1540,560 Z" fill="url(#awning4)"/>
+  <!-- Fruits/vegetables -->
+  <circle cx="1300" cy="630" r="14" fill="#44aa44"/>
+  <circle cx="1340" cy="628" r="16" fill="#88cc22"/>
+  <circle cx="1380" cy="632" r="13" fill="#44aa44"/>
+  <circle cx="1420" cy="630" r="15" fill="#ccaa22"/>
+  <circle cx="1460" cy="628" r="14" fill="#88cc22"/>
+  <!-- Stall 5 - far right -->
+  <rect x="1620" y="575" width="250" height="125" fill="#8b7050"/>
+  <path d="M1600,555 L1640,490 L1850,490 L1890,555 Z" fill="url(#awning1)" opacity="0.8"/>
+  <!-- People silhouettes -->
+  <g fill="#3a2a1a" opacity="0.7">
+    <!-- Person 1 -->
+    <ellipse cx="200" cy="720" rx="20" ry="50"/>
+    <circle cx="200" cy="660" r="16"/>
+    <!-- Person 2 -->
+    <ellipse cx="400" cy="730" rx="22" ry="45"/>
+    <circle cx="400" cy="675" r="15"/>
+    <!-- Person 3 -->
+    <ellipse cx="600" cy="725" rx="18" ry="48"/>
+    <circle cx="600" cy="668" r="14"/>
+    <!-- Person 4 -->
+    <ellipse cx="780" cy="735" rx="20" ry="42"/>
+    <circle cx="780" cy="685" r="15"/>
+    <!-- Person 5 -->
+    <ellipse cx="1000" cy="728" rx="22" ry="46"/>
+    <circle cx="1000" cy="672" r="16"/>
+    <!-- Person 6 -->
+    <ellipse cx="1180" cy="732" rx="19" ry="44"/>
+    <circle cx="1180" cy="680" r="14"/>
+    <!-- Person 7 -->
+    <ellipse cx="1550" cy="725" rx="21" ry="48"/>
+    <circle cx="1550" cy="668" r="15"/>
+    <!-- Person 8 -->
+    <ellipse cx="1750" cy="730" rx="20" ry="45"/>
+    <circle cx="1750" cy="676" r="15"/>
+  </g>
+  <!-- Shadows on ground -->
+  <g fill="#806840" opacity="0.3">
+    <ellipse cx="200" cy="775" rx="30" ry="8"/>
+    <ellipse cx="400" cy="780" rx="28" ry="7"/>
+    <ellipse cx="600" cy="778" rx="25" ry="7"/>
+    <ellipse cx="1000" cy="779" rx="30" ry="8"/>
+    <ellipse cx="1550" cy="778" rx="28" ry="7"/>
+  </g>
+</svg>

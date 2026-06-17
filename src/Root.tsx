@@ -25,10 +25,19 @@ import {GacruxFinalEdit} from './GacruxFinalEdit';
 import {WhiteboardDemo} from './WhiteboardDemo';
 import {WhiteboardDemoV2} from './WhiteboardDemoV2';
 import {LifeSuckedDemo} from './LifeSuckedDemo';
+import {RomeFallIntro} from './RomeFallIntro';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="RomeFallIntro"
+        component={RomeFallIntro}
+        durationInFrames={450}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="LifeSuckedDemo"
         component={LifeSuckedDemo}

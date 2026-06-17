@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" style="stop-color:#8b1a1a"/>
+      <stop offset="60%" style="stop-color:#4a0a0a"/>
+      <stop offset="100%" style="stop-color:#1a0000"/>
+    </radialGradient>
+    <linearGradient id="helmet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700"/>
+      <stop offset="30%" style="stop-color:#daa520"/>
+      <stop offset="70%" style="stop-color:#b8860b"/>
+      <stop offset="100%" style="stop-color:#8b6914"/>
+    </linearGradient>
+    <linearGradient id="face" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4a574"/>
+      <stop offset="100%" style="stop-color:#b8865a"/>
+    </linearGradient>
+    <linearGradient id="crest" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#cc0000"/>
+      <stop offset="100%" style="stop-color:#8b0000"/>
+    </linearGradient>
+    <linearGradient id="armor" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#c0c0c0"/>
+      <stop offset="50%" style="stop-color:#808080"/>
+      <stop offset="100%" style="stop-color:#505050"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bgGlow)"/>
+  <!-- Dramatic light rays -->
+  <g opacity="0.15">
+    <polygon points="960,0 800,1080 850,1080" fill="#ffd700"/>
+    <polygon points="960,0 1050,1080 1100,1080" fill="#ffd700"/>
+    <polygon points="960,0 600,1080 680,1080" fill="#ffd700"/>
+    <polygon points="960,0 1250,1080 1330,1080" fill="#ffd700"/>
+  </g>
+  <!-- Neck/shoulders/armor -->
+  <path d="M700,750 Q800,700 960,690 Q1120,700 1220,750 L1300,1080 L620,1080 Z" fill="url(#armor)"/>
+  <!-- Red cloak -->
+  <path d="M700,750 Q680,800 650,1080 L620,1080 Q640,850 660,750 Z" fill="url(#crest)" opacity="0.8"/>
+  <path d="M1220,750 Q1240,800 1270,1080 L1300,1080 Q1280,850 1260,750 Z" fill="url(#crest)" opacity="0.8"/>
+  <!-- Face -->
+  <ellipse cx="960" cy="520" rx="130" ry="160" fill="url(#face)"/>
+  <!-- Cheekguards -->
+  <path d="M830,420 L810,580 Q830,620 860,600 L850,440 Z" fill="url(#helmet)" opacity="0.9"/>
+  <path d="M1090,420 L1110,580 Q1090,620 1060,600 L1070,440 Z" fill="url(#helmet)" opacity="0.9"/>
+  <!-- Helmet -->
+  <path d="M810,420 Q820,280 960,250 Q1100,280 1110,420 Q1060,400 960,390 Q860,400 810,420 Z" fill="url(#helmet)"/>
+  <!-- Helmet brow ridge -->
+  <path d="M810,420 Q880,400 960,395 Q1040,400 1110,420 Q1040,430 960,428 Q880,430 810,420 Z" fill="#b8860b"/>
+  <!-- Crest -->
+  <path d="M960,250 Q950,180 960,120 Q970,180 960,250" stroke="#cc0000" stroke-width="0" fill="url(#crest)"/>
+  <path d="M930,260 Q920,200 930,140 Q940,100 960,120 Q950,180 940,260 Z" fill="url(#crest)"/>
+  <path d="M990,260 Q1000,200 990,140 Q980,100 960,120 Q970,180 980,260 Z" fill="url(#crest)"/>
+  <!-- Crest hair strands -->
+  <g stroke="#cc0000" stroke-width="3" fill="none" opacity="0.8">
+    <path d="M940,140 Q935,180 930,250"/>
+    <path d="M950,130 Q948,175 945,245"/>
+    <path d="M970,130 Q972,175 975,245"/>
+    <path d="M980,140 Q985,180 990,250"/>
+  </g>
+  <!-- Eyes -->
+  <ellipse cx="920" cy="490" rx="22" ry="14" fill="white"/>
+  <ellipse cx="1000" cy="490" rx="22" ry="14" fill="white"/>
+  <circle cx="922" cy="490" r="9" fill="#3a2a1a"/>
+  <circle cx="1002" cy="490" r="9" fill="#3a2a1a"/>
+  <circle cx="923" cy="489" r="4" fill="black"/>
+  <circle cx="1003" cy="489" r="4" fill="black"/>
+  <!-- Eyebrows -->
+  <path d="M895,470 Q920,460 945,468" stroke="#4a3020" stroke-width="5" fill="none"/>
+  <path d="M975,468 Q1000,460 1025,470" stroke="#4a3020" stroke-width="5" fill="none"/>
+  <!-- Nose -->
+  <path d="M960,500 Q950,540 945,560 Q955,568 965,568 Q975,560 970,540 Z" fill="#c49464" opacity="0.6"/>
+  <!-- Mouth -->
+  <path d="M930,600 Q945,612 960,614 Q975,612 990,600" stroke="#8b5a3a" stroke-width="3" fill="none"/>
+  <!-- Jaw shadow -->
+  <path d="M840,600 Q900,680 960,690 Q1020,680 1080,600" fill="#a07050" opacity="0.3"/>
+</svg>

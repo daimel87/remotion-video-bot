@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a00"/>
+      <stop offset="40%" style="stop-color:#4a2010"/>
+      <stop offset="100%" style="stop-color:#d4a050"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="40%">
+      <stop offset="0%" style="stop-color:#ffcc66;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#4a2010;stop-opacity:0"/>
+    </radialGradient>
+    <linearGradient id="land" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b6914"/>
+      <stop offset="50%" style="stop-color:#a0782a"/>
+      <stop offset="100%" style="stop-color:#6b4e0a"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a3a5c"/>
+      <stop offset="100%" style="stop-color:#0d1f33"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <rect width="1920" height="1080" fill="url(#glow)"/>
+  <!-- Mediterranean Sea -->
+  <ellipse cx="960" cy="540" rx="700" ry="200" fill="url(#sea)" opacity="0.7"/>
+  <!-- Europe continent -->
+  <path d="M200,200 Q400,180 600,220 Q800,200 1000,250 Q1100,230 1200,280 L1300,350 Q1200,400 1000,380 Q800,420 600,400 Q400,380 300,350 Z" fill="url(#land)" opacity="0.85"/>
+  <!-- Africa -->
+  <path d="M300,650 Q500,620 700,640 Q900,620 1100,650 Q1300,670 1500,700 L1500,900 Q1200,880 900,850 Q600,870 300,900 Z" fill="url(#land)" opacity="0.75"/>
+  <!-- Asia Minor -->
+  <path d="M1300,280 Q1500,300 1700,350 L1750,500 Q1600,480 1400,450 Q1300,400 1300,350 Z" fill="url(#land)" opacity="0.8"/>
+  <!-- Territory markers -->
+  <circle cx="700" cy="350" r="12" fill="#cc3333" opacity="0.9"/>
+  <circle cx="500" cy="320" r="10" fill="#cc3333" opacity="0.8"/>
+  <circle cx="900" cy="380" r="11" fill="#cc3333" opacity="0.85"/>
+  <circle cx="1100" cy="340" r="10" fill="#cc3333" opacity="0.8"/>
+  <circle cx="1400" cy="400" r="10" fill="#cc3333" opacity="0.8"/>
+  <circle cx="600" cy="700" r="10" fill="#cc3333" opacity="0.7"/>
+  <circle cx="850" cy="680" r="10" fill="#cc3333" opacity="0.7"/>
+  <!-- Rome star -->
+  <polygon points="700,350 706,366 724,366 710,376 716,392 700,382 684,392 690,376 676,366 694,366" fill="#ffd700" opacity="0.95"/>
+  <!-- Connecting lines (roads) -->
+  <line x1="700" y1="350" x2="500" y2="320" stroke="#ffd700" stroke-width="1.5" opacity="0.4"/>
+  <line x1="700" y1="350" x2="900" y2="380" stroke="#ffd700" stroke-width="1.5" opacity="0.4"/>
+  <line x1="900" y1="380" x2="1100" y2="340" stroke="#ffd700" stroke-width="1.5" opacity="0.4"/>
+  <line x1="1100" y1="340" x2="1400" y2="400" stroke="#ffd700" stroke-width="1.5" opacity="0.4"/>
+  <!-- Border glow -->
+  <path d="M200,200 Q400,180 600,220 Q800,200 1000,250 Q1100,230 1200,280 L1300,350 Q1500,300 1700,350 L1750,500 Q1600,480 1400,450 Q1300,500 1200,550 Q1000,600 800,580 Q600,620 400,600 Q300,580 250,500 Q200,400 200,300 Z" fill="none" stroke="#ffd700" stroke-width="2" opacity="0.3"/>
+  <!-- Title scroll -->
+  <text x="960" y="980" text-anchor="middle" font-family="serif" font-size="48" fill="#ffd700" opacity="0.7">IMPERIVM ROMANVM</text>
+</svg>

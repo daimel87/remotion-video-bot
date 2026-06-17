@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="dustySky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4a050"/>
+      <stop offset="50%" style="stop-color:#c4883a"/>
+      <stop offset="100%" style="stop-color:#8b6530"/>
+    </linearGradient>
+    <linearGradient id="road" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#6b5030"/>
+      <stop offset="100%" style="stop-color:#3a2a15"/>
+    </linearGradient>
+    <linearGradient id="dustCloud" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#c4a060;stop-opacity:0"/>
+      <stop offset="50%" style="stop-color:#c4a060;stop-opacity:0.5"/>
+      <stop offset="100%" style="stop-color:#c4a060;stop-opacity:0"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="80%" cy="20%" r="15%">
+      <stop offset="0%" style="stop-color:#fff4cc;stop-opacity:0.9"/>
+      <stop offset="50%" style="stop-color:#ffd700;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#d4a050;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#dustySky)"/>
+  <circle cx="1536" cy="216" r="288" fill="url(#sun)"/>
+  <!-- Hills -->
+  <path d="M0,600 Q300,500 600,550 Q900,480 1200,530 Q1500,490 1920,560 L1920,1080 L0,1080 Z" fill="#7a6030" opacity="0.6"/>
+  <!-- Road -->
+  <path d="M0,750 Q480,700 960,720 Q1440,700 1920,680 L1920,850 Q1440,870 960,860 Q480,870 0,850 Z" fill="url(#road)"/>
+  <!-- Dust cloud -->
+  <ellipse cx="960" cy="750" rx="800" ry="80" fill="url(#dustCloud)"/>
+  <!-- Soldier silhouettes - row 1 (closer, larger) -->
+  <g fill="#2a1a0a" opacity="0.9">
+    <!-- Soldier 1 -->
+    <rect x="300" y="580" width="30" height="100" rx="4"/>
+    <circle cx="315" cy="565" r="18"/>
+    <line x1="315" y1="560" x2="315" y2="480" stroke="#2a1a0a" stroke-width="3"/>
+    <polygon points="308,480 315,460 322,480" fill="#2a1a0a"/>
+    <!-- Soldier 2 -->
+    <rect x="380" y="585" width="30" height="95" rx="4"/>
+    <circle cx="395" cy="570" r="18"/>
+    <line x1="395" y1="565" x2="395" y2="485" stroke="#2a1a0a" stroke-width="3"/>
+    <polygon points="388,485 395,465 402,485" fill="#2a1a0a"/>
+    <!-- Soldier 3 -->
+    <rect x="460" y="575" width="30" height="105" rx="4"/>
+    <circle cx="475" cy="560" r="18"/>
+    <line x1="475" y1="555" x2="475" y2="475" stroke="#2a1a0a" stroke-width="3"/>
+    <polygon points="468,475 475,455 482,475" fill="#2a1a0a"/>
+    <!-- Soldier 4 -->
+    <rect x="540" y="582" width="30" height="98" rx="4"/>
+    <circle cx="555" cy="567" r="18"/>
+    <line x1="555" y1="562" x2="555" y2="482" stroke="#2a1a0a" stroke-width="3"/>
+    <polygon points="548,482 555,462 562,482" fill="#2a1a0a"/>
+    <!-- Soldier 5 -->
+    <rect x="620" y="578" width="30" height="102" rx="4"/>
+    <circle cx="635" cy="563" r="18"/>
+    <line x1="635" y1="558" x2="635" y2="478" stroke="#2a1a0a" stroke-width="3"/>
+    <polygon points="628,478 635,458 642,478" fill="#2a1a0a"/>
+  </g>
+  <!-- Soldier silhouettes - row 2 (middle) -->
+  <g fill="#3a2515" opacity="0.7">
+    <rect x="750" y="600" width="25" height="85" rx="3"/>
+    <circle cx="762" cy="588" r="15"/>
+    <line x1="762" y1="583" x2="762" y2="513" stroke="#3a2515" stroke-width="2.5"/>
+    <polygon points="756,513 762,496 768,513" fill="#3a2515"/>
+    <rect x="820" y="605" width="25" height="80" rx="3"/>
+    <circle cx="832" cy="593" r="15"/>
+    <line x1="832" y1="588" x2="832" y2="518" stroke="#3a2515" stroke-width="2.5"/>
+    <polygon points="826,518 832,501 838,518" fill="#3a2515"/>
+    <rect x="890" y="598" width="25" height="87" rx="3"/>
+    <circle cx="902" cy="586" r="15"/>
+    <line x1="902" y1="581" x2="902" y2="511" stroke="#3a2515" stroke-width="2.5"/>
+    <polygon points="896,511 902,494 908,511" fill="#3a2515"/>
+    <rect x="960" y="603" width="25" height="82" rx="3"/>
+    <circle cx="972" cy="591" r="15"/>
+    <line x1="972" y1="586" x2="972" y2="516" stroke="#3a2515" stroke-width="2.5"/>
+    <polygon points="966,516 972,499 978,516" fill="#3a2515"/>
+  </g>
+  <!-- Soldier silhouettes - row 3 (farther, smaller) -->
+  <g fill="#4a3520" opacity="0.5">
+    <rect x="1100" y="620" width="20" height="65" rx="2"/>
+    <circle cx="1110" cy="610" r="12"/>
+    <line x1="1110" y1="606" x2="1110" y2="550" stroke="#4a3520" stroke-width="2"/>
+    <rect x="1160" y="625" width="20" height="60" rx="2"/>
+    <circle cx="1170" cy="615" r="12"/>
+    <line x1="1170" y1="611" x2="1170" y2="555" stroke="#4a3520" stroke-width="2"/>
+    <rect x="1220" y="618" width="20" height="67" rx="2"/>
+    <circle cx="1230" cy="608" r="12"/>
+    <line x1="1230" y1="604" x2="1230" y2="548" stroke="#4a3520" stroke-width="2"/>
+    <rect x="1280" y="623" width="20" height="62" rx="2"/>
+    <circle cx="1290" cy="613" r="12"/>
+    <line x1="1290" y1="609" x2="1290" y2="553" stroke="#4a3520" stroke-width="2"/>
+    <rect x="1340" y="620" width="20" height="65" rx="2"/>
+    <circle cx="1350" cy="610" r="12"/>
+    <line x1="1350" y1="606" x2="1350" y2="550" stroke="#4a3520" stroke-width="2"/>
+  </g>
+  <!-- Standard/banner -->
+  <g fill="#8b0000" opacity="0.8">
+    <line x1="315" y1="460" x2="315" y2="430" stroke="#ffd700" stroke-width="3"/>
+    <rect x="316" y="430" width="35" height="25" fill="#8b0000" rx="2"/>
+    <text x="333" y="448" text-anchor="middle" font-size="12" fill="#ffd700" font-family="serif">SPQR</text>
+  </g>
+</svg>

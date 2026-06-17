@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="goldenSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a2e"/>
+      <stop offset="30%" style="stop-color:#4a1a3e"/>
+      <stop offset="60%" style="stop-color:#cc6633"/>
+      <stop offset="85%" style="stop-color:#ffaa44"/>
+      <stop offset="100%" style="stop-color:#ffd488"/>
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="50%" cy="75%" r="35%">
+      <stop offset="0%" style="stop-color:#fff4cc;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#ffaa44;stop-opacity:0"/>
+    </radialGradient>
+    <linearGradient id="building" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4a050"/>
+      <stop offset="100%" style="stop-color:#8b6530"/>
+    </linearGradient>
+    <linearGradient id="column" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e0c888"/>
+      <stop offset="50%" style="stop-color:#f0dca0"/>
+      <stop offset="100%" style="stop-color:#c8a868"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#goldenSky)"/>
+  <circle cx="960" cy="810" r="672" fill="url(#sunGlow)"/>
+  <!-- Distant hills -->
+  <path d="M0,700 Q300,650 600,680 Q900,640 1200,670 Q1500,650 1920,690 L1920,1080 L0,1080 Z" fill="#6b4e30" opacity="0.5"/>
+  <!-- Dome (Pantheon-like) -->
+  <path d="M880,500 Q960,380 1040,500 Z" fill="url(#building)" opacity="0.9"/>
+  <rect x="870" y="500" width="180" height="120" fill="url(#building)" opacity="0.9"/>
+  <!-- Colosseum silhouette -->
+  <path d="M1300,520 Q1350,450 1400,440 Q1500,435 1550,440 Q1600,450 1650,520 Q1600,530 1550,535 Q1450,540 1350,535 Z" fill="#8b6530" opacity="0.8"/>
+  <ellipse cx="1475" cy="520" rx="175" ry="15" fill="#6b4e20" opacity="0.7"/>
+  <!-- Arches in colosseum -->
+  <g fill="#4a3010" opacity="0.6">
+    <path d="M1350,490 Q1360,475 1370,490 Z"/>
+    <path d="M1390,485 Q1400,470 1410,485 Z"/>
+    <path d="M1430,483 Q1440,468 1450,483 Z"/>
+    <path d="M1470,482 Q1480,467 1490,482 Z"/>
+    <path d="M1510,483 Q1520,468 1530,483 Z"/>
+    <path d="M1550,485 Q1560,470 1570,485 Z"/>
+    <path d="M1590,490 Q1600,475 1610,490 Z"/>
+  </g>
+  <!-- Temple with columns (foreground left) -->
+  <rect x="150" y="450" width="350" height="30" fill="url(#building)"/>
+  <polygon points="150,450 325,370 500,450" fill="url(#building)"/>
+  <!-- Columns -->
+  <g fill="url(#column)">
+    <rect x="170" y="480" width="20" height="200"/>
+    <rect x="220" y="480" width="20" height="200"/>
+    <rect x="270" y="480" width="20" height="200"/>
+    <rect x="320" y="480" width="20" height="200"/>
+    <rect x="370" y="480" width="20" height="200"/>
+    <rect x="420" y="480" width="20" height="200"/>
+    <rect x="470" y="480" width="20" height="200"/>
+  </g>
+  <!-- Column capitals -->
+  <g fill="#dab870">
+    <rect x="165" y="475" width="30" height="10" rx="2"/>
+    <rect x="215" y="475" width="30" height="10" rx="2"/>
+    <rect x="265" y="475" width="30" height="10" rx="2"/>
+    <rect x="315" y="475" width="30" height="10" rx="2"/>
+    <rect x="365" y="475" width="30" height="10" rx="2"/>
+    <rect x="415" y="475" width="30" height="10" rx="2"/>
+    <rect x="465" y="475" width="30" height="10" rx="2"/>
+  </g>
+  <!-- Obelisk -->
+  <polygon points="700,350 710,680 690,680" fill="#a08050"/>
+  <polygon points="700,340 706,360 694,360" fill="#ffd700"/>
+  <!-- Various buildings silhouettes -->
+  <rect x="550" y="580" width="80" height="120" fill="#7a5a30" opacity="0.7"/>
+  <rect x="1100" y="550" width="100" height="150" fill="#7a5a30" opacity="0.7"/>
+  <rect x="1150" y="520" width="30" height="180" fill="#8b6a40" opacity="0.7"/>
+  <!-- Aqueduct in background -->
+  <g fill="#6b5030" opacity="0.4">
+    <rect x="0" y="620" width="1920" height="15"/>
+    <rect x="50" y="635" width="15" height="60"/>
+    <rect x="130" y="635" width="15" height="60"/>
+    <rect x="210" y="635" width="15" height="60"/>
+    <path d="M50,635 Q90,615 130,635" fill="none" stroke="#6b5030" stroke-width="8"/>
+    <path d="M130,635 Q170,615 210,635" fill="none" stroke="#6b5030" stroke-width="8"/>
+  </g>
+  <!-- Ground -->
+  <rect x="0" y="700" width="1920" height="380" fill="#5a4020" opacity="0.6"/>
+  <!-- Foreground steps -->
+  <rect x="0" y="750" width="1920" height="330" fill="#4a3318"/>
+  <rect x="0" y="730" width="1920" height="20" fill="#6b5030"/>
+</svg>
