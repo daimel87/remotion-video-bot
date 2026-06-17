@@ -23,6 +23,7 @@ import {Gacrux4Edit} from './Gacrux4Edit';
 import {Gacrux5Edit} from './Gacrux5Edit';
 import {GacruxFinalEdit} from './GacruxFinalEdit';
 import {PSA1Edit} from './PSA1Edit';
+import {PSA2Edit} from './PSA2Edit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -215,6 +216,14 @@ export const RemotionRoot: React.FC = () => {
         id="PSA1Edit"
         component={PSA1Edit}
         durationInFrames={1050}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="PSA2Edit"
+        component={PSA2Edit}
+        durationInFrames={1213}
         fps={25}
         width={1920}
         height={1080}
