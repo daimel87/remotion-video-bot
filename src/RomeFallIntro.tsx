@@ -25,39 +25,39 @@ export const RomeFallIntro: React.FC = () => {
 			<KenBurnsImage
 				src={staticFile('rome-fall/2b-mercado-romano.jpg')}
 				startFrame={150}
-				durationFrames={105}
+				durationFrames={90}
 				effect="panRight"
 			/>
 			<NarrationSubtitle
 				text="Roma lo tenía todo: caminos que conectaban el mundo..."
-				startFrame={160}
-				durationFrames={85}
+				startFrame={155}
+				durationFrames={80}
 			/>
 
 			{/* 0:08-0:11 — "ejércitos invencibles" + Legiones */}
 			<KenBurnsImage
 				src={staticFile('rome-fall/1b-legiones-marchando.jpg')}
-				startFrame={240}
+				startFrame={225}
 				durationFrames={105}
 				effect="panLeftZoomIn"
 			/>
 			<NarrationSubtitle
 				text="...ejércitos invencibles..."
-				startFrame={250}
-				durationFrames={85}
+				startFrame={230}
+				durationFrames={90}
 			/>
 
 			{/* 0:11-0:14 — "ciudades que hacían llorar de envidia" + Roma panorámica */}
 			<KenBurnsImage
 				src={staticFile('rome-fall/2a-roma-panoramica.jpg')}
-				startFrame={330}
-				durationFrames={105}
+				startFrame={315}
+				durationFrames={120}
 				effect="zoomOutSlow"
 			/>
 			<NarrationSubtitle
 				text="...y ciudades que hacían llorar de envidia."
-				startFrame={340}
-				durationFrames={85}
+				startFrame={320}
+				durationFrames={100}
 			/>
 
 			{/* 0:14-0:21 — "Pero todo eso... se derrumbó" + Legionario closeup */}
