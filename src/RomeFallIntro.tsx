@@ -8,56 +8,56 @@ export const RomeFallIntro: React.FC = () => {
 		<AbsoluteFill style={{backgroundColor: 'black'}}>
 			<Audio src={staticFile('rome-fall/audio/escena1.wav')} />
 
-			{/* 0:00-0:05 (frames 0-150) — Mapa */}
+			{/* 0:00-0:06 (frames 0-180) — Mapa del imperio */}
 			<KenBurnsImage
 				src={staticFile('rome-fall/1a-mapa-imperio.jpg')}
 				startFrame={0}
-				durationFrames={165}
+				durationFrames={195}
 				effect="zoomInSlow"
 			/>
 			<NarrationSubtitle
 				text="Imagina un imperio tan grande que controlaba desde las arenas de Egipto hasta los bosques helados de Britania..."
 				startFrame={0}
-				durationFrames={150}
+				durationFrames={180}
 			/>
 
-			{/* 0:06-0:08 (frames 180-240) — Mercado */}
+			{/* 0:06-0:09 (frames 180-270) — Mercado romano */}
 			<KenBurnsImage
 				src={staticFile('rome-fall/2b-mercado-romano.jpg')}
-				startFrame={165}
-				durationFrames={90}
+				startFrame={180}
+				durationFrames={105}
 				effect="panRight"
 			/>
 			<NarrationSubtitle
 				text="Roma lo tenía todo: caminos que conectaban el mundo..."
-				startFrame={170}
-				durationFrames={75}
+				startFrame={180}
+				durationFrames={90}
 			/>
 
-			{/* 0:08-0:11 (frames 240-330) — Legiones */}
+			{/* 0:09-0:11.5 (frames 270-345) — Legiones marchando */}
 			<KenBurnsImage
 				src={staticFile('rome-fall/1b-legiones-marchando.jpg')}
-				startFrame={240}
-				durationFrames={105}
+				startFrame={270}
+				durationFrames={90}
 				effect="panLeftZoomIn"
 			/>
 			<NarrationSubtitle
 				text="...ejércitos invencibles..."
-				startFrame={245}
-				durationFrames={85}
+				startFrame={270}
+				durationFrames={75}
 			/>
 
-			{/* 0:11-0:14 (frames 330-420) — Roma panorámica */}
+			{/* 0:11.5-0:14 (frames 345-420) — Roma panorámica */}
 			<KenBurnsImage
 				src={staticFile('rome-fall/2a-roma-panoramica.jpg')}
-				startFrame={330}
-				durationFrames={105}
+				startFrame={345}
+				durationFrames={90}
 				effect="zoomOutSlow"
 			/>
 			<NarrationSubtitle
 				text="...y ciudades que hacían llorar de envidia."
-				startFrame={335}
-				durationFrames={85}
+				startFrame={345}
+				durationFrames={75}
 			/>
 
 			{/* 0:14-0:21 (frames 420-639) — Legionario closeup */}
@@ -69,7 +69,7 @@ export const RomeFallIntro: React.FC = () => {
 			/>
 			<NarrationSubtitle
 				text="Pero todo eso... se derrumbó. Y lo peor es que gran parte fue culpa suya."
-				startFrame={425}
+				startFrame={420}
 				durationFrames={205}
 			/>
 		</AbsoluteFill>
