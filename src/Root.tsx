@@ -38,6 +38,7 @@ import {PSAFinalEdit} from './PSAFinalEdit';
 import {Arterias1Edit} from './Arterias1Edit';
 import {Arterias2Edit} from './Arterias2Edit';
 import {Arterias3Edit} from './Arterias3Edit';
+import {Arterias4Edit} from './Arterias4Edit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -350,6 +351,14 @@ export const RemotionRoot: React.FC = () => {
         id="Arterias3Edit"
         component={Arterias3Edit}
         durationInFrames={1810}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Arterias4Edit"
+        component={Arterias4Edit}
+        durationInFrames={2154}
         fps={25}
         width={1920}
         height={1080}
