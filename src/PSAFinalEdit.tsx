@@ -12,7 +12,7 @@ export const PSAFinalEdit: React.FC = () => {
 		<AbsoluteFill style={{backgroundColor: '#000'}}>
 			<OffthreadVideo src={staticFile('psa_final.mp4')} />
 
-			<Sequence from={50} durationInFrames={300}>
+			<Sequence from={50} durationInFrames={475}>
 				<FoodListGraphic />
 			</Sequence>
 
