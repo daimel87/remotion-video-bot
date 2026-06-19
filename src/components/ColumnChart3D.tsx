@@ -3,242 +3,194 @@ import {AbsoluteFill, Img, useCurrentFrame, useVideoConfig, interpolate, Easing,
 import {ACTORS} from './richestActorsData';
 
 const sorted = [...ACTORS];
-const formatValue = (v: number) => v >= 1000 ? `$${(v / 1000).toFixed(1).replace('.0', '')}B` : `$${v}M`;
+const formatValue = (v: number) => v >= 1000 ? `$${(v / 1000).toFixed(1).replace('.0', '')}` : `$${v}`;
+const formatUnit = (v: number) => v >= 1000 ? 'Billion' : 'Million';
+
+const CARD_WIDTH = 640;
+const CARD_HEIGHT = 1080;
+const PHOTO_HEIGHT = 580;
+const INFO_TOP = PHOTO_HEIGHT;
+const VISIBLE_CARDS = 3;
+const DIVIDER_WIDTH = 4;
 
 export const ColumnChart3D: React.FC = () => {
   const frame = useCurrentFrame();
   const {durationInFrames} = useVideoConfig();
 
   const totalCards = sorted.length;
-  const framesPerCard = Math.floor((durationInFrames - 120) / totalCards);
-  const cardProgress = interpolate(frame, [60, durationInFrames - 60], [0, totalCards - 0.01], {
+  const totalWidth = totalCards * CARD_WIDTH;
+
+  const scrollProgress = interpolate(frame, [30, durationInFrames - 30], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
-  });
-  const currentIndex = Math.floor(cardProgress);
-  const transitionProgress = cardProgress - currentIndex;
-
-  const actor = sorted[currentIndex];
-  const nextActor = currentIndex < totalCards - 1 ? sorted[currentIndex + 1] : null;
-  const rank = currentIndex + 1;
-
-  const slideOut = interpolate(transitionProgress, [0.7, 1], [0, -1920], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.in(Easing.cubic),
-  });
-  const slideIn = interpolate(transitionProgress, [0.7, 1], [1920, 0], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.out(Easing.cubic),
+    easing: Easing.linear,
   });
 
-  const valueReveal = interpolate(transitionProgress, [0, 0.15], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.out(Easing.cubic),
-  });
-
-  const renderCard = (a: typeof actor, r: number, offsetX: number, valProgress: number) => (
-    <div style={{
-      position: 'absolute',
-      left: offsetX,
-      top: 0,
-      width: 1920,
-      height: 1080,
-    }}>
-      {/* Full screen photo */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: 1920,
-        height: 920,
-        overflow: 'hidden',
-      }}>
-        <Img
-          src={staticFile(a.photo)}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center 20%',
-          }}
-        />
-        {/* Dark gradient overlay bottom */}
-        <div style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: 350,
-          background: 'linear-gradient(transparent, rgba(0,0,0,0.95))',
-        }} />
-        {/* Subtle dark overlay top for readability */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 150,
-          background: 'linear-gradient(rgba(0,0,0,0.5), transparent)',
-        }} />
-      </div>
-
-      {/* Rank badge top left */}
-      <div style={{
-        position: 'absolute',
-        top: 30,
-        left: 40,
-        display: 'flex',
-        alignItems: 'center',
-        gap: 12,
-      }}>
-        <div style={{
-          width: 56,
-          height: 56,
-          borderRadius: '50%',
-          backgroundColor: 'rgba(0,0,0,0.6)',
-          border: '3px solid #FFD700',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: 24,
-          fontWeight: 900,
-          color: '#FFD700',
-        }}>
-          {r}
-        </div>
-        <span style={{
-          fontSize: 18,
-          fontWeight: 600,
-          color: 'rgba(255,255,255,0.7)',
-          textShadow: '0 2px 8px rgba(0,0,0,0.8)',
-        }}>
-          of {totalCards}
-        </span>
-      </div>
-
-      {/* Flag top right */}
-      <div style={{
-        position: 'absolute',
-        top: 30,
-        right: 40,
-        fontSize: 52,
-        filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.5))',
-      }}>
-        {a.flag}
-      </div>
-
-      {/* Info overlay at bottom of photo area */}
-      <div style={{
-        position: 'absolute',
-        bottom: 180,
-        left: 0,
-        right: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 8,
-      }}>
-        {/* Name */}
-        <div style={{
-          fontSize: 52,
-          fontWeight: 900,
-          color: '#fff',
-          textTransform: 'uppercase',
-          letterSpacing: 4,
-          textShadow: '0 4px 16px rgba(0,0,0,0.8)',
-          textAlign: 'center',
-        }}>
-          {a.name}
-        </div>
-
-        {/* Value */}
-        <div style={{
-          fontSize: 80,
-          fontWeight: 900,
-          color: '#FFD700',
-          textShadow: '0 0 40px rgba(255,215,0,0.4), 0 4px 16px rgba(0,0,0,0.8)',
-          lineHeight: 1,
-          marginTop: 4,
-        }}>
-          {formatValue(Math.round(valProgress * a.netWorth))}
-        </div>
-
-        {/* Country */}
-        <div style={{
-          fontSize: 20,
-          color: 'rgba(255,255,255,0.6)',
-          textTransform: 'uppercase',
-          letterSpacing: 6,
-          marginTop: 4,
-          textShadow: '0 2px 8px rgba(0,0,0,0.8)',
-        }}>
-          {a.country}
-        </div>
-      </div>
-    </div>
-  );
+  const maxScroll = totalWidth - 1920;
+  const scrollX = scrollProgress * maxScroll;
 
   return (
     <AbsoluteFill style={{
-      backgroundColor: '#000',
+      backgroundColor: '#fff',
       fontFamily: "'Arial', 'Helvetica Neue', sans-serif",
       overflow: 'hidden',
     }}>
-      {/* Current card */}
-      {renderCard(actor, rank, slideOut, valueReveal)}
-
-      {/* Next card sliding in */}
-      {nextActor && transitionProgress > 0.7 && renderCard(nextActor, rank + 1, slideIn, 0)}
-
-      {/* Title bar top */}
+      {/* Scrolling container */}
       <div style={{
         position: 'absolute',
+        left: -scrollX,
         top: 0,
-        left: 0,
-        right: 0,
-        height: 6,
-        background: 'linear-gradient(90deg, #FFD700, #FFA000, #FFD700)',
-        zIndex: 20,
-      }} />
-
-      {/* Bottom bar */}
-      <div style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: 160,
-        backgroundColor: '#000',
-        zIndex: 15,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        width: totalWidth,
+        height: 1080,
       }}>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 8,
-        }}>
-          <span style={{
-            fontSize: 28,
-            fontWeight: 800,
-            color: '#FFD700',
-            letterSpacing: 3,
-            textTransform: 'uppercase',
-          }}>
-            💰 Richest Hollywood Actors 💰
-          </span>
-          <span style={{
-            fontSize: 15,
-            color: 'rgba(255,255,255,0.3)',
-          }}>
-            Source: Forbes, Celebrity Net Worth — Estimated Net Worth 2025
-          </span>
-        </div>
+        {sorted.map((actor, i) => {
+          const x = i * CARD_WIDTH;
+
+          return (
+            <div key={actor.name} style={{
+              position: 'absolute',
+              left: x,
+              top: 0,
+              width: CARD_WIDTH,
+              height: CARD_HEIGHT,
+              backgroundColor: '#fff',
+            }}>
+              {/* Photo */}
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: CARD_WIDTH,
+                height: PHOTO_HEIGHT,
+                overflow: 'hidden',
+              }}>
+                <Img
+                  src={staticFile(actor.photo)}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center 15%',
+                  }}
+                />
+
+                {/* Age badge */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: 16,
+                  left: CARD_WIDTH / 2 - 60,
+                  width: 120,
+                  height: 36,
+                  backgroundColor: '#D32F2F',
+                  borderRadius: 4,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 18,
+                  fontWeight: 800,
+                  color: '#fff',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+                }}>
+                  AGE : {actor.age}
+                </div>
+              </div>
+
+              {/* Name area - white background */}
+              <div style={{
+                position: 'absolute',
+                top: INFO_TOP,
+                left: 0,
+                width: CARD_WIDTH,
+                height: 80,
+                backgroundColor: '#fff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <span style={{
+                  fontSize: 36,
+                  fontWeight: 800,
+                  color: '#111',
+                  textAlign: 'center',
+                }}>
+                  {actor.name}
+                </span>
+              </div>
+
+              {/* Net Worth area - dark blue gradient */}
+              <div style={{
+                position: 'absolute',
+                top: INFO_TOP + 80,
+                left: 0,
+                width: CARD_WIDTH,
+                height: CARD_HEIGHT - INFO_TOP - 80,
+                background: 'linear-gradient(180deg, #0D1B4A, #1A237E)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 0,
+              }}>
+                {/* "Net Worth :" label */}
+                <div style={{
+                  fontSize: 22,
+                  fontWeight: 600,
+                  color: '#fff',
+                  letterSpacing: 1,
+                }}>
+                  Net Worth :
+                </div>
+
+                {/* Value */}
+                <div style={{
+                  fontSize: 90,
+                  fontWeight: 900,
+                  color: '#FFD700',
+                  lineHeight: 1.1,
+                  textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                }}>
+                  {formatValue(actor.netWorth)}
+                </div>
+
+                {/* Million/Billion */}
+                <div style={{
+                  fontSize: 28,
+                  fontWeight: 600,
+                  color: '#ddd',
+                  marginTop: -4,
+                }}>
+                  {formatUnit(actor.netWorth)}
+                </div>
+
+                {/* Country with flag */}
+                <div style={{
+                  fontSize: 18,
+                  color: 'rgba(255,255,255,0.6)',
+                  marginTop: 16,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                }}>
+                  <span style={{ fontSize: 24 }}>{actor.flag}</span>
+                  <span>{actor.country}</span>
+                </div>
+              </div>
+
+              {/* Vertical divider on right edge */}
+              {i < totalCards - 1 && (
+                <div style={{
+                  position: 'absolute',
+                  right: 0,
+                  top: 0,
+                  width: DIVIDER_WIDTH,
+                  height: CARD_HEIGHT,
+                  backgroundColor: 'rgba(0,0,0,0.15)',
+                  zIndex: 5,
+                }} />
+              )}
+            </div>
+          );
+        })}
       </div>
     </AbsoluteFill>
   );
