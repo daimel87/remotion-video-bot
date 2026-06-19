@@ -170,7 +170,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="RichestActorsEdit"
         component={RichestActorsEdit}
-        durationInFrames={1800}
+        durationInFrames={5400}
         fps={30}
         width={1920}
         height={1080}
