@@ -36,6 +36,7 @@ import {Narcicista7Edit} from './Narcicista7Edit';
 import {Narcicista8Edit} from './Narcicista8Edit';
 import {Narcicista9Edit} from './Narcicista9Edit';
 import {NarcicistaFinalEdit} from './NarcicistaFinalEdit';
+import {Senales2_1Edit} from './Senales2_1Edit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -332,6 +333,14 @@ export const RemotionRoot: React.FC = () => {
         id="NarcicistaFinalEdit"
         component={NarcicistaFinalEdit}
         durationInFrames={1189}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Senales2-1Edit"
+        component={Senales2_1Edit}
+        durationInFrames={773}
         fps={25}
         width={1920}
         height={1080}
