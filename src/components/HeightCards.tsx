@@ -2,11 +2,14 @@ import React from 'react';
 import {AbsoluteFill, Img, useCurrentFrame, useVideoConfig, interpolate, Easing, staticFile} from 'remotion';
 import {TALL_ACTORS_SORTED, formatHeight} from './tallActorsData';
 
-const CARD_WIDTH = 640;
-const CARD_HEIGHT = 1080;
-const PHOTO_HEIGHT = 580;
-const INFO_TOP = PHOTO_HEIGHT;
-const DIVIDER_WIDTH = 4;
+const BG_COLORS = [
+  '#1a237e', '#0d47a1', '#006064', '#1b5e20', '#e65100',
+  '#4a148c', '#880e4f', '#bf360c', '#01579b', '#33691e', '#311b92',
+];
+
+const CARD_WIDTH = 384;
+const PHOTO_HEIGHT = 680;
+const DIVIDER_WIDTH = 3;
 
 export const HeightCards: React.FC = () => {
   const frame = useCurrentFrame();
@@ -22,12 +25,12 @@ export const HeightCards: React.FC = () => {
     easing: Easing.linear,
   });
 
-  const maxScroll = totalWidth - 1920;
+  const maxScroll = Math.max(0, totalWidth - 1920);
   const scrollX = scrollProgress * maxScroll;
 
   return (
     <AbsoluteFill style={{
-      backgroundColor: '#fff',
+      backgroundColor: '#111',
       fontFamily: "'Arial', 'Helvetica Neue', sans-serif",
       overflow: 'hidden',
     }}>
@@ -40,9 +43,9 @@ export const HeightCards: React.FC = () => {
       }}>
         {sorted.map((actor, i) => {
           const x = i * CARD_WIDTH;
-          const heightStr = formatHeight(actor.heightInches);
           const feet = Math.floor(actor.heightInches / 12);
           const inches = actor.heightInches % 12;
+          const bgColor = BG_COLORS[i % BG_COLORS.length];
 
           return (
             <div key={actor.name} style={{
@@ -50,8 +53,8 @@ export const HeightCards: React.FC = () => {
               left: x,
               top: 0,
               width: CARD_WIDTH,
-              height: CARD_HEIGHT,
-              backgroundColor: '#fff',
+              height: 1080,
+              backgroundColor: bgColor,
             }}>
               {/* Photo */}
               <div style={{
@@ -61,129 +64,100 @@ export const HeightCards: React.FC = () => {
                 width: CARD_WIDTH,
                 height: PHOTO_HEIGHT,
                 overflow: 'hidden',
-                backgroundColor: '#222',
               }}>
-                {actor.photo ? (
-                  <Img
-                    src={staticFile(actor.photo)}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      objectPosition: 'center 15%',
-                    }}
-                  />
-                ) : (
-                  <div style={{
+                <Img
+                  src={staticFile(actor.photo)}
+                  style={{
                     width: '100%',
                     height: '100%',
-                    backgroundColor: '#1a1a2e',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: 120,
-                    color: 'rgba(255,255,255,0.15)',
-                    fontWeight: 900,
-                  }}>
-                    {actor.name.charAt(0)}
-                  </div>
-                )}
-
-                {/* Age badge */}
+                    objectFit: 'cover',
+                    objectPosition: 'center 10%',
+                  }}
+                />
+                {/* Gradient fade to background color */}
                 <div style={{
                   position: 'absolute',
-                  bottom: 16,
-                  left: CARD_WIDTH / 2 - 60,
-                  width: 120,
-                  height: 36,
-                  backgroundColor: '#D32F2F',
-                  borderRadius: 4,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: 18,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: 120,
+                  background: `linear-gradient(transparent, ${bgColor})`,
+                }} />
+              </div>
+
+              {/* Name */}
+              <div style={{
+                position: 'absolute',
+                top: PHOTO_HEIGHT - 10,
+                left: 0,
+                width: CARD_WIDTH,
+                textAlign: 'center',
+                padding: '0 8px',
+              }}>
+                <div style={{
+                  fontSize: 32,
                   fontWeight: 800,
                   color: '#fff',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+                  textShadow: '0 2px 8px rgba(0,0,0,0.5)',
+                  lineHeight: 1.1,
                 }}>
-                  AGE : {actor.age}
+                  {actor.name}
                 </div>
               </div>
 
-              {/* Name area */}
+              {/* Height value area */}
               <div style={{
                 position: 'absolute',
-                top: INFO_TOP,
+                top: PHOTO_HEIGHT + 40,
                 left: 0,
                 width: CARD_WIDTH,
-                height: 80,
-                backgroundColor: '#fff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 10,
-              }}>
-                <span style={{
-                  fontSize: 36,
-                  fontWeight: 800,
-                  color: '#111',
-                  textAlign: 'center',
-                }}>
-                  {actor.name}
-                </span>
-              </div>
-
-              {/* Height area - dark blue */}
-              <div style={{
-                position: 'absolute',
-                top: INFO_TOP + 80,
-                left: 0,
-                width: CARD_WIDTH,
-                height: CARD_HEIGHT - INFO_TOP - 80,
-                background: 'linear-gradient(180deg, #0D1B4A, #1A237E)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center',
-                gap: 0,
+                gap: 2,
               }}>
+                {/* Height label */}
                 <div style={{
-                  fontSize: 22,
+                  fontSize: 18,
                   fontWeight: 600,
-                  color: '#fff',
-                  letterSpacing: 1,
+                  color: 'rgba(255,255,255,0.7)',
+                  letterSpacing: 2,
+                  textTransform: 'uppercase',
                 }}>
-                  Height :
+                  Height
                 </div>
 
+                {/* Height value */}
                 <div style={{
-                  fontSize: 90,
+                  fontSize: 100,
                   fontWeight: 900,
                   color: '#FFD700',
-                  lineHeight: 1.1,
-                  textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                  lineHeight: 1,
+                  textShadow: '0 2px 8px rgba(0,0,0,0.4)',
                 }}>
                   {feet}'{inches}"
                 </div>
 
+                {/* CM conversion */}
                 <div style={{
-                  fontSize: 28,
+                  fontSize: 24,
                   fontWeight: 600,
-                  color: '#ddd',
+                  color: 'rgba(255,255,255,0.6)',
                   marginTop: -4,
                 }}>
                   ({Math.round(actor.heightInches * 2.54)} cm)
                 </div>
 
+                {/* Country with flag */}
                 <div style={{
-                  fontSize: 18,
-                  color: 'rgba(255,255,255,0.6)',
-                  marginTop: 16,
+                  fontSize: 16,
+                  color: 'rgba(255,255,255,0.5)',
+                  marginTop: 12,
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 8,
+                  gap: 6,
                 }}>
-                  <span style={{ fontSize: 24 }}>{actor.flag}</span>
+                  <span style={{ fontSize: 20 }}>{actor.flag}</span>
                   <span>{actor.country}</span>
                 </div>
               </div>
@@ -195,8 +169,8 @@ export const HeightCards: React.FC = () => {
                   right: 0,
                   top: 0,
                   width: DIVIDER_WIDTH,
-                  height: CARD_HEIGHT,
-                  backgroundColor: 'rgba(0,0,0,0.15)',
+                  height: 1080,
+                  backgroundColor: 'rgba(0,0,0,0.3)',
                   zIndex: 5,
                 }} />
               )}
