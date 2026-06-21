@@ -19,6 +19,7 @@ import {WindowsXliteFinalEdit} from './WindowsXliteFinalEdit';
 import {MessiRonaldoEdit} from './MessiRonaldoEdit';
 import {RichestAthletesEdit} from './RichestAthletesEdit';
 import {RichestActorsEdit} from './RichestActorsEdit';
+import {TallActorsEdit} from './TallActorsEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -170,6 +171,14 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="RichestActorsEdit"
         component={RichestActorsEdit}
+        durationInFrames={5400}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="TallActorsEdit"
+        component={TallActorsEdit}
         durationInFrames={5400}
         fps={30}
         width={1920}
