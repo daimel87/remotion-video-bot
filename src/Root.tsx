@@ -46,6 +46,7 @@ import {Senales2FinalEdit} from './Senales2FinalEdit';
 import {Mujer1Edit} from './Mujer1Edit';
 import {Mujer2Edit} from './Mujer2Edit';
 import {Mujer3Edit} from './Mujer3Edit';
+import {Mujer4Edit} from './Mujer4Edit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -422,6 +423,14 @@ export const RemotionRoot: React.FC = () => {
         id="Mujer3Edit"
         component={Mujer3Edit}
         durationInFrames={1083}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Mujer4Edit"
+        component={Mujer4Edit}
+        durationInFrames={989}
         fps={25}
         width={1920}
         height={1080}
