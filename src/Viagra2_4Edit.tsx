@@ -9,7 +9,7 @@ export const Viagra2_4Edit: React.FC = () => {
 		<AbsoluteFill style={{backgroundColor: '#000'}}>
 			<OffthreadVideo src={staticFile('viagra2_4.mp4')} />
 
-			<Sequence from={100} durationInFrames={375}>
+			<Sequence from={100} durationInFrames={1200}>
 				<DrugCompareTable />
 			</Sequence>
 		</AbsoluteFill>
