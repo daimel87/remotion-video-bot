@@ -41,6 +41,7 @@ import {Arterias3Edit} from './Arterias3Edit';
 import {Arterias4Edit} from './Arterias4Edit';
 import {Arterias5Edit} from './Arterias5Edit';
 import {ArteriasFinalEdit} from './ArteriasFinalEdit';
+import {Viagra2_1Edit} from './Viagra2_1Edit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -377,6 +378,14 @@ export const RemotionRoot: React.FC = () => {
         id="ArteriasFinalEdit"
         component={ArteriasFinalEdit}
         durationInFrames={1181}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Viagra2-1Edit"
+        component={Viagra2_1Edit}
+        durationInFrames={608}
         fps={25}
         width={1920}
         height={1080}
