@@ -53,6 +53,7 @@ import {Mujer7Edit} from './Mujer7Edit';
 import {Mujer8Edit} from './Mujer8Edit';
 import {Mentiras1Edit} from './Mentiras1Edit';
 import {Mentiras2Edit} from './Mentiras2Edit';
+import {Mentiras3Edit} from './Mentiras3Edit';
 import {MujerFinalEdit} from './MujerFinalEdit';
 
 export const RemotionRoot: React.FC = () => {
@@ -494,6 +495,14 @@ export const RemotionRoot: React.FC = () => {
         id="Mentiras2Edit"
         component={Mentiras2Edit}
         durationInFrames={1189}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Mentiras3Edit"
+        component={Mentiras3Edit}
+        durationInFrames={1311}
         fps={25}
         width={1920}
         height={1080}
