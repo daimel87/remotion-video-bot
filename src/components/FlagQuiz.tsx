@@ -1,6 +1,16 @@
 import React from 'react';
-import {AbsoluteFill, Audio, Sequence, useCurrentFrame, useVideoConfig, interpolate, spring, staticFile} from 'remotion';
+import {AbsoluteFill, Audio, Img, Sequence, useCurrentFrame, useVideoConfig, interpolate, spring, staticFile} from 'remotion';
 import {FLAGS} from './flagQuizData';
+
+const ALL_FLAGS = [
+  '🇧🇷','🇯🇵','🇨🇦','🇦🇺','🇲🇽','🇩🇪','🇮🇹','🇰🇷','🇦🇷','🇹🇷',
+  '🇪🇬','🇸🇪','🇳🇴','🇵🇱','🇹🇭','🇨🇴','🇳🇬','🇵🇭','🇨🇱','🇵🇰',
+  '🇮🇪','🇨🇭','🇵🇪','🇬🇷','🇵🇹','🇮🇳','🇨🇺','🇿🇦','🇫🇮','🇮🇸',
+  '🇯🇲','🇻🇳','🇲🇦','🇭🇷','🇳🇿','🇷🇸','🇪🇨','🇳🇵','🇰🇪','🇧🇩',
+  '🇺🇦','🇨🇿','🇩🇰','🇵🇦','🇸🇦','🇮🇩','🇧🇪','🇷🇴','🇭🇺','🇧🇴',
+  '🇺🇸','🇬🇧','🇫🇷','🇪🇸','🇷🇺','🇨🇳','🇳🇱','🇦🇹','🇵🇾','🇺🇾',
+  '🇨🇷','🇶🇦','🇱🇧','🇹🇳','🇬🇭','🇪🇹','🇸🇬','🇲🇾','🇦🇪','🇮🇶',
+];
 
 const INTRO_FRAMES = 90;
 const OUTRO_FRAMES = 120;
@@ -88,27 +98,78 @@ const QuizVisuals: React.FC<{
 }> = ({frame, fps, totalQuestions, outroStart}) => {
   // INTRO
   if (frame < INTRO_FRAMES) {
-    const titleScale = spring({ frame, fps, from: 0.5, to: 1, durationInFrames: 30 });
-    const subtitleOpacity = interpolate(frame, [30, 50], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
-    const countdownText = frame < 60 ? '' : `Starting in ${3 - Math.floor((frame - 60) / 10)}...`;
+    const titleScale = spring({ frame, fps, from: 0.3, to: 1, durationInFrames: 25 });
+    const titleOpacity = interpolate(frame, [5, 20], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+    const subtitleOpacity = interpolate(frame, [25, 40], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+    const countdownText = frame < 60 ? '' : `${3 - Math.floor((frame - 60) / 10)}`;
+    const bgPanX = interpolate(frame, [0, INTRO_FRAMES], [0, -200], { extrapolateRight: 'clamp' });
+    const bgPanY = interpolate(frame, [0, INTRO_FRAMES], [0, -80], { extrapolateRight: 'clamp' });
+    const bgBlur = interpolate(frame, [0, 15], [0, 8], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+
+    const cols = 14;
+    const rows = 8;
 
     return (
-      <AbsoluteFill style={{
-        display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center', gap: 20,
-      }}>
-        <div style={{ fontSize: 120, transform: `scale(${titleScale})` }}>🌍</div>
+      <AbsoluteFill>
+        {/* Flags background with pan and blur */}
         <div style={{
-          fontSize: 64, fontWeight: 900, color: '#fff', textAlign: 'center',
-          transform: `scale(${titleScale})`, letterSpacing: 3,
+          position: 'absolute', inset: -200,
+          display: 'flex', flexWrap: 'wrap', alignContent: 'flex-start',
+          transform: `translate(${bgPanX}px, ${bgPanY}px)`,
+          filter: `blur(${bgBlur}px)`,
+          opacity: 0.35,
         }}>
-          GUESS THE FLAG
+          {Array.from({length: cols * rows}).map((_, idx) => (
+            <div key={idx} style={{
+              width: `${100 / cols}%`, height: `${100 / rows}%`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 80,
+            }}>
+              {ALL_FLAGS[idx % ALL_FLAGS.length]}
+            </div>
+          ))}
         </div>
-        <div style={{ fontSize: 32, color: '#FFD700', fontWeight: 700, opacity: subtitleOpacity }}>
-          50 Countries — Can You Get Them All?
-        </div>
-        <div style={{ fontSize: 24, color: 'rgba(255,255,255,0.5)', marginTop: 20 }}>
-          {countdownText}
+
+        {/* Dark overlay */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'radial-gradient(ellipse at center, rgba(10,10,30,0.5) 0%, rgba(10,10,30,0.85) 100%)',
+        }} />
+
+        {/* Content */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          display: 'flex', flexDirection: 'column',
+          alignItems: 'center', justifyContent: 'center', gap: 10,
+        }}>
+          <div style={{
+            fontSize: 150, transform: `scale(${titleScale})`, opacity: titleOpacity,
+          }}>🌍</div>
+          <div style={{
+            fontSize: 110, fontWeight: 900, color: '#fff', textAlign: 'center',
+            transform: `scale(${titleScale})`, letterSpacing: 6,
+            opacity: titleOpacity,
+            textShadow: '0 6px 30px rgba(0,0,0,0.8), 0 0 60px rgba(255,215,0,0.3)',
+            lineHeight: 1.1,
+          }}>
+            GUESS THE
+            <br />
+            <span style={{ color: '#FFD700', fontSize: 120 }}>FLAG</span>
+          </div>
+          <div style={{
+            fontSize: 44, color: '#fff', fontWeight: 700, opacity: subtitleOpacity,
+            marginTop: 20, textShadow: '0 2px 10px rgba(0,0,0,0.5)',
+          }}>
+            50 Countries — Can You Get Them All?
+          </div>
+          {frame >= 60 && (
+            <div style={{
+              fontSize: 80, fontWeight: 900, color: '#FFD700',
+              marginTop: 20, textShadow: '0 0 40px rgba(255,215,0,0.5)',
+            }}>
+              {countdownText}
+            </div>
+          )}
         </div>
       </AbsoluteFill>
     );
