@@ -53,6 +53,7 @@ import {Pastillas3Edit} from './Pastillas3Edit';
 import {Pastillas4Edit} from './Pastillas4Edit';
 import {Pastillas5Edit} from './Pastillas5Edit';
 import {Pastillas6Edit} from './Pastillas6Edit';
+import {PastillasFinalEdit} from './PastillasFinalEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -485,6 +486,14 @@ export const RemotionRoot: React.FC = () => {
         id="Pastillas6Edit"
         component={Pastillas6Edit}
         durationInFrames={1837}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="PastillasFinalEdit"
+        component={PastillasFinalEdit}
+        durationInFrames={806}
         fps={25}
         width={1920}
         height={1080}
