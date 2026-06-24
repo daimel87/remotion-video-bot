@@ -20,9 +20,9 @@ const BG_GRADIENTS = [
 ];
 
 const QUESTION_AUDIOS = [
-  'audio/question1.mp3',
-  'audio/question2.mp3',
-  'audio/question3.mp3',
+  'audio/toystory/question1.mp3',
+  'audio/toystory/question2.mp3',
+  'audio/toystory/question3.mp3',
 ];
 
 export const ToyStoryQuiz: React.FC = () => {
