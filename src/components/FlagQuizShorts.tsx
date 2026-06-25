@@ -1,6 +1,6 @@
 import React from 'react';
 import {AbsoluteFill, Audio, Sequence, useCurrentFrame, useVideoConfig, interpolate, spring, staticFile} from 'remotion';
-import {FLAGS} from './flagQuizData';
+import {FLAGS_SHORT as FLAGS} from './flagQuizDataShort';
 
 const ALL_FLAGS = [
   '🇧🇷','🇯🇵','🇨🇦','🇦🇺','🇲🇽','🇩🇪','🇮🇹','🇰🇷','🇦🇷','🇹🇷',
