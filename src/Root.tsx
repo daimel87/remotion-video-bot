@@ -22,6 +22,7 @@ import {RichestActorsEdit} from './RichestActorsEdit';
 import {TallActorsEdit} from './TallActorsEdit';
 import {FlagQuizEdit} from './FlagQuizEdit';
 import {ToyStoryQuizEdit} from './ToyStoryQuizEdit';
+import {ToyStoryQuizShortsEdit} from './ToyStoryQuizShortsEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -201,6 +202,14 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1920}
         height={1080}
+      />
+      <Composition
+        id="ToyStoryQuizShortsEdit"
+        component={ToyStoryQuizShortsEdit}
+        durationInFrames={3810}
+        fps={30}
+        width={1080}
+        height={1920}
       />
       <Composition
         id="MessiRonaldoEdit"
