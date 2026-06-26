@@ -65,6 +65,7 @@ import {Triangulacion4Edit} from './Triangulacion4Edit';
 import {Triangulacion5Edit} from './Triangulacion5Edit';
 import {Triangulacion6Edit} from './Triangulacion6Edit';
 import {Triangulacion7Edit} from './Triangulacion7Edit';
+import {Triangulacion8Edit} from './Triangulacion8Edit';
 import {MujerFinalEdit} from './MujerFinalEdit';
 
 export const RemotionRoot: React.FC = () => {
@@ -602,6 +603,14 @@ export const RemotionRoot: React.FC = () => {
         id="Triangulacion7Edit"
         component={Triangulacion7Edit}
         durationInFrames={1109}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Triangulacion8Edit"
+        component={Triangulacion8Edit}
+        durationInFrames={1470}
         fps={25}
         width={1920}
         height={1080}
