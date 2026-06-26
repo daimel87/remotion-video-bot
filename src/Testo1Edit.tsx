@@ -41,65 +41,55 @@ export const Testo1Edit: React.FC = () => {
 				</div>
 			</div>
 
-			{/* Illustration - left side */}
-			<div style={{
-				position: 'absolute',
-				top: '50%',
-				left: 40 * s,
-				transform: 'translateY(-45%)',
-				width: 620 * s,
-				height: 620 * s,
-				borderRadius: 30 * s,
-				overflow: 'hidden',
-				boxShadow: `0 ${8 * s}px ${30 * s}px rgba(0,0,0,0.3)`,
-				border: `${4 * s}px solid rgba(255,255,255,0.4)`,
-			}}>
-				<Img
-					src={staticFile('testo_1_img.png')}
-					style={{
-						width: '100%',
-						height: '100%',
-						objectFit: 'cover',
-					}}
-				/>
-			</div>
+			{/* Illustration - left side, no frame */}
+			<Img
+				src={staticFile('testo_1_img.png')}
+				style={{
+					position: 'absolute',
+					bottom: 0,
+					left: 20 * s,
+					width: 800 * s,
+					height: 800 * s,
+					objectFit: 'contain',
+					objectPosition: 'bottom center',
+				}}
+			/>
 
-			{/* Logo bottom left - bigger */}
+			{/* Logo bottom left - stacked, big with borders */}
 			<div style={{
 				position: 'absolute',
-				bottom: 100 * s,
+				bottom: 30 * s,
 				left: 30 * s,
 				display: 'flex',
-				alignItems: 'center',
-				gap: 12 * s,
+				flexDirection: 'column',
+				gap: 4 * s,
 			}}>
 				<div style={{
-					background: 'linear-gradient(135deg, #059669, #10b981)',
-					borderRadius: 14 * s,
-					padding: `${10 * s}px ${16 * s}px`,
 					fontFamily: 'Helvetica, Arial, sans-serif',
 					fontWeight: 900,
-					fontSize: 24 * s,
-					color: '#fff',
+					fontSize: 44 * s,
+					color: '#ffffff',
+					WebkitTextStroke: `${3 * s}px #000000`,
+					paintOrder: 'stroke fill',
 				}}>
 					🩺 DRA LAURA
 				</div>
 				<div style={{
 					fontFamily: 'Helvetica, Arial, sans-serif',
-					fontWeight: 800,
-					fontSize: 26 * s,
-					color: '#1e293b',
-					WebkitTextStroke: `${0.5 * s}px rgba(255,255,255,0.5)`,
+					fontWeight: 900,
+					fontSize: 32 * s,
+					color: '#ffffff',
+					WebkitTextStroke: `${2.5 * s}px #000000`,
 					paintOrder: 'stroke fill',
 				}}>
-					Salud Después de los 50
+					SALUD DESPUÉS DE LOS 50
 				</div>
 			</div>
 
 			{/* Subscribe button - bigger, higher, more centered-right */}
 			<div style={{
 				position: 'absolute',
-				bottom: 100 * s,
+				bottom: 40 * s,
 				right: 60 * s,
 				display: 'flex',
 				alignItems: 'center',
