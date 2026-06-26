@@ -1,4 +1,4 @@
-import {AbsoluteFill, Audio, Img, staticFile, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Audio, staticFile, useVideoConfig} from 'remotion';
 
 export const Testo1Edit: React.FC = () => {
 	const {width} = useVideoConfig();
@@ -41,35 +41,21 @@ export const Testo1Edit: React.FC = () => {
 				</div>
 			</div>
 
-			{/* Illustration - left side, no frame */}
-			<Img
-				src={staticFile('testo_1_img.png')}
-				style={{
-					position: 'absolute',
-					bottom: 0,
-					left: 20 * s,
-					width: 800 * s,
-					height: 800 * s,
-					objectFit: 'contain',
-					objectPosition: 'bottom center',
-				}}
-			/>
-
 			{/* Logo bottom left - stacked, big with borders */}
 			<div style={{
 				position: 'absolute',
-				bottom: 30 * s,
-				left: 30 * s,
+				bottom: 50 * s,
+				left: 40 * s,
 				display: 'flex',
 				flexDirection: 'column',
-				gap: 4 * s,
+				gap: 6 * s,
 			}}>
 				<div style={{
 					fontFamily: 'Helvetica, Arial, sans-serif',
 					fontWeight: 900,
-					fontSize: 44 * s,
+					fontSize: 60 * s,
 					color: '#ffffff',
-					WebkitTextStroke: `${3 * s}px #000000`,
+					WebkitTextStroke: `${4 * s}px #000000`,
 					paintOrder: 'stroke fill',
 				}}>
 					🩺 DRA LAURA
@@ -77,36 +63,36 @@ export const Testo1Edit: React.FC = () => {
 				<div style={{
 					fontFamily: 'Helvetica, Arial, sans-serif',
 					fontWeight: 900,
-					fontSize: 32 * s,
+					fontSize: 40 * s,
 					color: '#ffffff',
-					WebkitTextStroke: `${2.5 * s}px #000000`,
+					WebkitTextStroke: `${3 * s}px #000000`,
 					paintOrder: 'stroke fill',
 				}}>
 					SALUD DESPUÉS DE LOS 50
 				</div>
 			</div>
 
-			{/* Subscribe button - bigger, higher, more centered-right */}
+			{/* Subscribe button - big */}
 			<div style={{
 				position: 'absolute',
-				bottom: 40 * s,
-				right: 60 * s,
+				bottom: 50 * s,
+				right: 50 * s,
 				display: 'flex',
 				alignItems: 'center',
-				gap: 10 * s,
+				gap: 12 * s,
 				background: '#ff0000',
-				borderRadius: 12 * s,
-				padding: `${14 * s}px ${28 * s}px`,
+				borderRadius: 14 * s,
+				padding: `${18 * s}px ${36 * s}px`,
 				boxShadow: `0 ${4 * s}px ${15 * s}px rgba(0,0,0,0.4)`,
 			}}>
 				<div style={{
-					fontSize: 28 * s,
+					fontSize: 36 * s,
 					color: '#fff',
 				}}>▶</div>
 				<div style={{
 					fontFamily: 'Helvetica, Arial, sans-serif',
 					fontWeight: 900,
-					fontSize: 30 * s,
+					fontSize: 38 * s,
 					color: '#ffffff',
 				}}>
 					SUSCRÍBETE
