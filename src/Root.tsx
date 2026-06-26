@@ -54,6 +54,7 @@ import {Pastillas4Edit} from './Pastillas4Edit';
 import {Pastillas5Edit} from './Pastillas5Edit';
 import {Pastillas6Edit} from './Pastillas6Edit';
 import {PastillasFinalEdit} from './PastillasFinalEdit';
+import {PruebaFormatoEdit} from './PruebaFormatoEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -494,6 +495,14 @@ export const RemotionRoot: React.FC = () => {
         id="PastillasFinalEdit"
         component={PastillasFinalEdit}
         durationInFrames={806}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="PruebaFormatoEdit"
+        component={PruebaFormatoEdit}
+        durationInFrames={1918}
         fps={25}
         width={1920}
         height={1080}
