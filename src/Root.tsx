@@ -73,6 +73,7 @@ import {Silenciosa1Edit} from './Silenciosa1Edit';
 import {Silenciosa2Edit} from './Silenciosa2Edit';
 import {Silenciosa3Edit} from './Silenciosa3Edit';
 import {Silenciosa4Edit} from './Silenciosa4Edit';
+import {Silenciosa5Edit} from './Silenciosa5Edit';
 import {MujerFinalEdit} from './MujerFinalEdit';
 
 export const RemotionRoot: React.FC = () => {
@@ -674,6 +675,14 @@ export const RemotionRoot: React.FC = () => {
         id="Silenciosa4Edit"
         component={Silenciosa4Edit}
         durationInFrames={1814}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Silenciosa5Edit"
+        component={Silenciosa5Edit}
+        durationInFrames={1547}
         fps={25}
         width={1920}
         height={1080}
