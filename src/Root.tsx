@@ -25,6 +25,7 @@ import {FlagQuizShortsEdit} from './FlagQuizShortsEdit';
 import {ToyStoryQuizEdit} from './ToyStoryQuizEdit';
 import {ToyStoryQuizShortsEdit} from './ToyStoryQuizShortsEdit';
 import {CelebrityParentsEdit} from './CelebrityParentsEdit';
+import {CelebrityThumbnailEdit} from './CelebrityThumbnailEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -225,6 +226,14 @@ export const RemotionRoot: React.FC = () => {
         id="CelebrityParentsEdit"
         component={CelebrityParentsEdit}
         durationInFrames={7710}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="CelebrityThumbnail"
+        component={CelebrityThumbnailEdit}
+        durationInFrames={1}
         fps={30}
         width={1920}
         height={1080}
