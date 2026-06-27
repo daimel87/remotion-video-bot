@@ -160,9 +160,9 @@ const Visuals: React.FC<{
 
   // Slow slide in over 5 seconds
   const slideInLeft = interpolate(localFrame, [0, APPEAR_FRAMES], [-800, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-  const slideInRight = interpolate(localFrame, [30, APPEAR_FRAMES + 30], [800, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const slideInRight = interpolate(localFrame, [0, APPEAR_FRAMES], [800, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   const leftOpacity = interpolate(localFrame, [0, 60], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-  const rightOpacity = interpolate(localFrame, [30, 90], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const rightOpacity = interpolate(localFrame, [0, 60], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
   // Labels appear after photos settle
   const labelOpacity = interpolate(localFrame, [APPEAR_FRAMES - 30, APPEAR_FRAMES], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
@@ -230,7 +230,7 @@ const Visuals: React.FC<{
             }} />
             {/* Name + Age badge */}
             <div style={{
-              position: 'absolute', bottom: 60, left: '50%',
+              position: 'absolute', bottom: 150, left: '50%',
               transform: `translateX(-50%) scale(${badgeScale})`,
               background: '#FFD700',
               padding: '14px 30px',
@@ -297,7 +297,7 @@ const Visuals: React.FC<{
             }} />
             {/* Name + Age badge */}
             <div style={{
-              position: 'absolute', bottom: 60, left: '50%',
+              position: 'absolute', bottom: 150, left: '50%',
               transform: `translateX(-50%) scale(${badgeScale})`,
               background: '#FFD700',
               padding: '14px 30px',
