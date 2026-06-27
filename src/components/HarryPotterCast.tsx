@@ -117,17 +117,6 @@ export const HarryPotterCast: React.FC = () => {
       <MagicBackground frame={frame} />
       <StarField frame={localFrame} />
 
-      {/* Counter top right */}
-      <div style={{
-        position: 'absolute', top: 25, right: 30,
-        background: 'rgba(0,0,0,0.5)', padding: '6px 20px', borderRadius: 8,
-        border: '1px solid rgba(232,213,163,0.3)',
-      }}>
-        <span style={{fontSize: 28, fontWeight: 700, color: '#e8d5a3'}}>
-          {castIndex + 1} / {totalCast}
-        </span>
-      </div>
-
       {/* Two photos side by side */}
       <div style={{
         position: 'absolute', top: 30, left: 0, right: 0, bottom: 30,
