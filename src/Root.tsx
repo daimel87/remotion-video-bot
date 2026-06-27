@@ -22,6 +22,7 @@ import {Gacrux3Edit} from './Gacrux3Edit';
 import {Gacrux4Edit} from './Gacrux4Edit';
 import {Gacrux5Edit} from './Gacrux5Edit';
 import {GacruxFinalEdit} from './GacruxFinalEdit';
+import {TestudoDemo} from './TestudoDemo';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -206,6 +207,14 @@ export const RemotionRoot: React.FC = () => {
         id="GacruxFinalEdit"
         component={GacruxFinalEdit}
         durationInFrames={2614}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="TestudoDemo"
+        component={TestudoDemo}
+        durationInFrames={125}
         fps={25}
         width={1920}
         height={1080}
