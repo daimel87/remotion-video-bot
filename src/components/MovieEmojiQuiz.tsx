@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, Audio, Sequence, useCurrentFrame, useVideoConfig, interpolate, spring, staticFile} from 'remotion';
+import {AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring} from 'remotion';
 import {MOVIES} from './movieEmojiData';
 
 const INTRO_FRAMES = 60;
@@ -73,7 +73,6 @@ const Intro: React.FC<{fps: number}> = ({fps}) => {
           BY THE EMOJIS 🎭
         </div>
       </div>
-      <Audio src={staticFile('audio/pop.wav')} volume={0.6} />
     </AbsoluteFill>
   );
 };
