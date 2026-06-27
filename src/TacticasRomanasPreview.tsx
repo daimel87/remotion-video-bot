@@ -98,7 +98,7 @@ export const TacticasRomanasPreview: React.FC = () => {
 				}}
 			>
 				<Img
-					src={staticFile('tacticas-romanas/testudo.png')}
+					src={staticFile('tacticas-romanas/Simple_cartoon_illustration_on_solid_202606271610.jpeg')}
 					style={{
 						width: '100%',
 						height: '100%',
