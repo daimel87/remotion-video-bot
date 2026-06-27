@@ -168,10 +168,7 @@ const Visuals: React.FC<{
   const labelOpacity = interpolate(localFrame, [APPEAR_FRAMES - 30, APPEAR_FRAMES], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   const labelScale = spring({frame: Math.max(0, localFrame - (APPEAR_FRAMES - 30)), fps, from: 0.5, to: 1, durationInFrames: 20});
 
-  // Names appear after labels
-  const nameOpacity = interpolate(localFrame, [APPEAR_FRAMES - 10, APPEAR_FRAMES + 10], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-
-  // Age badges appear last
+  // Name+Age badges appear after labels
   const badgeScale = spring({frame: Math.max(0, localFrame - APPEAR_FRAMES), fps, from: 0, to: 1, durationInFrames: 15});
 
   // Fade out at end
@@ -231,37 +228,25 @@ const Visuals: React.FC<{
             <Img src={staticFile(pair.parentImage)} style={{
               width: '100%', height: '100%', objectFit: 'cover',
             }} />
-            {/* Age badge */}
+            {/* Name + Age badge */}
             <div style={{
-              position: 'absolute', bottom: 25, left: '50%',
+              position: 'absolute', bottom: 60, left: '50%',
               transform: `translateX(-50%) scale(${badgeScale})`,
               background: '#FFD700',
-              padding: '12px 35px',
+              padding: '14px 30px',
               borderRadius: 15,
               border: '3px solid rgba(0,0,0,0.2)',
               boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
               whiteSpace: 'nowrap',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
             }}>
-              <span style={{
-                fontSize: 40, fontWeight: 900, color: '#000',
-              }}>
+              <span style={{fontSize: 36, fontWeight: 900, color: '#000', lineHeight: 1.2}}>
+                {pair.parent.toUpperCase()}
+              </span>
+              <span style={{fontSize: 32, fontWeight: 800, color: '#333', lineHeight: 1.2}}>
                 Age: {pair.parentAge}
               </span>
             </div>
-          </div>
-
-          {/* Name */}
-          <div style={{
-            marginTop: 18, opacity: nameOpacity,
-            textAlign: 'center',
-          }}>
-            <span style={{
-              fontSize: 42, fontWeight: 900, color: '#fff',
-              textShadow: '0 4px 15px rgba(0,0,0,0.5)',
-              letterSpacing: 2,
-            }}>
-              {pair.parent.toUpperCase()}
-            </span>
           </div>
         </div>
 
@@ -310,37 +295,25 @@ const Visuals: React.FC<{
             <Img src={staticFile(pair.childImage)} style={{
               width: '100%', height: '100%', objectFit: 'cover',
             }} />
-            {/* Age badge */}
+            {/* Name + Age badge */}
             <div style={{
-              position: 'absolute', bottom: 25, left: '50%',
+              position: 'absolute', bottom: 60, left: '50%',
               transform: `translateX(-50%) scale(${badgeScale})`,
               background: '#FFD700',
-              padding: '12px 35px',
+              padding: '14px 30px',
               borderRadius: 15,
               border: '3px solid rgba(0,0,0,0.2)',
               boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
               whiteSpace: 'nowrap',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
             }}>
-              <span style={{
-                fontSize: 40, fontWeight: 900, color: '#000',
-              }}>
+              <span style={{fontSize: 36, fontWeight: 900, color: '#000', lineHeight: 1.2}}>
+                {pair.child.toUpperCase()}
+              </span>
+              <span style={{fontSize: 32, fontWeight: 800, color: '#333', lineHeight: 1.2}}>
                 Age: {pair.childAge}
               </span>
             </div>
-          </div>
-
-          {/* Name */}
-          <div style={{
-            marginTop: 18, opacity: nameOpacity,
-            textAlign: 'center',
-          }}>
-            <span style={{
-              fontSize: 42, fontWeight: 900, color: '#fff',
-              textShadow: '0 4px 15px rgba(0,0,0,0.5)',
-              letterSpacing: 2,
-            }}>
-              {pair.child.toUpperCase()}
-            </span>
           </div>
         </div>
       </div>
