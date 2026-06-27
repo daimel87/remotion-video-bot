@@ -24,6 +24,7 @@ import {FlagQuizEdit} from './FlagQuizEdit';
 import {FlagQuizShortsEdit} from './FlagQuizShortsEdit';
 import {ToyStoryQuizEdit} from './ToyStoryQuizEdit';
 import {ToyStoryQuizShortsEdit} from './ToyStoryQuizShortsEdit';
+import {CelebrityParentsEdit} from './CelebrityParentsEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -219,6 +220,14 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1080}
         height={1920}
+      />
+      <Composition
+        id="CelebrityParentsEdit"
+        component={CelebrityParentsEdit}
+        durationInFrames={7710}
+        fps={30}
+        width={1920}
+        height={1080}
       />
       <Composition
         id="MessiRonaldoEdit"
