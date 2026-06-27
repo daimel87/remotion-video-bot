@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, Audio, Img, Sequence, useCurrentFrame, useVideoConfig, interpolate, spring, staticFile} from 'remotion';
+import {AbsoluteFill, Img, Sequence, useCurrentFrame, useVideoConfig, interpolate, spring, staticFile} from 'remotion';
 import {PAIRS} from './celebrityParentsData';
 
 const INTRO_FRAMES = 90;
@@ -18,6 +18,12 @@ const BG_GRADIENTS = [
   ['#059669', '#047857'],
 ];
 
+const isFemaleParent = (name: string) =>
+  ['Jada', 'Angelina', 'Cindy', 'Demi', 'Goldie', 'Heidi', 'Reese', 'Kris'].some(n => name.includes(n));
+
+const isFemaleChild = (name: string) =>
+  ['Sistine', 'Lily', 'Willow', 'Kaia', 'Rumer', 'Kate', 'Angelina', 'Zoë', 'Suri', 'Ireland', 'Daniella', 'Leni', 'Ava', 'Georgia', 'Liv', 'Kendall', 'Shiloh', 'Dylan Penn'].some(n => name.includes(n));
+
 export const CelebrityParents: React.FC = () => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
@@ -27,21 +33,6 @@ export const CelebrityParents: React.FC = () => {
 
   return (
     <AbsoluteFill style={{backgroundColor: '#000', fontFamily: 'Arial, sans-serif'}}>
-      {/* Intro audio */}
-      <Sequence from={0} layout="none">
-        <Audio src={staticFile('audio/pop.wav')} volume={0.6} />
-      </Sequence>
-
-      {/* Per-pair pop sound */}
-      {PAIRS.map((_, i) => {
-        const pStart = INTRO_FRAMES + i * PAIR_FRAMES;
-        return (
-          <Sequence key={i} from={pStart} layout="none">
-            <Audio src={staticFile('audio/pop.wav')} volume={0.5} />
-          </Sequence>
-        );
-      })}
-
       <Visuals frame={frame} fps={fps} totalPairs={totalPairs} outroStart={outroStart} />
     </AbsoluteFill>
   );
@@ -164,18 +155,27 @@ const Visuals: React.FC<{
   const pair = PAIRS[pairIndex];
   const bgColors = BG_GRADIENTS[pairIndex % BG_GRADIENTS.length];
 
-  // Animations
-  const slideInLeft = spring({frame: localFrame, fps, from: -600, to: 0, durationInFrames: 15});
-  const slideInRight = spring({frame: Math.max(0, localFrame - 5), fps, from: 600, to: 0, durationInFrames: 15});
-  const nameOpacity = interpolate(localFrame, [15, 25], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-  const badgeScale = spring({frame: Math.max(0, localFrame - 20), fps, from: 0, to: 1, durationInFrames: 12});
-  const labelScale = spring({frame: Math.max(0, localFrame - 8), fps, from: 0, to: 1, durationInFrames: 12});
+  // 5 seconds to appear (150 frames), 5 seconds fully visible
+  const APPEAR_FRAMES = 150;
+
+  // Slow slide in over 5 seconds
+  const slideInLeft = interpolate(localFrame, [0, APPEAR_FRAMES], [-800, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const slideInRight = interpolate(localFrame, [30, APPEAR_FRAMES + 30], [800, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const leftOpacity = interpolate(localFrame, [0, 60], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const rightOpacity = interpolate(localFrame, [30, 90], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+
+  // Labels appear after photos settle
+  const labelOpacity = interpolate(localFrame, [APPEAR_FRAMES - 30, APPEAR_FRAMES], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const labelScale = spring({frame: Math.max(0, localFrame - (APPEAR_FRAMES - 30)), fps, from: 0.5, to: 1, durationInFrames: 20});
+
+  // Names appear after labels
+  const nameOpacity = interpolate(localFrame, [APPEAR_FRAMES - 10, APPEAR_FRAMES + 10], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+
+  // Age badges appear last
+  const badgeScale = spring({frame: Math.max(0, localFrame - APPEAR_FRAMES), fps, from: 0, to: 1, durationInFrames: 15});
 
   // Fade out at end
-  const fadeOut = interpolate(localFrame, [PAIR_FRAMES - 15, PAIR_FRAMES], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-
-  // Counter badge
-  const counterScale = spring({frame: localFrame, fps, from: 0, to: 1, durationInFrames: 10});
+  const fadeOut = interpolate(localFrame, [PAIR_FRAMES - 20, PAIR_FRAMES], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
   return (
     <AbsoluteFill style={{overflow: 'hidden', opacity: fadeOut}}>
@@ -185,23 +185,9 @@ const Visuals: React.FC<{
         background: `linear-gradient(135deg, ${bgColors[0]} 0%, ${bgColors[1]} 100%)`,
       }} />
 
-      {/* Counter */}
-      <div style={{
-        position: 'absolute', top: 35, left: '50%',
-        transform: `translateX(-50%) scale(${counterScale})`,
-        background: 'rgba(0,0,0,0.5)',
-        borderRadius: 30, padding: '8px 28px',
-        border: '2px solid rgba(255,255,255,0.2)',
-        zIndex: 10,
-      }}>
-        <span style={{fontSize: 30, fontWeight: 800, color: '#fff', letterSpacing: 2}}>
-          {pairIndex + 1} / {totalPairs}
-        </span>
-      </div>
-
       {/* Two photos side by side */}
       <div style={{
-        position: 'absolute', top: 100, left: 0, right: 0, bottom: 100,
+        position: 'absolute', top: 40, left: 0, right: 0, bottom: 40,
         display: 'flex', gap: 20,
         padding: '0 30px',
         alignItems: 'center',
@@ -212,22 +198,25 @@ const Visuals: React.FC<{
           flex: 1, display: 'flex', flexDirection: 'column',
           alignItems: 'center', gap: 0,
           transform: `translateX(${slideInLeft}px)`,
+          opacity: leftOpacity,
+          maxWidth: '48%',
         }}>
           {/* FATHER/MOTHER label */}
           <div style={{
             background: bgColors[0],
-            padding: '10px 40px',
+            padding: '12px 50px',
             borderRadius: '15px 15px 0 0',
+            opacity: labelOpacity,
             transform: `scale(${labelScale})`,
             border: '3px solid rgba(255,255,255,0.3)',
             borderBottom: 'none',
           }}>
             <span style={{
-              fontSize: 36, fontWeight: 900, color: '#fff',
+              fontSize: 40, fontWeight: 900, color: '#fff',
               letterSpacing: 4,
               textShadow: '0 3px 10px rgba(0,0,0,0.5)',
             }}>
-              {pair.parent.includes('Jada') || pair.parent.includes('Angelina') || pair.parent.includes('Cindy') || pair.parent.includes('Demi') || pair.parent.includes('Goldie') || pair.parent.includes('Heidi') || pair.parent.includes('Reese') || pair.parent.includes('Kris') ? 'MOTHER' : 'FATHER'}
+              {isFemaleParent(pair.parent) ? 'MOTHER' : 'FATHER'}
             </span>
           </div>
 
@@ -244,29 +233,30 @@ const Visuals: React.FC<{
             }} />
             {/* Age badge */}
             <div style={{
-              position: 'absolute', bottom: 20, left: '50%',
+              position: 'absolute', bottom: 25, left: '50%',
               transform: `translateX(-50%) scale(${badgeScale})`,
               background: '#FFD700',
-              padding: '10px 30px',
+              padding: '12px 35px',
               borderRadius: 15,
               border: '3px solid rgba(0,0,0,0.2)',
               boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
+              whiteSpace: 'nowrap',
             }}>
               <span style={{
-                fontSize: 36, fontWeight: 900, color: '#000',
+                fontSize: 40, fontWeight: 900, color: '#000',
               }}>
-                Age: ({pair.parentAge})
+                Age: {pair.parentAge}
               </span>
             </div>
           </div>
 
           {/* Name */}
           <div style={{
-            marginTop: 15, opacity: nameOpacity,
+            marginTop: 18, opacity: nameOpacity,
             textAlign: 'center',
           }}>
             <span style={{
-              fontSize: 38, fontWeight: 900, color: '#fff',
+              fontSize: 42, fontWeight: 900, color: '#fff',
               textShadow: '0 4px 15px rgba(0,0,0,0.5)',
               letterSpacing: 2,
             }}>
@@ -287,22 +277,25 @@ const Visuals: React.FC<{
           flex: 1, display: 'flex', flexDirection: 'column',
           alignItems: 'center', gap: 0,
           transform: `translateX(${slideInRight}px)`,
+          opacity: rightOpacity,
+          maxWidth: '48%',
         }}>
           {/* SON/DAUGHTER label */}
           <div style={{
             background: bgColors[1],
-            padding: '10px 40px',
+            padding: '12px 50px',
             borderRadius: '15px 15px 0 0',
+            opacity: labelOpacity,
             transform: `scale(${labelScale})`,
             border: '3px solid rgba(255,255,255,0.3)',
             borderBottom: 'none',
           }}>
             <span style={{
-              fontSize: 36, fontWeight: 900, color: '#fff',
+              fontSize: 40, fontWeight: 900, color: '#fff',
               letterSpacing: 4,
               textShadow: '0 3px 10px rgba(0,0,0,0.5)',
             }}>
-              {pair.child.includes('Sistine') || pair.child.includes('Lily') || pair.child.includes('Willow') || pair.child.includes('Kaia') || pair.child.includes('Rumer') || pair.child.includes('Kate') || pair.child.includes('Angelina') || pair.child.includes('Zoë') || pair.child.includes('Suri') || pair.child.includes('Ireland') || pair.child.includes('Daniella') || pair.child.includes('Leni') || pair.child.includes('Ava') || pair.child.includes('Georgia') || pair.child.includes('Liv') || pair.child.includes('Kendall') || pair.child.includes('Shiloh') || pair.child.includes('Dylan Penn') ? 'DAUGHTER' : 'SON'}
+              {isFemaleChild(pair.child) ? 'DAUGHTER' : 'SON'}
             </span>
           </div>
 
@@ -319,29 +312,30 @@ const Visuals: React.FC<{
             }} />
             {/* Age badge */}
             <div style={{
-              position: 'absolute', bottom: 20, left: '50%',
+              position: 'absolute', bottom: 25, left: '50%',
               transform: `translateX(-50%) scale(${badgeScale})`,
               background: '#FFD700',
-              padding: '10px 30px',
+              padding: '12px 35px',
               borderRadius: 15,
               border: '3px solid rgba(0,0,0,0.2)',
               boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
+              whiteSpace: 'nowrap',
             }}>
               <span style={{
-                fontSize: 36, fontWeight: 900, color: '#000',
+                fontSize: 40, fontWeight: 900, color: '#000',
               }}>
-                Age: ({pair.childAge})
+                Age: {pair.childAge}
               </span>
             </div>
           </div>
 
           {/* Name */}
           <div style={{
-            marginTop: 15, opacity: nameOpacity,
+            marginTop: 18, opacity: nameOpacity,
             textAlign: 'center',
           }}>
             <span style={{
-              fontSize: 38, fontWeight: 900, color: '#fff',
+              fontSize: 42, fontWeight: 900, color: '#fff',
               textShadow: '0 4px 15px rgba(0,0,0,0.5)',
               letterSpacing: 2,
             }}>
