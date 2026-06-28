@@ -28,6 +28,7 @@ import {CelebrityParentsEdit} from './CelebrityParentsEdit';
 import {CelebrityThumbnailEdit} from './CelebrityThumbnailEdit';
 import {MovieEmojiQuizEdit} from './MovieEmojiQuizEdit';
 import {HarryPotterCastEdit} from './HarryPotterCastEdit';
+import {DisneyVillainQuizEdit} from './DisneyVillainQuizEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -263,6 +264,14 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1920}
         height={1080}
+      />
+      <Composition
+        id="DisneyVillainQuiz"
+        component={DisneyVillainQuizEdit}
+        durationInFrames={2565}
+        fps={30}
+        width={1080}
+        height={1920}
       />
     </>
   );
