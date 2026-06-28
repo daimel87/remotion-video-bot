@@ -20,58 +20,56 @@ export const TacticasRomanasPreview: React.FC = () => {
 	const frame = useCurrentFrame();
 	const {fps, durationInFrames} = useVideoConfig();
 
-	// === PHASE A: Grid overview (frame 0-60) — show full grid ===
+	// === PHASE A: Grid overview (frame 0-45) — show full grid 1.5s ===
 	const gridOpacity = interpolate(frame, [0, 15], [0, 1], {
 		extrapolateRight: 'clamp',
 	});
 
-	// === PHASE B: Zoom into Testudo position (frame 60-150) ===
-	// Testudo is top-left circle, roughly at 10% from left, 25% from top
+	// === PHASE B: Zoom into Testudo (frame 45-120) — zoom to fill screen ===
 	const zoomProgress = spring({
-		frame: frame - 60,
+		frame: frame - 45,
 		fps,
-		config: {damping: 20, mass: 1.5},
+		config: {damping: 22, mass: 1.8},
 	});
-	const zoomScale = interpolate(zoomProgress, [0, 1], [1, 4.5]);
-	// Pan to center on testudo circle (top-left area)
-	const panX = interpolate(zoomProgress, [0, 1], [0, 38]);
-	const panY = interpolate(zoomProgress, [0, 1], [0, 20]);
+	// Zoom enough so the testudo circle fills the frame
+	const zoomScale = interpolate(zoomProgress, [0, 1], [1, 6]);
+	// Testudo is top-left: ~10% from left, ~25% from top of image
+	const panX = interpolate(zoomProgress, [0, 1], [0, 42]);
+	const panY = interpolate(zoomProgress, [0, 1], [0, 18]);
 
-	// === PHASE C: Crossfade to detailed illustration (frame 140-170) ===
-	const crossfadeProgress = interpolate(frame, [140, 170], [0, 1], {
+	// === PHASE C: Hold zoomed testudo (frame 120-210) — 3 seconds ===
+
+	// === PHASE D: Smooth crossfade to detail scene (frame 210-260) ===
+	const crossfadeProgress = interpolate(frame, [210, 260], [0, 1], {
 		extrapolateLeft: 'clamp',
 		extrapolateRight: 'clamp',
 	});
 
-	// === PHASE D: Detailed scene layers (frame 170+) ===
-	// Title drops in
-	const titleSpring = spring({frame: frame - 180, fps, config: {damping: 12, mass: 0.7}});
+	// === PHASE E: Detail layers appear (frame 260+) ===
+	const titleSpring = spring({frame: frame - 270, fps, config: {damping: 12, mass: 0.7}});
 	const titleY = interpolate(titleSpring, [0, 1], [-150, 0]);
 	const titleScale = interpolate(titleSpring, [0, 1], [0.6, 1]);
 
-	// Soldiers pop up
-	const soldiersSpring = spring({frame: frame - 220, fps, config: {damping: 14, mass: 1}});
+	const soldiersSpring = spring({frame: frame - 310, fps, config: {damping: 14, mass: 1}});
 	const soldiersY = interpolate(soldiersSpring, [0, 1], [400, 0]);
 	const soldiersScale = interpolate(soldiersSpring, [0, 1], [0.6, 1]);
 
-	// Arrows fly in
-	const arrowsSpring = spring({frame: frame - 300, fps, config: {damping: 16, mass: 0.8}});
+	const arrowsSpring = spring({frame: frame - 400, fps, config: {damping: 16, mass: 0.8}});
 	const arrowsX = interpolate(arrowsSpring, [0, 1], [600, 0]);
 	const arrowsY = interpolate(arrowsSpring, [0, 1], [-400, 0]);
 	const arrowsOpacity = interpolate(arrowsSpring, [0, 0.15], [0, 1], {
 		extrapolateRight: 'clamp',
 	});
 
-	// Icon pops
-	const iconSpring = spring({frame: frame - 350, fps, config: {damping: 8, mass: 0.5, stiffness: 200}});
+	const iconSpring = spring({frame: frame - 440, fps, config: {damping: 8, mass: 0.5, stiffness: 200}});
 	const iconScale = interpolate(iconSpring, [0, 1], [0, 1]);
 
-	// Ken Burns on detail scene (frame 400+)
-	const kenBurnsScale = interpolate(frame, [400, durationInFrames], [1, 1.05], {
+	// Ken Burns (frame 480+)
+	const kenBurnsScale = interpolate(frame, [480, durationInFrames], [1, 1.05], {
 		extrapolateLeft: 'clamp',
 		extrapolateRight: 'clamp',
 	});
-	const kbPanX = interpolate(frame, [400, durationInFrames], [0, -10], {
+	const kbPanX = interpolate(frame, [480, durationInFrames], [0, -10], {
 		extrapolateLeft: 'clamp',
 		extrapolateRight: 'clamp',
 	});
@@ -86,7 +84,7 @@ export const TacticasRomanasPreview: React.FC = () => {
 
 	return (
 		<AbsoluteFill style={{backgroundColor: '#D4C5A9', opacity: fadeOut}}>
-			{/* Grid image with zoom */}
+			{/* Grid with zoom */}
 			{crossfadeProgress < 1 && (
 				<AbsoluteFill
 					style={{
@@ -102,12 +100,10 @@ export const TacticasRomanasPreview: React.FC = () => {
 			{/* Detail scene */}
 			{crossfadeProgress > 0 && (
 				<AbsoluteFill style={{opacity: crossfadeProgress}}>
-					{/* Parchment bg */}
 					<AbsoluteFill>
 						<Img src={BG} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
 					</AbsoluteFill>
 
-					{/* Title */}
 					<AbsoluteFill
 						style={{
 							transform: `translateY(${titleY}px) scale(${titleScale * kenBurnsScale}) translateX(${kbPanX}px)`,
@@ -116,7 +112,6 @@ export const TacticasRomanasPreview: React.FC = () => {
 						<Img src={TITLE} style={{width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'top center'}} />
 					</AbsoluteFill>
 
-					{/* Soldiers */}
 					<AbsoluteFill
 						style={{
 							transform: `translateY(${soldiersY}px) scale(${soldiersScale * kenBurnsScale}) translateX(${kbPanX}px)`,
@@ -125,7 +120,6 @@ export const TacticasRomanasPreview: React.FC = () => {
 						<Img src={SOLDIERS} style={{width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center 60%'}} />
 					</AbsoluteFill>
 
-					{/* Arrows */}
 					<AbsoluteFill
 						style={{
 							opacity: arrowsOpacity,
@@ -135,7 +129,6 @@ export const TacticasRomanasPreview: React.FC = () => {
 						<Img src={ARROWS} style={{width: '100%', height: '70%', objectFit: 'contain', objectPosition: 'center top'}} />
 					</AbsoluteFill>
 
-					{/* Icon */}
 					<div
 						style={{
 							position: 'absolute',
