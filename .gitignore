@@ -4,3 +4,6 @@ out
 .DS_Store
 *.log
 renders/
+manim/__pycache__/
+manim/media/
+manim/concat.txt
