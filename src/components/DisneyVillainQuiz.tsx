@@ -115,7 +115,8 @@ const Question: React.FC<{
 
   const silhouetteProgress = interpolate(frame, [REVEAL_FRAME, REVEAL_FRAME + 20], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   const saturation = interpolate(silhouetteProgress, [0, 1], [0, 1]);
-  const imgBrightness = interpolate(silhouetteProgress, [0, 1], [0.15, 1]);
+  const imgBrightness = interpolate(silhouetteProgress, [0, 1], [0.4, 1]);
+  const imgContrast = interpolate(silhouetteProgress, [0, 1], [1.8, 1]);
   const imgScale = spring({frame: Math.max(0, frame - 5), fps, from: 0.8, to: 1, durationInFrames: 20});
   const numScale = spring({frame, fps, from: 2, to: 1, durationInFrames: 12});
 
@@ -163,7 +164,7 @@ const Question: React.FC<{
             src={staticFile(villain.image)}
             style={{
               width: '100%', height: '100%', objectFit: 'cover',
-              filter: `brightness(${imgBrightness}) saturate(${saturation})`,
+              filter: `brightness(${imgBrightness}) saturate(${saturation}) contrast(${imgContrast})`,
             }}
           />
           {/* "?" overlay on silhouette */}
