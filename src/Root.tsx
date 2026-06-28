@@ -80,6 +80,7 @@ import {Ego1Edit} from './Ego1Edit';
 import {Ego2Edit} from './Ego2Edit';
 import {Ego3Edit} from './Ego3Edit';
 import {Ego4Edit} from './Ego4Edit';
+import {Ego5Edit} from './Ego5Edit';
 import {MujerFinalEdit} from './MujerFinalEdit';
 
 export const RemotionRoot: React.FC = () => {
@@ -737,6 +738,14 @@ export const RemotionRoot: React.FC = () => {
         id="Ego4Edit"
         component={Ego4Edit}
         durationInFrames={1018}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Ego5Edit"
+        component={Ego5Edit}
+        durationInFrames={864}
         fps={25}
         width={1920}
         height={1080}
