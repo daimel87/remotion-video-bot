@@ -29,6 +29,7 @@ import {CelebrityThumbnailEdit} from './CelebrityThumbnailEdit';
 import {MovieEmojiQuizEdit} from './MovieEmojiQuizEdit';
 import {HarryPotterCastEdit} from './HarryPotterCastEdit';
 import {DisneyVillainQuizEdit} from './DisneyVillainQuizEdit';
+import {Brazil98ThenNowEdit} from './Brazil98ThenNowEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -269,6 +270,14 @@ export const RemotionRoot: React.FC = () => {
         id="DisneyVillainQuiz"
         component={DisneyVillainQuizEdit}
         durationInFrames={2565}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="Brazil98ThenNow"
+        component={Brazil98ThenNowEdit}
+        durationInFrames={2610}
         fps={30}
         width={1080}
         height={1920}
