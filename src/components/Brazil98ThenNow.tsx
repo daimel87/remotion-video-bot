@@ -150,17 +150,6 @@ const PlayerCard: React.FC<{
           transform: `translateX(${slideInLeft}px)`, opacity: photoOpacity, maxWidth: '44%',
         }}>
           <div style={{
-            background: 'linear-gradient(90deg, #009739, #00A843)',
-            padding: '10px 50px', borderRadius: '14px 14px 0 0',
-            opacity: labelOpacity, transform: `scale(${labelScale})`,
-            border: '3px solid rgba(255,215,0,0.5)', borderBottom: 'none',
-          }}>
-            <span style={{fontSize: 38, fontWeight: 900, color: '#FFD700', letterSpacing: 6}}>
-              THEN
-            </span>
-          </div>
-
-          <div style={{
             width: '100%', aspectRatio: '3/4', borderRadius: 15,
             overflow: 'hidden', position: 'relative',
             border: '4px solid rgba(255,215,0,0.4)',
@@ -202,17 +191,6 @@ const PlayerCard: React.FC<{
           alignItems: 'center', gap: 0,
           transform: `translateX(${slideInRight}px)`, opacity: photoOpacity, maxWidth: '44%',
         }}>
-          <div style={{
-            background: 'linear-gradient(90deg, #FFD700, #FFA500)',
-            padding: '10px 50px', borderRadius: '14px 14px 0 0',
-            opacity: labelOpacity, transform: `scale(${labelScale})`,
-            border: '3px solid rgba(255,255,255,0.4)', borderBottom: 'none',
-          }}>
-            <span style={{fontSize: 38, fontWeight: 900, color: '#003', letterSpacing: 6}}>
-              NOW
-            </span>
-          </div>
-
           <div style={{
             width: '100%', aspectRatio: '3/4', borderRadius: 15,
             overflow: 'hidden', position: 'relative',
