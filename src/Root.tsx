@@ -27,10 +27,19 @@ import {WhiteboardDemoV2} from './WhiteboardDemoV2';
 import {LifeSuckedDemo} from './LifeSuckedDemo';
 import {RomeFallIntro} from './RomeFallIntro';
 import {TacticasRomanasPreview} from './TacticasRomanasPreview';
+import {TestudoTactica} from './tacticas/TestudoScene';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="TestudoTactica"
+        component={TestudoTactica}
+        durationInFrames={900}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="TacticasRomanasPreview"
         component={TacticasRomanasPreview}
