@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, Img, Sequence, Audio, useCurrentFrame, useVideoConfig, interpolate, spring, staticFile} from 'remotion';
+import {AbsoluteFill, Img, Sequence, useCurrentFrame, useVideoConfig, interpolate, spring, staticFile} from 'remotion';
 import {VILLAINS, DisneyVillain} from './disneyVillainData';
 
 const INTRO_FRAMES = 75;
@@ -114,7 +114,8 @@ const Question: React.FC<{
   const isRevealed = frame >= REVEAL_FRAME;
 
   const silhouetteProgress = interpolate(frame, [REVEAL_FRAME, REVEAL_FRAME + 20], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-  const brightness = interpolate(silhouetteProgress, [0, 1], [0, 1]);
+  const saturation = interpolate(silhouetteProgress, [0, 1], [0, 1]);
+  const imgBrightness = interpolate(silhouetteProgress, [0, 1], [0.15, 1]);
   const imgScale = spring({frame: Math.max(0, frame - 5), fps, from: 0.8, to: 1, durationInFrames: 20});
   const numScale = spring({frame, fps, from: 2, to: 1, durationInFrames: 12});
 
@@ -162,7 +163,7 @@ const Question: React.FC<{
             src={staticFile(villain.image)}
             style={{
               width: '100%', height: '100%', objectFit: 'cover',
-              filter: `brightness(${brightness})`,
+              filter: `brightness(${imgBrightness}) saturate(${saturation})`,
             }}
           />
           {/* "?" overlay on silhouette */}
@@ -218,18 +219,6 @@ const Question: React.FC<{
         )}
       </div>
 
-      {/* Audio */}
-      <Sequence from={0} durationInFrames={15}>
-        <Audio src={staticFile('audio/reveal.wav')} volume={0.3} />
-      </Sequence>
-      {[90, 120, 150].map(f => (
-        <Sequence key={f} from={f} durationInFrames={15}>
-          <Audio src={staticFile('audio/reveal.wav')} volume={0.2} />
-        </Sequence>
-      ))}
-      <Sequence from={REVEAL_FRAME} durationInFrames={30}>
-        <Audio src={staticFile('audio/reveal.wav')} volume={0.7} />
-      </Sequence>
     </AbsoluteFill>
   );
 };
