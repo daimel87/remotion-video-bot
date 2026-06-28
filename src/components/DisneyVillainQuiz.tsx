@@ -115,7 +115,8 @@ const Question: React.FC<{
 
   const silhouetteProgress = interpolate(frame, [REVEAL_FRAME, REVEAL_FRAME + 20], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   const saturation = interpolate(silhouetteProgress, [0, 1], [0, 1]);
-  const imgBrightness = interpolate(silhouetteProgress, [0, 1], [0.4, 1]);
+  const baseBrightness = villain.silhouetteBrightness ?? 0.4;
+  const imgBrightness = interpolate(silhouetteProgress, [0, 1], [baseBrightness, 1]);
   const imgContrast = interpolate(silhouetteProgress, [0, 1], [1.8, 1]);
   const imgScale = spring({frame: Math.max(0, frame - 5), fps, from: 0.8, to: 1, durationInFrames: 20});
   const numScale = spring({frame, fps, from: 2, to: 1, durationInFrames: 12});
