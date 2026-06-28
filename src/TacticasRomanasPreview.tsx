@@ -9,55 +9,61 @@ import {
 	useVideoConfig,
 } from 'remotion';
 
-const BG = staticFile('tacticas-romanas/Solid_parchment_background,_aged_sand-colored_202606271650.jpeg');
-const TITLE = staticFile('tacticas-romanas/Bold_black_text__FORMACIÓN_TESTUDO__202606271650.jpeg');
-const SOLDIERS = staticFile('tacticas-romanas/Simple_cartoon_illustration_of_Roman_202606271651.jpeg');
-const ARROWS = staticFile('tacticas-romanas/Multiple_black_arrows_flying_diagonally_202606271659.jpeg');
-const ICON = staticFile('tacticas-romanas/Simple_circular_icon_badge,_dark_202606271700.jpeg');
+const FULL_IMG = staticFile(
+	'tacticas-romanas/Simple_cartoon_illustration_on_solid_202606271610.jpeg'
+);
 
 export const TacticasRomanasPreview: React.FC = () => {
 	const frame = useCurrentFrame();
 	const {fps, durationInFrames} = useVideoConfig();
 
-	// Layer 1: Background — fade in (frame 0-20)
-	const bgOpacity = interpolate(frame, [0, 20], [0, 1], {
+	// Phase 1 (0-30): Parchment bg only
+	const bgOpacity = interpolate(frame, [0, 15], [0, 1], {
 		extrapolateRight: 'clamp',
 	});
 
-	// Layer 2: Title — drops from top (frame 30-60)
-	const titleSpring = spring({frame: frame - 30, fps, config: {damping: 12, mass: 0.7}});
-	const titleY = interpolate(titleSpring, [0, 1], [-200, 0]);
-	const titleOpacity = interpolate(titleSpring, [0, 0.3], [0, 1], {
-		extrapolateRight: 'clamp',
+	// Phase 2 (30-70): Reveal soldiers from bottom up (lower 60% of image)
+	const soldiersReveal = spring({
+		frame: frame - 30,
+		fps,
+		config: {damping: 16, mass: 1.2},
 	});
-	const titleScale = interpolate(titleSpring, [0, 1], [0.8, 1]);
+	const soldiersClip = interpolate(soldiersReveal, [0, 1], [100, 35]);
 
-	// Layer 3: Soldiers — pop up from bottom (frame 75-120)
-	const soldiersSpring = spring({frame: frame - 75, fps, config: {damping: 14, mass: 1}});
-	const soldiersY = interpolate(soldiersSpring, [0, 1], [300, 0]);
-	const soldiersOpacity = interpolate(soldiersSpring, [0, 0.2], [0, 1], {
-		extrapolateRight: 'clamp',
+	// Phase 3 (80-120): Reveal title area (top 35%)
+	const titleReveal = spring({
+		frame: frame - 80,
+		fps,
+		config: {damping: 14, mass: 0.8},
 	});
-	const soldiersScale = interpolate(soldiersSpring, [0, 1], [0.7, 1]);
+	const titleClip = interpolate(titleReveal, [0, 1], [35, 0]);
 
-	// Layer 4: Arrows — fly in from upper right (frame 150-200)
-	const arrowsSpring = spring({frame: frame - 150, fps, config: {damping: 18, mass: 0.8}});
-	const arrowsX = interpolate(arrowsSpring, [0, 1], [500, 0]);
-	const arrowsY = interpolate(arrowsSpring, [0, 1], [-300, 0]);
-	const arrowsOpacity = interpolate(arrowsSpring, [0, 0.2], [0, 1], {
-		extrapolateRight: 'clamp',
+	// Phase 4 (130-170): Reveal icon (top-right corner)
+	const iconReveal = spring({
+		frame: frame - 130,
+		fps,
+		config: {damping: 10, mass: 0.6},
 	});
+	const iconScale = interpolate(iconReveal, [0, 1], [0, 1]);
 
-	// Layer 5: Icon — bounces in (frame 200-240)
-	const iconSpring = spring({frame: frame - 200, fps, config: {damping: 8, mass: 0.5, stiffness: 200}});
-	const iconScale = interpolate(iconSpring, [0, 1], [0, 1]);
+	// Phase 5 (180-220): Reveal arrows (upper portion overlay)
+	const arrowsReveal = spring({
+		frame: frame - 180,
+		fps,
+		config: {damping: 12, mass: 0.7},
+	});
+	const arrowsOpacity = interpolate(arrowsReveal, [0, 1], [0, 1]);
 
-	// Ken Burns on soldiers after everything is built (frame 250+)
-	const kenBurnsScale = interpolate(frame, [250, durationInFrames], [1, 1.08], {
+	// Ken Burns after everything revealed (frame 240+)
+	const kenBurnsScale = interpolate(frame, [240, durationInFrames], [1, 1.06], {
 		extrapolateLeft: 'clamp',
 		extrapolateRight: 'clamp',
 	});
-	const panX = interpolate(frame, [250, durationInFrames], [0, -20], {
+	const panX = interpolate(frame, [240, durationInFrames], [0, -15], {
+		extrapolateLeft: 'clamp',
+		extrapolateRight: 'clamp',
+	});
+	const panY = interpolate(frame, [240, durationInFrames], [0, -8], {
 		extrapolateLeft: 'clamp',
 		extrapolateRight: 'clamp',
 	});
@@ -70,99 +76,79 @@ export const TacticasRomanasPreview: React.FC = () => {
 		{extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}
 	);
 
+	// Combined clip: reveal soldiers first (bottom), then title (top)
+	const topClip = Math.min(titleClip, 35);
+	const bottomClip = soldiersClip;
+
 	return (
 		<AbsoluteFill style={{backgroundColor: '#D4C5A9', opacity: fadeOut}}>
-			{/* Layer 1: Parchment background */}
-			<AbsoluteFill style={{opacity: bgOpacity}}>
-				<Img src={BG} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
-			</AbsoluteFill>
+			{/* Parchment base */}
+			<AbsoluteFill style={{opacity: bgOpacity, backgroundColor: '#D4C5A9'}} />
 
-			{/* Layer 3: Soldiers (behind title) */}
+			{/* Main image — progressive reveal via clipPath */}
 			<AbsoluteFill
 				style={{
-					opacity: soldiersOpacity,
-					transform: `translateY(${soldiersY}px) scale(${soldiersScale * kenBurnsScale}) translateX(${panX}px)`,
-					justifyContent: 'center',
-					alignItems: 'center',
+					clipPath: `inset(${topClip}% 0 ${bottomClip}% 0)`,
+					transform: `scale(${kenBurnsScale}) translate(${panX}px, ${panY}px)`,
 				}}
 			>
 				<Img
-					src={SOLDIERS}
-					style={{
-						width: '100%',
-						height: '100%',
-						objectFit: 'contain',
-					}}
+					src={FULL_IMG}
+					style={{width: '100%', height: '100%', objectFit: 'cover'}}
 				/>
 			</AbsoluteFill>
 
-			{/* Layer 4: Arrows overlay */}
-			<AbsoluteFill
-				style={{
-					opacity: arrowsOpacity,
-					transform: `translate(${arrowsX}px, ${arrowsY}px)`,
-					mixBlendMode: 'multiply',
-				}}
-			>
-				<Img
-					src={ARROWS}
+			{/* Icon area — separate reveal with pop */}
+			{frame >= 130 && (
+				<div
 					style={{
-						width: '100%',
-						height: '100%',
-						objectFit: 'cover',
+						position: 'absolute',
+						top: '2%',
+						right: '3%',
+						width: '8%',
+						height: '14%',
+						overflow: 'hidden',
+						borderRadius: '50%',
+						transform: `scale(${iconScale})`,
 					}}
-				/>
-			</AbsoluteFill>
+				>
+					<Img
+						src={FULL_IMG}
+						style={{
+							position: 'absolute',
+							top: 0,
+							left: 0,
+							width: `${100 / 0.08}%`,
+							height: `${100 / 0.14}%`,
+							objectFit: 'cover',
+							transform: 'translate(-92%, -2%)',
+						}}
+					/>
+				</div>
+			)}
 
-			{/* Layer 2: Title */}
-			<div
-				style={{
-					position: 'absolute',
-					top: 0,
-					left: 0,
-					right: 0,
-					height: '25%',
-					opacity: titleOpacity,
-					transform: `translateY(${titleY}px) scale(${titleScale})`,
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'flex-start',
-					mixBlendMode: 'multiply',
-				}}
-			>
-				<Img
-					src={TITLE}
+			{/* Arrows overlay — fade in with shake */}
+			{frame >= 180 && (
+				<AbsoluteFill
 					style={{
-						width: '100%',
-						height: '100%',
-						objectFit: 'contain',
-						objectPosition: 'top center',
+						opacity: arrowsOpacity,
+						mixBlendMode: 'multiply',
+						transform: `scale(${kenBurnsScale}) translate(${panX}px, ${panY}px)`,
 					}}
-				/>
-			</div>
-
-			{/* Layer 5: Icon badge */}
-			<div
-				style={{
-					position: 'absolute',
-					top: 30,
-					right: 40,
-					width: 110,
-					height: 110,
-					transform: `scale(${iconScale})`,
-					borderRadius: '50%',
-					overflow: 'hidden',
-				}}
-			>
-				<Img
-					src={ICON}
-					style={{
-						width: '100%',
-						height: '100%',
-						objectFit: 'cover',
-					}}
-				/>
-			</div>
+				>
+					<Img
+						src={staticFile(
+							'tacticas-romanas/Multiple_black_arrows_flying_diagonally_202606271659.jpeg'
+						)}
+						style={{
+							width: '100%',
+							height: '60%',
+							objectFit: 'cover',
+							objectPosition: 'center top',
+						}}
+					/>
+				</AbsoluteFill>
+			)}
 		</AbsoluteFill>
 	);
 };
