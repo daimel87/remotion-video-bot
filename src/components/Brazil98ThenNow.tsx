@@ -3,7 +3,7 @@ import {AbsoluteFill, Img, Sequence, useCurrentFrame, useVideoConfig, interpolat
 import {BRAZIL98, Brazil98Player} from './brazil98Data';
 
 const INTRO_FRAMES = 90;
-const PLAYER_FRAMES = 240;
+const PLAYER_FRAMES = 300;
 const OUTRO_FRAMES = 120;
 
 export const Brazil98ThenNow: React.FC = () => {
@@ -42,9 +42,9 @@ const Intro: React.FC<{fps: number}> = ({fps}) => {
     <AbsoluteFill>
       <PitchBackground frame={frame} />
       <div style={{position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 15}}>
-        <div style={{fontSize: 140, transform: `scale(${flagScale})`, filter: 'drop-shadow(0 4px 20px rgba(0,0,0,0.5))'}}>🇧🇷</div>
+        <div style={{fontSize: 130, transform: `scale(${flagScale})`, filter: 'drop-shadow(0 4px 20px rgba(0,0,0,0.5))'}}>🇧🇷</div>
         <div style={{
-          fontSize: 90, fontWeight: 900, textAlign: 'center',
+          fontSize: 110, fontWeight: 900, textAlign: 'center',
           transform: `scale(${titleScale})`, lineHeight: 1.1,
           background: 'linear-gradient(180deg, #FFD700, #FFA500, #FF8C00)',
           WebkitBackgroundClip: 'text',
@@ -54,14 +54,15 @@ const Intro: React.FC<{fps: number}> = ({fps}) => {
           BRAZIL 98
         </div>
         <div style={{
-          fontSize: 55, fontWeight: 900, color: '#fff', textAlign: 'center',
+          fontSize: 60, fontWeight: 900, color: '#fff', textAlign: 'center',
           opacity: subOp, lineHeight: 1.2,
           textShadow: '0 4px 20px rgba(0,0,0,0.8)',
+          letterSpacing: 8,
         }}>
           WORLD CUP SQUAD
         </div>
         <div style={{
-          fontSize: 70, fontWeight: 900, textAlign: 'center',
+          fontSize: 75, fontWeight: 900, textAlign: 'center',
           transform: `scale(${yearScale})`,
           background: 'linear-gradient(90deg, #009739, #FFD700)',
           WebkitBackgroundClip: 'text',
@@ -71,7 +72,7 @@ const Intro: React.FC<{fps: number}> = ({fps}) => {
           THEN & NOW ⚽
         </div>
         <div style={{
-          fontSize: 35, color: '#aaa', fontWeight: 700, opacity: subOp,
+          fontSize: 40, color: '#aaa', fontWeight: 700, opacity: subOp,
           marginTop: 5, fontStyle: 'italic',
         }}>
           28 years later...
@@ -89,18 +90,18 @@ const Outro: React.FC<{fps: number}> = ({fps}) => {
   return (
     <AbsoluteFill>
       <PitchBackground frame={frame} />
-      <div style={{position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20}}>
-        <div style={{fontSize: 130, transform: `scale(${scale})`}}>🏆</div>
+      <div style={{position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 25}}>
+        <div style={{fontSize: 120, transform: `scale(${scale})`}}>🏆</div>
         <div style={{
-          fontSize: 70, fontWeight: 900, color: '#fff', textAlign: 'center',
+          fontSize: 80, fontWeight: 900, color: '#fff', textAlign: 'center',
           transform: `scale(${scale})`, textShadow: '0 4px 20px rgba(0,0,0,0.6)', lineHeight: 1.15,
         }}>
-          WHICH PLAYER<br/>CHANGED<br/>THE MOST?
+          WHICH PLAYER<br/>CHANGED THE MOST?
         </div>
         <div style={{
           fontSize: 50, fontWeight: 800, transform: `scale(${subScale})`,
           background: 'linear-gradient(90deg, #009739, #FFD700)',
-          padding: '15px 45px', borderRadius: 15,
+          padding: '15px 50px', borderRadius: 15,
           color: '#fff',
           boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
         }}>
@@ -121,13 +122,16 @@ const PlayerCard: React.FC<{
   fps: number;
 }> = ({player, index, total, fps}) => {
   const frame = useCurrentFrame();
+  const APPEAR = 150;
 
-  const slideInLeft = interpolate(frame, [0, 25], [-1200, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-  const slideInRight = interpolate(frame, [0, 25], [1200, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-  const photoOpacity = interpolate(frame, [0, 20], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const slideInLeft = interpolate(frame, [0, APPEAR], [-900, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const slideInRight = interpolate(frame, [0, APPEAR], [900, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const photoOpacity = interpolate(frame, [0, 60], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
-  const badgeScale = spring({frame: Math.max(0, frame - 25), fps, from: 0, to: 1, durationInFrames: 15});
-  const numberScale = spring({frame: Math.max(0, frame - 35), fps, from: 0, to: 1, durationInFrames: 12});
+  const labelOpacity = interpolate(frame, [APPEAR - 30, APPEAR], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const labelScale = spring({frame: Math.max(0, frame - (APPEAR - 30)), fps, from: 0.5, to: 1, durationInFrames: 20});
+  const badgeScale = spring({frame: Math.max(0, frame - APPEAR), fps, from: 0, to: 1, durationInFrames: 15});
+  const numberScale = spring({frame: Math.max(0, frame - APPEAR - 10), fps, from: 0, to: 1, durationInFrames: 12});
   const fadeOut = interpolate(frame, [PLAYER_FRAMES - 20, PLAYER_FRAMES], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
   return (
@@ -135,110 +139,118 @@ const PlayerCard: React.FC<{
       <PitchBackground frame={frame + index * 80} />
 
       <div style={{
-        position: 'absolute', inset: 0,
-        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-        padding: '30px 20px', gap: 12,
+        position: 'absolute', top: 25, left: 0, right: 0, bottom: 25,
+        display: 'flex', gap: 20, padding: '0 40px',
+        alignItems: 'center', justifyContent: 'center',
       }}>
-        {/* Player number badge */}
+        {/* THEN - Left */}
         <div style={{
-          transform: `scale(${numberScale})`,
-          background: 'linear-gradient(135deg, #009739, #006B2B)',
-          width: 70, height: 70, borderRadius: '50%',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          border: '3px solid #FFD700',
-          boxShadow: '0 4px 15px rgba(0,0,0,0.5)',
+          flex: 1, display: 'flex', flexDirection: 'column',
+          alignItems: 'center', gap: 0,
+          transform: `translateX(${slideInLeft}px)`, opacity: photoOpacity, maxWidth: '44%',
         }}>
-          <span style={{fontSize: 36, fontWeight: 900, color: '#FFD700'}}>#{player.number}</span>
-        </div>
-
-        {/* Photos side by side */}
-        <div style={{
-          display: 'flex', gap: 12, width: '95%', alignItems: 'center', justifyContent: 'center',
-        }}>
-          {/* THEN */}
           <div style={{
-            flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0,
-            transform: `translateX(${slideInLeft}px)`, opacity: photoOpacity,
+            background: 'linear-gradient(90deg, #009739, #00A843)',
+            padding: '10px 50px', borderRadius: '14px 14px 0 0',
+            opacity: labelOpacity, transform: `scale(${labelScale})`,
+            border: '3px solid rgba(255,215,0,0.5)', borderBottom: 'none',
           }}>
-            <div style={{
-              background: 'linear-gradient(90deg, #009739, #00A843)',
-              padding: '8px 30px', borderRadius: '12px 12px 0 0',
-              border: '2px solid rgba(255,215,0,0.5)', borderBottom: 'none',
-              transform: `scale(${badgeScale})`,
-            }}>
-              <span style={{fontSize: 28, fontWeight: 900, color: '#FFD700', letterSpacing: 4}}>1998</span>
-            </div>
-            <div style={{
-              width: '100%', aspectRatio: '3/4', borderRadius: 12,
-              overflow: 'hidden', position: 'relative',
-              border: '3px solid rgba(255,215,0,0.4)',
-              boxShadow: '0 0 25px rgba(0,150,57,0.3)',
-            }}>
-              <Img src={staticFile(player.thenImage)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
-              <div style={{
-                position: 'absolute', bottom: 0, left: 0, right: 0,
-                background: 'linear-gradient(transparent, rgba(0,0,0,0.85))',
-                padding: '40px 12px 12px',
-                transform: `scale(${badgeScale})`,
-                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
-              }}>
-                <span style={{fontSize: 28, fontWeight: 900, color: '#FFD700', textShadow: '0 2px 8px rgba(0,0,0,0.8)'}}>
-                  {player.position.toUpperCase()}
-                </span>
-                <span style={{fontSize: 24, fontWeight: 700, color: '#fff', textShadow: '0 2px 8px rgba(0,0,0,0.8)'}}>
-                  Age: {player.age98}
-                </span>
-              </div>
-            </div>
+            <span style={{fontSize: 38, fontWeight: 900, color: '#FFD700', letterSpacing: 6}}>
+              THEN
+            </span>
           </div>
 
-          {/* Divider */}
           <div style={{
-            display: 'flex', flexDirection: 'column', alignItems: 'center',
-            gap: 6, opacity: photoOpacity,
+            width: '100%', aspectRatio: '3/4', borderRadius: 15,
+            overflow: 'hidden', position: 'relative',
+            border: '4px solid rgba(255,215,0,0.4)',
+            boxShadow: '0 0 30px rgba(0,150,57,0.25)',
           }}>
-            <div style={{width: 2, height: '20%', background: 'linear-gradient(180deg, transparent, #FFD700)'}} />
-            <span style={{fontSize: 45, filter: 'drop-shadow(0 0 10px rgba(255,215,0,0.6))'}}>⚽</span>
-            <div style={{width: 2, height: '20%', background: 'linear-gradient(180deg, #FFD700, transparent)'}} />
-          </div>
-
-          {/* NOW */}
-          <div style={{
-            flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0,
-            transform: `translateX(${slideInRight}px)`, opacity: photoOpacity,
-          }}>
+            <Img src={staticFile(player.thenImage)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
             <div style={{
-              background: 'linear-gradient(90deg, #FFD700, #FFA500)',
-              padding: '8px 30px', borderRadius: '12px 12px 0 0',
-              border: '2px solid rgba(255,255,255,0.4)', borderBottom: 'none',
-              transform: `scale(${badgeScale})`,
+              position: 'absolute', bottom: 100, left: '50%',
+              transform: `translateX(-50%) scale(${badgeScale})`,
+              background: 'linear-gradient(135deg, #009739, #006B2B)',
+              padding: '12px 28px', borderRadius: 10,
+              border: '3px solid #FFD700',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.6)',
+              whiteSpace: 'nowrap', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
             }}>
-              <span style={{fontSize: 28, fontWeight: 900, color: '#003', letterSpacing: 4}}>2026</span>
-            </div>
-            <div style={{
-              width: '100%', aspectRatio: '3/4', borderRadius: 12,
-              overflow: 'hidden', position: 'relative',
-              border: '3px solid rgba(255,215,0,0.4)',
-              boxShadow: '0 0 25px rgba(255,165,0,0.3)',
-            }}>
-              <Img src={staticFile(player.nowImage)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
-              <div style={{
-                position: 'absolute', bottom: 0, left: 0, right: 0,
-                background: 'linear-gradient(transparent, rgba(0,0,0,0.85))',
-                padding: '40px 12px 12px',
-                transform: `scale(${badgeScale})`,
-                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
-              }}>
-                <span style={{fontSize: 28, fontWeight: 900, color: '#FFD700', textShadow: '0 2px 8px rgba(0,0,0,0.8)'}}>
-                  {player.name.toUpperCase()}
-                </span>
-                <span style={{fontSize: 24, fontWeight: 700, color: '#fff', textShadow: '0 2px 8px rgba(0,0,0,0.8)'}}>
-                  Age: {player.ageNow}
-                </span>
-              </div>
+              <span style={{fontSize: 30, fontWeight: 900, color: '#FFD700', lineHeight: 1.2}}>
+                {player.position.toUpperCase()}
+              </span>
+              <span style={{fontSize: 26, fontWeight: 700, color: '#fff', lineHeight: 1.2}}>
+                Age: {player.age98}
+              </span>
             </div>
           </div>
         </div>
+
+        {/* Divider */}
+        <div style={{
+          display: 'flex', flexDirection: 'column', alignItems: 'center',
+          gap: 8, opacity: labelOpacity,
+        }}>
+          <div style={{width: 3, height: '25%', background: 'linear-gradient(180deg, transparent, #FFD700)'}} />
+          <span style={{fontSize: 55, filter: 'drop-shadow(0 0 12px rgba(255,215,0,0.6))'}}>⚽</span>
+          <div style={{width: 3, height: '25%', background: 'linear-gradient(180deg, #FFD700, transparent)'}} />
+        </div>
+
+        {/* NOW - Right */}
+        <div style={{
+          flex: 1, display: 'flex', flexDirection: 'column',
+          alignItems: 'center', gap: 0,
+          transform: `translateX(${slideInRight}px)`, opacity: photoOpacity, maxWidth: '44%',
+        }}>
+          <div style={{
+            background: 'linear-gradient(90deg, #FFD700, #FFA500)',
+            padding: '10px 50px', borderRadius: '14px 14px 0 0',
+            opacity: labelOpacity, transform: `scale(${labelScale})`,
+            border: '3px solid rgba(255,255,255,0.4)', borderBottom: 'none',
+          }}>
+            <span style={{fontSize: 38, fontWeight: 900, color: '#003', letterSpacing: 6}}>
+              NOW
+            </span>
+          </div>
+
+          <div style={{
+            width: '100%', aspectRatio: '3/4', borderRadius: 15,
+            overflow: 'hidden', position: 'relative',
+            border: '4px solid rgba(255,215,0,0.4)',
+            boxShadow: '0 0 30px rgba(255,165,0,0.25)',
+          }}>
+            <Img src={staticFile(player.nowImage)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+            <div style={{
+              position: 'absolute', bottom: 100, left: '50%',
+              transform: `translateX(-50%) scale(${badgeScale})`,
+              background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+              padding: '12px 28px', borderRadius: 10,
+              border: '3px solid rgba(255,255,255,0.4)',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.6)',
+              whiteSpace: 'nowrap', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
+            }}>
+              <span style={{fontSize: 30, fontWeight: 900, color: '#003', lineHeight: 1.2}}>
+                {player.name.toUpperCase()}
+              </span>
+              <span style={{fontSize: 26, fontWeight: 700, color: '#333', lineHeight: 1.2}}>
+                Age: {player.ageNow}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Player number floating badge */}
+      <div style={{
+        position: 'absolute', top: 30, left: '50%',
+        transform: `translateX(-50%) scale(${numberScale})`,
+        background: 'linear-gradient(135deg, #009739, #006B2B)',
+        width: 80, height: 80, borderRadius: '50%',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        border: '4px solid #FFD700',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+      }}>
+        <span style={{fontSize: 40, fontWeight: 900, color: '#FFD700'}}>#{player.number}</span>
       </div>
     </AbsoluteFill>
   );
@@ -248,17 +260,14 @@ const PitchBackground: React.FC<{frame: number}> = ({frame}) => {
   const shift = frame * 0.02;
   return (
     <div style={{position: 'absolute', inset: 0}}>
-      {/* Dark green base */}
       <div style={{
         position: 'absolute', inset: 0,
         background: 'linear-gradient(160deg, #0a1a0a 0%, #0d2810 30%, #081408 60%, #0a1f0a 100%)',
       }} />
-      {/* Pitch stripes */}
       <div style={{
         position: 'absolute', inset: 0, opacity: 0.08,
-        backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(255,255,255,0.1) 80px, rgba(255,255,255,0.1) 82px)',
+        backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 100px, rgba(255,255,255,0.1) 100px, rgba(255,255,255,0.1) 102px)',
       }} />
-      {/* Gold accent glow */}
       <div style={{
         position: 'absolute', inset: 0,
         background: `radial-gradient(circle at ${50 + Math.sin(shift) * 15}% ${40 + Math.cos(shift * 0.8) * 10}%, rgba(255,215,0,0.06) 0%, transparent 50%)`,
@@ -267,13 +276,12 @@ const PitchBackground: React.FC<{frame: number}> = ({frame}) => {
         position: 'absolute', inset: 0,
         background: `radial-gradient(circle at ${50 + Math.cos(shift * 1.2) * 12}% ${60 + Math.sin(shift) * 8}%, rgba(0,150,57,0.08) 0%, transparent 40%)`,
       }} />
-      {/* Corner arc hint */}
       <div style={{
-        position: 'absolute', top: -150, right: -150, width: 300, height: 300,
+        position: 'absolute', top: -200, right: -200, width: 400, height: 400,
         borderRadius: '50%', border: '2px solid rgba(255,255,255,0.04)',
       }} />
       <div style={{
-        position: 'absolute', bottom: -150, left: -150, width: 300, height: 300,
+        position: 'absolute', bottom: -200, left: -200, width: 400, height: 400,
         borderRadius: '50%', border: '2px solid rgba(255,255,255,0.04)',
       }} />
     </div>
