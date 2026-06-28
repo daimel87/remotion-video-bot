@@ -32,10 +32,10 @@ export const TacticasRomanasPreview: React.FC = () => {
 		config: {damping: 22, mass: 1.8},
 	});
 	// Zoom enough so the testudo circle fills the frame
-	const zoomScale = interpolate(zoomProgress, [0, 1], [1, 6]);
-	// Testudo is top-left: ~10% from left, ~25% from top of image
-	const panX = interpolate(zoomProgress, [0, 1], [0, 42]);
-	const panY = interpolate(zoomProgress, [0, 1], [0, 18]);
+	const zoomScale = interpolate(zoomProgress, [0, 1], [1, 5.5]);
+	// Testudo circle + label: ~10% from left, ~30% from top
+	const panX = interpolate(zoomProgress, [0, 1], [0, 8]);
+	const panY = interpolate(zoomProgress, [0, 1], [0, 5]);
 
 	// === PHASE C: Hold zoomed testudo (frame 120-210) — 3 seconds ===
 
