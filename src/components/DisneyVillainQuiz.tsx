@@ -44,15 +44,15 @@ const Intro: React.FC<{fps: number}> = ({fps}) => {
     <AbsoluteFill>
       <VillainBackground frame={frame} />
       <div style={{position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20}}>
-        <div style={{fontSize: 150, transform: `scale(${skullScale})`, filter: 'drop-shadow(0 0 30px rgba(128,0,255,0.6))'}}>😈</div>
+        <div style={{fontSize: 180, transform: `scale(${skullScale})`, filter: 'drop-shadow(0 0 30px rgba(128,0,255,0.6))'}}>😈</div>
         <div style={{
-          fontSize: 90, fontWeight: 900, color: '#fff', textAlign: 'center',
+          fontSize: 110, fontWeight: 900, color: '#fff', textAlign: 'center',
           transform: `scale(${scale})`, lineHeight: 1.1,
           textShadow: '0 0 40px rgba(128,0,255,0.5), 0 8px 40px rgba(0,0,0,0.8)',
         }}>
           GUESS THE<br/>
           <span style={{
-            fontSize: 100,
+            fontSize: 120,
             background: 'linear-gradient(180deg, #a855f7, #7c3aed, #581c87)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -60,8 +60,8 @@ const Intro: React.FC<{fps: number}> = ({fps}) => {
           }}>DISNEY MOVIE</span>
         </div>
         <div style={{
-          fontSize: 50, color: '#fff', fontWeight: 800, opacity: subOp,
-          background: 'rgba(128,0,255,0.3)', padding: '12px 40px', borderRadius: 20,
+          fontSize: 60, color: '#fff', fontWeight: 800, opacity: subOp,
+          background: 'rgba(128,0,255,0.3)', padding: '15px 50px', borderRadius: 25,
           border: '2px solid rgba(168,85,247,0.4)',
         }}>
           BY THE VILLAIN! 🦹
@@ -80,23 +80,23 @@ const Outro: React.FC<{fps: number}> = ({fps}) => {
     <AbsoluteFill>
       <VillainBackground frame={frame} />
       <div style={{position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 25}}>
-        <div style={{fontSize: 140, transform: `scale(${scale})`}}>🏆</div>
+        <div style={{fontSize: 170, transform: `scale(${scale})`}}>🏆</div>
         <div style={{
-          fontSize: 75, fontWeight: 900, color: '#fff', textAlign: 'center',
+          fontSize: 95, fontWeight: 900, color: '#fff', textAlign: 'center',
           transform: `scale(${scale})`, textShadow: '0 0 30px rgba(128,0,255,0.5)', lineHeight: 1.15,
         }}>
           HOW MANY<br/>DID YOU<br/>GET RIGHT?
         </div>
         <div style={{
-          fontSize: 50, fontWeight: 800, transform: `scale(${subScale})`,
+          fontSize: 60, fontWeight: 800, transform: `scale(${subScale})`,
           background: 'linear-gradient(90deg, #a855f7, #7c3aed)',
-          padding: '15px 40px', borderRadius: 20,
+          padding: '18px 50px', borderRadius: 25,
           border: '2px solid rgba(168,85,247,0.5)',
           color: '#fff',
         }}>
           Comment below! 👇
         </div>
-        <div style={{fontSize: 40, color: '#c4b5fd', fontWeight: 700, transform: `scale(${subScale})`}}>
+        <div style={{fontSize: 50, color: '#c4b5fd', fontWeight: 700, transform: `scale(${subScale})`}}>
           FOLLOW FOR MORE 🔔
         </div>
       </div>
@@ -137,29 +137,28 @@ const Question: React.FC<{
     <AbsoluteFill style={{opacity: fadeOut}}>
       <VillainBackground frame={frame + index * 100} />
 
-      <div style={{position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, padding: '0 40px'}}>
+      <div style={{position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 15, padding: '30px 25px'}}>
         {/* Counter */}
         <div style={{
           background: 'rgba(128,0,255,0.3)',
-          padding: '10px 40px', borderRadius: 50,
+          padding: '12px 50px', borderRadius: 50,
           transform: `scale(${numScale})`,
           border: '3px solid rgba(168,85,247,0.4)',
         }}>
-          <span style={{fontSize: 42, fontWeight: 900, color: '#c4b5fd'}}>
+          <span style={{fontSize: 52, fontWeight: 900, color: '#c4b5fd'}}>
             #{index + 1} / {total}
           </span>
         </div>
 
         {/* Villain image */}
         <div style={{
-          width: 500, height: 500, borderRadius: 30,
+          width: '90%', aspectRatio: '3/4', borderRadius: 30,
           overflow: 'hidden', position: 'relative',
           transform: `scale(${imgScale})`,
-          border: `4px solid ${isRevealed ? 'rgba(168,85,247,0.8)' : 'rgba(255,255,255,0.15)'}`,
+          border: `5px solid ${isRevealed ? 'rgba(168,85,247,0.8)' : 'rgba(255,255,255,0.15)'}`,
           boxShadow: isRevealed
             ? `0 0 ${glowIntensity}px rgba(168,85,247,0.6), 0 0 ${glowIntensity * 2}px rgba(128,0,255,0.3)`
             : '0 10px 40px rgba(0,0,0,0.6)',
-          transition: 'border 0.3s',
         }}>
           <Img
             src={staticFile(villain.image)}
@@ -176,8 +175,8 @@ const Question: React.FC<{
               opacity: qMarkOp,
             }}>
               <span style={{
-                fontSize: 200, fontWeight: 900, color: '#a855f7',
-                textShadow: '0 0 40px rgba(168,85,247,0.8), 0 0 80px rgba(128,0,255,0.4)',
+                fontSize: 280, fontWeight: 900, color: '#a855f7',
+                textShadow: '0 0 50px rgba(168,85,247,0.8), 0 0 100px rgba(128,0,255,0.4)',
               }}>?</span>
             </div>
           )}
@@ -187,11 +186,11 @@ const Question: React.FC<{
         {showTimer && (
           <div style={{
             background: thinkSeconds <= 2 ? 'rgba(220,38,38,0.8)' : 'rgba(128,0,255,0.4)',
-            padding: '12px 50px', borderRadius: 20,
+            padding: '15px 60px', borderRadius: 25,
             transform: `scale(${tickPulse})`,
             border: '3px solid rgba(255,255,255,0.2)',
           }}>
-            <span style={{fontSize: 60, fontWeight: 900, color: '#fff'}}>
+            <span style={{fontSize: 70, fontWeight: 900, color: '#fff'}}>
               ⏱️ {thinkSeconds}s
             </span>
           </div>
@@ -205,15 +204,15 @@ const Question: React.FC<{
           }}>
             <div style={{
               background: 'linear-gradient(135deg, #a855f7, #7c3aed)',
-              padding: '18px 50px', borderRadius: 25,
+              padding: '22px 55px', borderRadius: 25,
               boxShadow: `0 0 ${answerGlow * 50}px rgba(168,85,247,0.6)`,
               border: '3px solid rgba(255,255,255,0.2)',
               display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5,
             }}>
-              <span style={{fontSize: 42, fontWeight: 900, color: '#fff', letterSpacing: 2}}>
+              <span style={{fontSize: 52, fontWeight: 900, color: '#fff', letterSpacing: 2}}>
                 {villain.villain.toUpperCase()}
               </span>
-              <span style={{fontSize: 34, fontWeight: 700, color: '#e9d5ff'}}>
+              <span style={{fontSize: 42, fontWeight: 700, color: '#e9d5ff'}}>
                 {villain.movie}
               </span>
             </div>
