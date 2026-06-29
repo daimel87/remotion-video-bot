@@ -97,6 +97,7 @@ import {Soledad8Edit} from './Soledad8Edit';
 import {SoledadFinalEdit} from './SoledadFinalEdit';
 import {InfidelityTitleCard} from './InfidelityTitleCard';
 import {SignalsIntroCard} from './SignalsIntroCard';
+import {BatteryTransferCard} from './BatteryTransferCard';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -881,6 +882,14 @@ export const RemotionRoot: React.FC = () => {
         id="SignalsIntroCard"
         component={SignalsIntroCard}
         durationInFrames={150}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="BatteryTransferCard"
+        component={BatteryTransferCard}
+        durationInFrames={300}
         fps={25}
         width={1920}
         height={1080}
