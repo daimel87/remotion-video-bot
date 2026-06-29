@@ -111,6 +111,7 @@ import {HeartCrackCard} from './HeartCrackCard';
 import {ConcealmentLevelCard} from './ConcealmentLevelCard';
 import {HeartAttractionCard} from './HeartAttractionCard';
 import {TruthBreaksCard} from './TruthBreaksCard';
+import {DualTimelineCard} from './DualTimelineCard';
 import {Senales15_1Edit} from './Senales15_1Edit';
 import {Senales15_2Edit} from './Senales15_2Edit';
 import {Senales15_3Edit} from './Senales15_3Edit';
@@ -1141,6 +1142,14 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="TruthBreaksCard"
         component={TruthBreaksCard}
+        durationInFrames={300}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="DualTimelineCard"
+        component={DualTimelineCard}
         durationInFrames={300}
         fps={25}
         width={1920}
