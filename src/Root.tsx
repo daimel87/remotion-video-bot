@@ -1132,7 +1132,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="HeartAttractionCard"
         component={HeartAttractionCard}
-        durationInFrames={300}
+        durationInFrames={550}
         fps={25}
         width={1920}
         height={1080}

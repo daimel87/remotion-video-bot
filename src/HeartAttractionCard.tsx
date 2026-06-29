@@ -15,19 +15,19 @@ export const HeartAttractionCard: React.FC = () => {
   // Fase 4: Ruptura de conexión (150-300 frames)
   const breakProgress = Math.max(0, Math.min(1, (frame - 150) / 150));
 
-  // Posiciones de los corazones (centrados)
+  // Posiciones de los corazones (centrados en pantalla)
   // Corazón 1: Izquierda (se mueve hacia el corazón 3)
-  const heart1X = interpolate(attractionProgress, [0, 1], [-200, 0], {extrapolateRight: 'clamp'});
+  const heart1X = interpolate(attractionProgress, [0, 1], [-180, 0], {extrapolateRight: 'clamp'});
   const heart1Y = interpolate(attractionProgress, [0, 1], [0, 0], {extrapolateRight: 'clamp'});
 
-  // Corazón 2: Derecha (se queda más o menos en su lugar)
-  const heart2X = interpolate(attractionProgress, [0, 1], [200, 50], {extrapolateRight: 'clamp'});
+  // Corazón 2: Derecha (se mueve hacia centro)
+  const heart2X = interpolate(attractionProgress, [0, 1], [180, 0], {extrapolateRight: 'clamp'});
   const heart2Y = 0;
 
   // Corazón 3: Centro-arriba y atrae el corazón 1
   const heart3Opacity = thirdHeartProgress;
   const heart3X = 0;
-  const heart3Y = -150;
+  const heart3Y = -180;
 
   // Opacidad de la conexión (línea entre corazones 1 y 2)
   const connectionOpacity = Math.max(0, 1 - breakProgress);
