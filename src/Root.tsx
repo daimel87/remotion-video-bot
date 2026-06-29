@@ -33,6 +33,7 @@ import {Brazil98ThenNowEdit} from './Brazil98ThenNowEdit';
 import {HallOfLegendsEdit} from './HallOfLegendsEdit';
 import {RomaOverlayEdit} from './RomaOverlayEdit';
 import {RomaFullEditEntry} from './RomaFullEditEntry';
+import {CinematicTributeEdit} from './CinematicTributeEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -308,6 +309,14 @@ export const RemotionRoot: React.FC = () => {
         fps={24}
         width={1280}
         height={720}
+      />
+      <Composition
+        id="CinematicTribute"
+        component={CinematicTributeEdit}
+        durationInFrames={6810}
+        fps={30}
+        width={1920}
+        height={1080}
       />
     </>
   );
