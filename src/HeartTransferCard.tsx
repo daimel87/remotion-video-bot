@@ -43,7 +43,7 @@ export const HeartTransferCard: React.FC = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          gap: '40px',
+          gap: '0px',
           padding: '20px',
         }}
       >
@@ -51,8 +51,8 @@ export const HeartTransferCard: React.FC = () => {
         <div
           style={{
             position: 'relative',
-            width: '560px',
-            height: '680px',
+            width: '700px',
+            height: '850px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -60,7 +60,7 @@ export const HeartTransferCard: React.FC = () => {
             opacity: heartOpacity,
           }}
         >
-          <svg width="560" height="560" viewBox="0 0 300 300">
+          <svg width="700" height="700" viewBox="0 0 300 300">
             {/* Mitad izquierda del corazón - Rojo */}
             <path
               d="M 150 280 Q 75 220 75 140 Q 75 90 110 90 Q 135 90 150 110 L 150 280"
@@ -75,13 +75,13 @@ export const HeartTransferCard: React.FC = () => {
           {/* Etiqueta debajo */}
           <div
             style={{
-              fontSize: '88px',
+              fontSize: '140px',
               color: '#FF6B6B',
               fontWeight: 'bold',
               fontFamily: 'Arial, sans-serif',
               textAlign: 'center',
-              marginTop: '20px',
-              lineHeight: '1.1',
+              marginTop: '30px',
+              lineHeight: '1.0',
             }}
           >
             TU<br />CORAZÓN
@@ -89,7 +89,7 @@ export const HeartTransferCard: React.FC = () => {
         </div>
 
         {/* PARTÍCULAS MOVIÉNDOSE */}
-        <div style={{position: 'relative', width: '200px', height: '800px'}}>
+        <div style={{position: 'relative', width: '300px', height: '1000px'}}>
           {particles.map((particle, i) => (
             <div
               key={i}
@@ -97,13 +97,13 @@ export const HeartTransferCard: React.FC = () => {
                 position: 'absolute',
                 left: particle.x - 280,
                 top: particle.y - 200,
-                width: '48px',
-                height: '48px',
+                width: '100px',
+                height: '100px',
                 backgroundColor: '#FFD700',
                 borderRadius: '50%',
                 opacity: particle.opacity,
                 transform: `scale(${particle.scale})`,
-                boxShadow: '0 0 50px rgba(255, 215, 0, 1)',
+                boxShadow: '0 0 80px rgba(255, 215, 0, 1)',
               }}
             />
           ))}
@@ -129,8 +129,8 @@ export const HeartTransferCard: React.FC = () => {
         <div
           style={{
             position: 'relative',
-            width: '560px',
-            height: '680px',
+            width: '700px',
+            height: '850px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -138,7 +138,7 @@ export const HeartTransferCard: React.FC = () => {
           }}
         >
           {/* Silueta simple - MUCHO MÁS GRANDE */}
-          <svg width="400" height="520" viewBox="0 0 200 280">
+          <svg width="550" height="650" viewBox="0 0 200 280">
             {/* Cabeza */}
             <circle cx="100" cy="60" r="45" fill="#4CAF50" opacity="0.8" />
 
@@ -157,13 +157,13 @@ export const HeartTransferCard: React.FC = () => {
           {/* Etiqueta debajo */}
           <div
             style={{
-              fontSize: '88px',
+              fontSize: '140px',
               color: '#4CAF50',
               fontWeight: 'bold',
               fontFamily: 'Arial, sans-serif',
               textAlign: 'center',
-              marginTop: '20px',
-              lineHeight: '1.1',
+              marginTop: '30px',
+              lineHeight: '1.0',
             }}
           >
             OTRA<br />PERSONA
@@ -175,16 +175,16 @@ export const HeartTransferCard: React.FC = () => {
       <div
         style={{
           position: 'absolute',
-          bottom: '30px',
+          bottom: '40px',
           left: '50%',
           transform: 'translateX(-50%)',
-          fontSize: '96px',
+          fontSize: '160px',
           color: '#FFD700',
           fontWeight: 'bold',
           fontFamily: 'Arial, sans-serif',
           textAlign: 'center',
-          maxWidth: '1400px',
-          lineHeight: '1.2',
+          maxWidth: '1600px',
+          lineHeight: '1.1',
         }}
       >
         TRANSFERENCIA<br />DE AFECTO
