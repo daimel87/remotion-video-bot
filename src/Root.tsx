@@ -89,6 +89,7 @@ import {MujerFinalEdit} from './MujerFinalEdit';
 import {Soledad1Edit} from './Soledad1Edit';
 import {Soledad2Edit} from './Soledad2Edit';
 import {Soledad3Edit} from './Soledad3Edit';
+import {Soledad4Edit} from './Soledad4Edit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -809,6 +810,14 @@ export const RemotionRoot: React.FC = () => {
         id="Soledad3Edit"
         component={Soledad3Edit}
         durationInFrames={1029}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Soledad4Edit"
+        component={Soledad4Edit}
+        durationInFrames={933}
         fps={25}
         width={1920}
         height={1080}
