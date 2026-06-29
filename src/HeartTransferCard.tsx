@@ -34,32 +34,33 @@ export const HeartTransferCard: React.FC = () => {
         }}
       />
 
-      {/* Contenedor principal */}
+      {/* Contenedor principal - OCUPA TODA LA PANTALLA */}
       <div
         style={{
           position: 'absolute',
           width: '100%',
           height: '100%',
           display: 'flex',
-          justifyContent: 'space-around',
+          justifyContent: 'center',
           alignItems: 'center',
-          gap: '80px',
-          padding: '40px',
+          gap: '40px',
+          padding: '20px',
         }}
       >
         {/* CORAZÓN DIVIDIDO - LADO IZQUIERDO */}
         <div
           style={{
             position: 'relative',
-            width: '420px',
-            height: '420px',
+            width: '560px',
+            height: '680px',
             display: 'flex',
+            flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
             opacity: heartOpacity,
           }}
         >
-          <svg width="420" height="420" viewBox="0 0 300 300">
+          <svg width="560" height="560" viewBox="0 0 300 300">
             {/* Mitad izquierda del corazón - Rojo */}
             <path
               d="M 150 280 Q 75 220 75 140 Q 75 90 110 90 Q 135 90 150 110 L 150 280"
@@ -68,42 +69,41 @@ export const HeartTransferCard: React.FC = () => {
             />
 
             {/* Línea de división */}
-            <line x1="150" y1="280" x2="150" y2="90" stroke="#FFD700" strokeWidth="6" />
+            <line x1="150" y1="280" x2="150" y2="90" stroke="#FFD700" strokeWidth="8" />
           </svg>
 
           {/* Etiqueta debajo */}
           <div
             style={{
-              position: 'absolute',
-              bottom: '-120px',
-              fontSize: '54px',
+              fontSize: '88px',
               color: '#FF6B6B',
               fontWeight: 'bold',
               fontFamily: 'Arial, sans-serif',
               textAlign: 'center',
-              width: '100%',
+              marginTop: '20px',
+              lineHeight: '1.1',
             }}
           >
-            TU CORAZÓN
+            TU<br />CORAZÓN
           </div>
         </div>
 
         {/* PARTÍCULAS MOVIÉNDOSE */}
-        <div style={{position: 'relative', width: '300px', height: '600px'}}>
+        <div style={{position: 'relative', width: '200px', height: '800px'}}>
           {particles.map((particle, i) => (
             <div
               key={i}
               style={{
                 position: 'absolute',
-                left: particle.x,
-                top: particle.y,
-                width: '28px',
-                height: '28px',
+                left: particle.x - 280,
+                top: particle.y - 200,
+                width: '48px',
+                height: '48px',
                 backgroundColor: '#FFD700',
                 borderRadius: '50%',
                 opacity: particle.opacity,
                 transform: `scale(${particle.scale})`,
-                boxShadow: '0 0 30px rgba(255, 215, 0, 0.9)',
+                boxShadow: '0 0 50px rgba(255, 215, 0, 1)',
               }}
             />
           ))}
@@ -112,16 +112,16 @@ export const HeartTransferCard: React.FC = () => {
           <svg
             style={{
               position: 'absolute',
-              left: '30px',
-              top: '180px',
+              left: '-80px',
+              top: '300px',
               opacity: Math.sin((frame / 25) * Math.PI * 2) * 0.3 + 0.7,
             }}
-            width="240"
-            height="100"
-            viewBox="0 0 240 100"
+            width="300"
+            height="140"
+            viewBox="0 0 300 140"
           >
-            <line x1="20" y1="50" x2="220" y2="50" stroke="#FFD700" strokeWidth="8" />
-            <polygon points="220,50 180,20 180,80" fill="#FFD700" />
+            <line x1="20" y1="70" x2="280" y2="70" stroke="#FFD700" strokeWidth="12" />
+            <polygon points="280,70 230,30 230,110" fill="#FFD700" />
           </svg>
         </div>
 
@@ -129,17 +129,16 @@ export const HeartTransferCard: React.FC = () => {
         <div
           style={{
             position: 'relative',
-            width: '360px',
-            height: '480px',
+            width: '560px',
+            height: '680px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            gap: '50px',
           }}
         >
           {/* Silueta simple - MUCHO MÁS GRANDE */}
-          <svg width="280" height="380" viewBox="0 0 200 280">
+          <svg width="400" height="520" viewBox="0 0 200 280">
             {/* Cabeza */}
             <circle cx="100" cy="60" r="45" fill="#4CAF50" opacity="0.8" />
 
@@ -158,36 +157,37 @@ export const HeartTransferCard: React.FC = () => {
           {/* Etiqueta debajo */}
           <div
             style={{
-              fontSize: '54px',
+              fontSize: '88px',
               color: '#4CAF50',
               fontWeight: 'bold',
               fontFamily: 'Arial, sans-serif',
               textAlign: 'center',
-              marginTop: '30px',
+              marginTop: '20px',
+              lineHeight: '1.1',
             }}
           >
-            OTRA PERSONA
+            OTRA<br />PERSONA
           </div>
         </div>
       </div>
 
-      {/* Texto central inferior - MÁS GRANDE */}
+      {/* Texto central inferior - GIGANTE */}
       <div
         style={{
           position: 'absolute',
-          bottom: '40px',
+          bottom: '30px',
           left: '50%',
           transform: 'translateX(-50%)',
-          fontSize: '58px',
+          fontSize: '96px',
           color: '#FFD700',
           fontWeight: 'bold',
           fontFamily: 'Arial, sans-serif',
           textAlign: 'center',
-          maxWidth: '1200px',
-          lineHeight: '1.4',
+          maxWidth: '1400px',
+          lineHeight: '1.2',
         }}
       >
-        TRANSFERENCIA DE AFECTO
+        TRANSFERENCIA<br />DE AFECTO
       </div>
     </AbsoluteFill>
   );
