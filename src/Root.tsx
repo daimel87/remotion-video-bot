@@ -99,6 +99,7 @@ import {InfidelityTitleCard} from './InfidelityTitleCard';
 import {SignalsIntroCard} from './SignalsIntroCard';
 import {BatteryTransferCard} from './BatteryTransferCard';
 import {HeartTransferCard} from './HeartTransferCard';
+import {InfidelityCierreCard} from './InfidelityCierreCard';
 import {Senales15_1Edit} from './Senales15_1Edit';
 import {Senales15_2Edit} from './Senales15_2Edit';
 import {Senales15_3Edit} from './Senales15_3Edit';
@@ -1034,6 +1035,14 @@ export const RemotionRoot: React.FC = () => {
         id="senales15-15"
         component={Senales15_15Edit}
         durationInFrames={1500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="InfidelityCierreCard"
+        component={InfidelityCierreCard}
+        durationInFrames={500}
         fps={25}
         width={1920}
         height={1080}
