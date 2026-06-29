@@ -31,21 +31,21 @@ export const BatteryTransferCard: React.FC = () => {
           width: '100%',
           height: '100%',
           display: 'flex',
-          justifyContent: 'center',
+          justifyContent: 'space-around',
           alignItems: 'center',
-          gap: '100px',
-          padding: '60px',
+          gap: '150px',
+          padding: '80px',
         }}
       >
         {/* BATERÍA IZQUIERDA - SE VACÍA */}
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '30px'}}>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '50px'}}>
           {/* Cuerpo de batería */}
           <div
             style={{
-              width: '120px',
-              height: '200px',
-              border: '4px solid #FF6B6B',
-              borderRadius: '12px',
+              width: '200px',
+              height: '350px',
+              border: '8px solid #FF6B6B',
+              borderRadius: '20px',
               position: 'relative',
               backgroundColor: '#1a1a1a',
               overflow: 'hidden',
@@ -55,13 +55,13 @@ export const BatteryTransferCard: React.FC = () => {
             <div
               style={{
                 position: 'absolute',
-                top: '-15px',
+                top: '-25px',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                width: '60px',
-                height: '15px',
+                width: '100px',
+                height: '25px',
                 backgroundColor: '#FF6B6B',
-                borderRadius: '4px',
+                borderRadius: '6px',
               }}
             />
 
@@ -82,7 +82,7 @@ export const BatteryTransferCard: React.FC = () => {
           {/* Porcentaje */}
           <div
             style={{
-              fontSize: '32px',
+              fontSize: '72px',
               color: '#FF6B6B',
               fontWeight: 'bold',
               fontFamily: 'Arial, sans-serif',
@@ -94,10 +94,12 @@ export const BatteryTransferCard: React.FC = () => {
           {/* Etiqueta */}
           <div
             style={{
-              fontSize: '20px',
+              fontSize: '36px',
               color: '#AAAAAA',
               fontFamily: 'Arial, sans-serif',
               textAlign: 'center',
+              fontWeight: 'bold',
+              lineHeight: '1.3',
             }}
           >
             ENERGÍA
@@ -112,30 +114,31 @@ export const BatteryTransferCard: React.FC = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: '30px',
+            gap: '50px',
             opacity: arrowOpacity,
           }}
         >
           {/* Flecha horizontal */}
-          <svg width="150" height="60" viewBox="0 0 150 60">
+          <svg width="280" height="120" viewBox="0 0 280 120">
             {/* Línea de flecha */}
-            <line x1="20" y1="30" x2="130" y2="30" stroke="#FFD700" strokeWidth="4" />
+            <line x1="40" y1="60" x2="240" y2="60" stroke="#FFD700" strokeWidth="8" />
 
             {/* Punta de flecha */}
-            <polygon points="130,30 110,20 110,40" fill="#FFD700" />
+            <polygon points="240,60 200,30 200,90" fill="#FFD700" />
 
             {/* Animación de puntos */}
-            <circle cx={20 + (frame % 300) * 110 / 300} cy="30" r="8" fill="#FFD700" opacity="0.6" />
+            <circle cx={40 + (frame % 300) * 200 / 300} cy="60" r="16" fill="#FFD700" opacity="0.6" />
           </svg>
 
           {/* Texto transferencia */}
           <div
             style={{
-              fontSize: '18px',
+              fontSize: '32px',
               color: '#FFD700',
               fontWeight: 'bold',
               fontFamily: 'Arial, sans-serif',
               textAlign: 'center',
+              lineHeight: '1.3',
             }}
           >
             TRANSFERENCIA
@@ -145,14 +148,14 @@ export const BatteryTransferCard: React.FC = () => {
         </div>
 
         {/* BATERÍA DERECHA - SE LLENA */}
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '30px'}}>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '50px'}}>
           {/* Cuerpo de batería */}
           <div
             style={{
-              width: '120px',
-              height: '200px',
-              border: '4px solid #4CAF50',
-              borderRadius: '12px',
+              width: '200px',
+              height: '350px',
+              border: '8px solid #4CAF50',
+              borderRadius: '20px',
               position: 'relative',
               backgroundColor: '#1a1a1a',
               overflow: 'hidden',
@@ -162,13 +165,13 @@ export const BatteryTransferCard: React.FC = () => {
             <div
               style={{
                 position: 'absolute',
-                top: '-15px',
+                top: '-25px',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                width: '60px',
-                height: '15px',
+                width: '100px',
+                height: '25px',
                 backgroundColor: '#4CAF50',
-                borderRadius: '4px',
+                borderRadius: '6px',
               }}
             />
 
@@ -189,7 +192,7 @@ export const BatteryTransferCard: React.FC = () => {
           {/* Porcentaje */}
           <div
             style={{
-              fontSize: '32px',
+              fontSize: '72px',
               color: '#4CAF50',
               fontWeight: 'bold',
               fontFamily: 'Arial, sans-serif',
@@ -201,10 +204,12 @@ export const BatteryTransferCard: React.FC = () => {
           {/* Etiqueta */}
           <div
             style={{
-              fontSize: '20px',
+              fontSize: '36px',
               color: '#AAAAAA',
               fontFamily: 'Arial, sans-serif',
               textAlign: 'center',
+              fontWeight: 'bold',
+              lineHeight: '1.3',
             }}
           >
             ENERGÍA
