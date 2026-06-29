@@ -254,32 +254,6 @@ export const BeforeAfterCard: React.FC = () => {
         />
       </svg>
 
-      {/* TEXTO FINAL */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '80px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          textAlign: 'center',
-          opacity: textProgress,
-        }}
-      >
-        <div
-          style={{
-            fontSize: '120px',
-            fontWeight: 'bold',
-            color: '#FF6B6B',
-            fontFamily: 'Arial, sans-serif',
-            lineHeight: '1.1',
-            textShadow: '0 0 40px rgba(255, 107, 107, 0.5)',
-          }}
-        >
-          LA VERDAD QUIEBRA
-          <br />
-          LA ILUSIÓN
-        </div>
-      </div>
     </AbsoluteFill>
   );
 };
