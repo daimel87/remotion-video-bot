@@ -183,42 +183,6 @@ export const ConcealmentLevelCard: React.FC = () => {
           })}
         </div>
 
-        {/* CANDADO FINAL - Aparece al 100% */}
-        {level100Progress > 0 && (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '100px',
-              fontSize: '300px',
-              opacity: level100Progress,
-              transform: `scale(${0.5 + level100Progress * 0.5})`,
-              filter: `drop-shadow(0 0 80px rgba(255, 107, 107, ${level100Progress}))`,
-              animation: level100Progress > 0.9 ? 'none' : 'none',
-            }}
-          >
-            🔒
-          </div>
-        )}
-
-        {/* TEXTO FINAL */}
-        {level100Progress > 0.3 && (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '-80px',
-              textAlign: 'center',
-              opacity: Math.max(0, level100Progress - 0.3),
-              fontSize: '120px',
-              fontWeight: 'bold',
-              color: '#FF6B6B',
-              fontFamily: 'Arial, sans-serif',
-              letterSpacing: '2px',
-              textShadow: '0 0 40px rgba(255, 107, 107, 0.5)',
-            }}
-          >
-            COMPLETAMENTE PROTEGIDO
-          </div>
-        )}
       </div>
     </AbsoluteFill>
   );
