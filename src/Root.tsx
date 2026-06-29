@@ -1150,7 +1150,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="DualTimelineCard"
         component={DualTimelineCard}
-        durationInFrames={300}
+        durationInFrames={550}
         fps={25}
         width={1920}
         height={1080}
