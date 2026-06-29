@@ -313,7 +313,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="CinematicTribute"
         component={CinematicTributeEdit}
-        durationInFrames={6810}
+        durationInFrames={6990}
         fps={30}
         width={1920}
         height={1080}
