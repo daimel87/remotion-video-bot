@@ -32,6 +32,7 @@ import {DisneyVillainQuizEdit} from './DisneyVillainQuizEdit';
 import {Brazil98ThenNowEdit} from './Brazil98ThenNowEdit';
 import {HallOfLegendsEdit} from './HallOfLegendsEdit';
 import {RomaOverlayEdit} from './RomaOverlayEdit';
+import {RomaFullEditEntry} from './RomaFullEditEntry';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -299,6 +300,14 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1920}
         height={1080}
+      />
+      <Composition
+        id="RomaFullEdit"
+        component={RomaFullEditEntry}
+        durationInFrames={730}
+        fps={24}
+        width={1280}
+        height={720}
       />
     </>
   );
