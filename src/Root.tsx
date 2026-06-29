@@ -919,7 +919,7 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="Senales15_1Edit"
+        id="senales15-1"
         component={Senales15_1Edit}
         durationInFrames={1500}
         fps={25}
@@ -927,7 +927,7 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="Senales15_2Edit"
+        id="senales15-2"
         component={Senales15_2Edit}
         durationInFrames={1500}
         fps={25}
@@ -935,7 +935,7 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="Senales15_3Edit"
+        id="senales15-3"
         component={Senales15_3Edit}
         durationInFrames={1500}
         fps={25}
@@ -943,7 +943,7 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="Senales15_4Edit"
+        id="senales15-4"
         component={Senales15_4Edit}
         durationInFrames={1500}
         fps={25}
@@ -951,7 +951,7 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="Senales15_5Edit"
+        id="senales15-5"
         component={Senales15_5Edit}
         durationInFrames={1500}
         fps={25}
@@ -959,7 +959,7 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="Senales15_6Edit"
+        id="senales15-6"
         component={Senales15_6Edit}
         durationInFrames={1500}
         fps={25}
@@ -967,7 +967,7 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="Senales15_7Edit"
+        id="senales15-7"
         component={Senales15_7Edit}
         durationInFrames={1500}
         fps={25}
@@ -975,7 +975,7 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="Senales15_8Edit"
+        id="senales15-8"
         component={Senales15_8Edit}
         durationInFrames={1500}
         fps={25}
@@ -983,7 +983,7 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="Senales15_9Edit"
+        id="senales15-9"
         component={Senales15_9Edit}
         durationInFrames={1500}
         fps={25}
@@ -991,7 +991,7 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="Senales15_10Edit"
+        id="senales15-10"
         component={Senales15_10Edit}
         durationInFrames={1500}
         fps={25}
@@ -999,7 +999,7 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="Senales15_11Edit"
+        id="senales15-11"
         component={Senales15_11Edit}
         durationInFrames={1500}
         fps={25}
@@ -1007,7 +1007,7 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="Senales15_12Edit"
+        id="senales15-12"
         component={Senales15_12Edit}
         durationInFrames={1500}
         fps={25}
@@ -1015,7 +1015,7 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="Senales15_13Edit"
+        id="senales15-13"
         component={Senales15_13Edit}
         durationInFrames={1500}
         fps={25}
@@ -1023,7 +1023,7 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="Senales15_14Edit"
+        id="senales15-14"
         component={Senales15_14Edit}
         durationInFrames={1500}
         fps={25}
@@ -1031,7 +1031,7 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="Senales15_15Edit"
+        id="senales15-15"
         component={Senales15_15Edit}
         durationInFrames={1500}
         fps={25}
