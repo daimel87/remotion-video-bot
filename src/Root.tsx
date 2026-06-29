@@ -107,6 +107,7 @@ import {BeforeAfterCard} from './BeforeAfterCard';
 import {PhoneNetworkCard} from './PhoneNetworkCard';
 import {PhoneGrabCard} from './PhoneGrabCard';
 import {SeparationCard} from './SeparationCard';
+import {HeartCrackCard} from './HeartCrackCard';
 import {Senales15_1Edit} from './Senales15_1Edit';
 import {Senales15_2Edit} from './Senales15_2Edit';
 import {Senales15_3Edit} from './Senales15_3Edit';
@@ -1105,6 +1106,14 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="SeparationCard"
         component={SeparationCard}
+        durationInFrames={300}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="HeartCrackCard"
+        component={HeartCrackCard}
         durationInFrames={300}
         fps={25}
         width={1920}
