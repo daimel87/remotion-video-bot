@@ -3,8 +3,8 @@ import {AbsoluteFill, useCurrentFrame} from 'remotion';
 export const DualTimelineCard: React.FC = () => {
   const frame = useCurrentFrame();
 
-  // Progreso general
-  const generalProgress = Math.min(1, frame / 250);
+  // Progreso general - completa en frame 550 (22 segundos)
+  const generalProgress = Math.min(1, frame / 550);
 
   // Porcentajes inversos: Contigo baja de 100% a 20%, Otra vida sube de 0% a 80%
   const contigoPercent = Math.max(20, 100 - generalProgress * 80);
@@ -172,32 +172,6 @@ export const DualTimelineCard: React.FC = () => {
       </div>
 
 
-      {/* TEXTO FINAL */}
-      {otraVidaPercent > 70 && (
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '80px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            textAlign: 'center',
-            opacity: Math.max(0, otraVidaPercent - 70) / 10,
-          }}
-        >
-          <div
-            style={{
-              fontSize: '100px',
-              fontWeight: 'bold',
-              color: '#FF6B6B',
-              fontFamily: 'Arial, sans-serif',
-              letterSpacing: '2px',
-              textShadow: '0 0 40px rgba(255, 107, 107, 0.8)',
-            }}
-          >
-            AMBAS REALIDADES
-          </div>
-        </div>
-      )}
     </AbsoluteFill>
   );
 };
