@@ -9,189 +9,93 @@ export const RomaOverlay: React.FC = () => {
 	const {fps} = useVideoConfig();
 
 	return (
-		<AbsoluteFill style={{fontFamily: "'Arial Black', 'Helvetica Neue', sans-serif"}}>
-			{/* ===== HOOK TITLE — 0-3s ===== */}
-			<TitleSlam
-				text="EL IMPERIO MÁS"
-				text2="PODEROSO DE LA HISTORIA"
-				startFrame={0}
-				fps={fps}
-				frame={frame}
+		<AbsoluteFill style={{fontFamily: "'Arial Black', 'Impact', sans-serif"}}>
+
+			{/* ===== 0.0s — FLASH + HOOK SLAM ===== */}
+			<FlashEffect frame={frame} triggerFrame={0} />
+			<HookSlam frame={frame} fps={fps} startFrame={0}
+				lines={['EL IMPERIO', 'MÁS PODEROSO', 'DE LA HISTORIA']}
 			/>
 
-			{/* ===== TOP BAR — persistent channel branding ===== */}
+			{/* ===== 2.5s — GLITCH TRANSITION ===== */}
+			<GlitchTransition frame={frame} triggerFrame={Math.round(2.5 * FPS)} />
+
+			{/* ===== 3s — COUNTER: Año del apogeo ===== */}
+			<CounterPop frame={frame} fps={fps} startFrame={Math.round(3 * FPS)}
+				label="APOGEO" endValue={117} suffix=" d.C." position="left"
+			/>
+
+			{/* ===== 5s — ZOOM TEXT ===== */}
+			<ZoomText frame={frame} fps={fps} startFrame={Math.round(5 * FPS)}
+				text="ROMA DOMINABA TODO" size={48}
+			/>
+
+			{/* ===== 7s — FLASH + COUNTER: Extensión ===== */}
+			<FlashEffect frame={frame} triggerFrame={Math.round(7 * FPS)} />
+			<CounterPop frame={frame} fps={fps} startFrame={Math.round(7.5 * FPS)}
+				label="EXTENSIÓN" endValue={5} suffix=" MILLONES KM²" position="right"
+			/>
+
+			{/* ===== 10s — KINETIC STACK (rápido) ===== */}
+			<KineticStack frame={frame} fps={fps} startFrame={Math.round(10 * FPS)}
+				lines={['CARRETERAS', 'ACUEDUCTOS', 'COLISEOS', 'LEGIONES']}
+				stagger={3}
+			/>
+
+			{/* ===== 13s — GLITCH + COUNTER: Población ===== */}
+			<GlitchTransition frame={frame} triggerFrame={Math.round(13 * FPS)} />
+			<CounterPop frame={frame} fps={fps} startFrame={Math.round(13.5 * FPS)}
+				label="POBLACIÓN" endValue={70} suffix=" MILLONES" position="left"
+			/>
+
+			{/* ===== 16s — LOCATION POP ===== */}
+			<FlashEffect frame={frame} triggerFrame={Math.round(15.8 * FPS)} />
+			<LocationPop frame={frame} fps={fps} startFrame={Math.round(16 * FPS)}
+				text="ROMA, ITALIA"
+			/>
+
+			{/* ===== 18s — ZOOM TEXT ===== */}
+			<ZoomText frame={frame} fps={fps} startFrame={Math.round(18 * FPS)}
+				text="UN IMPERIO INVENCIBLE" size={44} color="#c9a84c"
+			/>
+
+			{/* ===== 20s — SECTION SLAM ===== */}
+			<GlitchTransition frame={frame} triggerFrame={Math.round(19.8 * FPS)} />
+			<FlashEffect frame={frame} triggerFrame={Math.round(20 * FPS)} />
+			<SectionSlam frame={frame} fps={fps} startFrame={Math.round(20 * FPS)}
+				text="LA GLORIA DE ROMA" color="#c9a84c"
+			/>
+
+			{/* ===== 23s — COUNTER: Legiones ===== */}
+			<CounterPop frame={frame} fps={fps} startFrame={Math.round(23 * FPS)}
+				label="LEGIONES" endValue={450} suffix=",000 SOLDADOS" position="right"
+			/>
+
+			{/* ===== 25s — KINETIC rapid fire ===== */}
+			<KineticStack frame={frame} fps={fps} startFrame={Math.round(25 * FPS)}
+				lines={['CONQUISTARON', 'EUROPA', 'ÁFRICA', 'ASIA']}
+				stagger={2}
+			/>
+
+			{/* ===== 28s — FLASH + ZOOM ===== */}
+			<FlashEffect frame={frame} triggerFrame={Math.round(28 * FPS)} />
+			<ZoomText frame={frame} fps={fps} startFrame={Math.round(28 * FPS)}
+				text="NADIE PODÍA DETENERLOS" size={46} color="#e63946"
+			/>
+
+			{/* ===== REST OF VIDEO — simple elements from 30s+ ===== */}
+			{frame >= Math.round(40 * FPS) && <SectionSlam frame={frame} fps={fps} startFrame={Math.round(42 * FPS)} text="CORRUPCIÓN INTERNA" color="#e63946" />}
+			{frame >= Math.round(60 * FPS) && <SectionSlam frame={frame} fps={fps} startFrame={Math.round(62 * FPS)} text="CRISIS ECONÓMICA" color="#e63946" />}
+			{frame >= Math.round(80 * FPS) && <SectionSlam frame={frame} fps={fps} startFrame={Math.round(82 * FPS)} text="INVASIONES BÁRBARAS" color="#ff6b35" />}
+			{frame >= Math.round(136 * FPS) && <HookSlam frame={frame} fps={fps} startFrame={Math.round(140 * FPS)} lines={['DEMASIADO', 'GRANDE PARA', 'SOBREVIVIR']} />}
+			{frame >= Math.round(174 * FPS) && <SectionSlam frame={frame} fps={fps} startFrame={Math.round(178 * FPS)} text="LA CAÍDA FINAL" color="#e63946" />}
+			{frame >= Math.round(184 * FPS) && <HookSlam frame={frame} fps={fps} startFrame={Math.round(188 * FPS)} lines={['4 DE SEPTIEMBRE', '476 d.C.']} />}
+			{frame >= Math.round(208 * FPS) && <HookSlam frame={frame} fps={fps} startFrame={Math.round(212 * FPS)} lines={['FIN DE', 'UNA ERA']} />}
+
+			{/* ===== TOP BAR ===== */}
 			<TopBar frame={frame} />
 
-			{/* ===== SECTION: ROMA EN SU GLORIA — ~4s ===== */}
-			<DataCard
-				frame={frame} fps={fps}
-				startFrame={Math.round(4 * FPS)}
-				label="APOGEO DEL IMPERIO"
-				value="117 d.C."
-				position="left"
-			/>
-
-			{/* ===== SECTION: EXTENSIÓN — ~8s ===== */}
-			<DataCard
-				frame={frame} fps={fps}
-				startFrame={Math.round(8 * FPS)}
-				label="EXTENSIÓN TERRITORIAL"
-				value="5 MILLONES KM²"
-				position="right"
-			/>
-
-			{/* ===== SECTION: POBLACIÓN — ~14s ===== */}
-			<DataCard
-				frame={frame} fps={fps}
-				startFrame={Math.round(14 * FPS)}
-				label="POBLACIÓN"
-				value="70 MILLONES"
-				position="left"
-			/>
-
-			{/* ===== ROMA CIUDAD — ~16s ===== */}
-			<LocationTag frame={frame} fps={fps} startFrame={Math.round(16 * FPS)} text="ROMA, ITALIA" />
-
-			{/* ===== SECTION HEADER: GLORIA — ~20s ===== */}
-			<SectionHeader frame={frame} fps={fps} startFrame={Math.round(20 * FPS)} text="LA GLORIA DE ROMA" />
-
-			{/* ===== LEGIONES — ~30s ===== */}
-			<DataCard
-				frame={frame} fps={fps}
-				startFrame={Math.round(30 * FPS)}
-				label="LEGIONES ROMANAS"
-				value="450,000 SOLDADOS"
-				position="right"
-			/>
-
-			{/* ===== SECTION: CORRUPCIÓN — ~40s ===== */}
-			<SectionHeader frame={frame} fps={fps} startFrame={Math.round(42 * FPS)} text="CORRUPCIÓN INTERNA" color="#e63946" />
-
-			{/* ===== SENADORES — ~45s ===== */}
-			<DataCard
-				frame={frame} fps={fps}
-				startFrame={Math.round(46 * FPS)}
-				label="SENADORES CORRUPTOS"
-				value="VENDÍAN CARGOS"
-				position="left"
-				accent="#e63946"
-			/>
-
-			{/* ===== CÓMODO — ~52s ===== */}
-			<CharacterTag frame={frame} fps={fps} startFrame={Math.round(53 * FPS)} name="CÓMODO" subtitle="Emperador 180-192 d.C." />
-
-			{/* ===== SECTION: CRISIS ECONÓMICA — ~60s ===== */}
-			<SectionHeader frame={frame} fps={fps} startFrame={Math.round(62 * FPS)} text="CRISIS ECONÓMICA" color="#e63946" />
-
-			{/* ===== DENARIO — ~66s ===== */}
-			<DataCard
-				frame={frame} fps={fps}
-				startFrame={Math.round(67 * FPS)}
-				label="DEVALUACIÓN DEL DENARIO"
-				value="−80% PLATA"
-				position="right"
-				accent="#e63946"
-			/>
-
-			{/* ===== INFLACIÓN — ~72s ===== */}
-			<DataCard
-				frame={frame} fps={fps}
-				startFrame={Math.round(73 * FPS)}
-				label="INFLACIÓN"
-				value="1,000%"
-				position="left"
-				accent="#e63946"
-			/>
-
-			{/* ===== SECTION: INVASIONES BÁRBARAS — ~80s ===== */}
-			<SectionHeader frame={frame} fps={fps} startFrame={Math.round(82 * FPS)} text="INVASIONES BÁRBARAS" color="#ff6b35" />
-
-			{/* ===== BÁRBAROS — ~85s ===== */}
-			<DataCard
-				frame={frame} fps={fps}
-				startFrame={Math.round(86 * FPS)}
-				label="PUEBLOS INVASORES"
-				value="GODOS · HUNOS · VÁNDALOS"
-				position="right"
-				accent="#ff6b35"
-			/>
-
-			{/* ===== SAQUEO — ~95s ===== */}
-			<DataCard
-				frame={frame} fps={fps}
-				startFrame={Math.round(96 * FPS)}
-				label="SAQUEO DE ROMA"
-				value="410 d.C."
-				position="left"
-				accent="#ff6b35"
-			/>
-
-			{/* ===== FUNDACIÓN ROMA — ~105s ===== */}
-			<SectionHeader frame={frame} fps={fps} startFrame={Math.round(106 * FPS)} text="ORÍGENES DE ROMA" color="#c9a84c" />
-
-			{/* ===== RÓMULO — ~108s ===== */}
-			<DataCard
-				frame={frame} fps={fps}
-				startFrame={Math.round(109 * FPS)}
-				label="FUNDACIÓN"
-				value="753 a.C."
-				position="right"
-				accent="#c9a84c"
-			/>
-
-			{/* ===== IMPERIO DEMASIADO GRANDE — ~140s ===== */}
-			<TitleSlam
-				text="DEMASIADO"
-				text2="GRANDE PARA SOBREVIVIR"
-				startFrame={Math.round(140 * FPS)}
-				fps={fps}
-				frame={frame}
-				color="#e63946"
-			/>
-
-			{/* ===== CONSTANTINOPLA — ~160s ===== */}
-			<LocationTag frame={frame} fps={fps} startFrame={Math.round(160 * FPS)} text="CONSTANTINOPLA" />
-
-			<DataCard
-				frame={frame} fps={fps}
-				startFrame={Math.round(163 * FPS)}
-				label="IMPERIO ROMANO DE ORIENTE"
-				value="SOBREVIVIÓ 1,000 AÑOS MÁS"
-				position="left"
-				accent="#4895ef"
-			/>
-
-			{/* ===== CAÍDA 476 — ~180s ===== */}
-			<SectionHeader frame={frame} fps={fps} startFrame={Math.round(178 * FPS)} text="LA CAÍDA FINAL" color="#e63946" />
-
-			<CharacterTag frame={frame} fps={fps} startFrame={Math.round(182 * FPS)} name="ODOACRO" subtitle="Líder hérulo" />
-
-			<TitleSlam
-				text="4 DE SEPTIEMBRE"
-				text2="476 d.C."
-				startFrame={Math.round(188 * FPS)}
-				fps={fps}
-				frame={frame}
-				color="#e63946"
-			/>
-
-			{/* ===== RÓMULO AUGÚSTULO — ~196s ===== */}
-			<CharacterTag frame={frame} fps={fps} startFrame={Math.round(198 * FPS)} name="RÓMULO AUGÚSTULO" subtitle="Último emperador romano" />
-
-			{/* ===== COLISEO DESTRUIDO — ~210s ===== */}
-			<TitleSlam
-				text="FIN DE UNA"
-				text2="ERA"
-				startFrame={Math.round(212 * FPS)}
-				fps={fps}
-				frame={frame}
-				color="#e63946"
-			/>
-
-			{/* ===== TIMELINE BAR — persistent ===== */}
-			<TimelineBar frame={frame} totalFrames={DURATION} />
-
-			{/* ===== PROGRESS BAR — bottom ===== */}
+			{/* ===== PROGRESS BAR ===== */}
 			<div style={{
 				position: 'absolute', bottom: 0, left: 0,
 				height: 4, background: '#e63946',
@@ -201,229 +105,254 @@ export const RomaOverlay: React.FC = () => {
 	);
 };
 
-// ============ COMPONENTS ============
-
-const TitleSlam: React.FC<{
-	text: string; text2: string;
-	startFrame: number; fps: number; frame: number;
-	color?: string;
-}> = ({text, text2, startFrame, fps, frame, color = '#fff'}) => {
-	const localFrame = frame - startFrame;
-	if (localFrame < 0 || localFrame > 80) return null;
-
-	const s1 = spring({frame: Math.max(0, localFrame), fps, from: 4, to: 1, durationInFrames: 8});
-	const op1 = interpolate(localFrame, [0, 4], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-	const s2 = spring({frame: Math.max(0, localFrame - 8), fps, from: 4, to: 1, durationInFrames: 8});
-	const op2 = interpolate(localFrame, [8, 12], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-	const shake = localFrame >= 0 && localFrame <= 12 ? Math.sin(localFrame * 4) * Math.max(0, 12 - localFrame) * 0.8 : 0;
-	const fadeOut = interpolate(localFrame, [60, 72], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-
-	return (
-		<div style={{
-			position: 'absolute', inset: 0,
-			display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-			gap: 5, opacity: fadeOut, transform: `translateX(${shake}px)`,
-		}}>
-			{/* Dark bg for readability */}
-			<div style={{position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)', opacity: op1}} />
-			<div style={{
-				fontSize: 52, fontWeight: 900, color: color === '#e63946' ? '#fff' : '#ddd',
-				letterSpacing: -1, transform: `scale(${s1})`, opacity: op1, zIndex: 1,
-				textShadow: '3px 3px 0 rgba(0,0,0,0.8)',
-			}}>{text}</div>
-			<div style={{
-				fontSize: 72, fontWeight: 900, color,
-				letterSpacing: -2, transform: `scale(${s2})`, opacity: op2, zIndex: 1,
-				textShadow: color === '#e63946' ? '3px 3px 0 rgba(0,0,0,0.8)' : `3px 3px 0 #e63946`,
-				lineHeight: 0.95,
-			}}>{text2}</div>
-		</div>
-	);
+// ============ FLASH EFFECT ============
+const FlashEffect: React.FC<{frame: number; triggerFrame: number}> = ({frame, triggerFrame}) => {
+	const local = frame - triggerFrame;
+	if (local < 0 || local > 4) return null;
+	const op = interpolate(local, [0, 1, 4], [0.9, 0.6, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	return <div style={{position: 'absolute', inset: 0, background: '#fff', opacity: op, pointerEvents: 'none'}} />;
 };
 
-const SectionHeader: React.FC<{
-	frame: number; fps: number; startFrame: number; text: string; color?: string;
-}> = ({frame, fps, startFrame, text, color = '#c9a84c'}) => {
-	const localFrame = frame - startFrame;
-	if (localFrame < 0 || localFrame > 60) return null;
+// ============ GLITCH TRANSITION ============
+const GlitchTransition: React.FC<{frame: number; triggerFrame: number}> = ({frame, triggerFrame}) => {
+	const local = frame - triggerFrame;
+	if (local < 0 || local > 6) return null;
 
-	const lineW = interpolate(localFrame, [0, 12], [0, 100], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-	const textOp = interpolate(localFrame, [5, 12], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-	const textScale = spring({frame: Math.max(0, localFrame - 5), fps, from: 0.7, to: 1, durationInFrames: 10});
-	const fadeOut = interpolate(localFrame, [45, 55], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	const sliceCount = 8;
+	const slices = Array.from({length: sliceCount}, (_, i) => {
+		const offset = ((i * 37 + local * 13) % 40) - 20;
+		const h = 100 / sliceCount;
+		const op = interpolate(local, [0, 2, 6], [0.9, 0.7, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+		return (
+			<div key={i} style={{
+				position: 'absolute', left: 0, right: 0,
+				top: `${i * h}%`, height: `${h}%`,
+				background: i % 2 === 0 ? '#e63946' : '#00ffff',
+				transform: `translateX(${offset}px)`,
+				opacity: op * 0.4,
+				mixBlendMode: 'screen',
+			}} />
+		);
+	});
 
-	return (
-		<div style={{
-			position: 'absolute', top: 50, left: 40, opacity: fadeOut,
-			display: 'flex', flexDirection: 'column', gap: 6,
-		}}>
-			<div style={{width: `${lineW}%`, maxWidth: 300, height: 3, background: color, borderRadius: 2}} />
-			<div style={{
-				opacity: textOp, transform: `scale(${textScale})`, transformOrigin: 'left center',
-				fontSize: 32, fontWeight: 900, color, letterSpacing: 3,
-				textShadow: '2px 2px 0 rgba(0,0,0,0.9)',
-			}}>
-				{text}
-			</div>
-		</div>
-	);
+	return <div style={{position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden'}}>{slices}</div>;
 };
 
-const DataCard: React.FC<{
+// ============ HOOK SLAM — multi-line title with stagger ============
+const HookSlam: React.FC<{
 	frame: number; fps: number; startFrame: number;
-	label: string; value: string; position: 'left' | 'right';
-	accent?: string;
-}> = ({frame, fps, startFrame, label, value, position, accent = '#c9a84c'}) => {
-	const localFrame = frame - startFrame;
-	if (localFrame < 0 || localFrame > 90) return null;
+	lines: string[];
+}> = ({frame, fps, startFrame, lines}) => {
+	const local = frame - startFrame;
+	if (local < 0 || local > 55) return null;
 
-	const slideIn = interpolate(localFrame, [0, 10], [position === 'left' ? -200 : 200, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-	const op = interpolate(localFrame, [0, 8], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-	const fadeOut = interpolate(localFrame, [70, 85], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	const shake = local <= 15 ? Math.sin(local * 6) * Math.max(0, 15 - local) * 1.5 : 0;
+	const fadeOut = interpolate(local, [40, 52], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	const bgOp = interpolate(local, [0, 3, 40, 52], [0, 0.7, 0.7, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
-	const valueScale = spring({frame: Math.max(0, localFrame - 10), fps, from: 1.5, to: 1, durationInFrames: 10});
+	return (
+		<div style={{position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 0, transform: `translateX(${shake}px)`}}>
+			<div style={{position: 'absolute', inset: 0, background: '#000', opacity: bgOp}} />
+			{lines.map((line, i) => {
+				const s = spring({frame: Math.max(0, local - i * 4), fps, from: 5, to: 1, durationInFrames: 6, config: {mass: 0.4, damping: 8}});
+				const op = interpolate(local - i * 4, [0, 3], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+				const isLast = i === lines.length - 1;
+				return (
+					<div key={i} style={{
+						fontSize: isLast ? 76 : 50,
+						fontWeight: 900, color: isLast ? '#e63946' : '#fff',
+						transform: `scale(${s})`, opacity: op * fadeOut,
+						textShadow: '4px 4px 0 rgba(0,0,0,0.9)',
+						letterSpacing: isLast ? -3 : -1, lineHeight: 1.0,
+						zIndex: 1,
+					}}>{line}</div>
+				);
+			})}
+		</div>
+	);
+};
+
+// ============ COUNTER POP — animated number ============
+const CounterPop: React.FC<{
+	frame: number; fps: number; startFrame: number;
+	label: string; endValue: number; suffix: string;
+	position: 'left' | 'right';
+}> = ({frame, fps, startFrame, label, endValue, suffix, position}) => {
+	const local = frame - startFrame;
+	if (local < 0 || local > 65) return null;
+
+	const slideIn = spring({frame: Math.max(0, local), fps, from: position === 'left' ? -300 : 300, to: 0, durationInFrames: 8, config: {mass: 0.5, damping: 10}});
+	const countProgress = interpolate(local, [4, 20], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	const currentValue = Math.round(endValue * countProgress);
+	const pop = local >= 20 && local <= 26 ? spring({frame: local - 20, fps, from: 1.3, to: 1, durationInFrames: 6}) : 1;
+	const fadeOut = interpolate(local, [50, 62], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	const op = interpolate(local, [0, 4], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
 	return (
 		<div style={{
-			position: 'absolute',
-			bottom: 80,
+			position: 'absolute', bottom: 90,
 			...(position === 'left' ? {left: 30} : {right: 30}),
 			transform: `translateX(${slideIn}px)`,
 			opacity: op * fadeOut,
 		}}>
 			<div style={{
-				background: 'rgba(0,0,0,0.85)',
-				padding: '12px 24px',
-				borderRadius: 6,
-				borderLeft: position === 'left' ? `4px solid ${accent}` : 'none',
-				borderRight: position === 'right' ? `4px solid ${accent}` : 'none',
-				backdropFilter: 'blur(8px)',
-				maxWidth: 350,
+				background: 'rgba(0,0,0,0.9)', padding: '14px 28px',
+				borderRadius: 4,
+				borderLeft: position === 'left' ? '5px solid #e63946' : 'none',
+				borderRight: position === 'right' ? '5px solid #e63946' : 'none',
 			}}>
-				<div style={{fontSize: 13, fontWeight: 700, color: accent, letterSpacing: 3, marginBottom: 4}}>
+				<div style={{fontSize: 11, fontWeight: 700, color: '#e63946', letterSpacing: 4, marginBottom: 6}}>
 					{label}
 				</div>
 				<div style={{
-					fontSize: 28, fontWeight: 900, color: '#fff',
-					transform: `scale(${valueScale})`, transformOrigin: position === 'left' ? 'left center' : 'right center',
-					textAlign: position === 'left' ? 'left' : 'right',
+					fontSize: 42, fontWeight: 900, color: '#fff',
+					transform: `scale(${pop})`,
+					transformOrigin: position === 'left' ? 'left center' : 'right center',
+					textAlign: position,
 				}}>
-					{value}
+					{currentValue}{suffix}
 				</div>
 			</div>
 		</div>
 	);
 };
 
-const CharacterTag: React.FC<{
-	frame: number; fps: number; startFrame: number; name: string; subtitle: string;
-}> = ({frame, fps, startFrame, name, subtitle}) => {
-	const localFrame = frame - startFrame;
-	if (localFrame < 0 || localFrame > 72) return null;
+// ============ ZOOM TEXT — text that zooms from huge to normal ============
+const ZoomText: React.FC<{
+	frame: number; fps: number; startFrame: number;
+	text: string; size: number; color?: string;
+}> = ({frame, fps, startFrame, text, size, color = '#fff'}) => {
+	const local = frame - startFrame;
+	if (local < 0 || local > 36) return null;
 
-	const lineW = interpolate(localFrame, [0, 8], [0, 100], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-	const nameOp = interpolate(localFrame, [4, 10], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-	const subOp = interpolate(localFrame, [10, 16], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-	const fadeOut = interpolate(localFrame, [55, 68], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	const scale = spring({frame: Math.max(0, local), fps, from: 3, to: 1, durationInFrames: 6, config: {mass: 0.3, damping: 9}});
+	const op = interpolate(local, [0, 2], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	const fadeOut = interpolate(local, [26, 34], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	const blur = interpolate(local, [0, 5], [8, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
 	return (
 		<div style={{
-			position: 'absolute', bottom: 80, left: 30, opacity: fadeOut,
-			display: 'flex', flexDirection: 'column', gap: 4,
+			position: 'absolute', inset: 0,
+			display: 'flex', alignItems: 'center', justifyContent: 'center',
+			pointerEvents: 'none',
 		}}>
-			<div style={{width: `${lineW}%`, maxWidth: 200, height: 3, background: '#e63946'}} />
 			<div style={{
-				opacity: nameOp, fontSize: 30, fontWeight: 900, color: '#fff',
-				letterSpacing: 2, textShadow: '2px 2px 0 rgba(0,0,0,0.9)',
-			}}>{name}</div>
-			<div style={{
-				opacity: subOp, fontSize: 16, fontWeight: 400, color: '#ccc',
-				fontStyle: 'italic', letterSpacing: 1,
-				textShadow: '1px 1px 0 rgba(0,0,0,0.9)',
-			}}>{subtitle}</div>
+				fontSize: size, fontWeight: 900, color,
+				transform: `scale(${scale})`, opacity: op * fadeOut,
+				textShadow: '3px 3px 0 rgba(0,0,0,0.9)',
+				letterSpacing: 3,
+				filter: `blur(${blur}px)`,
+			}}>{text}</div>
 		</div>
 	);
 };
 
-const LocationTag: React.FC<{
+// ============ KINETIC STACK — words appearing rapidly staggered ============
+const KineticStack: React.FC<{
+	frame: number; fps: number; startFrame: number;
+	lines: string[]; stagger: number;
+}> = ({frame, fps, startFrame, lines, stagger}) => {
+	const local = frame - startFrame;
+	const totalDur = lines.length * stagger + 35;
+	if (local < 0 || local > totalDur) return null;
+
+	const fadeOut = interpolate(local, [totalDur - 12, totalDur - 2], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+
+	return (
+		<div style={{
+			position: 'absolute', top: '15%', right: 40,
+			display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4,
+			opacity: fadeOut,
+		}}>
+			{lines.map((line, i) => {
+				const lineLocal = local - i * stagger;
+				if (lineLocal < 0) return null;
+				const s = spring({frame: lineLocal, fps, from: 0, to: 1, durationInFrames: 5, config: {mass: 0.3, damping: 9}});
+				const slideX = interpolate(lineLocal, [0, 5], [60, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+				return (
+					<div key={i} style={{
+						fontSize: 36, fontWeight: 900, color: i === lines.length - 1 ? '#e63946' : '#fff',
+						transform: `scale(${s}) translateX(${slideX}px)`,
+						textShadow: '3px 3px 0 rgba(0,0,0,0.9)',
+						letterSpacing: 2,
+					}}>{line}</div>
+				);
+			})}
+		</div>
+	);
+};
+
+// ============ LOCATION POP ============
+const LocationPop: React.FC<{
 	frame: number; fps: number; startFrame: number; text: string;
 }> = ({frame, fps, startFrame, text}) => {
-	const localFrame = frame - startFrame;
-	if (localFrame < 0 || localFrame > 60) return null;
+	const local = frame - startFrame;
+	if (local < 0 || local > 48) return null;
 
-	const pop = spring({frame: Math.max(0, localFrame), fps, from: 0, to: 1, durationInFrames: 10});
-	const fadeOut = interpolate(localFrame, [45, 55], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	const scaleUp = spring({frame: Math.max(0, local), fps, from: 0, to: 1, durationInFrames: 6, config: {mass: 0.3, damping: 9}});
+	const fadeOut = interpolate(local, [36, 46], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
 	return (
 		<div style={{
 			position: 'absolute', top: 50, right: 30,
-			transform: `scale(${pop})`, opacity: fadeOut,
+			transform: `scale(${scaleUp})`, opacity: fadeOut,
 		}}>
 			<div style={{
-				background: 'rgba(230,57,70,0.95)', padding: '6px 18px',
-				borderRadius: 4, display: 'flex', alignItems: 'center', gap: 8,
+				background: '#e63946', padding: '8px 20px',
+				borderRadius: 3, display: 'flex', alignItems: 'center', gap: 10,
+				boxShadow: '0 4px 20px rgba(230,57,70,0.6)',
 			}}>
-				<span style={{fontSize: 16}}>📍</span>
-				<span style={{fontSize: 18, fontWeight: 900, color: '#fff', letterSpacing: 2}}>{text}</span>
+				<span style={{fontSize: 20, fontWeight: 900, color: '#fff', letterSpacing: 3}}>{text}</span>
 			</div>
 		</div>
 	);
 };
 
-const TopBar: React.FC<{frame: number}> = ({frame}) => {
-	const op = interpolate(frame, [Math.round(4 * FPS), Math.round(5 * FPS)], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-	const endFade = interpolate(frame, [Math.round(240 * FPS), Math.round(245 * FPS)], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+// ============ SECTION SLAM — big section title with line ============
+const SectionSlam: React.FC<{
+	frame: number; fps: number; startFrame: number;
+	text: string; color?: string;
+}> = ({frame, fps, startFrame, text, color = '#c9a84c'}) => {
+	const local = frame - startFrame;
+	if (local < 0 || local > 48) return null;
 
+	const lineW = spring({frame: Math.max(0, local), fps, from: 0, to: 100, durationInFrames: 8});
+	const textScale = spring({frame: Math.max(0, local - 4), fps, from: 3, to: 1, durationInFrames: 6, config: {mass: 0.3, damping: 9}});
+	const textOp = interpolate(local, [4, 7], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	const fadeOut = interpolate(local, [36, 46], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	const shake = local >= 4 && local <= 10 ? Math.sin(local * 8) * (10 - local) * 0.8 : 0;
+
+	return (
+		<div style={{
+			position: 'absolute', top: 40, left: 30, opacity: fadeOut,
+			transform: `translateX(${shake}px)`,
+		}}>
+			<div style={{width: `${lineW}%`, maxWidth: 400, height: 4, background: color, borderRadius: 2, marginBottom: 8}} />
+			<div style={{
+				fontSize: 38, fontWeight: 900, color,
+				transform: `scale(${textScale})`, opacity: textOp,
+				transformOrigin: 'left center',
+				textShadow: '3px 3px 0 rgba(0,0,0,0.9)',
+				letterSpacing: 4,
+			}}>{text}</div>
+		</div>
+	);
+};
+
+// ============ TOP BAR ============
+const TopBar: React.FC<{frame: number}> = ({frame}) => {
+	const op = interpolate(frame, [Math.round(3 * FPS), Math.round(4 * FPS)], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 	if (op === 0) return null;
 
 	return (
 		<div style={{
-			position: 'absolute', top: 12, left: 12, opacity: op * endFade,
+			position: 'absolute', top: 10, left: 10, opacity: op,
 			display: 'flex', alignItems: 'center', gap: 8,
 		}}>
 			<div style={{width: 4, height: 22, background: '#e63946', borderRadius: 2}} />
-			<span style={{fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.6)', letterSpacing: 3}}>
+			<span style={{fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.5)', letterSpacing: 4}}>
 				CRÓNICAS ILUSTRADAS
 			</span>
-		</div>
-	);
-};
-
-const TimelineBar: React.FC<{frame: number; totalFrames: number}> = ({frame, totalFrames}) => {
-	const progress = frame / totalFrames;
-	const periods = [
-		{label: 'GLORIA', start: 0, end: 0.15, color: '#c9a84c'},
-		{label: 'CORRUPCIÓN', start: 0.15, end: 0.3, color: '#e63946'},
-		{label: 'CRISIS', start: 0.3, end: 0.45, color: '#e63946'},
-		{label: 'INVASIONES', start: 0.45, end: 0.65, color: '#ff6b35'},
-		{label: 'CAÍDA', start: 0.65, end: 0.85, color: '#e63946'},
-	];
-
-	const showTimeline = frame > Math.round(20 * FPS) && frame < Math.round(230 * FPS);
-	if (!showTimeline) return null;
-
-	const tlOp = interpolate(frame,
-		[Math.round(20 * FPS), Math.round(22 * FPS), Math.round(225 * FPS), Math.round(230 * FPS)],
-		[0, 0.7, 0.7, 0],
-		{extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}
-	);
-
-	return (
-		<div style={{
-			position: 'absolute', bottom: 12, left: 30, right: 30,
-			opacity: tlOp,
-		}}>
-			<div style={{
-				height: 3, background: 'rgba(255,255,255,0.15)', borderRadius: 2,
-				position: 'relative', overflow: 'hidden',
-			}}>
-				<div style={{
-					position: 'absolute', top: 0, left: 0, bottom: 0,
-					width: `${progress * 100}%`,
-					background: 'linear-gradient(90deg, #c9a84c, #e63946)',
-					borderRadius: 2,
-				}} />
-			</div>
 		</div>
 	);
 };
