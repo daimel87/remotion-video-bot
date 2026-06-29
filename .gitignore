@@ -4,3 +4,5 @@ out
 .DS_Store
 *.log
 public/videos/
+renders/cinematic_tribute.mp4
+renders/cinematic_tribute_hol.mp4
