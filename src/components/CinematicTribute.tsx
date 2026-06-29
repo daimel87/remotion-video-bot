@@ -404,9 +404,9 @@ const MovieBadge: React.FC<{title: string; opacity: number}> = ({title, opacity}
 			style={{
 				fontFamily: "'Georgia', serif",
 				color: '#c9a84c',
-				fontSize: 22,
+				fontSize: 28,
 				letterSpacing: 3,
-				padding: '10px 30px',
+				padding: '12px 36px',
 				border: '1px solid rgba(201, 168, 76, 0.4)',
 				backgroundColor: 'rgba(0, 0, 0, 0.5)',
 			}}
@@ -424,8 +424,8 @@ const PortraitFrame: React.FC<{src: string; scale: number; opacity: number}> = (
 }) => (
 	<div
 		style={{
-			width: 320,
-			height: 380,
+			width: 420,
+			height: 500,
 			border: '3px solid #c9a84c',
 			boxShadow: '0 0 40px rgba(201, 168, 76, 0.4), 0 0 80px rgba(201, 168, 76, 0.15), inset 0 0 20px rgba(0,0,0,0.3)',
 			overflow: 'hidden',
@@ -511,7 +511,7 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({
 						height: '100%',
 						objectFit: 'cover',
 						transform: `scale(${bgScale1})`,
-						filter: 'brightness(0.25) blur(3px)',
+						filter: 'brightness(0.45) blur(2px)',
 					}}
 				/>
 			</AbsoluteFill>
@@ -525,13 +525,13 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({
 						height: '100%',
 						objectFit: 'cover',
 						transform: `scale(${bgScale2})`,
-						filter: 'brightness(0.25) blur(3px)',
+						filter: 'brightness(0.45) blur(2px)',
 					}}
 				/>
 			</AbsoluteFill>
 
 			{/* Dark overlay */}
-			<AbsoluteFill style={{backgroundColor: 'rgba(17, 17, 34, 0.4)'}} />
+			<AbsoluteFill style={{backgroundColor: 'rgba(17, 17, 34, 0.25)'}} />
 
 			{/* Vignette */}
 			<AbsoluteFill
@@ -573,7 +573,7 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({
 						style={{
 							fontFamily: "'Georgia', serif",
 							color: '#d4c487',
-							fontSize: 48,
+							fontSize: 62,
 							fontWeight: 400,
 							letterSpacing: 6,
 							textShadow: '0 2px 20px rgba(0,0,0,0.8)',
@@ -588,7 +588,7 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({
 						style={{
 							fontFamily: "'Georgia', serif",
 							color: '#8a8aaa',
-							fontSize: 22,
+							fontSize: 28,
 							letterSpacing: 8,
 							display: 'flex',
 							alignItems: 'center',
@@ -596,9 +596,9 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({
 							gap: 15,
 						}}
 					>
-						<Candle size={22} />
+						<Candle size={28} />
 						{actor.years}
-						<Candle size={22} />
+						<Candle size={28} />
 					</div>
 				</div>
 
@@ -609,10 +609,10 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({
 						opacity: quoteOpacity,
 						fontFamily: "'Georgia', serif",
 						color: '#9a9ab0',
-						fontSize: 18,
+						fontSize: 26,
 						fontStyle: 'italic',
 						textAlign: 'center',
-						maxWidth: 700,
+						maxWidth: 900,
 						lineHeight: 1.5,
 						padding: '0 40px',
 					}}
