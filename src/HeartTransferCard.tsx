@@ -170,25 +170,6 @@ export const HeartTransferCard: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Texto central inferior - GIGANTE */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '40px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          fontSize: '160px',
-          color: '#FFD700',
-          fontWeight: 'bold',
-          fontFamily: 'Arial, sans-serif',
-          textAlign: 'center',
-          maxWidth: '1600px',
-          lineHeight: '1.1',
-        }}
-      >
-        TRANSFERENCIA<br />DE AFECTO
-      </div>
     </AbsoluteFill>
   );
 };
