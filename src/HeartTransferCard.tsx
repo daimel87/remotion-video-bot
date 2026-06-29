@@ -43,7 +43,7 @@ export const HeartTransferCard: React.FC = () => {
           display: 'flex',
           justifyContent: 'space-around',
           alignItems: 'center',
-          gap: '120px',
+          gap: '80px',
           padding: '40px',
         }}
       >
@@ -51,15 +51,15 @@ export const HeartTransferCard: React.FC = () => {
         <div
           style={{
             position: 'relative',
-            width: '300px',
-            height: '300px',
+            width: '420px',
+            height: '420px',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             opacity: heartOpacity,
           }}
         >
-          <svg width="300" height="300" viewBox="0 0 300 300">
+          <svg width="420" height="420" viewBox="0 0 300 300">
             {/* Mitad izquierda del corazón - Rojo */}
             <path
               d="M 150 280 Q 75 220 75 140 Q 75 90 110 90 Q 135 90 150 110 L 150 280"
@@ -68,15 +68,15 @@ export const HeartTransferCard: React.FC = () => {
             />
 
             {/* Línea de división */}
-            <line x1="150" y1="280" x2="150" y2="90" stroke="#FFD700" strokeWidth="4" />
+            <line x1="150" y1="280" x2="150" y2="90" stroke="#FFD700" strokeWidth="6" />
           </svg>
 
           {/* Etiqueta debajo */}
           <div
             style={{
               position: 'absolute',
-              bottom: '-80px',
-              fontSize: '40px',
+              bottom: '-120px',
+              fontSize: '54px',
               color: '#FF6B6B',
               fontWeight: 'bold',
               fontFamily: 'Arial, sans-serif',
@@ -97,13 +97,13 @@ export const HeartTransferCard: React.FC = () => {
                 position: 'absolute',
                 left: particle.x,
                 top: particle.y,
-                width: '16px',
-                height: '16px',
+                width: '28px',
+                height: '28px',
                 backgroundColor: '#FFD700',
                 borderRadius: '50%',
                 opacity: particle.opacity,
                 transform: `scale(${particle.scale})`,
-                boxShadow: '0 0 20px rgba(255, 215, 0, 0.8)',
+                boxShadow: '0 0 30px rgba(255, 215, 0, 0.9)',
               }}
             />
           ))}
@@ -112,16 +112,16 @@ export const HeartTransferCard: React.FC = () => {
           <svg
             style={{
               position: 'absolute',
-              left: '50px',
-              top: '200px',
+              left: '30px',
+              top: '180px',
               opacity: Math.sin((frame / 25) * Math.PI * 2) * 0.3 + 0.7,
             }}
-            width="200"
-            height="80"
-            viewBox="0 0 200 80"
+            width="240"
+            height="100"
+            viewBox="0 0 240 100"
           >
-            <line x1="20" y1="40" x2="180" y2="40" stroke="#FFD700" strokeWidth="6" />
-            <polygon points="180,40 150,20 150,60" fill="#FFD700" />
+            <line x1="20" y1="50" x2="220" y2="50" stroke="#FFD700" strokeWidth="8" />
+            <polygon points="220,50 180,20 180,80" fill="#FFD700" />
           </svg>
         </div>
 
@@ -129,17 +129,17 @@ export const HeartTransferCard: React.FC = () => {
         <div
           style={{
             position: 'relative',
-            width: '280px',
-            height: '400px',
+            width: '360px',
+            height: '480px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            gap: '40px',
+            gap: '50px',
           }}
         >
-          {/* Silueta simple */}
-          <svg width="200" height="280" viewBox="0 0 200 280">
+          {/* Silueta simple - MUCHO MÁS GRANDE */}
+          <svg width="280" height="380" viewBox="0 0 200 280">
             {/* Cabeza */}
             <circle cx="100" cy="60" r="45" fill="#4CAF50" opacity="0.8" />
 
@@ -158,12 +158,12 @@ export const HeartTransferCard: React.FC = () => {
           {/* Etiqueta debajo */}
           <div
             style={{
-              fontSize: '40px',
+              fontSize: '54px',
               color: '#4CAF50',
               fontWeight: 'bold',
               fontFamily: 'Arial, sans-serif',
               textAlign: 'center',
-              marginTop: '20px',
+              marginTop: '30px',
             }}
           >
             OTRA PERSONA
@@ -171,19 +171,19 @@ export const HeartTransferCard: React.FC = () => {
         </div>
       </div>
 
-      {/* Texto central inferior */}
+      {/* Texto central inferior - MÁS GRANDE */}
       <div
         style={{
           position: 'absolute',
-          bottom: '60px',
+          bottom: '40px',
           left: '50%',
           transform: 'translateX(-50%)',
-          fontSize: '44px',
+          fontSize: '58px',
           color: '#FFD700',
           fontWeight: 'bold',
           fontFamily: 'Arial, sans-serif',
           textAlign: 'center',
-          maxWidth: '1000px',
+          maxWidth: '1200px',
           lineHeight: '1.4',
         }}
       >
