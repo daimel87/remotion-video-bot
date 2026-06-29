@@ -102,6 +102,7 @@ import {HeartTransferCard} from './HeartTransferCard';
 import {InfidelityCierreCard} from './InfidelityCierreCard';
 import {PhoneDoorCard} from './PhoneDoorCard';
 import {CalendarCard} from './CalendarCard';
+import {EvidencePhoneCard} from './EvidencePhoneCard';
 import {Senales15_1Edit} from './Senales15_1Edit';
 import {Senales15_2Edit} from './Senales15_2Edit';
 import {Senales15_3Edit} from './Senales15_3Edit';
@@ -1060,6 +1061,14 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="CalendarCard"
         component={CalendarCard}
+        durationInFrames={300}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="EvidencePhoneCard"
+        component={EvidencePhoneCard}
         durationInFrames={300}
         fps={25}
         width={1920}
