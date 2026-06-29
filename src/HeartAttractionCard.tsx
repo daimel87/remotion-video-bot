@@ -27,7 +27,7 @@ export const HeartAttractionCard: React.FC = () => {
   // Corazón 3: Aparece abajo/derecha y atrae el corazón 1
   const heart3Opacity = thirdHeartProgress;
   const heart3X = 400;
-  const heart3Y = 350;
+  const heart3Y = 150;
 
   // Opacidad de la conexión (línea entre corazones 1 y 2)
   const connectionOpacity = Math.max(0, 1 - breakProgress);
