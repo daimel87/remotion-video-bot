@@ -3,12 +3,16 @@ import {AbsoluteFill, useCurrentFrame} from 'remotion';
 export const DualTimelineCard: React.FC = () => {
   const frame = useCurrentFrame();
 
-  // Progreso de ambas líneas (avanzan juntas)
-  const timelineProgress = Math.min(1, frame / 250);
+  // Progreso general
+  const generalProgress = Math.min(1, frame / 250);
+
+  // Porcentajes inversos: Contigo baja de 100% a 20%, Otra vida sube de 0% a 80%
+  const contigoPercent = Math.max(20, 100 - generalProgress * 80);
+  const otraVidaPercent = Math.min(80, generalProgress * 80);
 
   // Cambio de intensidad: superior pierde brillo, inferior gana
-  const topBrightness = Math.max(0.2, 1 - timelineProgress * 0.8);
-  const bottomBrightness = Math.min(1, 0.3 + timelineProgress * 0.7);
+  const topBrightness = contigoPercent / 100;
+  const bottomBrightness = otraVidaPercent / 100;
 
   // Opacidad del texto
   const topTextOpacity = topBrightness;
@@ -79,7 +83,7 @@ export const DualTimelineCard: React.FC = () => {
             {/* Barra de relleno - gris que se oscurece */}
             <div
               style={{
-                width: `${timelineProgress * 100}%`,
+                width: `${contigoPercent}%`,
                 height: '100%',
                 backgroundColor: `rgba(150, 150, 150, ${topBrightness})`,
                 transition: 'none',
@@ -98,7 +102,7 @@ export const DualTimelineCard: React.FC = () => {
               opacity: topTextOpacity,
             }}
           >
-            {Math.round(timelineProgress * 100)}%
+            {Math.round(contigoPercent)}%
           </div>
         </div>
 
@@ -142,7 +146,7 @@ export const DualTimelineCard: React.FC = () => {
             {/* Barra de relleno - rojo que se ilumina */}
             <div
               style={{
-                width: `${timelineProgress * 100}%`,
+                width: `${otraVidaPercent}%`,
                 height: '100%',
                 backgroundColor: `rgba(255, 107, 107, ${bottomBrightness})`,
                 transition: 'none',
@@ -162,37 +166,14 @@ export const DualTimelineCard: React.FC = () => {
               filter: `drop-shadow(0 0 ${20 * bottomBrightness}px #FF6B6B)`,
             }}
           >
-            {Math.round(timelineProgress * 100)}%
+            {Math.round(otraVidaPercent)}%
           </div>
         </div>
       </div>
 
-      {/* TÍTULO */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '80px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          textAlign: 'center',
-          opacity: Math.min(1, frame / 40),
-        }}
-      >
-        <div
-          style={{
-            fontSize: '140px',
-            fontWeight: 'bold',
-            color: '#FFD700',
-            fontFamily: 'Arial, sans-serif',
-            letterSpacing: '2px',
-          }}
-        >
-          DOS TIEMPOS
-        </div>
-      </div>
 
       {/* TEXTO FINAL */}
-      {timelineProgress > 0.8 && (
+      {otraVidaPercent > 70 && (
         <div
           style={{
             position: 'absolute',
@@ -200,7 +181,7 @@ export const DualTimelineCard: React.FC = () => {
             left: '50%',
             transform: 'translateX(-50%)',
             textAlign: 'center',
-            opacity: Math.max(0, timelineProgress - 0.8) * 5,
+            opacity: Math.max(0, otraVidaPercent - 70) / 10,
           }}
         >
           <div
