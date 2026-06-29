@@ -12,35 +12,34 @@ export const InfidelityTitleCard: React.FC = () => {
   ];
 
   const wordDuration = 20;
-  const totalWords = words.length;
   const staggerDelay = 8;
 
   return (
-    <AbsoluteFill style={{backgroundColor: '#000', overflow: 'hidden'}}>
-      {/* Fondo dinámico animado */}
+    <AbsoluteFill style={{backgroundColor: '#001a4d', overflow: 'hidden'}}>
+      {/* Fondo azul con gradiente */}
       <div
         style={{
           position: 'absolute',
           width: '100%',
           height: '100%',
-          background: 'linear-gradient(135deg, #1a0000 0%, #660000 50%, #1a0000 100%)',
+          background: 'linear-gradient(135deg, #001a4d 0%, #003d99 50%, #001a4d 100%)',
           animation: 'gradientShift 8s ease-in-out infinite',
         }}
       />
 
-      {/* Partículas/efectos */}
+      {/* Efectos de partículas */}
       <div
         style={{
           position: 'absolute',
           width: '100%',
           height: '100%',
           background:
-            'radial-gradient(circle at 20% 50%, rgba(255,0,0,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255,215,0,0.1) 0%, transparent 50%)',
+            'radial-gradient(circle at 20% 50%, rgba(0,100,255,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255,215,0,0.1) 0%, transparent 50%)',
           animation: 'pulse 4s ease-in-out infinite',
         }}
       />
 
-      {/* Texto principal */}
+      {/* Texto principal - MUCHO MÁS GRANDE */}
       <div
         style={{
           position: 'absolute',
@@ -51,8 +50,8 @@ export const InfidelityTitleCard: React.FC = () => {
           justifyContent: 'center',
           alignItems: 'center',
           textAlign: 'center',
-          padding: '40px',
-          gap: '20px',
+          padding: '60px',
+          gap: '30px',
         }}
       >
         <div
@@ -60,12 +59,13 @@ export const InfidelityTitleCard: React.FC = () => {
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            gap: '20px',
-            fontSize: '120px',
+            gap: '30px',
+            fontSize: '180px',
             fontWeight: 'bold',
-            lineHeight: '1.2',
+            lineHeight: '0.95',
             fontFamily: 'Arial, sans-serif',
-            letterSpacing: '2px',
+            letterSpacing: '3px',
+            textTransform: 'uppercase',
           }}
         >
           {words.map((word, index) => {
@@ -78,7 +78,7 @@ export const InfidelityTitleCard: React.FC = () => {
                 style={{
                   color: word.color,
                   opacity: progress,
-                  transform: `scale(${0.8 + progress * 0.2})`,
+                  transform: `scale(${0.7 + progress * 0.3}) translateY(${(1 - progress) * 30}px)`,
                   transition: 'none',
                 }}
               >
@@ -89,28 +89,13 @@ export const InfidelityTitleCard: React.FC = () => {
         </div>
       </div>
 
-      {/* Línea decorativa inferior */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '15%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '400px',
-          height: '4px',
-          background: 'linear-gradient(90deg, transparent, #FFD700, #FF4444, #FFD700, transparent)',
-          borderRadius: '2px',
-          boxShadow: '0 0 20px rgba(255, 215, 0, 0.5)',
-        }}
-      />
-
       <style>{`
         @keyframes gradientShift {
           0%, 100% {
-            background: linear-gradient(135deg, #1a0000 0%, #660000 50%, #1a0000 100%);
+            background: linear-gradient(135deg, #001a4d 0%, #003d99 50%, #001a4d 100%);
           }
           50% {
-            background: linear-gradient(135deg, #330000 0%, #990000 50%, #330000 100%);
+            background: linear-gradient(135deg, #0033cc 0%, #0052cc 50%, #0033cc 100%);
           }
         }
 
@@ -119,7 +104,7 @@ export const InfidelityTitleCard: React.FC = () => {
             opacity: 1;
           }
           50% {
-            opacity: 0.7;
+            opacity: 0.8;
           }
         }
       `}</style>
