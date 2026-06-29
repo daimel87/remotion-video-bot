@@ -1,9 +1,7 @@
-import {AbsoluteFill, useVideoConfig, spring, interpolate} from 'remotion';
-import {useEffect, useState} from 'react';
+import {AbsoluteFill, useCurrentFrame} from 'remotion';
 
 export const InfidelityTitleCard: React.FC = () => {
-  const {fps} = useVideoConfig();
-  const frame = 0;
+  const frame = useCurrentFrame();
 
   const words = [
     {text: '15', color: '#FFF'},
