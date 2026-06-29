@@ -99,6 +99,21 @@ import {InfidelityTitleCard} from './InfidelityTitleCard';
 import {SignalsIntroCard} from './SignalsIntroCard';
 import {BatteryTransferCard} from './BatteryTransferCard';
 import {HeartTransferCard} from './HeartTransferCard';
+import {Senales15_1Edit} from './Senales15_1Edit';
+import {Senales15_2Edit} from './Senales15_2Edit';
+import {Senales15_3Edit} from './Senales15_3Edit';
+import {Senales15_4Edit} from './Senales15_4Edit';
+import {Senales15_5Edit} from './Senales15_5Edit';
+import {Senales15_6Edit} from './Senales15_6Edit';
+import {Senales15_7Edit} from './Senales15_7Edit';
+import {Senales15_8Edit} from './Senales15_8Edit';
+import {Senales15_9Edit} from './Senales15_9Edit';
+import {Senales15_10Edit} from './Senales15_10Edit';
+import {Senales15_11Edit} from './Senales15_11Edit';
+import {Senales15_12Edit} from './Senales15_12Edit';
+import {Senales15_13Edit} from './Senales15_13Edit';
+import {Senales15_14Edit} from './Senales15_14Edit';
+import {Senales15_15Edit} from './Senales15_15Edit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -899,6 +914,126 @@ export const RemotionRoot: React.FC = () => {
         id="HeartTransferCard"
         component={HeartTransferCard}
         durationInFrames={300}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Senales15_1Edit"
+        component={Senales15_1Edit}
+        durationInFrames={1500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Senales15_2Edit"
+        component={Senales15_2Edit}
+        durationInFrames={1500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Senales15_3Edit"
+        component={Senales15_3Edit}
+        durationInFrames={1500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Senales15_4Edit"
+        component={Senales15_4Edit}
+        durationInFrames={1500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Senales15_5Edit"
+        component={Senales15_5Edit}
+        durationInFrames={1500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Senales15_6Edit"
+        component={Senales15_6Edit}
+        durationInFrames={1500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Senales15_7Edit"
+        component={Senales15_7Edit}
+        durationInFrames={1500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Senales15_8Edit"
+        component={Senales15_8Edit}
+        durationInFrames={1500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Senales15_9Edit"
+        component={Senales15_9Edit}
+        durationInFrames={1500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Senales15_10Edit"
+        component={Senales15_10Edit}
+        durationInFrames={1500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Senales15_11Edit"
+        component={Senales15_11Edit}
+        durationInFrames={1500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Senales15_12Edit"
+        component={Senales15_12Edit}
+        durationInFrames={1500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Senales15_13Edit"
+        component={Senales15_13Edit}
+        durationInFrames={1500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Senales15_14Edit"
+        component={Senales15_14Edit}
+        durationInFrames={1500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Senales15_15Edit"
+        component={Senales15_15Edit}
+        durationInFrames={1500}
         fps={25}
         width={1920}
         height={1080}
