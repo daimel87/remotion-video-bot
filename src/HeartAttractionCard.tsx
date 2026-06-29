@@ -15,19 +15,19 @@ export const HeartAttractionCard: React.FC = () => {
   // Fase 4: Ruptura de conexión (150-300 frames)
   const breakProgress = Math.max(0, Math.min(1, (frame - 150) / 150));
 
-  // Posiciones de los corazones
+  // Posiciones de los corazones (centrados)
   // Corazón 1: Izquierda (se mueve hacia el corazón 3)
-  const heart1X = interpolate(attractionProgress, [0, 1], [-300, 200], {extrapolateRight: 'clamp'});
-  const heart1Y = interpolate(attractionProgress, [0, 1], [0, 100], {extrapolateRight: 'clamp'});
+  const heart1X = interpolate(attractionProgress, [0, 1], [-200, 0], {extrapolateRight: 'clamp'});
+  const heart1Y = interpolate(attractionProgress, [0, 1], [0, 0], {extrapolateRight: 'clamp'});
 
   // Corazón 2: Derecha (se queda más o menos en su lugar)
-  const heart2X = interpolate(attractionProgress, [0, 1], [300, 150], {extrapolateRight: 'clamp'});
+  const heart2X = interpolate(attractionProgress, [0, 1], [200, 50], {extrapolateRight: 'clamp'});
   const heart2Y = 0;
 
-  // Corazón 3: Aparece abajo/derecha y atrae el corazón 1
+  // Corazón 3: Centro-arriba y atrae el corazón 1
   const heart3Opacity = thirdHeartProgress;
-  const heart3X = 400;
-  const heart3Y = 150;
+  const heart3X = 0;
+  const heart3Y = -150;
 
   // Opacidad de la conexión (línea entre corazones 1 y 2)
   const connectionOpacity = Math.max(0, 1 - breakProgress);
@@ -125,7 +125,7 @@ export const HeartAttractionCard: React.FC = () => {
             position: 'absolute',
             left: `calc(50% + ${heart1X}px)`,
             top: `calc(50% + ${heart1Y}px)`,
-            fontSize: '200px',
+            fontSize: '280px',
             opacity: uniteProgress,
             transform: `scale(${uniteProgress * heart1Pulse})`,
             filter: `drop-shadow(0 0 ${40 * attractionProgress}px #FF6B6B)`,
@@ -140,7 +140,7 @@ export const HeartAttractionCard: React.FC = () => {
             position: 'absolute',
             left: `calc(50% + ${heart2X}px)`,
             top: `calc(50% + ${heart2Y}px)`,
-            fontSize: '200px',
+            fontSize: '280px',
             opacity: uniteProgress * (1 - breakProgress * 0.3),
             transform: `scale(${uniteProgress})`,
             filter: `drop-shadow(0 0 ${30 * (1 - attractionProgress)}px #FFD700)`,
@@ -149,13 +149,13 @@ export const HeartAttractionCard: React.FC = () => {
           ❤️
         </div>
 
-        {/* CORAZÓN 3 - Nuevo (aparece abajo/derecha) */}
+        {/* CORAZÓN 3 - Nuevo (aparece arriba-centro) */}
         <div
           style={{
             position: 'absolute',
             left: `calc(50% + ${heart3X}px)`,
             top: `calc(50% + ${heart3Y}px)`,
-            fontSize: '200px',
+            fontSize: '280px',
             opacity: heart3Opacity,
             transform: `scale(${0.5 + heart3Opacity * 0.5})`,
             filter: `drop-shadow(0 0 ${60 * heart3Opacity}px #FF6B6B)`,
