@@ -58,6 +58,7 @@ import {PruebaFormatoEdit} from './PruebaFormatoEdit';
 import {Testo1Edit} from './Testo1Edit';
 import {Presion1Edit} from './Presion1Edit';
 import {Suplemento1Edit} from './Suplemento1Edit';
+import {Alprostadil1Edit} from './Alprostadil1Edit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -530,6 +531,14 @@ export const RemotionRoot: React.FC = () => {
         id="Suplemento1Edit"
         component={Suplemento1Edit}
         durationInFrames={11250}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Alprostadil1Edit"
+        component={Alprostadil1Edit}
+        durationInFrames={15000}
         fps={25}
         width={1920}
         height={1080}
