@@ -3,3 +3,8 @@ out
 .chrome
 .DS_Store
 *.log
+
+# Pippit AI
+.env.pippit
+pippit-output/
+.agents/skills/

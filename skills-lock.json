@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "pippit-skill": {
+      "source": "Pippit-dev/pippit-skills",
+      "sourceType": "github",
+      "skillPath": "skills/pippit-skill/SKILL.md",
+      "computedHash": "12b1d596da8424e2d4f3dd57b1bf40885dfcd7ea12e3d9fbd4801b56fcd10658"
+    }
+  }
+}
