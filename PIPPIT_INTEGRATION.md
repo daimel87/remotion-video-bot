@@ -1,250 +1,156 @@
-# 🎬 Integración de Pippit AI con Remotion Video Bot
+# 🎬 Crear Shorts con Pippit AI
 
-Esta guía te explica cómo usar Pippit AI para generar videos automáticamente junto con tu proyecto de Remotion.
+Guía simple para generar videos cortos (shorts) con el plan gratuito de Pippit AI.
 
-## ¿Qué es Pippit AI?
+## 📱 ¿Qué es un Short?
 
-Pippit AI es una plataforma de creación de contenido con IA que permite:
-- **Generar videos completos** desde texto o imágenes
-- **Crear y editar videos** automáticamente
-- **Generar imágenes** con IA
-- **Publicar automáticamente** en TikTok, Instagram, Facebook
-- **Analizar rendimiento** de videos generados
+Un short es un video vertical de:
+- **Duración**: 15 - 60 segundos
+- **Formato**: 9:16 (vertical para TikTok, Instagram Reels, YouTube Shorts)
+- **Ideal para**: Contenido viral, tutoriales rápidos, tips, recetas, entretenimiento
 
-## Instalación y Configuración
+## 🚀 Cómo Empezar
 
-### 1. Crear cuenta en Pippit
+### Paso 1: Crear cuenta en Pippit
 
 1. Ve a https://www.pippit.ai/
-2. Crea una cuenta (opción gratuita disponible)
-3. Obtén tu **Access Key** desde las configuraciones de API
+2. Crea una cuenta gratuita (sin tarjeta de crédito necesaria)
+3. Tendrás **150 créditos por semana** gratis
 
-### 2. Configurar el proyecto
+### Paso 2: Generar tu primer short
 
-Copia el archivo de ejemplo y añade tu clave:
+**Opción A: Directamente en Pippit (recomendado para empezar)**
 
-```bash
-cp .env.pippit.example .env.pippit
+```
+1. Ve a https://www.pippit.ai/create
+2. Escribe tu idea: "Tutorial rápido: 3 alimentos saludables"
+3. Selecciona:
+   - Aspecto: Vertical (9:16)
+   - Duración: 30 segundos
+   - Idioma: Español
+4. Genera
+5. Descarga cuando esté listo
 ```
 
-Edita `.env.pippit` y agrega tu clave:
-
-```env
-PIPPIT_ACCESS_KEY=tu_clave_aqui
-PIPPIT_OUTPUT_DIR=./pippit-output
-PIPPIT_DOWNLOAD_VIDEOS=true
-```
-
-**IMPORTANTE:** Nunca hagas commit de `.env.pippit` con tus credenciales reales. Añadelo a `.gitignore` si no está ya.
-
-### 3. Cargar variables de entorno
-
-```bash
-# En Linux/Mac
-export $(cat .env.pippit | xargs)
-
-# O crear un script load-env.sh
-source .env.pippit
-```
-
-## Uso del Skill Pippit
-
-El skill `pippit-skill` está disponible en tu proyecto. Puedes usarlo de varias formas:
-
-### Opción 1: Usar el Skill directamente con Claude
-
-Puedes invocar el skill escribiendo en Claude:
+**Opción B: Usar el Skill de Claude**
 
 ```
 /pippit-skill
 
-Genera un video sobre "Los beneficios de una dieta equilibrada" 
-con estilo moderno y publica en TikTok
+Genera un short vertical de 30 segundos sobre 
+"3 tips para una vida saludable" en español.
 ```
 
-El skill manejará automáticamente:
-- Generación del video
-- Descarga de archivos
-- Publicación en redes sociales
-- Tracking de tareas
+### Paso 3: Publicar tu short
 
-### Opción 2: Usar el Servicio de Pippit en TypeScript
+Puedes subir el video a:
+- 🎵 **TikTok** - Viral, algoritmo fuerte
+- 📸 **Instagram Reels** - Alcance masivo
+- 🎬 **YouTube Shorts** - Monetización posible
 
-Para usar Pippit programáticamente:
+## 📊 Créditos del Plan Gratuito
+
+**150 créditos/semana = aproximadamente:**
+- 2-3 shorts de 30 segundos
+- O 10-15 imágenes de portada
+- O 1 video de 60 segundos
+
+Ejemplo de consumo:
+- Short de 30 segundos: 50 créditos
+- Short de 60 segundos: 100 créditos
+- Imagen: 10 créditos
+
+## 💡 Ideas para Shorts
+
+### Si tienes un canal de nutrición:
+- "5 formas de comer proteína en el desayuno"
+- "El mejor snack saludable bajo en calorías"
+- "Cómo leer las etiquetas de nutrición"
+- "Receta rápida: Ensalada en 2 minutos"
+
+### Si tienes un canal de educación:
+- "Dato científico que no sabías"
+- "Historia en 30 segundos"
+- "Cómo recordar fórmulas fácilmente"
+
+### Si tienes un canal de entretenimiento:
+- "Trending challenge"
+- "Prank rápido"
+- "Trending song con idea original"
+
+## 🔄 Flujo de Trabajo Recomendado
+
+```
+1. Idea (5 min)
+   ↓
+2. Generar en Pippit (5-15 min)
+   ↓
+3. Descargar (1-2 min)
+   ↓
+4. [Opcional] Editar en Remotion (si quieres agregar textos/gráficos)
+   ↓
+5. Subir a redes sociales (2-5 min)
+```
+
+## 📝 Script de Ejemplo
+
+Si quieres usar nuestro código TypeScript para procesar los shorts:
 
 ```typescript
 import { pippitService } from './src/integrations/pippit.service';
 
-async function generateFoodVideo() {
-  const result = await pippitService.generateVideo({
-    prompt: 'Video educativo sobre alimentos saludables',
-    aspectRatio: '16:9',
-    duration: 60,
+async function createShort() {
+  // Generar short
+  const short = await pippitService.generateVideo({
+    prompt: '5 tips de productividad que funcionan',
+    aspectRatio: '9:16',  // Vertical
+    duration: 30,         // 30 segundos
     language: 'es',
   });
 
-  console.log('Video generado:', result);
-
-  // Descargar el video
-  await pippitService.downloadGeneration(
-    result.id,
-    './pippit-output/video.mp4'
-  );
-
-  // Publicar en redes sociales
-  await pippitService.publishToSocial(result.id, [
-    'tiktok',
-    'instagram'
-  ]);
+  console.log('Short generado:', short.id);
+  console.log('Descárgalo desde: https://www.pippit.ai');
 }
 ```
 
-### Opción 3: Scripts de CLI
+## 💰 Presupuesto Gratuito/Mensual
 
-Crea un script en `package.json`:
+| Plan | Créditos/mes | Videos cortos | Precio |
+|------|------------|---------------|--------|
+| Gratuito | 600 (150/sem) | ~12 shorts | $0 |
+| Starter | 21,600 | ~432 shorts | $25/mes |
 
-```json
-{
-  "scripts": {
-    "generate:video": "node -r ts-node/register scripts/generate-video.ts",
-    "generate:image": "node -r ts-node/register scripts/generate-image.ts"
-  }
-}
-```
+**Mi recomendación**: Usa el plan gratuito primero. Si funciona bien, considera pagar.
 
-## Casos de Uso
+## 🎯 Tips para Shorts Virales
 
-### 1. Generar Videos de Productos
+1. **Primeros 3 segundos**: Gana atención inmediatamente
+2. **Hook fuerte**: "Esto te va a sorprender..."
+3. **Subtítulos**: Muchos ven sin sonido
+4. **Call to action**: "Sígueme para más tips"
+5. **Tendencias**: Usa música/trends populares
+6. **Consistencia**: Publica regularmente
 
-```typescript
-const productVideo = await pippitService.generateVideo({
-  prompt: 'Video promocional de producto con demo y beneficios',
-  style: 'professional',
-  duration: 30,
-});
-```
+## 📚 Recursos
 
-### 2. Crear Variaciones de Contenido
+- [Guía de Pippit AI](https://www.pippit.ai/docs)
+- [Cómo hacer shorts virales](https://www.pippit.ai/templates)
+- [Trending en TikTok hoy](https://www.tiktok.com/discover)
 
-```typescript
-// Generar múltiples versiones del mismo contenido
-const variations = await Promise.all([
-  pippitService.generateVideo({
-    prompt: 'Video: Cómo hacer una ensalada saludable',
-    aspectRatio: '16:9',
-  }),
-  pippitService.generateVideo({
-    prompt: 'Video: Receta de ensalada saludable',
-    aspectRatio: '9:16',
-  }),
-]);
-```
+## 🆘 Problemas Comunes
 
-### 3. Publicación Automática
+**P: ¿Cuánto tarda en generar?**
+R: 5-15 minutos normalmente
 
-```typescript
-// Generar y publicar automáticamente
-const video = await pippitService.generateVideo({
-  prompt: 'Tips de nutrición',
-});
+**P: ¿Se agota mi cuota?**
+R: Tienes 150 créditos/semana. Un short = ~50 créditos. Así que ~3 shorts/semana gratis.
 
-await pippitService.publishToSocial(video.id, [
-  'tiktok',
-  'instagram',
-  'facebook'
-]);
-```
+**P: ¿Puedo usar mi propio script de Remotion?**
+R: Sí, pero Pippit es más rápido. Usa Pippit para contenido genérico y Remotion para contenido personalizado.
 
-## Estructura de Archivos
-
-```
-remotion-video-bot/
-├── .env.pippit                    # Configuración (no commitear)
-├── .env.pippit.example            # Ejemplo de configuración
-├── PIPPIT_INTEGRATION.md          # Esta guía
-├── .agents/skills/pippit-skill/   # Skill instalado
-├── src/
-│   ├── integrations/
-│   │   ├── index.ts               # Exporta todos los módulos
-│   │   ├── pippit.config.ts       # Configuración de Pippit
-│   │   └── pippit.service.ts      # Servicio principal
-│   └── ...
-├── pippit-output/                 # Archivos generados (gitignored)
-└── ...
-```
-
-## Limitaciones y Notas
-
-### Gratuito vs Pago
-- **Plan Gratuito**: 150 créditos por semana
-- **Starter Pro**: 1,800 créditos IA por mes (US$9)
-- Cada generación de video consume créditos
-
-### Tiempos de Generación
-- Videos: 5-30 minutos según complejidad
-- Imágenes: 30 segundos - 2 minutos
-
-### Modelos de Video Soportados
-- Aspect ratios: 16:9, 9:16, 1:1
-- Duraciones: 15s - 120s
-- Formatos: MP4
-- Idiomas: Inglés, Español, Francés, Alemán, Chino, Japonés
-
-## Troubleshooting
-
-### Error: "PIPPIT_ACCESS_KEY no está configurada"
-
-Solución:
-```bash
-# Verifica que .env.pippit existe
-ls -la .env.pippit
-
-# Carga las variables
-source .env.pippit
-
-# Verifica que está configurada
-echo $PIPPIT_ACCESS_KEY
-```
-
-### Error: "Generación fallida"
-
-Posibles causas:
-- Créditos insuficientes (revisa tu cuenta en pippit.ai)
-- Access key inválida o expirada
-- Servidor de Pippit no disponible
-
-### Los videos no se descargan
-
-Solución:
-```bash
-# Verifica que la carpeta de salida existe
-mkdir -p pippit-output
-
-# Verifica permisos
-chmod 755 pippit-output
-```
-
-## Próximos Pasos
-
-1. **Integración con Remotion**: Combina videos generados por Pippit con composiciones de Remotion
-2. **Automatización**: Crea workflows que generen contenido automáticamente
-3. **Analytics**: Monitorea el rendimiento de videos generados
-4. **Multi-idioma**: Genera contenido en diferentes idiomas automáticamente
-
-## Recursos
-
-- [Documentación de Pippit AI](https://www.pippit.ai/docs)
-- [Repositorio del Skill](https://github.com/Pippit-dev/pippit-skills)
-- [Documentación de Remotion](https://www.remotion.dev)
-- [Claude Code Skills](https://code.claude.com/docs/en/skills)
-
-## Soporte
-
-Para problemas o preguntas:
-1. Revisa la documentación de Pippit
-2. Verifica tu configuración de Access Key
-3. Contacta al soporte de Pippit en https://www.pippit.ai/support
+**P: ¿Me lo monetiza?**
+R: Sí, cuando cumplas requisitos de cada plataforma (10k subs en TikTok, 1000 en YouTube, etc.)
 
 ---
 
-¡Listo! Ahora puedes generar videos con Pippit AI integrado en tu proyecto de Remotion.
+¡Listo! Ahora puedes crear shorts virales con el plan gratuito. 🚀

@@ -6,7 +6,8 @@
     "setup:browser": "npx @puppeteer/browsers install chrome-headless-shell@131.0.6778.204 --path .chrome",
     "dev": "remotion studio",
     "build": "remotion render",
-    "upgrade": "remotion upgrade"
+    "upgrade": "remotion upgrade",
+    "create:short": "ts-node scripts/create-short.ts"
   },
   "dependencies": {
     "@remotion/cli": "4.0.477",
