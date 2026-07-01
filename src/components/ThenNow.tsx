@@ -163,8 +163,8 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({actor, index
 	// Info fade
 	const infoOpacity = interpolate(frame, [40, 60, ACTOR_DURATION - 15, ACTOR_DURATION], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
-	const photoW = 760;
-	const photoH = 760;
+	const photoW = 700;
+	const photoH = 840;
 
 	return (
 		<AbsoluteFill style={{opacity: Math.min(fadeIn, fadeOut), backgroundColor: '#080810'}}>
@@ -174,18 +174,6 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({actor, index
 
 			{/* Center divider */}
 			<div style={{position: 'absolute', left: '50%', top: '10%', height: '80%', width: 1, background: 'linear-gradient(180deg, transparent, rgba(201,168,76,0.5), rgba(201,168,76,0.5), transparent)', transform: 'translateX(-50%)'}} />
-
-			{/* Counter top-right */}
-			<div style={{
-				position: 'absolute', top: 24, right: 36,
-				opacity: counterOpacity,
-				fontFamily: "'Georgia', serif",
-				color: '#c9a84c',
-				fontSize: 22,
-				letterSpacing: 2,
-			}}>
-				{index + 1} / {ACTORS.length}
-			</div>
 
 			{/* THEN label */}
 			<div style={{
@@ -223,7 +211,7 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({actor, index
 				}}>
 					<Img
 						src={staticFile(actor.then)}
-						style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', filter: 'sepia(30%) contrast(1.05)'}}
+						style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%', filter: 'sepia(30%) contrast(1.05)'}}
 					/>
 					{/* Sepia overlay */}
 					<div style={{position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 60%, rgba(20,15,5,0.6) 100%)'}} />
@@ -249,7 +237,7 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({actor, index
 					) : (
 						<Img
 							src={staticFile(actor.now)}
-							style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top'}}
+							style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}}
 						/>
 					)}
 					{isDeceased && !noNow && (
