@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video Factory</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #0f0f1a; color: #e0e0e0; min-height: 100vh; }
+
+    header {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      padding: 20px 40px;
+      border-bottom: 1px solid #2a2a4a;
+      display: flex; align-items: center; gap: 16px;
+    }
+    header h1 { font-size: 24px; color: #fff; }
+    header span { background: #7c3aed; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+
+    .tabs {
+      display: flex; gap: 4px; padding: 20px 40px 0;
+      border-bottom: 1px solid #2a2a4a;
+    }
+    .tab {
+      padding: 10px 20px; cursor: pointer; border-radius: 8px 8px 0 0;
+      color: #888; font-size: 14px; border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+    .tab.active { background: #1e1e3a; color: #a78bfa; border-color: #2a2a4a; border-bottom-color: #1e1e3a; }
+    .tab:hover:not(.active) { color: #ccc; }
+
+    .panel { display: none; padding: 30px 40px; }
+    .panel.active { display: block; }
+
+    .card {
+      background: #1e1e3a; border: 1px solid #2a2a4a; border-radius: 12px;
+      padding: 24px; margin-bottom: 20px;
+    }
+    .card h2 { font-size: 16px; color: #a78bfa; margin-bottom: 16px; }
+
+    label { display: block; font-size: 13px; color: #888; margin-bottom: 6px; }
+    input, textarea, select {
+      width: 100%; padding: 10px 14px; background: #0f0f1a;
+      border: 1px solid #2a2a4a; border-radius: 8px; color: #e0e0e0;
+      font-size: 14px; outline: none; transition: border 0.2s;
+    }
+    input:focus, textarea:focus, select:focus { border-color: #7c3aed; }
+    textarea { resize: vertical; min-height: 120px; font-family: inherit; }
+
+    .btn {
+      padding: 10px 24px; border-radius: 8px; border: none; cursor: pointer;
+      font-size: 14px; font-weight: 600; transition: all 0.2s;
+    }
+    .btn-primary { background: #7c3aed; color: #fff; }
+    .btn-primary:hover { background: #6d28d9; }
+    .btn-secondary { background: #2a2a4a; color: #ccc; }
+    .btn-secondary:hover { background: #333360; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+    .result-box {
+      background: #0f0f1a; border: 1px solid #2a2a4a; border-radius: 8px;
+      padding: 16px; margin-top: 16px; font-size: 13px; line-height: 1.6;
+    }
+    .result-box pre { white-space: pre-wrap; word-break: break-word; }
+
+    .idea-card {
+      background: #0f0f1a; border: 1px solid #2a2a4a; border-radius: 8px;
+      padding: 16px; margin-bottom: 12px;
+    }
+    .idea-card h3 { color: #a78bfa; font-size: 14px; margin-bottom: 8px; }
+    .idea-card p { font-size: 13px; color: #888; margin-bottom: 6px; }
+
+    .title-item {
+      background: #0f0f1a; border: 1px solid #2a2a4a; border-radius: 8px;
+      padding: 12px 16px; margin-bottom: 8px; display: flex;
+      justify-content: space-between; align-items: center;
+      font-size: 14px;
+    }
+    .title-item button { background: none; border: none; color: #7c3aed; cursor: pointer; font-size: 12px; }
+
+    .video-card {
+      background: #0f0f1a; border: 1px solid #2a2a4a; border-radius: 8px;
+      overflow: hidden;
+    }
+    .video-card img { width: 100%; height: 140px; object-fit: cover; }
+    .video-card-info { padding: 10px 12px; }
+    .video-card-info p { font-size: 12px; color: #888; }
+    .video-card-info a { color: #a78bfa; font-size: 12px; text-decoration: none; }
+
+    .channel-video {
+      display: flex; gap: 12px; align-items: center;
+      padding: 10px; border-bottom: 1px solid #2a2a4a;
+    }
+    .channel-video:last-child { border-bottom: none; }
+    .channel-video .views { color: #7c3aed; font-size: 12px; white-space: nowrap; }
+    .channel-video .title { font-size: 13px; flex: 1; }
+
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid #444; border-top-color: #a78bfa; border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 8px; vertical-align: middle; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; }
+    .badge-purple { background: #3b1fa8; color: #a78bfa; }
+    .badge-green { background: #064e3b; color: #6ee7b7; }
+
+    audio { width: 100%; margin-top: 12px; }
+    .thumbnail-preview img { width: 100%; border-radius: 8px; margin-top: 12px; }
+
+    .status { font-size: 13px; color: #888; margin-top: 8px; }
+    .status.success { color: #6ee7b7; }
+    .status.error { color: #f87171; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>🎬</div>
+  <h1>Video Factory</h1>
+  <span>Local</span>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('channel')">📊 Channel Analysis</div>
+  <div class="tab" onclick="showTab('ideas')">💡 Video Ideas</div>
+  <div class="tab" onclick="showTab('titles')">✏️ Titles</div>
+  <div class="tab" onclick="showTab('script')">📝 Script</div>
+  <div class="tab" onclick="showTab('voiceover')">🎙️ Voiceover</div>
+  <div class="tab" onclick="showTab('thumbnail')">🖼️ Thumbnail</div>
+  <div class="tab" onclick="showTab('stock')">🎥 Stock Videos</div>
+</div>
+
+<!-- CHANNEL ANALYSIS -->
+<div id="tab-channel" class="panel active">
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <h2>Analyze YouTube Channel</h2>
+        <label>Channel URL</label>
+        <input id="ch-url" type="text" placeholder="https://www.youtube.com/@ChannelName" />
+        <br/><br/>
+        <label>Number of videos to fetch</label>
+        <input id="ch-limit" type="number" value="15" min="5" max="50" />
+        <br/><br/>
+        <button class="btn btn-primary" onclick="analyzeChannel()">Fetch Channel Data</button>
+        <p class="status" id="ch-status"></p>
+      </div>
+    </div>
+    <div>
+      <div class="card" id="ch-results" style="display:none">
+        <h2 id="ch-name">Channel Videos</h2>
+        <div id="ch-videos"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VIDEO IDEAS -->
+<div id="tab-ideas" class="panel">
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <h2>Generate Video Ideas</h2>
+        <label>Niche / Focus</label>
+        <input id="ideas-niche" type="text" placeholder="e.g. Celebrity news, Then & Now, Rankings..." />
+        <br/><br/>
+        <label>Additional context (optional)</label>
+        <textarea id="ideas-context" placeholder="Any specific angle or audience you want to target..."></textarea>
+        <br/>
+        <button class="btn btn-primary" onclick="generateIdeas()">Generate 10 Ideas</button>
+        <p class="status" id="ideas-status"></p>
+      </div>
+    </div>
+    <div id="ideas-results"></div>
+  </div>
+</div>
+
+<!-- TITLES -->
+<div id="tab-titles" class="panel">
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <h2>Generate Titles</h2>
+        <label>Topic or Video Concept</label>
+        <input id="titles-topic" type="text" placeholder="e.g. 50 Actors from the 80s Then and Now" />
+        <br/><br/>
+        <label>Style</label>
+        <select id="titles-style">
+          <option value="engaging">Engaging & Clickbait</option>
+          <option value="informative">Informative</option>
+          <option value="question">Question format</option>
+          <option value="shocking">Shocking / Surprising</option>
+          <option value="nostalgic">Nostalgic</option>
+        </select>
+        <br/><br/>
+        <button class="btn btn-primary" onclick="generateTitles()">Generate 10 Titles</button>
+        <p class="status" id="titles-status"></p>
+      </div>
+    </div>
+    <div id="titles-results"></div>
+  </div>
+</div>
+
+<!-- SCRIPT -->
+<div id="tab-script" class="panel">
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <h2>Write Script</h2>
+        <label>Video Title</label>
+        <input id="script-title" type="text" placeholder="50 Handsome Hollywood Actors — Then and Now" />
+        <br/><br/>
+        <label>Hook (first 10 seconds)</label>
+        <input id="script-hook" type="text" placeholder="Did you know these 80s heartthrobs look completely different today?" />
+        <br/><br/>
+        <label>Duration (minutes)</label>
+        <input id="script-duration" type="number" value="8" min="2" max="30" />
+        <br/><br/>
+        <label>Language</label>
+        <select id="script-lang">
+          <option value="English">English</option>
+          <option value="Spanish">Spanish</option>
+          <option value="Portuguese">Portuguese</option>
+          <option value="French">French</option>
+        </select>
+        <br/><br/>
+        <button class="btn btn-primary" onclick="generateScript()">Write Script</button>
+        <p class="status" id="script-status"></p>
+      </div>
+    </div>
+    <div>
+      <div class="card" id="script-result" style="display:none">
+        <h2>Script</h2>
+        <button class="btn btn-secondary" style="margin-bottom:12px" onclick="copyScript()">Copy Script</button>
+        <button class="btn btn-secondary" style="margin-bottom:12px;margin-left:8px" onclick="sendToVoiceover()">→ Send to Voiceover</button>
+        <div class="result-box"><pre id="script-text"></pre></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VOICEOVER -->
+<div id="tab-voiceover" class="panel">
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <h2>Generate Voiceover</h2>
+        <label>Text (max 5000 characters)</label>
+        <textarea id="vo-text" style="min-height:200px" placeholder="Paste your script here..."></textarea>
+        <br/>
+        <label>Voice</label>
+        <select id="vo-voice">
+          <option value="en-US-Journey-F">English Female (Journey)</option>
+          <option value="en-US-Journey-D">English Male (Journey)</option>
+          <option value="en-US-Neural2-F">English Female (Neural2)</option>
+          <option value="en-US-Neural2-D">English Male (Neural2)</option>
+          <option value="es-US-Neural2-A">Spanish Female</option>
+          <option value="es-US-Neural2-B">Spanish Male</option>
+        </select>
+        <br/><br/>
+        <button class="btn btn-primary" onclick="generateVoiceover()">Generate Voiceover</button>
+        <p class="status" id="vo-status"></p>
+      </div>
+    </div>
+    <div>
+      <div class="card" id="vo-result" style="display:none">
+        <h2>Voiceover Ready</h2>
+        <audio id="vo-audio" controls></audio>
+        <br/><br/>
+        <a id="vo-download" class="btn btn-secondary" download>⬇ Download MP3</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- THUMBNAIL -->
+<div id="tab-thumbnail" class="panel">
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <h2>Generate Thumbnail (Gemini)</h2>
+        <label>Describe the thumbnail</label>
+        <textarea id="thumb-prompt" placeholder="e.g. Before and after photo collage of a Hollywood actor, dramatic lighting, red text overlay, cinematic style"></textarea>
+        <br/>
+        <button class="btn btn-primary" onclick="generateThumbnail()">Generate Thumbnail</button>
+        <p class="status" id="thumb-status"></p>
+      </div>
+    </div>
+    <div>
+      <div class="card thumbnail-preview" id="thumb-result" style="display:none">
+        <h2>Thumbnail Preview</h2>
+        <img id="thumb-img" src="" alt="Generated thumbnail" />
+        <br/><br/>
+        <a id="thumb-download" class="btn btn-secondary" download>⬇ Download PNG</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STOCK VIDEOS -->
+<div id="tab-stock" class="panel">
+  <div class="card">
+    <h2>Search Stock Videos (Pexels)</h2>
+    <div style="display:flex;gap:12px;align-items:flex-end">
+      <div style="flex:1">
+        <label>Search query</label>
+        <input id="stock-query" type="text" placeholder="e.g. Hollywood cinema, vintage film, celebrities..." />
+      </div>
+      <button class="btn btn-primary" onclick="searchStock()">Search</button>
+    </div>
+    <p class="status" id="stock-status"></p>
+  </div>
+  <div class="grid3" id="stock-results"></div>
+</div>
+
+<script>
+  let channelData = null;
+  let lastScript = '';
+
+  function showTab(name) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function setStatus(id, msg, type = '') {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.className = 'status ' + type;
+  }
+
+  function loading(id) {
+    setStatus(id, '⏳ Loading...');
+  }
+
+  // ── Channel Analysis ──
+  async function analyzeChannel() {
+    const url = document.getElementById('ch-url').value.trim();
+    const limit = document.getElementById('ch-limit').value;
+    if (!url) return alert('Enter a YouTube channel URL');
+
+    loading('ch-status');
+    try {
+      const res = await fetch('/api/channel', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ url, limit: parseInt(limit) })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      channelData = data;
+      document.getElementById('ch-name').textContent = data.channel || 'Channel Videos';
+      document.getElementById('ch-results').style.display = 'block';
+
+      const sorted = [...data.videos].sort((a, b) => b.views - a.views);
+      document.getElementById('ch-videos').innerHTML = sorted.map(v => `
+        <div class="channel-video">
+          <span class="views">${v.views.toLocaleString()} views</span>
+          <span class="title">${v.title}</span>
+        </div>
+      `).join('');
+
+      setStatus('ch-status', `✅ Fetched ${data.videos.length} videos`, 'success');
+    } catch (err) {
+      setStatus('ch-status', '❌ ' + err.message, 'error');
+    }
+  }
+
+  // ── Video Ideas ──
+  async function generateIdeas() {
+    const niche = document.getElementById('ideas-niche').value.trim();
+    const context = document.getElementById('ideas-context').value.trim();
+    if (!niche) return alert('Enter a niche');
+
+    loading('ideas-status');
+    const payload = { niche };
+    if (channelData) payload.channelData = channelData;
+    if (context) payload.channelData = { ...(channelData || {}), context };
+
+    try {
+      const res = await fetch('/api/ideas', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ channelData: channelData || { channel: niche, videos: [] }, niche })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      document.getElementById('ideas-results').innerHTML = data.ideas.map((idea, i) => `
+        <div class="idea-card">
+          <h3>${i + 1}. ${idea.title}</h3>
+          <p>🎯 <strong>Hook:</strong> ${idea.hook}</p>
+          <p>📈 ${idea.reason}</p>
+          <button class="btn btn-secondary" style="margin-top:8px;font-size:12px" onclick="useIdea('${idea.title.replace(/'/g, "\\'")}', '${idea.hook.replace(/'/g, "\\'")}')">Use this idea →</button>
+        </div>
+      `).join('');
+
+      setStatus('ideas-status', `✅ Generated ${data.ideas.length} ideas`, 'success');
+    } catch (err) {
+      setStatus('ideas-status', '❌ ' + err.message, 'error');
+    }
+  }
+
+  function useIdea(title, hook) {
+    document.getElementById('script-title').value = title;
+    document.getElementById('script-hook').value = hook;
+    document.getElementById('titles-topic').value = title;
+    showTab('script');
+    document.querySelectorAll('.tab')[3].classList.add('active');
+    document.querySelectorAll('.tab').forEach((t, i) => { if (i !== 3) t.classList.remove('active'); });
+  }
+
+  // ── Titles ──
+  async function generateTitles() {
+    const topic = document.getElementById('titles-topic').value.trim();
+    const style = document.getElementById('titles-style').value;
+    if (!topic) return alert('Enter a topic');
+
+    loading('titles-status');
+    try {
+      const res = await fetch('/api/titles', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ topic, style })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      document.getElementById('titles-results').innerHTML = `
+        <div class="card">
+          <h2>Generated Titles</h2>
+          ${data.titles.map(t => `
+            <div class="title-item">
+              <span>${t}</span>
+              <button onclick="navigator.clipboard.writeText('${t.replace(/'/g, "\\'")}')">Copy</button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      setStatus('titles-status', '✅ Done', 'success');
+    } catch (err) {
+      setStatus('titles-status', '❌ ' + err.message, 'error');
+    }
+  }
+
+  // ── Script ──
+  async function generateScript() {
+    const title = document.getElementById('script-title').value.trim();
+    const hook = document.getElementById('script-hook').value.trim();
+    const duration = document.getElementById('script-duration').value;
+    const language = document.getElementById('script-lang').value;
+    if (!title) return alert('Enter a title');
+
+    loading('script-status');
+    try {
+      const res = await fetch('/api/script', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ title, hook, duration: parseInt(duration), language })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      lastScript = data.script;
+      document.getElementById('script-text').textContent = data.script;
+      document.getElementById('script-result').style.display = 'block';
+      setStatus('script-status', '✅ Script ready', 'success');
+    } catch (err) {
+      setStatus('script-status', '❌ ' + err.message, 'error');
+    }
+  }
+
+  function copyScript() {
+    navigator.clipboard.writeText(lastScript);
+    alert('Script copied!');
+  }
+
+  function sendToVoiceover() {
+    document.getElementById('vo-text').value = lastScript.slice(0, 5000);
+    showTab('voiceover');
+    document.querySelectorAll('.tab')[4].classList.add('active');
+    document.querySelectorAll('.tab').forEach((t, i) => { if (i !== 4) t.classList.remove('active'); });
+  }
+
+  // ── Voiceover ──
+  async function generateVoiceover() {
+    const text = document.getElementById('vo-text').value.trim();
+    const voice = document.getElementById('vo-voice').value;
+    if (!text) return alert('Enter text');
+
+    loading('vo-status');
+    try {
+      const res = await fetch('/api/voiceover', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ text, voice })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      document.getElementById('vo-audio').src = data.url;
+      document.getElementById('vo-download').href = data.url;
+      document.getElementById('vo-download').download = data.filename;
+      document.getElementById('vo-result').style.display = 'block';
+      setStatus('vo-status', '✅ Voiceover ready', 'success');
+    } catch (err) {
+      setStatus('vo-status', '❌ ' + err.message, 'error');
+    }
+  }
+
+  // ── Thumbnail ──
+  async function generateThumbnail() {
+    const prompt = document.getElementById('thumb-prompt').value.trim();
+    if (!prompt) return alert('Describe the thumbnail');
+
+    loading('thumb-status');
+    try {
+      const res = await fetch('/api/thumbnail', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ prompt })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      document.getElementById('thumb-img').src = data.url;
+      document.getElementById('thumb-download').href = data.url;
+      document.getElementById('thumb-download').download = data.filename;
+      document.getElementById('thumb-result').style.display = 'block';
+      setStatus('thumb-status', '✅ Thumbnail generated', 'success');
+    } catch (err) {
+      setStatus('thumb-status', '❌ ' + err.message, 'error');
+    }
+  }
+
+  // ── Stock Videos ──
+  async function searchStock() {
+    const query = document.getElementById('stock-query').value.trim();
+    if (!query) return alert('Enter a search query');
+
+    loading('stock-status');
+    try {
+      const res = await fetch('/api/stock', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ query, perPage: 9 })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      document.getElementById('stock-results').innerHTML = data.videos.map(v => `
+        <div class="video-card">
+          <img src="${v.thumbnail}" alt="video thumbnail" />
+          <div class="video-card-info">
+            <p>⏱ ${v.duration}s · by ${v.photographer}</p>
+            <a href="${v.url}" target="_blank">Download HD ↗</a>
+          </div>
+        </div>
+      `).join('');
+
+      setStatus('stock-status', `✅ Found ${data.videos.length} videos`, 'success');
+    } catch (err) {
+      setStatus('stock-status', '❌ ' + err.message, 'error');
+    }
+  }
+</script>
+</body>
+</html>
