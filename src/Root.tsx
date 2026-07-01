@@ -36,6 +36,7 @@ import {RomaFullEditEntry} from './RomaFullEditEntry';
 import {CinematicTributeEdit} from './CinematicTributeEdit';
 import {ThenNowEdit} from './ThenNowEdit';
 import {BrendanFraserThumbnailEdit} from './BrendanFraserThumbnailEdit';
+import {MickeyRourkeThumbnailEdit} from './MickeyRourkeThumbnailEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -315,6 +316,14 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="BrendanFraserThumbnail"
         component={BrendanFraserThumbnailEdit}
+        durationInFrames={1}
+        fps={30}
+        width={1280}
+        height={720}
+      />
+      <Composition
+        id="MickeyRourkeThumbnail"
+        component={MickeyRourkeThumbnailEdit}
         durationInFrames={1}
         fps={30}
         width={1280}
