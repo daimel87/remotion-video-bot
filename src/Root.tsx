@@ -34,6 +34,7 @@ import {HallOfLegendsEdit} from './HallOfLegendsEdit';
 import {RomaOverlayEdit} from './RomaOverlayEdit';
 import {RomaFullEditEntry} from './RomaFullEditEntry';
 import {CinematicTributeEdit} from './CinematicTributeEdit';
+import {ThenNowEdit} from './ThenNowEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -309,6 +310,14 @@ export const RemotionRoot: React.FC = () => {
         fps={24}
         width={1280}
         height={720}
+      />
+      <Composition
+        id="ThenNow"
+        component={ThenNowEdit}
+        durationInFrames={14300}
+        fps={30}
+        width={1920}
+        height={1080}
       />
       <Composition
         id="CinematicTribute"
