@@ -2,7 +2,7 @@ name: Publicar sitio de outliers
 
 on:
   push:
-    branches: [main]
+    branches: [claude/charming-bell-kl0c3i]
     paths:
       - "outlier-tracker/public/**"
   workflow_dispatch: {}
