@@ -16,9 +16,18 @@ producir un video propio con más probabilidad de pegar.
    o signo de pregunta, palabras más repetidas en títulos y en los ganchos.
 5. Guarda todo en `output/<tema>.json`.
 
-**Fase 2 (pendiente): generación con IA** — escribir el guion optimizado,
-sugerir 3 títulos + 3 miniaturas (con Gemini) y puntuarlos contra los
-patrones encontrados. Falta una clave de Gemini con cuota gratuita activa.
+**Fase 2 (manual, sin Gemini): guion, títulos y miniaturas.** La cuota
+gratuita de Gemini no está disponible en esta cuenta (probado en dos
+proyectos distintos, error `limit: 0` — restricción de cuenta/región, no
+de configuración). En vez de automatizarlo con una API de pago, esta fase
+se hace conversando con Claude:
+
+1. Corre `npm run research "tu tema"` (fase 1).
+2. Comparte el archivo `output/tu-tema.json` generado.
+3. Con eso, Claude escribe el guion optimizado, sugiere 3 títulos y 3
+   conceptos de miniatura (descripción de colores/composición/texto, sin
+   imagen generada), y los puntúa contra los patrones del reporte —
+   todo como texto, sin costo ni API adicional.
 
 ## Uso
 
