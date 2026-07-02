@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Img, Sequence, useCurrentFrame, interpolate} from 'remotion';
 
 const ACTORS = [
-	{name: 'Emilia Clarke', born: 1986, character: 'Daenerys Targaryen', then: 'images/then-now/71B0YQ0w+9L._AC_UF894,1000_QL80_.jpg', now: 'images/then-now/emilia clarke.jpg'},
+	{name: 'Emilia Clarke', born: 1986, character: 'Daenerys Targaryen', then: 'images/then-now/emilia-then.jpg', now: 'images/then-now/emilia-clarke.jpg'},
 	{name: 'Kit Harington', born: 1986, character: 'Jon Snow', then: 'images/then-now/108731348.jpg', now: 'images/then-now/images.jpg'},
 	{name: 'Sophie Turner', born: 1996, character: 'Sansa Stark', then: 'images/then-now/Sophie_Turner_2009_(cropped).jpg', now: 'images/then-now/images (1).jpg'},
 	{name: 'Isaac Hempstead Wright', born: 1999, character: 'Bran Stark', then: 'images/then-now/isaac-hempstead-wright-87671-c.jpg', now: 'images/then-now/451320_1.7.webp'},
