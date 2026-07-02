@@ -130,17 +130,30 @@ body {
   display: block;
 }
 
-.score-badge {
+.hero-badge {
   position: absolute;
   top: 8px;
   right: 8px;
-  background: linear-gradient(135deg, var(--accent-strong), var(--danger-glow));
-  color: #0b0d12;
-  font-weight: 700;
-  font-size: 0.8rem;
-  padding: 4px 10px;
+  background: var(--accent-strong);
+  color: #06281c;
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  padding: 5px 12px;
   border-radius: 999px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.date-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(11, 13, 18, 0.75);
+  backdrop-filter: blur(2px);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  padding: 3px 8px;
+  border-radius: 999px;
 }
 
 .card-body {
@@ -175,14 +188,45 @@ body {
   border-radius: 50%;
 }
 
-.stats-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  margin-top: auto;
-  padding-top: 8px;
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 2px;
+  padding-top: 10px;
   border-top: 1px solid var(--border);
+}
+
+.stat-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.stat-delta {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.stat-delta-accent {
+  color: var(--accent-strong);
+  font-weight: 700;
 }
 
 .niche-tags {

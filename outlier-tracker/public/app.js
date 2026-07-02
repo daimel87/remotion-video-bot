@@ -90,20 +90,29 @@ function renderGrid() {
     card.innerHTML = `
       <div class="thumb-wrap">
         <img src="${v.thumbnail}" alt="" loading="lazy" />
-        <span class="score-badge">+${v.outlierPercent}%</span>
+        <span class="hero-badge">🚀 ${v.outlierMultiplier}x</span>
+        <span class="date-badge">${formatRelativeDate(v.publishedAt)}</span>
       </div>
       <div class="card-body">
         <div class="card-title">${escapeHtml(v.title)}</div>
         <div class="channel-row">
           ${v.channelThumbnail ? `<img src="${v.channelThumbnail}" alt="" />` : ""}
-          <span>${escapeHtml(v.channelTitle)} · ${formatNumber(v.subscriberCount)} subs</span>
+          <span>${escapeHtml(v.channelTitle)}</span>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-tile">
+            <div class="stat-label">👁 Vistas</div>
+            <div class="stat-value">${formatNumber(v.viewCount)}</div>
+            <div class="stat-delta">vs ${formatNumber(v.baselineViews)} típico</div>
+          </div>
+          <div class="stat-tile">
+            <div class="stat-label">👥 Suscriptores</div>
+            <div class="stat-value">${formatNumber(v.subscriberCount)}</div>
+            <div class="stat-delta stat-delta-accent">+${v.outlierPercent}% outlier</div>
+          </div>
         </div>
         <div class="niche-tags">
           ${v.niches.map((n) => `<span class="niche-tag">${escapeHtml(nicheLabel(n))}</span>`).join("")}
-        </div>
-        <div class="stats-row">
-          <span>${formatNumber(v.viewCount)} vistas (vs ${formatNumber(v.baselineViews)} típico)</span>
-          <span>${formatRelativeDate(v.publishedAt)}</span>
         </div>
       </div>
     `;
