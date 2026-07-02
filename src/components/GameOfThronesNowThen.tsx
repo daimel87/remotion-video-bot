@@ -51,15 +51,11 @@ function ActorPair({then, now, born}: any) {
 	const age2026 = 2026 - born;
 
 	return (
-		<AbsoluteFill style={{opacity}}>
+		<AbsoluteFill style={{opacity, backgroundColor: '#000'}}>
 			{/* Left THEN */}
-			<div style={{width: '50%', height: '100%', position: 'relative', overflow: 'hidden'}}>
-				<Img
-					src={then}
-					style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}}
-				/>
+			<div style={{width: '50%', height: '100%', position: 'relative', overflow: 'hidden', backgroundColor: '#111'}}>
+				{then && <Img src={then} style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}} />}
 				<div style={{position: 'absolute', inset: 0, background: 'linear-gradient(to right, transparent 60%, rgba(0,0,0,0.3) 100%)'}} />
-				{/* Year + Age bottom left */}
 				<div style={{position: 'absolute', bottom: 30, left: 30}}>
 					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#fff', fontSize: 56, fontWeight: 900, textShadow: '3px 3px 6px rgba(0,0,0,0.8)'}}>2011</div>
 					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#22dd22', fontSize: 52, fontWeight: 900, textShadow: '2px 2px 4px rgba(0,0,0,0.8)', marginTop: 8}}>{age2011}</div>
@@ -67,13 +63,9 @@ function ActorPair({then, now, born}: any) {
 			</div>
 
 			{/* Right NOW */}
-			<div style={{width: '50%', height: '100%', position: 'relative', overflow: 'hidden'}}>
-				<Img
-					src={now}
-					style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}}
-				/>
+			<div style={{width: '50%', height: '100%', position: 'relative', overflow: 'hidden', backgroundColor: '#111'}}>
+				{now && <Img src={now} style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}} />}
 				<div style={{position: 'absolute', inset: 0, background: 'linear-gradient(to left, transparent 60%, rgba(0,0,0,0.3) 100%)'}} />
-				{/* Year + Age bottom right */}
 				<div style={{position: 'absolute', bottom: 30, right: 30, textAlign: 'right'}}>
 					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#fff', fontSize: 56, fontWeight: 900, textShadow: '3px 3px 6px rgba(0,0,0,0.8)'}}>2026</div>
 					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#22dd22', fontSize: 52, fontWeight: 900, textShadow: '2px 2px 4px rgba(0,0,0,0.8)', marginTop: 8}}>{age2026}</div>
