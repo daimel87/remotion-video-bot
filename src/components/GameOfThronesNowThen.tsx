@@ -57,9 +57,12 @@ function ActorPair({then, now, born}: any) {
 					src={then}
 					style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}}
 				/>
-				<div style={{position: 'absolute', bottom: 30, left: 30, background: 'rgba(0, 0, 0, 0.85)', borderRadius: 8, padding: '20px 30px', backdropFilter: 'blur(4px)'}}>
-					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#fff', fontSize: 48, fontWeight: 900, letterSpacing: 1, lineHeight: 1}}>2011</div>
-					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#22ff22', fontSize: 52, fontWeight: 900, letterSpacing: 1, marginTop: 8, lineHeight: 1}}>{age2011}</div>
+				<div style={{position: 'absolute', bottom: 40, left: 40, display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
+					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#fff', fontSize: 56, fontWeight: 900, letterSpacing: 2, lineHeight: 1}}>2011</div>
+					<div style={{display: 'flex', alignItems: 'baseline', gap: 12, marginTop: 8}}>
+						<div style={{fontFamily: 'Arial Black, sans-serif', color: '#22ff22', fontSize: 64, fontWeight: 900, letterSpacing: 2, lineHeight: 1}}>{age2011}</div>
+						<div style={{fontFamily: 'Arial Black, sans-serif', color: '#FFD700', fontSize: 44, fontWeight: 900, letterSpacing: 1}}>Age</div>
+					</div>
 				</div>
 			</div>
 
@@ -69,9 +72,12 @@ function ActorPair({then, now, born}: any) {
 					src={now}
 					style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}}
 				/>
-				<div style={{position: 'absolute', bottom: 30, right: 30, background: 'rgba(0, 0, 0, 0.85)', borderRadius: 8, padding: '20px 30px', backdropFilter: 'blur(4px)'}}>
-					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#fff', fontSize: 48, fontWeight: 900, letterSpacing: 1, lineHeight: 1}}>2026</div>
-					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#22ff22', fontSize: 52, fontWeight: 900, letterSpacing: 1, marginTop: 8, lineHeight: 1}}>{age2026}</div>
+				<div style={{position: 'absolute', bottom: 40, right: 40, display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
+					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#fff', fontSize: 56, fontWeight: 900, letterSpacing: 2, lineHeight: 1}}>2026</div>
+					<div style={{display: 'flex', alignItems: 'baseline', gap: 12, marginTop: 8}}>
+						<div style={{fontFamily: 'Arial Black, sans-serif', color: '#FFD700', fontSize: 44, fontWeight: 900, letterSpacing: 1}}>Age</div>
+						<div style={{fontFamily: 'Arial Black, sans-serif', color: '#22ff22', fontSize: 64, fontWeight: 900, letterSpacing: 2, lineHeight: 1}}>{age2026}</div>
+					</div>
 				</div>
 			</div>
 		</AbsoluteFill>
