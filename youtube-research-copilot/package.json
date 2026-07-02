@@ -1,0 +1,8 @@
+{
+  "name": "youtube-research-copilot",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "research": "node scripts/research.mjs"
+  }
+}
