@@ -21,7 +21,7 @@ export const actorsData: ActorData[] = [
   { number: 12, characterName: 'Margaery Tyrell', ageInSeries: 29, actorName: 'Natalie Dormer', currentAge: 44 },
   { number: 13, characterName: 'Melisandre', ageInSeries: 34, actorName: 'Carice van Houten', currentAge: 49 },
   { number: 14, characterName: 'Theon Greyjoy', ageInSeries: 25, actorName: 'Alfie Allen', currentAge: 40 },
-  { number: 15, characterName: 'Davos Seaworth', ageInSeries: 50, actorName: 'Iain Glen', currentAge: 65 },
+  { number: 15, characterName: 'Jorah Mormont', ageInSeries: 50, actorName: 'Iain Glen', currentAge: 65 },
   { number: 16, characterName: 'Ygritte', ageInSeries: 24, actorName: 'Rose Leslie', currentAge: 39 },
   { number: 17, characterName: 'Sandor Clegane', ageInSeries: 42, actorName: 'Rory McCann', currentAge: 57 },
   { number: 18, characterName: 'Missandei', ageInSeries: 22, actorName: 'Nathalie Emmanuel', currentAge: 37 },
