@@ -77,7 +77,7 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({actor, index
 			<AbsoluteFill style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'stretch', gap: 0}}>
 				{/* THEN photo - left */}
 				<div style={{flex: 1, position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 20, paddingBottom: 130}}>
-					<div style={{width: '85%', height: '70%', transform: `scale(${thenScale})`, opacity: thenOpacity, overflow: 'hidden', border: '3px solid rgba(212,168,68,0.6)', boxShadow: '0 0 40px rgba(212,168,68,0.2)', position: 'relative', flexShrink: 0}}>
+					<div style={{width: '85%', height: '88%', transform: `scale(${thenScale})`, opacity: thenOpacity, overflow: 'hidden', border: '3px solid rgba(212,168,68,0.6)', boxShadow: '0 0 40px rgba(212,168,68,0.2)', position: 'relative', flexShrink: 0}}>
 						<Img
 							src={staticFile(actor.then)}
 							style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%', filter: 'sepia(30%) contrast(1.05)'}}
@@ -100,7 +100,7 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({actor, index
 
 				{/* NOW photo - right */}
 				<div style={{flex: 1, position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 20, paddingBottom: 130}}>
-					<div style={{width: '85%', height: '70%', transform: `scale(${nowScale})`, opacity: nowOpacity, overflow: 'hidden', border: '3px solid rgba(74,158,255,0.5)', boxShadow: '0 0 40px rgba(74,158,255,0.15)', position: 'relative', flexShrink: 0}}>
+					<div style={{width: '85%', height: '88%', transform: `scale(${nowScale})`, opacity: nowOpacity, overflow: 'hidden', border: '3px solid rgba(74,158,255,0.5)', boxShadow: '0 0 40px rgba(74,158,255,0.15)', position: 'relative', flexShrink: 0}}>
 						<Img
 							src={staticFile(actor.now)}
 							style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}}
