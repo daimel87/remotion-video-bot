@@ -3,6 +3,9 @@ import { computeInsights } from "./insights.js";
 
 const KEY_STORAGE = "outlier-tracker:api-key";
 const DATA_STORAGE = "outlier-tracker:last-results";
+const FAVORITES_STORAGE = "outlier-tracker:favorites";
+const HISTORY_STORAGE = "outlier-tracker:search-history";
+const MAX_HISTORY = 10;
 
 const grid = document.getElementById("grid");
 const emptyState = document.getElementById("empty-state");
@@ -30,12 +33,37 @@ const insightsTermEl = document.getElementById("insights-term");
 const insightsBody = document.getElementById("insights-body");
 const insightsClose = document.getElementById("insights-close");
 
+const searchHistoryEl = document.getElementById("search-history");
+const instantSearchInput = document.getElementById("instant-search");
+const sortSelect = document.getElementById("sort-select");
+const favoritesToggleBtn = document.getElementById("favorites-toggle-btn");
+const filtersToggleBtn = document.getElementById("filters-toggle-btn");
+const filtersPanel = document.getElementById("filters-panel");
+const filtersResetBtn = document.getElementById("filters-reset-btn");
+const filterDurationMin = document.getElementById("filter-duration-min");
+const filterDurationMax = document.getElementById("filter-duration-max");
+const filterSubsMin = document.getElementById("filter-subs-min");
+const filterSubsMax = document.getElementById("filter-subs-max");
+const filterViewsMin = document.getElementById("filter-views-min");
+const filterMultiplierMin = document.getElementById("filter-multiplier-min");
+const exportCsvBtn = document.getElementById("export-csv-btn");
+const exportJsonBtn = document.getElementById("export-json-btn");
+const exportMdBtn = document.getElementById("export-md-btn");
+const noMatchState = document.getElementById("no-match-state");
+
 let currentData = null;
 let activeNiche = "all";
 let niches = [];
 let searchTerm = null;
 let searchData = null;
 let currentInsights = null;
+
+let instantSearchText = "";
+let sortKey = "outlierMultiplier";
+let favoritesOnly = false;
+let advancedFilters = { durationMin: null, durationMax: null, subsMin: null, subsMax: null, viewsMin: null, multiplierMin: null };
+let favorites = new Set(JSON.parse(localStorage.getItem(FAVORITES_STORAGE) || "[]"));
+let searchHistory = JSON.parse(localStorage.getItem(HISTORY_STORAGE) || "[]");
 
 function formatNumber(n) {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
@@ -60,6 +88,113 @@ function escapeHtml(str) {
   const div = document.createElement("div");
   div.textContent = str ?? "";
   return div.innerHTML;
+}
+
+function classifyOutlier(multiplier) {
+  if (multiplier >= 10) return "🔥 Explosivo";
+  if (multiplier >= 5) return "🚀 Muy Viral";
+  if (multiplier >= 3) return "⭐ Outlier";
+  return "📈 Prometedor";
+}
+
+function isFavorite(videoId) {
+  return favorites.has(videoId);
+}
+
+function toggleFavorite(videoId) {
+  if (favorites.has(videoId)) favorites.delete(videoId);
+  else favorites.add(videoId);
+  localStorage.setItem(FAVORITES_STORAGE, JSON.stringify([...favorites]));
+}
+
+function addToSearchHistory(term) {
+  searchHistory = [term, ...searchHistory.filter((t) => t !== term)].slice(0, MAX_HISTORY);
+  localStorage.setItem(HISTORY_STORAGE, JSON.stringify(searchHistory));
+  renderSearchHistory();
+}
+
+function renderSearchHistory() {
+  searchHistoryEl.innerHTML = searchHistory
+    .map((term) => `<button class="history-chip" data-term="${escapeHtml(term)}">🕐 ${escapeHtml(term)}</button>`)
+    .join("");
+  for (const chip of searchHistoryEl.querySelectorAll(".history-chip")) {
+    chip.addEventListener("click", () => {
+      termInput.value = chip.dataset.term;
+      runTermSearch(chip.dataset.term);
+    });
+  }
+}
+
+function getVisibleVideos() {
+  let videos = searchTerm
+    ? searchData?.videos ?? []
+    : (currentData?.videos ?? []).filter((v) => activeNiche === "all" || v.niches.includes(activeNiche));
+
+  if (instantSearchText) {
+    const q = instantSearchText.toLowerCase();
+    videos = videos.filter((v) => v.title.toLowerCase().includes(q) || v.channelTitle.toLowerCase().includes(q));
+  }
+
+  if (favoritesOnly) videos = videos.filter((v) => isFavorite(v.videoId));
+
+  const f = advancedFilters;
+  videos = videos.filter((v) => {
+    const durationMin = v.durationSeconds / 60;
+    if (f.durationMin !== null && durationMin < f.durationMin) return false;
+    if (f.durationMax !== null && durationMin > f.durationMax) return false;
+    if (f.subsMin !== null && v.subscriberCount < f.subsMin) return false;
+    if (f.subsMax !== null && v.subscriberCount > f.subsMax) return false;
+    if (f.viewsMin !== null && v.viewCount < f.viewsMin) return false;
+    if (f.multiplierMin !== null && v.outlierMultiplier < f.multiplierMin) return false;
+    return true;
+  });
+
+  videos = [...videos].sort((a, b) => {
+    if (sortKey === "publishedAt") return new Date(b.publishedAt) - new Date(a.publishedAt);
+    return (b[sortKey] ?? 0) - (a[sortKey] ?? 0);
+  });
+
+  return videos;
+}
+
+function csvEscape(val) {
+  const s = String(val ?? "");
+  return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+function downloadBlob(content, filename, mime) {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportCsv() {
+  const headers = [
+    "Título", "Canal", "Suscriptores", "Vistas", "Vistas típicas del canal", "% Outlier", "Multiplicador",
+    "Vistas/día", "Vistas/Sub", "Engagement %", "Duración (min)", "Fecha", "URL",
+  ];
+  const rows = getVisibleVideos().map((v) => [
+    v.title, v.channelTitle, v.subscriberCount, v.viewCount, v.baselineViews, v.outlierPercent, v.outlierMultiplier,
+    v.viewsPerDay, v.viewsPerSubscriber, v.engagementRate, Math.round(v.durationSeconds / 60), v.publishedAt, v.url,
+  ]);
+  const csv = [headers, ...rows].map((row) => row.map(csvEscape).join(",")).join("\n");
+  downloadBlob(csv, "outliers.csv", "text/csv");
+}
+
+function exportJson() {
+  downloadBlob(JSON.stringify(getVisibleVideos(), null, 2), "outliers.json", "application/json");
+}
+
+function exportMarkdown() {
+  const lines = ["| Título | Canal | Subs | Vistas | Multiplicador | URL |", "|---|---|---|---|---|---|"];
+  for (const v of getVisibleVideos()) {
+    lines.push(`| ${v.title.replace(/\|/g, "\\|")} | ${v.channelTitle} | ${v.subscriberCount} | ${v.viewCount} | ${v.outlierMultiplier}x | ${v.url} |`);
+  }
+  downloadBlob(lines.join("\n"), "outliers.md", "text/markdown");
 }
 
 function renderFilters() {
@@ -96,12 +231,14 @@ function renderFilters() {
 }
 
 function renderGrid() {
-  const videos = searchTerm
+  const baseVideos = searchTerm
     ? searchData?.videos ?? []
     : (currentData?.videos ?? []).filter((v) => activeNiche === "all" || v.niches.includes(activeNiche));
+  const videos = getVisibleVideos();
 
   grid.innerHTML = "";
-  emptyState.hidden = videos.length > 0;
+  emptyState.hidden = baseVideos.length > 0;
+  noMatchState.hidden = baseVideos.length === 0 || videos.length > 0;
 
   for (const v of videos) {
     const card = document.createElement("a");
@@ -113,8 +250,10 @@ function renderGrid() {
     card.innerHTML = `
       <div class="thumb-wrap">
         <img src="${v.thumbnail}" alt="" loading="lazy" />
+        <span class="classification-tag">${classifyOutlier(v.outlierMultiplier)}</span>
         <span class="hero-badge">🚀 ${v.outlierMultiplier}x</span>
         <span class="date-badge">${formatRelativeDate(v.publishedAt)}</span>
+        <button class="favorite-star ${isFavorite(v.videoId) ? "active" : ""}" data-video-id="${v.videoId}" title="Favorito">${isFavorite(v.videoId) ? "★" : "☆"}</button>
       </div>
       <div class="card-body">
         <div class="card-title">${escapeHtml(v.title)}</div>
@@ -134,11 +273,24 @@ function renderGrid() {
             <div class="stat-delta stat-delta-accent">+${v.outlierPercent}% outlier</div>
           </div>
         </div>
+        <div class="metrics-row">
+          <span>${formatNumber(v.viewsPerDay ?? 0)} vistas/día</span>
+          <span>${v.viewsPerSubscriber ?? 0}x vistas/sub</span>
+          <span>${v.engagementRate ?? 0}% engagement</span>
+        </div>
         <div class="niche-tags">
           ${v.niches.map((n) => `<span class="niche-tag">${escapeHtml(nicheLabel(n))}</span>`).join("")}
         </div>
       </div>
     `;
+
+    card.querySelector(".favorite-star").addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleFavorite(v.videoId);
+      renderGrid();
+    });
+
     grid.appendChild(card);
   }
 }
@@ -277,6 +429,7 @@ async function runTermSearch(term) {
     searchBannerText.textContent = data.count
       ? `${data.count} outliers para "${term}"`
       : `Sin outliers para "${term}" en el último mes`;
+    addToSearchHistory(term);
     renderFilters();
     renderGrid();
     progressEl.textContent = `Listo: ${data.count} outliers encontrados para "${term}".`;
@@ -339,9 +492,60 @@ keyInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") keySave.click();
 });
 
+instantSearchInput.addEventListener("input", () => {
+  instantSearchText = instantSearchInput.value.trim();
+  renderGrid();
+});
+
+sortSelect.addEventListener("change", () => {
+  sortKey = sortSelect.value;
+  renderGrid();
+});
+
+favoritesToggleBtn.addEventListener("click", () => {
+  favoritesOnly = !favoritesOnly;
+  favoritesToggleBtn.classList.toggle("active", favoritesOnly);
+  favoritesToggleBtn.textContent = favoritesOnly ? "★ Favoritos" : "☆ Favoritos";
+  renderGrid();
+});
+
+filtersToggleBtn.addEventListener("click", () => {
+  filtersPanel.hidden = !filtersPanel.hidden;
+});
+
+function applyAdvancedFiltersFromInputs() {
+  const num = (input) => (input.value === "" ? null : Number(input.value));
+  advancedFilters = {
+    durationMin: num(filterDurationMin),
+    durationMax: num(filterDurationMax),
+    subsMin: num(filterSubsMin),
+    subsMax: num(filterSubsMax),
+    viewsMin: num(filterViewsMin),
+    multiplierMin: num(filterMultiplierMin),
+  };
+  renderGrid();
+}
+
+for (const input of [filterDurationMin, filterDurationMax, filterSubsMin, filterSubsMax, filterViewsMin, filterMultiplierMin]) {
+  input.addEventListener("input", applyAdvancedFiltersFromInputs);
+}
+
+filtersResetBtn.addEventListener("click", () => {
+  for (const input of [filterDurationMin, filterDurationMax, filterSubsMin, filterSubsMax, filterViewsMin, filterMultiplierMin]) {
+    input.value = "";
+  }
+  advancedFilters = { durationMin: null, durationMax: null, subsMin: null, subsMax: null, viewsMin: null, multiplierMin: null };
+  renderGrid();
+});
+
+exportCsvBtn.addEventListener("click", exportCsv);
+exportJsonBtn.addEventListener("click", exportJson);
+exportMdBtn.addEventListener("click", exportMarkdown);
+
 async function init() {
   const res = await fetch("data/niches.json");
   niches = await res.json();
+  renderSearchHistory();
 
   const cached = localStorage.getItem(DATA_STORAGE);
   if (cached) {
