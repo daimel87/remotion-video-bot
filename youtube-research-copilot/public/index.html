@@ -51,8 +51,18 @@
       </div>
 
       <div>
-        <div class="insights-section-label">🔤 Palabras repetidas en títulos</div>
+        <div class="insights-section-label">🔤 Patrones de título (palabras repetidas)</div>
         <div class="insights-word-list" id="title-words"></div>
+      </div>
+
+      <div>
+        <div class="insights-section-label">🔍 Lo que la gente busca en YouTube sobre esto (autocompletado real)</div>
+        <div class="insights-word-list" id="search-suggestions"></div>
+      </div>
+
+      <div>
+        <div class="insights-section-label">🖼️ Miniaturas de los videos con más vistas (compara patrones a simple vista)</div>
+        <div id="thumb-strip" class="thumb-strip"></div>
       </div>
 
       <div id="hooks-section">
@@ -61,10 +71,27 @@
         <div id="hook-examples" class="hook-examples"></div>
       </div>
 
+      <div>
+        <div class="insights-section-label">💡 3 títulos sugeridos (basados en los patrones de arriba)</div>
+        <div id="suggested-titles" class="suggested-titles"></div>
+      </div>
+
       <div class="insights-section-label">🎬 Los 30 videos</div>
       <div id="grid" class="grid"></div>
     </div>
   </main>
+
+  <div id="prompt-modal" class="modal-backdrop" hidden>
+    <div class="modal prompt-modal">
+      <h2 id="prompt-modal-title">Prompt</h2>
+      <p>Copia esto y pégalo en Claude o ChatGPT para generar el contenido final.</p>
+      <textarea id="prompt-text" class="prompt-textarea" readonly></textarea>
+      <div class="modal-actions">
+        <button id="prompt-copy" class="refresh-btn">📋 Copiar</button>
+        <button id="prompt-close" class="link-btn">Cerrar</button>
+      </div>
+    </div>
+  </div>
 
   <div id="settings-modal" class="modal-backdrop" hidden>
     <div class="modal">
