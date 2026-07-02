@@ -50,9 +50,9 @@ function ActorPair({then, now, born}: any) {
 	const age2026 = 2026 - born;
 
 	return (
-		<AbsoluteFill style={{opacity}}>
+		<AbsoluteFill style={{opacity, display: 'flex'}}>
 			{/* Left THEN */}
-			<div style={{width: '50%', height: '100%', position: 'relative', overflow: 'hidden'}}>
+			<div style={{flex: 1, position: 'relative', overflow: 'hidden'}}>
 				<Img
 					src={then}
 					style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}}
@@ -64,7 +64,7 @@ function ActorPair({then, now, born}: any) {
 			</div>
 
 			{/* Right NOW */}
-			<div style={{width: '50%', height: '100%', position: 'relative', overflow: 'hidden', marginLeft: '50%'}}>
+			<div style={{flex: 1, position: 'relative', overflow: 'hidden'}}>
 				<Img
 					src={now}
 					style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}}
