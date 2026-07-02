@@ -263,6 +263,10 @@ body {
   z-index: 50;
 }
 
+.modal-backdrop[hidden] {
+  display: none;
+}
+
 .modal {
   background: var(--surface);
   border: 1px solid var(--border);
