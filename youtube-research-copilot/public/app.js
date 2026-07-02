@@ -1,4 +1,6 @@
 import { researchTopic } from "./research-engine.js";
+import { suggestTitles, buildScriptPrompt, buildThumbnailPrompt, buildDescriptionPrompt } from "./content-prompts.js";
+import { fetchSearchSuggestions } from "./search-suggest.js";
 
 const KEY_STORAGE = "outlier-tracker:api-key"; // misma clave que el outlier tracker, si es el mismo sitio
 const WORKER_STORAGE = "research-copilot:worker-url";
@@ -16,15 +18,24 @@ const statViews = document.getElementById("stat-views");
 const statNumbers = document.getElementById("stat-numbers");
 const statTranscripts = document.getElementById("stat-transcripts");
 const titleWordsEl = document.getElementById("title-words");
+const searchSuggestionsEl = document.getElementById("search-suggestions");
 const hookWordsEl = document.getElementById("hook-words");
 const hookExamplesEl = document.getElementById("hook-examples");
 const hooksSection = document.getElementById("hooks-section");
+const thumbStripEl = document.getElementById("thumb-strip");
+const suggestedTitlesEl = document.getElementById("suggested-titles");
 
 const settingsModal = document.getElementById("settings-modal");
 const keyInput = document.getElementById("key-input");
 const workerInput = document.getElementById("worker-input");
 const settingsSave = document.getElementById("settings-save");
 const settingsCancel = document.getElementById("settings-cancel");
+
+const promptModal = document.getElementById("prompt-modal");
+const promptModalTitle = document.getElementById("prompt-modal-title");
+const promptText = document.getElementById("prompt-text");
+const promptCopy = document.getElementById("prompt-copy");
+const promptClose = document.getElementById("prompt-close");
 
 function formatNumber(n) {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
@@ -64,7 +75,59 @@ function hideSettingsModal() {
   settingsModal.hidden = true;
 }
 
-function renderResults(data) {
+function showPromptModal(label, text) {
+  promptModalTitle.textContent = label;
+  promptText.value = text;
+  promptModal.hidden = false;
+}
+
+function hidePromptModal() {
+  promptModal.hidden = true;
+}
+
+function renderThumbStrip(videos) {
+  const top = [...videos].sort((a, b) => b.viewCount - a.viewCount).slice(0, 8);
+  thumbStripEl.innerHTML = top
+    .map(
+      (v) => `
+      <div class="thumb-strip-item">
+        <img src="${v.thumbnail}" alt="" loading="lazy" />
+        <span>${formatNumber(v.viewCount)}</span>
+      </div>`
+    )
+    .join("");
+}
+
+function renderSuggestedTitles(topic, patterns, searchSuggestions) {
+  const titles = suggestTitles(topic, patterns);
+  suggestedTitlesEl.innerHTML = "";
+
+  titles.forEach((title, idx) => {
+    const card = document.createElement("div");
+    card.className = "suggested-title-card";
+    card.innerHTML = `
+      <div class="suggested-title-text">${escapeHtml(title)}</div>
+      <div class="suggested-title-actions">
+        <button class="chip-btn" data-action="script" data-idx="${idx}">🎬 Hacer guion</button>
+        <button class="chip-btn" data-action="thumbnail" data-idx="${idx}">🖼️ Prompt miniatura</button>
+        <button class="chip-btn" data-action="description" data-idx="${idx}">📝 Descripción, tags y comentario</button>
+      </div>
+    `;
+    suggestedTitlesEl.appendChild(card);
+
+    card.querySelector('[data-action="script"]').addEventListener("click", () => {
+      showPromptModal(`🎬 Guion para: "${title}"`, buildScriptPrompt(topic, title, patterns));
+    });
+    card.querySelector('[data-action="thumbnail"]').addEventListener("click", () => {
+      showPromptModal(`🖼️ Prompt de miniatura para: "${title}"`, buildThumbnailPrompt(topic, title, patterns));
+    });
+    card.querySelector('[data-action="description"]').addEventListener("click", () => {
+      showPromptModal(`📝 Descripción/tags/comentario para: "${title}"`, buildDescriptionPrompt(topic, title, patterns, searchSuggestions));
+    });
+  });
+}
+
+function renderResults(data, searchSuggestions) {
   emptyState.hidden = true;
   results.hidden = false;
 
@@ -76,6 +139,13 @@ function renderResults(data) {
   titleWordsEl.innerHTML = data.patterns.titles.topWords.length
     ? data.patterns.titles.topWords.map(([w, c]) => `<span class="insights-word">${escapeHtml(w)} · ${c}</span>`).join("")
     : `<span class="insights-empty">Sin patrones repetidos claros.</span>`;
+
+  searchSuggestionsEl.innerHTML = searchSuggestions.length
+    ? searchSuggestions.map((s) => `<span class="insights-word">${escapeHtml(s)}</span>`).join("")
+    : `<span class="insights-empty">No se pudieron traer sugerencias de búsqueda esta vez.</span>`;
+
+  renderThumbStrip(data.videos);
+  renderSuggestedTitles(data.topic, data.patterns, searchSuggestions);
 
   if (data.patterns.transcriptCoverage > 0) {
     hooksSection.hidden = false;
@@ -132,10 +202,13 @@ async function runResearch(topic) {
   progressEl.textContent = "Iniciando investigación...";
 
   try {
-    const data = await researchTopic(apiKey, topic, workerUrl, (msg) => {
-      progressEl.textContent = msg;
-    });
-    renderResults(data);
+    const [data, searchSuggestions] = await Promise.all([
+      researchTopic(apiKey, topic, workerUrl, (msg) => {
+        progressEl.textContent = msg;
+      }),
+      fetchSearchSuggestions(topic),
+    ]);
+    renderResults(data, searchSuggestions);
     progressEl.textContent = `Listo: ${data.patterns.videoCount} videos analizados${
       workerUrl ? `, ${data.patterns.transcriptCoverage} con transcripción` : " (sin proxy de transcripciones configurado)"
     }.`;
@@ -158,6 +231,19 @@ termForm.addEventListener("submit", (e) => {
   const topic = termInput.value.trim();
   if (!topic) return;
   runResearch(topic);
+});
+
+promptClose.addEventListener("click", hidePromptModal);
+promptCopy.addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(promptText.value);
+    promptCopy.textContent = "✅ Copiado";
+  } catch {
+    promptText.select();
+    document.execCommand("copy");
+    promptCopy.textContent = "✅ Copiado";
+  }
+  setTimeout(() => (promptCopy.textContent = "📋 Copiar"), 2000);
 });
 
 settingsBtn.addEventListener("click", showSettingsModal);
