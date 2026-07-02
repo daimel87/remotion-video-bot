@@ -17,9 +17,17 @@ const keyInput = document.getElementById("key-input");
 const keySave = document.getElementById("key-save");
 const keyCancel = document.getElementById("key-cancel");
 
+const termForm = document.getElementById("term-form");
+const termInput = document.getElementById("term-input");
+const searchBanner = document.getElementById("search-banner");
+const searchBannerText = document.getElementById("search-banner-text");
+const termClearBtn = document.getElementById("term-clear-btn");
+
 let currentData = null;
 let activeNiche = "all";
 let niches = [];
+let searchTerm = null;
+let searchData = null;
 
 function formatNumber(n) {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
@@ -36,7 +44,8 @@ function formatRelativeDate(iso) {
 }
 
 function nicheLabel(id) {
-  return currentData?.niches.find((n) => n.id === id)?.label ?? id;
+  const dataset = searchTerm ? searchData : currentData;
+  return dataset?.niches.find((n) => n.id === id)?.label ?? id;
 }
 
 function escapeHtml(str) {
@@ -46,6 +55,12 @@ function escapeHtml(str) {
 }
 
 function renderFilters() {
+  if (searchTerm) {
+    filtersEl.hidden = true;
+    return;
+  }
+  filtersEl.hidden = false;
+
   const list = currentData?.niches ?? [];
   filtersEl.innerHTML = "";
 
@@ -73,9 +88,9 @@ function renderFilters() {
 }
 
 function renderGrid() {
-  const videos = (currentData?.videos ?? []).filter(
-    (v) => activeNiche === "all" || v.niches.includes(activeNiche)
-  );
+  const videos = searchTerm
+    ? searchData?.videos ?? []
+    : (currentData?.videos ?? []).filter((v) => activeNiche === "all" || v.niches.includes(activeNiche));
 
   grid.innerHTML = "";
   emptyState.hidden = videos.length > 0;
@@ -151,6 +166,8 @@ async function runSearch() {
     return;
   }
 
+  if (searchTerm) clearTermSearch();
+
   refreshBtn.disabled = true;
   progressEl.hidden = false;
   progressEl.textContent = "Iniciando búsqueda...";
@@ -175,6 +192,63 @@ async function runSearch() {
     refreshBtn.disabled = false;
   }
 }
+
+async function runTermSearch(term) {
+  let apiKey = getStoredKey();
+  if (!apiKey) {
+    showKeyModal();
+    return;
+  }
+
+  refreshBtn.disabled = true;
+  termInput.disabled = true;
+  progressEl.hidden = false;
+  progressEl.textContent = `Buscando "${term}"...`;
+
+  try {
+    const data = await findOutliers(apiKey, [{ id: "custom-term", label: term, query: term }], (msg) => {
+      progressEl.textContent = msg;
+    });
+    searchTerm = term;
+    searchData = data;
+    searchBanner.hidden = false;
+    searchBannerText.textContent = data.count
+      ? `${data.count} outliers para "${term}"`
+      : `Sin outliers para "${term}" en el último mes`;
+    renderFilters();
+    renderGrid();
+    progressEl.textContent = `Listo: ${data.count} outliers encontrados para "${term}".`;
+    setTimeout(() => (progressEl.hidden = true), 4000);
+  } catch (err) {
+    console.error(err);
+    if (err.reason === "keyInvalid" || err.reason === "forbidden" || err.reason === "API_KEY_SERVICE_BLOCKED") {
+      progressEl.textContent = `Clave inválida o API no habilitada: ${err.message}`;
+      showKeyModal();
+    } else {
+      progressEl.textContent = `Error: ${err.message}`;
+    }
+  } finally {
+    refreshBtn.disabled = false;
+    termInput.disabled = false;
+  }
+}
+
+function clearTermSearch() {
+  searchTerm = null;
+  searchData = null;
+  searchBanner.hidden = true;
+  termInput.value = "";
+  renderFilters();
+  renderGrid();
+}
+
+termForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const term = termInput.value.trim();
+  if (!term) return;
+  runTermSearch(term);
+});
+termClearBtn.addEventListener("click", clearTermSearch);
 
 refreshBtn.addEventListener("click", runSearch);
 settingsBtn.addEventListener("click", showKeyModal);
