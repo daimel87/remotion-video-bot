@@ -83,11 +83,7 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({actor, index
 							style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%', filter: 'sepia(30%) contrast(1.05)'}}
 						/>
 						<div style={{position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 60%, rgba(20,15,5,0.6) 100%)'}} />
-						<div style={{position: 'absolute', top: 20, left: 20, opacity: nameOpacity}}>
-							<div style={{fontFamily: "'Georgia', serif", color: '#d4a844', fontSize: 28, fontWeight: 700, letterSpacing: 10}}>THEN</div>
-							<div style={{color: '#999', fontSize: 16, letterSpacing: 4, marginTop: 4}}>2011</div>
 						</div>
-					</div>
 					<div style={{position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)', background: 'rgba(8, 8, 16, 0.9)', border: '2px solid rgba(212,168,68,0.5)', borderRadius: 8, padding: '12px 24px', width: '85%', textAlign: 'center', opacity: nameOpacity}}>
 						<div style={{fontFamily: "'Georgia', serif", color: '#d4a844', fontSize: 56, fontWeight: 700, letterSpacing: 2, lineHeight: 1.1}}>
 							{actor.character.toUpperCase()}
@@ -106,11 +102,7 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({actor, index
 							style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}}
 						/>
 						<div style={{position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 60%, rgba(8,8,16,0.5) 100%)'}} />
-						<div style={{position: 'absolute', top: 20, right: 20, opacity: nameOpacity, textAlign: 'right'}}>
-							<div style={{fontFamily: "'Georgia', serif", color: '#4a9eff', fontSize: 28, fontWeight: 700, letterSpacing: 10}}>NOW</div>
-							<div style={{color: '#999', fontSize: 16, letterSpacing: 4, marginTop: 4}}>2026</div>
 						</div>
-					</div>
 					<div style={{position: 'absolute', bottom: 20, right: '50%', transform: 'translateX(50%)', background: 'rgba(8, 8, 16, 0.9)', border: '2px solid rgba(74,158,255,0.5)', borderRadius: 8, padding: '12px 24px', width: '85%', textAlign: 'center', opacity: nameOpacity}}>
 						<div style={{fontFamily: "'Georgia', serif", color: '#4a9eff', fontSize: 56, fontWeight: 700, letterSpacing: 2, lineHeight: 1.1}}>
 							{actor.name.toUpperCase()}
