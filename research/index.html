@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YouTube Research Copilot</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <h1>🔬 YouTube Research Copilot</h1>
+      <p class="subtitle">
+        Investiga outliers de un tema: canales &lt;50.000 suscriptores con videos +100% sobre su propio promedio
+        y +100.000 vistas, de los últimos 3 meses. Descarta clips y canales tipo "Caso Cerrado"/"Decisiones".
+      </p>
+      <div class="meta-row">
+        <a href="../index.html" class="link-btn">← Outliers de canales pequeños</a>
+        <button id="settings-btn" class="link-btn">⚙ Configurar claves</button>
+      </div>
+      <form id="term-form" class="term-search">
+        <input id="term-input" type="text" placeholder="Tema a investigar (ej: cocina vegana, autos clásicos...)" autocomplete="off" />
+        <button type="submit" id="term-search-btn" class="refresh-btn">🔍 Investigar</button>
+      </form>
+      <div id="progress" class="progress" hidden></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="empty-state" class="empty-state">
+      Escribe un tema arriba y dale a "Investigar" para empezar.
+    </div>
+
+    <div id="results" class="results" hidden>
+      <div class="insights-stats">
+        <div class="stat-tile">
+          <div class="stat-label">🚀 Outliers encontrados</div>
+          <div class="stat-value" id="stat-count">—</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-label">⏱ Duración típica</div>
+          <div class="stat-value" id="stat-duration">—</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-label">👁 Vistas típicas</div>
+          <div class="stat-value" id="stat-views">—</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-label">🔢 % títulos con número</div>
+          <div class="stat-value" id="stat-numbers">—</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-label">📝 Transcripciones obtenidas</div>
+          <div class="stat-value" id="stat-transcripts">—</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="insights-section-label">🔤 Patrones de título (palabras repetidas)</div>
+        <div class="insights-word-list" id="title-words"></div>
+      </div>
+
+      <div>
+        <div class="insights-section-label">🔍 Lo que la gente busca en YouTube sobre esto (autocompletado real)</div>
+        <div class="insights-word-list" id="search-suggestions"></div>
+      </div>
+
+      <div>
+        <div class="insights-section-label">🖼️ Miniaturas de los outliers con más vistas (compara patrones a simple vista)</div>
+        <div id="thumb-strip" class="thumb-strip"></div>
+      </div>
+
+      <div id="hooks-section">
+        <div class="insights-section-label">🪝 Ganchos de apertura más repetidos</div>
+        <div class="insights-word-list" id="hook-words"></div>
+        <div id="hook-examples" class="hook-examples"></div>
+      </div>
+
+      <div>
+        <div class="insights-section-label">💡 Títulos virales (con los títulos reales de arriba como ejemplo)</div>
+        <p class="section-hint">
+          Esto no inventa títulos con una plantilla — arma un prompt con los títulos reales de los videos top
+          para que Claude/ChatGPT saque el patrón real y te sugiera 3 nuevos.
+        </p>
+        <button id="titles-prompt-btn" class="refresh-btn">💡 Generar prompt de títulos</button>
+
+        <div class="chosen-title-box">
+          <label class="modal-label" for="chosen-title-input">Tu título elegido (pega aquí el que te guste de Claude/ChatGPT, o escribe el tuyo)</label>
+          <div class="chosen-title-row">
+            <input id="chosen-title-input" type="text" placeholder="Pega o escribe tu título aquí..." autocomplete="off" />
+          </div>
+          <div class="suggested-title-actions">
+            <button class="chip-btn" id="chosen-script-btn">🎬 Hacer guion</button>
+            <button class="chip-btn" id="chosen-thumbnail-btn">🖼️ Prompt miniatura</button>
+            <button class="chip-btn" id="chosen-description-btn">📝 Descripción, tags y comentario</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="insights-section-label">🎬 Videos outlier encontrados</div>
+      <p id="no-outliers-hint" class="section-hint" hidden>
+        No se encontraron outliers para este tema en los últimos 3 meses con los filtros actuales
+        (&lt;50.000 suscriptores, +100% sobre su promedio, +100.000 vistas, sin clips/canales excluidos). Prueba con
+        otro tema o revisa <code>content-filters.js</code> si crees que algo se está excluyendo de más.
+      </p>
+      <div id="grid" class="grid"></div>
+    </div>
+  </main>
+
+  <div id="prompt-modal" class="modal-backdrop" hidden>
+    <div class="modal prompt-modal">
+      <h2 id="prompt-modal-title">Prompt</h2>
+      <p>Copia esto y pégalo en Claude o ChatGPT para generar el contenido final.</p>
+      <textarea id="prompt-text" class="prompt-textarea" readonly></textarea>
+      <div class="modal-actions">
+        <button id="prompt-copy" class="refresh-btn">📋 Copiar</button>
+        <button id="prompt-close" class="link-btn">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="settings-modal" class="modal-backdrop" hidden>
+    <div class="modal">
+      <h2>Configuración</h2>
+      <p>
+        Ambas se guardan solo en este navegador (localStorage). La clave de
+        YouTube es la misma que usas en el outlier tracker si es el mismo sitio.
+      </p>
+      <label class="modal-label" for="key-input">Clave de YouTube Data API v3</label>
+      <input id="key-input" type="password" placeholder="AIza..." autocomplete="off" />
+
+      <label class="modal-label" for="worker-input">URL de tu proxy de transcripciones (Cloudflare Worker)</label>
+      <input id="worker-input" type="text" placeholder="https://tu-worker.workers.dev" autocomplete="off" />
+      <p class="modal-help">
+        Opcional — sin esto, la investigación funciona igual pero sin ganchos/transcripciones.
+        Instrucciones para desplegar el proxy gratis en <code>worker/README.md</code>.
+      </p>
+
+      <div class="modal-actions">
+        <button id="settings-save" class="refresh-btn">Guardar</button>
+        <button id="settings-cancel" class="link-btn">Cancelar</button>
+      </div>
+      <p class="modal-help">
+        ¿No tienes clave de YouTube? Sácala gratis en la
+        <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer">
+          Google Cloud Console
+        </a>.
+      </p>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

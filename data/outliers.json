@@ -1,0 +1,183 @@
+{
+  "generatedAt": "2026-07-02T07:01:51.948Z",
+  "windowDays": 30,
+  "maxSubscribers": 10000,
+  "minOutlierPercent": 100,
+  "niches": [
+    {
+      "id": "gaming",
+      "label": "Gaming"
+    },
+    {
+      "id": "finanzas",
+      "label": "Finanzas personales"
+    },
+    {
+      "id": "true-crime",
+      "label": "True crime"
+    },
+    {
+      "id": "fitness",
+      "label": "Fitness"
+    },
+    {
+      "id": "tecnologia",
+      "label": "Tecnología"
+    }
+  ],
+  "count": 8,
+  "videos": [
+    {
+      "videoId": "Mwn4DiFKzDA",
+      "url": "https://www.youtube.com/watch?v=Mwn4DiFKzDA",
+      "title": "La TURBIA HISTORIA DETRÁS DE LA SERIE DE NETFLIX “BABY” ",
+      "thumbnail": "https://i.ytimg.com/vi/Mwn4DiFKzDA/hqdefault.jpg",
+      "publishedAt": "2026-06-11T18:14:28Z",
+      "durationSeconds": 1432,
+      "channelId": "UCLZqMDg75skqnjdZPRHhbpA",
+      "channelTitle": "Ezequiel True Crime",
+      "channelThumbnail": "https://yt3.ggpht.com/vFORkFzQL7UcynS4bZRinzeTFGOvA10UtKZ-0rRux5UsjDCd5XUVl1hN59ldzwuXZlr8XbU4=s88-c-k-c0x00ffffff-no-rj",
+      "subscriberCount": 6570,
+      "viewCount": 83476,
+      "baselineViews": 3776,
+      "outlierPercent": 2111,
+      "outlierMultiplier": 22.1,
+      "niches": [
+        "true-crime"
+      ]
+    },
+    {
+      "videoId": "HzNzlWMuccY",
+      "url": "https://www.youtube.com/watch?v=HzNzlWMuccY",
+      "title": "Mais 5 Casos Reais de Crimes Tão Sinistros que Nem a Netflix Mostra",
+      "thumbnail": "https://i.ytimg.com/vi/HzNzlWMuccY/hqdefault.jpg",
+      "publishedAt": "2026-06-10T17:00:14Z",
+      "durationSeconds": 6369,
+      "channelId": "UCPncNKsKtBdfbMcEfMlYsBQ",
+      "channelTitle": "Histórias de Crimes Reais",
+      "channelThumbnail": "https://yt3.ggpht.com/5ycKGUkWXlxb6FJwsJtbuvMyE1RZDPOfZ0WBL2pNywy-si0J5aol2d-47ps9mDMQY9i57DmUIg=s88-c-k-c0x00ffffff-no-rj",
+      "subscriberCount": 3170,
+      "viewCount": 9242,
+      "baselineViews": 545,
+      "outlierPercent": 1596,
+      "outlierMultiplier": 17,
+      "niches": [
+        "true-crime"
+      ]
+    },
+    {
+      "videoId": "UB4XbJbasdE",
+      "url": "https://www.youtube.com/watch?v=UB4XbJbasdE",
+      "title": "5 Casos de True Crime que deixaram os detetives completamente arrasados",
+      "thumbnail": "https://i.ytimg.com/vi/UB4XbJbasdE/hqdefault.jpg",
+      "publishedAt": "2026-06-24T17:00:33Z",
+      "durationSeconds": 7082,
+      "channelId": "UCPncNKsKtBdfbMcEfMlYsBQ",
+      "channelTitle": "Histórias de Crimes Reais",
+      "channelThumbnail": "https://yt3.ggpht.com/5ycKGUkWXlxb6FJwsJtbuvMyE1RZDPOfZ0WBL2pNywy-si0J5aol2d-47ps9mDMQY9i57DmUIg=s88-c-k-c0x00ffffff-no-rj",
+      "subscriberCount": 3170,
+      "viewCount": 2876,
+      "baselineViews": 545,
+      "outlierPercent": 428,
+      "outlierMultiplier": 5.3,
+      "niches": [
+        "true-crime"
+      ]
+    },
+    {
+      "videoId": "2kzWXactoso",
+      "url": "https://www.youtube.com/watch?v=2kzWXactoso",
+      "title": "5 casos reais de crime que nem o 20/20 conseguiu desvendar",
+      "thumbnail": "https://i.ytimg.com/vi/2kzWXactoso/hqdefault.jpg",
+      "publishedAt": "2026-06-17T17:00:17Z",
+      "durationSeconds": 7047,
+      "channelId": "UCPncNKsKtBdfbMcEfMlYsBQ",
+      "channelTitle": "Histórias de Crimes Reais",
+      "channelThumbnail": "https://yt3.ggpht.com/5ycKGUkWXlxb6FJwsJtbuvMyE1RZDPOfZ0WBL2pNywy-si0J5aol2d-47ps9mDMQY9i57DmUIg=s88-c-k-c0x00ffffff-no-rj",
+      "subscriberCount": 3170,
+      "viewCount": 2569,
+      "baselineViews": 545,
+      "outlierPercent": 371,
+      "outlierMultiplier": 4.7,
+      "niches": [
+        "true-crime"
+      ]
+    },
+    {
+      "videoId": "eiBRYeqppf0",
+      "url": "https://www.youtube.com/watch?v=eiBRYeqppf0",
+      "title": "E13 | El hombre del saco | Algunas leyendas empiezan demasiado cerca | Caso real",
+      "thumbnail": "https://i.ytimg.com/vi/eiBRYeqppf0/hqdefault.jpg",
+      "publishedAt": "2026-06-26T20:00:15Z",
+      "durationSeconds": 770,
+      "channelId": "UC4ThB8xBTDtvBLfAir-8d9w",
+      "channelTitle": "Cuando se apagan las luces",
+      "channelThumbnail": "https://yt3.ggpht.com/KsEatbAu8usUPu8y5N6lFxozjnZNSD1ESiNgbKVPbyuY8bPVTvXworh65wtK7Yug43Zopaq7=s88-c-k-c0x00ffffff-no-rj",
+      "subscriberCount": 24,
+      "viewCount": 225,
+      "baselineViews": 50,
+      "outlierPercent": 350,
+      "outlierMultiplier": 4.5,
+      "niches": [
+        "true-crime"
+      ]
+    },
+    {
+      "videoId": "pQjB8YTMqYo",
+      "url": "https://www.youtube.com/watch?v=pQjB8YTMqYo",
+      "title": "SERIAL MANIAC DERRICK TODD | He killed women and anything he could get his hands on | Crime Stories",
+      "thumbnail": "https://i.ytimg.com/vi/pQjB8YTMqYo/hqdefault.jpg",
+      "publishedAt": "2026-06-26T09:31:59Z",
+      "durationSeconds": 2475,
+      "channelId": "UCWatnnWux2M_E5DKbpyRatQ",
+      "channelTitle": "EN True Crime",
+      "channelThumbnail": "https://yt3.ggpht.com/CCTwjQvPYeKL9kmyHLGj-fVL6L0axH8ftVIKcKiAacUPcdR-y4jgGMeO1cE-x4HSEHN7QU29=s88-c-k-c0x00ffffff-no-rj",
+      "subscriberCount": 6610,
+      "viewCount": 34814,
+      "baselineViews": 10047,
+      "outlierPercent": 247,
+      "outlierMultiplier": 3.5,
+      "niches": [
+        "true-crime"
+      ]
+    },
+    {
+      "videoId": "lPuLqZAw3fQ",
+      "url": "https://www.youtube.com/watch?v=lPuLqZAw3fQ",
+      "title": "Cómo AHORRAR DINERO sin fuerza de voluntad (Finanzas Personales en piloto automático)",
+      "thumbnail": "https://i.ytimg.com/vi/lPuLqZAw3fQ/hqdefault.jpg",
+      "publishedAt": "2026-06-26T18:00:04Z",
+      "durationSeconds": 534,
+      "channelId": "UCMa2oZNFeFPUc4suV-mR2zQ",
+      "channelTitle": "JCsk - IA",
+      "channelThumbnail": "https://yt3.ggpht.com/EukFUVV93rOdn8MDyxxCeclXqvQOzoaPfWPrlhsB5EWwS4Y229i7nUSEGm0GpqJj7QfLNKUK=s88-c-k-c0x00ffffff-no-rj",
+      "subscriberCount": 582,
+      "viewCount": 26,
+      "baselineViews": 8,
+      "outlierPercent": 225,
+      "outlierMultiplier": 3.3,
+      "niches": [
+        "finanzas"
+      ]
+    },
+    {
+      "videoId": "pUBB_9IcxIQ",
+      "url": "https://www.youtube.com/watch?v=pUBB_9IcxIQ",
+      "title": "¿Se acabó la era de las pantallas OLED?",
+      "thumbnail": "https://i.ytimg.com/vi/pUBB_9IcxIQ/hqdefault.jpg",
+      "publishedAt": "2026-06-25T21:00:24Z",
+      "durationSeconds": 900,
+      "channelId": "UCKGaSZ8zScOnDwcRVOgl5Qg",
+      "channelTitle": "The Viewing Angle en Español",
+      "channelThumbnail": "https://yt3.ggpht.com/ElSrFRmdgYHVidOO70r7PzMcqL-UhQl-xbNLyvDzlFrP1A4DoAqOEQT9htFnhFD1vDE9oYtJNw=s88-c-k-c0x00ffffff-no-rj",
+      "subscriberCount": 1550,
+      "viewCount": 8482,
+      "baselineViews": 3746,
+      "outlierPercent": 126,
+      "outlierMultiplier": 2.3,
+      "niches": [
+        "tecnologia"
+      ]
+    }
+  ]
+}
