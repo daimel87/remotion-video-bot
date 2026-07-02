@@ -33,7 +33,7 @@ const FPS = 30;
 const ACTOR_DURATION = 300; // 10 seconds per actor
 const TRANSITION = 20;
 
-function ActorPair({then, now, name, character}: any) {
+function ActorPair({then, now, born}: any) {
 	const frame = useCurrentFrame();
 	const opacity = interpolate(
 		frame,
@@ -41,6 +41,9 @@ function ActorPair({then, now, name, character}: any) {
 		[0, 1, 1, 0],
 		{extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}
 	);
+
+	const age2011 = 2011 - born;
+	const age2026 = 2026 - born;
 
 	return (
 		<AbsoluteFill style={{opacity}}>
@@ -50,12 +53,11 @@ function ActorPair({then, now, name, character}: any) {
 					src={then}
 					style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}}
 				/>
-				<div style={{position: 'absolute', inset: 0, background: 'linear-gradient(to right, transparent 50%, rgba(0,0,0,0.4) 100%)'}} />
-				<div style={{position: 'absolute', bottom: 0, left: 0, right: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)', height: 120, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 20}}>
-					<div style={{fontFamily: 'Arial, sans-serif', color: '#fff', fontSize: 32, fontWeight: 'bold', textAlign: 'center'}}>
-						<div>2011</div>
-						<div style={{fontSize: 20, marginTop: 4, opacity: 0.9}}>S1-S8</div>
-					</div>
+				<div style={{position: 'absolute', inset: 0, background: 'linear-gradient(to right, transparent 60%, rgba(0,0,0,0.3) 100%)'}} />
+				{/* Year + Age bottom left */}
+				<div style={{position: 'absolute', bottom: 30, left: 30}}>
+					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#fff', fontSize: 56, fontWeight: 900, textShadow: '3px 3px 6px rgba(0,0,0,0.8)'}}>2011</div>
+					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#22dd22', fontSize: 52, fontWeight: 900, textShadow: '2px 2px 4px rgba(0,0,0,0.8)', marginTop: 8}}>{age2011}</div>
 				</div>
 			</div>
 
@@ -65,20 +67,12 @@ function ActorPair({then, now, name, character}: any) {
 					src={now}
 					style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}}
 				/>
-				<div style={{position: 'absolute', inset: 0, background: 'linear-gradient(to left, transparent 50%, rgba(0,0,0,0.4) 100%)'}} />
-				<div style={{position: 'absolute', bottom: 0, left: 0, right: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)', height: 120, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 20}}>
-					<div style={{fontFamily: 'Arial, sans-serif', color: '#fff', fontSize: 32, fontWeight: 'bold', textAlign: 'center'}}>
-						<div>2026</div>
-						<div style={{fontSize: 20, marginTop: 4, opacity: 0.9}}>Today</div>
-					</div>
+				<div style={{position: 'absolute', inset: 0, background: 'linear-gradient(to left, transparent 60%, rgba(0,0,0,0.3) 100%)'}} />
+				{/* Year + Age bottom right */}
+				<div style={{position: 'absolute', bottom: 30, right: 30, textAlign: 'right'}}>
+					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#fff', fontSize: 56, fontWeight: 900, textShadow: '3px 3px 6px rgba(0,0,0,0.8)'}}>2026</div>
+					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#22dd22', fontSize: 52, fontWeight: 900, textShadow: '2px 2px 4px rgba(0,0,0,0.8)', marginTop: 8}}>{age2026}</div>
 				</div>
-			</div>
-
-			{/* Center divider + name */}
-			<div style={{position: 'absolute', left: '50%', top: 0, bottom: 0, width: 2, backgroundColor: '#ffd700'}} />
-			<div style={{position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', backgroundColor: 'rgba(0,0,0,0.7)', padding: '10px 20px', borderRadius: 8, textAlign: 'center', maxWidth: '80%'}}>
-				<div style={{fontFamily: 'Arial Black, sans-serif', color: '#fff', fontSize: 40, fontWeight: 900}}>{name}</div>
-				<div style={{fontFamily: 'Arial, sans-serif', color: '#ffd700', fontSize: 18, marginTop: 4}}>{character}</div>
 			</div>
 		</AbsoluteFill>
 	);
