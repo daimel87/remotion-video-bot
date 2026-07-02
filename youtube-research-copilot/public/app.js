@@ -11,8 +11,10 @@ const progressEl = document.getElementById("progress");
 const emptyState = document.getElementById("empty-state");
 const results = document.getElementById("results");
 const grid = document.getElementById("grid");
+const noOutliersHint = document.getElementById("no-outliers-hint");
 const settingsBtn = document.getElementById("settings-btn");
 
+const statCount = document.getElementById("stat-count");
 const statDuration = document.getElementById("stat-duration");
 const statViews = document.getElementById("stat-views");
 const statNumbers = document.getElementById("stat-numbers");
@@ -109,6 +111,7 @@ function renderResults(data, searchSuggestions) {
   emptyState.hidden = true;
   results.hidden = false;
 
+  statCount.textContent = String(data.patterns.videoCount);
   statDuration.textContent = `${data.patterns.duration.medianMinutes} min`;
   statViews.textContent = formatNumber(data.patterns.views.median);
   statNumbers.textContent = `${data.patterns.titles.pctWithNumber}%`;
@@ -143,6 +146,7 @@ function renderResults(data, searchSuggestions) {
     hooksSection.hidden = true;
   }
 
+  noOutliersHint.hidden = data.videos.length > 0;
   grid.innerHTML = "";
   for (const v of data.videos) {
     const card = document.createElement("a");
@@ -153,12 +157,15 @@ function renderResults(data, searchSuggestions) {
     card.innerHTML = `
       <div class="thumb-wrap">
         <img src="${v.thumbnail}" alt="" loading="lazy" />
-        <span class="hero-badge">${formatNumber(v.viewCount)}</span>
+        <span class="hero-badge">🚀 ${v.outlierMultiplier}x</span>
       </div>
       <div class="card-body">
         <div class="card-title">${escapeHtml(v.title)}</div>
         <div class="channel-row">
-          <span>${escapeHtml(v.channelTitle)} · ${Math.round(v.durationSeconds / 60)} min · ${formatRelativeDate(v.publishedAt)}</span>
+          <span>${escapeHtml(v.channelTitle)} · ${formatNumber(v.subscriberCount)} subs · ${formatNumber(v.viewCount)} vistas</span>
+        </div>
+        <div class="channel-row">
+          <span>${Math.round(v.durationSeconds / 60)} min · ${formatRelativeDate(v.publishedAt)}</span>
         </div>
         ${v.hook ? `<div class="card-hook">"${escapeHtml(v.hook)}"</div>` : ""}
       </div>
@@ -212,12 +219,12 @@ termForm.addEventListener("submit", (e) => {
 });
 
 titlesPromptBtn.addEventListener("click", () => {
-  if (!lastResult) return;
+  if (!lastResult || lastResult.videos.length === 0) return;
   showPromptModal(`💡 Títulos virales para: "${lastResult.topic}"`, buildTitlesPrompt(lastResult.topic, lastResult.patterns, lastResult.videos));
 });
 
 function withChosenTitle(callback) {
-  if (!lastResult) return;
+  if (!lastResult || lastResult.videos.length === 0) return;
   const title = chosenTitleInput.value.trim();
   if (!title) {
     chosenTitleInput.focus();
