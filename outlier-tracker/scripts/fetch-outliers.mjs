@@ -241,6 +241,7 @@ async function main() {
         title: candidate.title,
         thumbnail: candidate.thumbnail,
         publishedAt: stat.publishedAt,
+        durationSeconds: stat.durationSeconds,
         channelId: channel.id,
         channelTitle: channel.title,
         channelThumbnail: channel.thumbnail,

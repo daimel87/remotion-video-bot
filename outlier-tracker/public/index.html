@@ -31,7 +31,10 @@
   <main class="container">
     <div id="search-banner" class="search-banner" hidden>
       <span id="search-banner-text"></span>
-      <button id="term-clear-btn" class="link-btn">✕ Volver a categorías</button>
+      <div class="search-banner-actions">
+        <button id="insights-btn" class="link-btn" hidden>📊 Ver resumen</button>
+        <button id="term-clear-btn" class="link-btn">✕ Volver a categorías</button>
+      </div>
     </div>
     <div class="filters" id="niche-filters"></div>
     <div id="grid" class="grid"></div>
@@ -59,6 +62,16 @@
           Google Cloud Console
         </a> (habilita "YouTube Data API v3" y crea una credencial de tipo API key).
       </p>
+    </div>
+  </div>
+
+  <div id="insights-modal" class="modal-backdrop" hidden>
+    <div class="modal insights-modal">
+      <h2 id="insights-title">Resumen de "<span id="insights-term"></span>"</h2>
+      <div id="insights-body" class="insights-body"></div>
+      <div class="modal-actions">
+        <button id="insights-close" class="refresh-btn">Cerrar</button>
+      </div>
     </div>
   </div>
 
