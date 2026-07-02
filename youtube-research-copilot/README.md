@@ -29,7 +29,18 @@ se hace conversando con Claude:
    imagen generada), y los puntúa contra los patrones del reporte —
    todo como texto, sin costo ni API adicional.
 
-## Uso
+## Dos formas de usarlo
+
+### A) App web (recomendada)
+
+Se publica junto al outlier tracker en `https://daimel87.github.io/remotion-video-bot/research/`
+(link cruzado entre ambos sitios). Corre la búsqueda y las estadísticas
+directo en tu navegador, igual que el outlier tracker. Para que también
+traiga transcripciones/ganchos necesitas desplegar un proxy gratis (ver
+`worker/README.md` — 5 minutos, sin instalar nada) y pegar su URL en
+"⚙ Configurar claves". Sin el proxy, funciona igual pero sin esa parte.
+
+### B) Script de terminal
 
 ```bash
 cd youtube-research-copilot
@@ -37,7 +48,8 @@ echo "YOUTUBE_API_KEY=tu_clave" > ../.env   # o reutiliza el .env del repo
 npm run research "tu tema"
 ```
 
-Genera `output/tu-tema.json` con el reporte completo.
+Genera `output/tu-tema.json` con el reporte completo. Las transcripciones
+sí funcionan sin proxy porque corre en tu terminal, no en el navegador.
 
 ## Advertencia sobre las transcripciones
 
