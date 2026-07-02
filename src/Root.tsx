@@ -223,7 +223,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="ThenNowEdit"
         component={ThenNowEdit}
-        durationInFrames={3000}
+        durationInFrames={9000}
         fps={30}
         width={1920}
         height={1080}

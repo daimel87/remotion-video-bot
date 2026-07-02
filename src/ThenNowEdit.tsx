@@ -9,27 +9,38 @@ interface ActorPair {
 const ActorTransition: React.FC<ActorPair> = ({number}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
-  const duration = 100; // frames per actor
-  const fadeInDuration = 10;
-  const fadeDuration = 10;
-  const holdDuration = duration - fadeInDuration - fadeDuration;
+  const duration = 300; // 10 seconds at 30fps
+  const panDuration = 150; // 5 seconds of pan
+  const staticDuration = 150; // 5 seconds static
 
   // Calculate local frame within this actor's duration
   const progress = frame % duration;
 
-  // Opacity animation
-  const opacity = interpolate(
-    progress,
-    [0, fadeInDuration, holdDuration, duration],
-    [0, 1, 1, 0],
+  // Pan animation: 0-150 frames (5 seconds)
+  // Then static: 150-300 frames (5 seconds)
+  const panProgress = Math.min(progress / panDuration, 1);
+
+  // Left image pans right (0px to 100px)
+  const leftPanX = interpolate(
+    panProgress,
+    [0, 1],
+    [0, 100],
     {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}
   );
 
-  // Slight zoom in effect
-  const scale = interpolate(
+  // Right image pans left (0px to -100px)
+  const rightPanX = interpolate(
+    panProgress,
+    [0, 1],
+    [0, -100],
+    {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}
+  );
+
+  // Opacity animation - fade in at start, fade out at end
+  const opacity = interpolate(
     progress,
-    [0, fadeInDuration, holdDuration, duration],
-    [0.95, 1, 1, 0.95],
+    [0, 20, duration - 20, duration],
+    [0, 1, 1, 0],
     {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}
   );
 
@@ -39,7 +50,7 @@ const ActorTransition: React.FC<ActorPair> = ({number}) => {
   const actorData = getActorData(number);
 
   return (
-    <AbsoluteFill style={{opacity, transform: `scale(${scale})`}}>
+    <AbsoluteFill style={{opacity}}>
       {/* Then - Left side */}
       <div
         style={{
@@ -55,14 +66,25 @@ const ActorTransition: React.FC<ActorPair> = ({number}) => {
           overflow: 'hidden',
         }}
       >
-        <Img
-          src={thenPath}
+        <div
           style={{
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
+            overflow: 'hidden',
+            position: 'relative',
           }}
-        />
+        >
+          <Img
+            src={thenPath}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              transform: `translateX(${leftPanX}px)`,
+              transition: 'none',
+            }}
+          />
+        </div>
         {/* Then - Text Box */}
         <div
           style={{
@@ -118,14 +140,25 @@ const ActorTransition: React.FC<ActorPair> = ({number}) => {
           overflow: 'hidden',
         }}
       >
-        <Img
-          src={nowPath}
+        <div
           style={{
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
+            overflow: 'hidden',
+            position: 'relative',
           }}
-        />
+        >
+          <Img
+            src={nowPath}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              transform: `translateX(${rightPanX}px)`,
+              transition: 'none',
+            }}
+          />
+        </div>
         {/* Now - Text Box */}
         <div
           style={{
@@ -184,7 +217,7 @@ const ActorTransition: React.FC<ActorPair> = ({number}) => {
 
 export const ThenNowEdit: React.FC = () => {
   const numActors = 30;
-  const framesPerActor = 100;
+  const framesPerActor = 300; // 10 seconds at 30fps
   const totalFrames = numActors * framesPerActor;
 
   return (
