@@ -74,10 +74,10 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({actor, index
 
 			<div style={{position: 'absolute', left: '50%', top: 0, height: '100%', width: 1, background: 'linear-gradient(180deg, transparent, rgba(201,168,76,0.5), rgba(201,168,76,0.5), transparent)', transform: 'translateX(-50%)'}} />
 
-			<AbsoluteFill style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0}}>
+			<AbsoluteFill style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'stretch', gap: 0}}>
 				{/* THEN photo - left */}
-				<div style={{flex: 1, height: '100%', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingBottom: 60}}>
-					<div style={{width: '85%', height: '85%', transform: `scale(${thenScale})`, opacity: thenOpacity, overflow: 'hidden', border: '3px solid rgba(212,168,68,0.6)', boxShadow: '0 0 40px rgba(212,168,68,0.2)', position: 'relative'}}>
+				<div style={{flex: 1, position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 20, paddingBottom: 20}}>
+					<div style={{width: '85%', height: '60%', transform: `scale(${thenScale})`, opacity: thenOpacity, overflow: 'hidden', border: '3px solid rgba(212,168,68,0.6)', boxShadow: '0 0 40px rgba(212,168,68,0.2)', position: 'relative', flexShrink: 0}}>
 						<Img
 							src={staticFile(actor.then)}
 							style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%', filter: 'sepia(30%) contrast(1.05)'}}
@@ -88,11 +88,11 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({actor, index
 							<div style={{color: '#999', fontSize: 16, letterSpacing: 4, marginTop: 4}}>2011</div>
 						</div>
 					</div>
-					<div style={{marginTop: 16, background: 'rgba(8, 8, 16, 0.9)', border: '2px solid rgba(212,168,68,0.5)', borderRadius: 8, padding: '12px 20px', width: '85%', textAlign: 'center', opacity: nameOpacity}}>
-						<div style={{fontFamily: "'Georgia', serif", color: '#d4a844', fontSize: 22, fontWeight: 700, letterSpacing: 2}}>
+					<div style={{flex: 1, background: 'rgba(8, 8, 16, 0.9)', border: '2px solid rgba(212,168,68,0.5)', borderRadius: 8, padding: '20px', width: '85%', textAlign: 'center', opacity: nameOpacity, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 16}}>
+						<div style={{fontFamily: "'Georgia', serif", color: '#d4a844', fontSize: 64, fontWeight: 700, letterSpacing: 3, lineHeight: 1}}>
 							{actor.character.toUpperCase()}
 						</div>
-						<div style={{fontFamily: "'Georgia', serif", color: '#c9a84c', fontSize: 18, marginTop: 6, letterSpacing: 1}}>
+						<div style={{fontFamily: "'Georgia', serif", color: '#c9a84c', fontSize: 56, marginTop: 16, letterSpacing: 2, fontWeight: 700}}>
 							AGE: {2011 - actor.born}
 						</div>
 					</div>
@@ -118,8 +118,8 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({actor, index
 				</div>
 
 				{/* NOW photo - right */}
-				<div style={{flex: 1, height: '100%', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingBottom: 60}}>
-					<div style={{width: '85%', height: '85%', transform: `scale(${nowScale})`, opacity: nowOpacity, overflow: 'hidden', border: '3px solid rgba(74,158,255,0.5)', boxShadow: '0 0 40px rgba(74,158,255,0.15)', position: 'relative'}}>
+				<div style={{flex: 1, position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 20, paddingBottom: 20}}>
+					<div style={{width: '85%', height: '60%', transform: `scale(${nowScale})`, opacity: nowOpacity, overflow: 'hidden', border: '3px solid rgba(74,158,255,0.5)', boxShadow: '0 0 40px rgba(74,158,255,0.15)', position: 'relative', flexShrink: 0}}>
 						<Img
 							src={staticFile(actor.now)}
 							style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}}
@@ -130,11 +130,11 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({actor, index
 							<div style={{color: '#999', fontSize: 16, letterSpacing: 4, marginTop: 4}}>2026</div>
 						</div>
 					</div>
-					<div style={{marginTop: 16, background: 'rgba(8, 8, 16, 0.9)', border: '2px solid rgba(74,158,255,0.5)', borderRadius: 8, padding: '12px 20px', width: '85%', textAlign: 'center', opacity: nameOpacity}}>
-						<div style={{fontFamily: "'Georgia', serif", color: '#4a9eff', fontSize: 22, fontWeight: 700, letterSpacing: 2}}>
+					<div style={{flex: 1, background: 'rgba(8, 8, 16, 0.9)', border: '2px solid rgba(74,158,255,0.5)', borderRadius: 8, padding: '20px', width: '85%', textAlign: 'center', opacity: nameOpacity, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 16}}>
+						<div style={{fontFamily: "'Georgia', serif", color: '#4a9eff', fontSize: 64, fontWeight: 700, letterSpacing: 3, lineHeight: 1}}>
 							{actor.name.toUpperCase()}
 						</div>
-						<div style={{fontFamily: "'Georgia', serif", color: '#8ab4f8', fontSize: 18, marginTop: 6, letterSpacing: 1}}>
+						<div style={{fontFamily: "'Georgia', serif", color: '#8ab4f8', fontSize: 56, marginTop: 16, letterSpacing: 2, fontWeight: 700}}>
 							AGE: {age}
 						</div>
 					</div>
