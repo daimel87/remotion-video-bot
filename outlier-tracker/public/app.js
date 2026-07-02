@@ -1,4 +1,5 @@
 import { findOutliers } from "./outliers-engine.js";
+import { computeInsights } from "./insights.js";
 
 const KEY_STORAGE = "outlier-tracker:api-key";
 const DATA_STORAGE = "outlier-tracker:last-results";
@@ -22,12 +23,19 @@ const termInput = document.getElementById("term-input");
 const searchBanner = document.getElementById("search-banner");
 const searchBannerText = document.getElementById("search-banner-text");
 const termClearBtn = document.getElementById("term-clear-btn");
+const insightsBtn = document.getElementById("insights-btn");
+
+const insightsModal = document.getElementById("insights-modal");
+const insightsTermEl = document.getElementById("insights-term");
+const insightsBody = document.getElementById("insights-body");
+const insightsClose = document.getElementById("insights-close");
 
 let currentData = null;
 let activeNiche = "all";
 let niches = [];
 let searchTerm = null;
 let searchData = null;
+let currentInsights = null;
 
 function formatNumber(n) {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
@@ -193,6 +201,60 @@ async function runSearch() {
   }
 }
 
+function renderInsightsModal(term, insights) {
+  insightsTermEl.textContent = term;
+
+  if (!insights) {
+    insightsBody.innerHTML = `<p class="insights-empty">No hay suficientes datos para armar un resumen.</p>`;
+    insightsModal.hidden = false;
+    return;
+  }
+
+  const wordsHtml = insights.topWords.length
+    ? insights.topWords.map(([word, count]) => `<span class="insights-word">${escapeHtml(word)} · ${count}</span>`).join("")
+    : `<span class="insights-empty">Sin patrones repetidos claros.</span>`;
+
+  const dayText = insights.bestDay
+    ? `${insights.bestDay.day} (${insights.bestDay.count} de ${insights.bestDay.total} videos)`
+    : "Sin datos suficientes";
+
+  const subsText = insights.subsRange
+    ? `${formatNumber(insights.subsRange.min)} – ${formatNumber(insights.subsRange.max)} suscriptores`
+    : "Sin datos";
+
+  insightsBody.innerHTML = `
+    <div class="insights-stats">
+      <div class="stat-tile">
+        <div class="stat-label">🚀 Multiplicador promedio</div>
+        <div class="stat-value">${insights.avgMultiplier}x</div>
+        <div class="stat-delta">máximo: ${insights.topMultiplier}x</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-label">⏱ Duración típica</div>
+        <div class="stat-value">${insights.medianDurationMin} min</div>
+        <div class="stat-delta">mediana de los ${insights.count} outliers</div>
+      </div>
+    </div>
+    <div>
+      <div class="insights-section-label">📅 Mejor día de publicación</div>
+      <div>${escapeHtml(dayText)}</div>
+    </div>
+    <div>
+      <div class="insights-section-label">👥 Rango de suscriptores de los canales</div>
+      <div>${escapeHtml(subsText)}</div>
+    </div>
+    <div>
+      <div class="insights-section-label">🔤 Palabras repetidas en los títulos</div>
+      <div class="insights-word-list">${wordsHtml}</div>
+    </div>
+  `;
+  insightsModal.hidden = false;
+}
+
+function hideInsightsModal() {
+  insightsModal.hidden = true;
+}
+
 async function runTermSearch(term) {
   let apiKey = getStoredKey();
   if (!apiKey) {
@@ -219,6 +281,15 @@ async function runTermSearch(term) {
     renderGrid();
     progressEl.textContent = `Listo: ${data.count} outliers encontrados para "${term}".`;
     setTimeout(() => (progressEl.hidden = true), 4000);
+
+    if (data.count > 0) {
+      currentInsights = computeInsights(data.videos);
+      insightsBtn.hidden = false;
+      renderInsightsModal(term, currentInsights);
+    } else {
+      currentInsights = null;
+      insightsBtn.hidden = true;
+    }
   } catch (err) {
     console.error(err);
     if (err.reason === "keyInvalid" || err.reason === "forbidden" || err.reason === "API_KEY_SERVICE_BLOCKED") {
@@ -236,7 +307,9 @@ async function runTermSearch(term) {
 function clearTermSearch() {
   searchTerm = null;
   searchData = null;
+  currentInsights = null;
   searchBanner.hidden = true;
+  insightsBtn.hidden = true;
   termInput.value = "";
   renderFilters();
   renderGrid();
@@ -249,6 +322,8 @@ termForm.addEventListener("submit", (e) => {
   runTermSearch(term);
 });
 termClearBtn.addEventListener("click", clearTermSearch);
+insightsBtn.addEventListener("click", () => renderInsightsModal(searchTerm, currentInsights));
+insightsClose.addEventListener("click", hideInsightsModal);
 
 refreshBtn.addEventListener("click", runSearch);
 settingsBtn.addEventListener("click", showKeyModal);
