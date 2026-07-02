@@ -1,13 +1,25 @@
-const REFRESH_INTERVAL_MS = 5 * 60 * 1000; // vuelve a leer data.json cada 5 min
+import { findOutliers } from "./outliers-engine.js";
+
+const KEY_STORAGE = "outlier-tracker:api-key";
+const DATA_STORAGE = "outlier-tracker:last-results";
 
 const grid = document.getElementById("grid");
 const emptyState = document.getElementById("empty-state");
 const updatedAtEl = document.getElementById("updated-at");
 const countBadge = document.getElementById("count-badge");
 const filtersEl = document.getElementById("niche-filters");
+const refreshBtn = document.getElementById("refresh-btn");
+const settingsBtn = document.getElementById("settings-btn");
+const progressEl = document.getElementById("progress");
+
+const modal = document.getElementById("key-modal");
+const keyInput = document.getElementById("key-input");
+const keySave = document.getElementById("key-save");
+const keyCancel = document.getElementById("key-cancel");
 
 let currentData = null;
 let activeNiche = "all";
+let niches = [];
 
 function formatNumber(n) {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
@@ -24,12 +36,17 @@ function formatRelativeDate(iso) {
 }
 
 function nicheLabel(id) {
-  const niche = currentData?.niches.find((n) => n.id === id);
-  return niche?.label ?? id;
+  return currentData?.niches.find((n) => n.id === id)?.label ?? id;
+}
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str ?? "";
+  return div.innerHTML;
 }
 
 function renderFilters() {
-  const niches = currentData?.niches ?? [];
+  const list = currentData?.niches ?? [];
   filtersEl.innerHTML = "";
 
   const allChip = document.createElement("button");
@@ -42,7 +59,7 @@ function renderFilters() {
   };
   filtersEl.appendChild(allChip);
 
-  for (const niche of niches) {
+  for (const niche of list) {
     const chip = document.createElement("button");
     chip.className = `filter-chip ${activeNiche === niche.id ? "active" : ""}`;
     chip.textContent = niche.label;
@@ -94,29 +111,93 @@ function renderGrid() {
   }
 }
 
-function escapeHtml(str) {
-  const div = document.createElement("div");
-  div.textContent = str ?? "";
-  return div.innerHTML;
+function applyData(data) {
+  currentData = data;
+  updatedAtEl.textContent = data.generatedAt
+    ? `Actualizado: ${new Date(data.generatedAt).toLocaleString("es")}`
+    : "Sin datos todavía";
+  countBadge.textContent = data.count ? `${data.count} outliers` : "";
+  renderFilters();
+  renderGrid();
 }
 
-async function loadData() {
+function getStoredKey() {
+  return localStorage.getItem(KEY_STORAGE) || "";
+}
+
+function showKeyModal() {
+  keyInput.value = getStoredKey();
+  modal.hidden = false;
+  keyInput.focus();
+}
+
+function hideKeyModal() {
+  modal.hidden = true;
+}
+
+async function runSearch() {
+  let apiKey = getStoredKey();
+  if (!apiKey) {
+    showKeyModal();
+    return;
+  }
+
+  refreshBtn.disabled = true;
+  progressEl.hidden = false;
+  progressEl.textContent = "Iniciando búsqueda...";
+
   try {
-    const res = await fetch(`data/outliers.json?t=${Date.now()}`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    currentData = await res.json();
-
-    updatedAtEl.textContent = `Actualizado: ${new Date(currentData.generatedAt).toLocaleString("es")}`;
-    countBadge.textContent = `${currentData.count} outliers`;
-
-    renderFilters();
-    renderGrid();
+    const data = await findOutliers(apiKey, niches, (msg) => {
+      progressEl.textContent = msg;
+    });
+    applyData(data);
+    localStorage.setItem(DATA_STORAGE, JSON.stringify(data));
+    progressEl.textContent = `Listo: ${data.count} outliers encontrados.`;
+    setTimeout(() => (progressEl.hidden = true), 4000);
   } catch (err) {
-    updatedAtEl.textContent = "No se pudieron cargar los datos";
-    emptyState.hidden = false;
     console.error(err);
+    if (err.reason === "keyInvalid" || err.reason === "forbidden" || err.reason === "API_KEY_SERVICE_BLOCKED") {
+      progressEl.textContent = `Clave inválida o API no habilitada: ${err.message}`;
+      showKeyModal();
+    } else {
+      progressEl.textContent = `Error: ${err.message}`;
+    }
+  } finally {
+    refreshBtn.disabled = false;
   }
 }
 
-loadData();
-setInterval(loadData, REFRESH_INTERVAL_MS);
+refreshBtn.addEventListener("click", runSearch);
+settingsBtn.addEventListener("click", showKeyModal);
+keyCancel.addEventListener("click", hideKeyModal);
+keySave.addEventListener("click", () => {
+  const value = keyInput.value.trim();
+  if (!value) return;
+  localStorage.setItem(KEY_STORAGE, value);
+  hideKeyModal();
+  runSearch();
+});
+keyInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") keySave.click();
+});
+
+async function init() {
+  const res = await fetch("data/niches.json");
+  niches = await res.json();
+
+  const cached = localStorage.getItem(DATA_STORAGE);
+  if (cached) {
+    applyData(JSON.parse(cached));
+  } else {
+    try {
+      const demo = await fetch(`data/outliers.json?t=${Date.now()}`).then((r) => r.json());
+      applyData(demo);
+    } catch {
+      applyData({ generatedAt: null, niches: [], count: 0, videos: [] });
+    }
+  }
+
+  if (!getStoredKey()) showKeyModal();
+}
+
+init();

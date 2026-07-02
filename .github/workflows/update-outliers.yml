@@ -1,9 +1,10 @@
-name: Actualizar outliers y publicar sitio
+name: Publicar sitio de outliers
 
 on:
-  schedule:
-    # Cada 6 horas
-    - cron: "0 */6 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "outlier-tracker/public/**"
   workflow_dispatch: {}
 
 permissions:
@@ -16,22 +17,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  update-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
-      - name: Buscar outliers
-        working-directory: outlier-tracker
-        env:
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-        run: npm run fetch
 
       - name: Configurar Pages
         uses: actions/configure-pages@v5
