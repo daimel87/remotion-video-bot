@@ -1,5 +1,6 @@
 import React from 'react';
 import {AbsoluteFill, Img, interpolate, useCurrentFrame, useVideoConfig, Sequence, staticFile} from 'remotion';
+import {getActorData} from './data/actorsData';
 
 interface ActorPair {
   number: number;
@@ -35,6 +36,7 @@ const ActorTransition: React.FC<ActorPair> = ({number}) => {
   const paddedNum = String(number).padStart(2, '0');
   const thenPath = staticFile(`images/then-now/actor-${paddedNum}-then.jpg`);
   const nowPath = staticFile(`images/then-now/actor-${paddedNum}-now.jpg`);
+  const actorData = getActorData(number);
 
   return (
     <AbsoluteFill style={{opacity, transform: `scale(${scale})`}}>
@@ -61,20 +63,43 @@ const ActorTransition: React.FC<ActorPair> = ({number}) => {
             objectFit: 'cover',
           }}
         />
+        {/* Then - Text Box */}
         <div
           style={{
             position: 'absolute',
-            bottom: 20,
-            left: 0,
-            right: '50%',
+            bottom: 40,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: 'rgba(0, 0, 0, 0.75)',
+            padding: '20px 30px',
+            borderRadius: '12px',
             textAlign: 'center',
-            color: 'white',
-            fontSize: 24,
-            fontWeight: 'bold',
-            textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+            border: '3px solid rgba(255, 255, 255, 0.3)',
+            maxWidth: '90%',
           }}
         >
-          THEN
+          <div
+            style={{
+              color: 'white',
+              fontSize: 48,
+              fontWeight: 'bold',
+              marginBottom: '10px',
+              textShadow: '2px 2px 8px rgba(0,0,0,0.9)',
+              lineHeight: '1.2',
+            }}
+          >
+            {actorData?.characterName || 'Character'}
+          </div>
+          <div
+            style={{
+              color: '#FFD700',
+              fontSize: 40,
+              fontWeight: 'bold',
+              textShadow: '2px 2px 8px rgba(0,0,0,0.9)',
+            }}
+          >
+            Age: {actorData?.ageInSeries || '?'}
+          </div>
         </div>
       </div>
 
@@ -101,20 +126,43 @@ const ActorTransition: React.FC<ActorPair> = ({number}) => {
             objectFit: 'cover',
           }}
         />
+        {/* Now - Text Box */}
         <div
           style={{
             position: 'absolute',
-            bottom: 20,
-            right: 0,
+            bottom: 40,
             left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: 'rgba(0, 0, 0, 0.75)',
+            padding: '20px 30px',
+            borderRadius: '12px',
             textAlign: 'center',
-            color: 'white',
-            fontSize: 24,
-            fontWeight: 'bold',
-            textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+            border: '3px solid rgba(255, 255, 255, 0.3)',
+            maxWidth: '90%',
           }}
         >
-          NOW
+          <div
+            style={{
+              color: 'white',
+              fontSize: 48,
+              fontWeight: 'bold',
+              marginBottom: '10px',
+              textShadow: '2px 2px 8px rgba(0,0,0,0.9)',
+              lineHeight: '1.2',
+            }}
+          >
+            {actorData?.actorName || 'Actor'}
+          </div>
+          <div
+            style={{
+              color: '#FFD700',
+              fontSize: 40,
+              fontWeight: 'bold',
+              textShadow: '2px 2px 8px rgba(0,0,0,0.9)',
+            }}
+          >
+            Age: {actorData?.currentAge || '?'}
+          </div>
         </div>
       </div>
 
