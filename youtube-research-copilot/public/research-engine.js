@@ -116,7 +116,7 @@ async function searchTopicVideos(apiKey, topic, cutoffDate) {
       part: "snippet",
       q: topic,
       type: "video",
-      order: "date",
+      order: "viewCount",
       publishedAfter: cutoffDate.toISOString(),
       maxResults: "50",
       ...(pageToken ? { pageToken } : {}),

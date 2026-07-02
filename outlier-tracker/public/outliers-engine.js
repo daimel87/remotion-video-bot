@@ -53,7 +53,7 @@ async function searchNicheVideos(apiKey, niche, cutoffDate) {
       part: "snippet",
       q: niche.query,
       type: "video",
-      order: "date",
+      order: "viewCount",
       publishedAfter: cutoffDate.toISOString(),
       maxResults: "50",
       ...(pageToken ? { pageToken } : {}),
