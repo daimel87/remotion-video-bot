@@ -11,7 +11,8 @@
     <div class="topbar-inner">
       <h1>🔬 YouTube Research Copilot</h1>
       <p class="subtitle">
-        Investiga los 30 mejores videos de un tema: patrones de título, duración, vistas y ganchos de apertura.
+        Investiga outliers de un tema: canales &lt;50.000 suscriptores con videos +100% sobre su propio promedio
+        en el último mes. Descarta clips y canales tipo "Caso Cerrado"/"Decisiones".
       </p>
       <div class="meta-row">
         <a href="../index.html" class="link-btn">← Outliers de canales pequeños</a>
@@ -32,6 +33,10 @@
 
     <div id="results" class="results" hidden>
       <div class="insights-stats">
+        <div class="stat-tile">
+          <div class="stat-label">🚀 Outliers encontrados</div>
+          <div class="stat-value" id="stat-count">—</div>
+        </div>
         <div class="stat-tile">
           <div class="stat-label">⏱ Duración típica</div>
           <div class="stat-value" id="stat-duration">—</div>
@@ -61,7 +66,7 @@
       </div>
 
       <div>
-        <div class="insights-section-label">🖼️ Miniaturas de los videos con más vistas (compara patrones a simple vista)</div>
+        <div class="insights-section-label">🖼️ Miniaturas de los outliers con más vistas (compara patrones a simple vista)</div>
         <div id="thumb-strip" class="thumb-strip"></div>
       </div>
 
@@ -92,7 +97,12 @@
         </div>
       </div>
 
-      <div class="insights-section-label">🎬 Los 30 videos</div>
+      <div class="insights-section-label">🎬 Videos outlier encontrados</div>
+      <p id="no-outliers-hint" class="section-hint" hidden>
+        No se encontraron outliers para este tema en el último mes con los filtros actuales
+        (&lt;50.000 suscriptores, +100% sobre su promedio, sin clips/canales excluidos). Prueba con otro tema o revisa
+        <code>content-filters.js</code> si crees que algo se está excluyendo de más.
+      </p>
       <div id="grid" class="grid"></div>
     </div>
   </main>

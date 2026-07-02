@@ -27,7 +27,7 @@ export function buildTitlesPrompt(topic, patterns, videos) {
 
   return `Sugiéreme 3 títulos virales para un video de YouTube sobre "${topic}".
 
-Estos son los títulos REALES de los videos que mejor funcionan en este tema ahora mismo, de más a menos vistas:
+Estos son los títulos REALES de videos outlier en este tema (canales chicos, <${(patterns.maxSubscribers ?? 50000).toLocaleString()} suscriptores, con +${patterns.minOutlierPercent ?? 100}% de vistas sobre su propio promedio, del último mes), de más a menos vistas:
 ${exampleTitles}
 
 Datos del conjunto completo (${patterns.videoCount} videos analizados):
@@ -56,7 +56,7 @@ export function buildScriptPrompt(topic, title, patterns, videos = []) {
 Título: "${title}"
 Tema: ${topic}
 
-Datos reales de los videos que mejor funcionan en este tema (top ${patterns.videoCount} analizados):
+Datos reales de videos outlier en este tema (canales chicos superando su propio promedio, ${patterns.videoCount} analizados):
 - Duración típica: ${patterns.duration.medianMinutes} minutos
 - Vistas típicas: ${formatNumber(patterns.views.median)}
 - ${patterns.titles.pctWithNumber}% de los títulos ganadores usan un número, ${patterns.titles.pctWithQuestion}% usan una pregunta
