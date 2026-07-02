@@ -98,24 +98,6 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({actor, index
 					</div>
 				</div>
 
-				{/* CENTER info box */}
-				<div style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: nameOpacity, zIndex: 10}}>
-					<div style={{background: 'rgba(8, 8, 16, 0.95)', border: '2px solid rgba(201,168,76,0.4)', borderRadius: 12, padding: '30px 40px', backdropFilter: 'blur(10px)', textAlign: 'center', minWidth: 280}}>
-						<div style={{fontFamily: "'Georgia', serif", color: '#ffffff', fontSize: 56, fontWeight: 700, letterSpacing: 3, lineHeight: 1, marginBottom: 20, textShadow: '0 2px 20px rgba(0,0,0,0.8)'}}>
-							{actor.name.toUpperCase()}
-						</div>
-						<div style={{width: 200, height: 1, background: 'linear-gradient(90deg, transparent, #c9a84c, transparent)', margin: '0 auto 16px'}} />
-						<div style={{display: 'flex', gap: 20, justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap'}}>
-							<div style={{fontFamily: "'Georgia', serif", color: '#c9a84c', fontSize: 20, letterSpacing: 1}}>
-								Born {actor.born}
-							</div>
-							<div style={{color: '#555', fontSize: 16}}>•</div>
-							<div style={{fontFamily: "'Georgia', serif", color: '#8ab4f8', fontSize: 20, letterSpacing: 1}}>
-								{age} years old
-							</div>
-						</div>
-					</div>
-				</div>
 
 				{/* NOW photo - right */}
 				<div style={{flex: 1, position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 20, paddingBottom: 20}}>
