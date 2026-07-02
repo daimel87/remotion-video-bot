@@ -121,8 +121,11 @@ async function fetchVideoStats(apiKey, videoIds) {
     for (const item of json.items ?? []) {
       byId.set(item.id, {
         viewCount: Number(item.statistics.viewCount ?? 0),
+        likeCount: Number(item.statistics.likeCount ?? 0),
+        commentCount: Number(item.statistics.commentCount ?? 0),
         publishedAt: item.snippet.publishedAt,
         durationSeconds: parseIsoDurationToSeconds(item.contentDetails?.duration),
+        liveBroadcastContent: item.snippet.liveBroadcastContent, // "none" | "live" | "upcoming"
       });
     }
   }
@@ -180,6 +183,7 @@ export async function findOutliers(apiKey, niches, onProgress) {
     const candidatePool = [];
     for (const [videoId, stat] of stats) {
       if (stat.durationSeconds < MIN_LONGFORM_SECONDS) continue; // descarta Shorts
+      if (stat.liveBroadcastContent && stat.liveBroadcastContent !== "none") continue; // descarta lives/próximos
       const publishedAt = new Date(stat.publishedAt);
       if (publishedAt < cutoffDate) baselinePool.push(stat.viewCount);
       else candidatePool.push({ videoId, ...stat });
@@ -195,11 +199,17 @@ export async function findOutliers(apiKey, niches, onProgress) {
       const stat = stats.get(candidate.videoId);
       if (!stat) continue;
       if (stat.durationSeconds < MIN_LONGFORM_SECONDS) continue; // descarta Shorts
+      if (stat.liveBroadcastContent && stat.liveBroadcastContent !== "none") continue; // descarta lives/próximos
       const publishedAt = new Date(stat.publishedAt);
       if (publishedAt < cutoffDate) continue;
 
       const outlierPercent = Math.round(((stat.viewCount - baseline) / baseline) * 100);
       if (outlierPercent < MIN_OUTLIER_PERCENT) continue;
+
+      const daysSincePublished = Math.max(1, Math.round((Date.now() - publishedAt.getTime()) / (24 * 60 * 60 * 1000)));
+      const viewsPerDay = Math.round(stat.viewCount / daysSincePublished);
+      const viewsPerSubscriber = channel.subscriberCount ? Math.round((stat.viewCount / channel.subscriberCount) * 100) / 100 : 0;
+      const engagementRate = stat.viewCount ? Math.round(((stat.likeCount + stat.commentCount) / stat.viewCount) * 1000) / 10 : 0;
 
       outliers.push({
         videoId: candidate.videoId,
@@ -213,9 +223,14 @@ export async function findOutliers(apiKey, niches, onProgress) {
         channelThumbnail: channel.thumbnail,
         subscriberCount: channel.subscriberCount,
         viewCount: stat.viewCount,
+        likeCount: stat.likeCount,
+        commentCount: stat.commentCount,
         baselineViews: Math.round(baseline),
         outlierPercent,
         outlierMultiplier: Math.round((stat.viewCount / baseline) * 10) / 10,
+        viewsPerDay,
+        viewsPerSubscriber,
+        engagementRate,
         niches: [...candidate.niches],
       });
     }
