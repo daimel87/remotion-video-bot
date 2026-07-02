@@ -8,11 +8,19 @@ const MAX_SUBSCRIBERS = 10000;
 const MIN_OUTLIER_PERCENT = 100; // +100% = 2x la mediana del canal
 const DAYS_WINDOW = 30;
 const RECENT_UPLOADS_TO_SCAN = 20;
+const MIN_LONGFORM_SECONDS = 240; // excluye Shorts (mismo corte que "short" en la Search API de YouTube)
 
 function chunk(arr, size) {
   const out = [];
   for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
   return out;
+}
+
+function parseIsoDurationToSeconds(iso) {
+  const match = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(iso ?? "");
+  if (!match) return 0;
+  const [, h, m, s] = match;
+  return (Number(h) || 0) * 3600 + (Number(m) || 0) * 60 + (Number(s) || 0);
 }
 
 function median(nums) {
@@ -107,13 +115,14 @@ async function fetchVideoStats(apiKey, videoIds) {
   for (const group of chunk([...new Set(videoIds)], 50)) {
     if (group.length === 0) continue;
     const json = await ytFetch(apiKey, "videos", {
-      part: "statistics,snippet",
+      part: "statistics,snippet,contentDetails",
       id: group.join(","),
     });
     for (const item of json.items ?? []) {
       byId.set(item.id, {
         viewCount: Number(item.statistics.viewCount ?? 0),
         publishedAt: item.snippet.publishedAt,
+        durationSeconds: parseIsoDurationToSeconds(item.contentDetails?.duration),
       });
     }
   }
@@ -170,6 +179,7 @@ export async function findOutliers(apiKey, niches, onProgress) {
     const baselinePool = [];
     const candidatePool = [];
     for (const [videoId, stat] of stats) {
+      if (stat.durationSeconds < MIN_LONGFORM_SECONDS) continue; // descarta Shorts
       const publishedAt = new Date(stat.publishedAt);
       if (publishedAt < cutoffDate) baselinePool.push(stat.viewCount);
       else candidatePool.push({ videoId, ...stat });
@@ -184,6 +194,7 @@ export async function findOutliers(apiKey, niches, onProgress) {
     for (const candidate of candidateVideos) {
       const stat = stats.get(candidate.videoId);
       if (!stat) continue;
+      if (stat.durationSeconds < MIN_LONGFORM_SECONDS) continue; // descarta Shorts
       const publishedAt = new Date(stat.publishedAt);
       if (publishedAt < cutoffDate) continue;
 
