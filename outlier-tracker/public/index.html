@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Outliers · Canales pequeños</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <h1>📈 Outliers de canales pequeños</h1>
+      <p class="subtitle">
+        Videos con <strong>+100% de vistas</strong> sobre el promedio de su canal
+        (&lt;10.000 suscriptores) · último mes
+      </p>
+      <div class="meta-row">
+        <span id="updated-at">Sin datos todavía</span>
+        <span id="count-badge"></span>
+        <button id="refresh-btn" class="refresh-btn">🔄 Actualizar ahora</button>
+        <button id="settings-btn" class="link-btn">Cambiar clave API</button>
+      </div>
+      <div id="progress" class="progress" hidden></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="filters" id="niche-filters"></div>
+    <div id="grid" class="grid"></div>
+    <p id="empty-state" class="empty-state" hidden>
+      Todavía no hay datos. Pulsa "Actualizar ahora" para buscar outliers en vivo.
+    </p>
+  </main>
+
+  <div id="key-modal" class="modal-backdrop" hidden>
+    <div class="modal">
+      <h2>Tu clave de YouTube Data API v3</h2>
+      <p>
+        Se guarda solo en este navegador (localStorage) y se usa para llamar
+        directo a la API de YouTube desde tu propio dispositivo — nunca pasa
+        por ningún servidor nuestro.
+      </p>
+      <input id="key-input" type="password" placeholder="AIza..." autocomplete="off" />
+      <div class="modal-actions">
+        <button id="key-save" class="refresh-btn">Guardar y buscar</button>
+        <button id="key-cancel" class="link-btn">Cancelar</button>
+      </div>
+      <p class="modal-help">
+        ¿No tienes una? Sácala gratis en la
+        <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer">
+          Google Cloud Console
+        </a> (habilita "YouTube Data API v3" y crea una credencial de tipo API key).
+      </p>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

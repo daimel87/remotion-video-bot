@@ -3,3 +3,4 @@ out
 .chrome
 .DS_Store
 *.log
+.env
