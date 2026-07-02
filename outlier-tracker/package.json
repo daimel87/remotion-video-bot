@@ -1,0 +1,9 @@
+{
+  "name": "outlier-tracker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "fetch": "node scripts/fetch-outliers.mjs",
+    "serve": "node scripts/serve.mjs"
+  }
+}
