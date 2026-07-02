@@ -1,7 +1,7 @@
 [
-  { "id": "gaming", "label": "Gaming", "query": "gaming gameplay" },
-  { "id": "finanzas", "label": "Finanzas personales", "query": "finanzas personales dinero" },
-  { "id": "true-crime", "label": "True crime", "query": "true crime caso real" },
-  { "id": "fitness", "label": "Fitness", "query": "entrenamiento fitness rutina" },
-  { "id": "tecnologia", "label": "Tecnología", "query": "tecnología review gadgets" }
+  { "id": "salud-masculina", "label": "Salud masculina", "query": "salud masculina hombres" },
+  { "id": "psicologia-infidelidad", "label": "Psicología femenina e infidelidades", "query": "psicología femenina infidelidad pareja" },
+  { "id": "sistemas-operativos", "label": "Sistemas operativos (Windows)", "query": "Windows 10 Windows 11" },
+  { "id": "tech", "label": "Tech", "query": "tecnología tech gadgets" },
+  { "id": "then-and-now", "label": "Then and now / Bar chart race / Quizzes", "query": "then and now bar chart race quiz" }
 ]
