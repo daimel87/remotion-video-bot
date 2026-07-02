@@ -34,7 +34,7 @@ export const actorsData: ActorData[] = [
   { number: 25, characterName: 'Grey Worm', ageInSeries: 21, actorName: 'Jacob Anderson', currentAge: 36 },
   { number: 26, characterName: 'Gregor Clegane', ageInSeries: 23, actorName: 'Hafþór Júlíus Björnsson', currentAge: 38 },
   { number: 27, characterName: 'Joffrey Baratheon', ageInSeries: 19, actorName: 'Jack Gleeson', currentAge: 34 },
-  { number: 28, characterName: 'Maester Pycelle', ageInSeries: 47, actorName: 'Conleth Hill', currentAge: 62 },
+  { number: 28, characterName: 'Varys', ageInSeries: 47, actorName: 'Conleth Hill', currentAge: 62 },
   { number: 29, characterName: 'Bronn', ageInSeries: 43, actorName: 'Jerome Flynn', currentAge: 58 },
   { number: 30, characterName: 'Arya Stark', ageInSeries: 14, actorName: 'Maisie Williams', currentAge: 29 },
 ];
