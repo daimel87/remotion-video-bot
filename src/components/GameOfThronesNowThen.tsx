@@ -27,6 +27,11 @@ const ACTORS = [
 	{name: 'Kristofer Hivju', born: 1978, character: 'Tormund', then: 'images/then-now/1503503945-syn-elm-1503486795-kristofer-hivju-as-tormund-got-1.png', now: 'images/then-now/images (5).jpg'},
 	{name: 'Charles Dance', born: 1946, character: 'Tywin Lannister', then: 'images/then-now/game-thrones-charles-dance-tywin-1558698033.png', now: 'images/then-now/images (6).jpg'},
 	{name: 'Hafþór Júlíus Björnsson', born: 1988, character: 'The Mountain', then: 'images/then-now/images (9).jpg', now: 'images/then-now/QM6VT4LGWFD2BKVFKVBKDKAIWM.jpg'},
+	{name: 'Jack Gleeson', born: 1992, character: 'Joffrey Baratheon', then: 'images/then-now/19775669.jpg', now: 'images/then-now/19775669.jpg'},
+	{name: 'Conleth Hill', born: 1964, character: 'Varys', then: 'images/then-now/images (4).jpg', now: 'images/then-now/images (4).jpg'},
+	{name: 'Jerome Flynn', born: 1968, character: 'Bronn', then: 'images/then-now/NINTCHDBPICT000228684497.webp', now: 'images/then-now/NINTCHDBPICT000228684497.webp'},
+	{name: 'Michelle Fairley', born: 1957, character: 'Catelyn Stark', then: 'images/then-now/images (7).jpg', now: 'images/then-now/Michelle_Fairley_2013.webp'},
+	{name: 'Jacob Anderson', born: 1990, character: 'Grey Worm', then: 'images/then-now/Game_Of_Thrones_Jacob_Anderson.jpg', now: 'images/then-now/images (8).jpg'},
 ];
 
 const FPS = 30;
