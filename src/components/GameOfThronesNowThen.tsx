@@ -5,7 +5,6 @@ const ACTORS = [
 	{name: 'Emilia Clarke', born: 1986, character: 'Daenerys Targaryen', then: 'images/then-now/71B0YQ0w+9L._AC_UF894,1000_QL80_.jpg', now: 'images/then-now/emilia clarke.jpg'},
 	{name: 'Kit Harington', born: 1986, character: 'Jon Snow', then: 'images/then-now/108731348.jpg', now: 'images/then-now/images.jpg'},
 	{name: 'Sophie Turner', born: 1996, character: 'Sansa Stark', then: 'images/then-now/Sophie_Turner_2009_(cropped).jpg', now: 'images/then-now/images (1).jpg'},
-	{name: 'Maisie Williams', born: 1997, character: 'Arya Stark', then: 'images/then-now/150626141447-maisie-williams.jpg', now: 'images/then-now/Maisie_Williams_by_Gage_Skidmore_3.jpg'},
 	{name: 'Isaac Hempstead Wright', born: 1999, character: 'Bran Stark', then: 'images/then-now/isaac-hempstead-wright-87671-c.jpg', now: 'images/then-now/451320_1.7.webp'},
 	{name: 'Lena Headey', born: 1973, character: 'Cersei Lannister', then: 'images/then-now/2cc100084253ebcbca1085a5c26bd7aa.jpg', now: 'images/then-now/Lena_Headey_(47086135862)_(cropped).jpg'},
 	{name: 'Peter Dinklage', born: 1969, character: 'Tyrion Lannister', then: 'images/then-now/Peter_Dinklage.webp', now: 'images/then-now/9CAd7wr8QZyIN0E7nm8v1B6WkGn.webp'},
@@ -32,6 +31,7 @@ const ACTORS = [
 	{name: 'Jerome Flynn', born: 1968, character: 'Bronn', then: 'images/then-now/NINTCHDBPICT000228684497.webp', now: 'images/then-now/NINTCHDBPICT000228684497.webp'},
 	{name: 'Michelle Fairley', born: 1957, character: 'Catelyn Stark', then: 'images/then-now/images (7).jpg', now: 'images/then-now/Michelle_Fairley_2013.webp'},
 	{name: 'Jacob Anderson', born: 1990, character: 'Grey Worm', then: 'images/then-now/Game_Of_Thrones_Jacob_Anderson.jpg', now: 'images/then-now/images (8).jpg'},
+	{name: 'Maisie Williams', born: 1997, character: 'Arya Stark', then: 'images/then-now/150626141447-maisie-williams.jpg', now: 'images/then-now/Maisie_Williams_by_Gage_Skidmore_3.jpg'},
 ];
 
 const FPS = 30;
