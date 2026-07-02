@@ -37,6 +37,7 @@ import {CinematicTributeEdit} from './CinematicTributeEdit';
 import {ThenNowEdit} from './ThenNowEdit';
 import {BrendanFraserThumbnailEdit} from './BrendanFraserThumbnailEdit';
 import {MickeyRourkeThumbnailEdit} from './MickeyRourkeThumbnailEdit';
+import {GameOfThronesNowThenEdit} from './GameOfThronesNowThenEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -341,6 +342,14 @@ export const RemotionRoot: React.FC = () => {
         id="CinematicTribute"
         component={CinematicTributeEdit}
         durationInFrames={6990}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="GameOfThronesNowThen"
+        component={GameOfThronesNowThenEdit}
+        durationInFrames={7500}
         fps={30}
         width={1920}
         height={1080}
