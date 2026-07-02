@@ -57,27 +57,21 @@ function ActorPair({then, now, born}: any) {
 					src={then}
 					style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}}
 				/>
-				<div style={{position: 'absolute', inset: 0, background: 'linear-gradient(to right, transparent 70%, rgba(0,0,0,0.6) 100%)'}} />
-				<div style={{position: 'absolute', bottom: 0, left: 0, right: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.95), transparent)', height: 140, display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start', paddingLeft: 30, paddingBottom: 20}}>
-					<div>
-						<div style={{fontFamily: 'Arial Black, sans-serif', color: '#fff', fontSize: 62, fontWeight: 900, letterSpacing: 2, lineHeight: 1}}>2011</div>
-						<div style={{fontFamily: 'Arial Black, sans-serif', color: '#22ff22', fontSize: 58, fontWeight: 900, letterSpacing: 2, marginTop: 4, lineHeight: 1}}>{age2011}</div>
-					</div>
+				<div style={{position: 'absolute', bottom: 30, left: 30, background: 'rgba(0, 0, 0, 0.85)', borderRadius: 8, padding: '20px 30px', backdropFilter: 'blur(4px)'}}>
+					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#fff', fontSize: 48, fontWeight: 900, letterSpacing: 1, lineHeight: 1}}>2011</div>
+					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#22ff22', fontSize: 52, fontWeight: 900, letterSpacing: 1, marginTop: 8, lineHeight: 1}}>{age2011}</div>
 				</div>
 			</div>
 
 			{/* Right NOW */}
-			<div style={{width: '50%', height: '100%', position: 'relative', overflow: 'hidden'}}>
+			<div style={{width: '50%', height: '100%', position: 'relative', overflow: 'hidden', marginLeft: '50%'}}>
 				<Img
 					src={now}
 					style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}}
 				/>
-				<div style={{position: 'absolute', inset: 0, background: 'linear-gradient(to left, transparent 70%, rgba(0,0,0,0.6) 100%)'}} />
-				<div style={{position: 'absolute', bottom: 0, right: 0, left: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.95), transparent)', height: 140, display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', paddingRight: 30, paddingBottom: 20}}>
-					<div style={{textAlign: 'right'}}>
-						<div style={{fontFamily: 'Arial Black, sans-serif', color: '#fff', fontSize: 62, fontWeight: 900, letterSpacing: 2, lineHeight: 1}}>2026</div>
-						<div style={{fontFamily: 'Arial Black, sans-serif', color: '#22ff22', fontSize: 58, fontWeight: 900, letterSpacing: 2, marginTop: 4, lineHeight: 1}}>{age2026}</div>
-					</div>
+				<div style={{position: 'absolute', bottom: 30, right: 30, background: 'rgba(0, 0, 0, 0.85)', borderRadius: 8, padding: '20px 30px', backdropFilter: 'blur(4px)'}}>
+					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#fff', fontSize: 48, fontWeight: 900, letterSpacing: 1, lineHeight: 1}}>2026</div>
+					<div style={{fontFamily: 'Arial Black, sans-serif', color: '#22ff22', fontSize: 52, fontWeight: 900, letterSpacing: 1, marginTop: 8, lineHeight: 1}}>{age2026}</div>
 				</div>
 			</div>
 		</AbsoluteFill>
