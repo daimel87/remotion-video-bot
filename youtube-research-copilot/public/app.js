@@ -162,10 +162,19 @@ function renderResults(data, searchSuggestions) {
       <div class="card-body">
         <div class="card-title">${escapeHtml(v.title)}</div>
         <div class="channel-row">
-          <span>${escapeHtml(v.channelTitle)} · ${formatNumber(v.subscriberCount)} subs · ${formatNumber(v.viewCount)} vistas</span>
+          <span>${escapeHtml(v.channelTitle)} · ${Math.round(v.durationSeconds / 60)} min · ${formatRelativeDate(v.publishedAt)}</span>
         </div>
-        <div class="channel-row">
-          <span>${Math.round(v.durationSeconds / 60)} min · ${formatRelativeDate(v.publishedAt)}</span>
+        <div class="card-stat-grid">
+          <div class="card-stat-tile">
+            <div class="card-stat-label">👁 Vistas</div>
+            <div class="card-stat-value">${formatNumber(v.viewCount)}</div>
+            <div class="card-stat-delta">vs ${formatNumber(v.baselineViews)} típico</div>
+          </div>
+          <div class="card-stat-tile">
+            <div class="card-stat-label">👥 Suscriptores</div>
+            <div class="card-stat-value">${formatNumber(v.subscriberCount)}</div>
+            <div class="card-stat-delta card-stat-delta-accent">+${v.outlierPercent}% outlier</div>
+          </div>
         </div>
         ${v.hook ? `<div class="card-hook">"${escapeHtml(v.hook)}"</div>` : ""}
       </div>

@@ -11,7 +11,8 @@ import { isExcluded } from "./content-filters.js";
 const API_BASE = "https://www.googleapis.com/youtube/v3";
 const MAX_SUBSCRIBERS = 50000;
 const MIN_OUTLIER_PERCENT = 100; // +100% = 2x la mediana del canal
-const DAYS_WINDOW = 30;
+const MIN_ABSOLUTE_VIEWS = 100000; // descarta outliers "de mentira" con vistas insignificantes
+const DAYS_WINDOW = 90;
 const RECENT_UPLOADS_TO_SCAN = 20;
 const MIN_LONGFORM_SECONDS = 240; // excluye Shorts
 const TOP_N = 30;
@@ -194,7 +195,7 @@ async function fetchVideoStats(apiKey, videoIds) {
 export async function researchTopic(apiKey, topic, workerUrl, onProgress) {
   const cutoffDate = new Date(Date.now() - DAYS_WINDOW * 24 * 60 * 60 * 1000);
 
-  onProgress?.(`Buscando videos de "${topic}" del último mes...`);
+  onProgress?.(`Buscando videos de "${topic}" de los últimos 3 meses...`);
   const candidates = await searchTopicVideos(apiKey, topic, cutoffDate);
   const candidatesByChannel = new Map();
   for (const v of candidates) {
@@ -254,6 +255,8 @@ export async function researchTopic(apiKey, topic, workerUrl, onProgress) {
       const publishedAt = new Date(stat.publishedAt);
       if (publishedAt < cutoffDate) continue;
 
+      if (stat.viewCount < MIN_ABSOLUTE_VIEWS) continue; // descarta outliers estadísticos sin relevancia real
+
       const outlierPercent = Math.round(((stat.viewCount - baseline) / baseline) * 100);
       if (outlierPercent < MIN_OUTLIER_PERCENT) continue;
 
@@ -300,6 +303,8 @@ export async function researchTopic(apiKey, topic, workerUrl, onProgress) {
     transcriptCoverage: withTranscript.length,
     maxSubscribers: MAX_SUBSCRIBERS,
     minOutlierPercent: MIN_OUTLIER_PERCENT,
+    minAbsoluteViews: MIN_ABSOLUTE_VIEWS,
+    daysWindow: DAYS_WINDOW,
     duration: {
       medianMinutes: Math.round((median(durations) / 60) * 10) / 10,
       meanMinutes: Math.round((mean(durations) / 60) * 10) / 10,
