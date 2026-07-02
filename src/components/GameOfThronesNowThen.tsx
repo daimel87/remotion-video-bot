@@ -64,65 +64,61 @@ const ActorSegment: React.FC<{actor: ActorData; index: number}> = ({actor, index
 	const thenOpacity = interpolate(frame, [10, 30, ACTOR_DURATION - 15, ACTOR_DURATION], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 	const nowOpacity = interpolate(frame, [25, 45, ACTOR_DURATION - 15, ACTOR_DURATION], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
-	const nameY = interpolate(frame, [15, 40], [40, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 	const nameOpacity = interpolate(frame, [15, 40, ACTOR_DURATION - 15, ACTOR_DURATION], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-
-	const infoOpacity = interpolate(frame, [40, 60, ACTOR_DURATION - 15, ACTOR_DURATION], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-
-	const photoW = 550;
-	const photoH = 700;
 
 	return (
 		<AbsoluteFill style={{opacity: Math.min(fadeIn, fadeOut), backgroundColor: '#080810'}}>
 			<div style={{position: 'absolute', left: 0, top: 0, width: '50%', height: '100%', background: 'linear-gradient(135deg, rgba(180,140,60,0.06) 0%, transparent 100%)'}} />
 			<div style={{position: 'absolute', right: 0, top: 0, width: '50%', height: '100%', background: 'linear-gradient(225deg, rgba(60,120,220,0.06) 0%, transparent 100%)'}} />
 
-			<div style={{position: 'absolute', left: '50%', top: '10%', height: '80%', width: 1, background: 'linear-gradient(180deg, transparent, rgba(201,168,76,0.5), rgba(201,168,76,0.5), transparent)', transform: 'translateX(-50%)'}} />
+			<div style={{position: 'absolute', left: '50%', top: 0, height: '100%', width: 1, background: 'linear-gradient(180deg, transparent, rgba(201,168,76,0.5), rgba(201,168,76,0.5), transparent)', transform: 'translateX(-50%)'}} />
 
-			<div style={{position: 'absolute', top: 32, left: 0, width: '50%', textAlign: 'center', opacity: nameOpacity}}>
-				<div style={{fontFamily: "'Georgia', serif", color: '#d4a844', fontSize: 28, fontWeight: 700, letterSpacing: 10}}>THEN</div>
-				<div style={{color: '#666', fontSize: 16, letterSpacing: 4, marginTop: 4}}>2011</div>
-			</div>
-
-			<div style={{position: 'absolute', top: 32, right: 0, width: '50%', textAlign: 'center', opacity: nameOpacity}}>
-				<div style={{fontFamily: "'Georgia', serif", color: '#4a9eff', fontSize: 28, fontWeight: 700, letterSpacing: 10}}>NOW</div>
-				<div style={{color: '#666', fontSize: 16, letterSpacing: 4, marginTop: 4}}>2026</div>
-			</div>
-
-			<AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 0, paddingTop: 30, paddingBottom: 160}}>
-				<div style={{width: photoW, height: photoH, transform: `scale(${thenScale})`, opacity: thenOpacity, overflow: 'hidden', border: '3px solid rgba(212,168,68,0.6)', boxShadow: '0 0 40px rgba(212,168,68,0.2)', margin: '0 20px'}}>
-					<Img
-						src={staticFile(actor.then)}
-						style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%', filter: 'sepia(30%) contrast(1.05)'}}
-					/>
-					<div style={{position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 60%, rgba(20,15,5,0.6) 100%)'}} />
-				</div>
-
-				<div style={{width: photoW, height: photoH, transform: `scale(${nowScale})`, opacity: nowOpacity, overflow: 'hidden', border: '3px solid rgba(74,158,255,0.5)', boxShadow: '0 0 40px rgba(74,158,255,0.15)', margin: '0 20px', position: 'relative'}}>
-					<Img
-						src={staticFile(actor.now)}
-						style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}}
-					/>
-					<div style={{position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 60%, rgba(8,8,16,0.5) 100%)'}} />
-				</div>
-			</AbsoluteFill>
-
-			<AbsoluteFill style={{justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'column', paddingBottom: 60}}>
-				<div style={{opacity: nameOpacity, transform: `translateY(${nameY}px)`, textAlign: 'center'}}>
-					<div style={{fontFamily: "'Georgia', serif", color: '#ffffff', fontSize: 72, fontWeight: 700, letterSpacing: 4, textShadow: '0 2px 30px rgba(0,0,0,0.9)', lineHeight: 1}}>
-						{actor.name.toUpperCase()}
+			<AbsoluteFill style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0}}>
+				{/* THEN photo - left */}
+				<div style={{flex: 1, height: '100%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden'}}>
+					<div style={{width: '90%', height: '95%', transform: `scale(${thenScale})`, opacity: thenOpacity, overflow: 'hidden', border: '3px solid rgba(212,168,68,0.6)', boxShadow: '0 0 40px rgba(212,168,68,0.2)', position: 'relative'}}>
+						<Img
+							src={staticFile(actor.then)}
+							style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%', filter: 'sepia(30%) contrast(1.05)'}}
+						/>
+						<div style={{position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 60%, rgba(20,15,5,0.6) 100%)'}} />
+						<div style={{position: 'absolute', top: 20, left: 20, opacity: nameOpacity}}>
+							<div style={{fontFamily: "'Georgia', serif", color: '#d4a844', fontSize: 28, fontWeight: 700, letterSpacing: 10}}>THEN</div>
+							<div style={{color: '#999', fontSize: 16, letterSpacing: 4, marginTop: 4}}>2011</div>
+						</div>
 					</div>
 				</div>
 
-				<div style={{opacity: infoOpacity, marginTop: 16, textAlign: 'center'}}>
-					<div style={{width: 600, height: 2, background: 'linear-gradient(90deg, transparent, #c9a84c, transparent)', margin: '0 auto'}} />
-					<div style={{display: 'flex', gap: 40, justifyContent: 'center', marginTop: 14, alignItems: 'center'}}>
-						<div style={{fontFamily: "'Georgia', serif", color: '#c9a84c', fontSize: 24, letterSpacing: 2}}>
-							Born {actor.born}
+				{/* CENTER info box */}
+				<div style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: nameOpacity, zIndex: 10}}>
+					<div style={{background: 'rgba(8, 8, 16, 0.95)', border: '2px solid rgba(201,168,76,0.4)', borderRadius: 12, padding: '30px 40px', backdropFilter: 'blur(10px)', textAlign: 'center', minWidth: 280}}>
+						<div style={{fontFamily: "'Georgia', serif", color: '#ffffff', fontSize: 56, fontWeight: 700, letterSpacing: 3, lineHeight: 1, marginBottom: 20, textShadow: '0 2px 20px rgba(0,0,0,0.8)'}}>
+							{actor.name.toUpperCase()}
 						</div>
-						<div style={{color: '#444', fontSize: 20}}>•</div>
-						<div style={{fontFamily: "'Georgia', serif", color: '#8ab4f8', fontSize: 24, letterSpacing: 2}}>
-							{age} years old
+						<div style={{width: 200, height: 1, background: 'linear-gradient(90deg, transparent, #c9a84c, transparent)', margin: '0 auto 16px'}} />
+						<div style={{display: 'flex', gap: 20, justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap'}}>
+							<div style={{fontFamily: "'Georgia', serif", color: '#c9a84c', fontSize: 20, letterSpacing: 1}}>
+								Born {actor.born}
+							</div>
+							<div style={{color: '#555', fontSize: 16}}>•</div>
+							<div style={{fontFamily: "'Georgia', serif", color: '#8ab4f8', fontSize: 20, letterSpacing: 1}}>
+								{age} years old
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* NOW photo - right */}
+				<div style={{flex: 1, height: '100%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden'}}>
+					<div style={{width: '90%', height: '95%', transform: `scale(${nowScale})`, opacity: nowOpacity, overflow: 'hidden', border: '3px solid rgba(74,158,255,0.5)', boxShadow: '0 0 40px rgba(74,158,255,0.15)', position: 'relative'}}>
+						<Img
+							src={staticFile(actor.now)}
+							style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 15%'}}
+						/>
+						<div style={{position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 60%, rgba(8,8,16,0.5) 100%)'}} />
+						<div style={{position: 'absolute', top: 20, right: 20, opacity: nameOpacity, textAlign: 'right'}}>
+							<div style={{fontFamily: "'Georgia', serif", color: '#4a9eff', fontSize: 28, fontWeight: 700, letterSpacing: 10}}>NOW</div>
+							<div style={{color: '#999', fontSize: 16, letterSpacing: 4, marginTop: 4}}>2026</div>
 						</div>
 					</div>
 				</div>
