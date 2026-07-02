@@ -435,29 +435,38 @@ a.link-btn {
   border-radius: 999px;
 }
 
-.suggested-titles {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.section-hint {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin: 0 0 12px;
 }
 
-.suggested-title-card {
+.chosen-title-box {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 14px 16px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  padding: 16px;
+  margin-top: 14px;
 }
 
-.suggested-title-text {
-  font-weight: 600;
-  font-size: 0.95rem;
-  flex: 1;
-  min-width: 220px;
+.chosen-title-row {
+  margin-bottom: 12px;
+}
+
+#chosen-title-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 10px 12px;
+  font-size: 0.9rem;
+}
+
+#chosen-title-input:focus {
+  outline: none;
+  border-color: var(--accent);
 }
 
 .suggested-title-actions {

@@ -9,48 +9,46 @@ function formatNumber(n) {
   return String(n);
 }
 
-function capitalize(str) {
-  return str ? str.charAt(0).toUpperCase() + str.slice(1) : str;
-}
-
 /**
+ * Arma un prompt con los títulos REALES de los videos top para que
+ * Claude/ChatGPT saque el patrón de estructura y tono en vez de que
+ * nosotros lo inventemos con una plantilla genérica.
+ *
  * @param {string} topic
- * @param {{titles: {pctWithNumber: number, pctWithQuestion: number, topWords: [string, number][]}}} patterns
+ * @param {{videoCount: number, duration: {medianMinutes: number}, views: {median: number}, titles: {pctWithNumber: number, pctWithQuestion: number, topWords: [string, number][]}}} patterns
+ * @param {{title: string, viewCount: number}[]} videos
  */
-export function suggestTitles(topic, patterns) {
-  const topicLower = topic.toLowerCase();
-  // Descarta palabras que ya están contenidas en el tema (ej. "vegan" cuando
-  // el tema es "cocina vegana") para que no se sientan redundantes.
-  const words = patterns.titles.topWords
-    .map(([w]) => w)
-    .filter((w) => !topicLower.includes(w) && !w.includes(topicLower));
+export function buildTitlesPrompt(topic, patterns, videos) {
+  const exampleTitles = [...videos]
+    .sort((a, b) => b.viewCount - a.viewCount)
+    .slice(0, 15)
+    .map((v) => `  - "${v.title}" (${formatNumber(v.viewCount)} vistas)`)
+    .join("\n");
 
-  const w1 = words[0];
-  const w2 = words[1] ?? words[0];
+  return `Sugiéreme 3 títulos virales para un video de YouTube sobre "${topic}".
 
-  const titles = [];
+Estos son los títulos REALES de los videos que mejor funcionan en este tema ahora mismo, de más a menos vistas:
+${exampleTitles}
 
-  titles.push(
-    patterns.titles.pctWithNumber >= 15
-      ? `7 claves de ${topic} que no te están contando`
-      : `La verdad sobre ${topic} que nadie te cuenta`
-  );
+Datos del conjunto completo (${patterns.videoCount} videos analizados):
+- Duración típica: ${patterns.duration.medianMinutes} minutos
+- Vistas típicas: ${formatNumber(patterns.views.median)}
+- ${patterns.titles.pctWithNumber}% de los títulos usan un número, ${patterns.titles.pctWithQuestion}% usan una pregunta
+- Palabras que más se repiten: ${patterns.titles.topWords.map(([w]) => w).join(", ") || "sin datos suficientes"}
 
-  titles.push(
-    patterns.titles.pctWithQuestion >= 10
-      ? `¿Por qué ${topic}${w1 ? ` y "${w1}"` : ""} funcionan tan bien juntos?`
-      : `${capitalize(topic)}: lo que tienes que saber antes de empezar`
-  );
-
-  titles.push(w2 ? `${capitalize(topic)}: por qué "${w2}" es la clave que nadie usa` : `${capitalize(topic)}: la guía definitiva`);
-
-  return [...new Set(titles)];
+Primero identifica qué patrón de estructura, tono y gancho comparten los títulos de arriba (no me lo expliques, solo úsalo). Después dame 3 títulos nuevos, originales y específicos para "${topic}" que sigan ese mismo patrón — nada de plantillas genéricas tipo "la verdad que nadie te cuenta".`;
 }
 
-export function buildScriptPrompt(topic, title, patterns) {
+export function buildScriptPrompt(topic, title, patterns, videos = []) {
   const hookLines = patterns.hooks.examples
     .slice(0, 5)
     .map((h) => `  - "${h.hook}"`)
+    .join("\n");
+
+  const exampleTitles = [...videos]
+    .sort((a, b) => b.viewCount - a.viewCount)
+    .slice(0, 8)
+    .map((v) => `  - "${v.title}"`)
     .join("\n");
 
   return `Escribe un guion de YouTube optimizado para retención sobre este video.
@@ -63,6 +61,7 @@ Datos reales de los videos que mejor funcionan en este tema (top ${patterns.vide
 - Vistas típicas: ${formatNumber(patterns.views.median)}
 - ${patterns.titles.pctWithNumber}% de los títulos ganadores usan un número, ${patterns.titles.pctWithQuestion}% usan una pregunta
 - Palabras que más se repiten en los títulos ganadores: ${patterns.titles.topWords.map(([w]) => w).join(", ") || "sin datos suficientes"}
+${exampleTitles ? `- Títulos reales de los videos top, para que entiendas el tono/ángulo que funciona en este nicho:\n${exampleTitles}` : ""}
 ${hookLines ? `- Ejemplos reales de ganchos de apertura de los videos top:\n${hookLines}` : ""}
 
 Con esos datos como referencia, escribe:

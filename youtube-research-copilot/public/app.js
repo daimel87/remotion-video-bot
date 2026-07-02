@@ -1,5 +1,5 @@
 import { researchTopic } from "./research-engine.js";
-import { suggestTitles, buildScriptPrompt, buildThumbnailPrompt, buildDescriptionPrompt } from "./content-prompts.js";
+import { buildTitlesPrompt, buildScriptPrompt, buildThumbnailPrompt, buildDescriptionPrompt } from "./content-prompts.js";
 import { fetchSearchSuggestions } from "./search-suggest.js";
 
 const KEY_STORAGE = "outlier-tracker:api-key"; // misma clave que el outlier tracker, si es el mismo sitio
@@ -23,7 +23,11 @@ const hookWordsEl = document.getElementById("hook-words");
 const hookExamplesEl = document.getElementById("hook-examples");
 const hooksSection = document.getElementById("hooks-section");
 const thumbStripEl = document.getElementById("thumb-strip");
-const suggestedTitlesEl = document.getElementById("suggested-titles");
+const titlesPromptBtn = document.getElementById("titles-prompt-btn");
+const chosenTitleInput = document.getElementById("chosen-title-input");
+const chosenScriptBtn = document.getElementById("chosen-script-btn");
+const chosenThumbnailBtn = document.getElementById("chosen-thumbnail-btn");
+const chosenDescriptionBtn = document.getElementById("chosen-description-btn");
 
 const settingsModal = document.getElementById("settings-modal");
 const keyInput = document.getElementById("key-input");
@@ -36,6 +40,8 @@ const promptModalTitle = document.getElementById("prompt-modal-title");
 const promptText = document.getElementById("prompt-text");
 const promptCopy = document.getElementById("prompt-copy");
 const promptClose = document.getElementById("prompt-close");
+
+let lastResult = null; // { topic, patterns, videos, searchSuggestions }
 
 function formatNumber(n) {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
@@ -98,36 +104,8 @@ function renderThumbStrip(videos) {
     .join("");
 }
 
-function renderSuggestedTitles(topic, patterns, searchSuggestions) {
-  const titles = suggestTitles(topic, patterns);
-  suggestedTitlesEl.innerHTML = "";
-
-  titles.forEach((title, idx) => {
-    const card = document.createElement("div");
-    card.className = "suggested-title-card";
-    card.innerHTML = `
-      <div class="suggested-title-text">${escapeHtml(title)}</div>
-      <div class="suggested-title-actions">
-        <button class="chip-btn" data-action="script" data-idx="${idx}">🎬 Hacer guion</button>
-        <button class="chip-btn" data-action="thumbnail" data-idx="${idx}">🖼️ Prompt miniatura</button>
-        <button class="chip-btn" data-action="description" data-idx="${idx}">📝 Descripción, tags y comentario</button>
-      </div>
-    `;
-    suggestedTitlesEl.appendChild(card);
-
-    card.querySelector('[data-action="script"]').addEventListener("click", () => {
-      showPromptModal(`🎬 Guion para: "${title}"`, buildScriptPrompt(topic, title, patterns));
-    });
-    card.querySelector('[data-action="thumbnail"]').addEventListener("click", () => {
-      showPromptModal(`🖼️ Prompt de miniatura para: "${title}"`, buildThumbnailPrompt(topic, title, patterns));
-    });
-    card.querySelector('[data-action="description"]').addEventListener("click", () => {
-      showPromptModal(`📝 Descripción/tags/comentario para: "${title}"`, buildDescriptionPrompt(topic, title, patterns, searchSuggestions));
-    });
-  });
-}
-
 function renderResults(data, searchSuggestions) {
+  lastResult = { topic: data.topic, patterns: data.patterns, videos: data.videos, searchSuggestions };
   emptyState.hidden = true;
   results.hidden = false;
 
@@ -145,7 +123,7 @@ function renderResults(data, searchSuggestions) {
     : `<span class="insights-empty">No se pudieron traer sugerencias de búsqueda esta vez.</span>`;
 
   renderThumbStrip(data.videos);
-  renderSuggestedTitles(data.topic, data.patterns, searchSuggestions);
+  chosenTitleInput.value = "";
 
   if (data.patterns.transcriptCoverage > 0) {
     hooksSection.hidden = false;
@@ -231,6 +209,40 @@ termForm.addEventListener("submit", (e) => {
   const topic = termInput.value.trim();
   if (!topic) return;
   runResearch(topic);
+});
+
+titlesPromptBtn.addEventListener("click", () => {
+  if (!lastResult) return;
+  showPromptModal(`💡 Títulos virales para: "${lastResult.topic}"`, buildTitlesPrompt(lastResult.topic, lastResult.patterns, lastResult.videos));
+});
+
+function withChosenTitle(callback) {
+  if (!lastResult) return;
+  const title = chosenTitleInput.value.trim();
+  if (!title) {
+    chosenTitleInput.focus();
+    return;
+  }
+  callback(title);
+}
+
+chosenScriptBtn.addEventListener("click", () => {
+  withChosenTitle((title) => {
+    showPromptModal(`🎬 Guion para: "${title}"`, buildScriptPrompt(lastResult.topic, title, lastResult.patterns, lastResult.videos));
+  });
+});
+chosenThumbnailBtn.addEventListener("click", () => {
+  withChosenTitle((title) => {
+    showPromptModal(`🖼️ Prompt de miniatura para: "${title}"`, buildThumbnailPrompt(lastResult.topic, title, lastResult.patterns));
+  });
+});
+chosenDescriptionBtn.addEventListener("click", () => {
+  withChosenTitle((title) => {
+    showPromptModal(
+      `📝 Descripción/tags/comentario para: "${title}"`,
+      buildDescriptionPrompt(lastResult.topic, title, lastResult.patterns, lastResult.searchSuggestions)
+    );
+  });
 });
 
 promptClose.addEventListener("click", hidePromptModal);
