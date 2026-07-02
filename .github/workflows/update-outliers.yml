@@ -9,9 +9,7 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
@@ -31,14 +29,8 @@ jobs:
           mkdir -p site/research
           cp -r youtube-research-copilot/public/. site/research/
 
-      - name: Configurar Pages
-        uses: actions/configure-pages@v5
-
-      - name: Subir artefacto
-        uses: actions/upload-pages-artifact@v3
+      - name: Publicar en rama gh-pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: site
-
-      - name: Desplegar en GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
