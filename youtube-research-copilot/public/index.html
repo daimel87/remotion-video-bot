@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YouTube Research Copilot</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <h1>🔬 YouTube Research Copilot</h1>
+      <p class="subtitle">
+        Investiga los 30 mejores videos de un tema: patrones de título, duración, vistas y ganchos de apertura.
+      </p>
+      <div class="meta-row">
+        <a href="../index.html" class="link-btn">← Outliers de canales pequeños</a>
+        <button id="settings-btn" class="link-btn">⚙ Configurar claves</button>
+      </div>
+      <form id="term-form" class="term-search">
+        <input id="term-input" type="text" placeholder="Tema a investigar (ej: cocina vegana, autos clásicos...)" autocomplete="off" />
+        <button type="submit" id="term-search-btn" class="refresh-btn">🔍 Investigar</button>
+      </form>
+      <div id="progress" class="progress" hidden></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="empty-state" class="empty-state">
+      Escribe un tema arriba y dale a "Investigar" para empezar.
+    </div>
+
+    <div id="results" class="results" hidden>
+      <div class="insights-stats">
+        <div class="stat-tile">
+          <div class="stat-label">⏱ Duración típica</div>
+          <div class="stat-value" id="stat-duration">—</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-label">👁 Vistas típicas</div>
+          <div class="stat-value" id="stat-views">—</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-label">🔢 % títulos con número</div>
+          <div class="stat-value" id="stat-numbers">—</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-label">📝 Transcripciones obtenidas</div>
+          <div class="stat-value" id="stat-transcripts">—</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="insights-section-label">🔤 Palabras repetidas en títulos</div>
+        <div class="insights-word-list" id="title-words"></div>
+      </div>
+
+      <div id="hooks-section">
+        <div class="insights-section-label">🪝 Ganchos de apertura más repetidos</div>
+        <div class="insights-word-list" id="hook-words"></div>
+        <div id="hook-examples" class="hook-examples"></div>
+      </div>
+
+      <div class="insights-section-label">🎬 Los 30 videos</div>
+      <div id="grid" class="grid"></div>
+    </div>
+  </main>
+
+  <div id="settings-modal" class="modal-backdrop" hidden>
+    <div class="modal">
+      <h2>Configuración</h2>
+      <p>
+        Ambas se guardan solo en este navegador (localStorage). La clave de
+        YouTube es la misma que usas en el outlier tracker si es el mismo sitio.
+      </p>
+      <label class="modal-label" for="key-input">Clave de YouTube Data API v3</label>
+      <input id="key-input" type="password" placeholder="AIza..." autocomplete="off" />
+
+      <label class="modal-label" for="worker-input">URL de tu proxy de transcripciones (Cloudflare Worker)</label>
+      <input id="worker-input" type="text" placeholder="https://tu-worker.workers.dev" autocomplete="off" />
+      <p class="modal-help">
+        Opcional — sin esto, la investigación funciona igual pero sin ganchos/transcripciones.
+        Instrucciones para desplegar el proxy gratis en <code>worker/README.md</code>.
+      </p>
+
+      <div class="modal-actions">
+        <button id="settings-save" class="refresh-btn">Guardar</button>
+        <button id="settings-cancel" class="link-btn">Cancelar</button>
+      </div>
+      <p class="modal-help">
+        ¿No tienes clave de YouTube? Sácala gratis en la
+        <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer">
+          Google Cloud Console
+        </a>.
+      </p>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

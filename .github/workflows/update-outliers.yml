@@ -5,6 +5,7 @@ on:
     branches: [claude/charming-bell-kl0c3i]
     paths:
       - "outlier-tracker/public/**"
+      - "youtube-research-copilot/public/**"
   workflow_dispatch: {}
 
 permissions:
@@ -23,13 +24,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Armar sitio combinado
+        run: |
+          mkdir -p site
+          cp -r outlier-tracker/public/. site/
+          mkdir -p site/research
+          cp -r youtube-research-copilot/public/. site/research/
+
       - name: Configurar Pages
         uses: actions/configure-pages@v5
 
       - name: Subir artefacto
         uses: actions/upload-pages-artifact@v3
         with:
-          path: outlier-tracker/public
+          path: site
 
       - name: Desplegar en GitHub Pages
         id: deployment
