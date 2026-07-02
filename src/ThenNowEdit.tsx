@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, Img, interpolate, useCurrentFrame, useVideoConfig, Sequence} from 'remotion';
+import {AbsoluteFill, Img, interpolate, useCurrentFrame, useVideoConfig, Sequence, staticFile} from 'remotion';
 
 interface ActorPair {
   number: number;
@@ -32,8 +32,9 @@ const ActorTransition: React.FC<ActorPair> = ({number}) => {
     {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}
   );
 
-  const thenPath = `/images/then-now/actor-${String(number).padStart(2, '0')}-then.jpg`;
-  const nowPath = `/images/then-now/actor-${String(number).padStart(2, '0')}-now.jpg`;
+  const paddedNum = String(number).padStart(2, '0');
+  const thenPath = staticFile(`images/then-now/actor-${paddedNum}-then.jpg`);
+  const nowPath = staticFile(`images/then-now/actor-${paddedNum}-now.jpg`);
 
   return (
     <AbsoluteFill style={{opacity, transform: `scale(${scale})`}}>
