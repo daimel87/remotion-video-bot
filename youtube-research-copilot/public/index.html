@@ -72,8 +72,24 @@
       </div>
 
       <div>
-        <div class="insights-section-label">💡 3 títulos sugeridos (basados en los patrones de arriba)</div>
-        <div id="suggested-titles" class="suggested-titles"></div>
+        <div class="insights-section-label">💡 Títulos virales (con los títulos reales de arriba como ejemplo)</div>
+        <p class="section-hint">
+          Esto no inventa títulos con una plantilla — arma un prompt con los títulos reales de los videos top
+          para que Claude/ChatGPT saque el patrón real y te sugiera 3 nuevos.
+        </p>
+        <button id="titles-prompt-btn" class="refresh-btn">💡 Generar prompt de títulos</button>
+
+        <div class="chosen-title-box">
+          <label class="modal-label" for="chosen-title-input">Tu título elegido (pega aquí el que te guste de Claude/ChatGPT, o escribe el tuyo)</label>
+          <div class="chosen-title-row">
+            <input id="chosen-title-input" type="text" placeholder="Pega o escribe tu título aquí..." autocomplete="off" />
+          </div>
+          <div class="suggested-title-actions">
+            <button class="chip-btn" id="chosen-script-btn">🎬 Hacer guion</button>
+            <button class="chip-btn" id="chosen-thumbnail-btn">🖼️ Prompt miniatura</button>
+            <button class="chip-btn" id="chosen-description-btn">📝 Descripción, tags y comentario</button>
+          </div>
+        </div>
       </div>
 
       <div class="insights-section-label">🎬 Los 30 videos</div>
