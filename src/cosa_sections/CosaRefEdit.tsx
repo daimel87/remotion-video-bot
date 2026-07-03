@@ -9,8 +9,9 @@ export const REF = {
   s4In: 545, s4Out: 645,   // ~22s  las palabras no mienten
   s5In: 652, s5Out: 755,   // ~26s  tu intuición no miente
   s6In: 760, s6Out: 858,   // ~30s  lo único que miente es ella
-  s7In: 862, s7Out: 985,   // ~34.5s no es accidente: control
-  finalIn: 990,            // ~40s  FULL-SCREEN mereces la verdad
+  s7In: 862, s7Out: 985,   // ~34.5s no es accidente
+  s7bIn: 990, s7bOut: 1045, // ~39.6s es control · manipulación
+  finalIn: 1050,           // ~42s  FULL-SCREEN mereces la verdad
 };
 
 export const CosaRefEdit: React.FC = () => {
@@ -20,7 +21,7 @@ export const CosaRefEdit: React.FC = () => {
     <AbsoluteFill style={{backgroundColor: theme.bg}}>
       <ZoomVideo
         src="cosa_reflexion.mp4"
-        frames={[0, 175, 290, 400, 545, 755, 862, 985, 990, 1108]}
+        frames={[0, 175, 290, 400, 545, 755, 862, 985, 1050, 1108]}
         scales={[1.0, 1.0, 1.0, 1.05, 1.05, 1.0, 1.05, 1.05, 1.0, 1.0]}
       />
 
@@ -69,18 +70,24 @@ export const CosaRefEdit: React.FC = () => {
         </Panel>
       </Scene>
 
-      {/* 7 · no es accidente: control (izquierda) */}
+      {/* 7 · no es accidente (izquierda) */}
       <Scene frameIn={REF.s7In} frameOut={REF.s7Out} pos="left" maxWidth={640}>
         <Panel>
-          <T size={42} color={theme.text}>No es accidente:</T>
-          <br />
-          <T size={54} color={theme.accent} weight={900}>CONTROL · MANIPULACIÓN</T>
+          <div style={{fontSize: 50, marginBottom: 6}}>⚠️</div>
+          <T size={56} color={theme.accent} weight={900}>NO ES ACCIDENTE</T>
+        </Panel>
+      </Scene>
+
+      {/* 7b · es control · manipulación (banda inferior) */}
+      <Scene frameIn={REF.s7bIn} frameOut={REF.s7bOut} pos="bottom">
+        <Panel>
+          <T size={52} color={theme.accent} weight={900}>ES CONTROL · MANIPULACIÓN</T>
         </Panel>
       </Scene>
 
       {/* 8 · FULL-SCREEN cierre mereces la verdad */}
       {frame >= REF.finalIn && (
-        <FullScreen frameIn={REF.finalIn} frameOut={1108} kicker="Y tú" big="Mereces la verdad" />
+        <FullScreen frameIn={REF.finalIn} frameOut={1105} kicker="Y tú" big="Mereces la verdad" />
       )}
     </AbsoluteFill>
   );
