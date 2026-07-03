@@ -90,6 +90,7 @@ import {Cosa2Edit} from './Cosa2Edit';
 import {Cosa3Edit} from './Cosa3Edit';
 import {Cosa4Edit} from './Cosa4Edit';
 import {Cosa5Edit} from './Cosa5Edit';
+import {Cosa6Edit} from './Cosa6Edit';
 import {MujerFinalEdit} from './MujerFinalEdit';
 import {Soledad1Edit} from './Soledad1Edit';
 import {Soledad2Edit} from './Soledad2Edit';
@@ -1196,6 +1197,14 @@ export const RemotionRoot: React.FC = () => {
         id="Cosa5Edit"
         component={Cosa5Edit}
         durationInFrames={1495}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Cosa6Edit"
+        component={Cosa6Edit}
+        durationInFrames={1501}
         fps={25}
         width={1920}
         height={1080}
