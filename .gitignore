@@ -7,3 +7,8 @@ renders/
 manim/__pycache__/
 manim/media/
 manim/concat.txt
+
+# HyperFrames skills — reinstalables con: GIT_LFS_SKIP_SMUDGE=1 npx skills add heygen-com/hyperframes
+# (el lockfile skills-lock.json sí se versiona para reproducir la instalación)
+.agents/
+.claude/skills/
