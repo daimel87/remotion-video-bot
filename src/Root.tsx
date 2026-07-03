@@ -62,6 +62,7 @@ import {Alprostadil1Edit} from './Alprostadil1Edit';
 import {ErroresIntro} from './video_errores/ErroresIntro';
 import {Error1} from './video_errores/Error1';
 import {Error2} from './video_errores/Error2';
+import {Error3} from './video_errores/Error3';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -566,6 +567,14 @@ export const RemotionRoot: React.FC = () => {
         id="Error2"
         component={Error2}
         durationInFrames={1392}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Error3"
+        component={Error3}
+        durationInFrames={1784}
         fps={25}
         width={1920}
         height={1080}
