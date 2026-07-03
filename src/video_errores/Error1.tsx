@@ -22,15 +22,15 @@ const zoom = (f: number) => {
 		[0, 1.0],
 		[95, 1.0],
 		[210, 1.05],
-		[515, 1.06],
-		[519, 1.0],
-		[635, 1.0],
-		[800, 1.05],
-		[940, 1.05],
+		[465, 1.06],
+		[472, 1.0],
+		[575, 1.0],
+		[720, 1.05],
+		[945, 1.05],
 		[950, 1.0],
 		[1185, 1.0],
-		[1520, 1.06],
-		[1540, 1.0],
+		[1650, 1.06],
+		[1655, 1.0],
 		[1896, 1.0],
 	];
 	for (let i = 0; i < pts.length - 1; i++) {
@@ -109,15 +109,15 @@ export const Error1: React.FC = () => {
 
 	// full-screen scenes (person hidden)
 	const s1 = lifecycle(frame, 0, 95, 8);       // title
-	const s5 = lifecycle(frame, 519, 635, 10);   // 3-5 stat
+	const s5 = lifecycle(frame, 472, 575, 6);    // 3-5 stat
 	const s8 = lifecycle(frame, 950, 1185, 12);  // study stat
-	const s11 = frame >= 1540 ? animIn(frame, 1544, 12) : 0; // open loop close
+	const s11 = frame >= 1655 ? animIn(frame, 1659, 12) : 0; // open loop close
 
 	const fsActive =
 		(frame >= 0 && frame <= 95) ||
-		(frame >= 519 && frame <= 635) ||
+		(frame >= 472 && frame <= 575) ||
 		(frame >= 950 && frame <= 1185) ||
-		frame >= 1540;
+		frame >= 1655;
 	const wmVisible = !fsActive;
 
 	return (
@@ -191,7 +191,7 @@ export const Error1: React.FC = () => {
 
 			{/* ---------- S4: right panel — mientras duermes ---------- */}
 			{(() => {
-				const o = lifecycle(frame, 352, 515, 10);
+				const o = lifecycle(frame, 360, 470, 10);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="right" top={170}>
@@ -221,7 +221,7 @@ export const Error1: React.FC = () => {
 
 			{/* ---------- S6: left panel — oxigena ---------- */}
 			{(() => {
-				const o = lifecycle(frame, 645, 800, 10);
+				const o = lifecycle(frame, 580, 710, 10);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="left" top={280}>
@@ -235,7 +235,7 @@ export const Error1: React.FC = () => {
 
 			{/* ---------- S7: right panel — analogía dolor en el pecho ---------- */}
 			{(() => {
-				const o = lifecycle(frame, 810, 940, 10);
+				const o = lifecycle(frame, 815, 945, 10);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="right" top={180}>
@@ -294,7 +294,7 @@ export const Error1: React.FC = () => {
 
 			{/* ---------- S10: right — bandera roja ---------- */}
 			{(() => {
-				const o = lifecycle(frame, 1320, 1520, 10);
+				const o = lifecycle(frame, 1540, 1650, 9);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="right" top={200}>

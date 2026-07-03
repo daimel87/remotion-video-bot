@@ -46,25 +46,25 @@ def stamp(dur=0.22):
     click=np.random.randn(n)*np.exp(-t*120)*0.4
     return ((s+click)*np.exp(-t*14)).astype(np.float32)
 
-# Scene in/out frames (25fps): S1 in0 out95 | S2 in108 | S3 in215 | S4 in352 | S5 in519 out635
-# S6 in645 | S7 in810 | S8 in950 out1185 | S9 in1195 | S10 in1320 | S11 in1540
+# Scene in/out frames (25fps): S1 in0 out95 | S2 in108 | S3 in215 | S4 in360 | S5 in472 out575
+# S6 in580 | S7 in815 | S8 in950 out1185 | S9 in1195 | S10 in1540 | S11 in1655
 cues=[
  (0/25,   impact(0.6), 0.0, 0.5),    # S1 title slam (full-screen open)
  (108/25, blip(1500), 0.5, 0.5),     # S2 in
  (215/25, blip(1300),-0.4, 0.5),     # S3 in
- (352/25, pop(700),   0.5, 0.5),     # S4 in
- (519/25-1.1, riser(1.1),0.0,0.3),   # riser -> S5 card (519)
- (519/25, chime(950), 0.0, 0.42),    # S5 stat hit
- (635/25, whoosh(0.4),0.0, 0.35),    # S5 exit
- (645/25, blip(1300),-0.4, 0.5),     # S6 in
- (810/25, pop(640),   0.5, 0.5),     # S7 in (warning)
+ (360/25, pop(700),   0.5, 0.5),     # S4 in
+ (472/25-1.1, riser(1.1),0.0,0.3),   # riser -> S5 card (472)
+ (472/25, chime(950), 0.0, 0.42),    # S5 stat hit (tres y cinco)
+ (575/25, whoosh(0.4),0.0, 0.35),    # S5 exit
+ (580/25, blip(1300),-0.4, 0.5),     # S6 in
+ (815/25, pop(640),   0.5, 0.5),     # S7 in (warning)
  (950/25-1.1, riser(1.1),0.0,0.32),  # riser -> S8 study (950)
  (950/25, chime(820), 0.0, 0.45),    # S8 study hit
  (1185/25,whoosh(0.4),0.0, 0.35),    # S8 exit
  (1195/25,blip(1300),-0.4, 0.5),     # S9 in
- (1320/25,stamp(0.22),0.5, 0.5),     # S10 flag in
- (1540/25-1.1,riser(1.1),0.0,0.34),  # riser -> S11 close (1540)
- (1540/25,impact(0.6),0.0, 0.55),    # S11 open-loop slam
+ (1540/25,stamp(0.22),0.5, 0.5),     # S10 flag in (levantando la mano)
+ (1655/25-1.1,riser(1.1),0.0,0.34),  # riser -> S11 close (1655)
+ (1655/25,impact(0.6),0.0, 0.55),    # S11 open-loop slam (error #2)
 ]
 for t,sig,pan,g in cues: place(sig,t,pan,g)
 peak=np.max(np.abs(bed))
