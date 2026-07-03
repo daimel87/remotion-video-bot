@@ -60,6 +60,7 @@ import {Presion1Edit} from './Presion1Edit';
 import {Suplemento1Edit} from './Suplemento1Edit';
 import {Alprostadil1Edit} from './Alprostadil1Edit';
 import {ErroresIntro} from './video_errores/ErroresIntro';
+import {Error1} from './video_errores/Error1';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -548,6 +549,14 @@ export const RemotionRoot: React.FC = () => {
         id="ErroresIntro"
         component={ErroresIntro}
         durationInFrames={1113}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Error1"
+        component={Error1}
+        durationInFrames={1896}
         fps={25}
         width={1920}
         height={1080}
