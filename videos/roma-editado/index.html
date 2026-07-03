@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face { font-family:"Montserrat"; src:url("public/fonts/Montserrat-900.woff2") format("woff2"); font-weight:100 900; font-display:block; }
+      @font-face { font-family:"Inter"; src:url("public/fonts/Inter-700-latin.woff2") format("woff2"); font-weight:700; font-display:block; }
+      @font-face { font-family:"Inter"; src:url("public/fonts/Inter-400-latin.woff2") format("woff2"); font-weight:400; font-display:block; }
+      :root{ --ink:#0E0B08; --cream:#F4E9D6; --gold:#E8B04B; --red:#B23A2E; --panel:rgba(14,11,8,0.76); }
+      *{ box-sizing:border-box; margin:0; padding:0; }
+      html,body{ width:1280px; height:720px; overflow:hidden; background:#000; font-family:"Inter",sans-serif; }
+      #stage{ position:relative; width:1280px; height:720px; overflow:hidden; }
+      .video-wrapper{ position:absolute; inset:0; width:1280px; height:720px; overflow:hidden; }
+      .video-wrapper video{ width:100%; height:100%; object-fit:cover; }
+      .card-host{ position:absolute; pointer-events:none; }
+      .kick{ font-family:"Inter"; font-weight:700; letter-spacing:.38em; text-transform:uppercase; color:var(--gold); }
+      .tsh{ text-shadow:0 3px 14px rgba(0,0,0,.7); }
+      .panel{ background:var(--panel); border-left:4px solid var(--gold); border-radius:8px; backdrop-filter:blur(2px); }
+
+      /* 1 title */
+      #c-title{ left:0; top:64px; width:1280px; text-align:center; }
+      #c-title .k{ font-size:25px; letter-spacing:.42em; }
+      #c-title .big{ font-family:"Montserrat"; font-weight:900; font-size:172px; line-height:.9; letter-spacing:-.03em; color:var(--gold); text-shadow:0 6px 26px rgba(0,0,0,.55); }
+      #c-title .sub{ font-family:"Inter"; font-weight:700; font-size:33px; color:var(--cream); margin-top:6px; }
+
+      /* 2 comercio panel (top-right) */
+      #c-com{ left:812px; top:70px; width:432px; padding:22px 24px; }
+      #c-com .k{ font-size:19px; }
+      #c-com .v{ font-family:"Montserrat"; font-weight:800; font-size:40px; color:var(--cream); line-height:1.05; margin-top:8px; }
+      #c-com .s{ font-family:"Inter"; font-weight:400; font-size:22px; color:#cbbfa6; margin-top:6px; }
+
+      /* 3 calzadas callout (left) */
+      #c-cal{ left:70px; top:96px; width:600px; padding:20px 26px; }
+      #c-cal .k{ font-size:19px; }
+      #c-cal .n{ font-family:"Montserrat"; font-weight:900; font-size:118px; line-height:.92; letter-spacing:-.03em; color:var(--red); }
+      #c-cal .s{ font-family:"Inter"; font-weight:700; font-size:30px; color:var(--cream); margin-top:2px; }
+
+      /* 4 envidia band (center) */
+      #c-env{ left:140px; top:250px; width:1000px; text-align:center; }
+      #c-env .band{ display:inline-block; background:var(--panel); padding:16px 34px; border-radius:10px; border-top:3px solid var(--gold); border-bottom:3px solid var(--gold); }
+      #c-env .t{ font-family:"Montserrat"; font-weight:800; font-size:52px; color:var(--cream); letter-spacing:.01em; }
+
+      /* 5 poblacion stat (top-center) */
+      #c-pob{ left:240px; top:74px; width:800px; text-align:center; }
+      #c-pob .k{ font-size:20px; }
+      #c-pob .row{ display:flex; align-items:baseline; justify-content:center; gap:16px; }
+      #c-pob .n{ font-family:"Montserrat"; font-weight:900; font-size:124px; line-height:1; color:var(--red); text-shadow:0 4px 18px rgba(0,0,0,.6); }
+      #c-pob .u{ font-family:"Montserrat"; font-weight:800; font-size:44px; color:var(--cream); }
+      #c-pob .s{ font-family:"Inter"; font-weight:700; font-size:28px; color:var(--cream); margin-top:2px; }
+
+      /* 6 acueducto callout (right) */
+      #c-acu{ left:706px; top:80px; width:520px; padding:22px 26px; text-align:right; border-left:none; border-right:4px solid var(--gold); }
+      #c-acu .k{ font-size:19px; }
+      #c-acu .n{ font-family:"Montserrat"; font-weight:900; font-size:78px; line-height:1; color:var(--gold); }
+      #c-acu .s{ font-family:"Inter"; font-weight:700; font-size:26px; color:var(--cream); margin-top:4px; }
+
+      /* 7 coliseo big (top) */
+      #c-col{ left:120px; top:58px; width:1040px; text-align:center; padding:20px; }
+      #c-col .k{ font-size:22px; }
+      #c-col .n{ font-family:"Montserrat"; font-weight:900; font-size:170px; line-height:.9; color:var(--red); text-shadow:0 6px 24px rgba(0,0,0,.6); }
+      #c-col .s{ font-family:"Inter"; font-weight:700; font-size:32px; color:var(--cream); }
+
+      /* 8 legion lower-third (upper, above subs) */
+      #c-leg{ left:70px; top:392px; width:760px; padding:16px 22px; }
+      #c-leg .t{ font-family:"Montserrat"; font-weight:900; font-size:46px; color:var(--gold); letter-spacing:.01em; }
+      #c-leg .s{ font-family:"Inter"; font-weight:700; font-size:26px; color:var(--cream); margin-top:2px; }
+
+      /* 9 interstitial fullscreen */
+      #c-int{ left:0; top:0; width:1280px; height:720px; background:var(--ink); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+      #c-int .k{ font-size:26px; letter-spacing:.5em; margin-bottom:18px; }
+      #c-int .l{ font-family:"Montserrat"; font-weight:900; font-size:96px; line-height:.98; letter-spacing:-.02em; color:var(--cream); text-align:center; overflow:hidden; }
+      #c-int .l em{ font-style:normal; color:var(--red); }
+
+      /* 10 cesares card (top) */
+      #c-ces{ left:90px; top:70px; width:1100px; padding:26px 30px; }
+      #c-ces .k{ font-size:22px; color:var(--gold); }
+      #c-ces .r1{ font-family:"Montserrat"; font-weight:900; font-size:58px; color:var(--cream); line-height:1.02; margin-top:14px; }
+      #c-ces .r1 b{ color:var(--gold); }
+      #c-ces .r2{ font-family:"Inter"; font-weight:700; font-size:30px; color:#cbbfa6; margin-top:14px; }
+      #c-ces .r2 span{ color:var(--red); }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="60" data-fps="24" data-width="1280" data-height="720">
+      <div class="video-wrapper" id="video-wrap">
+        <video id="bg-video" class="clip" src="public/input-video.mp4" muted playsinline
+               data-start="0" data-duration="60" data-track-index="0"></video>
+      </div>
+
+      <!-- 1 TITLE -->
+      <div class="card-host clip" id="c-title" data-start="0.3" data-duration="4.4" data-track-index="2" style="opacity:0;">
+        <div class="k kick tsh">Crónicas Ilustradas</div>
+        <div class="big" id="ti-big">ROMA</div>
+        <div class="sub tsh" id="ti-sub">el imperio que lo cambió todo</div>
+      </div>
+
+      <!-- 2 COMERCIO -->
+      <div class="card-host clip panel" id="c-com" data-start="8.6" data-duration="4.0" data-track-index="2" style="opacity:0;">
+        <div class="k kick">Comercio</div>
+        <div class="v">Especias · Seda · Tintes</div>
+        <div class="s">de tres continentes</div>
+      </div>
+
+      <!-- 3 CALZADAS -->
+      <div class="card-host clip panel" id="c-cal" data-start="12.9" data-duration="4.4" data-track-index="2" style="opacity:0;">
+        <div class="k kick">Ingeniería</div>
+        <div class="n"><span id="cal-n">0</span> km</div>
+        <div class="s">de calzadas — muchas aún en uso</div>
+      </div>
+
+      <!-- 4 ENVIDIA -->
+      <div class="card-host clip" id="c-env" data-start="20.2" data-duration="3.8" data-track-index="2" style="opacity:0;">
+        <div class="band"><div class="t">La envidia del mundo conocido</div></div>
+      </div>
+
+      <!-- 5 POBLACION -->
+      <div class="card-host clip" id="c-pob" data-start="24.5" data-duration="4.6" data-track-index="2" style="opacity:0;">
+        <div class="k kick tsh">En su apogeo</div>
+        <div class="row"><div class="n"><span id="pob-n">0</span></div><div class="u">millones</div></div>
+        <div class="s tsh">de habitantes bajo una sola ley</div>
+      </div>
+
+      <!-- 6 ACUEDUCTO -->
+      <div class="card-host clip panel" id="c-acu" data-start="29.6" data-duration="5.2" data-track-index="2" style="opacity:0;">
+        <div class="k kick">2.000 años después</div>
+        <div class="n">Aún en pie</div>
+        <div class="s">sus acueductos siguen llevando agua</div>
+      </div>
+
+      <!-- 7 COLISEO -->
+      <div class="card-host clip" id="c-col" data-start="35.4" data-duration="4.7" data-track-index="3" style="opacity:0;">
+        <div class="k kick tsh">El Coliseo</div>
+        <div class="n"><span id="col-n">0</span></div>
+        <div class="s tsh">espectadores rugían a la vez</div>
+      </div>
+
+      <!-- 8 LEGION -->
+      <div class="card-host clip panel" id="c-leg" data-start="40.5" data-duration="6.4" data-track-index="2" style="opacity:0;">
+        <div class="t">Legión Romana</div>
+        <div class="s">el ejército más disciplinado de la historia</div>
+      </div>
+
+      <!-- 9 INTERSTICIAL -->
+      <div class="card-host clip" id="c-int" data-start="50.0" data-duration="5.6" data-track-index="4" style="opacity:0;">
+        <div class="k kick">Pero…</div>
+        <div class="l" id="int-l1">algo se <em>pudrió</em></div>
+        <div class="l" id="int-l2">por dentro</div>
+      </div>
+
+      <!-- 10 CESARES -->
+      <div class="card-host clip panel" id="c-ces" data-start="55.9" data-duration="4.1" data-track-index="3" style="opacity:0;">
+        <div class="k kick">La locura de los Césares</div>
+        <div class="r1" id="ces-r1"><b>Calígula</b> nombró <b>senador</b>… a su caballo</div>
+        <div class="r2" id="ces-r2">…y lo de <span>Nerón</span> fue aún peor →</div>
+      </div>
+    </div>
+
+    <script src="public/vendor/gsap.min.js"></script>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused:true });
+
+      function fmtMiles(v){ return Math.round(v).toLocaleString('es-ES'); }
+      function countUp(sel, to, at, dur, fmt){
+        const el = document.querySelector(sel); const o={v:0};
+        tl.to(o,{v:to,duration:dur,ease:"power2.out",onUpdate:()=>{ el.textContent = fmt?fmt(o.v):Math.round(o.v); }}, at);
+      }
+      function enter(sel, at){ tl.fromTo(sel,{opacity:0},{opacity:1,duration:0.4,ease:"power2.out"},at); }
+      function exit(sel, at){ tl.to(sel,{opacity:0,duration:0.35,ease:"power2.in"},at); }
+
+      /* ---- Ken Burns push-in (origin near bottom keeps subtitles anchored) ---- */
+      gsap.set("#video-wrap", { transformOrigin:"50% 86%" });
+      tl.fromTo("#video-wrap", { scale:1.0 }, { scale:1.12, duration:50, ease:"power1.inOut" }, 0);
+      tl.to("#video-wrap", { scale:1.0, duration:0.5, ease:"power2.inOut" }, 50);   // reset hidden behind interstitial
+      tl.to("#video-wrap", { scale:1.06, duration:4.4, ease:"power1.inOut" }, 55.6);
+
+      /* 1 TITLE */
+      enter("#c-title",0.3);
+      tl.fromTo("#ti-big",{opacity:0,scale:0.82,y:20},{opacity:1,scale:1,y:0,duration:0.7,ease:"back.out(1.7)"},0.5);
+      tl.fromTo("#ti-sub",{opacity:0,y:16},{opacity:1,y:0,duration:0.5,ease:"power2.out"},0.95);
+      exit("#c-title",4.35);
+
+      /* 2 COMERCIO — slide from right */
+      enter("#c-com",8.6);
+      tl.fromTo("#c-com",{x:60},{x:0,duration:0.5,ease:"power3.out"},8.6);
+      exit("#c-com",12.2);
+
+      /* 3 CALZADAS — number count-up 0→80.000 */
+      enter("#c-cal",12.9);
+      tl.fromTo("#c-cal",{x:-50},{x:0,duration:0.5,ease:"power3.out"},12.9);
+      countUp("#cal-n",80000,13.1,1.5,fmtMiles);
+      exit("#c-cal",16.9);
+
+      /* 4 ENVIDIA — band mask */
+      enter("#c-env",20.2);
+      tl.fromTo("#c-env .band",{scaleX:0.6,opacity:0},{scaleX:1,opacity:1,duration:0.5,ease:"power3.out",transformOrigin:"50% 50%"},20.2);
+      exit("#c-env",23.6);
+
+      /* 5 POBLACION — count-up 0→60 */
+      enter("#c-pob",24.5);
+      tl.fromTo("#c-pob .row",{scale:0.85,opacity:0},{scale:1,opacity:1,duration:0.5,ease:"back.out(1.6)",transformOrigin:"50% 50%"},24.6);
+      countUp("#pob-n",60,24.7,1.4);
+      exit("#c-pob",28.7);
+
+      /* 6 ACUEDUCTO — blur/slide from right */
+      enter("#c-acu",29.6);
+      tl.fromTo("#c-acu",{x:50,filter:"blur(8px)"},{x:0,filter:"blur(0px)",duration:0.6,ease:"power3.out"},29.6);
+      exit("#c-acu",34.4);
+
+      /* 7 COLISEO — punch + count-up 0→50.000 */
+      enter("#c-col",35.4);
+      tl.fromTo("#c-col .n",{scale:0.7,opacity:0},{scale:1,opacity:1,duration:0.55,ease:"back.out(2)",transformOrigin:"50% 50%"},35.5);
+      countUp("#col-n",50000,35.6,1.4,fmtMiles);
+      exit("#c-col",39.7);
+
+      /* 8 LEGION — lower-third slide */
+      enter("#c-leg",40.5);
+      tl.fromTo("#c-leg",{x:-60},{x:0,duration:0.55,ease:"power3.out"},40.5);
+      exit("#c-leg",46.5);
+
+      /* 9 INTERSTICIAL — full-screen, line mask reveal */
+      tl.fromTo("#c-int",{opacity:0},{opacity:1,duration:0.4,ease:"power2.out"},50.0);
+      tl.fromTo("#int-l1",{opacity:0,y:40},{opacity:1,y:0,duration:0.6,ease:"power3.out"},50.5);
+      tl.fromTo("#int-l2",{opacity:0,y:40},{opacity:1,y:0,duration:0.6,ease:"power3.out"},50.85);
+      exit("#c-int",55.15);
+
+      /* 10 CESARES — closing card, rows stagger */
+      enter("#c-ces",55.9);
+      tl.fromTo("#c-ces .k",{opacity:0,y:10},{opacity:1,y:0,duration:0.4,ease:"power2.out"},56.0);
+      tl.fromTo("#ces-r1",{opacity:0,y:16},{opacity:1,y:0,duration:0.5,ease:"power2.out"},56.3);
+      tl.fromTo("#ces-r2",{opacity:0,y:14},{opacity:1,y:0,duration:0.5,ease:"power2.out"},57.4);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

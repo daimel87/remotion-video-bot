@@ -1,0 +1,6 @@
+# heavy media (re-encoded source, clips, audio) — regenerate from the original upload
+public/input-video.mp4
+assets/source_60.mp4
+assets/audio_60.wav
+assets/sfx_bed.wav
+renders/
