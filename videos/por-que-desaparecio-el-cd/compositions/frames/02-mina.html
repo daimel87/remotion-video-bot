@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>02 — La mina de oro</title>
+  </head>
+  <body>
+    <template>
+      <style>
+        @import url("assets/fonts.css");
+
+        #root {
+          position: absolute;
+          inset: 0;
+          width: 1080px;
+          height: 1920px;
+          overflow: hidden;
+          font-family: "Barlow", sans-serif;
+        }
+
+        .bg {
+          position: absolute;
+          inset: 0;
+          background: #f4e9d6;
+        }
+
+        .stage {
+          position: absolute;
+          inset: 0;
+        }
+
+        /* --- PRECIO block (top) --- */
+        .price-label {
+          position: absolute;
+          top: 300px;
+          left: 0;
+          width: 100%;
+          text-align: center;
+          font-family: "IBM Plex Mono", monospace;
+          font-weight: 500;
+          font-size: 40px;
+          letter-spacing: 0.34em;
+          text-transform: uppercase;
+          color: #0e0b08;
+          opacity: 0.72;
+        }
+
+        .price-wrap {
+          position: absolute;
+          top: 300px;
+          left: 0;
+          width: 100%;
+          text-align: center;
+        }
+
+        .price {
+          display: inline-block;
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 520px;
+          line-height: 1;
+          letter-spacing: -0.04em;
+          color: #e8b04b;
+          font-variant-numeric: tabular-nums;
+        }
+
+        /* --- hairline gulf --- */
+        .gulf {
+          position: absolute;
+          top: 1000px;
+          left: 540px;
+          width: 2px;
+          height: 300px;
+        }
+        .gulf line {
+          stroke: #0e0b08;
+          stroke-width: 2;
+        }
+
+        /* --- COSTE block (bottom, tiny) --- */
+        .cost-label {
+          position: absolute;
+          top: 1330px;
+          left: 0;
+          width: 100%;
+          text-align: center;
+          font-family: "IBM Plex Mono", monospace;
+          font-weight: 500;
+          font-size: 34px;
+          letter-spacing: 0.3em;
+          text-transform: uppercase;
+          color: #b23a2e;
+        }
+
+        .cost-wrap {
+          position: absolute;
+          top: 1380px;
+          left: 0;
+          width: 100%;
+          text-align: center;
+        }
+
+        .cost {
+          display: inline-block;
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 170px;
+          line-height: 1;
+          letter-spacing: -0.03em;
+          color: #b23a2e;
+        }
+      </style>
+
+      <div
+        id="root"
+        data-composition-id="02-mina"
+        data-start="0"
+        data-duration="6"
+        data-width="1080"
+        data-height="1920"
+      >
+        <div id="bg" class="bg clip" data-start="0" data-duration="6" data-track-index="0"></div>
+
+        <div id="stage" class="stage clip" data-start="0" data-duration="6" data-track-index="1">
+          <div class="price-label" id="priceLabel">Precio de venta</div>
+
+          <div class="price-wrap" id="priceWrap">
+            <span class="price" id="price">$0</span>
+          </div>
+
+          <svg class="gulf" id="gulf" viewBox="0 0 2 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <line id="gulfLine" x1="1" y1="0" x2="1" y2="300" />
+          </svg>
+
+          <div class="cost-label" id="costLabel">Coste · fabricarlo</div>
+          <div class="cost-wrap" id="costWrap">
+            <span class="cost" id="cost">&lt; $1</span>
+          </div>
+        </div>
+      </div>
+
+      <script src="assets/gsap.min.js"></script>
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        // PRECIO label in early
+        tl.fromTo(
+          "#priceLabel",
+          { opacity: 0, y: 24 },
+          { opacity: 0.72, y: 0, duration: 0.5, ease: "power3.out" },
+          0.1,
+        );
+
+        // Hero "$20" visible immediately, count-up 0 -> 20
+        const priceEl = document.getElementById("price");
+        const money = { v: 0 };
+        tl.fromTo("#priceWrap", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 0);
+        tl.to(
+          money,
+          {
+            v: 20,
+            duration: 1.7,
+            ease: "power3.out",
+            onUpdate: () => {
+              priceEl.textContent = "$" + Math.round(money.v);
+            },
+          },
+          0.2,
+        );
+
+        // scale-punch landing after the count settles
+        tl.fromTo(
+          "#price",
+          { scale: 1.16 },
+          { scale: 1, duration: 0.5, ease: "back.out(2.2)", transformOrigin: "50% 50%" },
+          1.9,
+        );
+
+        // hairline draws down across the gulf
+        const line = document.getElementById("gulfLine");
+        const len = line.getTotalLength();
+        line.style.strokeDasharray = len;
+        line.style.strokeDashoffset = len;
+        tl.to("#gulfLine", { strokeDashoffset: 0, duration: 1.3, ease: "power2.inOut" }, 2.7);
+
+        // COSTE appears late and tiny — the abyss
+        tl.fromTo(
+          "#costLabel",
+          { opacity: 0, y: 18 },
+          { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+          4.1,
+        );
+        tl.fromTo(
+          "#costWrap",
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" },
+          4.4,
+        );
+
+        window.__timelines["02-mina"] = tl;
+      </script>
+    </template>
+  </body>
+</html>

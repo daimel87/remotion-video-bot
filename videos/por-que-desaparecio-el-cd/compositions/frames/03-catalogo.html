@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Frame 03 — Lo revendieron todo</title>
+  </head>
+  <body>
+    <template>
+      <style>
+        @import url("assets/fonts.css");
+
+        #root {
+          position: absolute;
+          inset: 0;
+          width: 1080px;
+          height: 1920px;
+          overflow: hidden;
+          font-family: "Barlow", sans-serif;
+        }
+
+        /* full-bleed cream ground */
+        #bg {
+          position: absolute;
+          inset: 0;
+          background: #f4e9d6;
+        }
+
+        /* ---- covers grid ---- */
+        #covers {
+          position: absolute;
+          top: 190px;
+          left: 60px;
+          right: 60px;
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          gap: 18px;
+        }
+        .cover {
+          position: relative;
+          aspect-ratio: 1 / 1;
+          overflow: hidden;
+          border: 1px solid rgba(14, 11, 8, 0.16);
+          opacity: 0;
+        }
+        .cover .mark {
+          position: absolute;
+        }
+        .v0 {
+          background: #0e0b08;
+        }
+        .v0 .mark {
+          inset: 28%;
+          border-radius: 50%;
+          background: #f4e9d6;
+        }
+        .v1 {
+          background: #f4e9d6;
+        }
+        .v1 .mark {
+          left: -10%;
+          top: 44%;
+          width: 120%;
+          height: 13%;
+          background: #0e0b08;
+          transform: rotate(-27deg);
+        }
+        .v2 {
+          background: #e8b04b;
+        }
+        .v2 .mark {
+          inset: 26%;
+          border-radius: 50%;
+          background: #0e0b08;
+        }
+        .v3 {
+          background: #0e0b08;
+        }
+        .v3 .mark {
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 42%;
+          background: #e8b04b;
+        }
+        .v4 {
+          background: #f4e9d6;
+        }
+        .v4 .mark {
+          inset: 30%;
+          background: #e8b04b;
+        }
+        .v5 {
+          background: #0e0b08;
+        }
+        .v5 .mark {
+          inset: 0;
+          background: repeating-linear-gradient(90deg, #0e0b08 0 16%, #f4e9d6 16% 20%);
+        }
+        .vred {
+          background: #b23a2e !important;
+        }
+        .vred .mark {
+          inset: 30% !important;
+          border-radius: 50% !important;
+          background: #f4e9d6 !important;
+        }
+
+        /* ---- figure phase ---- */
+        #figure {
+          position: absolute;
+          inset: 0;
+        }
+        .gold-bar {
+          position: absolute;
+          left: 410px;
+          width: 260px;
+          bottom: 420px;
+          height: 1050px;
+          background: #e8b04b;
+          transform-origin: center bottom;
+          z-index: 1;
+        }
+        .ref-line {
+          position: absolute;
+          left: 280px;
+          width: 520px;
+          bottom: 720px;
+          height: 0;
+          border-top: 3px dashed #b23a2e;
+          transform-origin: left center;
+          z-index: 2;
+        }
+        .ref-tag {
+          position: absolute;
+          left: 280px;
+          bottom: 728px;
+          font-family: "IBM Plex Mono", monospace;
+          font-weight: 500;
+          font-size: 26px;
+          letter-spacing: 0.14em;
+          color: #b23a2e;
+          z-index: 2;
+        }
+        .figure-text {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 380px;
+          text-align: center;
+          z-index: 3;
+        }
+        .kicker {
+          font-family: "IBM Plex Mono", monospace;
+          font-weight: 500;
+          font-size: 34px;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: #0e0b08;
+          margin-bottom: 28px;
+        }
+        .kicker .dot {
+          color: #e8b04b;
+        }
+        .num-wrap {
+          display: flex;
+          align-items: baseline;
+          justify-content: center;
+          gap: 6px;
+          width: 900px;
+          margin: 0 auto;
+          color: #0e0b08;
+        }
+        .dollar {
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 240px;
+          line-height: 0.9;
+          letter-spacing: -0.04em;
+        }
+        #counter {
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-variant-numeric: tabular-nums;
+          font-size: 300px;
+          line-height: 0.9;
+          letter-spacing: -0.05em;
+        }
+        .gold-rule {
+          width: 360px;
+          height: 8px;
+          background: #e8b04b;
+          margin: 24px auto 22px;
+          transform-origin: center;
+        }
+        .unit {
+          font-family: "Barlow", sans-serif;
+          font-weight: 800;
+          font-size: 78px;
+          letter-spacing: 0.02em;
+          text-transform: uppercase;
+          color: #0e0b08;
+        }
+      </style>
+
+      <div
+        id="root"
+        data-composition-id="03-catalogo"
+        data-start="0"
+        data-duration="6"
+        data-width="1080"
+        data-height="1920"
+      >
+        <div id="bg" class="clip" data-start="0" data-duration="6" data-track-index="0"></div>
+
+        <div id="covers" class="clip" data-start="0" data-duration="6" data-track-index="1"></div>
+
+        <div id="figure" class="clip" data-start="0" data-duration="6" data-track-index="2">
+          <div class="gold-bar"></div>
+          <div class="ref-line"></div>
+          <div class="ref-tag">$4&nbsp;MIL&nbsp;M · 2000</div>
+          <div class="figure-text">
+            <div class="kicker">Ingresos del catálogo<span class="dot"> ·</span></div>
+            <div class="num-wrap">
+              <span class="dollar">$</span><span id="counter">4</span>
+            </div>
+            <div class="gold-rule"></div>
+            <div class="unit">Mil Millones</div>
+          </div>
+        </div>
+      </div>
+
+      <script src="assets/gsap.min.js"></script>
+      <script>
+        (function () {
+          // Build the abstract album-cover grid deterministically (no random).
+          var grid = document.getElementById("covers");
+          var N = 35;
+          for (var i = 0; i < N; i++) {
+            var c = document.createElement("div");
+            c.className = "cover v" + (i % 6);
+            if (i % 13 === 7) c.classList.add("vred");
+            var m = document.createElement("span");
+            m.className = "mark";
+            c.appendChild(m);
+            grid.appendChild(c);
+          }
+
+          window.__timelines = window.__timelines || {};
+          var tl = gsap.timeline({ paused: true });
+
+          // Scene 1 — cascade stagger-in of the reissued catalog (fills the screen).
+          tl.fromTo(
+            ".cover",
+            { opacity: 0, scale: 0.5, y: 34 },
+            {
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              duration: 0.5,
+              ease: "back.out(1.6)",
+              stagger: { amount: 1.7, grid: [7, 5], from: "start", axis: "y" },
+            },
+            0.15
+          );
+
+          // Scene 2 — grid recedes; the dominant figure takes over.
+          tl.to("#covers", { opacity: 0.2, duration: 0.6, ease: "power2.out" }, 2.5);
+
+          tl.fromTo(
+            ".figure-text",
+            { opacity: 0, scale: 0.92, y: 22 },
+            { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "power3.out" },
+            2.5
+          );
+
+          // Red reference marker for the starting $4B level.
+          tl.fromTo(
+            ".ref-line",
+            { scaleX: 0, opacity: 0 },
+            { scaleX: 1, opacity: 1, duration: 0.5, ease: "power2.out" },
+            2.55
+          );
+          tl.fromTo(
+            ".ref-tag",
+            { opacity: 0, x: -14 },
+            { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" },
+            2.7
+          );
+
+          // Bar grows vertical + number counts up 4 -> 14 (shared ease, land together).
+          tl.fromTo(
+            ".gold-bar",
+            { scaleY: 0 },
+            { scaleY: 1, duration: 1.9, ease: "power3.out" },
+            2.7
+          );
+
+          var counter = document.getElementById("counter");
+          var state = { value: 4, fontSize: 300 };
+          tl.to(
+            state,
+            {
+              value: 14,
+              fontSize: 460,
+              duration: 1.9,
+              ease: "power3.out",
+              onUpdate: function () {
+                counter.textContent = Math.round(state.value);
+                counter.style.fontSize = state.fontSize + "px";
+              },
+            },
+            2.7
+          );
+
+          // Gold rule wipes in under the figure.
+          tl.fromTo(
+            ".gold-rule",
+            { scaleX: 0 },
+            { scaleX: 1, duration: 0.6, ease: "power2.out" },
+            4.3
+          );
+
+          // Scene 3 — final focus on the big figure.
+          tl.to(".figure-text", { scale: 1.05, duration: 1.1, ease: "power2.inOut" }, 4.8);
+          tl.to("#covers", { opacity: 0.12, duration: 1.0, ease: "power2.inOut" }, 4.8);
+
+          window.__timelines["03-catalogo"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

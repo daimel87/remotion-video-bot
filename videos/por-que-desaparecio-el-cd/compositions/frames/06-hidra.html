@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>06 — hidra</title>
+  </head>
+  <body>
+    <template>
+      <style>
+        @import url("assets/fonts.css");
+
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          font-family: "Barlow", sans-serif;
+        }
+        .stage {
+          position: absolute;
+          inset: 0;
+          background: #0e0b08;
+        }
+        /* headline */
+        .head {
+          position: absolute;
+          left: 60px;
+          top: 210px;
+          width: 960px;
+        }
+        .hline {
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 148px;
+          line-height: 0.88;
+          letter-spacing: -0.04em;
+          color: #f4e9d6;
+          text-transform: lowercase;
+          will-change: transform, opacity;
+        }
+        .kicker {
+          position: absolute;
+          left: 64px;
+          top: 150px;
+          font-family: "IBM Plex Mono", monospace;
+          font-weight: 500;
+          font-size: 24px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: #e8b04b;
+          will-change: opacity;
+        }
+        /* name chips — the hydra */
+        .chip {
+          position: absolute;
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 66px;
+          line-height: 1;
+          letter-spacing: -0.02em;
+          text-transform: uppercase;
+          color: #f4e9d6;
+          white-space: nowrap;
+          opacity: 0;
+          will-change: transform, opacity;
+        }
+        .chip .strike {
+          position: absolute;
+          left: -6px;
+          right: -6px;
+          top: 50%;
+          height: 9px;
+          background: #b23a2e;
+          transform: scaleX(0);
+          transform-origin: left center;
+        }
+        .hr {
+          position: absolute;
+          left: 60px;
+          top: 660px;
+          width: 0;
+          height: 2px;
+          background: #282726;
+        }
+      </style>
+
+      <div id="root" data-composition-id="06-hidra" data-start="0" data-duration="6" data-width="1080" data-height="1920">
+        <div class="stage clip" id="stage" data-start="0" data-duration="6" data-track-index="0">
+          <div class="kicker" id="kicker">La industria vs. sus clientes</div>
+
+          <div class="head" id="head">
+            <div class="hline" id="h1">demandaron</div>
+            <div class="hline" id="h2">a sus</div>
+            <div class="hline" id="h3">clientes</div>
+          </div>
+
+          <div class="hr" id="hr"></div>
+
+          <!-- hydra heads -->
+          <div class="chip" id="c1" style="left:360px;top:730px;">KAZAA<span class="strike" id="s1"></span></div>
+          <div class="chip" id="c2" style="left:110px;top:930px;">LIMEWIRE<span class="strike" id="s2"></span></div>
+          <div class="chip" id="c3" style="left:520px;top:930px;">BITTORRENT<span class="strike"></span></div>
+          <div class="chip" id="c4" style="left:150px;top:1130px;">KAZAA<span class="strike"></span></div>
+          <div class="chip" id="c5" style="left:470px;top:1130px;">LIMEWIRE<span class="strike" id="s5"></span></div>
+          <div class="chip" id="c6" style="left:90px;top:1330px;">BITTORRENT<span class="strike"></span></div>
+          <div class="chip" id="c7" style="left:600px;top:1330px;">KAZAA<span class="strike"></span></div>
+          <div class="chip" id="c8" style="left:300px;top:1500px;">LIMEWIRE<span class="strike"></span></div>
+        </div>
+      </div>
+
+      <script src="assets/gsap.min.js"></script>
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        // — Scene 1 (0–1.5s): headline slams in, line by line —
+        tl.fromTo("#kicker", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 0.15);
+        tl.fromTo(
+          ["#h1", "#h2", "#h3"],
+          { yPercent: 120, opacity: 0 },
+          { yPercent: 0, opacity: 1, duration: 0.5, ease: "power4.out", stagger: 0.16 },
+          0.2
+        );
+        tl.fromTo("#hr", { width: 0 }, { width: 960, duration: 0.6, ease: "power2.inOut" }, 1.0);
+
+        // helper: a hydra head pops into view (spring)
+        function sprout(sel, t) {
+          tl.fromTo(
+            sel,
+            { opacity: 0, scale: 0.5, y: 24 },
+            { opacity: 1, scale: 1, y: 0, duration: 0.42, ease: "back.out(2.2)" },
+            t
+          );
+        }
+        // helper: a red strike, then the head dims (a cut head)
+        function cut(chipSel, strikeSel, t) {
+          tl.fromTo(strikeSel, { scaleX: 0 }, { scaleX: 1, duration: 0.28, ease: "power3.in" }, t);
+          tl.to(chipSel, { opacity: 0.32, duration: 0.3, ease: "power1.out" }, t + 0.22);
+        }
+        // nervous jolt of the whole board on each cut
+        function jolt(t) {
+          tl.to("#stage", { x: -9, duration: 0.05, ease: "power1.in" }, t);
+          tl.to("#stage", { x: 0, duration: 0.18, ease: "elastic.out(1,0.4)" }, t + 0.05);
+        }
+
+        // — Scene 2 (1.5–3s): first head appears, gets struck —
+        sprout("#c1", 1.55);
+        cut("#c1", "#s1", 2.35);
+        jolt(2.35);
+
+        // — Scene 3 (3–4.2s): cut one, two more sprout (multiply) —
+        sprout("#c2", 2.7);
+        sprout("#c3", 2.95);
+        cut("#c2", "#s2", 3.55);
+        jolt(3.55);
+        sprout("#c4", 3.75);
+        sprout("#c5", 3.95);
+
+        // — Scene 4 (4.2–6s): cut again, more keep coming —
+        cut("#c5", "#s5", 4.6);
+        jolt(4.6);
+        sprout("#c6", 4.55);
+        sprout("#c7", 4.8);
+        sprout("#c8", 5.15);
+
+        window.__timelines["06-hidra"] = tl;
+      </script>
+    </template>
+  </body>
+</html>

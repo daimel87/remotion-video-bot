@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #000;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #F4E9D6;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="45"
+      data-width="1080"
+      data-height="1920"
+    >
+      <div
+        id="el-01-promesa"
+        class="scene"
+        data-composition-id="01-promesa"
+        data-composition-src="compositions/frames/01-promesa.html"
+        data-start="0"
+        data-duration="5"
+        data-track-index="0"
+      ></div>
+
+      <div
+        id="el-02-mina"
+        class="scene"
+        data-composition-id="02-mina"
+        data-composition-src="compositions/frames/02-mina.html"
+        data-start="5"
+        data-duration="6.5"
+        data-track-index="1"
+      ></div>
+
+      <div
+        id="el-03-catalogo"
+        class="scene"
+        data-composition-id="03-catalogo"
+        data-composition-src="compositions/frames/03-catalogo.html"
+        data-start="11"
+        data-duration="6"
+        data-track-index="0"
+      ></div>
+
+      <div
+        id="el-04-grieta"
+        class="scene"
+        data-composition-id="04-grieta"
+        data-composition-src="compositions/frames/04-grieta.html"
+        data-start="17"
+        data-duration="5"
+        data-track-index="1"
+      ></div>
+
+      <div
+        id="el-05-napster"
+        class="scene"
+        data-composition-id="05-napster"
+        data-composition-src="compositions/frames/05-napster.html"
+        data-start="22"
+        data-duration="6.5"
+        data-track-index="0"
+      ></div>
+
+      <div
+        id="el-06-hidra"
+        class="scene"
+        data-composition-id="06-hidra"
+        data-composition-src="compositions/frames/06-hidra.html"
+        data-start="28"
+        data-duration="6"
+        data-track-index="1"
+      ></div>
+
+      <div
+        id="el-07-apple"
+        class="scene"
+        data-composition-id="07-apple"
+        data-composition-src="compositions/frames/07-apple.html"
+        data-start="34"
+        data-duration="6.5"
+        data-track-index="0"
+      ></div>
+
+      <div
+        id="el-08-veredicto"
+        class="scene"
+        data-composition-id="08-veredicto"
+        data-composition-src="compositions/frames/08-veredicto.html"
+        data-start="40"
+        data-duration="5"
+        data-track-index="1"
+      ></div>
+
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+      // ── frame transitions (injected by transitions.mjs) ──
+      (function () { var tl = window.__timelines["main"];
+        tl.to("#el-02-mina", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 11);
+        tl.fromTo("#el-03-catalogo", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 11);
+        tl.to("#el-05-napster", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 28);
+        tl.fromTo("#el-06-hidra", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 28);
+        tl.to("#el-07-apple", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 40);
+        tl.fromTo("#el-08-veredicto", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 40);
+        tl.to({}, { duration: 45 }, 0); // full-span anchor — main.duration() == composition total (Studio master duration)
+      })();
+    </script>
+  </body>
+</html>

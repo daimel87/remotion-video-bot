@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>08 — El veredicto</title>
+  </head>
+  <body>
+    <template>
+      <style>
+        @import url("assets/fonts.css");
+
+        #root {
+          position: absolute;
+          inset: 0;
+          width: 1080px;
+          height: 1920px;
+          overflow: hidden;
+          font-family: "Barlow", sans-serif;
+          background: #0e0b08;
+        }
+
+        .bg {
+          position: absolute;
+          inset: 0;
+          background: #0e0b08;
+        }
+
+        .stage {
+          position: absolute;
+          inset: 0;
+        }
+
+        /* ---------- Phase 1 — contrast ---------- */
+        .contrast {
+          position: absolute;
+          inset: 0;
+        }
+
+        .vinilo-label {
+          position: absolute;
+          top: 360px;
+          left: 0;
+          width: 100%;
+          text-align: center;
+          font-family: "IBM Plex Mono", monospace;
+          font-weight: 500;
+          font-size: 42px;
+          letter-spacing: 0.36em;
+          text-transform: uppercase;
+          color: #e8b04b;
+        }
+
+        .vinilo-price {
+          position: absolute;
+          top: 430px;
+          left: 0;
+          width: 100%;
+          text-align: center;
+        }
+        .vinilo-price span {
+          display: inline-block;
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 400px;
+          line-height: 1;
+          letter-spacing: -0.04em;
+          color: #e8b04b;
+        }
+
+        .cd-label {
+          position: absolute;
+          top: 1080px;
+          left: 0;
+          width: 100%;
+          text-align: center;
+          font-family: "IBM Plex Mono", monospace;
+          font-weight: 500;
+          font-size: 30px;
+          letter-spacing: 0.3em;
+          text-transform: uppercase;
+          color: #6a655d;
+        }
+        .cd-price {
+          position: absolute;
+          top: 1130px;
+          left: 0;
+          width: 100%;
+          text-align: center;
+        }
+        .cd-price span {
+          display: inline-block;
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 140px;
+          line-height: 1;
+          letter-spacing: -0.03em;
+          color: #6a655d;
+        }
+
+        /* ---------- Phase 2 — verdict ---------- */
+        .verdict {
+          position: absolute;
+          top: 560px;
+          left: 0;
+          width: 100%;
+          padding: 0 70px;
+          box-sizing: border-box;
+        }
+
+        .line-mask {
+          overflow: hidden;
+        }
+        .line-mask + .line-mask {
+          margin-top: 14px;
+        }
+        .vline {
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 128px;
+          line-height: 1.02;
+          letter-spacing: -0.03em;
+          color: #f4e9d6;
+          text-transform: lowercase;
+        }
+        .vline .gold {
+          color: #e8b04b;
+        }
+
+        .seal {
+          position: absolute;
+          top: 1300px;
+          left: 0;
+          width: 100%;
+          text-align: center;
+        }
+        .seal .rule {
+          display: inline-block;
+          width: 44px;
+          height: 2px;
+          background: #e8b04b;
+          margin-bottom: 30px;
+        }
+        .seal .mark {
+          font-family: "IBM Plex Mono", monospace;
+          font-weight: 500;
+          font-size: 34px;
+          letter-spacing: 0.42em;
+          text-transform: uppercase;
+          color: #b9b1a4;
+        }
+      </style>
+
+      <div
+        id="root"
+        data-composition-id="08-veredicto"
+        data-start="0"
+        data-duration="5"
+        data-width="1080"
+        data-height="1920"
+      >
+        <div id="bg" class="bg clip" data-start="0" data-duration="5" data-track-index="0"></div>
+
+        <!-- Phase 1 — ironic contrast -->
+        <div id="contrast" class="contrast clip" data-start="0" data-duration="5" data-track-index="1">
+          <div class="vinilo-label" id="vinLabel">Vinilo · hoy</div>
+          <div class="vinilo-price" id="vinPrice"><span>$30</span></div>
+          <div class="cd-label" id="cdLabel">CD · caja de saldos</div>
+          <div class="cd-price" id="cdPrice"><span>25&cent;</span></div>
+        </div>
+
+        <!-- Phase 2 — verdict + seal -->
+        <div id="verdict" class="verdict clip" data-start="0" data-duration="5" data-track-index="2">
+          <div class="line-mask"><div class="vline" id="vl1">no lo mató la piratería.</div></div>
+          <div class="line-mask"><div class="vline" id="vl2">lo mató la <span class="gold">codicia</span>.</div></div>
+        </div>
+
+        <div id="seal" class="seal clip" data-start="0" data-duration="5" data-track-index="3">
+          <span class="rule"></span>
+          <div class="mark">Crónicas Ilustradas</div>
+        </div>
+      </div>
+
+      <script src="assets/gsap.min.js"></script>
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        // --- Phase 1: contrast enters ---
+        tl.fromTo("#vinLabel", { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.1);
+        tl.fromTo("#vinPrice", { opacity: 0, scale: 1.14 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(2)", transformOrigin: "50% 50%" }, 0.2);
+        tl.fromTo("#cdLabel", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.95);
+        tl.fromTo("#cdPrice", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 1.1);
+
+        // --- Cut to black: contrast fades away ---
+        tl.to("#contrast", { opacity: 0, duration: 0.45, ease: "power2.inOut" }, 2.15);
+
+        // --- Phase 2: verdict falls line by line (mask-reveal) ---
+        tl.fromTo("#vl1", { yPercent: 115 }, { yPercent: 0, duration: 0.75, ease: "power3.out" }, 2.55);
+        tl.fromTo("#vl2", { yPercent: 115 }, { yPercent: 0, duration: 0.75, ease: "power3.out" }, 3.25);
+
+        // punch on "codicia"
+        tl.fromTo("#vl2 .gold", { scale: 1.12 }, { scale: 1, duration: 0.5, ease: "back.out(2)", transformOrigin: "0% 50%" }, 3.95);
+
+        // --- Channel seal fades in at the very end ---
+        tl.fromTo("#seal", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 4.15);
+
+        // gentle final settle
+        tl.to("#root", { opacity: 0.94, duration: 0.4, ease: "sine.inOut" }, 4.6);
+
+        window.__timelines["08-veredicto"] = tl;
+      </script>
+    </template>
+  </body>
+</html>

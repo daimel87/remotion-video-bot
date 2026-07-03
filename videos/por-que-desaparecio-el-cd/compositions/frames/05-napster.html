@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>05 — Napster</title>
+  </head>
+  <body>
+    <template>
+      <style>
+        @import url("assets/fonts.css");
+
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          font-family: "Barlow", sans-serif;
+          color: #f4e9d6;
+        }
+
+        .bg {
+          position: absolute;
+          inset: 0;
+          background: #0e0b08;
+        }
+
+        .kicker {
+          position: absolute;
+          top: 150px;
+          left: 96px;
+          font-family: "IBM Plex Mono", monospace;
+          font-weight: 500;
+          font-size: 30px;
+          letter-spacing: 0.28em;
+          text-transform: uppercase;
+          color: #e8b04b;
+          white-space: nowrap;
+        }
+        .kicker .cur {
+          color: #e8b04b;
+        }
+
+        .tl-svg {
+          position: absolute;
+          inset: 0;
+          width: 1080px;
+          height: 1920px;
+        }
+
+        .milestone {
+          position: absolute;
+          left: 210px;
+          width: 760px;
+        }
+        #m1 {
+          top: 388px;
+        }
+        #m2 {
+          top: 880px;
+        }
+        .year {
+          font-family: "IBM Plex Mono", monospace;
+          font-weight: 500;
+          font-size: 40px;
+          letter-spacing: 0.22em;
+          color: #e8b04b;
+          white-space: nowrap;
+        }
+        .title {
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 150px;
+          line-height: 0.92;
+          letter-spacing: -0.03em;
+          text-transform: lowercase;
+          color: #f4e9d6;
+          margin-top: 4px;
+        }
+        .sub {
+          font-family: "Barlow", sans-serif;
+          font-weight: 600;
+          font-size: 38px;
+          color: #b8ac97;
+          margin-top: 10px;
+        }
+
+        #gratis {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 1230px;
+          text-align: center;
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 300px;
+          line-height: 0.9;
+          letter-spacing: -0.04em;
+          text-transform: uppercase;
+          color: #b23a2e;
+        }
+      </style>
+
+      <div
+        id="root"
+        data-composition-id="05-napster"
+        data-start="0"
+        data-duration="6"
+        data-width="1080"
+        data-height="1920"
+      >
+        <div class="bg clip" data-start="0" data-duration="6" data-track-index="0"></div>
+
+        <div class="kicker clip" data-start="0" data-duration="6" data-track-index="1">
+          <span id="kickerTxt"></span><span class="cur" id="kickerCur">_</span>
+        </div>
+
+        <svg
+          class="tl-svg clip"
+          data-start="0"
+          data-duration="6"
+          data-track-index="2"
+          viewBox="0 0 1080 1920"
+        >
+          <line id="tlLine" x1="150" y1="410" x2="150" y2="1120"
+                stroke="#e8b04b" stroke-width="4" stroke-linecap="round" />
+          <circle id="node1" cx="150" cy="410" r="14" fill="#e8b04b" />
+          <circle id="node2" cx="150" cy="905" r="14" fill="#e8b04b" />
+        </svg>
+
+        <div class="milestone clip" id="m1" data-start="0" data-duration="6" data-track-index="3">
+          <div class="year" id="year1"></div>
+          <div class="title">mp3</div>
+          <div class="sub">20× más pequeño</div>
+        </div>
+
+        <div class="milestone clip" id="m2" data-start="0" data-duration="6" data-track-index="4">
+          <div class="year" id="year2"></div>
+          <div class="title">napster</div>
+          <div class="sub">toda la música del mundo</div>
+        </div>
+
+        <div id="gratis" class="clip" data-start="0" data-duration="6" data-track-index="5">gratis</div>
+      </div>
+
+      <script src="assets/gsap.min.js"></script>
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        // --- timeline stroke draw (top -> bottom) ---
+        const line = document.getElementById("tlLine");
+        const len = line.getTotalLength();
+        line.style.strokeDasharray = len;
+        line.style.strokeDashoffset = len;
+
+        // nodes hidden initially
+        gsap.set(["#node1", "#node2"], { transformOrigin: "center", scale: 0, opacity: 0 });
+        gsap.set("#gratis", { scale: 0.2, opacity: 0, transformOrigin: "center center" });
+
+        // --- typewriter helper (deterministic, driven by tween value) ---
+        function typewriter(el, str, start, dur) {
+          const proxy = { n: 0 };
+          tl.to(
+            proxy,
+            {
+              n: str.length,
+              duration: dur,
+              ease: "none",
+              onUpdate: () => {
+                el.textContent = str.substring(0, Math.floor(proxy.n));
+              },
+            },
+            start,
+          );
+        }
+
+        // kicker mono typewriter
+        typewriter(document.getElementById("kickerTxt"), "LA GRIETA SE ABRE", 0.1, 0.9);
+
+        // deterministic cursor blink on kicker
+        const blink = { p: 0 };
+        tl.to(
+          blink,
+          {
+            p: Math.PI * 2 * 8,
+            duration: 6,
+            ease: "none",
+            onUpdate: () => {
+              document.getElementById("kickerCur").style.opacity =
+                Math.sin(blink.p) > 0 ? "1" : "0";
+            },
+          },
+          0,
+        );
+
+        // timeline line draws downward across the calm section
+        tl.to("#tlLine", { strokeDashoffset: 0, duration: 2.6, ease: "power1.inOut" }, 0.5);
+
+        // --- milestone 1: node pops, slide in from left, year typewriter ---
+        tl.to("#node1", { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2)" }, 0.6);
+        tl.fromTo(
+          "#m1",
+          { x: -90, opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.6, ease: "expo.out" },
+          0.7,
+        );
+        typewriter(document.getElementById("year1"), "1993 · ", 0.75, 0.5);
+
+        // --- milestone 2: node pops, slide in, year typewriter ---
+        tl.to("#node2", { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2)" }, 2.3);
+        tl.fromTo(
+          "#m2",
+          { x: -90, opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.6, ease: "expo.out" },
+          2.4,
+        );
+        typewriter(document.getElementById("year2"), "1999 · ", 2.45, 0.5);
+
+        // --- GRATIS bursts giant with scale-punch + shake ---
+        tl.fromTo(
+          "#gratis",
+          { scale: 0.2, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2.2)" },
+          4.2,
+        );
+        // subtle shake right after the punch
+        tl.to(
+          "#gratis",
+          {
+            keyframes: {
+              x: [0, -22, 18, -12, 8, -4, 0],
+              rotation: [0, -1.4, 1.1, -0.7, 0.4, -0.2, 0],
+            },
+            duration: 0.5,
+            ease: "none",
+          },
+          4.6,
+        );
+
+        window.__timelines["05-napster"] = tl;
+      </script>
+    </template>
+  </body>
+</html>

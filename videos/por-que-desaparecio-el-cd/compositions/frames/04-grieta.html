@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- head is metadata for the source file only; the runtime ignores it -->
+  </head>
+  <body>
+    <template>
+      <style>
+        @import url("assets/fonts.css");
+
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          font-family: "Barlow", sans-serif;
+          color: #f4e9d6;
+        }
+
+        /* full-bleed ground rides on a clip, never on #root */
+        .bg {
+          position: absolute;
+          inset: 0;
+          background: #0e0b08;
+        }
+
+        .kicker {
+          position: absolute;
+          top: 180px;
+          left: 88px;
+          font-family: "IBM Plex Mono", monospace;
+          font-weight: 500;
+          font-size: 30px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: #e8b04b;
+          opacity: 0;
+        }
+        .kicker .num {
+          color: #504d48;
+          margin-right: 22px;
+        }
+
+        /* --- track marks --- */
+        .marks {
+          position: absolute;
+          top: 470px;
+          left: 0;
+          width: 100%;
+          height: 360px;
+          display: flex;
+          justify-content: center;
+          align-items: flex-end;
+          gap: 46px;
+        }
+        .mark {
+          position: relative;
+          display: block;
+          width: 14px;
+          height: 100%;
+          transform-origin: bottom center;
+          background: #6b665e;
+        }
+        .mark.gold {
+          background: #e8b04b;
+        }
+        .mark .glow {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          width: 90px;
+          height: 90px;
+          margin-left: -45px;
+          margin-top: -45px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(232, 176, 75, 0.55) 0%, rgba(232, 176, 75, 0) 70%);
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        /* --- headline, line-mask reveal --- */
+        .headline {
+          position: absolute;
+          left: 84px;
+          right: 84px;
+          top: 900px;
+        }
+        .hl-line {
+          overflow: hidden;
+          display: block;
+        }
+        .hl-inner {
+          display: block;
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 168px;
+          line-height: 1.0;
+          letter-spacing: -0.04em;
+          text-transform: lowercase;
+        }
+        .hl-line.two .hl-inner {
+          color: #e8b04b;
+        }
+
+        /* --- crack --- */
+        .crack {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+        }
+        .crack path {
+          fill: none;
+          stroke: #9a8f7d;
+          stroke-width: 2;
+          opacity: 0.7;
+        }
+      </style>
+
+      <div
+        id="root"
+        data-composition-id="04-grieta"
+        data-start="0"
+        data-duration="5"
+        data-width="1080"
+        data-height="1920"
+      >
+        <div id="bg" class="bg clip" data-start="0" data-duration="5" data-track-index="0"></div>
+
+        <div id="kicker" class="kicker clip" data-start="0" data-duration="5" data-track-index="1">
+          <span class="num">No. 04</span>LA ESTAFA SILENCIOSA
+        </div>
+
+        <div id="marks" class="marks clip" data-start="0" data-duration="5" data-track-index="2">
+          <span class="mark" id="mark-0"></span>
+          <span class="mark" id="mark-1"></span>
+          <span class="mark" id="mark-2"></span>
+          <span class="mark gold" id="mark-3"><span class="glow"></span></span>
+          <span class="mark" id="mark-4"></span>
+          <span class="mark" id="mark-5"></span>
+          <span class="mark" id="mark-6"></span>
+          <span class="mark" id="mark-7"></span>
+          <span class="mark gold" id="mark-8"><span class="glow"></span></span>
+          <span class="mark" id="mark-9"></span>
+          <span class="mark" id="mark-10"></span>
+          <span class="mark" id="mark-11"></span>
+        </div>
+
+        <div id="headline" class="headline clip" data-start="0" data-duration="5" data-track-index="3">
+          <span class="hl-line one"><span class="hl-inner">12 canciones.</span></span>
+          <span class="hl-line two"><span class="hl-inner">2 buenas.</span></span>
+        </div>
+
+        <svg
+          id="crack"
+          class="crack clip"
+          data-start="0"
+          data-duration="5"
+          data-track-index="4"
+          viewBox="0 0 1080 1920"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path id="crack-path" d="M -20 640 L 300 690 L 520 660 L 760 730 L 1000 700 L 1100 760" />
+        </svg>
+      </div>
+
+      <script src="assets/gsap.min.js"></script>
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        const goldIds = ["#mark-3", "#mark-8"];
+        const dimIds = [
+          "#mark-0", "#mark-1", "#mark-2", "#mark-4", "#mark-5",
+          "#mark-6", "#mark-7", "#mark-9", "#mark-10", "#mark-11",
+        ];
+
+        // Phase 1 — the 12 marks grow up from the baseline in sequence (hero present by 0.5s)
+        const order = [
+          "#mark-0", "#mark-1", "#mark-2", "#mark-3", "#mark-4", "#mark-5",
+          "#mark-6", "#mark-7", "#mark-8", "#mark-9", "#mark-10", "#mark-11",
+        ];
+        order.forEach((sel, i) => {
+          tl.fromTo(
+            sel,
+            { scaleY: 0, opacity: 0 },
+            { scaleY: 1, opacity: 1, duration: 0.42, ease: "power3.out" },
+            0.15 + i * 0.13,
+          );
+        });
+
+        // Kicker fades in early
+        tl.fromTo("#kicker", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.35);
+
+        // Headline line 1 — line-mask reveal
+        tl.fromTo(
+          ".hl-line.one .hl-inner",
+          { yPercent: 110 },
+          { yPercent: 0, duration: 0.7, ease: "power4.out" },
+          1.3,
+        );
+
+        // Phase 2 — 10 marks die to faint gray, 2 lock to gold
+        tl.to(dimIds, { backgroundColor: "#332f2a", duration: 0.8, ease: "power2.inOut" }, 2.15);
+        tl.to(goldIds, { backgroundColor: "#e8b04b", duration: 0.5, ease: "power2.out" }, 2.15);
+
+        // Headline line 2 (gold payoff) — line-mask reveal, back half of the shot
+        tl.fromTo(
+          ".hl-line.two .hl-inner",
+          { yPercent: 110 },
+          { yPercent: 0, duration: 0.7, ease: "power4.out" },
+          2.7,
+        );
+
+        // Gold pulse — deterministic sine glow on the two valuable marks (no repeat/yoyo)
+        const pulse = { p: 0 };
+        tl.to(
+          pulse,
+          {
+            p: Math.PI * 2 * 3,
+            duration: 2.6,
+            ease: "none",
+            onUpdate: () => {
+              const g = 0.45 + 0.45 * (0.5 + 0.5 * Math.sin(pulse.p));
+              document.querySelectorAll("#marks .glow").forEach((el) => {
+                el.style.opacity = String(g);
+              });
+            },
+          },
+          2.4,
+        );
+
+        // Crack — a hairline draws across the frame at the end, as foreboding
+        const crackPath = document.getElementById("crack-path");
+        if (crackPath) {
+          const len = crackPath.getTotalLength();
+          crackPath.style.strokeDasharray = String(len);
+          crackPath.style.strokeDashoffset = String(len);
+          tl.to("#crack-path", { strokeDashoffset: 0, duration: 1.0, ease: "power1.inOut" }, 3.85);
+        }
+
+        window.__timelines["04-grieta"] = tl;
+      </script>
+    </template>
+  </body>
+</html>

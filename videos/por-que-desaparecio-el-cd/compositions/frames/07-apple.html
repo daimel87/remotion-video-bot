@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>07 — Apple mató al rey</title>
+  </head>
+  <body>
+    <template>
+      <style>
+        @import url("assets/fonts.css");
+
+        #root {
+          position: absolute;
+          inset: 0;
+          width: 1080px;
+          height: 1920px;
+          overflow: hidden;
+          font-family: "Barlow", sans-serif;
+        }
+
+        .bg {
+          position: absolute;
+          inset: 0;
+          background: #f4e9d6;
+        }
+
+        .stage {
+          position: absolute;
+          inset: 0;
+        }
+
+        /* --- kicker --- */
+        .kicker {
+          position: absolute;
+          top: 170px;
+          left: 0;
+          width: 100%;
+          text-align: center;
+          font-family: "IBM Plex Mono", monospace;
+          font-weight: 500;
+          font-size: 38px;
+          letter-spacing: 0.36em;
+          text-transform: uppercase;
+          color: #0e0b08;
+          opacity: 0.72;
+        }
+
+        /* --- CD gold ring (echo of Frame 1) --- */
+        .ring {
+          position: absolute;
+          top: 300px;
+          left: 340px;
+          width: 400px;
+          height: 400px;
+        }
+
+        /* --- chain of formats --- */
+        .chain {
+          position: absolute;
+          top: 830px;
+          left: 0;
+          width: 100%;
+          display: flex;
+          align-items: baseline;
+          justify-content: center;
+          gap: 26px;
+        }
+        .fmt {
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 96px;
+          line-height: 1;
+          letter-spacing: -0.03em;
+          color: #0e0b08;
+          text-transform: lowercase;
+        }
+        .arrow {
+          font-family: "IBM Plex Mono", monospace;
+          font-weight: 500;
+          font-size: 56px;
+          color: #e8b04b;
+        }
+
+        /* --- 99¢ figure --- */
+        .price-wrap {
+          position: absolute;
+          top: 1010px;
+          left: 0;
+          width: 100%;
+          text-align: center;
+        }
+        .price {
+          display: inline-block;
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 300px;
+          line-height: 1;
+          letter-spacing: -0.04em;
+          color: #e8b04b;
+        }
+        .price-note {
+          position: absolute;
+          top: 1330px;
+          left: 0;
+          width: 100%;
+          text-align: center;
+          font-family: "IBM Plex Mono", monospace;
+          font-weight: 500;
+          font-size: 34px;
+          letter-spacing: 0.3em;
+          text-transform: uppercase;
+          color: #0e0b08;
+          opacity: 0.6;
+        }
+
+        /* --- struck "para siempre" --- */
+        .forever {
+          position: absolute;
+          top: 1420px;
+          left: 0;
+          width: 100%;
+          text-align: center;
+        }
+        .forever-text {
+          position: relative;
+          display: inline-block;
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 118px;
+          line-height: 1;
+          letter-spacing: -0.03em;
+          text-transform: lowercase;
+          color: #0e0b08;
+        }
+        .strike {
+          position: absolute;
+          top: 54%;
+          left: -14px;
+          width: calc(100% + 28px);
+          height: 12px;
+          background: #b23a2e;
+          transform-origin: 0% 50%;
+        }
+      </style>
+
+      <div
+        id="root"
+        data-composition-id="07-apple"
+        data-start="0"
+        data-duration="6"
+        data-width="1080"
+        data-height="1920"
+      >
+        <div id="bg" class="bg clip" data-start="0" data-duration="6" data-track-index="0"></div>
+
+        <div id="stage" class="stage clip" data-start="0" data-duration="6" data-track-index="1">
+          <div class="kicker" id="kicker">Apple mató al rey</div>
+
+          <svg
+            class="ring"
+            id="ring"
+            viewBox="0 0 400 400"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle id="ringBand" cx="200" cy="200" r="140" fill="none" stroke="#e8b04b" stroke-width="58" opacity="0.9" />
+            <circle cx="200" cy="200" r="176" fill="none" stroke="#e8b04b" stroke-width="3" />
+            <circle cx="200" cy="200" r="104" fill="none" stroke="#e8b04b" stroke-width="3" />
+            <circle cx="200" cy="200" r="34" fill="#f4e9d6" stroke="#e8b04b" stroke-width="3" />
+            <line id="glint" x1="200" y1="30" x2="200" y2="118" stroke="#f4e9d6" stroke-width="10" opacity="0.85" />
+          </svg>
+
+          <div class="chain" id="chain">
+            <span class="fmt" id="fmt1">iPod</span>
+            <span class="arrow" id="arw1">&rsaquo;</span>
+            <span class="fmt" id="fmt2">iTunes</span>
+            <span class="arrow" id="arw2">&rsaquo;</span>
+            <span class="fmt" id="fmt3">Spotify</span>
+          </div>
+
+          <div class="price-wrap" id="priceWrap">
+            <span class="price" id="price">99&cent;</span>
+          </div>
+          <div class="price-note" id="priceNote">por canción</div>
+
+          <div class="forever" id="forever">
+            <span class="forever-text">
+              para siempre
+              <span class="strike" id="strike"></span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <script src="assets/gsap.min.js"></script>
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        // Kicker in
+        tl.fromTo(
+          "#kicker",
+          { opacity: 0, y: 20 },
+          { opacity: 0.72, y: 0, duration: 0.5, ease: "power3.out" },
+          0.1,
+        );
+
+        // HERO — the CD ring echo, visible by t<=0.5 via fromTo
+        tl.fromTo(
+          "#ring",
+          { opacity: 0, scale: 0.82, transformOrigin: "50% 50%" },
+          { opacity: 1, scale: 1, duration: 0.55, ease: "power3.out" },
+          0.0,
+        );
+        // continuous slow rotation across the whole shot (glint sweep echo)
+        tl.to(
+          "#ring",
+          { rotation: 150, duration: 6, ease: "none", transformOrigin: "50% 50%" },
+          0.0,
+        );
+
+        // Chain of formats — slide + fade, one after another
+        tl.fromTo(
+          "#fmt1",
+          { opacity: 0, x: -40 },
+          { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" },
+          0.7,
+        );
+        tl.fromTo(
+          "#arw1",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.3, ease: "power1.out" },
+          1.15,
+        );
+        tl.fromTo(
+          "#fmt2",
+          { opacity: 0, x: -40 },
+          { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" },
+          1.35,
+        );
+        tl.fromTo(
+          "#arw2",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.3, ease: "power1.out" },
+          1.8,
+        );
+        tl.fromTo(
+          "#fmt3",
+          { opacity: 0, x: -40 },
+          { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" },
+          2.0,
+        );
+
+        // 99¢ pops in — the standout figure
+        tl.fromTo(
+          "#priceWrap",
+          { opacity: 0, scale: 1.18, transformOrigin: "50% 50%" },
+          { opacity: 1, scale: 1, duration: 0.55, ease: "back.out(2.4)" },
+          2.7,
+        );
+        tl.fromTo(
+          "#priceNote",
+          { opacity: 0, y: 16 },
+          { opacity: 0.6, y: 0, duration: 0.5, ease: "power2.out" },
+          3.1,
+        );
+
+        // "para siempre" reappears...
+        tl.fromTo(
+          "#forever",
+          { opacity: 0, y: 22 },
+          { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" },
+          3.7,
+        );
+        // ...then gets the red strike drawn across it
+        tl.fromTo(
+          "#strike",
+          { scaleX: 0, transformOrigin: "0% 50%" },
+          { scaleX: 1, transformOrigin: "0% 50%", duration: 0.5, ease: "power2.inOut" },
+          4.3,
+        );
+
+        // FINALE — the CD-ring shrinks + fades to nothing (dies)
+        tl.to(
+          "#ring",
+          { opacity: 0, scale: 0.0, duration: 1.0, ease: "power2.in", transformOrigin: "50% 50%" },
+          4.9,
+        );
+
+        window.__timelines["07-apple"] = tl;
+      </script>
+    </template>
+  </body>
+</html>
