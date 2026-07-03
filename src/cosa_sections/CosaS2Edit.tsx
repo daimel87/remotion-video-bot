@@ -3,12 +3,12 @@ import {ZoomVideo, Scene, FullScreen, Panel, T, AccentLine, theme} from './kit';
 
 // Frames clave (25fps) — usados también para clavar los SFX
 export const S2 = {
-  fsIn: 230, fsOut: 360, // full-screen PRE-JUSTIFICACIÓN
-  s2In: 390, s2Out: 495, // coartada lista
-  s3In: 590, s3Out: 705, // armando excusas
-  s4In: 875, s4Out: 980, // delatador
-  s5In: 1010, s5Out: 1130, // compensando
-  teaser: 1440,
+  fsIn: 313, fsOut: 400, // 0:12.5 full-screen PRE-JUSTIFICACIÓN (al decir la palabra)
+  s2In: 413, s2Out: 513, // 0:16.5 coartada lista
+  s3In: 600, s3Out: 700, // 0:24 armando excusas
+  s4In: 900, s4Out: 1000, // 0:36 delatador
+  s5In: 1025, s5Out: 1125, // 0:41 compensando
+  teaser: 1475, // 0:59 escape final
 };
 
 export const CosaS2Edit: React.FC = () => {
@@ -21,7 +21,7 @@ export const CosaS2Edit: React.FC = () => {
     <AbsoluteFill style={{backgroundColor: theme.bg}}>
       <ZoomVideo
         src="cosa_s2.mp4"
-        frames={[0, 175, 230, 360, 590, 980, 1130, 1440, 1634]}
+        frames={[0, 175, 313, 400, 600, 1000, 1125, 1475, 1634]}
         scales={[1.0, 1.0, 1.0, 1.05, 1.05, 1.0, 1.04, 1.04, 1.07]}
       />
 
