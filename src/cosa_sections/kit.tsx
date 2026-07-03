@@ -110,3 +110,62 @@ export const T: React.FC<{children: React.ReactNode; size?: number; color?: stri
 export const AccentLine: React.FC<{width?: number}> = ({width = 360}) => (
   <div style={{width, height: 4, background: `linear-gradient(90deg, transparent, ${theme.accent}, transparent)`, marginTop: 14, marginLeft: 'auto', marginRight: 'auto'}} />
 );
+
+// Overlay a PANTALLA COMPLETA (estilo "8 frases..."). Oculta a la persona.
+export const FullScreen: React.FC<{
+  frameIn: number;
+  frameOut: number;
+  big: string;
+  small?: string;
+  kicker?: string;
+}> = ({frameIn, frameOut, big, small, kicker}) => {
+  const frame = useCurrentFrame();
+  const op = lifecycle(frame, frameIn, 12, frameOut, 12);
+  if (op <= 0) return null;
+  const t = Math.min(1, Math.max(0, (frame - frameIn) / 14));
+  const enter = easeOut(t);
+  const bigScale = interpolate(enter, [0, 1], [0.6, 1]);
+  const lineW = interpolate(enter, [0, 1], [0, 1100]);
+  return (
+    <>
+      <AbsoluteFill
+        style={{
+          opacity: op,
+          backgroundColor: '#080610',
+          backgroundImage:
+            'radial-gradient(circle at 50% 42%, rgba(255,60,60,0.25) 0%, rgba(8,6,16,0) 60%), linear-gradient(rgba(255,60,60,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,60,60,0.08) 1px, transparent 1px)',
+          backgroundSize: 'auto, 60px 60px, 60px 60px',
+        }}
+      />
+      <AbsoluteFill style={{opacity: op, justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+        {kicker ? (
+          <div style={{fontFamily: theme.font, fontWeight: 700, fontSize: 40, color: theme.textDim, textTransform: 'uppercase', letterSpacing: 6, marginBottom: 14}}>
+            {kicker}
+          </div>
+        ) : null}
+        <div
+          style={{
+            transform: `scale(${bigScale})`,
+            fontFamily: theme.font,
+            fontWeight: 900,
+            fontSize: 150,
+            color: theme.accent,
+            textShadow: `0 0 70px ${theme.accentGlow}`,
+            textTransform: 'uppercase',
+            textAlign: 'center',
+            lineHeight: 1,
+            maxWidth: 1600,
+          }}
+        >
+          {big}
+        </div>
+        <div style={{width: lineW, height: 5, background: `linear-gradient(90deg, transparent, ${theme.accent}, transparent)`, margin: '26px 0'}} />
+        {small ? (
+          <div style={{fontFamily: theme.font, fontWeight: 700, fontSize: 46, color: theme.text, textTransform: 'uppercase', letterSpacing: 4, textAlign: 'center', maxWidth: 1500}}>
+            {small}
+          </div>
+        ) : null}
+      </AbsoluteFill>
+    </>
+  );
+};
