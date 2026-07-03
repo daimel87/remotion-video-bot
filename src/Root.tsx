@@ -85,6 +85,7 @@ import {Ego6Edit} from './Ego6Edit';
 import {Ego7Edit} from './Ego7Edit';
 import {Ego8Edit} from './Ego8Edit';
 import {EgoFinalEdit} from './EgoFinalEdit';
+import {Cosa1Edit} from './Cosa1Edit';
 import {MujerFinalEdit} from './MujerFinalEdit';
 import {Soledad1Edit} from './Soledad1Edit';
 import {Soledad2Edit} from './Soledad2Edit';
@@ -1151,6 +1152,14 @@ export const RemotionRoot: React.FC = () => {
         id="DualTimelineCard"
         component={DualTimelineCard}
         durationInFrames={550}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Cosa1Edit"
+        component={Cosa1Edit}
+        durationInFrames={1476}
         fps={25}
         width={1920}
         height={1080}
