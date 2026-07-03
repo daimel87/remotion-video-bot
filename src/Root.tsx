@@ -104,6 +104,7 @@ import {CosaS5Edit} from './cosa_sections/CosaS5Edit';
 import {CosaS6Edit} from './cosa_sections/CosaS6Edit';
 import {CosaS7Edit} from './cosa_sections/CosaS7Edit';
 import {CosaS8Edit} from './cosa_sections/CosaS8Edit';
+import {CosaRefEdit} from './cosa_sections/CosaRefEdit';
 import {MujerFinalEdit} from './MujerFinalEdit';
 import {Soledad1Edit} from './Soledad1Edit';
 import {Soledad2Edit} from './Soledad2Edit';
@@ -1322,6 +1323,14 @@ export const RemotionRoot: React.FC = () => {
         id="CosaS8Edit"
         component={CosaS8Edit}
         durationInFrames={1264}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="CosaRefEdit"
+        component={CosaRefEdit}
+        durationInFrames={1108}
         fps={25}
         width={1920}
         height={1080}
