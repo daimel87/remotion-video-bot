@@ -20,15 +20,15 @@ const zoom = (f: number) => {
 		[0, 1.0],
 		[95, 1.0],
 		[300, 1.05],
-		[505, 1.06],
-		[510, 1.0],
-		[620, 1.0],
+		[510, 1.06],
+		[515, 1.0],
+		[615, 1.0],
 		[900, 1.05],
-		[1195, 1.06],
-		[1200, 1.0],
-		[1300, 1.0],
-		[1690, 1.06],
-		[1695, 1.0],
+		[1000, 1.06],
+		[1005, 1.0],
+		[1120, 1.0],
+		[1530, 1.06],
+		[1535, 1.0],
 		[1784, 1.0],
 	];
 	for (let i = 0; i < pts.length - 1; i++) {
@@ -89,15 +89,15 @@ export const Error3: React.FC = () => {
 	const sc = zoom(frame);
 
 	const s1 = lifecycle(frame, 0, 95, 8);        // title
-	const s4 = lifecycle(frame, 510, 620, 6);     // 28 años stat
-	const s8 = lifecycle(frame, 1200, 1300, 8);   // name reveal
-	const s11 = frame >= 1695 ? animIn(frame, 1699, 12) : 0; // open loop
+	const s4 = lifecycle(frame, 515, 615, 6);     // 28 años stat (0:20)
+	const s8 = lifecycle(frame, 1005, 1120, 8);   // name reveal (0:40)
+	const s11 = frame >= 1535 ? animIn(frame, 1539, 12) : 0; // open loop (1:00)
 
 	const fsActive =
 		(frame >= 0 && frame <= 95) ||
-		(frame >= 510 && frame <= 620) ||
-		(frame >= 1200 && frame <= 1300) ||
-		frame >= 1695;
+		(frame >= 515 && frame <= 615) ||
+		(frame >= 1005 && frame <= 1120) ||
+		frame >= 1535;
 	const wmVisible = !fsActive;
 
 	return (
@@ -124,7 +124,7 @@ export const Error3: React.FC = () => {
 
 			{/* S2 overlay right — no es la porno */}
 			{(() => {
-				const o = lifecycle(frame, 120, 215, 9);
+				const o = lifecycle(frame, 150, 225, 8);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="right" top={150}>
@@ -138,7 +138,7 @@ export const Error3: React.FC = () => {
 
 			{/* S3 overlay left — la realidad pierde */}
 			{(() => {
-				const o = lifecycle(frame, 240, 460, 10);
+				const o = lifecycle(frame, 410, 500, 8);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="left" top={260}>
@@ -168,7 +168,7 @@ export const Error3: React.FC = () => {
 
 			{/* S5 overlay left — firme solo */}
 			{(() => {
-				const o = lifecycle(frame, 630, 770, 10);
+				const o = lifecycle(frame, 640, 720, 9);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="left" top={260}>
@@ -182,7 +182,7 @@ export const Error3: React.FC = () => {
 
 			{/* S6 overlay right — el cerebro aprende */}
 			{(() => {
-				const o = lifecycle(frame, 785, 895, 9);
+				const o = lifecycle(frame, 735, 850, 9);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="right" top={200}>
@@ -196,7 +196,7 @@ export const Error3: React.FC = () => {
 
 			{/* S7 overlay left — contacto insuficiente */}
 			{(() => {
-				const o = lifecycle(frame, 910, 1110, 10);
+				const o = lifecycle(frame, 890, 975, 8);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="left" top={260}>
@@ -225,7 +225,7 @@ export const Error3: React.FC = () => {
 
 			{/* S9 overlay right — reduce/recalibra */}
 			{(() => {
-				const o = lifecycle(frame, 1445, 1600, 10);
+				const o = lifecycle(frame, 1250, 1410, 10);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="right" top={200}>
@@ -239,7 +239,7 @@ export const Error3: React.FC = () => {
 
 			{/* S10 overlay left — reversible */}
 			{(() => {
-				const o = lifecycle(frame, 1625, 1685, 7);
+				const o = lifecycle(frame, 1455, 1525, 8);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="left" top={280}>

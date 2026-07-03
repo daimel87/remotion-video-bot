@@ -46,24 +46,22 @@ def stamp(dur=0.22):
     click=np.random.randn(n)*np.exp(-t*120)*0.4
     return ((s+click)*np.exp(-t*14)).astype(np.float32)
 
-# Scene in/out (25fps): S1 0/95 | S2 120 | S3 240 | S4 510/620 | S5 630 | S6 785 | S7 910 | S8 1200/1300 | S9 1445 | S10 1625 | S11 1695
+# HeyGen-anchored (25fps). NO pre-riser: hit lands ON each full-screen card.
+# S1 0/95 | S2 150 | S3 410 | S4 515/615 | S5 640 | S6 735 | S7 890 | S8 1005/1120 | S9 1250 | S10 1455 | S11 1535
 cues=[
  (0/25,   impact(0.6), 0.0, 0.5),    # S1 title
- (120/25, blip(1500), 0.5, 0.5),     # S2
- (240/25, blip(1300),-0.4, 0.5),     # S3
- (510/25-1.1, riser(1.1),0.0,0.3),   # riser -> S4 (510)
- (510/25, chime(950), 0.0, 0.42),    # S4 stat 28
- (620/25, whoosh(0.4),0.0, 0.35),    # S4 exit
- (630/25, blip(1300),-0.4, 0.5),     # S5
- (785/25, pop(640),   0.5, 0.5),     # S6
- (910/25, blip(1300),-0.4, 0.5),     # S7
- (1200/25-1.1, riser(1.1),0.0,0.32), # riser -> S8 (1200)
- (1200/25,impact(0.55),0.0, 0.5),    # S8 name reveal slam
- (1300/25,whoosh(0.4),0.0, 0.35),    # S8 exit
- (1445/25,blip(1300),-0.4, 0.5),     # S9
- (1625/25,chime(1050),0.5, 0.42),    # S10 reversible (positive)
- (1695/25-1.1,riser(1.1),0.0,0.34),  # riser -> S11 (1695)
- (1695/25,impact(0.6),0.0, 0.55),    # S11 open-loop error #4
+ (150/25, blip(1500), 0.5, 0.5),     # S2 unico estimulo
+ (410/25, blip(1300),-0.4, 0.5),     # S3 realidad pierde
+ (515/25, impact(0.55),0.0, 0.5),    # S4 stat 28 (ON card)
+ (615/25, whoosh(0.4),0.0, 0.35),    # S4 exit
+ (640/25, blip(1300),-0.4, 0.5),     # S5 solo
+ (735/25, pop(640),   0.5, 0.5),     # S6 cerebro aprende
+ (890/25, blip(1300),-0.4, 0.5),     # S7 insuficiente
+ (1005/25,impact(0.6),0.0, 0.55),    # S8 name reveal (ON card)
+ (1120/25,whoosh(0.4),0.0, 0.35),    # S8 exit
+ (1250/25,blip(1300),0.4, 0.5),      # S9 recalibra
+ (1455/25,chime(1050),0.5, 0.42),    # S10 reversible
+ (1535/25,impact(0.6),0.0, 0.55),    # S11 open-loop error #4 (ON card)
 ]
 for t,sig,pan,g in cues: place(sig,t,pan,g)
 peak=np.max(np.abs(bed))
