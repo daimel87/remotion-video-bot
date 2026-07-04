@@ -27,6 +27,8 @@ export type Actor = {
    * con puros stills antes de gastar créditos de video.
    */
   startImage?: string;
+  /** Prompt para Nano Banana que compone la imagen-storyboard (still). */
+  storyboardPrompt?: string;
   /** Prompt de animación que le das a la IA imagen-a-video para esta escena. */
   motionPrompt?: string;
   /** Nota de la toma (encuadre, dirección de miradas, etc.). Solo documentación. */
