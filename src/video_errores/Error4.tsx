@@ -20,14 +20,14 @@ const zoom = (f: number) => {
 		[0, 1.0],
 		[95, 1.0],
 		[300, 1.05],
-		[475, 1.06],
-		[480, 1.0],
-		[620, 1.0],
-		[740, 1.05],
-		[745, 1.0],
-		[855, 1.0],
-		[1360, 1.06],
-		[1365, 1.0],
+		[510, 1.06],
+		[515, 1.0],
+		[675, 1.0],
+		[685, 1.05],
+		[690, 1.0],
+		[810, 1.0],
+		[1365, 1.06],
+		[1370, 1.0],
 		[1541, 1.0],
 	];
 	for (let i = 0; i < pts.length - 1; i++) {
@@ -87,16 +87,16 @@ export const Error4: React.FC = () => {
 	const s = width / 1920;
 	const sc = zoom(frame);
 
-	const s1 = lifecycle(frame, 0, 95, 8);        // title
-	const s5 = lifecycle(frame, 480, 620, 7);     // result stat (menos flujo)
-	const s7 = lifecycle(frame, 745, 855, 7);     // no duele no avisa
-	const s10 = frame >= 1365 ? animIn(frame, 1369, 12) : 0; // open loop error 5
+	const s1 = lifecycle(frame, 0, 95, 8);        // title (0-4.2s)
+	const s5 = lifecycle(frame, 515, 675, 7);     // menos flujo (20.6-27s)
+	const s7 = lifecycle(frame, 690, 810, 7);     // no duele no avisa (27.6-32.4s)
+	const s10 = frame >= 1370 ? animIn(frame, 1374, 12) : 0; // error 5 (54.8s)
 
 	const fsActive =
 		(frame >= 0 && frame <= 95) ||
-		(frame >= 480 && frame <= 620) ||
-		(frame >= 745 && frame <= 855) ||
-		frame >= 1365;
+		(frame >= 515 && frame <= 675) ||
+		(frame >= 690 && frame <= 810) ||
+		frame >= 1370;
 	const wmVisible = !fsActive;
 
 	return (
@@ -121,9 +121,9 @@ export const Error4: React.FC = () => {
 				</AbsoluteFill>
 			)}
 
-			{/* S2 overlay right — destruye tus erecciones */}
+			{/* S2 overlay right — destruye tus erecciones (4.2-9.9s) */}
 			{(() => {
-				const o = lifecycle(frame, 105, 220, 9);
+				const o = lifecycle(frame, 125, 247, 9);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="right" top={150}>
@@ -135,9 +135,9 @@ export const Error4: React.FC = () => {
 				);
 			})()}
 
-			{/* S3 overlay left — vasos más pequeños */}
+			{/* S3 overlay left — vasos más pequeños (9.9-13.8s) */}
 			{(() => {
-				const o = lifecycle(frame, 230, 340, 9);
+				const o = lifecycle(frame, 250, 344, 8);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="left" top={260}>
@@ -149,9 +149,9 @@ export const Error4: React.FC = () => {
 				);
 			})()}
 
-			{/* S4 overlay right — daña los finos primero */}
+			{/* S4 overlay right — daña los más finos (17.2-20.6s) */}
 			{(() => {
-				const o = lifecycle(frame, 350, 465, 9);
+				const o = lifecycle(frame, 430, 515, 8);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="right" top={200}>
@@ -194,7 +194,7 @@ export const Error4: React.FC = () => {
 
 			{/* S6 overlay left — años sin saberlo */}
 			{(() => {
-				const o = lifecycle(frame, 870, 970, 9);
+				const o = lifecycle(frame, 820, 925, 9);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="left" top={260}>
@@ -207,7 +207,7 @@ export const Error4: React.FC = () => {
 
 			{/* S8 overlay right — mídete y trata */}
 			{(() => {
-				const o = lifecycle(frame, 1005, 1105, 9);
+				const o = lifecycle(frame, 1000, 1075, 8);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="right" top={200}>
@@ -221,7 +221,7 @@ export const Error4: React.FC = () => {
 
 			{/* S9 overlay left — fármacos afectan */}
 			{(() => {
-				const o = lifecycle(frame, 1125, 1270, 10);
+				const o = lifecycle(frame, 1075, 1278, 10);
 				if (o <= 0) return null;
 				return (
 					<SidePanel s={s} o={o} side="left" top={250}>

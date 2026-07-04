@@ -46,21 +46,21 @@ def stamp(dur=0.22):
     click=np.random.randn(n)*np.exp(-t*120)*0.4
     return ((s+click)*np.exp(-t*14)).astype(np.float32)
 
-# SRT-anchored (25fps). Hits land ON each full-screen card (no pre-riser).
-# S1 0/95 | S2 105 | S3 230 | S4 350 | S5 480/620 | S7 745/855 | S6 870 | S8 1005 | S9 1125 | S10 1365
+# Fine-SRT anchored (25fps). Hits ON card, no pre-riser.
+# S1 0/95 | S2 125 | S3 250 | S4 430 | S5 515/675 | S7 690/810 | S6 820 | S8 1000 | S9 1075 | S10 1370
 cues=[
  (0/25,   impact(0.6), 0.0, 0.5),    # S1 title
- (105/25, blip(1500), 0.5, 0.5),     # S2 destruye
- (230/25, blip(1300),-0.4, 0.5),     # S3 vasos peq
- (350/25, pop(640),   0.5, 0.5),     # S4 finos
- (480/25, impact(0.55),0.0, 0.5),    # S5 menos flujo (ON card)
- (620/25, whoosh(0.4),0.0, 0.35),    # S5 exit
- (745/25, impact(0.6),0.0, 0.55),    # S7 no duele no avisa (ON card)
- (855/25, whoosh(0.4),0.0, 0.35),    # S7 exit
- (870/25, blip(1300),-0.4, 0.5),     # S6 sin saberlo
- (1005/25,blip(1300),0.4, 0.5),      # S8 midete/trata
- (1125/25,blip(1300),-0.4, 0.5),     # S9 farmacos
- (1365/25,impact(0.6),0.0, 0.55),    # S10 open-loop error #5 (ON card)
+ (125/25, blip(1500), 0.5, 0.5),     # S2 destruye
+ (250/25, blip(1300),-0.4, 0.5),     # S3 vasos pequeños
+ (430/25, pop(640),   0.5, 0.5),     # S4 finos
+ (515/25, impact(0.55),0.0, 0.5),    # S5 menos flujo (ON card)
+ (675/25, whoosh(0.4),0.0, 0.35),    # S5 exit
+ (690/25, impact(0.6),0.0, 0.55),    # S7 no duele (ON card)
+ (810/25, whoosh(0.4),0.0, 0.35),    # S7 exit
+ (820/25, blip(1300),-0.4, 0.5),     # S6 sin saberlo
+ (1000/25,blip(1300),0.4, 0.5),      # S8 midete
+ (1075/25,blip(1300),-0.4, 0.5),     # S9 farmacos
+ (1370/25,impact(0.6),0.0, 0.55),    # S10 open-loop error #5 (ON card)
 ]
 for t,sig,pan,g in cues: place(sig,t,pan,g)
 peak=np.max(np.abs(bed))
