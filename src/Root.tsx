@@ -23,6 +23,8 @@ import {Gacrux4Edit} from './Gacrux4Edit';
 import {Gacrux5Edit} from './Gacrux5Edit';
 import {GacruxFinalEdit} from './GacruxFinalEdit';
 import {TestudoDemo} from './TestudoDemo';
+import {TributeVideo} from './TributeVideo';
+import {TRIBUTE_FPS, totalTributeFrames} from './tributeData';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -216,6 +218,14 @@ export const RemotionRoot: React.FC = () => {
         component={TestudoDemo}
         durationInFrames={125}
         fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="TributeVideo"
+        component={TributeVideo}
+        durationInFrames={totalTributeFrames}
+        fps={TRIBUTE_FPS}
         width={1920}
         height={1080}
       />
