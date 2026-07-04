@@ -1,5 +1,6 @@
 import {
   AbsoluteFill,
+  Img,
   OffthreadVideo,
   Sequence,
   staticFile,
@@ -11,12 +12,33 @@ import {Gravestone} from './components/Gravestone';
 import {MemorialCard} from './components/MemorialCard';
 
 export type Actor = {
-  /** Nombre del archivo del clip IA dentro de public/ (ej: 'actor_1.mp4') */
-  clip: string;
+  // ---- Datos que salen en pantalla (lápida + tarjeta) ----
   name: string;
   born: string; // año de nacimiento, ej: '1965'
   died: string; // año de fallecimiento, ej: '2023'
   epitaph?: string;
+
+  // ---- STORYBOARD → PRODUCCIÓN ----
+  /**
+   * Imagen-storyboard de la escena: composición fija con el actor vivo +
+   * el fallecido (con alas) ya colocados en el cementerio. Archivo en
+   * public/ (ej: 'sb_actor_1.jpg'). Se usa como vista previa mientras el
+   * clip animado no existe todavía — así puedes renderizar el video entero
+   * con puros stills antes de gastar créditos de video.
+   */
+  startImage?: string;
+  /** Prompt de animación que le das a la IA imagen-a-video para esta escena. */
+  motionPrompt?: string;
+  /** Nota de la toma (encuadre, dirección de miradas, etc.). Solo documentación. */
+  shot?: string;
+
+  /**
+   * Clip IA ya animado (archivo en public/, ej: 'actor_1.mp4'). Cuando existe,
+   * reemplaza a startImage. Déjalo vacío mientras solo tienes el storyboard.
+   */
+  clip?: string;
+
+  // ---- Timing / posición ----
   /** Duración de la escena en frames (por defecto se usa la global) */
   sceneFrames?: number;
   /** Frame en que se graba la lápida (cuando se arrodilla) */
@@ -35,6 +57,7 @@ export type Actor = {
  */
 export const TributeScene: React.FC<Actor> = ({
   clip,
+  startImage,
   name,
   born,
   died,
@@ -61,7 +84,12 @@ export const TributeScene: React.FC<Actor> = ({
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
       <AbsoluteFill style={{opacity: dip}}>
-        <OffthreadVideo src={staticFile(clip)} />
+        {clip ? (
+          <OffthreadVideo src={staticFile(clip)} />
+        ) : startImage ? (
+          // Vista previa con la imagen-storyboard mientras no hay clip animado
+          <Img src={staticFile(startImage)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+        ) : null}
         <Gravestone
           name={name}
           born={born}
