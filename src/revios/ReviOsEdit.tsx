@@ -1,12 +1,16 @@
 import React from 'react';
 import {
   AbsoluteFill,
+  cancelRender,
+  continueRender,
+  delayRender,
   interpolate,
   OffthreadVideo,
   Sequence,
   staticFile,
   useCurrentFrame,
 } from 'remotion';
+import './fonts.css';
 import {easeInOut, easeOut, FONT_TITLE, textShadow, theme} from './theme';
 import {
   Arrow,
@@ -126,9 +130,39 @@ const Stamp: React.FC<{text: string; sub?: string; durationInFrames: number}> = 
   );
 };
 
+// Wait for the embedded brand fonts before capturing any frame.
+const FontGate: React.FC = () => {
+  const [handle] = React.useState(() => delayRender('brand-fonts'));
+  React.useEffect(() => {
+    let cleared = false;
+    const clear = () => {
+      if (!cleared) {
+        cleared = true;
+        continueRender(handle);
+      }
+    };
+    Promise.all([
+      document.fonts.load('900 40px Montserrat'),
+      document.fonts.load('800 40px Montserrat'),
+      document.fonts.load('700 40px Montserrat'),
+      document.fonts.load('400 40px Montserrat'),
+      document.fonts.load('700 40px "JetBrains Mono"'),
+      document.fonts.load('500 40px "JetBrains Mono"'),
+    ])
+      .then(() => document.fonts.ready)
+      .then(clear)
+      .catch((e) => cancelRender(e));
+    // Safety: never hang the render on fonts.
+    const t = setTimeout(clear, 6000);
+    return () => clearTimeout(t);
+  }, [handle]);
+  return null;
+};
+
 export const ReviOsEdit: React.FC = () => {
   return (
     <AbsoluteFill style={{backgroundColor: theme.bg}}>
+      <FontGate />
       <OffthreadVideo src={staticFile(SRC)} />
 
       {/* ========================= INTRO (0–18s desktop) ========================= */}

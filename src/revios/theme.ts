@@ -1,18 +1,12 @@
-import {loadFont} from '@remotion/fonts';
-import {Easing, staticFile} from 'remotion';
+import {Easing} from 'remotion';
 
 // ---------------------------------------------------------------------------
-// Fonts (bundled locally in public/fonts, so rendering never hits the network)
+// Fonts are embedded as base64 data URIs in ./fonts.css (imported by the
+// composition) so rendering never performs a network/disk fetch that could
+// hang the headless browser. A FontGate waits for document.fonts.ready.
 // ---------------------------------------------------------------------------
 export const FONT_TITLE = 'Montserrat';
 export const FONT_MONO = 'JetBrains Mono';
-
-loadFont({family: FONT_TITLE, url: staticFile('fonts/Montserrat-400.woff2'), weight: '400'});
-loadFont({family: FONT_TITLE, url: staticFile('fonts/Montserrat-700.woff2'), weight: '700'});
-loadFont({family: FONT_TITLE, url: staticFile('fonts/Montserrat-800.woff2'), weight: '800'});
-loadFont({family: FONT_TITLE, url: staticFile('fonts/Montserrat-900.woff2'), weight: '900'});
-loadFont({family: FONT_MONO, url: staticFile('fonts/JetBrainsMono-500.woff2'), weight: '500'});
-loadFont({family: FONT_MONO, url: staticFile('fonts/JetBrainsMono-700.woff2'), weight: '700'});
 
 // ---------------------------------------------------------------------------
 // Brand palette — ReviOS / Revision = bright red on near-black
