@@ -16,14 +16,17 @@ export const Gravestone: React.FC<{
   y?: number; // 0-1, centro vertical del grabado
   appearAt?: number; // frame de la escena en que empieza a aparecer
   fadeDuration?: number;
-}> = ({name, born, died, epitaph, x = 0.5, y = 0.52, appearAt = 24, fadeDuration = 22}) => {
+  /** Frame en que empieza a desvanecerse (ej. antes de que la cámara se mueva). */
+  hideAt?: number;
+}> = ({name, born, died, epitaph, x = 0.5, y = 0.52, appearAt = 24, fadeDuration = 22, hideAt}) => {
   const frame = useCurrentFrame();
   const {width, durationInFrames} = useVideoConfig();
   const scale = width / 1920;
 
+  const outStart = hideAt ?? durationInFrames - 16;
   const opacity = interpolate(
     frame,
-    [appearAt, appearAt + fadeDuration, durationInFrames - 16, durationInFrames],
+    [appearAt, appearAt + fadeDuration, outStart, outStart + fadeDuration],
     [0, 1, 1, 0],
     {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}
   );
