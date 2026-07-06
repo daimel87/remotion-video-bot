@@ -592,7 +592,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="Error5"
         component={Error5}
-        durationInFrames={1441}
+        durationInFrames={1470}
         fps={25}
         width={1920}
         height={1080}
