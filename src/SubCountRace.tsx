@@ -29,7 +29,8 @@ const DATA = {
   left: {
     name: 'MrBeast',
     color: '#17b6d6',
-    logo: undefined as string | undefined, // 'mrbeast.png' en public/ para el logo real
+    logo: 'mrbeast.jpg' as string | undefined,
+    logoScale: 1.05,
     points: [
       {date: '2018-12-31', v: 13_300_000},
       {date: '2019-12-31', v: 28_400_000},
@@ -45,7 +46,8 @@ const DATA = {
   right: {
     name: 'Cocomelon',
     color: '#3ea832',
-    logo: undefined as string | undefined, // 'cocomelon.png' en public/
+    logo: 'cocomelon.jpg' as string | undefined,
+    logoScale: 1.55,
     points: [
       {date: '2018-12-31', v: 23_000_000},
       {date: '2019-12-31', v: 65_000_000},
@@ -102,7 +104,10 @@ const Channel: React.FC<{
       }}
     >
       {side.logo ? (
-        <Img src={staticFile(side.logo)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+        <Img
+          src={staticFile(side.logo)}
+          style={{width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${side.logoScale ?? 1})`}}
+        />
       ) : (
         <span style={{fontSize: 72 * scale, fontWeight: 900, color: '#fff'}}>{side.name[0]}</span>
       )}
