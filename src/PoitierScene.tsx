@@ -1,17 +1,17 @@
 import {
   AbsoluteFill,
   OffthreadVideo,
+  Sequence,
   staticFile,
   useCurrentFrame,
   useVideoConfig,
   interpolate,
 } from 'remotion';
-import {Gravestone} from './components/Gravestone';
+import {MemorialCard} from './components/MemorialCard';
 
 /**
  * Escena terminada de Sidney Poitier (14s, clip de OpenArt ya unido).
- * Graba la lápida durante el duelo + abrazo y la desvanece antes de que
- * De Niro camine (ahí la cámara se mueve). Tarjeta de nombre en el abrazo.
+ * Nombre + fechas centrados abajo (MemorialCard), con fundidos a negro.
  * fps 24 para calzar con el clip fuente.
  */
 export const PoitierScene: React.FC = () => {
@@ -31,20 +31,10 @@ export const PoitierScene: React.FC = () => {
       <AbsoluteFill style={{opacity: dip}}>
         <OffthreadVideo src={staticFile('poitier.mp4')} />
 
-        {/* Grabado sobre la piedra: visible durante duelo + abrazo (~1.7s a ~8s) */}
-        <Gravestone
-          name="Sidney Poitier"
-          born="1927"
-          died="2022"
-          x={0.72}
-          y={0.63}
-          appearAt={40}
-          fadeDuration={24}
-          hideAt={190}
-          photoPlaceholder
-          photoWidth={0.06}
-          nameSize={0.016}
-        />
+        {/* Nombre + fechas centrados abajo, casi toda la escena */}
+        <Sequence from={30} durationInFrames={295}>
+          <MemorialCard name="Sidney Poitier" born="1927" died="2022" />
+        </Sequence>
       </AbsoluteFill>
     </AbsoluteFill>
   );
