@@ -65,6 +65,7 @@ import {Error2} from './video_errores/Error2';
 import {Error3} from './video_errores/Error3';
 import {Error4} from './video_errores/Error4';
 import {Error5} from './video_errores/Error5';
+import {Error6} from './video_errores/Error6';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -593,6 +594,14 @@ export const RemotionRoot: React.FC = () => {
         id="Error5"
         component={Error5}
         durationInFrames={1470}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Error6"
+        component={Error6}
+        durationInFrames={1422}
         fps={25}
         width={1920}
         height={1080}
