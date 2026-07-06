@@ -37,10 +37,13 @@ export const PoitierScene: React.FC = () => {
           born="1927"
           died="2022"
           x={0.72}
-          y={0.6}
+          y={0.63}
           appearAt={40}
           fadeDuration={24}
           hideAt={190}
+          photoPlaceholder
+          photoWidth={0.06}
+          nameSize={0.016}
         />
       </AbsoluteFill>
     </AbsoluteFill>
