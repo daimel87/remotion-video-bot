@@ -242,7 +242,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="SubCountRace"
         component={SubCountRace}
-        durationInFrames={360}
+        durationInFrames={16200}
         fps={30}
         width={1920}
         height={1080}

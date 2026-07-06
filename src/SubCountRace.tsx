@@ -1,11 +1,16 @@
 import {
   AbsoluteFill,
+  Audio,
   Img,
   staticFile,
   useCurrentFrame,
   useVideoConfig,
   interpolate,
 } from 'remotion';
+
+// Música de fondo libre de derechos: pon el archivo en public/ (ej: 'music.mp3')
+// o déjalo en null para renderizar sin música.
+const MUSIC: string | null = null;
 
 /**
  * ============ COMPARADOR DE SUSCRIPTORES (estilo "Data Wolf") ============
@@ -21,7 +26,6 @@ type Point = {date: string; v: number};
 
 const DATA = {
   title: 'MRBEAST VS COCOMELON',
-  subtitle: 'DATA WOLF',
   left: {
     name: 'MrBeast',
     color: '#17b6d6',
@@ -35,6 +39,7 @@ const DATA = {
       {date: '2023-12-31', v: 224_700_000},
       {date: '2024-12-31', v: 340_700_000},
       {date: '2025-12-31', v: 457_000_000},
+      {date: '2026-07-06', v: 506_912_778},
     ] as Point[],
   },
   right: {
@@ -50,6 +55,7 @@ const DATA = {
       {date: '2023-12-31', v: 169_000_000},
       {date: '2024-12-31', v: 186_000_000},
       {date: '2025-12-31', v: 198_000_000},
+      {date: '2026-07-06', v: 201_685_513},
     ] as Point[],
   },
 };
@@ -153,12 +159,10 @@ export const SubCountRace: React.FC = () => {
 
   return (
     <AbsoluteFill style={{backgroundColor: '#fafafa', fontFamily: 'Arial, Helvetica, sans-serif'}}>
+      {MUSIC ? <Audio src={staticFile(MUSIC)} volume={0.6} /> : null}
       <div style={{padding: `${50 * scale}px ${70 * scale}px`, height: '100%', display: 'flex', flexDirection: 'column'}}>
         <div style={{textAlign: 'center'}}>
           <div style={{fontSize: 68 * scale, fontWeight: 900, fontStyle: 'italic', color: '#111'}}>{DATA.title}</div>
-          <div style={{fontSize: 30 * scale, fontWeight: 700, letterSpacing: 3 * scale, color: '#333', marginTop: 4 * scale}}>
-            {DATA.subtitle}
-          </div>
         </div>
 
         <div style={{display: 'flex', gap: 90 * scale, marginTop: 55 * scale, flex: 1}}>
