@@ -18,13 +18,13 @@ export const PoitierScene: React.FC = () => {
   const frame = useCurrentFrame();
   const {durationInFrames} = useVideoConfig();
 
+  // Solo fade de entrada; sin fundido final para poder encadenar con la
+  // siguiente escena (De Niro sale caminando a la derecha, corte limpio).
   const fade = 14;
-  const dip = interpolate(
-    frame,
-    [0, fade, durationInFrames - fade, durationInFrames],
-    [0, 1, 1, 0],
-    {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}
-  );
+  const dip = interpolate(frame, [0, fade], [0, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
 
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
