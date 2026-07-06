@@ -25,6 +25,7 @@ import {GacruxFinalEdit} from './GacruxFinalEdit';
 import {TestudoDemo} from './TestudoDemo';
 import {TributeVideo} from './TributeVideo';
 import {PoitierScene} from './PoitierScene';
+import {SubCountRace} from './SubCountRace';
 import {TRIBUTE_FPS, totalTributeFrames} from './tributeData';
 
 export const RemotionRoot: React.FC = () => {
@@ -235,6 +236,14 @@ export const RemotionRoot: React.FC = () => {
         component={PoitierScene}
         durationInFrames={339}
         fps={24}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="SubCountRace"
+        component={SubCountRace}
+        durationInFrames={360}
+        fps={30}
         width={1920}
         height={1080}
       />
