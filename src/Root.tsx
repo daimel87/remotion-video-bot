@@ -70,6 +70,7 @@ import {Error7} from './video_errores/Error7';
 import {Error8} from './video_errores/Error8';
 import {Error9} from './video_errores/Error9';
 import {Error10} from './video_errores/Error10';
+import {ReflexionFinal} from './video_errores/ReflexionFinal';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -638,6 +639,14 @@ export const RemotionRoot: React.FC = () => {
         id="Error10"
         component={Error10}
         durationInFrames={1920}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="ReflexionFinal"
+        component={ReflexionFinal}
+        durationInFrames={750}
         fps={25}
         width={1920}
         height={1080}
