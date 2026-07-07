@@ -74,6 +74,7 @@ import {ReflexionFinal} from './video_errores/ReflexionFinal';
 import {LancetStat} from './video_errores/LancetStat';
 import {Cosa1Title} from './video_errores/Cosa1Title';
 import {CosaTitle, COSAS} from './video_errores/CosaTitle';
+import {RiesgoStat} from './video_errores/RiesgoStat';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -666,6 +667,14 @@ export const RemotionRoot: React.FC = () => {
         id="Cosa1Title"
         component={Cosa1Title}
         durationInFrames={125}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="RiesgoStat"
+        component={RiesgoStat}
+        durationInFrames={500}
         fps={25}
         width={1920}
         height={1080}
