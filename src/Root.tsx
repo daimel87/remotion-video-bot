@@ -73,6 +73,7 @@ import {Error10} from './video_errores/Error10';
 import {ReflexionFinal} from './video_errores/ReflexionFinal';
 import {LancetStat} from './video_errores/LancetStat';
 import {Cosa1Title} from './video_errores/Cosa1Title';
+import {CosaTitle, COSAS} from './video_errores/CosaTitle';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -669,6 +670,18 @@ export const RemotionRoot: React.FC = () => {
         width={1920}
         height={1080}
       />
+      {COSAS.map((c) => (
+        <Composition
+          key={c.num}
+          id={`Cosa${c.num}`}
+          component={CosaTitle}
+          durationInFrames={125}
+          fps={25}
+          width={1920}
+          height={1080}
+          defaultProps={c}
+        />
+      ))}
     </>
   );
 };
