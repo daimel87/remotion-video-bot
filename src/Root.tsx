@@ -77,6 +77,7 @@ import {CosaTitle, COSAS} from './video_errores/CosaTitle';
 import {RiesgoStat} from './video_errores/RiesgoStat';
 import {EscalerasStat} from './video_errores/EscalerasStat';
 import {CaidasStat} from './video_errores/CaidasStat';
+import {OmsStat} from './video_errores/OmsStat';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -692,6 +693,14 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="CaidasStat"
         component={CaidasStat}
+        durationInFrames={500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="OmsStat"
+        component={OmsStat}
         durationInFrames={500}
         fps={25}
         width={1920}
