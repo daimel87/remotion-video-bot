@@ -101,7 +101,7 @@ export const COSAS: CosaTitleProps[] = [
 	{num: 2, l1: 'Subir un piso de escaleras', l2: 'sin detenerte'},
 	{num: 3, l1: 'Agacharte a recoger del piso', l2: 'y pararte sin ayuda'},
 	{num: 4, l1: 'Caminar 30 minutos seguidos', l2: 'sin necesitar sentarte'},
-	{num: 5, l1: 'Recordar tu ayer', l2: 'y tu semana pasada'},
+	{num: 5, l1: 'Recordar qué desayunaste ayer', l2: 'y qué hiciste la semana pasada'},
 	{num: 6, l1: 'Dormir 6 horas', l2: 'con un solo despertar'},
 	{num: 7, l1: 'Seguir una conversación', l2: 'sin perder el hilo'},
 	{num: 8, l1: 'Cuidarte por completo', l2: 'sin depender de nadie'},
