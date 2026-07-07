@@ -99,7 +99,7 @@ export const CosaTitle: React.FC<CosaTitleProps> = ({num, l1, l2}) => {
 export const COSAS: CosaTitleProps[] = [
 	{num: 1, l1: 'Levantarte de una silla', l2: 'sin usar las manos'},
 	{num: 2, l1: 'Subir un piso de escaleras', l2: 'sin detenerte'},
-	{num: 3, l1: 'Agacharte al piso', l2: 'y levantarte sin ayuda'},
+	{num: 3, l1: 'Agacharte a recoger del piso', l2: 'y pararte sin ayuda'},
 	{num: 4, l1: 'Caminar 30 minutos', l2: 'sin sentarte'},
 	{num: 5, l1: 'Recordar tu ayer', l2: 'y tu semana pasada'},
 	{num: 6, l1: 'Dormir 6 horas', l2: 'con un solo despertar'},
