@@ -26,6 +26,8 @@ import {TestudoDemo} from './TestudoDemo';
 import {TributeVideo} from './TributeVideo';
 import {PoitierScene} from './PoitierScene';
 import {SubCountRace} from './SubCountRace';
+import {DeathsVideo} from './DeathsVideo';
+import {DEATHS, DEATHS_FPS, SECONDS_PER_CARD} from './deathsData';
 import {TRIBUTE_FPS, totalTributeFrames} from './tributeData';
 
 export const RemotionRoot: React.FC = () => {
@@ -244,6 +246,14 @@ export const RemotionRoot: React.FC = () => {
         component={SubCountRace}
         durationInFrames={16200}
         fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="DeathsVideo"
+        component={DeathsVideo}
+        durationInFrames={DEATHS.length * Math.round(DEATHS_FPS * SECONDS_PER_CARD)}
+        fps={DEATHS_FPS}
         width={1920}
         height={1080}
       />
