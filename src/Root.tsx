@@ -71,6 +71,7 @@ import {Error8} from './video_errores/Error8';
 import {Error9} from './video_errores/Error9';
 import {Error10} from './video_errores/Error10';
 import {ReflexionFinal} from './video_errores/ReflexionFinal';
+import {LancetStat} from './video_errores/LancetStat';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -647,6 +648,14 @@ export const RemotionRoot: React.FC = () => {
         id="ReflexionFinal"
         component={ReflexionFinal}
         durationInFrames={750}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="LancetStat"
+        component={LancetStat}
+        durationInFrames={500}
         fps={25}
         width={1920}
         height={1080}
