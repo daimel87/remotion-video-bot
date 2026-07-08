@@ -30,5 +30,5 @@ export const DEATHS: DeathEntry[] = [
 ];
 
 export const DEATHS_FPS = 30;
-export const SECONDS_PER_CARD = 4;
-export const INTRO_SECONDS = 3;
+// 12 cards x 15s = 180s = 3:00 total. No intro/outro — straight into the cards.
+export const SECONDS_PER_CARD = 15;

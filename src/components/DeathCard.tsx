@@ -47,6 +47,7 @@ export const DeathCard: React.FC<DeathEntry> = ({name, knownFor, date, age, caus
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            position: 'relative',
           }}
         >
           <span style={{position: 'absolute', fontSize: 200 * scale, fontWeight: 900, color: '#5a5168'}}>{name[0]}</span>
