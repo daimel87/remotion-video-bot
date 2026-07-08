@@ -187,69 +187,67 @@ cues = [
     # intro / title
     (0.02, "riser", G_RISER * 0.8, 0),
     (1.15, "impact", G_IMPACT, 0),
-    (1.2, "pop", G_POP, 0),
-    (3.2, "pop", G_POP, -0.3),
-    (6.8, "pop", G_POP, -0.3),
-    # chapter 1 · install
-    (11.3, "riser", G_RISER, 0),
-    (11.5, "swipe", G_SWIPE, 0.4),
-    (12.4, "impact", G_IMPACT * 0.8, 0),
-    (14.0, "pop", G_POP, -0.3),
-    (22.6, "pop", G_POP, -0.3),
+    (1.6, "pop", G_POP, -0.3),
+    (7.0, "pop", G_POP, -0.3),
+    # chapter 1 · install (10.0)
+    (9.8, "riser", G_RISER, 0),
+    (10.0, "swipe", G_SWIPE, 0.4),
+    (10.9, "impact", G_IMPACT * 0.8, 0),
+    (14.2, "pop", G_POP, -0.3),
+    (25.7, "pop", G_POP, -0.3),
     (30.2, "pop", G_POP, -0.3),
-    (40.0, "pop", G_POP, 0.3),
-    (40.1, "charge", G_CHARGE, 0),  # install progress ~7s
+    (39.5, "pop", G_POP, 0.3),
+    (39.6, "charge", G_CHARGE, 0),  # install progress ~7.4s
     (47.3, "pop", G_POP, -0.3),
-    (55.5, "pop", G_POP, -0.3),
-    # chapter 2 · first boot
-    (74.9, "riser", G_RISER, 0),
-    (76.0, "impact", G_IMPACT * 0.8, 0),
-    (78.5, "pop", G_POP, -0.3),
-    (92.5, "success", G_CHIME * 0.8, 0),  # store works
-    # chapter 3 · under the hood
-    (97.9, "riser", G_RISER, 0),
-    (99.0, "impact", G_IMPACT * 0.8, 0),
-    (101.0, "key", G_KEY, 0.3),  # winver typed
-    (101.2, "key", G_KEY, 0.3),
-    (101.5, "pop", G_POP, -0.3),
-    (103.0, "pop", G_POP, 0.3),
+    (53.1, "pop", G_POP, -0.3),
+    (62.3, "pop", G_POP, -0.3),
+    # chapter 2 · first boot (67.8)
+    (67.6, "riser", G_RISER, 0),
+    (68.7, "impact", G_IMPACT * 0.8, 0),
+    (77.2, "pop", G_POP, -0.3),
+    (94.4, "success", G_CHIME * 0.8, 0),  # store works
+    # chapter 3 · under the hood (100.6)
+    (100.4, "riser", G_RISER, 0),
+    (101.5, "impact", G_IMPACT * 0.8, 0),
+    (102.9, "key", G_KEY, 0.3),  # winver typed
+    (103.1, "key", G_KEY, 0.3),
+    (108.0, "pop", G_POP, -0.3),  # build highlight
+    (114.0, "pop", G_POP, 0.3),
     # task manager stats
-    (120.5, "pop", G_POP, 0.3),
-    (121.0, "impact", G_IMPACT * 0.7, 0.2),  # "23" reveal
-    (127.0, "pop", G_POP, 0.2),
-    (130.5, "pop", G_POP, -0.3),
-    (135.5, "pop", G_POP, -0.3),
+    (118.0, "pop", G_POP, 0.3),
+    (122.3, "impact", G_IMPACT * 0.7, 0.2),  # "23" reveal
+    (125.5, "pop", G_POP, 0.2),
+    (129.0, "pop", G_POP, -0.3),
+    (134.2, "pop", G_POP, -0.3),
     # sizes
-    (140.5, "impact", G_IMPACT * 0.6, 0.3),  # 2.87 GB
-    (141.0, "pop", G_POP, -0.3),
-    (157.5, "impact", G_IMPACT * 0.7, -0.3),  # 7.44 GB
-    (158.0, "pop", G_POP, -0.3),
-    # chapter 4 · clean
-    (172.4, "riser", G_RISER, 0),
-    (173.5, "impact", G_IMPACT * 0.8, 0),
-    (176.5, "success", G_CHIME * 0.7, -0.3),  # only one app
-    (192.5, "pop", G_POP, -0.3),
-    (205.0, "pop", G_POP, -0.3),
-    # chapter 5 · post-install
-    (213.9, "riser", G_RISER, 0),
-    (215.0, "impact", G_IMPACT * 0.8, 0),
-    (217.0, "pop", G_POP, 0.3),
-    (228.0, "pop", G_POP, 0.3),
-    (236.5, "pop", G_POP, -0.3),
+    (143.5, "impact", G_IMPACT * 0.6, 0.3),  # 2.87 GB
+    (148.7, "pop", G_POP, -0.3),
+    (158.0, "impact", G_IMPACT * 0.7, -0.3),  # 7.44 GB
+    (165.2, "pop", G_POP, -0.3),
+    # chapter 4 · clean (174.9)
+    (174.7, "riser", G_RISER, 0),
+    (175.8, "impact", G_IMPACT * 0.8, 0),
+    (178.9, "success", G_CHIME * 0.7, -0.3),  # only one app
+    (188.5, "pop", G_POP, -0.3),
+    (202.6, "pop", G_POP, -0.3),
+    # chapter 5 · post-install (213.3)
+    (213.1, "riser", G_RISER, 0),
+    (214.2, "impact", G_IMPACT * 0.8, 0),
+    (218.9, "pop", G_POP, 0.3),
+    (233.6, "pop", G_POP, 0.3),
+    (237.8, "pop", G_POP, -0.3),
     # settings & updates
-    (249.0, "pop", G_POP, -0.3),
-    (268.5, "pop", G_POP, -0.3),
-    (279.0, "impact", G_IMPACT * 0.7, -0.3),  # 2050 stat
-    (285.0, "pop", G_POP * 0.9, -0.3),
+    (258.1, "pop", G_POP, -0.3),
+    (275.0, "pop", G_POP, -0.3),
+    (281.0, "impact", G_IMPACT * 0.7, -0.3),  # 2050 stat
+    (288.0, "pop", G_POP * 0.9, -0.3),
     # outro
-    (300.0, "pop", G_POP, 0),
-    (308.0, "impact", G_IMPACT, 0),
-    (308.1, "chime", G_CHIME, 0),
-    (312.0, "pop", G_POP, -0.3),
-    # end card
-    (320.0, "riser", G_RISER, 0),
-    (321.1, "impact", G_IMPACT * 0.8, 0),
-    (321.2, "chime", G_CHIME, 0),
+    (304.0, "impact", G_IMPACT, 0),
+    (304.1, "chime", G_CHIME, 0),
+    # end card (317.5)
+    (317.3, "riser", G_RISER, 0),
+    (318.4, "impact", G_IMPACT * 0.8, 0),
+    (318.5, "chime", G_CHIME, 0),
 ]
 
 FACTORY = {
@@ -266,7 +264,7 @@ FACTORY = {
 }
 
 for t, kind, gain, pan in cues:
-    sig = charge(6.8) if kind == "charge" else FACTORY[kind]()
+    sig = charge(7.3) if kind == "charge" else FACTORY[kind]()
     add(sig, t, gain=gain, pan=pan)
 
 # ---------------------------------------------------------------------------

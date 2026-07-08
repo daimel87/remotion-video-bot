@@ -20,7 +20,6 @@ import {
   Panel,
   ProgressBar,
   StepCard,
-  SubNudge,
   TitleIntro,
   useLife,
   Watermark,
@@ -139,156 +138,167 @@ const FontGate: React.FC = () => {
   return null;
 };
 
+// ---------------------------------------------------------------------------
+// Timings below are anchored to the BUZZ TRANSCRIPT (voice), so every text
+// appears when the narrator says it — never before.
+// ---------------------------------------------------------------------------
 export const AtomOsEdit: React.FC = () => {
   return (
     <AbsoluteFill style={{backgroundColor: theme.bg}}>
       <FontGate />
       <OffthreadVideo src={staticFile(SRC)} />
 
-      {/* ===================== INTRO (0–12 boot splash) ===================== */}
-      <Sequence from={s(3.2)} durationInFrames={s(5)}>
-        <Note x={70} y={780} icon="⚛️" title="AtomOS 11 Standard" body="A Windows 11 25H2 custom build for low-end PCs" accent={theme.red} durationInFrames={s(5)} />
+      {/* INTRO — seg 1-2 (0:00–0:09) */}
+      <Sequence from={s(1.6)} durationInFrames={s(6.5)}>
+        <Note x={70} y={780} icon="⚛️" title="AtomOS 11 Standard" body="A Windows 11 25H2 custom build for low-end PCs" accent={theme.red} durationInFrames={s(6.5)} />
       </Sequence>
-      <Sequence from={s(6.8)} durationInFrames={s(5.5)}>
-        <Note x={70} y={150} icon="🪶" title="Debloated · lightweight · fast" accent={theme.cyan} durationInFrames={s(5.5)} />
+      <Sequence from={s(7)} durationInFrames={s(4.5)}>
+        <Note x={70} y={150} icon="🪶" title="Debloated · lightweight · fast" accent={theme.cyan} durationInFrames={s(4.5)} />
       </Sequence>
 
-      {/* ===================== PART 1 · INSTALL ===================== */}
-      {/* language dialog 12–24 */}
-      <Sequence from={s(14)} durationInFrames={s(7)}>
+      {/* PART 1 · INSTALL */}
+      {/* seg 4 (0:14) desktop with installer */}
+      <Sequence from={s(14.2)} durationInFrames={s(7)}>
         <StepCard step={1} total={6} title="Unusual first screen" sub="A full desktop loads, with the installer in the center" x={70} y={720} accent={theme.red} durationInFrames={s(7)} />
       </Sequence>
-      <Sequence from={s(22.6)} durationInFrames={s(6.4)}>
-        <Note x={70} y={150} icon="🌐" title="Pick your language → English" body="Then click Next and Install Now." accent={theme.cyan} durationInFrames={s(6.4)} />
+      {/* seg 7 (0:25.6) select English, Next, Install Now */}
+      <Sequence from={s(25.7)} durationInFrames={s(4.3)}>
+        <Note x={70} y={150} icon="🌐" title="Select English → Next → Install Now" accent={theme.cyan} durationInFrames={s(4.3)} />
       </Sequence>
-      {/* install flow 30–47 */}
-      <Sequence from={s(30.2)} durationInFrames={s(9)}>
-        <Note x={70} y={150} icon="📝" title="Standard Windows 11 install" body="Accept the license, choose the drive, copy files." accent={theme.cyan} durationInFrames={s(9)} />
+      {/* seg 8-9 (0:30) standard install */}
+      <Sequence from={s(30.2)} durationInFrames={s(8.8)}>
+        <Note x={70} y={150} icon="📝" title="Standard Windows 11 install" body="Accept the license, choose the drive, copy files." accent={theme.cyan} durationInFrames={s(8.8)} />
       </Sequence>
-      <Sequence from={s(40)} durationInFrames={s(7)}>
-        <ProgressBar label="Installing Windows 11 25H2" x={70} y={860} from={10} to={92} accent={theme.red} durationInFrames={s(7)} />
+      {/* seg 10 (0:39.4) copying files / installing */}
+      <Sequence from={s(39.5)} durationInFrames={s(7.4)}>
+        <ProgressBar label="Installing Windows 11 25H2" x={70} y={860} from={10} to={92} accent={theme.red} durationInFrames={s(7.4)} />
       </Sequence>
-      {/* compression 47–67 */}
-      <Sequence from={s(47.3)} durationInFrames={s(8)}>
-        <StepCard step={2} total={6} title="Automatic file compression" sub="How devs shrink the OS footprint on disk" x={70} y={150} accent={theme.red} durationInFrames={s(8)} />
+      {/* seg 11 (0:47.1) auto compression */}
+      <Sequence from={s(47.3)} durationInFrames={s(7.5)}>
+        <StepCard step={2} total={6} title="Automatic file compression" sub="How devs shrink the OS footprint on disk" x={70} y={150} accent={theme.red} durationInFrames={s(7.5)} />
       </Sequence>
-      <Sequence from={s(55.5)} durationInFrames={s(11)}>
-        <Note x={70} y={760} icon="⏱️" title="~15 minutes — be patient" body="This compression is what makes AtomOS so tiny." accent={theme.amber} durationInFrames={s(11)} />
+      {/* seg 12 (0:53) reduce disk space */}
+      <Sequence from={s(53.1)} durationInFrames={s(5.5)}>
+        <Note x={70} y={760} icon="🗜️" title="Shrinks the OS footprint" body="Less disk space — results shown later." accent={theme.cyan} durationInFrames={s(5.5)} />
+      </Sequence>
+      {/* seg 14 (1:02.2) ~15 minutes */}
+      <Sequence from={s(62.3)} durationInFrames={s(5)}>
+        <Note x={70} y={760} icon="⏱️" title="~15 minutes — be patient" body="This is what makes AtomOS so tiny." accent={theme.amber} durationInFrames={s(5)} />
       </Sequence>
 
-      {/* ===================== PART 2 · FIRST BOOT ===================== */}
-      {/* desktop + start 78–92 */}
-      <Sequence from={s(78.5)} durationInFrames={s(7)}>
+      {/* PART 2 · FIRST BOOT */}
+      {/* seg 17-18 (1:17) official Start menu, no bloatware */}
+      <Sequence from={s(77.2)} durationInFrames={s(7)}>
         <StepCard step={3} total={6} title="Clean, minimalist desktop" sub="Official Windows 11 Start menu — zero bloatware" x={70} y={720} accent={theme.red} durationInFrames={s(7)} />
       </Sequence>
-      {/* microsoft store 92–100 */}
-      <Sequence from={s(92.5)} durationInFrames={s(6.5)}>
+      {/* seg 21 (1:34.2) store opens */}
+      <Sequence from={s(94.4)} durationInFrames={s(6.5)}>
         <Note x={70} y={150} icon="🛍️" title="Microsoft Store works normally" body="Install any Store app just like stock Windows." accent={theme.green} durationInFrames={s(6.5)} />
       </Sequence>
 
-      {/* ===================== PART 3 · UNDER THE HOOD ===================== */}
-      {/* winver 100–116 */}
-      <Sequence from={s(101)} durationInFrames={s(13.5)}>
-        <Chip text="winver" x={1500} y={150} accent durationInFrames={s(13.5)} />
+      {/* PART 3 · UNDER THE HOOD */}
+      {/* seg 23 (1:42.7) run WinVer */}
+      <Sequence from={s(102.9)} durationInFrames={s(12)}>
+        <Chip text="winver" x={1500} y={150} accent durationInFrames={s(12)} />
       </Sequence>
-      <Sequence from={s(101.5)} durationInFrames={s(12.5)}>
-        <Highlight x={185} y={376} w={492} h={44} color={theme.cyan} label="Windows 11 25H2 · Build 26200.6901" labelPos="bottom" durationInFrames={s(12.5)} />
+      {/* seg 23-24: 25H2 (~1:47) then build 26200.6901 (1:51.1) */}
+      <Sequence from={s(108)} durationInFrames={s(9)}>
+        <Highlight x={185} y={376} w={492} h={44} color={theme.cyan} label="Windows 11 25H2 · Build 26200.6901" labelPos="bottom" durationInFrames={s(9)} />
       </Sequence>
-      <Sequence from={s(103)} durationInFrames={s(10)}>
-        <Note x={1290} y={470} icon="🪟" title="Genuine Windows 11 Pro" body="Not a fake ISO — real 25H2 underneath." accent={theme.green} durationInFrames={s(10)} />
+      {/* seg 24 (1:53) running on Windows 11 Pro */}
+      <Sequence from={s(114)} durationInFrames={s(4)}>
+        <Note x={1290} y={470} icon="🪟" title="Genuine Windows 11 Pro" body="Not a fake ISO — real 25H2 underneath." accent={theme.green} durationInFrames={s(4)} />
       </Sequence>
-
-      {/* task manager 120–135 */}
-      <Sequence from={s(120.5)} durationInFrames={s(6.5)}>
+      {/* seg 25 (1:57.8) task manager idle performance */}
+      <Sequence from={s(118)} durationInFrames={s(6.5)}>
         <StepCard step={4} total={6} title="Idle performance" sub="Task Manager on a low-end 4 GB machine" x={1260} y={150} accent={theme.red} durationInFrames={s(6.5)} />
       </Sequence>
-      <Sequence from={s(121)} durationInFrames={s(6)}>
-        <StatCard value="23" label="BACKGROUND PROCESSES" x={1300} y={360} accent={theme.amber} durationInFrames={s(6)} />
+      {/* seg 26 (2:02.2) only 23 background processes */}
+      <Sequence from={s(122.3)} durationInFrames={s(5.5)}>
+        <StatCard value="23" label="BACKGROUND PROCESSES" x={1300} y={360} accent={theme.amber} durationInFrames={s(5.5)} />
       </Sequence>
-      <Sequence from={s(127)} durationInFrames={s(3.5)}>
-        <StatCard value="~7%" label="CPU IDLE" x={1300} y={360} accent={theme.amber} durationInFrames={s(3.5)} />
+      {/* seg 26 (~2:05) CPU ~7% */}
+      <Sequence from={s(125.5)} durationInFrames={s(3)}>
+        <StatCard value="~7%" label="CPU IDLE" x={1300} y={360} accent={theme.amber} durationInFrames={s(3)} />
       </Sequence>
-      <Sequence from={s(130.5)} durationInFrames={s(5)}>
+      {/* seg 27 (2:08.8) memory 2.4 / 4 GB */}
+      <Sequence from={s(129)} durationInFrames={s(5)}>
         <Highlight x={308} y={344} w={352} h={70} color={theme.cyan} label="RAM: 2.4 / 4 GB idle" labelPos="top" durationInFrames={s(5)} />
       </Sequence>
-      <Sequence from={s(135.5)} durationInFrames={s(3.5)}>
-        <Note x={70} y={150} icon="ℹ️" title="Numbers are estimates" body="Your results vary with your hardware." accent={theme.cyan} durationInFrames={s(3.5)} />
+      {/* seg 28 (2:14) estimates */}
+      <Sequence from={s(134.2)} durationInFrames={s(3.4)}>
+        <Note x={70} y={150} icon="ℹ️" title="Numbers are estimates" body="Your results vary with your hardware." accent={theme.cyan} durationInFrames={s(3.4)} />
+      </Sequence>
+      {/* seg 30 (2:21.2 / value ~2:26) ISO only 2.87 GB */}
+      <Sequence from={s(143.5)} durationInFrames={s(6.5)}>
+        <StatCard value="2.87 GB" label="TINY ISO · ENGLISH" x={1330} y={180} accent={theme.amber} durationInFrames={s(6.5)} />
+      </Sequence>
+      {/* seg 31 (2:28.6) available in English */}
+      <Sequence from={s(148.7)} durationInFrames={s(6)}>
+        <Note x={70} y={760} icon="💿" title="Tiny ISO · English" body="Download from the official AtomOS site (pinned)." accent={theme.cyan} durationInFrames={s(6)} />
+      </Sequence>
+      {/* seg 33 (2:37.9 / value ~2:43) C drive only 7.44 GB */}
+      <Sequence from={s(158)} durationInFrames={s(8)}>
+        <StatCard value="7.44 GB" label="TOTAL INSTALL SIZE" x={70} y={720} accent={theme.amber} durationInFrames={s(8)} />
+      </Sequence>
+      {/* seg 34-35 (2:45) that's the compression payoff */}
+      <Sequence from={s(165.2)} durationInFrames={s(6)}>
+        <Note x={70} y={150} icon="🪶" title="Barely any disk space" body="A full Windows 11 in ~7 GB — thanks to compression." accent={theme.green} durationInFrames={s(6)} />
       </Sequence>
 
-      {/* ISO size 140–156 */}
-      <Sequence from={s(140.5)} durationInFrames={s(7.5)}>
-        <StatCard value="2.87 GB" label="TINY ISO · ENGLISH" x={1330} y={180} accent={theme.amber} durationInFrames={s(7.5)} />
+      {/* PART 4 · CLEAN & BLOAT-FREE */}
+      {/* seg 37 (2:58.8) only Remote Desktop */}
+      <Sequence from={s(178.9)} durationInFrames={s(7)}>
+        <Note x={70} y={150} icon="🧹" title="Only ONE app installed" body="Remote Desktop Connection — that's it." accent={theme.green} durationInFrames={s(7)} />
       </Sequence>
-      <Sequence from={s(141)} durationInFrames={s(7)}>
-        <Note x={70} y={760} icon="💿" title="Tiny ISO · English" body="Download from the official AtomOS site (pinned)." accent={theme.cyan} durationInFrames={s(7)} />
-      </Sequence>
-      {/* C drive 156–168 : creator zooms the dialog, so use a position-safe stat */}
-      <Sequence from={s(157.5)} durationInFrames={s(8.5)}>
-        <StatCard value="7.44 GB" label="TOTAL INSTALL SIZE" x={70} y={720} accent={theme.amber} durationInFrames={s(8.5)} />
-      </Sequence>
-      <Sequence from={s(158)} durationInFrames={s(7.5)}>
-        <Note x={70} y={150} icon="🪶" title="Barely any disk space" body="A full Windows 11 in ~7 GB — that's tiny." accent={theme.green} durationInFrames={s(7.5)} />
-      </Sequence>
-
-      {/* ===================== PART 4 · CLEAN & BLOAT-FREE ===================== */}
-      {/* control panel programs 176–192 */}
-      <Sequence from={s(176.5)} durationInFrames={s(8)}>
-        <Note x={70} y={150} icon="🧹" title="Only ONE app installed" body="Remote Desktop Connection — that's it." accent={theme.green} durationInFrames={s(8)} />
-      </Sequence>
-      {/* windows features 192–204 */}
-      <Sequence from={s(192.5)} durationInFrames={s(9)}>
+      {/* seg 39-40 (3:08.4) optional features */}
+      <Sequence from={s(188.5)} durationInFrames={s(9)}>
         <Note x={70} y={760} icon="🧩" title="Useful features pre-enabled" body=".NET 3.5 & 4.8, Legacy Components, Print to PDF…" accent={theme.cyan} durationInFrames={s(9)} />
       </Sequence>
-      {/* right-click 204–214 */}
-      <Sequence from={s(205)} durationInFrames={s(7)}>
+      {/* seg 41 (3:22.6) no extended right-click menu */}
+      <Sequence from={s(202.6)} durationInFrames={s(7)}>
         <Note x={70} y={150} icon="🖱️" title="No cluttered right-click menu" body="Everything is organized in the Post-Install folder." accent={theme.cyan} durationInFrames={s(7)} />
       </Sequence>
 
-      {/* ===================== PART 5 · POST-INSTALL TOOLKIT ===================== */}
-      {/* post-install folder 216–236 */}
-      <Sequence from={s(217)} durationInFrames={s(9)}>
-        <StepCard step={5} total={6} title="The Post-Install toolkit" sub="Start · Tweaks · Tools · Wallpapers · Others" x={1180} y={150} accent={theme.red} durationInFrames={s(9)} />
+      {/* PART 5 · POST-INSTALL TOOLKIT */}
+      {/* seg 44 (3:38.8) subfolders: Start... */}
+      <Sequence from={s(218.9)} durationInFrames={s(8.5)}>
+        <StepCard step={5} total={6} title="The Post-Install toolkit" sub="Start · Tweaks · Tools · Wallpapers · Others" x={1180} y={150} accent={theme.red} durationInFrames={s(8.5)} />
       </Sequence>
-      <Sequence from={s(228)} durationInFrames={s(7)}>
-        <Note x={1180} y={720} icon="🛠️" title="Tools included" body="7-Zip, WinUtil, OO ShutUp10, WPD & more." accent={theme.cyan} durationInFrames={s(7)} />
+      {/* seg 47 (3:53.5) Tools folder */}
+      <Sequence from={s(233.6)} durationInFrames={s(6)}>
+        <Note x={1180} y={720} icon="🛠️" title="Tools included" body="7-Zip, WinUtil, OO ShutUp10, WPD & more." accent={theme.cyan} durationInFrames={s(6)} />
       </Sequence>
-      {/* wallpapers 236–248 */}
-      <Sequence from={s(236.5)} durationInFrames={s(7)}>
-        <Note x={70} y={150} icon="🖼️" title="Wallpaper pack (light & dark)" body="Which one do you prefer? Tell me in the comments." accent={theme.red} durationInFrames={s(7)} />
+      {/* seg 48-49 (3:57.7) wallpapers */}
+      <Sequence from={s(237.8)} durationInFrames={s(6.5)}>
+        <Note x={70} y={150} icon="🖼️" title="Wallpaper pack (light & dark)" body="Which one do you prefer? Tell me in the comments." accent={theme.red} durationInFrames={s(6.5)} />
       </Sequence>
 
-      {/* ===================== PART 6 · SETTINGS & UPDATES ===================== */}
-      {/* activation 248–260 */}
-      <Sequence from={s(249)} durationInFrames={s(7)}>
-        <Note x={70} y={150} icon="🔑" title="Windows needs activation" body="Expected — activate it with your own license." accent={theme.amber} durationInFrames={s(7)} />
+      {/* PART 6 · SETTINGS & UPDATES */}
+      {/* seg 52 (4:18) activation message */}
+      <Sequence from={s(258.1)} durationInFrames={s(6)}>
+        <Note x={70} y={150} icon="🔑" title="Windows needs activation" body="Expected — activate it with your own license." accent={theme.amber} durationInFrames={s(6)} />
       </Sequence>
-      {/* defender 268–280 */}
-      <Sequence from={s(268.5)} durationInFrames={s(7)}>
-        <Note x={70} y={760} icon="🛡️" title="Windows Defender included" body="Full built-in antivirus, still active." accent={theme.green} durationInFrames={s(7)} />
+      {/* seg 55 (4:34.9) Defender default AV */}
+      <Sequence from={s(275)} durationInFrames={s(5.5)}>
+        <Note x={70} y={760} icon="🛡️" title="Windows Defender included" body="Full built-in antivirus, still active." accent={theme.green} durationInFrames={s(5.5)} />
       </Sequence>
-      {/* updates 2050 280–290 */}
-      <Sequence from={s(279)} durationInFrames={s(6)}>
+      {/* seg 56 (4:40.6 / value ~4:44) updates paused until 2050 */}
+      <Sequence from={s(281)} durationInFrames={s(6)}>
         <StatCard value="2050" label="UPDATES PAUSED UNTIL" x={70} y={150} accent={theme.amber} durationInFrames={s(6)} />
       </Sequence>
-      <Sequence from={s(285)} durationInFrames={s(6.5)}>
-        <Note x={70} y={760} icon="⚠️" title="Don't update a modded build" body="Updating can undo the developer's optimizations." accent={theme.warn} durationInFrames={s(6.5)} />
+      {/* seg 57-59 (4:52) don't update a modded build */}
+      <Sequence from={s(288)} durationInFrames={s(7)}>
+        <Note x={70} y={760} icon="⚠️" title="Don't update a modded build" body="Updating can undo the developer's optimizations." accent={theme.warn} durationInFrames={s(7)} />
       </Sequence>
 
-      {/* like nudge mid-outro */}
-      <Sequence from={s(300)} durationInFrames={s(5.5)}>
-        <SubNudge durationInFrames={s(5.5)} text="Enjoying the review? LIKE & SUBSCRIBE" />
-      </Sequence>
-
-      {/* result stamp */}
-      <Sequence from={s(308)} durationInFrames={s(3)}>
+      {/* OUTRO — seg 60 (5:03.8) "that's AtomOS 11" */}
+      <Sequence from={s(304)} durationInFrames={s(3)}>
         <Stamp text="AtomOS 11" sub="LIGHTWEIGHT · BLOAT-FREE" durationInFrames={s(3)} />
-      </Sequence>
-      <Sequence from={s(312)} durationInFrames={s(6.5)}>
-        <Note x={70} y={760} icon="📌" title="Official AtomOS link in the pinned comment" accent={theme.amber} durationInFrames={s(6.5)} />
       </Sequence>
 
       {/* Watermark over footage (full-screen cards below paint over it) */}
-      <Sequence from={s(3)} durationInFrames={s(320) - s(3)}>
+      <Sequence from={s(3)} durationInFrames={s(316) - s(3)}>
         <Watermark />
       </Sequence>
 
@@ -296,23 +306,29 @@ export const AtomOsEdit: React.FC = () => {
       <Sequence from={0} durationInFrames={s(2.8)}>
         <TitleIntro durationInFrames={s(2.8)} />
       </Sequence>
-      <Sequence from={s(11.4)} durationInFrames={s(2.1)}>
+      {/* seg 3 (0:09.8) install topic */}
+      <Sequence from={s(10)} durationInFrames={s(2.1)}>
         <ChapterCard part="Part 1" title="The install" durationInFrames={s(2.1)} />
       </Sequence>
-      <Sequence from={s(75)} durationInFrames={s(2.1)}>
+      {/* seg 15 (1:07.7) you'll see the desktop */}
+      <Sequence from={s(67.8)} durationInFrames={s(2.1)}>
         <ChapterCard part="Part 2" title="First boot" durationInFrames={s(2.1)} />
       </Sequence>
-      <Sequence from={s(98)} durationInFrames={s(2.1)}>
-        <ChapterCard part="Part 3" title="Under the hood" durationInFrames={s(2.1)} />
+      {/* seg 23 (~1:41) about to run winver */}
+      <Sequence from={s(100.6)} durationInFrames={s(2)}>
+        <ChapterCard part="Part 3" title="Under the hood" durationInFrames={s(2)} />
       </Sequence>
-      <Sequence from={s(172.5)} durationInFrames={s(2.1)}>
-        <ChapterCard part="Part 4" title="Clean & bloat-free" durationInFrames={s(2.1)} />
+      {/* seg 36 (2:54.8) open Control Panel */}
+      <Sequence from={s(174.9)} durationInFrames={s(2)}>
+        <ChapterCard part="Part 4" title="Clean & bloat-free" durationInFrames={s(2)} />
       </Sequence>
-      <Sequence from={s(214)} durationInFrames={s(2.1)}>
-        <ChapterCard part="Part 5" title="Post-install toolkit" durationInFrames={s(2.1)} />
+      {/* seg 43 (3:33.2) Post-Install folder */}
+      <Sequence from={s(213.3)} durationInFrames={s(2)}>
+        <ChapterCard part="Part 5" title="Post-install toolkit" durationInFrames={s(2)} />
       </Sequence>
-      <Sequence from={s(320)} durationInFrames={s(14.5)}>
-        <EndCard durationInFrames={s(14.5)} />
+      {/* seg 62-65 (5:16.5→end) outro CTA */}
+      <Sequence from={s(317.5)} durationInFrames={s(17.2)}>
+        <EndCard durationInFrames={s(17.2)} />
       </Sequence>
     </AbsoluteFill>
   );
