@@ -24,10 +24,19 @@ import {Gacrux5Edit} from './Gacrux5Edit';
 import {GacruxFinalEdit} from './GacruxFinalEdit';
 import {TestudoDemo} from './TestudoDemo';
 import {ReviOsEdit} from './revios/ReviOsEdit';
+import {AtomOsEdit} from './atomos/AtomOsEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="AtomOsEdit"
+        component={AtomOsEdit}
+        durationInFrames={10042}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="ReviOsEdit"
         component={ReviOsEdit}
