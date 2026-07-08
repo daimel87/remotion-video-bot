@@ -35,8 +35,8 @@ export const DeathCard: React.FC<DeathEntry & {cardW: number}> = ({
         fontFamily: 'Arial, Helvetica, sans-serif',
       }}
     >
-      {/* Foto */}
-      <div style={{width: '100%', height: 300 * s, position: 'relative', background: '#2a2436'}}>
+      {/* Foto grande */}
+      <div style={{width: '100%', height: 500 * s, position: 'relative', background: '#2a2436'}}>
         <span
           style={{
             position: 'absolute',

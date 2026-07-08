@@ -13,8 +13,8 @@ export const DeathsVideo: React.FC = () => {
   const frame = useCurrentFrame();
   const {width, durationInFrames} = useVideoConfig();
 
-  const cardW = 440;
-  const gap = 48;
+  const cardW = 600;
+  const gap = 56;
   const pad = 70;
   const rowW = DEATHS.length * cardW + (DEATHS.length - 1) * gap;
 
@@ -28,24 +28,6 @@ export const DeathsVideo: React.FC = () => {
 
   return (
     <AbsoluteFill style={{backgroundColor: BG, justifyContent: 'center'}}>
-      {/* Título fijo arriba */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 60,
-          width: '100%',
-          textAlign: 'center',
-          fontFamily: 'Arial, Helvetica, sans-serif',
-          fontSize: 58,
-          fontWeight: 900,
-          fontStyle: 'italic',
-          color: '#f4efe6',
-          letterSpacing: 2,
-        }}
-      >
-        CELEBRIDADES QUE PERDIMOS EN 2026
-      </div>
-
       {/* Fila de tarjetas que se desplaza */}
       <div style={{display: 'flex', gap, width: 'max-content', transform: `translateX(${x}px)`}}>
         {DEATHS.map((d, i) => (
