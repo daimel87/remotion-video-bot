@@ -1,103 +1,80 @@
-import {AbsoluteFill, staticFile, useCurrentFrame, useVideoConfig, spring, interpolate} from 'remotion';
+import {Img, staticFile} from 'remotion';
 import type {DeathEntry} from '../deathsData';
 
-// Paleta NUEVA (distinta al azul/teal del original): carbón + oro + carmesí.
-const BG = '#17131f';
+// Paleta nueva (carbón + oro + carmesí)
+const PANEL = '#221b2e';
 const GOLD = '#e0b64c';
 const CRIMSON = '#b23a48';
 const TEXT = '#f4efe6';
+const DARK = '#17131f';
 
-export const DeathCard: React.FC<DeathEntry> = ({name, knownFor, date, age, cause, photo}) => {
-  const frame = useCurrentFrame();
-  const {fps, durationInFrames, width} = useVideoConfig();
-  const scale = width / 1920;
-
-  const enter = spring({frame, fps, config: {damping: 200, stiffness: 120}});
-  const exit = interpolate(frame, [durationInFrames - 12, durationInFrames], [1, 0], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  });
-  const y = interpolate(enter, [0, 1], [40, 0]) * scale;
-  const opacity = enter * exit;
-
+/** Tarjeta compacta (para una fila que se desplaza). cardW = ancho en px. */
+export const DeathCard: React.FC<DeathEntry & {cardW: number}> = ({
+  name,
+  knownFor,
+  date,
+  age,
+  cause,
+  photo,
+  cardW,
+}) => {
+  const s = cardW / 440;
   return (
-    <AbsoluteFill style={{backgroundColor: BG, justifyContent: 'center', alignItems: 'center', fontFamily: 'Georgia, serif'}}>
-      <AbsoluteFill
-        style={{
-          background: 'radial-gradient(ellipse at center, rgba(224,182,76,0.08) 0%, rgba(0,0,0,0) 60%)',
-        }}
-      />
-      <div style={{opacity, transform: `translateY(${y}px)`, textAlign: 'center', maxWidth: 1200 * scale}}>
-        {/* Conocido por */}
-        <div style={{fontSize: 30 * scale, letterSpacing: 4 * scale, color: GOLD, textTransform: 'uppercase', marginBottom: 24 * scale}}>
-          {knownFor}
-        </div>
-
-        {/* Foto */}
-        <div
+    <div
+      style={{
+        width: cardW,
+        flexShrink: 0,
+        background: PANEL,
+        borderRadius: 20 * s,
+        borderTop: `${5 * s}px solid ${GOLD}`,
+        border: `1px solid rgba(224,182,76,0.2)`,
+        overflow: 'hidden',
+        boxShadow: '0 14px 44px rgba(0,0,0,0.55)',
+        display: 'flex',
+        flexDirection: 'column',
+        fontFamily: 'Arial, Helvetica, sans-serif',
+      }}
+    >
+      {/* Foto */}
+      <div style={{width: '100%', height: 300 * s, position: 'relative', background: '#2a2436'}}>
+        <span
           style={{
-            width: 420 * scale,
-            height: 420 * scale,
-            margin: '0 auto',
-            borderRadius: 18 * scale,
-            overflow: 'hidden',
-            border: `${4 * scale}px solid ${GOLD}`,
-            boxShadow: `0 0 40px rgba(224,182,76,0.35)`,
-            background: '#2a2436',
+            position: 'absolute',
+            inset: 0,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            position: 'relative',
+            fontSize: 150 * s,
+            fontWeight: 900,
+            color: '#5a5168',
           }}
         >
-          <span style={{position: 'absolute', fontSize: 200 * scale, fontWeight: 900, color: '#5a5168'}}>{name[0]}</span>
-          {photo ? (
-            // <img> normal (no Remotion Img) para que una foto faltante no rompa el render
-            <img
-              src={staticFile(photo)}
-              style={{position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover'}}
-            />
-          ) : null}
+          {name[0]}
+        </span>
+        {photo ? (
+          <Img
+            src={staticFile(photo)}
+            style={{position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover'}}
+          />
+        ) : null}
+      </div>
+
+      {/* Datos */}
+      <div style={{padding: `${20 * s}px ${20 * s}px ${24 * s}px`, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center'}}>
+        <div style={{fontSize: 19 * s, color: GOLD, letterSpacing: 1.5 * s, textTransform: 'uppercase', fontWeight: 700}}>
+          {knownFor}
         </div>
-
-        {/* Nombre */}
-        <div style={{fontSize: 78 * scale, fontWeight: 700, color: TEXT, marginTop: 28 * scale, letterSpacing: 1 * scale}}>
-          {name}
-        </div>
-
-        {/* Fecha */}
-        <div style={{fontSize: 34 * scale, color: '#b9b2a4', marginTop: 6 * scale}}>🕊️ {date}</div>
-
-        {/* Fila: edad + causa */}
-        <div style={{display: 'flex', gap: 20 * scale, justifyContent: 'center', alignItems: 'center', marginTop: 28 * scale}}>
-          <div
-            style={{
-              fontSize: 30 * scale,
-              fontWeight: 700,
-              color: BG,
-              background: GOLD,
-              padding: `${8 * scale}px ${22 * scale}px`,
-              borderRadius: 8 * scale,
-              letterSpacing: 1 * scale,
-            }}
-          >
+        <div style={{fontSize: 36 * s, fontWeight: 800, color: TEXT, marginTop: 8 * s, lineHeight: 1.1}}>{name}</div>
+        <div style={{fontSize: 22 * s, color: '#b9b2a4', marginTop: 8 * s}}>🕊️ {date}</div>
+        <div style={{display: 'flex', gap: 12 * s, marginTop: 18 * s, alignItems: 'center'}}>
+          <div style={{fontSize: 22 * s, fontWeight: 800, color: DARK, background: GOLD, padding: `${7 * s}px ${16 * s}px`, borderRadius: 7 * s}}>
             AGED {age}
           </div>
-          <div
-            style={{
-              fontSize: 30 * scale,
-              fontWeight: 700,
-              color: TEXT,
-              background: CRIMSON,
-              padding: `${8 * scale}px ${22 * scale}px`,
-              borderRadius: 8 * scale,
-              letterSpacing: 1 * scale,
-            }}
-          >
-            {cause}
+          <div style={{fontSize: 22 * s, fontWeight: 800, color: TEXT, background: CRIMSON, padding: `${7 * s}px ${16 * s}px`, borderRadius: 7 * s}}>
+            🪦 {cause}
           </div>
         </div>
       </div>
-    </AbsoluteFill>
+    </div>
   );
 };
