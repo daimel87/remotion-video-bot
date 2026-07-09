@@ -22,10 +22,19 @@ import {Gacrux3Edit} from './Gacrux3Edit';
 import {Gacrux4Edit} from './Gacrux4Edit';
 import {Gacrux5Edit} from './Gacrux5Edit';
 import {GacruxFinalEdit} from './GacruxFinalEdit';
+import {ChatgptEdit} from './video_chatgpt/ChatgptEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="ChatgptEdit"
+        component={ChatgptEdit}
+        durationInFrames={15108}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="VideoEdit"
         component={VideoEdit}
