@@ -19,9 +19,11 @@ import {
 } from './scenes';
 
 // 30 fps · 1920x1080 · 15108 frames (503.6 s)
-// Timings anclados a la transcripción de Buzz (SRT): cada overlay ARRANCA
-// cuando se pronuncia la frase, nunca antes.
-const f = (sec: number) => Math.round(sec * 30);
+// Timings anclados a la transcripción de Buzz (SRT). El SRT iba adelantado
+// respecto a la voz real, así que retrasamos TODO con un offset global.
+const OFFSET_SEC = 4.0; // retardo global (ajústalo aquí si hace falta)
+const TOTAL = 15108;
+const f = (sec: number) => Math.min(TOTAL, Math.round((sec + OFFSET_SEC) * 30));
 
 type Scene = {from: number; to: number; fs?: boolean; el: React.ReactNode};
 
