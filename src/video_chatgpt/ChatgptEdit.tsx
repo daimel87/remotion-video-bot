@@ -2,14 +2,7 @@ import React from 'react';
 import {AbsoluteFill, OffthreadVideo, Sequence, staticFile} from 'remotion';
 import {theme} from './theme';
 import {Caption} from './Caption';
-import {
-  Watermark,
-  StepBadge,
-  HighlightBox,
-  Callout,
-  MonoChip,
-  Pill,
-} from './ui';
+import {Watermark, StepBadge, HighlightBox, Callout, MonoChip, Pill} from './ui';
 import {
   ChapterCard,
   VersusCard,
@@ -19,29 +12,24 @@ import {
 } from './scenes';
 
 // 30 fps · 1920x1080 · 15108 frames (503.6 s)
-// Timings anclados a la transcripción de Buzz (SRT). El SRT iba adelantado
-// respecto a la voz real, así que retrasamos TODO con un offset global.
-const OFFSET_SEC = 4.0; // retardo global (ajústalo aquí si hace falta)
+// Cada overlay se ancla al MOMENTO EXACTO en que se pronuncia la frase en la
+// transcripción de Buzz (no al inicio del segmento). Sin offset global.
 const TOTAL = 15108;
-const f = (sec: number) => Math.min(TOTAL, Math.round((sec + OFFSET_SEC) * 30));
+const f = (sec: number) => Math.min(TOTAL, Math.max(0, Math.round(sec * 30)));
 
 type Scene = {from: number; to: number; fs?: boolean; el: React.ReactNode};
 
 const SCENES: Scene[] = [
   // ---------- INTRO sobre ChatGPT ----------
-  {
-    from: f(0.3),
-    to: f(5.6),
-    el: <Caption text="ChatGPT es excelente para resolver problemas" />,
-  },
+  {from: f(0.3), to: f(5.5), el: <Caption text="ChatGPT es excelente para resolver problemas" />},
   {
     from: f(5.7),
-    to: f(12.4),
-    el: <Caption text="Texto, ideas, imágenes… casi todo" highlight="casi todo" />,
+    to: f(11.5),
+    el: <Caption text="Conocimiento, imágenes… casi todo" highlight="casi todo" />,
   },
-  // "de pago" — resalta el plan de pago (frame 8s: 'Mejorar el plan')
+  // "...funciones son de pago" (se dice ~13-15s)
   {
-    from: f(12.7),
+    from: f(13.0),
     to: f(18.0),
     el: (
       <Caption
@@ -52,7 +40,7 @@ const SCENES: Scene[] = [
     ),
   },
   {
-    from: f(13.4),
+    from: f(13.5),
     to: f(18.0),
     el: (
       <HighlightBox
@@ -69,8 +57,8 @@ const SCENES: Scene[] = [
 
   // ---------- CAPÍTULO: la alternativa gratis ----------
   {
-    from: f(18.2),
-    to: f(25.5),
+    from: f(18.3),
+    to: f(25.4),
     fs: true,
     el: (
       <ChapterCard
@@ -81,9 +69,9 @@ const SCENES: Scene[] = [
       />
     ),
   },
-  // Revela el nombre real (transcripción dice "deaves/howen" → es Qwen)
+  // "...es el caso de Qwen" (transcripción dice "deaves/howen" → es Qwen)
   {
-    from: f(25.6),
+    from: f(25.8),
     to: f(31.5),
     fs: true,
     el: (
@@ -97,32 +85,20 @@ const SCENES: Scene[] = [
   },
 
   // ---------- Login Qwen ----------
-  {
-    from: f(31.7),
-    to: f(38.0),
-    el: <Caption text="Diseño casi idéntico a ChatGPT" highlight="idéntico" />,
-  },
-  {
-    from: f(38.3),
-    to: f(45.6),
-    el: <Caption text="Te enseño paso a paso todo lo que hace" />,
-  },
-  {
-    from: f(45.9),
-    to: f(52.2),
-    el: <Caption text="Superior a ChatGPT — y gratis" highlight="gratis" color={theme.ok} />,
-  },
+  {from: f(32.0), to: f(38.0), el: <Caption text="Diseño casi idéntico a ChatGPT" highlight="idéntico" />},
+  {from: f(38.5), to: f(45.6), el: <Caption text="Te enseño paso a paso todo lo que hace" />},
   {
     from: f(46.2),
     to: f(52.2),
-    el: <Pill x={1360} y={250} color={theme.ok}>GRATIS e ILIMITADA</Pill>,
+    el: <Caption text="Superior a ChatGPT — y gratis" highlight="gratis" color={theme.ok} />,
   },
+  {from: f(47.5), to: f(52.2), el: <Pill x={1360} y={250} color={theme.ok}>GRATIS e ILIMITADA</Pill>},
 
-  // ---------- PASO 1 · Registro ----------
-  {from: f(52.5), to: f(65.4), el: <StepBadge n={1} title="Regístrate" />},
+  // ---------- PASO 1 · Registro ("sign up para registrarnos" ~59s) ----------
+  {from: f(58.6), to: f(71.0), el: <StepBadge n={1} title="Regístrate" />},
   {
-    from: f(55.0),
-    to: f(65.0),
+    from: f(59.5),
+    to: f(65.4),
     el: (
       <HighlightBox
         x={1812}
@@ -137,53 +113,47 @@ const SCENES: Scene[] = [
     ),
   },
   {
-    from: f(58.6),
-    to: f(65.4),
-    el: (
-      <Caption text="Nombre, email y contraseña — o Google / GitHub" highlight="Google / GitHub" />
-    ),
+    from: f(66.0),
+    to: f(71.4),
+    el: <Caption text="Nombre, email y contraseña — o Google / GitHub" highlight="Google / GitHub" />,
   },
 
-  // ---------- Caja de chat aparece ----------
-  {from: f(65.6), to: f(81.4), el: <StepBadge n={'✓'} title="Ya estás dentro" accent={theme.ok} />},
+  // ---------- Caja de chat aparece ("la caja de chat" ~82s) ----------
+  {from: f(82.0), to: f(89.4), el: <StepBadge n={'✓'} title="Ya estás dentro" accent={theme.ok} />},
   {
-    from: f(66.5),
-    to: f(81.4),
+    from: f(82.5),
+    to: f(89.4),
     el: <Caption text="Aparece tu caja de chat, lista para usar" highlight="lista para usar" />,
   },
-  {
-    from: f(82.0),
-    to: f(95.8),
-    el: <Caption text="Pruébalo tú mismo, es muy fácil" />,
-  },
+  {from: f(90.0), to: f(95.9), el: <Caption text="Quédate, esto te va a interesar" />},
 
-  // ---------- Nombre + enlace ----------
+  // ---------- Nombre + enlace ("se llama Qwen.ai... enlace" ~97-104s) ----------
   {
-    from: f(96.2),
-    to: f(102.0),
+    from: f(97.0),
+    to: f(102.5),
     el: <Callout x={620} y={250} icon="🌐" color={theme.primary}>Qwen · chat.qwen.ai</Callout>,
   },
   {
-    from: f(96.6),
-    to: f(102.0),
+    from: f(100.5),
+    to: f(107.0),
     el: <Pill x={640} y={360} color={theme.secondary}>🔗 Link en el 1º comentario</Pill>,
   },
   {
-    from: f(102.2),
+    from: f(108.0),
     to: f(113.6),
     el: <Caption text="Pídele lo que quieras, igual que a ChatGPT" />,
   },
 
-  // ---------- PASO 2 · Caja de chat (creador con zoom ~118-160) ----------
-  {from: f(113.8), to: f(152.6), el: <StepBadge n={2} title="Escribe tu petición" />},
+  // ---------- PASO 2 · Caja de chat ----------
+  {from: f(114.0), to: f(138.2), el: <StepBadge n={2} title="Escribe tu petición" />},
   {
-    from: f(114.0),
-    to: f(118.6),
+    from: f(115.0),
+    to: f(119.5),
     el: <MonoChip x={480} y={140}>quiero una historia sobre los caballeros medievales</MonoChip>,
   },
   {
-    from: f(119.0),
-    to: f(131.8),
+    from: f(119.5),
+    to: f(132.2),
     el: (
       <Callout x={560} y={250} icon="🧠" color={theme.qwen} maxW={780}>
         <b style={{color: theme.qwen}}>Pensamiento</b>: controla cuánto razona la IA
@@ -191,7 +161,7 @@ const SCENES: Scene[] = [
     ),
   },
   {
-    from: f(132.2),
+    from: f(133.0),
     to: f(138.3),
     el: (
       <Callout x={560} y={250} icon="🌐" color={theme.primary} maxW={780}>
@@ -200,8 +170,8 @@ const SCENES: Scene[] = [
     ),
   },
   {
-    from: f(138.6),
-    to: f(152.6),
+    from: f(139.0),
+    to: f(148.6),
     el: (
       <Callout x={560} y={230} icon="⚙️" color={theme.secondary} maxW={860}>
         4 modos potentes: web, investigación, artefactos e imágenes
@@ -209,18 +179,19 @@ const SCENES: Scene[] = [
     ),
   },
 
-  // ---------- PASO 3 · Genera ----------
-  {from: f(152.9), to: f(170.8), el: <StepBadge n={3} title="Genera el texto" />},
+  // ---------- PASO 3 · Genera ("darle generar" ~151s) ----------
+  {from: f(151.0), to: f(171.4), el: <StepBadge n={3} title="Genera el texto" />},
+  // "más rápida que ChatGPT" se dice ~167s
   {
-    from: f(153.5),
-    to: f(170.8),
+    from: f(166.5),
+    to: f(171.4),
     el: <Pill x={1330} y={250} color={theme.secondary}>⚡ Más rápida que ChatGPT</Pill>,
   },
 
-  // ---------- COMPARACIÓN Qwen vs ChatGPT ----------
+  // ---------- COMPARACIÓN ("probar en tiempo real" ~172-188s) ----------
   {
     from: f(176.0),
-    to: f(187.8),
+    to: f(188.5),
     fs: true,
     el: (
       <VersusCard
@@ -233,11 +204,11 @@ const SCENES: Scene[] = [
     ),
   },
 
-  // ---------- PASO 4 · Desarrollo web ----------
-  {from: f(188.2), to: f(225.8), el: <StepBadge n={4} title="Desarrollo web" />},
+  // ---------- PASO 4 · Desarrollo web ("opción que dice desarrollo web" ~189s) ----------
+  {from: f(189.0), to: f(226.0), el: <StepBadge n={4} title="Desarrollo web" />},
   {
-    from: f(200.0),
-    to: f(213.0),
+    from: f(190.0),
+    to: f(197.0),
     el: (
       <HighlightBox
         x={296}
@@ -250,49 +221,55 @@ const SCENES: Scene[] = [
       />
     ),
   },
+  // "generar el código completo para una web de salud" ~196-200s
   {
-    from: f(200.0),
-    to: f(213.0),
+    from: f(196.0),
+    to: f(206.0),
     el: <MonoChip x={520} y={140}>genera el código completo para una web de salud</MonoChip>,
   },
+  // "página web completa... un solo clic" ~213-218s
   {
-    from: f(214.0),
-    to: f(225.8),
+    from: f(213.0),
+    to: f(218.3),
     el: <Caption text="1 clic → una página web completa" highlight="1 clic" color={theme.ok} />,
   },
 
-  // ---------- PASO 5 · Investigación en profundidad ----------
-  {from: f(226.0), to: f(294.8), el: <StepBadge n={5} title="Investigación en profundidad" />},
+  // ---------- PASO 5 · Investigación en profundidad ("Tenemos investigación" ~227s) ----------
+  {from: f(227.0), to: f(295.6), el: <StepBadge n={5} title="Investigación en profundidad" />},
+  // Preguntas clarificadoras ~248-258s
   {
-    from: f(228.0),
-    to: f(245.0),
+    from: f(248.0),
+    to: f(262.0),
     el: (
       <Callout x={560} y={250} icon="🔎" color={theme.qwen} maxW={820}>
         Primero te hace <b style={{color: theme.qwen}}>preguntas</b> para afinar el resultado
       </Callout>
     ),
   },
+  // "muchas más opciones que ChatGPT" ~265-272s
   {
-    from: f(246.0),
-    to: f(270.0),
+    from: f(265.0),
+    to: f(278.0),
     el: <Caption text="Un informe más completo que ChatGPT" highlight="más completo" />,
   },
   {
-    from: f(271.0),
-    to: f(294.8),
+    from: f(280.0),
+    to: f(294.5),
     el: <Caption text="Ideal para ensayos y temas a fondo" highlight="a fondo" />,
   },
 
-  // ---------- PASO 6 · Artefactos ----------
-  {from: f(302.0), to: f(325.8), el: <StepBadge n={6} title="Artefactos" />},
+  // ---------- PASO 6 · Artefactos ("crear de artefactos" ~296s) ----------
+  {from: f(296.0), to: f(325.8), el: <StepBadge n={6} title="Artefactos" />},
+  // "crea una aplicación para... alimentación de los perros" ~303-309s
   {
     from: f(303.0),
     to: f(313.0),
     el: <MonoChip x={560} y={140}>crea una app para alimentar a los perros</MonoChip>,
   },
+  // "crear una aplicación, crear una página web sin problema" ~326-332s
   {
-    from: f(314.0),
-    to: f(325.8),
+    from: f(326.0),
+    to: f(333.0),
     el: (
       <Callout x={560} y={250} icon="🧩" color={theme.primary} maxW={780}>
         Crea <b style={{color: theme.primary}}>apps y webs</b> funcionales completas
@@ -300,48 +277,55 @@ const SCENES: Scene[] = [
     ),
   },
 
-  // ---------- PASO 7 · Imágenes ilimitadas ----------
-  {from: f(338.0), to: f(360.8), el: <StepBadge n={7} title="Imágenes ILIMITADAS" accent={theme.ok} />},
+  // ---------- PASO 7 · Imágenes ("generación de imágenes" ~336s) ----------
+  {from: f(334.0), to: f(361.5), el: <StepBadge n={7} title="Imágenes ILIMITADAS" accent={theme.ok} />},
+  // "ya no podemos generar más... pagar el plan premium" ~345-354s
   {
-    from: f(338.5),
-    to: f(349.0),
+    from: f(345.0),
+    to: f(355.0),
     el: <Caption text="ChatGPT te limita… y luego cobra" highlight="cobra" color={theme.warn} />,
   },
+  // "generar imágenes de forma ilimitada completamente gratis" ~356-361s
   {
-    from: f(349.5),
-    to: f(360.8),
+    from: f(356.0),
+    to: f(361.6),
     el: <Caption text="Aquí: ilimitadas y gratis" highlight="ilimitadas y gratis" color={theme.ok} />,
   },
-  // Explicador de proporciones (scene innovadora full-screen)
-  {from: f(361.0), to: f(379.5), fs: true, el: <AspectRatios pick={2} />},
+  // Explicación de proporciones ~369-390s
+  {from: f(369.0), to: f(390.0), fs: true, el: <AspectRatios pick={2} />},
+  // "lo voy a poner 16 9... horizontal" ~387-392s
   {
-    from: f(380.0),
-    to: f(391.8),
+    from: f(387.0),
+    to: f(393.0),
     el: <Pill x={640} y={250} color={theme.accent}>16:9 · horizontal (YouTube)</Pill>,
   },
+  // "más rápida, casi el doble de ChatGPT" ~400-404s
   {
-    from: f(392.2),
+    from: f(400.0),
     to: f(410.0),
     el: <Caption text="Casi el DOBLE de rápido que ChatGPT" highlight="DOBLE" color={theme.secondary} />,
   },
+  // "interpretando que león... el nombre se llama león" ~410-420s
   {
     from: f(411.0),
-    to: f(423.8),
+    to: f(423.0),
     el: (
       <Callout x={560} y={250} icon="🙂" color={theme.secondary} maxW={760}>
         Aquí interpretó «León» como un nombre propio
       </Callout>
     ),
   },
-  {from: f(424.0), to: f(449.8), el: <StepBadge n={7} title="Imágenes ILIMITADAS" accent={theme.ok} />},
+  {from: f(424.0), to: f(461.0), el: <StepBadge n={7} title="Imágenes ILIMITADAS" accent={theme.ok} />},
+  // "gato con gafas bailando en una fiesta... calidad excelente" ~425-443s
   {
-    from: f(424.5),
-    to: f(437.0),
+    from: f(425.0),
+    to: f(438.0),
     el: <Caption text="Gato con gafas en una fiesta… ¡calidad brutal!" highlight="calidad brutal" />,
   },
+  // "podemos descargar, compartirla... de forma ilimitada" ~449-455s
   {
-    from: f(437.5),
-    to: f(449.8),
+    from: f(449.0),
+    to: f(461.0),
     el: (
       <Callout x={560} y={250} icon="⬇️" color={theme.primary} maxW={760}>
         Descarga · comparte · regenera — <b style={{color: theme.ok}}>sin límites</b>
@@ -349,10 +333,10 @@ const SCENES: Scene[] = [
     ),
   },
 
-  // ---------- PASO 8 · Opción "Más" ----------
+  // ---------- PASO 8 · Opción "Más" ("opción de más" ~462-481s) ----------
   {
-    from: f(450.0),
-    to: f(473.8),
+    from: f(462.0),
+    to: f(481.5),
     fs: true,
     el: (
       <FeatureGrid
@@ -372,9 +356,9 @@ const SCENES: Scene[] = [
     ),
   },
 
-  // ---------- CIERRE ----------
+  // ---------- CIERRE ("si quieres aprender más..." ~482-503s) ----------
   {
-    from: f(474.0),
+    from: f(482.0),
     to: f(503.5),
     fs: true,
     el: (
@@ -397,11 +381,9 @@ export const ChatgptEdit: React.FC = () => {
       {SCENES.map((sc, i) => (
         <Sequence key={i} from={sc.from} durationInFrames={Math.max(1, sc.to - sc.from)}>
           {sc.el}
-          {/* Marca de agua solo en overlays (oculta en full-screen) */}
-          {!sc.fs ? null : null}
         </Sequence>
       ))}
-      {/* Watermark global salvo en escenas full-screen */}
+      {/* Marca de agua salvo en escenas full-screen */}
       {SCENES.filter((sc) => !sc.fs).map((sc, i) => (
         <Sequence key={`wm-${i}`} from={sc.from} durationInFrames={Math.max(1, sc.to - sc.from)}>
           <Watermark />
