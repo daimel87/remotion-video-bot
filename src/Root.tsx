@@ -26,10 +26,19 @@ import {TestudoDemo} from './TestudoDemo';
 import {ReviOsEdit} from './revios/ReviOsEdit';
 import {AtomOsEdit} from './atomos/AtomOsEdit';
 import {GhostSpectreEdit} from './ghostspectre/GhostSpectreEdit';
+import {GhostSpectre10Edit} from './ghostspectre10/GhostSpectre10Edit';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="GhostSpectre10Edit"
+        component={GhostSpectre10Edit}
+        durationInFrames={9908}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="GhostSpectreEdit"
         component={GhostSpectreEdit}
