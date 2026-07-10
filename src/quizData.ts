@@ -20,6 +20,17 @@ export const PUZZLES: Puzzle[] = [
   {emojis: ['🦇', '🧍'], answer: 'BATMAN'},
   {emojis: ['❄️', '👑'], answer: 'FROZEN'},
   {emojis: ['🍎', '📱'], answer: 'APPLE'},
+  {emojis: ['🍔', '👑'], answer: 'BURGER KING'},
+  {emojis: ['🐭', '🏰'], answer: 'DISNEYLAND'},
+  {emojis: ['🐢', '🥷'], answer: 'NINJA TURTLE'},
+  {emojis: ['👻', '🚫'], answer: 'GHOSTBUSTERS'},
+  {emojis: ['⭐', '🐟'], answer: 'STARFISH'},
+  {emojis: ['🐺', '🌕'], answer: 'WEREWOLF'},
+  {emojis: ['🌽', '🍿'], answer: 'POPCORN'},
+  {emojis: ['🐝', '🍯'], answer: 'BEEHIVE'},
+  {emojis: ['🌊', '🏄'], answer: 'SURFING'},
+  {emojis: ['🚪', '🔔'], answer: 'DOORBELL'},
+  {emojis: ['🌧️', '🧥'], answer: 'RAINCOAT'},
 ];
 
 export const QUIZ_FPS = 30;
