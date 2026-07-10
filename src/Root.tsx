@@ -28,6 +28,8 @@ import {PoitierScene} from './PoitierScene';
 import {SubCountRace} from './SubCountRace';
 import {DeathsVideo} from './DeathsVideo';
 import {DEATHS, DEATHS_FPS, SECONDS_PER_CARD} from './deathsData';
+import {QuizVideo} from './QuizVideo';
+import {QUIZ_FPS, totalQuizFrames} from './quizData';
 import {TRIBUTE_FPS, totalTributeFrames} from './tributeData';
 
 export const RemotionRoot: React.FC = () => {
@@ -254,6 +256,14 @@ export const RemotionRoot: React.FC = () => {
         component={DeathsVideo}
         durationInFrames={DEATHS.length * Math.round(DEATHS_FPS * SECONDS_PER_CARD)}
         fps={DEATHS_FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="QuizVideo"
+        component={QuizVideo}
+        durationInFrames={totalQuizFrames}
+        fps={QUIZ_FPS}
         width={1920}
         height={1080}
       />
