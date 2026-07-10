@@ -40,7 +40,7 @@ export const QuizRound: React.FC<Puzzle & {index: number}> = ({
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
-  const R = 70 * s;
+  const R = 95 * s;
   const C = 2 * Math.PI * R;
 
   // Pop de la revelación
@@ -64,57 +64,75 @@ export const QuizRound: React.FC<Puzzle & {index: number}> = ({
         flexDirection: 'column',
         alignItems: 'center',
         fontFamily: 'Arial, Helvetica, sans-serif',
+        padding: `${28 * s}px 0`,
       }}
     >
-      {/* Cabecera cinta roja */}
+      {/* Cabecera cinta roja (grande, ancha) */}
       <div
         style={{
-          marginTop: 60 * s,
+          position: 'relative',
           background: RED,
           color: WHITE,
           fontWeight: 900,
-          fontSize: 58 * s,
-          letterSpacing: 2 * s,
-          padding: `${16 * s}px ${54 * s}px`,
-          borderRadius: 14 * s,
-          boxShadow: `0 ${8 * s}px ${24 * s}px rgba(0,0,0,0.35)`,
+          fontSize: 96 * s,
+          letterSpacing: 3 * s,
+          padding: `${22 * s}px ${90 * s}px`,
+          borderRadius: 20 * s,
+          boxShadow: `0 ${10 * s}px ${30 * s}px rgba(0,0,0,0.4)`,
           textTransform: 'uppercase',
         }}
       >
         Guess The Word
+        <span
+          style={{
+            position: 'absolute',
+            top: -22 * s,
+            right: -22 * s,
+            background: GOLD,
+            color: NAVY,
+            fontSize: 40 * s,
+            fontWeight: 900,
+            width: 76 * s,
+            height: 76 * s,
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            border: `${4 * s}px solid ${NAVY}`,
+          }}
+        >
+          {index + 1}
+        </span>
       </div>
 
-      <div style={{fontSize: 34 * s, color: GOLD, fontWeight: 800, marginTop: 26 * s}}>
-        #{index + 1}
-      </div>
-
-      {/* Emojis + signo + */}
+      {/* Emojis + signo + (ocupan el grueso de la pantalla) */}
       <div
         style={{
           flex: 1,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 50 * s,
-          transform: `scale(${0.6 + 0.4 * emojiPop})`,
+          gap: 60 * s,
+          transform: `scale(${0.7 + 0.3 * emojiPop})`,
         }}
       >
         {emojis.map((e, i) => (
-          <div key={i} style={{display: 'flex', alignItems: 'center', gap: 50 * s}}>
+          <div key={i} style={{display: 'flex', alignItems: 'center', gap: 60 * s}}>
             {i > 0 ? (
-              <span style={{fontSize: 120 * s, color: GOLD, fontWeight: 900}}>+</span>
+              <span style={{fontSize: 200 * s, color: GOLD, fontWeight: 900, lineHeight: 1}}>+</span>
             ) : null}
             <div
               style={{
-                width: 260 * s,
-                height: 260 * s,
-                borderRadius: 32 * s,
-                background: 'rgba(255,255,255,0.06)',
-                border: `${3 * s}px solid rgba(255,255,255,0.12)`,
+                width: 480 * s,
+                height: 480 * s,
+                borderRadius: 44 * s,
+                background: 'rgba(255,255,255,0.07)',
+                border: `${4 * s}px solid rgba(255,255,255,0.14)`,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 150 * s,
+                fontSize: 300 * s,
+                lineHeight: 1,
               }}
             >
               {e}
@@ -123,18 +141,18 @@ export const QuizRound: React.FC<Puzzle & {index: number}> = ({
         ))}
       </div>
 
-      {/* Zona inferior: cuenta atrás o respuesta */}
-      <div style={{height: 320 * s, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+      {/* Zona inferior: cuenta atrás o respuesta (grande) */}
+      <div style={{height: 300 * s, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
         {!revealed ? (
-          <div style={{position: 'relative', width: 200 * s, height: 200 * s}}>
-            <svg width={200 * s} height={200 * s} style={{transform: 'rotate(-90deg)'}}>
-              <circle cx={100 * s} cy={100 * s} r={R} stroke="rgba(255,255,255,0.15)" strokeWidth={14 * s} fill="none" />
+          <div style={{position: 'relative', width: 260 * s, height: 260 * s}}>
+            <svg width={260 * s} height={260 * s} style={{transform: 'rotate(-90deg)'}}>
+              <circle cx={130 * s} cy={130 * s} r={R} stroke="rgba(255,255,255,0.15)" strokeWidth={18 * s} fill="none" />
               <circle
-                cx={100 * s}
-                cy={100 * s}
+                cx={130 * s}
+                cy={130 * s}
                 r={R}
                 stroke={GOLD}
-                strokeWidth={14 * s}
+                strokeWidth={18 * s}
                 fill="none"
                 strokeLinecap="round"
                 strokeDasharray={C}
@@ -148,7 +166,7 @@ export const QuizRound: React.FC<Puzzle & {index: number}> = ({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 96 * s,
+                fontSize: 130 * s,
                 fontWeight: 900,
                 color: WHITE,
                 transform: `scale(${tickScale})`,
@@ -164,12 +182,13 @@ export const QuizRound: React.FC<Puzzle & {index: number}> = ({
               background: GOLD,
               color: NAVY,
               fontWeight: 900,
-              fontSize: 92 * s,
-              letterSpacing: 2 * s,
-              padding: `${20 * s}px ${60 * s}px`,
-              borderRadius: 18 * s,
-              boxShadow: `0 ${10 * s}px ${30 * s}px rgba(0,0,0,0.4)`,
+              fontSize: 120 * s,
+              letterSpacing: 3 * s,
+              padding: `${26 * s}px ${80 * s}px`,
+              borderRadius: 22 * s,
+              boxShadow: `0 ${12 * s}px ${36 * s}px rgba(0,0,0,0.45)`,
               textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
             }}
           >
             {answer}
