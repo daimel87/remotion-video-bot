@@ -1,4 +1,4 @@
-import {AbsoluteFill, Img, OffthreadVideo, Sequence, staticFile} from 'remotion';
+import {AbsoluteFill, Img, Loop, OffthreadVideo, staticFile, useCurrentFrame} from 'remotion';
 import {FactText} from './components/FactText';
 
 const FACT =
@@ -6,27 +6,40 @@ const FACT =
 
 const HOOK_FRAMES = 17;
 
+// Calavera + flecha: negro se vuelve transparente vía blend "screen" (chroma key sin
+// procesamiento extra), en loop continuo con un pulso de escala durante todo el video.
+const SkullPulse: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pulse = 1 + 0.08 * Math.sin((frame / 24) * Math.PI * 2);
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: 410,
+        left: 420,
+        width: 170,
+        height: 302,
+        transform: `scale(${pulse})`,
+      }}
+    >
+      <Loop durationInFrames={HOOK_FRAMES}>
+        <OffthreadVideo
+          src={staticFile('skull-arrow-hook.mp4')}
+          muted
+          style={{width: '100%', height: '100%', objectFit: 'cover', mixBlendMode: 'screen'}}
+        />
+      </Loop>
+    </div>
+  );
+};
+
 export const AnimalFactFrog: React.FC = () => {
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
       <OffthreadVideo src={staticFile('frog-fact-test.mp4')} />
 
-      {/* Calavera + flecha: negro se vuelve transparente vía blend "screen" (chroma key sin procesamiento extra) */}
-      <Sequence from={0} durationInFrames={HOOK_FRAMES}>
-        <OffthreadVideo
-          src={staticFile('skull-arrow-hook.mp4')}
-          muted
-          style={{
-            position: 'absolute',
-            top: 460,
-            right: 20,
-            width: 210,
-            height: 373,
-            objectFit: 'cover',
-            mixBlendMode: 'screen',
-          }}
-        />
-      </Sequence>
+      <SkullPulse />
 
       <FactText text={FACT} />
 
