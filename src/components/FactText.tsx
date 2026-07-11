@@ -16,7 +16,7 @@ export const FactText: React.FC<{text: string}> = ({text}) => {
     <div
       style={{
         position: 'absolute',
-        top: 90 * scale,
+        top: 50 * scale,
         left: 36 * scale,
         right: 36 * scale,
         opacity: fadeIn,
@@ -32,7 +32,7 @@ export const FactText: React.FC<{text: string}> = ({text}) => {
         <span
           style={{
             fontFamily: 'Helvetica, Arial, sans-serif',
-            fontSize: 26 * scale,
+            fontSize: 30 * scale,
             lineHeight: 1.35,
             color: '#ffffff',
           }}
