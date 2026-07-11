@@ -25,6 +25,7 @@ import {GacruxFinalEdit} from './GacruxFinalEdit';
 import {TestudoDemo} from './TestudoDemo';
 import {FoxReactionTest} from './FoxReactionTest';
 import {AnimalFactTest} from './AnimalFactTest';
+import {AnimalFactFrog} from './AnimalFactFrog';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -233,6 +234,14 @@ export const RemotionRoot: React.FC = () => {
         id="AnimalFactTest"
         component={AnimalFactTest}
         durationInFrames={192}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactFrog"
+        component={AnimalFactFrog}
+        durationInFrames={209}
         fps={24}
         width={720}
         height={1280}
