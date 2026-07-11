@@ -11,15 +11,16 @@ export const AnimalFactTest: React.FC = () => {
 
       <FactText text={FACT} />
 
-      {/* Reactor en recuadro tipo "cámara de reacción", esquina inferior izquierda */}
+      {/* Reactor en recuadro tipo "cámara de reacción", centrado abajo */}
       <div
         style={{
           position: 'absolute',
-          bottom: 40,
-          left: 24,
-          width: 260,
-          height: 260,
-          borderRadius: 16,
+          bottom: 30,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: 340,
+          height: 340,
+          borderRadius: 20,
           overflow: 'hidden',
           border: '3px solid rgba(255,255,255,0.85)',
           boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
