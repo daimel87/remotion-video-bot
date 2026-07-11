@@ -40,7 +40,7 @@ export const AnimalFactBeetle: React.FC = () => {
     <AbsoluteFill style={{backgroundColor: '#000'}}>
       {/* Fondo difuminado del mismo clip, como el cuarto borroso de Spoody detrás del post */}
       <OffthreadVideo
-        src={staticFile('frog-fact-test.mp4')}
+        src={staticFile('beetle-fact-test.mp4')}
         muted
         style={{
           position: 'absolute',
@@ -74,7 +74,7 @@ export const AnimalFactBeetle: React.FC = () => {
         </div>
 
         <OffthreadVideo
-          src={staticFile('frog-fact-test.mp4')}
+          src={staticFile('beetle-fact-test.mp4')}
           style={{width: '100%', height: 380, objectFit: 'cover', display: 'block'}}
         />
 
@@ -117,11 +117,11 @@ export const AnimalFactBeetle: React.FC = () => {
       <div
         style={{
           position: 'absolute',
-          bottom: 40,
+          bottom: 10,
           left: '50%',
           transform: 'translateX(-50%)',
-          width: 260,
-          height: 260,
+          width: 420,
+          height: 420,
           borderRadius: 20,
           overflow: 'hidden',
           border: '3px solid rgba(255,255,255,0.85)',
