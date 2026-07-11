@@ -9,50 +9,57 @@ const HOOK_FRAMES = 17;
 export const AnimalFactFrog: React.FC = () => {
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
+      <OffthreadVideo src={staticFile('frog-fact-test.mp4')} />
+
+      {/* Calavera + flecha: negro se vuelve transparente vía blend "screen" (chroma key sin procesamiento extra) */}
       <Sequence from={0} durationInFrames={HOOK_FRAMES}>
-        <AbsoluteFill style={{backgroundColor: '#000'}}>
-          <OffthreadVideo src={staticFile('skull-arrow-hook.mp4')} muted />
-        </AbsoluteFill>
+        <OffthreadVideo
+          src={staticFile('skull-arrow-hook.mp4')}
+          muted
+          style={{
+            position: 'absolute',
+            top: 460,
+            right: 20,
+            width: 210,
+            height: 373,
+            objectFit: 'cover',
+            mixBlendMode: 'screen',
+          }}
+        />
       </Sequence>
 
-      <Sequence from={HOOK_FRAMES}>
-        <AbsoluteFill style={{backgroundColor: '#000'}}>
-          <OffthreadVideo src={staticFile('frog-fact-test.mp4')} />
+      <FactText text={FACT} />
 
-          <FactText text={FACT} />
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 30,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: 340,
+          height: 340,
+          borderRadius: 20,
+          overflow: 'hidden',
+          border: '3px solid rgba(255,255,255,0.85)',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
+        }}
+      >
+        <OffthreadVideo
+          src={staticFile('fox-reaction-test.mp4')}
+          muted
+          style={{width: '100%', height: '100%', objectFit: 'cover'}}
+        />
+      </div>
 
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 30,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: 340,
-              height: 340,
-              borderRadius: 20,
-              overflow: 'hidden',
-              border: '3px solid rgba(255,255,255,0.85)',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
-            }}
-          >
-            <OffthreadVideo
-              src={staticFile('fox-reaction-test.mp4')}
-              muted
-              style={{width: '100%', height: '100%', objectFit: 'cover'}}
-            />
-          </div>
-
-          <Img
-            src={staticFile('assets/pngtree-like-button-for-youtube-vector-png-image_16285919.png')}
-            style={{
-              position: 'absolute',
-              bottom: -50,
-              right: -10,
-              width: 190,
-            }}
-          />
-        </AbsoluteFill>
-      </Sequence>
+      <Img
+        src={staticFile('assets/pngtree-like-button-for-youtube-vector-png-image_16285919.png')}
+        style={{
+          position: 'absolute',
+          bottom: -50,
+          right: -10,
+          width: 190,
+        }}
+      />
     </AbsoluteFill>
   );
 };

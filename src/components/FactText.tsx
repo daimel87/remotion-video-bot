@@ -24,7 +24,7 @@ export const FactText: React.FC<{text: string}> = ({text}) => {
     >
       <div
         style={{
-          background: 'rgba(0,0,0,0.55)',
+          background: '#000',
           borderRadius: 20 * scale,
           padding: `${28 * scale}px ${26 * scale}px`,
         }}

@@ -241,7 +241,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="AnimalFactFrog"
         component={AnimalFactFrog}
-        durationInFrames={209}
+        durationInFrames={192}
         fps={24}
         width={720}
         height={1280}
