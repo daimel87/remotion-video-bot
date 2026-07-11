@@ -27,6 +27,7 @@ export const AnimalFactTest: React.FC = () => {
       >
         <OffthreadVideo
           src={staticFile('fox-reaction-test.mp4')}
+          muted
           style={{width: '100%', height: '100%', objectFit: 'cover'}}
         />
       </div>
