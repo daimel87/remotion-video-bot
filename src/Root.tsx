@@ -24,6 +24,7 @@ import {Gacrux5Edit} from './Gacrux5Edit';
 import {GacruxFinalEdit} from './GacruxFinalEdit';
 import {TestudoDemo} from './TestudoDemo';
 import {FoxReactionTest} from './FoxReactionTest';
+import {AnimalFactTest} from './AnimalFactTest';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -223,6 +224,14 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="FoxReactionTest"
         component={FoxReactionTest}
+        durationInFrames={192}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactTest"
+        component={AnimalFactTest}
         durationInFrames={192}
         fps={24}
         width={720}
