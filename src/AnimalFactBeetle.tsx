@@ -6,13 +6,13 @@ const HEADLINE =
 
 const QUOTE = "This is basically nature's version of a **flamethrower**. 🔥🪲";
 
-const renderBold = (text: string) => {
+const renderBold = (text: string, baseWeight = 400, boldWeight = 800) => {
   const parts = text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
   return parts.map((part, i) => {
     const isBold = part.startsWith('**') && part.endsWith('**');
     const content = isBold ? part.slice(2, -2) : part;
     return (
-      <span key={i} style={{fontWeight: isBold ? 800 : 400}}>
+      <span key={i} style={{fontWeight: isBold ? boldWeight : baseWeight}}>
         {content}
       </span>
     );
@@ -67,15 +67,23 @@ export const AnimalFactBeetle: React.FC = () => {
           boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
         }}
       >
-        <div style={{padding: '24px 24px 16px', opacity: headlineOpacity}}>
-          <span style={{fontFamily: 'Helvetica, Arial, sans-serif', fontSize: 23, lineHeight: 1.35, color: '#fff'}}>
-            {renderBold(HEADLINE)}
+        <div style={{padding: '24px 24px 16px', opacity: headlineOpacity, textAlign: 'center'}}>
+          <span
+            style={{
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontSize: 28,
+              lineHeight: 1.3,
+              letterSpacing: '-0.01em',
+              color: '#fff',
+            }}
+          >
+            {renderBold(HEADLINE, 700, 900)}
           </span>
         </div>
 
         <OffthreadVideo
           src={staticFile('beetle-fact-test.mp4')}
-          style={{width: '100%', height: 380, objectFit: 'cover', display: 'block'}}
+          style={{width: '100%', height: 300, objectFit: 'cover', display: 'block'}}
         />
 
         <div style={{height: 1, background: 'rgba(255,255,255,0.15)', margin: '0 24px'}} />
@@ -120,8 +128,8 @@ export const AnimalFactBeetle: React.FC = () => {
           bottom: 10,
           left: '50%',
           transform: 'translateX(-50%)',
-          width: 420,
-          height: 420,
+          width: 380,
+          height: 380,
           borderRadius: 20,
           overflow: 'hidden',
           border: '3px solid rgba(255,255,255,0.85)',
