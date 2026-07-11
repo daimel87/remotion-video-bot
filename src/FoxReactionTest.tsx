@@ -11,9 +11,9 @@ export const FoxReactionTest: React.FC = () => {
         src={staticFile('assets/pngtree-like-button-for-youtube-vector-png-image_16285919.png')}
         style={{
           position: 'absolute',
-          bottom: 24,
-          right: 8,
-          width: 170,
+          bottom: -50,
+          right: -10,
+          width: 190,
         }}
       />
     </AbsoluteFill>
