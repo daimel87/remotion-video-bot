@@ -2,10 +2,9 @@ import {AbsoluteFill, Img, OffthreadVideo, staticFile, useCurrentFrame} from 're
 import {interpolate} from 'remotion';
 
 const HEADLINE =
-  'This beetle can blast **boiling chemicals** at 100°C from its own body — up to **20 times per second**.';
+  'This tiny beetle carries a built-in chemical weapons factory in its abdomen. When threatened, it mixes two internal chemicals that **explode on contact**, blasting a scalding spray at **100°C** — as hot as boiling water. It can fire up to **20 rapid pulses per second**, aimed with pinpoint accuracy at attackers. Scientists have even filmed toads **spitting it back out** unharmed, because the burn happens before they can react.';
 
-const QUOTE =
-  "Predators have been recorded **spitting it back out** unharmed — the reaction fires too fast to stop. 🔥";
+const QUOTE = "This is basically nature's version of a **flamethrower**. 🔥🪲";
 
 const renderBold = (text: string) => {
   const parts = text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
@@ -39,27 +38,45 @@ export const AnimalFactBeetle: React.FC = () => {
 
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
-      <OffthreadVideo src={staticFile('frog-fact-test.mp4')} />
+      {/* Fondo difuminado del mismo clip, como el cuarto borroso de Spoody detrás del post */}
+      <OffthreadVideo
+        src={staticFile('frog-fact-test.mp4')}
+        muted
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          filter: 'blur(50px) brightness(0.4)',
+          transform: 'scale(1.2)',
+        }}
+      />
 
-      {/* Tarjeta estilo "post viral" reposteado: headline + perfil verificado + quote */}
+      {/* Tarjeta estilo "post viral": texto largo -> video principal -> perfil + respuesta */}
       <div
         style={{
           position: 'absolute',
-          top: 48,
-          left: 24,
-          right: 24,
-          borderRadius: 22,
+          top: 44,
+          left: 20,
+          right: 20,
+          borderRadius: 24,
           overflow: 'hidden',
           background: '#000',
           border: '2px solid rgba(255,255,255,0.85)',
           boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
         }}
       >
-        <div style={{padding: '26px 24px 16px', opacity: headlineOpacity}}>
-          <span style={{fontFamily: 'Helvetica, Arial, sans-serif', fontSize: 27, lineHeight: 1.35, color: '#fff'}}>
+        <div style={{padding: '24px 24px 16px', opacity: headlineOpacity}}>
+          <span style={{fontFamily: 'Helvetica, Arial, sans-serif', fontSize: 23, lineHeight: 1.35, color: '#fff'}}>
             {renderBold(HEADLINE)}
           </span>
         </div>
+
+        <OffthreadVideo
+          src={staticFile('frog-fact-test.mp4')}
+          style={{width: '100%', height: 380, objectFit: 'cover', display: 'block'}}
+        />
 
         <div style={{height: 1, background: 'rgba(255,255,255,0.15)', margin: '0 24px'}} />
 
@@ -68,7 +85,7 @@ export const AnimalFactBeetle: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             gap: 12,
-            padding: '16px 24px 10px',
+            padding: '14px 24px 6px',
             opacity: profileOpacity,
           }}
         >
@@ -89,21 +106,22 @@ export const AnimalFactBeetle: React.FC = () => {
           </div>
         </div>
 
-        <div style={{padding: '4px 24px 24px', opacity: quoteOpacity}}>
-          <span style={{fontFamily: 'Helvetica, Arial, sans-serif', fontSize: 21, lineHeight: 1.35, color: 'rgba(255,255,255,0.9)'}}>
+        <div style={{padding: '2px 24px 20px', opacity: quoteOpacity}}>
+          <span style={{fontFamily: 'Helvetica, Arial, sans-serif', fontSize: 19, lineHeight: 1.35, color: 'rgba(255,255,255,0.9)'}}>
             {renderBold(QUOTE)}
           </span>
         </div>
       </div>
 
+      {/* Reactor (zorro), justo debajo del post, como aparece Spoody debajo de su tweet */}
       <div
         style={{
           position: 'absolute',
-          bottom: 30,
+          bottom: 40,
           left: '50%',
           transform: 'translateX(-50%)',
-          width: 340,
-          height: 340,
+          width: 260,
+          height: 260,
           borderRadius: 20,
           overflow: 'hidden',
           border: '3px solid rgba(255,255,255,0.85)',
