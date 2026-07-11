@@ -6,7 +6,7 @@ import {useCurrentFrame, useVideoConfig, interpolate} from 'remotion';
 export const FactText: React.FC<{text: string}> = ({text}) => {
   const frame = useCurrentFrame();
   const {width} = useVideoConfig();
-  const scale = width / 1080;
+  const scale = width / 720;
 
   const fadeIn = interpolate(frame, [0, 10], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
@@ -32,7 +32,7 @@ export const FactText: React.FC<{text: string}> = ({text}) => {
         <span
           style={{
             fontFamily: 'Helvetica, Arial, sans-serif',
-            fontSize: 30 * scale,
+            fontSize: 26 * scale,
             lineHeight: 1.35,
             color: '#ffffff',
           }}
