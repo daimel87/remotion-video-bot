@@ -6,11 +6,13 @@ const TITLE = 'Ranking The Most **Ferocious** Dogs';
 // Puestos 4->1 (countdown). El número siempre visible; el nombre de la raza aparece
 // junto a su número justo cuando ese perro entra en el video (revealFrame, a 30fps).
 // Colores: 4 amarillo, 3 rojo, 2 naranja, 1 verde.
+// revealFrame = momento (a 30fps) en que la narración pronuncia el nombre de la raza,
+// según el transcript: Doberman ~1s, Rottweiler ~14s, G. Shepherd ~26s, Kangal ~40s.
 const RANKS: {n: number; color: string; label: string; revealFrame: number}[] = [
-  {n: 4, color: '#FFD23F', label: 'Doberman', revealFrame: 10}, //   0-12s
-  {n: 3, color: '#FF3B30', label: 'Rottweiler', revealFrame: 360}, // 12-24s
-  {n: 2, color: '#FF8C00', label: 'German Shepherd', revealFrame: 720}, // 24-36s
-  {n: 1, color: '#39E75F', label: 'Kangal', revealFrame: 1080}, // 36-50s
+  {n: 4, color: '#FFD23F', label: 'Doberman', revealFrame: 24}, //       ~1s
+  {n: 3, color: '#FF3B30', label: 'Rottweiler', revealFrame: 414}, //   ~14s
+  {n: 2, color: '#FF8C00', label: 'German Shepherd', revealFrame: 774}, // ~26s
+  {n: 1, color: '#39E75F', label: 'Kangal', revealFrame: 1194}, //      ~40s
 ];
 
 const GREEN = '#39E75F';
