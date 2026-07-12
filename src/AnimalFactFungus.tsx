@@ -83,6 +83,7 @@ export const AnimalFactFungus: React.FC = () => {
 
         <OffthreadVideo
           src={staticFile('fungus-ant-fact-test.mp4')}
+          muted
           style={{width: '100%', height: 300, objectFit: 'cover', display: 'block'}}
         />
 
