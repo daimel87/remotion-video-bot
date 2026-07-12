@@ -27,6 +27,7 @@ import {FoxReactionTest} from './FoxReactionTest';
 import {AnimalFactTest} from './AnimalFactTest';
 import {AnimalFactFrog} from './AnimalFactFrog';
 import {AnimalFactBeetle} from './AnimalFactBeetle';
+import {ChannelBanner} from './ChannelBanner';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -254,6 +255,14 @@ export const RemotionRoot: React.FC = () => {
         fps={24}
         width={720}
         height={1280}
+      />
+      <Composition
+        id="ChannelBanner"
+        component={ChannelBanner}
+        durationInFrames={1}
+        fps={1}
+        width={2560}
+        height={1440}
       />
     </>
   );
