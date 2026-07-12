@@ -3,14 +3,14 @@ import {AbsoluteFill, OffthreadVideo, staticFile, useCurrentFrame, interpolate} 
 // Título: usa **texto** para marcar las palabras en verde (como "Helium Voices" en la referencia).
 const TITLE = 'Ranking The Most **Ferocious** Dogs';
 
-// Columna de puestos 1-5. color = color del número; label = texto corto opcional junto al número.
-// Colores tomados de la referencia: 1 amarillo, 2 gris, 3 rojo, 4 amarillo, 5 amarillo.
-const RANKS: {n: number; color: string; label: string}[] = [
-  {n: 1, color: '#FFD23F', label: ''},
-  {n: 2, color: '#C7C7C7', label: ''},
-  {n: 3, color: '#FF3B30', label: ''},
-  {n: 4, color: '#FFD23F', label: ''},
-  {n: 5, color: '#FFD23F', label: ''},
+// Puestos 4->1 (countdown). El número siempre visible; el nombre de la raza aparece
+// junto a su número justo cuando ese perro entra en el video (revealFrame, a 30fps).
+// Colores: 4 amarillo, 3 rojo, 2 naranja, 1 verde.
+const RANKS: {n: number; color: string; label: string; revealFrame: number}[] = [
+  {n: 4, color: '#FFD23F', label: 'Doberman', revealFrame: 10}, //   0-12s
+  {n: 3, color: '#FF3B30', label: 'Rottweiler', revealFrame: 360}, // 12-24s
+  {n: 2, color: '#FF8C00', label: 'German Shepherd', revealFrame: 720}, // 24-36s
+  {n: 1, color: '#39E75F', label: 'Kangal', revealFrame: 1080}, // 36-50s
 ];
 
 const GREEN = '#39E75F';
@@ -36,7 +36,7 @@ export const RankingDogs: React.FC = () => {
     <AbsoluteFill style={{backgroundColor: '#000'}}>
       {/* Video de fondo llenando todo el encuadre, como en la referencia */}
       <OffthreadVideo
-        src={staticFile('beetle-fact-test.mp4')}
+        src={staticFile('ferocious-dogs.mp4')}
         style={{position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover'}}
       />
 
@@ -81,14 +81,14 @@ export const RankingDogs: React.FC = () => {
         Watch until the end
       </div>
 
-      {/* Columna de números 1-5 a la izquierda, con reveal escalonado */}
+      {/* Columna de números 4->1 a la izquierda. Número siempre visible; el nombre
+          de la raza se revela cuando ese perro entra en el video. */}
       {RANKS.map((r, i) => {
-        const appearAt = i * 6;
-        const opacity = interpolate(frame, [appearAt, appearAt + 8], [0, 1], {
+        const labelOpacity = interpolate(frame, [r.revealFrame, r.revealFrame + 10], [0, 1], {
           extrapolateLeft: 'clamp',
           extrapolateRight: 'clamp',
         });
-        const top = 300 + i * 95;
+        const top = 330 + i * 115;
         return (
           <div
             key={r.n}
@@ -99,14 +99,13 @@ export const RankingDogs: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               gap: 16,
-              opacity,
             }}
           >
             <span
               style={{
                 fontFamily: '"Arial Black", Helvetica, Arial, sans-serif',
                 fontWeight: 900,
-                fontSize: 60,
+                fontSize: 64,
                 color: r.color,
                 WebkitTextStroke: '3px ' + STROKE,
                 paintOrder: 'stroke fill',
@@ -115,21 +114,20 @@ export const RankingDogs: React.FC = () => {
             >
               {r.n}.
             </span>
-            {r.label ? (
-              <span
-                style={{
-                  fontFamily: '"Arial Black", Helvetica, Arial, sans-serif',
-                  fontWeight: 800,
-                  fontSize: 26,
-                  color: '#fff',
-                  WebkitTextStroke: '2px ' + STROKE,
-                  paintOrder: 'stroke fill',
-                  textShadow: '0 2px 6px rgba(0,0,0,0.7)',
-                }}
-              >
-                {r.label}
-              </span>
-            ) : null}
+            <span
+              style={{
+                fontFamily: '"Arial Black", Helvetica, Arial, sans-serif',
+                fontWeight: 800,
+                fontSize: 30,
+                color: '#fff',
+                WebkitTextStroke: '2px ' + STROKE,
+                paintOrder: 'stroke fill',
+                textShadow: '0 2px 6px rgba(0,0,0,0.7)',
+                opacity: labelOpacity,
+              }}
+            >
+              {r.label}
+            </span>
           </div>
         );
       })}

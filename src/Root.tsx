@@ -278,8 +278,8 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="RankingDogs"
         component={RankingDogs}
-        durationInFrames={192}
-        fps={24}
+        durationInFrames={1492}
+        fps={30}
         width={720}
         height={1280}
       />
