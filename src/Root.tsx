@@ -27,6 +27,7 @@ import {FoxReactionTest} from './FoxReactionTest';
 import {AnimalFactTest} from './AnimalFactTest';
 import {AnimalFactFrog} from './AnimalFactFrog';
 import {AnimalFactBeetle} from './AnimalFactBeetle';
+import {AnimalFactFungus} from './AnimalFactFungus';
 import {ChannelBanner} from './ChannelBanner';
 
 export const RemotionRoot: React.FC = () => {
@@ -251,6 +252,14 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="AnimalFactBeetle"
         component={AnimalFactBeetle}
+        durationInFrames={192}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactFungus"
+        component={AnimalFactFungus}
         durationInFrames={192}
         fps={24}
         width={720}
