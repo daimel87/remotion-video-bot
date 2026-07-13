@@ -16,9 +16,12 @@ import {fileURLToPath} from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 
-const PEXELS_KEY = process.env.PEXELS_KEY;
+// La clave se puede pasar como argumento:  node scripts/download-pexels.mjs TU_CLAVE
+// o como variable de entorno PEXELS_KEY.
+const PEXELS_KEY = process.argv[2] || process.env.PEXELS_KEY;
 if (!PEXELS_KEY) {
-  console.error('Falta la variable de entorno PEXELS_KEY');
+  console.error('Falta la clave de Pexels.');
+  console.error('Uso:  node scripts/download-pexels.mjs TU_CLAVE_DE_PEXELS');
   process.exit(1);
 }
 
