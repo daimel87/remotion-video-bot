@@ -30,6 +30,7 @@ import {AnimalFactBeetle} from './AnimalFactBeetle';
 import {AnimalFactFungus} from './AnimalFactFungus';
 import {AnimalFactOctopus} from './AnimalFactOctopus';
 import {AnimalFactHamster} from './AnimalFactHamster';
+import {AnimalFactCat} from './AnimalFactCat';
 import {RankingDogs} from './RankingDogs';
 import {ChannelBanner} from './ChannelBanner';
 
@@ -280,6 +281,14 @@ export const RemotionRoot: React.FC = () => {
         id="AnimalFactHamster"
         component={AnimalFactHamster}
         durationInFrames={132}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactCat"
+        component={AnimalFactCat}
+        durationInFrames={192}
         fps={24}
         width={720}
         height={1280}
