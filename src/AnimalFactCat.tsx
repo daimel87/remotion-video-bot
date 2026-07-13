@@ -62,17 +62,12 @@ export const AnimalFactCat: React.FC = () => {
   const wiggle = frame > ARROW_START + 10 ? Math.sin((frame - ARROW_START - 10) * 0.5) * 14 : 0;
   const arrowX = slideIn + wiggle;
 
-  // CTA de suscripción en los últimos 2s (a 24fps, 192 frames totales).
-  const CTA_START = 144;
-  const ctaOpacity = interpolate(frame, [CTA_START, CTA_START + 8], [0, 1], {
+  // Botón de suscripción en la franja de separación (visible todo el video).
+  const ctaOpacity = interpolate(frame, [18, 28], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
-  const ctaRise = interpolate(frame, [CTA_START, CTA_START + 10], [40, 0], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  });
-  const ctaPulse = 1 + Math.sin(frame * 0.35) * 0.04;
+  const ctaPulse = 1 + Math.sin(frame * 0.22) * 0.035;
 
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
@@ -174,15 +169,15 @@ export const AnimalFactCat: React.FC = () => {
         </div>
       </div>
 
-      {/* Reactor (zorro) a todo lo ancho abajo, estilo Spoody. 16:9 -> se verá
-          perfecto cuando el clip del zorro sea horizontal. */}
+      {/* Reactor (zorro) subido: ocupa casi toda la mitad inferior, a todo lo
+          ancho, estilo Spoody. */}
       <div
         style={{
           position: 'absolute',
           bottom: 0,
           left: 0,
           width: 720,
-          height: 405,
+          height: 500,
           overflow: 'hidden',
           borderTop: '3px solid rgba(255,255,255,0.85)',
         }}
@@ -194,22 +189,22 @@ export const AnimalFactCat: React.FC = () => {
         />
       </div>
 
-      {/* CTA de suscripción, últimos 2s */}
+      {/* Botón de suscripción en la franja de separación (arriba del zorro) */}
       <div
         style={{
           position: 'absolute',
-          bottom: 300,
+          top: 690,
           left: '50%',
-          transform: `translateX(-50%) translateY(${ctaRise}px) scale(${ctaPulse})`,
+          transform: `translateX(-50%) scale(${ctaPulse})`,
           opacity: ctaOpacity,
           display: 'flex',
           alignItems: 'center',
-          gap: 12,
-          padding: '14px 26px',
+          gap: 10,
+          padding: '12px 28px',
           borderRadius: 40,
           background: '#FF0000',
           border: '3px solid #fff',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
+          boxShadow: '0 6px 20px rgba(0,0,0,0.6)',
           whiteSpace: 'nowrap',
         }}
       >
@@ -219,33 +214,10 @@ export const AnimalFactCat: React.FC = () => {
             fontWeight: 900,
             fontSize: 26,
             color: '#fff',
-            letterSpacing: '0.01em',
+            letterSpacing: '0.02em',
           }}
         >
-          SUBSCRIBE 🦊
-        </span>
-      </div>
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 262,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          opacity: ctaOpacity,
-        }}
-      >
-        <span
-          style={{
-            fontFamily: '"Arial Black", Helvetica, Arial, sans-serif',
-            fontWeight: 900,
-            fontSize: 18,
-            color: '#fff',
-            WebkitTextStroke: '2px #000',
-            paintOrder: 'stroke fill',
-            textShadow: '0 2px 6px rgba(0,0,0,0.7)',
-          }}
-        >
-          for daily animal facts
+          🔔 SUBSCRIBE 🦊
         </span>
       </div>
 
