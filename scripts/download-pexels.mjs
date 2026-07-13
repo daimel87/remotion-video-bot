@@ -128,11 +128,6 @@ fs.mkdirSync(VIDEOS_DIR, {recursive: true});
 
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-// GitHub rechaza archivos de más de 100 MB. Dejamos margen.
-const MAX_VIDEO_MB = 95;
-const MAX_VIDEO_BYTES = MAX_VIDEO_MB * 1024 * 1024;
-const MAX_VIDEO_SECONDS = 30; // clips más largos suelen pesar demasiado
-
 async function api(url) {
   const res = await fetch(url, {headers: {Authorization: PEXELS_KEY}});
   if (!res.ok) {
@@ -202,32 +197,23 @@ async function fetchVideos() {
     }
     console.log(`\n🎬  Videos: "${q}"`);
     try {
-      // pedimos algunos de más para tener repuestos si alguno es muy pesado o largo
       const data = await api(
         `https://api.pexels.com/videos/search?query=${encodeURIComponent(q)}` +
-        `&per_page=${perQuery + 4}&orientation=${orientation}`
+        `&per_page=${perQuery}&orientation=${orientation}`
       );
-      let kept = 0;
+      let i = 0;
       for (const video of data.videos ?? []) {
-        if (kept >= perQuery) break;
-        // salta clips largos: suelen pesar >100 MB y GitHub los rechaza
-        if ((video.duration ?? 0) > MAX_VIDEO_SECONDS) continue;
         // elige el mp4 más liviano que sea al menos Full HD (evita 4K gigantes)
         const files = (video.video_files ?? [])
           .filter((f) => f.file_type === 'video/mp4')
           .sort((a, b) => (a.width ?? 0) - (b.width ?? 0));
         const chosen = files.find((f) => (f.width ?? 0) >= minWidth) || files[files.length - 1];
         if (!chosen) continue;
-        const dest = path.join(VIDEOS_DIR, `${slug(q)}-${kept + 1}.mp4`);
-        if (fs.existsSync(dest)) {kept++; continue;}
+        i++;
+        const dest = path.join(VIDEOS_DIR, `${slug(q)}-${i}.mp4`);
+        if (fs.existsSync(dest)) {continue;}
         try {
           const bytes = await download(chosen.link, dest);
-          if (bytes > MAX_VIDEO_BYTES) {
-            fs.unlinkSync(dest);
-            console.log(`   ⚠  ${path.basename(dest)} pesaba ${(bytes / 1024 / 1024).toFixed(0)} MB (>${MAX_VIDEO_MB} MB) — descartado`);
-            continue; // probamos el siguiente candidato sin ocupar el número
-          }
-          kept++;
           console.log(`   ✓ ${path.basename(dest)} (${(bytes / 1024 / 1024).toFixed(1)} MB, ${chosen.width}x${chosen.height}) — video por ${video.user.name}`);
           credits.push(`${path.basename(dest)}: video por ${video.user.name} (${video.url})`);
         } catch (e) {
