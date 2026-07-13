@@ -144,23 +144,44 @@ async function download(url, dest) {
   return buf.length;
 }
 
+// ¿Ya están todos los archivos esperados de esta búsqueda? (para poder reanudar)
+function queryComplete(dir, q, perQuery, ext) {
+  for (let i = 1; i <= perQuery; i++) {
+    if (!fs.existsSync(path.join(dir, `${slug(q)}-${i}.${ext}`))) return false;
+  }
+  return true;
+}
+
 async function fetchPhotos() {
   const {queries, perQuery, orientation, minWidth} = CONFIG.photos;
   const credits = [];
   for (const q of queries) {
+    if (queryComplete(PHOTOS_DIR, q, perQuery, 'jpg')) {
+      console.log(`\n📷  Fotos: "${q}"  ⏭  (ya descargadas, se omiten)`);
+      continue;
+    }
     console.log(`\n📷  Fotos: "${q}"`);
-    const data = await api(
-      `https://api.pexels.com/v1/search?query=${encodeURIComponent(q)}` +
-      `&per_page=${perQuery}&orientation=${orientation}`
-    );
-    let i = 0;
-    for (const photo of data.photos ?? []) {
-      if (photo.width < minWidth) continue;
-      i++;
-      const dest = path.join(PHOTOS_DIR, `${slug(q)}-${i}.jpg`);
-      const bytes = await download(photo.src.large2x || photo.src.original, dest);
-      console.log(`   ✓ ${path.basename(dest)} (${(bytes / 1024).toFixed(0)} KB) — foto por ${photo.photographer}`);
-      credits.push(`${path.basename(dest)}: foto por ${photo.photographer} (${photo.url})`);
+    try {
+      const data = await api(
+        `https://api.pexels.com/v1/search?query=${encodeURIComponent(q)}` +
+        `&per_page=${perQuery}&orientation=${orientation}`
+      );
+      let i = 0;
+      for (const photo of data.photos ?? []) {
+        if (photo.width < minWidth) continue;
+        i++;
+        const dest = path.join(PHOTOS_DIR, `${slug(q)}-${i}.jpg`);
+        if (fs.existsSync(dest)) {continue;}
+        try {
+          const bytes = await download(photo.src.large2x || photo.src.original, dest);
+          console.log(`   ✓ ${path.basename(dest)} (${(bytes / 1024).toFixed(0)} KB) — foto por ${photo.photographer}`);
+          credits.push(`${path.basename(dest)}: foto por ${photo.photographer} (${photo.url})`);
+        } catch (e) {
+          console.log(`   ✗ Falló ${path.basename(dest)}: ${e.message} (se continúa)`);
+        }
+      }
+    } catch (e) {
+      console.log(`   ✗ Falló la búsqueda "${q}": ${e.message} (se continúa)`);
     }
   }
   return credits;
@@ -170,24 +191,37 @@ async function fetchVideos() {
   const {queries, perQuery, orientation, minWidth} = CONFIG.videos;
   const credits = [];
   for (const q of queries) {
+    if (queryComplete(VIDEOS_DIR, q, perQuery, 'mp4')) {
+      console.log(`\n🎬  Videos: "${q}"  ⏭  (ya descargados, se omiten)`);
+      continue;
+    }
     console.log(`\n🎬  Videos: "${q}"`);
-    const data = await api(
-      `https://api.pexels.com/videos/search?query=${encodeURIComponent(q)}` +
-      `&per_page=${perQuery}&orientation=${orientation}`
-    );
-    let i = 0;
-    for (const video of data.videos ?? []) {
-      // elige el mp4 más liviano que sea al menos Full HD (evita 4K gigantes)
-      const files = (video.video_files ?? [])
-        .filter((f) => f.file_type === 'video/mp4')
-        .sort((a, b) => (a.width ?? 0) - (b.width ?? 0));
-      const chosen = files.find((f) => (f.width ?? 0) >= minWidth) || files[files.length - 1];
-      if (!chosen) continue;
-      i++;
-      const dest = path.join(VIDEOS_DIR, `${slug(q)}-${i}.mp4`);
-      const bytes = await download(chosen.link, dest);
-      console.log(`   ✓ ${path.basename(dest)} (${(bytes / 1024 / 1024).toFixed(1)} MB, ${chosen.width}x${chosen.height}) — video por ${video.user.name}`);
-      credits.push(`${path.basename(dest)}: video por ${video.user.name} (${video.url})`);
+    try {
+      const data = await api(
+        `https://api.pexels.com/videos/search?query=${encodeURIComponent(q)}` +
+        `&per_page=${perQuery}&orientation=${orientation}`
+      );
+      let i = 0;
+      for (const video of data.videos ?? []) {
+        // elige el mp4 más liviano que sea al menos Full HD (evita 4K gigantes)
+        const files = (video.video_files ?? [])
+          .filter((f) => f.file_type === 'video/mp4')
+          .sort((a, b) => (a.width ?? 0) - (b.width ?? 0));
+        const chosen = files.find((f) => (f.width ?? 0) >= minWidth) || files[files.length - 1];
+        if (!chosen) continue;
+        i++;
+        const dest = path.join(VIDEOS_DIR, `${slug(q)}-${i}.mp4`);
+        if (fs.existsSync(dest)) {continue;}
+        try {
+          const bytes = await download(chosen.link, dest);
+          console.log(`   ✓ ${path.basename(dest)} (${(bytes / 1024 / 1024).toFixed(1)} MB, ${chosen.width}x${chosen.height}) — video por ${video.user.name}`);
+          credits.push(`${path.basename(dest)}: video por ${video.user.name} (${video.url})`);
+        } catch (e) {
+          console.log(`   ✗ Falló ${path.basename(dest)}: ${e.message} (se continúa)`);
+        }
+      }
+    } catch (e) {
+      console.log(`   ✗ Falló la búsqueda "${q}": ${e.message} (se continúa)`);
     }
   }
   return credits;
