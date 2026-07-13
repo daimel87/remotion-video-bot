@@ -188,7 +188,7 @@ export const AnimalFactCat: React.FC = () => {
         }}
       >
         <OffthreadVideo
-          src={staticFile('fox-reaction-test.mp4')}
+          src={staticFile('fox-reactor-16x9.mp4')}
           muted
           style={{width: '100%', height: '100%', objectFit: 'cover'}}
         />
