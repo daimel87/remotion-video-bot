@@ -263,20 +263,41 @@ const SubscribeCard: React.FC = () => {
 	);
 };
 
-// Emphasis captions — short: appear as the line is said, gone once the idea lands.
+// Emphasis captions — short key phrases synced to the Buzz transcript (25fps).
+// Placed for steady pacing (one every ~10s, incl. over b-rolls) so a 60+
+// viewer on mobile always has a visual anchor. Never over a full-screen graphic.
 const CAPTIONS: {from: number; to: number; text: string}[] = [
-	{from: 505, to: 590, text: 'No es una cura milagrosa'},
-	{from: 1300, to: 1420, text: 'Reduce la inflamación alrededor del nervio'},
-	{from: 2480, to: 2600, text: 'Menos ardor y menos dolor punzante'},
-	{from: 2840, to: 2960, text: 'La mielina protege el nervio, como el forro de un cable'},
-	{from: 3340, to: 3450, text: 'Mejora la circulación que nutre el nervio'},
-	{from: 3880, to: 4000, text: 'El BDNF ayuda a reparar las fibras dañadas'},
-	{from: 5620, to: 5760, text: '⚠️ Consulte a su médico si toma anticoagulantes'},
-	{from: 6260, to: 6400, text: 'Como alimento diario, es segura para la mayoría'},
-	{from: 6600, to: 6720, text: '½ cucharadita al día, con pimienta negra'},
-	{from: 6930, to: 7060, text: 'Salmón, almendras, espinaca y aguacate'},
-	{from: 7240, to: 7370, text: '💬 ¿Siente hormigueo en los pies? Cuéntenos'},
-	{from: 7700, to: 7830, text: 'Suscríbase para más consejos de salud'},
+	{from: 120, to: 280, text: '¿Hormigueo o ardor en los pies?'},
+	{from: 300, to: 470, text: 'Un alimento que protege sus nervios'},
+	{from: 510, to: 690, text: 'No es una cura milagrosa'},
+	{from: 760, to: 900, text: 'Cuando los nervios se dañan…'},
+	{from: 960, to: 1110, text: 'Inflamación y falta de vitaminas B'},
+	{from: 1160, to: 1270, text: 'Aquí entra la curcumina'},
+	{from: 1300, to: 1420, text: 'Respaldada por estudios de neurociencia'},
+	{from: 1450, to: 1560, text: 'Reduce la inflamación del nervio'},
+	{from: 1580, to: 1730, text: 'Estimula el BDNF, que regenera el nervio'},
+	{from: 1880, to: 2050, text: 'Le da al nervio un ambiente para sanar'},
+	{from: 2260, to: 2420, text: 'Mejora la velocidad del nervio'},
+	{from: 2510, to: 2640, text: 'Menos ardor y menos dolor'},
+	{from: 2800, to: 2960, text: 'La mielina protege el nervio, como un cable'},
+	{from: 3010, to: 3120, text: 'La curcumina frena el desgaste'},
+	{from: 3310, to: 3450, text: 'El daño viene de la mala circulación'},
+	{from: 3470, to: 3620, text: 'Nutre los vasos que alimentan el nervio'},
+	{from: 3860, to: 3970, text: 'El BDNF es el “abono” del nervio'},
+	{from: 4110, to: 4240, text: 'Repara las fibras con el tiempo'},
+	{from: 4490, to: 4620, text: 'La curcumina no trabaja sola'},
+	{from: 5470, to: 5590, text: 'La protagonista, mejor acompañada'},
+	{from: 5620, to: 5770, text: '⚠️ Cuidado con anticoagulantes'},
+	{from: 5790, to: 5960, text: 'Y con medicinas de presión o diabetes'},
+	{from: 5990, to: 6090, text: 'No con cálculos en la vesícula'},
+	{from: 6120, to: 6240, text: 'Consulte con su médico'},
+	{from: 6360, to: 6480, text: 'Como alimento diario, es segura'},
+	{from: 6610, to: 6740, text: '½ cucharadita al día + pimienta negra'},
+	{from: 6940, to: 7070, text: 'Salmón, almendras, espinaca y aguacate'},
+	{from: 7090, to: 7210, text: 'Un apoyo, no un sustituto'},
+	{from: 7240, to: 7380, text: '💬 ¿Siente hormigueo? Cuéntenos'},
+	{from: 7540, to: 7680, text: 'Comparta con quien lo necesite'},
+	{from: 7710, to: 7840, text: 'Suscríbase al canal'},
 ];
 
 export const NeuropatiaEdit: React.FC = () => {
