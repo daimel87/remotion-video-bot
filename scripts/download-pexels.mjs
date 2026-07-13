@@ -25,35 +25,96 @@ if (!PEXELS_KEY) {
   process.exit(1);
 }
 
-// ---- CONFIGURACIÓN: edita las búsquedas para tu video del CD ----
+// ---- CONFIGURACIÓN: búsquedas mapeadas al guion "por qué desapareció el CD" ----
 const CONFIG = {
   photos: {
     queries: [
+      // --- El CD ---
       'compact disc',
-      'cd disc',
-      'vinyl record',
+      'cd disc macro',
+      'stack of cds',
+      'cd player vintage',
+      'broken cd',
+      'cd bargain bin',
+      // --- Casete / Walkman ---
       'cassette tape',
+      'audio cassette player',
       'walkman',
-      'music store',
-      'headphones vintage',
-      'stereo system',
-      'streaming music phone',
-      'retro technology',
+      'dual cassette deck',
+      // --- Vinilo ---
+      'vinyl record',
+      'vinyl record player',
+      'turntable',
+      'vinyl collection',
+      'record store',
+      // --- Audio / estudio ---
+      'headphones',
+      'hifi stereo system',
+      'recording studio',
+      'audio mixing console',
+      'reel to reel tape',
+      'orchestra classical music',
+      // --- Industria / dinero / archivos ---
+      'warehouse archive',
+      'financial growth chart',
+      'declining graph',
+      'stock market screen',
+      'cash money',
+      'coins',
+      // --- Tecnología / internet 90s ---
+      'old computer',
+      'dial up modem',
+      'retro computer 1990s',
+      'computer code programming',
+      'college student laptop',
+      'university library',
+      // --- Reproductores portátiles ---
+      'mp3 player',
+      'ipod',
+      'smartphone music',
+      'music streaming app',
+      // --- Legal / escándalo ---
+      'courtroom',
+      'judge gavel',
+      'legal documents',
+      'computer virus code',
+      'cybersecurity hacker',
+      // --- Cultura / tiendas ---
+      'rock drummer',
+      'concert crowd',
+      'closed store',
+      'empty retail store',
+      'thrift store',
+      'tokyo neon night',
+      'subscribe social media',
     ],
-    perQuery: 5,        // cuántas fotos por búsqueda
+    perQuery: 4,        // cuántas fotos por búsqueda
     orientation: 'landscape', // landscape | portrait | square
     minWidth: 1920,     // filtra fotos con ancho suficiente para 1080p
   },
   videos: {
     queries: [
-      'compact disc',
-      'vinyl record player',
-      'cassette tape',
+      'compact disc spinning',
+      'cd player laser',
+      'cassette tape playing',
+      'vinyl record player spinning',
+      'turntable closeup',
       'headphones music',
-      'music streaming',
-      'retro technology',
+      'recording studio',
+      'typing code computer',
+      'old computer screen',
+      'downloading progress bar',
+      'smartphone scrolling music',
+      'music streaming phone',
+      'courtroom',
+      'concert crowd',
+      'stock market chart',
+      'record store browsing',
+      'hacker typing',
+      'city street people walking',
+      'ocean waves',
     ],
-    perQuery: 3,        // cuántos videos por búsqueda
+    perQuery: 2,        // cuántos videos por búsqueda
     orientation: 'landscape',
     minWidth: 1920,
   },
@@ -116,11 +177,11 @@ async function fetchVideos() {
     );
     let i = 0;
     for (const video of data.videos ?? []) {
-      // elige el mejor archivo mp4 con ancho >= minWidth (o el más grande disponible)
+      // elige el mp4 más liviano que sea al menos Full HD (evita 4K gigantes)
       const files = (video.video_files ?? [])
         .filter((f) => f.file_type === 'video/mp4')
-        .sort((a, b) => (b.width ?? 0) - (a.width ?? 0));
-      const chosen = files.find((f) => (f.width ?? 0) >= minWidth) || files[0];
+        .sort((a, b) => (a.width ?? 0) - (b.width ?? 0));
+      const chosen = files.find((f) => (f.width ?? 0) >= minWidth) || files[files.length - 1];
       if (!chosen) continue;
       i++;
       const dest = path.join(VIDEOS_DIR, `${slug(q)}-${i}.mp4`);
