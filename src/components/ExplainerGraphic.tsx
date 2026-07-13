@@ -17,10 +17,10 @@ const Pill: React.FC<{children: React.ReactNode; delay: number}> = ({children, d
         border: '1px solid rgba(91, 140, 255, 0.7)',
         boxShadow: '0 0 22px rgba(91, 140, 255, 0.5)',
         borderRadius: 999,
-        padding: '18px 40px',
+        padding: '22px 48px',
         fontFamily: 'Helvetica, Arial, sans-serif',
         fontWeight: 800,
-        fontSize: 32,
+        fontSize: 46,
         color: '#ffffff',
         whiteSpace: 'nowrap',
       }}
@@ -106,11 +106,12 @@ export const ExplainerGraphic: React.FC<{
             opacity: captionEnter,
             transform: `translateY(${interpolate(captionEnter, [0, 1], [20, 0])}px)`,
             fontFamily: 'Helvetica, Arial, sans-serif',
-            fontWeight: 500,
-            fontSize: 28,
-            color: '#9be1ff',
+            fontWeight: 600,
+            fontSize: 42,
+            color: '#c9e8ff',
             textAlign: 'center',
-            maxWidth: 900,
+            maxWidth: 1250,
+            lineHeight: 1.35,
           }}
         >
           {caption}

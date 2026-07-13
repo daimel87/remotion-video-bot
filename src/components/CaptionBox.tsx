@@ -20,7 +20,7 @@ export const CaptionBox: React.FC<{text: string}> = ({text}) => {
         style={{
           opacity,
           transform: `translateY(${translateY}px)`,
-          maxWidth: 1080 * scale,
+          maxWidth: 1180 * scale,
           display: 'flex',
           alignItems: 'center',
           background: 'rgba(8, 16, 40, 0.82)',
@@ -44,7 +44,7 @@ export const CaptionBox: React.FC<{text: string}> = ({text}) => {
           style={{
             fontFamily: 'Helvetica, Arial, sans-serif',
             fontWeight: 700,
-            fontSize: 30 * scale,
+            fontSize: 38 * scale,
             color: '#ffffff',
             lineHeight: 1.3,
           }}

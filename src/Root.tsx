@@ -78,6 +78,7 @@ import {RiesgoStat} from './video_errores/RiesgoStat';
 import {EscalerasStat} from './video_errores/EscalerasStat';
 import {CaidasStat} from './video_errores/CaidasStat';
 import {OmsStat} from './video_errores/OmsStat';
+import {NeuropatiaEdit} from './NeuropatiaEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -702,6 +703,14 @@ export const RemotionRoot: React.FC = () => {
         id="OmsStat"
         component={OmsStat}
         durationInFrames={500}
+        fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="NeuropatiaEdit"
+        component={NeuropatiaEdit}
+        durationInFrames={8364}
         fps={25}
         width={1920}
         height={1080}
