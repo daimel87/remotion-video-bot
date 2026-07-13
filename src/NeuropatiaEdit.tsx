@@ -2,112 +2,142 @@ import {
 	AbsoluteFill,
 	OffthreadVideo,
 	Sequence,
+	Loop,
 	staticFile,
 	useCurrentFrame,
 	useVideoConfig,
 	interpolate,
 	spring,
 } from 'remotion';
-import {theme, EASE_OUT, EASE_IN, shadow} from './video_errores/theme';
+import {theme, EASE_OUT, EASE_IN, EASE_IN_OUT, shadow} from './video_errores/theme';
 import {CaptionBox} from './components/CaptionBox';
 
 // ============================================================
 // NeuropatiaEdit — 25fps, 8364 frames (334.56s)
 //
-// The SOURCE clip (prueba_neuropatia.mp4) already contains its OWN
-// baked-in b-roll (turmeric powder/root, pills, spoon, the glowing
-// knee/nerve, the opening foot massage) plus a weak "DA CLIC" outro.
-// We RESPECT those b-rolls: full-screen Remotion graphics are placed
-// ONLY over clean talking-head windows, never over the source b-roll.
+// Two video sources:
+//   • prueba_neuropatia.mp4  → BASE (full-screen). Talking head synced to
+//     the voice + the client's own baked-in b-rolls (turmeric, pills,
+//     spoon, knee/nerve). This track also carries the AUDIO (the voice).
+//   • doctora_circulo.mp4    → clean talking-head loop, MUTED. Shown in a
+//     corner CIRCLE over every b-roll and every full-screen graphic, so the
+//     doctor stays present even when the base cuts to a b-roll.
 //
-// Source b-roll segments (seconds), do NOT cover with graphics:
-//   0.0–3.2 foot massage | 29.7–38 knee/nerve | 51.3–70.5 turmeric
-//   120.7–126.6 turmeric | 138.2–147 root | 163–171 spoon
-//   214–239 turmeric | 245–253 pills | 262–269 spoon | 322.8–end outro
-//
-// Emphasis captions may sit over talking-head OR over a source b-roll
-// (when the line matters), but NEVER over a full-screen graphic.
+// Circle appears (smooth ease) over b-rolls + graphics, and retracts to
+// full-screen talking head landing on the next phrase. Emphasis captions
+// are short (leave as soon as the idea is said) and never sit over a graphic.
 // ============================================================
 
-// ---- Full-screen graphic windows (all on clean talking-head) ----
-const G_BEN1: [number, number] = [2100, 2225];
+const TRANS = 20;
+
+// ---- Full-screen graphic windows (start right after any preceding b-roll) ----
+const G_BEN1: [number, number] = [2100, 2200];
 const G_BEN2: [number, number] = [2650, 2775];
-const G_BEN3: [number, number] = [3175, 3300];
-const G_BEN4: [number, number] = [3688, 3812];
-const G_BEN5: [number, number] = [4288, 4412];
-const G_FOOD: [number, number] = [4775, 5325];
-// Subscribe card covers the weak baked-in outro at the tail.
+const G_BEN3: [number, number] = [3165, 3300];
+const G_BEN4: [number, number] = [3675, 3825];
+const G_BEN5: [number, number] = [4277, 4475];
+const G_FOOD: [number, number] = [4775, 5450];
 const G_SUB: [number, number] = [8000, 8364];
+const GRAPHICS = [G_BEN1, G_BEN2, G_BEN3, G_BEN4, G_BEN5, G_FOOD];
 
-// Windows during which the doctor shrinks to a corner PIP (graphic on top).
-// Subscribe is excluded — the source there is the baked outro, not talking head.
-const PIP_RANGES: [number, number][] = [G_BEN1, G_BEN2, G_BEN3, G_BEN4, G_BEN5, G_FOOD];
-const TRANS = 18;
+// ---- Circle windows: the source's own b-rolls, merged with the adjacent
+//      graphic windows so the doctor circle stays up continuously. ----
+const CIRCLE_WINDOWS: [number, number][] = [
+	[80, 283],     // legs / foot (opening b-roll)
+	[742, 950],    // knee / nerve glow
+	[1154, 1283],  // turmeric root
+	[1376, 1762],  // turmeric bowl
+	G_BEN1,
+	G_BEN2,
+	[2300, 2472],  // turmeric close-up (benefit 1 study)
+	[3018, 3300],  // glass bowl → Beneficio 3
+	[3454, 3825],  // root       → Beneficio 4
+	[4076, 4475],  // spoon      → Beneficio 5
+	[4566, 4625],  // turmeric powder drop
+	G_FOOD,
+	[5490, 5980],  // turmeric table (warning section)
+	[6131, 6336],  // pills
+	[6561, 6734],  // spoon (protocol)
+];
 
-const pipAmount = (frame: number) => {
-	for (const [a, b] of PIP_RANGES) {
-		if (frame >= a - TRANS && frame < a) {
-			return interpolate(frame, [a - TRANS, a], [0, 1], {easing: EASE_OUT, extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-		}
-		if (frame >= a && frame <= b) return 1;
-		if (frame > b && frame <= b + TRANS) {
-			return interpolate(frame, [b, b + TRANS], [1, 0], {easing: EASE_IN, extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-		}
+// envelope: 0 → ramp-up over [a, a+tin] → 1 → ramp-down over [b-tout, b] → 0
+const envelope = (frame: number, a: number, b: number, tin = TRANS, tout = TRANS) => {
+	if (frame < a || frame > b) return 0;
+	const up = interpolate(frame, [a, a + tin], [0, 1], {easing: EASE_OUT, extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	const down = interpolate(frame, [b - tout, b], [1, 0], {easing: EASE_IN, extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	return Math.min(up, down);
+};
+
+const circleAmount = (frame: number) => {
+	for (const [a, b] of CIRCLE_WINDOWS) {
+		const e = envelope(frame, a, b, TRANS, TRANS);
+		if (e > 0) return e;
 	}
 	return 0;
 };
 
-// Subtle push-in on the three long talking-head windows (resets at source cuts).
+const graphicAmount = (frame: number, range: [number, number]) => envelope(frame, range[0], range[1], TRANS, TRANS);
+
+// Subtle push-in on the long talking-head windows of the base clip.
 const FULL_SEGMENTS: [number, number][] = [
-	[1762, 3018],
-	[4277, 5350],
-	[6734, 8000],
+	[1762, 2100],
+	[2472, 3018],
+	[3300, 3454],
+	[3825, 4076],
+	[4625, 4775],
+	[5980, 6131],
+	[6734, 7900],
 ];
 const pushZoom = (frame: number) => {
 	for (const [a, b] of FULL_SEGMENTS) {
 		if (frame >= a && frame <= b) {
-			return interpolate(frame, [a, b], [1, 1.05], {easing: EASE_OUT, extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+			return interpolate(frame, [a, b], [1, 1.04], {easing: EASE_OUT, extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 		}
 	}
 	return 1;
 };
 
-const PipVideo: React.FC = () => {
+// ---- Base: original clip full-screen, carries the audio (voice) ----
+const BaseVideo: React.FC = () => {
+	const frame = useCurrentFrame();
+	return (
+		<AbsoluteFill style={{transform: `scale(${pushZoom(frame)})`, transformOrigin: '50% 28%'}}>
+			<OffthreadVideo src={staticFile('prueba_neuropatia.mp4')} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+		</AbsoluteFill>
+	);
+};
+
+// ---- Doctor circle: clean loop, muted, appears over b-rolls & graphics ----
+const DoctorCircle: React.FC = () => {
 	const frame = useCurrentFrame();
 	const {width} = useVideoConfig();
 	const s = width / 1920;
-	const p = pipAmount(frame);
-	const zoom = pushZoom(frame) * (1 - p) + p;
+	const p = circleAmount(frame);
+	if (p <= 0) return null;
 
-	const pipSize = 300 * s;
-	const margin = 44 * s;
-	const w = interpolate(p, [0, 1], [width, pipSize]);
-	const h = interpolate(p, [0, 1], [1080 * s, pipSize]);
-	const top = interpolate(p, [0, 1], [0, margin]);
-	const left = interpolate(p, [0, 1], [0, width - pipSize - margin]);
-	const radius = interpolate(p, [0, 1], [0, pipSize / 2]);
-	const border = interpolate(p, [0, 1], [0, 5 * s]);
-	// Fade the pip out before the baked outro so it never peeks through the subscribe card.
-	const tailFade = interpolate(frame, [7940, 7990], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-
+	const size = 320 * s;
+	const margin = 46 * s;
+	const scale = interpolate(p, [0, 1], [0.7, 1]);
 	return (
 		<div
 			style={{
 				position: 'absolute',
-				top,
-				left,
-				width: w,
-				height: h,
-				borderRadius: radius,
+				top: margin,
+				right: margin,
+				width: size,
+				height: size,
+				opacity: p,
+				transform: `scale(${scale})`,
+				transformOrigin: '100% 0%',
+				borderRadius: '50%',
 				overflow: 'hidden',
-				opacity: tailFade,
-				border: `${border}px solid rgba(255,255,255,${p})`,
-				boxShadow: p > 0.05 ? `0 ${14 * s}px ${40 * s}px rgba(0,0,0,${0.5 * p})` : 'none',
-				transform: `scale(${zoom})`,
-				transformOrigin: '50% 30%',
+				border: `${5 * s}px solid rgba(255,255,255,0.95)`,
+				boxShadow: `0 ${14 * s}px ${40 * s}px rgba(0,0,0,0.5)`,
 			}}
 		>
-			<OffthreadVideo src={staticFile('prueba_neuropatia.mp4')} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+			<Loop durationInFrames={2080}>
+				<OffthreadVideo src={staticFile('doctora_circulo.mp4')} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+			</Loop>
 		</div>
 	);
 };
@@ -116,14 +146,9 @@ const BeneficioTitle: React.FC<{num: number; title: string; range: [number, numb
 	const frame = useCurrentFrame();
 	const {width} = useVideoConfig();
 	const s = width / 1920;
-	const o = interpolate(
-		frame,
-		[range[0] - TRANS, range[0], range[1], range[1] + TRANS],
-		[0, 1, 1, 0],
-		{extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: EASE_OUT}
-	);
+	const o = graphicAmount(frame, range);
 	if (o <= 0) return null;
-	const scale = interpolate(o, [0, 1], [0.9, 1]);
+	const scale = interpolate(o, [0, 1], [0.92, 1]);
 	return (
 		<AbsoluteFill style={{opacity: o, background: theme.fullBg, justifyContent: 'center', alignItems: 'center'}}>
 			<div style={{textAlign: 'center', transform: `scale(${scale})`, maxWidth: 1500 * s}}>
@@ -162,16 +187,11 @@ const FoodListCard: React.FC = () => {
 	const frame = useCurrentFrame();
 	const {width} = useVideoConfig();
 	const s = width / 1920;
-	const o = interpolate(
-		frame,
-		[G_FOOD[0] - TRANS, G_FOOD[0], G_FOOD[1], G_FOOD[1] + TRANS],
-		[0, 1, 1, 0],
-		{extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: EASE_OUT}
-	);
+	const o = graphicAmount(frame, G_FOOD);
 	if (o <= 0) return null;
 
 	return (
-		<AbsoluteFill style={{opacity: o, background: 'rgba(8, 16, 40, 0.94)', justifyContent: 'center', alignItems: 'center', padding: 50 * s, paddingTop: 140 * s}}>
+		<AbsoluteFill style={{opacity: o, background: 'rgba(8, 16, 40, 0.94)', justifyContent: 'center', alignItems: 'center', padding: 50 * s, paddingTop: 150 * s}}>
 			<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 34 * s, maxWidth: 1700 * s, width: '100%'}}>
 				<div style={{fontFamily: 'Helvetica, Arial, sans-serif', fontWeight: 900, fontSize: 62 * s, color: '#fff', textAlign: 'center', ...shadow}}>
 					🌿 Mejor con estos aliados
@@ -243,21 +263,20 @@ const SubscribeCard: React.FC = () => {
 	);
 };
 
-// Emphasis captions — key lines only. Placed on talking-head or over a
-// source b-roll, NEVER during a full-screen graphic window above.
+// Emphasis captions — short: appear as the line is said, gone once the idea lands.
 const CAPTIONS: {from: number; to: number; text: string}[] = [
-	{from: 500, to: 700, text: 'No es una cura milagrosa'},
-	{from: 1400, to: 1700, text: 'La curcumina reduce la inflamación alrededor del nervio'},
-	{from: 2400, to: 2600, text: 'Menos ardor y menos dolor punzante'},
-	{from: 2830, to: 3070, text: 'La mielina protege el nervio, como el forro de un cable'},
-	{from: 3330, to: 3570, text: 'Mejora la circulación que nutre el nervio'},
-	{from: 3880, to: 4120, text: 'El BDNF ayuda a reparar las fibras dañadas'},
-	{from: 5650, to: 6000, text: '⚠️ Consulte a su médico si toma anticoagulantes'},
-	{from: 6200, to: 6480, text: 'Como alimento diario, es segura para la mayoría'},
-	{from: 6575, to: 6820, text: '½ cucharadita al día, con una pizca de pimienta negra'},
-	{from: 6880, to: 7120, text: 'Acompáñela con salmón, almendras, espinaca y aguacate'},
-	{from: 7250, to: 7500, text: '💬 ¿Siente hormigueo en los pies? Cuéntenos'},
-	{from: 7700, to: 7900, text: 'Suscríbase para más consejos de salud'},
+	{from: 505, to: 590, text: 'No es una cura milagrosa'},
+	{from: 1300, to: 1420, text: 'Reduce la inflamación alrededor del nervio'},
+	{from: 2480, to: 2600, text: 'Menos ardor y menos dolor punzante'},
+	{from: 2840, to: 2960, text: 'La mielina protege el nervio, como el forro de un cable'},
+	{from: 3340, to: 3450, text: 'Mejora la circulación que nutre el nervio'},
+	{from: 3880, to: 4000, text: 'El BDNF ayuda a reparar las fibras dañadas'},
+	{from: 5620, to: 5760, text: '⚠️ Consulte a su médico si toma anticoagulantes'},
+	{from: 6260, to: 6400, text: 'Como alimento diario, es segura para la mayoría'},
+	{from: 6600, to: 6720, text: '½ cucharadita al día, con pimienta negra'},
+	{from: 6930, to: 7060, text: 'Salmón, almendras, espinaca y aguacate'},
+	{from: 7240, to: 7370, text: '💬 ¿Siente hormigueo en los pies? Cuéntenos'},
+	{from: 7700, to: 7830, text: 'Suscríbase para más consejos de salud'},
 ];
 
 export const NeuropatiaEdit: React.FC = () => {
@@ -265,8 +284,10 @@ export const NeuropatiaEdit: React.FC = () => {
 
 	return (
 		<AbsoluteFill style={{backgroundColor: '#000'}}>
-			{/* Full-screen structural graphics — talking-head windows only.
-			    Rendered BELOW the video so the shrinking pip lands on top of them. */}
+			{/* Base: original clip full-screen (talking head + baked b-rolls + audio) */}
+			<BaseVideo />
+
+			{/* Full-screen structural graphics (cover the base while up) */}
 			<BeneficioTitle num={1} title="Reduce la inflamación del nervio" range={G_BEN1} />
 			<BeneficioTitle num={2} title="Antioxidante que protege la mielina" range={G_BEN2} />
 			<BeneficioTitle num={3} title="Mejora la circulación hacia manos y pies" range={G_BEN3} />
@@ -275,9 +296,8 @@ export const NeuropatiaEdit: React.FC = () => {
 			<FoodListCard />
 			<SubscribeCard />
 
-			{/* Source clip: full-screen (respects baked-in b-rolls), morphs to a
-			    corner circle over the graphics, then fades before the outro. */}
-			<PipVideo />
+			{/* Doctor circle on top of everything (b-rolls + graphics) */}
+			<DoctorCircle />
 
 			{/* Emphasis captions */}
 			{CAPTIONS.map((c, i) => (
@@ -286,8 +306,8 @@ export const NeuropatiaEdit: React.FC = () => {
 				</Sequence>
 			))}
 
-			{/* Channel watermark — hidden during full-screen graphics and outro */}
-			{pipAmount(frame) < 0.3 && frame < G_SUB[0] - 40 && (
+			{/* Watermark — only during plain full-screen talking head */}
+			{circleAmount(frame) < 0.2 && frame < G_SUB[0] - 40 && frame > 100 && (
 				<div style={{position: 'absolute', bottom: 44, left: 54, display: 'flex', alignItems: 'center', gap: 12, opacity: 0.9}}>
 					<span style={{fontSize: 34}}>🩺</span>
 					<span style={{fontFamily: 'Helvetica, Arial, sans-serif', fontWeight: 800, fontSize: 30, color: '#fff', letterSpacing: 1, ...shadow}}>
