@@ -7,3 +7,4 @@ public/*.mp4
 
 # Full-size renders exceed GitHub 100MB limit; keep only compressed previews
 renders/neuropatia_edit.mp4
+renders/neuropatia_final.mp4
