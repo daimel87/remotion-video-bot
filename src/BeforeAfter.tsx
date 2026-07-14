@@ -35,31 +35,37 @@ type Animal = {
   emoji: string;
   baby: string;
   adult: string;
-  babyX: number;
-  adultX: number;
 };
 
 const ANIMALS: Animal[] = [
-  {name: 'SPIDER', emoji: '🕷️', baby: 'ba-spider-baby', adult: 'ba-spider-adult', babyX: 50, adultX: 50},
-  {name: 'LION', emoji: '🦁', baby: 'ba-lion-baby', adult: 'ba-lion-adult', babyX: 50, adultX: 50},
-  {name: 'TIGER', emoji: '🐯', baby: 'ba-tiger-baby', adult: 'ba-tiger-adult', babyX: 50, adultX: 45},
-  {name: 'CROCODILE', emoji: '🐊', baby: 'ba-croc-baby', adult: 'ba-croc-adult', babyX: 50, adultX: 45},
-  {name: 'ELEPHANT', emoji: '🐘', baby: 'ba-elephant-baby', adult: 'ba-elephant-adult', babyX: 40, adultX: 50},
-  {name: 'WILD BOAR', emoji: '🐗', baby: 'ba-boar-baby', adult: 'ba-boar-adult', babyX: 50, adultX: 50},
+  {name: 'SPIDER', emoji: '🕷️', baby: 'ba-spider-baby', adult: 'ba-spider-adult'},
+  {name: 'LION', emoji: '🦁', baby: 'ba-lion-baby', adult: 'ba-lion-adult'},
+  {name: 'TIGER', emoji: '🐯', baby: 'ba-tiger-baby', adult: 'ba-tiger-adult'},
+  {name: 'CROCODILE', emoji: '🐊', baby: 'ba-croc-baby', adult: 'ba-croc-adult'},
+  {name: 'ELEPHANT', emoji: '🐘', baby: 'ba-elephant-baby', adult: 'ba-elephant-adult'},
+  {name: 'WILD BOAR', emoji: '🐗', baby: 'ba-boar-baby', adult: 'ba-boar-adult'},
 ];
 
-// Timeline anclada al SRT de Buzz (audio "evolve_animals", sin silencios).
-// Segmento 1 (0-6.0s) se parte en recap-bebés + recap-adultos.
-const RECAP_BABY_END = sec(1.63); // "These adorable babies"
-const RECAP_ADULT_END = sec(6.0); // "...grow into...Earth"
+// Encuadre FIJO por clip (mismo offset y % horizontal siempre que se use),
+// para que la cara del animal se vea consistente en todas las apariciones.
+// Los clips 16:9 se recortan a 9:16 conservando el 100% de la altura y solo
+// ~32% del ancho -> lo único que importa acertar es objX (posición de la cara).
+const FRAMING: Record<string, {off: number; objX: number; extraZoom?: number}> = {
+  'ba-spider-baby': {off: 2, objX: 50},
+  'ba-spider-adult': {off: 2, objX: 50},
+  'ba-lion-baby': {off: 1, objX: 50},
+  'ba-lion-adult': {off: 1, objX: 50},
+  'ba-tiger-baby': {off: 1, objX: 50},
+  'ba-tiger-adult': {off: 1, objX: 20},
+  'ba-croc-baby': {off: 2, objX: 42},
+  'ba-croc-adult': {off: 1.6, objX: 72},
+  'ba-elephant-baby': {off: 2, objX: 48, extraZoom: 1.35},
+  'ba-elephant-adult': {off: 1, objX: 50},
+  'ba-boar-baby': {off: 1.5, objX: 28},
+  'ba-boar-adult': {off: 1.5, objX: 45},
+};
 
-// Uno-a-uno: inicios de cada animal = inicios reales de frase en el SRT.
-const ONE_STARTS = [sec(6.0), sec(8.5), sec(13.0), sec(16.0), sec(20.5), sec(24.0)];
-const CLOSE_START = sec(27.5); // "They all start tiny"
-const TAIL_START = sec(29.0); // último segmento del SRT ("What?")
-const TOTAL = sec(29.6);
-
-// ---- Subtítulos palabra por palabra, anclados a los tiempos EXACTOS de Buzz ----
+// ---- Guion con timing por frase (SRT de Buzz, audio "evolve_animals" sin silencios) ----
 const HIGHLIGHT = new Set([
   'DEADLIEST',
   'VENOMOUS',
@@ -103,6 +109,17 @@ const buildWords = (): Word[] => {
 };
 const WORDS = buildWords();
 
+// El corte visual bebés->adultos debe coincidir EXACTO con el final real de la
+// palabra "babies" (WORDS[2]: These=0, adorable=1, babies=2), no con una
+// estimación manual -> evita que se vea el adulto mientras el audio dice "babies".
+const RECAP_BABY_END = Math.round(WORDS[2].endF + LEAD);
+const RECAP_ADULT_END = sec(6.0);
+
+const ONE_STARTS = [sec(6.0), sec(8.5), sec(13.0), sec(16.0), sec(20.5), sec(24.0)];
+const CLOSE_START = sec(27.5);
+const TAIL_START = sec(29.0);
+const TOTAL = sec(29.6);
+
 const DynamicCaptions: React.FC = () => {
   const frame = useCurrentFrame();
   const active = WORDS.find((w) => frame >= w.startF && frame < w.endF);
@@ -115,7 +132,7 @@ const DynamicCaptions: React.FC = () => {
   const opacity = interpolate(local, [0, 2], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   const clean = active.word.replace(/[^A-Za-z]/g, '').toUpperCase();
   const isHot = HIGHLIGHT.has(clean);
-  const display = active.word.replace(/[^A-Za-z?]/g, '');
+  const display = active.word.replace(/[^A-Za-z0-9?]/g, '');
   if (!display) return null;
 
   return (
@@ -149,18 +166,15 @@ const DynamicCaptions: React.FC = () => {
   );
 };
 
-// Toma con recorte 9:16 enfocando la cabeza + punch de zoom rápido.
-const Shot: React.FC<{src: string; objX: number; off: number; punch?: boolean}> = ({
-  src,
-  objX,
-  off,
-  punch,
-}) => {
+// Toma con encuadre fijo por clip (objX consistente en toda aparición) + punch de zoom.
+const Shot: React.FC<{src: string; punch?: boolean}> = ({src, punch}) => {
   const frame = useCurrentFrame();
+  const {off, objX, extraZoom} = FRAMING[src];
   const startFrom = Math.round(off * 30);
+  const base = extraZoom ?? 1;
   const scale = punch
-    ? interpolate(frame, [0, 5], [1.16, 1.04], {extrapolateRight: 'clamp'})
-    : interpolate(frame, [0, 20], [1.0, 1.05], {extrapolateRight: 'clamp'});
+    ? interpolate(frame, [0, 5], [1.16 * base, 1.04 * base], {extrapolateRight: 'clamp'})
+    : interpolate(frame, [0, 20], [1.0 * base, 1.05 * base], {extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill style={{backgroundColor: '#000', overflow: 'hidden'}}>
       <OffthreadVideo
@@ -197,7 +211,6 @@ const Flash: React.FC<{at: number; strength?: number}> = ({at, strength = 0.85})
   );
 };
 
-// Tag "TRANSFORMATION" que aparece al revelar al adulto.
 const TransformTag: React.FC = () => {
   const frame = useCurrentFrame();
   const scale = interpolate(frame, [0, 5], [0.6, 1], {extrapolateRight: 'clamp'});
@@ -239,9 +252,7 @@ const TransformTag: React.FC = () => {
 export const BeforeAfter: React.FC = () => {
   useKomikaFont();
 
-  // --- recap rápido de bebés (flash cuts, muy corto y rítmico) ---
   const babyChunk = RECAP_BABY_END / ANIMALS.length;
-  // --- recap rápido de adultos ---
   const adultSpan = RECAP_ADULT_END - RECAP_BABY_END;
   const adultChunk = adultSpan / ANIMALS.length;
 
@@ -252,7 +263,7 @@ export const BeforeAfter: React.FC = () => {
       {/* RECAP FLASH: bebés ("These adorable babies") */}
       {ANIMALS.map((a, i) => (
         <Sequence key={`rb-${a.name}`} from={Math.round(i * babyChunk)} durationInFrames={Math.round(babyChunk)}>
-          <Shot src={a.baby} objX={a.babyX} off={1.5} punch />
+          <Shot src={a.baby} punch />
         </Sequence>
       ))}
 
@@ -263,11 +274,10 @@ export const BeforeAfter: React.FC = () => {
           from={RECAP_BABY_END + Math.round(i * adultChunk)}
           durationInFrames={Math.round(adultChunk)}
         >
-          <Shot src={a.adult} objX={a.adultX} off={2} punch />
+          <Shot src={a.adult} punch />
         </Sequence>
       ))}
 
-      {/* Flashes rítmicos dentro de los dos recaps (fast pace) */}
       {ANIMALS.map((_, i) => (
         <Flash key={`fb-${i}`} at={Math.round(i * babyChunk)} strength={0.5} />
       ))}
@@ -285,10 +295,10 @@ export const BeforeAfter: React.FC = () => {
         return (
           <React.Fragment key={a.name}>
             <Sequence from={start} durationInFrames={babyDur}>
-              <Shot src={a.baby} objX={a.babyX} off={1} />
+              <Shot src={a.baby} />
             </Sequence>
             <Sequence from={start + babyDur} durationInFrames={adultDur}>
-              <Shot src={a.adult} objX={a.adultX} off={1.5} punch />
+              <Shot src={a.adult} punch />
               <TransformTag />
             </Sequence>
             <Flash at={start + babyDur} />
@@ -303,20 +313,19 @@ export const BeforeAfter: React.FC = () => {
           const chunk = (TAIL_START - CLOSE_START) / ANIMALS.length;
           return (
             <Sequence key={`cb-${a.name}`} from={Math.round(i * chunk)} durationInFrames={Math.round(chunk)}>
-              <Shot src={a.baby} objX={a.babyX} off={2.5} punch />
+              <Shot src={a.baby} punch />
             </Sequence>
           );
         })}
       </Sequence>
       <Flash at={CLOSE_START} />
 
-      {/* Tramo final ("What?"/"but"): sostiene la araña bebé para cerrar visualmente el loop */}
+      {/* Tramo final ("but"): sostiene la araña bebé para cerrar visualmente el loop */}
       <Sequence from={TAIL_START} durationInFrames={TOTAL - TAIL_START}>
-        <Shot src="ba-spider-baby" objX={50} off={0.4} />
+        <Shot src="ba-spider-baby" />
       </Sequence>
       <Flash at={TAIL_START} />
 
-      {/* Viñeta para legibilidad del texto */}
       <AbsoluteFill
         style={{
           background: 'linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.55) 100%)',
