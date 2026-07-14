@@ -36,17 +36,18 @@ const SRC_FPS = 30; // los clips se re-encodearon a 30fps
 const CUT = 67; // frames por toma (~2.8s) -> 10 tomas = 670
 
 // 10 tomas: 5 clips usados 2 veces con offset distinto (para variar).
-const SHOTS: {src: string; off: number}[] = [
-  {src: 'komodo-5', off: 3}, // cara/boca (arranque fuerte)
-  {src: 'komodo-1', off: 2},
-  {src: 'komodo-3', off: 4},
-  {src: 'komodo-2', off: 6},
-  {src: 'komodo-4', off: 3},
-  {src: 'komodo-5', off: 7},
-  {src: 'komodo-1', off: 7},
-  {src: 'komodo-3', off: 9},
-  {src: 'komodo-2', off: 11},
-  {src: 'komodo-4', off: 8},
+// objX = posición horizontal de la CABEZA (%) para el recorte 9:16.
+const SHOTS: {src: string; off: number; objX: number}[] = [
+  {src: 'komodo-5', off: 3, objX: 50}, // cara/boca (arranque fuerte)
+  {src: 'komodo-1', off: 2, objX: 72},
+  {src: 'komodo-3', off: 4, objX: 68},
+  {src: 'komodo-2', off: 6, objX: 68},
+  {src: 'komodo-4', off: 3, objX: 52},
+  {src: 'komodo-5', off: 7, objX: 50},
+  {src: 'komodo-1', off: 7, objX: 80},
+  {src: 'komodo-3', off: 9, objX: 32},
+  {src: 'komodo-2', off: 11, objX: 60},
+  {src: 'komodo-4', off: 8, objX: 45},
 ];
 
 // Palabras resaltadas en amarillo (el "golpe").
@@ -63,17 +64,17 @@ const HIGHLIGHT = new Set([
   'EATEN',
 ]);
 
-// Guion anclado a los inicios reales de frase (detectados en el audio).
+// Guion partido en frases, ancladas a los timestamps de TurboScribe mapeados
+// al audio sin silencios (validados contra los cortes detectados). Así el
+// error no se acumula y el final ya no se corre.
 const SEGMENTS: {start: number; end: number; text: string}[] = [
   {start: 0.2, end: 3.54, text: 'This is the closest thing to a real dragon'},
   {start: 3.84, end: 8.01, text: "The Komodo's bite is full of venom that stops blood from clotting"},
-  {
-    start: 8.16,
-    end: 25.51,
-    text:
-      'its prey just bleeds out It takes down buffalo ten times its size then follows them for weeks until they drop It eats eighty percent of its body weight in one meal Even its babies hide in trees so their own parents don’t eat them',
-  },
-  {start: 25.81, end: 27.9, text: 'Would you get close to one?'},
+  {start: 8.16, end: 10.44, text: 'its prey just bleeds out'},
+  {start: 10.75, end: 17.14, text: 'It takes down buffalo ten times its size then follows them for weeks until they drop'},
+  {start: 17.446, end: 21.33, text: 'It eats eighty percent of its body weight in one meal'},
+  {start: 21.619, end: 25.51, text: 'Even its babies hide in trees so their own parents don’t eat them'},
+  {start: 25.812, end: 27.9, text: 'Would you get close to one?'},
 ];
 
 const LEAD = 1; // frames de adelanto para que golpee con el sonido
@@ -166,16 +167,15 @@ const LightFlash: React.FC<{at: number}> = ({at}) => {
   );
 };
 
-// Toma: clip 16:9 con fondo desenfocado (para llenar el 9:16) + zoom lento.
-const Shot: React.FC<{src: string; off: number}> = ({src, off}) => {
+// Toma: recorte 9:16 (cover) enfocando la cabeza (objX) + zoom lento.
+const Shot: React.FC<{src: string; off: number; objX: number}> = ({src, off, objX}) => {
   const frame = useCurrentFrame();
   const startFrom = Math.round(off * SRC_FPS);
-  const zoom = interpolate(frame, [0, CUT], [1.03, 1.1], {
+  const zoom = interpolate(frame, [0, CUT], [1.0, 1.07], {
     extrapolateRight: 'clamp',
   });
   return (
-    <AbsoluteFill style={{backgroundColor: '#000'}}>
-      {/* Fondo desenfocado (mismo clip a cubrir toda la pantalla) */}
+    <AbsoluteFill style={{backgroundColor: '#000', overflow: 'hidden'}}>
       <OffthreadVideo
         src={staticFile(`${src}.mp4`)}
         startFrom={startFrom}
@@ -186,21 +186,8 @@ const Shot: React.FC<{src: string; off: number}> = ({src, off}) => {
           width: '100%',
           height: '100%',
           objectFit: 'cover',
-          filter: 'blur(45px) brightness(0.45)',
-          transform: 'scale(1.25)',
-        }}
-      />
-      {/* Clip principal centrado, completo (letterbox) */}
-      <OffthreadVideo
-        src={staticFile(`${src}.mp4`)}
-        startFrom={startFrom}
-        muted
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: 0,
-          width: '100%',
-          transform: `translateY(-50%) scale(${zoom})`,
+          objectPosition: `${objX}% 50%`,
+          transform: `scale(${zoom})`,
         }}
       />
     </AbsoluteFill>
@@ -232,7 +219,7 @@ export const KomodoDragon: React.FC = () => {
       {/* 10 tomas en secuencia */}
       {SHOTS.map((s, i) => (
         <Sequence key={i} from={i * CUT} durationInFrames={CUT}>
-          <Shot src={s.src} off={s.off} />
+          <Shot src={s.src} off={s.off} objX={s.objX} />
         </Sequence>
       ))}
 
