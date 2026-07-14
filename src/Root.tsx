@@ -33,6 +33,7 @@ import {AnimalFactHamster} from './AnimalFactHamster';
 import {AnimalFactCat} from './AnimalFactCat';
 import {AnimalFactMantis} from './AnimalFactMantis';
 import {MongooseFight} from './MongooseFight';
+import {KomodoDragon} from './KomodoDragon';
 import {RankingDogs} from './RankingDogs';
 import {ChannelBanner} from './ChannelBanner';
 
@@ -307,6 +308,14 @@ export const RemotionRoot: React.FC = () => {
         id="MongooseFight"
         component={MongooseFight}
         durationInFrames={582}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="KomodoDragon"
+        component={KomodoDragon}
+        durationInFrames={670}
         fps={24}
         width={720}
         height={1280}
