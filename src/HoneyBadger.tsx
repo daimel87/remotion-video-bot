@@ -30,18 +30,19 @@ const useKomikaFont = () => {
 // Comp 720x1280, 24fps. VO (sin silencios) ~25.16s -> 604 frames.
 const SRC_FPS = 24;
 
-// Tomas ordenadas para el LOOP y alineadas a los beats del guion.
+// Tomas ordenadas para el LOOP y alineadas a los beats del SRT de Buzz.
 // hb-1 carga | hb-2 cobra | hb-3 pelea | hb-4 desmayo(final)/camina(inicio)
 const SHOTS: {from: number; dur: number; src: string; off: number}[] = [
-  {from: 0, dur: 84, src: 'hb-1', off: 0.5}, // "picked a fight with a cobra" (carga = hook)
-  {from: 84, dur: 60, src: 'hb-2', off: 1}, // "one bite from this snake"
-  {from: 144, dur: 50, src: 'hb-2', off: 4}, // "venom to drop a buffalo"
-  {from: 194, dur: 42, src: 'hb-1', off: 4}, // "the badger? doesn't care"
-  {from: 236, dur: 69, src: 'hb-3', off: 0.5}, // "attacks, kills the cobra"
-  {from: 305, dur: 60, src: 'hb-3', off: 3.5}, // "eats it alive / venom kicks in"
-  {from: 365, dur: 62, src: 'hb-4', off: 5}, // "collapses"
-  {from: 427, dur: 60, src: 'hb-4', off: 6.5}, // "dead still / wakes up"
-  {from: 487, dur: 117, src: 'hb-4', off: 0.3}, // "goes looking for another cobra" (camina = cierra loop)
+  {from: 0, dur: 84, src: 'hb-1', off: 0.5}, // "just picked a fight" (carga = hook)
+  {from: 84, dur: 46, src: 'hb-2', off: 1}, // "...with a cobra"
+  {from: 130, dur: 50, src: 'hb-2', off: 3.5}, // "one bite from this snake has venom"
+  {from: 180, dur: 48, src: 'hb-1', off: 4}, // "to drop a buffalo"
+  {from: 228, dur: 47, src: 'hb-1', off: 6}, // "the badger? doesn't care"
+  {from: 275, dur: 85, src: 'hb-3', off: 0.5}, // "attacks, kills, eats it alive"
+  {from: 360, dur: 51, src: 'hb-3', off: 3.5}, // "venom kicks in"
+  {from: 411, dur: 60, src: 'hb-4', off: 3.5}, // "collapses / Dead"
+  {from: 471, dur: 84, src: 'hb-4', off: 4.5}, // "still... wakes up... meal"
+  {from: 555, dur: 73, src: 'hb-4', off: 0.3}, // "goes looking for another cobra" (camina = loop)
 ];
 
 const HIGHLIGHT = new Set([
@@ -54,17 +55,16 @@ const HIGHLIGHT = new Set([
   'FIGHT',
 ]);
 
-// Guion partido en frases, anclado a los cortes detectados en el audio.
+// Guion con los timestamps EXACTOS del SRT de Buzz (audio original).
 const SEGMENTS: {start: number; end: number; text: string}[] = [
-  {start: 0.2, end: 3.53, text: 'The honey badger just picked a fight with a cobra'},
-  {start: 4.01, end: 8.06, text: 'One bite from this snake has enough venom to drop a full-grown buffalo'},
-  {start: 8.23, end: 9.55, text: 'The badger? Doesn’t care'},
-  {start: 9.84, end: 12.75, text: 'It attacks kills the cobra and eats it alive'},
-  {start: 12.93, end: 16.03, text: 'Then the venom kicks in and it collapses'},
-  {start: 16.19, end: 17.56, text: 'Dead still'},
-  {start: 17.78, end: 19.13, text: 'But hours later it wakes up'},
-  {start: 19.28, end: 20.07, text: 'finishes its meal'},
-  {start: 20.37, end: 24.6, text: 'and goes looking for another cobra to fight'},
+  {start: 0.0, end: 4.56, text: 'The honey badger just picked a fight with a cobra'},
+  {start: 4.56, end: 9.52, text: 'One bite from this snake has enough venom to drop a full-grown buffalo'},
+  {start: 9.52, end: 11.44, text: 'The badger doesn’t care'},
+  {start: 11.44, end: 15.0, text: 'It attacks kills the cobra and eats it alive'},
+  {start: 15.0, end: 18.64, text: 'Then the venom kicks in and it collapses'},
+  {start: 18.64, end: 19.64, text: 'Dead'},
+  {start: 19.64, end: 25.52, text: 'Still but hours later it wakes up finishes its meal and goes looking for another cobra'},
+  {start: 25.52, end: 26.02, text: 'to fight'},
 ];
 
 const FPS = 24;
@@ -182,8 +182,8 @@ export const HoneyBadger: React.FC = () => {
   const frame = useCurrentFrame();
   useKomikaFont();
 
-  // Pico (like salta): la pelea "eats it alive" ~seg 11.
-  const PEAK = 264;
+  // Pico (like salta): la pelea "eats it alive" ~seg 13.
+  const PEAK = 312;
   const likeBase = interpolate(frame, [8, 20], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
@@ -196,7 +196,7 @@ export const HoneyBadger: React.FC = () => {
 
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
-      <Audio src={staticFile('honeybadger-vo.wav')} />
+      <Audio src={staticFile('honeybadger-vo.mp3')} />
       <Audio src={staticFile('mongoose-music.mp3')} volume={0.16} />
 
       {SHOTS.map((s, i) => (

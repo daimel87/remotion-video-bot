@@ -324,7 +324,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="HoneyBadger"
         component={HoneyBadger}
-        durationInFrames={604}
+        durationInFrames={628}
         fps={24}
         width={720}
         height={1280}
