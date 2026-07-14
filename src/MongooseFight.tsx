@@ -8,8 +8,6 @@ import {
   staticFile,
   useCurrentFrame,
   interpolate,
-  spring,
-  useVideoConfig,
   delayRender,
   continueRender,
 } from 'remotion';
@@ -33,10 +31,10 @@ const useKomikaFont = () => {
   }, [handle]);
 };
 
-// Comp full-screen 720x1280, 24fps. VO ~26.2s -> 632 frames.
+// Comp full-screen 720x1280, 24fps. VO (sin silencios) ~24.2s -> 582 frames.
 const FPS = 24;
-const CLIP_DUR = 211; // frames por clip (192 / 0.91 ~ 211)
-const PLAYBACK = 0.91;
+const CLIP_DUR = 194; // frames por clip (192 / 0.99 ~ 194)
+const PLAYBACK = 0.99;
 
 // Palabras resaltadas en amarillo (el "golpe").
 const HIGHLIGHT = new Set([
@@ -49,32 +47,34 @@ const HIGHLIGHT = new Set([
   'KILLER',
 ]);
 
-// Transcripción con timing por frase; se reparte palabra por palabra.
+// Transcripción anclada a los INICIOS REALES de cada frase (detectados en el
+// audio con silencedetect). Dentro de cada frase, cada palabra dura en
+// proporción a su longitud -> cae mucho más cerca del habla real.
 const SEGMENTS: {start: number; end: number; text: string}[] = [
-  {start: 0.0, end: 4.4, text: 'A single bite from this King Cobra can drop an elephant'},
-  {start: 4.4, end: 7.0, text: 'But this mongoose? Immune'},
-  {start: 7.0, end: 9.7, text: 'Its body literally blocks the venom'},
-  {start: 9.7, end: 11.2, text: 'It barely feels it'},
-  {start: 11.2, end: 14.7, text: 'So the cobra strikes and misses'},
-  {start: 14.7, end: 20.3, text: 'The mongoose dodges lunges and takes down a snake ten times deadlier than itself'},
-  {start: 20.3, end: 24.7, text: 'Pound for pound the most fearless killer alive'},
-  {start: 24.7, end: 26.2, text: 'Would you mess with it?'},
+  {start: 0.278, end: 5.042, text: 'A single bite from this king cobra can drop an elephant but this mongoose?'},
+  {start: 5.516, end: 10.591, text: 'Immune Its body literally blocks the venom It barely feels it'},
+  {start: 10.991, end: 13.612, text: 'So the cobra strikes and misses'},
+  {start: 13.959, end: 19.008, text: 'The mongoose dodges lunges and takes down a snake ten times deadlier than itself'},
+  {start: 19.226, end: 24.215, text: 'Pound for pound the most fearless killer alive Would you mess with it?'},
 ];
 
-// Una palabra a la vez, con su frame de inicio/fin.
+// Adelanto pequeño para que la palabra "golpee" justo antes/con el sonido.
+const LEAD = 1; // frames
+
+// Una palabra a la vez, con su frame de inicio/fin (ponderado por longitud).
 type Word = {startF: number; endF: number; word: string};
 const buildWords = (): Word[] => {
   const out: Word[] = [];
   for (const seg of SEGMENTS) {
     const words = seg.text.split(' ');
     const segFrames = (seg.end - seg.start) * FPS;
-    const perWord = segFrames / words.length;
+    const weights = words.map((w) => Math.max(2, w.replace(/[^A-Za-z]/g, '').length));
+    const total = weights.reduce((a, b) => a + b, 0);
+    let cursor = seg.start * FPS;
     words.forEach((word, i) => {
-      out.push({
-        startF: seg.start * FPS + i * perWord,
-        endF: seg.start * FPS + (i + 1) * perWord,
-        word,
-      });
+      const dur = (segFrames * weights[i]) / total;
+      out.push({startF: cursor - LEAD, endF: cursor + dur - LEAD, word});
+      cursor += dur;
     });
   }
   return out;
@@ -83,19 +83,19 @@ const WORDS = buildWords();
 
 const DynamicCaptions: React.FC = () => {
   const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
   const active = WORDS.find((w) => frame >= w.startF && frame < w.endF);
   if (!active) return null;
 
   const local = frame - active.startF;
-  // Pop con rebote elástico (spring) al entrar -> se sienten "vivos".
-  const pop = spring({
-    frame: local,
-    fps,
-    config: {damping: 9, mass: 0.5, stiffness: 140},
-    durationInFrames: 12,
+  // Pop INSTANTÁNEO (bam): entra en 3 frames con un pequeño overshoot.
+  const scale = interpolate(local, [0, 2, 3], [0.72, 1.06, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
   });
-  const scale = interpolate(pop, [0, 1], [0.5, 1]);
+  const opacity = interpolate(local, [0, 2], [0, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
   const clean = active.word.replace(/[^A-Za-z]/g, '').toUpperCase();
   const isHot = HIGHLIGHT.has(clean);
   const display = active.word.replace(/[^A-Za-z?]/g, '');
@@ -108,6 +108,7 @@ const DynamicCaptions: React.FC = () => {
         left: 0,
         right: 0,
         textAlign: 'center',
+        opacity,
         transform: `translateY(-50%) scale(${scale})`,
       }}
     >
@@ -176,7 +177,7 @@ export const MongooseFight: React.FC = () => {
   useKomikaFont();
 
   // El pico del video (giro "...and misses" / mangosta contraataca) ~seg 13.
-  const PEAK = 312;
+  const PEAK = 315;
   const likeBase = interpolate(frame, [8, 20], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
@@ -190,7 +191,7 @@ export const MongooseFight: React.FC = () => {
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
       {/* Voz en off (principal) + música de fondo (baja) */}
-      <Audio src={staticFile('mongoose-vo.wav')} />
+      <Audio src={staticFile('mongoose-vo.mp3')} />
       <Audio src={staticFile('mongoose-music.mp3')} volume={0.18} />
 
       {/* Clips a pantalla completa, en secuencia, con zoom */}
