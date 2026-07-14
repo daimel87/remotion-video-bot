@@ -1,3 +1,4 @@
+import {useEffect, useState} from 'react';
 import {
   AbsoluteFill,
   Audio,
@@ -7,16 +8,37 @@ import {
   staticFile,
   useCurrentFrame,
   interpolate,
+  spring,
+  useVideoConfig,
+  delayRender,
+  continueRender,
 } from 'remotion';
 
-// Comp full-screen 720x1280, 24fps. VO ~26.2s -> 632 frames.
-// Los 3 clips (8s c/u) se estiran a ~26.3s con playbackRate 0.91.
+// ---- Fuente Komika Axis (estilo caption viral) ----
+const FONT = 'KomikaAxis';
 
+const useKomikaFont = () => {
+  const [handle] = useState(() => delayRender('komika-axis'));
+  useEffect(() => {
+    const f = new FontFace(
+      FONT,
+      `url(${staticFile('fonts/KomikaAxis.ttf')}) format('truetype')`
+    );
+    f.load()
+      .then((loaded) => {
+        document.fonts.add(loaded);
+        continueRender(handle);
+      })
+      .catch(() => continueRender(handle));
+  }, [handle]);
+};
+
+// Comp full-screen 720x1280, 24fps. VO ~26.2s -> 632 frames.
 const FPS = 24;
 const CLIP_DUR = 211; // frames por clip (192 / 0.91 ~ 211)
 const PLAYBACK = 0.91;
 
-// Palabras que van resaltadas en amarillo (el "golpe").
+// Palabras resaltadas en amarillo (el "golpe").
 const HIGHLIGHT = new Set([
   'ELEPHANT',
   'IMMUNE',
@@ -27,7 +49,7 @@ const HIGHLIGHT = new Set([
   'KILLER',
 ]);
 
-// Transcripción (SRT) con timing por frase. Se reparte palabra por palabra.
+// Transcripción con timing por frase; se reparte palabra por palabra.
 const SEGMENTS: {start: number; end: number; text: string}[] = [
   {start: 0.0, end: 4.4, text: 'A single bite from this King Cobra can drop an elephant'},
   {start: 4.4, end: 7.0, text: 'But this mongoose? Immune'},
@@ -39,85 +61,70 @@ const SEGMENTS: {start: number; end: number; text: string}[] = [
   {start: 24.7, end: 26.2, text: 'Would you mess with it?'},
 ];
 
-// Construye la lista de palabras con su frame de inicio/fin (reparto uniforme
-// dentro de cada frase). Se muestran en grupos de 2 (estilo MrBeast).
-type WordChunk = {startF: number; endF: number; words: string[]};
-const buildChunks = (): WordChunk[] => {
-  const chunks: WordChunk[] = [];
+// Una palabra a la vez, con su frame de inicio/fin.
+type Word = {startF: number; endF: number; word: string};
+const buildWords = (): Word[] => {
+  const out: Word[] = [];
   for (const seg of SEGMENTS) {
     const words = seg.text.split(' ');
     const segFrames = (seg.end - seg.start) * FPS;
     const perWord = segFrames / words.length;
-    const groupSize = 2;
-    for (let i = 0; i < words.length; i += groupSize) {
-      const group = words.slice(i, i + groupSize);
-      const startF = seg.start * FPS + i * perWord;
-      const endF = seg.start * FPS + Math.min(i + groupSize, words.length) * perWord;
-      chunks.push({startF, endF, words: group});
-    }
+    words.forEach((word, i) => {
+      out.push({
+        startF: seg.start * FPS + i * perWord,
+        endF: seg.start * FPS + (i + 1) * perWord,
+        word,
+      });
+    });
   }
-  return chunks;
+  return out;
 };
-const CHUNKS = buildChunks();
+const WORDS = buildWords();
 
 const DynamicCaptions: React.FC = () => {
   const frame = useCurrentFrame();
-  const active = CHUNKS.find((c) => frame >= c.startF && frame < c.endF);
+  const {fps} = useVideoConfig();
+  const active = WORDS.find((w) => frame >= w.startF && frame < w.endF);
   if (!active) return null;
 
   const local = frame - active.startF;
-  // Pop con overshoot al entrar.
-  const scale = interpolate(local, [0, 3, 7], [0.6, 1.12, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
+  // Pop con rebote elástico (spring) al entrar -> se sienten "vivos".
+  const pop = spring({
+    frame: local,
+    fps,
+    config: {damping: 9, mass: 0.5, stiffness: 140},
+    durationInFrames: 12,
   });
-  const opacity = interpolate(local, [0, 3], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  });
+  const scale = interpolate(pop, [0, 1], [0.5, 1]);
+  const clean = active.word.replace(/[^A-Za-z]/g, '').toUpperCase();
+  const isHot = HIGHLIGHT.has(clean);
+  const display = active.word.replace(/[^A-Za-z?]/g, '');
 
   return (
     <div
       style={{
         position: 'absolute',
-        top: '62%',
-        left: 24,
-        right: 24,
+        top: '50%',
+        left: 0,
+        right: 0,
         textAlign: 'center',
-        opacity,
-        transform: `scale(${scale})`,
+        transform: `translateY(-50%) scale(${scale})`,
       }}
     >
       <span
         style={{
-          display: 'inline-flex',
-          gap: 16,
-          flexWrap: 'wrap',
-          justifyContent: 'center',
+          fontFamily: `${FONT}, "Arial Black", sans-serif`,
+          fontSize: 108,
+          lineHeight: 1,
+          color: isHot ? '#FFE01A' : '#fff',
+          textTransform: 'uppercase',
+          letterSpacing: '0.01em',
+          WebkitTextStroke: '10px #000',
+          paintOrder: 'stroke fill',
+          textShadow: '0 8px 18px rgba(0,0,0,0.65)',
         }}
       >
-        {active.words.map((w, i) => {
-          const clean = w.replace(/[^A-Za-z]/g, '').toUpperCase();
-          const isHot = HIGHLIGHT.has(clean);
-          return (
-            <span
-              key={i}
-              style={{
-                fontFamily: '"Arial Black", Helvetica, Arial, sans-serif',
-                fontWeight: 900,
-                fontSize: 78,
-                lineHeight: 1,
-                color: isHot ? '#FFE01A' : '#fff',
-                textTransform: 'uppercase',
-                letterSpacing: '-0.01em',
-                WebkitTextStroke: '3px #000',
-                textShadow: '0 6px 12px rgba(0,0,0,0.9), 0 0 4px #000',
-              }}
-            >
-              {w.replace(/[^A-Za-z?]/g, '')}
-            </span>
-          );
-        })}
+        {display}
       </span>
     </div>
   );
@@ -166,6 +173,7 @@ const ZoomClip: React.FC<{src: string}> = ({src}) => {
 
 export const MongooseFight: React.FC = () => {
   const frame = useCurrentFrame();
+  useKomikaFont();
 
   // El pico del video (giro "...and misses" / mangosta contraataca) ~seg 13.
   const PEAK = 312;
@@ -200,7 +208,7 @@ export const MongooseFight: React.FC = () => {
       <AbsoluteFill
         style={{
           background:
-            'linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%)',
+            'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%)',
         }}
       />
 
@@ -208,7 +216,7 @@ export const MongooseFight: React.FC = () => {
       <LightFlash at={CLIP_DUR} />
       <LightFlash at={CLIP_DUR * 2} />
 
-      {/* Subtítulos dinámicos estilo MrBeast */}
+      {/* Subtítulos dinámicos (una palabra, estilo viral) */}
       <DynamicCaptions />
 
       {/* Botón de like (el que usamos), saltando en el pico */}
