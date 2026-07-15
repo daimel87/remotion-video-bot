@@ -36,6 +36,9 @@ export const AnimalFactMorayEel: React.FC = () => {
   const profileOpacity = interpolate(frame, [8, 18], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   const quoteOpacity = interpolate(frame, [16, 26], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
+  const ctaOpacity = interpolate(frame, [20, 30], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const ctaPulse = 1 + Math.sin(frame * 0.22) * 0.045;
+
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
       {/* Fondo difuminado del mismo clip */}
@@ -143,15 +146,71 @@ export const AnimalFactMorayEel: React.FC = () => {
         />
       </div>
 
-      <Img
-        src={staticFile('assets/pngtree-like-button-for-youtube-vector-png-image_16285919.png')}
+      {/* Botón SUBSCRIBE (izquierda) */}
+      <div
         style={{
           position: 'absolute',
-          bottom: -50,
-          right: -10,
-          width: 190,
+          bottom: 150,
+          left: 14,
+          opacity: ctaOpacity,
+          transform: `scale(${ctaPulse})`,
+          transformOrigin: 'left center',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 6,
+          padding: '10px 16px',
+          borderRadius: 32,
+          background: '#FF0000',
+          border: '3px solid #fff',
+          boxShadow: '0 6px 16px rgba(0,0,0,0.6)',
+          whiteSpace: 'nowrap',
         }}
-      />
+      >
+        <span
+          style={{
+            fontFamily: '"Arial Black", Helvetica, Arial, sans-serif',
+            fontWeight: 900,
+            fontSize: 18,
+            color: '#fff',
+          }}
+        >
+          🔔 SUBSCRIBE
+        </span>
+      </div>
+
+      {/* Botón COMMENT (derecha) */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 150,
+          right: 14,
+          opacity: ctaOpacity,
+          transform: `scale(${ctaPulse})`,
+          transformOrigin: 'right center',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 6,
+          padding: '10px 16px',
+          borderRadius: 32,
+          background: '#1a1a1a',
+          border: '3px solid #fff',
+          boxShadow: '0 6px 16px rgba(0,0,0,0.6)',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        <span
+          style={{
+            fontFamily: '"Arial Black", Helvetica, Arial, sans-serif',
+            fontWeight: 900,
+            fontSize: 18,
+            color: '#fff',
+          }}
+        >
+          💬 COMMENT
+        </span>
+      </div>
     </AbsoluteFill>
   );
 };
