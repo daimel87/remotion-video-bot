@@ -36,6 +36,7 @@ import {MongooseFight} from './MongooseFight';
 import {KomodoDragon} from './KomodoDragon';
 import {HoneyBadger} from './HoneyBadger';
 import {BeforeAfter} from './BeforeAfter';
+import {AnimalFactJellyfish} from './AnimalFactJellyfish';
 import {RankingDogs} from './RankingDogs';
 import {ChannelBanner} from './ChannelBanner';
 
@@ -335,6 +336,14 @@ export const RemotionRoot: React.FC = () => {
         component={BeforeAfter}
         durationInFrames={888}
         fps={30}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactJellyfish"
+        component={AnimalFactJellyfish}
+        durationInFrames={192}
+        fps={24}
         width={720}
         height={1280}
       />
