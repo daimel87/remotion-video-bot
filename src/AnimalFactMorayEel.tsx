@@ -4,8 +4,6 @@ import {interpolate} from 'remotion';
 const HEADLINE =
   'This eel has a **second set of jaws hiding inside its throat**. When it bites, those inner jaws **shoot forward out of its throat**, grab the prey, and **drag it down into its stomach** — like a **real-life alien**. Scientists only discovered this in **2007**, and it\'s the **only known animal** that hunts this way. Its normal mouth is just the **first trap**. The one that finishes the job is **hidden inside**.';
 
-const QUOTE = "Not this eel literally having **Alien's inner jaw** for real 👽🦷";
-
 const renderBold = (text: string, baseWeight = 400, boldWeight = 800) => {
   const parts = text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
   return parts.map((part, i) => {
@@ -32,11 +30,10 @@ const VerifiedBadge: React.FC = () => (
 export const AnimalFactMorayEel: React.FC = () => {
   const frame = useCurrentFrame();
 
-  const headlineOpacity = interpolate(frame, [0, 10], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-  const profileOpacity = interpolate(frame, [8, 18], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-  const quoteOpacity = interpolate(frame, [16, 26], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const profileOpacity = interpolate(frame, [0, 6], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const headlineOpacity = interpolate(frame, [4, 12], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
-  const ctaOpacity = interpolate(frame, [20, 30], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const ctaOpacity = interpolate(frame, [14, 22], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   const ctaPulse = 1 + Math.sin(frame * 0.22) * 0.045;
 
   return (
@@ -56,7 +53,7 @@ export const AnimalFactMorayEel: React.FC = () => {
         }}
       />
 
-      {/* Tarjeta estilo "post viral": texto largo -> video principal -> perfil + respuesta */}
+      {/* Tarjeta estilo post de X: perfil arriba -> headline -> video (sin respuesta) */}
       <div
         style={{
           position: 'absolute',
@@ -70,33 +67,12 @@ export const AnimalFactMorayEel: React.FC = () => {
           boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
         }}
       >
-        <div style={{padding: '24px 24px 16px', opacity: headlineOpacity, textAlign: 'center'}}>
-          <span
-            style={{
-              fontFamily: 'Helvetica, Arial, sans-serif',
-              fontSize: 28,
-              lineHeight: 1.3,
-              letterSpacing: '-0.01em',
-              color: '#fff',
-            }}
-          >
-            {renderBold(HEADLINE, 700, 900)}
-          </span>
-        </div>
-
-        <OffthreadVideo
-          src={staticFile('moray-eel-fact.mp4')}
-          style={{width: '100%', height: 300, objectFit: 'cover', display: 'block'}}
-        />
-
-        <div style={{height: 1, background: 'rgba(255,255,255,0.15)', margin: '0 24px'}} />
-
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: 12,
-            padding: '14px 24px 6px',
+            padding: '18px 24px 12px',
             opacity: profileOpacity,
           }}
         >
@@ -117,11 +93,24 @@ export const AnimalFactMorayEel: React.FC = () => {
           </div>
         </div>
 
-        <div style={{padding: '2px 24px 20px', opacity: quoteOpacity}}>
-          <span style={{fontFamily: 'Helvetica, Arial, sans-serif', fontSize: 19, lineHeight: 1.35, color: 'rgba(255,255,255,0.9)'}}>
-            {renderBold(QUOTE)}
+        <div style={{padding: '4px 24px 16px', opacity: headlineOpacity, textAlign: 'left'}}>
+          <span
+            style={{
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontSize: 26,
+              lineHeight: 1.3,
+              letterSpacing: '-0.01em',
+              color: '#fff',
+            }}
+          >
+            {renderBold(HEADLINE, 700, 900)}
           </span>
         </div>
+
+        <OffthreadVideo
+          src={staticFile('moray-eel-fact.mp4')}
+          style={{width: '100%', height: 300, objectFit: 'cover', display: 'block'}}
+        />
       </div>
 
       {/* Reactor (zorro), justo debajo del post */}
