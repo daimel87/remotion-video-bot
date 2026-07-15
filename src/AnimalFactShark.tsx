@@ -29,7 +29,7 @@ const VerifiedBadge: React.FC = () => (
   </svg>
 );
 
-export const AnimalFactShark: React.FC = () => {
+export const AnimalFactShark: React.FC<{showFox?: boolean}> = ({showFox = true}) => {
   const frame = useCurrentFrame();
 
   const profileOpacity = interpolate(frame, [0, 6], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
@@ -115,7 +115,7 @@ export const AnimalFactShark: React.FC = () => {
           filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.5))',
         }}
       >
-        <ChromaFox />
+        {showFox ? <ChromaFox /> : null}
       </div>
 
       {/* Botón SUBSCRIBE (izquierda) */}
