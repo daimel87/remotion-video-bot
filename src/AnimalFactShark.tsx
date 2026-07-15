@@ -107,11 +107,11 @@ export const AnimalFactShark: React.FC = () => {
       <div
         style={{
           position: 'absolute',
-          bottom: -20,
+          bottom: -30,
           left: '50%',
           transform: 'translateX(-50%)',
-          width: 460,
-          height: 460,
+          width: 620,
+          height: 620,
           filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.5))',
         }}
       >
