@@ -1,5 +1,7 @@
 import {AbsoluteFill, Img, OffthreadVideo, staticFile, useCurrentFrame} from 'remotion';
 import {interpolate} from 'remotion';
+import {AnimatedTopoBackground} from './AnimatedTopoBackground';
+import {ChromaFox} from './ChromaFox';
 
 const HEADLINE =
   "Sharks have been swimming in Earth's oceans for over **400 million years** — that's older than **trees**, older than **Saturn's rings**, and older than the **North Star**. They survived **four mass extinctions** that wiped out almost all life on the planet, including the one that **killed the dinosaurs**. While humans have existed for about **300,000 years**, sharks were already ancient when the very **first tree took root**. They are, quite literally, **living fossils older than the ground beneath them**.";
@@ -38,20 +40,8 @@ export const AnimalFactShark: React.FC = () => {
 
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
-      {/* Fondo difuminado del mismo clip */}
-      <OffthreadVideo
-        src={staticFile('shark-fact.mp4')}
-        muted
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          filter: 'blur(50px) brightness(0.4)',
-          transform: 'scale(1.2)',
-        }}
-      />
+      {/* Fondo animado (líneas topográficas en movimiento) */}
+      <AnimatedTopoBackground />
 
       {/* Tarjeta estilo post de X: perfil arriba -> headline -> video (sin respuesta) */}
       <div
@@ -113,26 +103,19 @@ export const AnimalFactShark: React.FC = () => {
         />
       </div>
 
-      {/* Reactor (zorro), justo debajo del post */}
+      {/* Reactor (zorro) flotando sobre el fondo, chroma key real (secuencia PNG con alfa) */}
       <div
         style={{
           position: 'absolute',
-          bottom: 10,
+          bottom: -20,
           left: '50%',
           transform: 'translateX(-50%)',
-          width: 380,
-          height: 380,
-          borderRadius: 20,
-          overflow: 'hidden',
-          border: '3px solid rgba(255,255,255,0.85)',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
+          width: 460,
+          height: 460,
+          filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.5))',
         }}
       >
-        <OffthreadVideo
-          src={staticFile('fox-reaction-test.mp4')}
-          muted
-          style={{width: '100%', height: '100%', objectFit: 'cover'}}
-        />
+        <ChromaFox />
       </div>
 
       {/* Botón SUBSCRIBE (izquierda) */}
