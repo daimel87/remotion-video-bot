@@ -37,6 +37,7 @@ import {KomodoDragon} from './KomodoDragon';
 import {HoneyBadger} from './HoneyBadger';
 import {BeforeAfter} from './BeforeAfter';
 import {AnimalFactJellyfish} from './AnimalFactJellyfish';
+import {AnimalFactMorayEel} from './AnimalFactMorayEel';
 import {RankingDogs} from './RankingDogs';
 import {ChannelBanner} from './ChannelBanner';
 
@@ -342,6 +343,14 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="AnimalFactJellyfish"
         component={AnimalFactJellyfish}
+        durationInFrames={192}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactMorayEel"
+        component={AnimalFactMorayEel}
         durationInFrames={192}
         fps={24}
         width={720}
