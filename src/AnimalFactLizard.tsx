@@ -120,10 +120,9 @@ export const AnimalFactLizard: React.FC<{showFox?: boolean}> = ({showFox = false
           </span>
         </div>
 
-        {/* Clip del lagarto (ya trae el chorro de sangre real desde el ojo) */}
+        {/* Clip del lagarto (trae el chorro de sangre real + su propio sonido) */}
         <OffthreadVideo
           src={staticFile('lizard-fact.mp4')}
-          muted
           style={{width: '100%', height: 300, objectFit: 'cover', display: 'block'}}
         />
       </div>
