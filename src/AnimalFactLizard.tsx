@@ -120,15 +120,12 @@ export const AnimalFactLizard: React.FC<{showFox?: boolean}> = ({showFox = false
           </span>
         </div>
 
-        {/* Clip del lagarto + chorro de sangre animado */}
-        <div style={{position: 'relative', width: '100%', height: 300}}>
-          <OffthreadVideo
-            src={staticFile('lizard-fact.mp4')}
-            muted
-            style={{width: '100%', height: '100%', objectFit: 'cover', display: 'block'}}
-          />
-          <BloodJet />
-        </div>
+        {/* Clip del lagarto (ya trae el chorro de sangre real desde el ojo) */}
+        <OffthreadVideo
+          src={staticFile('lizard-fact.mp4')}
+          muted
+          style={{width: '100%', height: 300, objectFit: 'cover', display: 'block'}}
+        />
       </div>
 
       {/* Reactor (zorro) opcional — la plantilla se exporta sin él para CapCut */}
