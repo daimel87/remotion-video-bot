@@ -378,7 +378,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="WorldCupAnimals"
         component={WorldCupAnimals}
-        durationInFrames={650}
+        durationInFrames={1232}
         fps={30}
         width={720}
         height={1280}

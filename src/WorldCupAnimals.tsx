@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import {
   AbsoluteFill,
+  Audio,
   OffthreadVideo,
   Sequence,
   staticFile,
@@ -25,26 +26,26 @@ const useKomikaFont = () => {
 };
 
 const FPS = 30;
-const SEG = 130; // frames por animal
 const STROKE = '#000';
 const GREEN = '#39E75F';
 
 const TITLE_PARTS = ['Ranking The Most ', 'DEADLY', ' World Cup Animals'];
 
-// Fondo: cada animal se reproduce en su ventana. La columna de puestos (3->1)
-// revela el nombre cuando su clip entra. Ordenado por letalidad real (clímax al #1).
-type Item = {n: number; color: string; team: string; animal: string; emoji: string; src: string; objX: number; off: number};
+// Fondo: cada animal en su ventana, sincronizada al SRT de Buzz (audio narrado).
+// from/dur en frames a 30fps. La columna 5->1 revela el nombre cuando la voz lo dice.
+type Item = {n: number; color: string; team: string; animal: string; emoji: string; src: string; objX: number; off: number; from: number; dur: number};
 const ITEMS: Item[] = [
-  {n: 5, color: '#FFD23F', team: 'FRANCE', animal: 'Rooster', emoji: '🐓', src: 'ba-rooster-adult', objX: 50, off: 1},
-  {n: 4, color: '#FF3B30', team: 'SPAIN', animal: 'Bull', emoji: '🐂', src: 'ba-bull-adult', objX: 50, off: 1},
-  {n: 3, color: '#FF8C00', team: 'SOUTH KOREA', animal: 'Tiger', emoji: '🐯', src: 'ba-tiger-adult', objX: 22, off: 1},
-  {n: 2, color: '#4aa3ff', team: 'ENGLAND', animal: 'Lion', emoji: '🦁', src: 'ba-lion-adult', objX: 50, off: 1},
-  {n: 1, color: GREEN, team: 'IVORY COAST', animal: 'Elephant', emoji: '🐘', src: 'ba-elephant-adult', objX: 50, off: 1},
+  {n: 5, color: '#FFD23F', team: 'FRANCE', animal: 'Rooster', emoji: '🐓', src: 'ba-rooster-adult', objX: 50, off: 1, from: 0, dur: 216},
+  {n: 4, color: '#FF3B30', team: 'SPAIN', animal: 'Bull', emoji: '🐂', src: 'ba-bull-adult', objX: 50, off: 1, from: 216, dur: 203},
+  {n: 3, color: '#FF8C00', team: 'SOUTH KOREA', animal: 'Tiger', emoji: '🐯', src: 'ba-tiger-adult', objX: 22, off: 1, from: 419, dur: 203},
+  {n: 2, color: '#4aa3ff', team: 'ENGLAND', animal: 'Lion', emoji: '🦁', src: 'ba-lion-adult', objX: 50, off: 1, from: 622, dur: 233},
+  {n: 1, color: GREEN, team: 'IVORY COAST', animal: 'Elephant', emoji: '🐘', src: 'ba-elephant-adult', objX: 50, off: 1, from: 855, dur: 377},
 ];
+const TOTAL = 1232;
 
-const Shot: React.FC<{src: string; objX: number; off: number}> = ({src, objX, off}) => {
+const Shot: React.FC<{src: string; objX: number; off: number; dur: number}> = ({src, objX, off, dur}) => {
   const frame = useCurrentFrame();
-  const zoom = interpolate(frame, [0, SEG], [1.03, 1.11], {extrapolateRight: 'clamp'});
+  const zoom = interpolate(frame, [0, dur], [1.03, 1.12], {extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill style={{backgroundColor: '#000', overflow: 'hidden'}}>
       <OffthreadVideo
@@ -72,13 +73,16 @@ export const WorldCupAnimals: React.FC = () => {
 
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
-      {/* Fondo: clips en secuencia */}
-      {ITEMS.map((item, i) => (
-        <Sequence key={item.animal} from={i * SEG} durationInFrames={SEG}>
-          <Shot src={item.src} objX={item.objX} off={item.off} />
+      {/* Narración */}
+      <Audio src={staticFile('worldcup-vo.mp3')} />
+
+      {/* Fondo: clips en secuencia, sincronizados a la voz (SRT de Buzz) */}
+      {ITEMS.map((item) => (
+        <Sequence key={item.animal} from={item.from} durationInFrames={item.dur}>
+          <Shot src={item.src} objX={item.objX} off={item.off} dur={item.dur} />
         </Sequence>
       ))}
-      {ITEMS.map((_, i) => (i > 0 ? <Flash key={i} at={i * SEG} /> : null))}
+      {ITEMS.map((item, i) => (i > 0 ? <Flash key={i} at={item.from} /> : null))}
 
       {/* Oscurecer un poco arriba/izquierda para que lea el texto */}
       <AbsoluteFill
@@ -111,7 +115,7 @@ export const WorldCupAnimals: React.FC = () => {
 
       {/* Columna de puestos 3->1 a la izquierda; el nombre se revela cuando su clip entra */}
       {ITEMS.map((item, i) => {
-        const revealAt = i * SEG + 6;
+        const revealAt = item.from + 4;
         const labelOpacity = interpolate(frame, [revealAt, revealAt + 10], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
         const pop = interpolate(frame, [revealAt, revealAt + 8], [0.6, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
         const top = 340 + i * 118;
