@@ -40,6 +40,7 @@ import {AnimalFactJellyfish} from './AnimalFactJellyfish';
 import {AnimalFactMorayEel} from './AnimalFactMorayEel';
 import {AnimalFactShark} from './AnimalFactShark';
 import {AnimalFactLizard} from './AnimalFactLizard';
+import {WorldCupAnimals} from './WorldCupAnimals';
 import {RankingDogs} from './RankingDogs';
 import {ChannelBanner} from './ChannelBanner';
 
@@ -371,6 +372,14 @@ export const RemotionRoot: React.FC = () => {
         component={AnimalFactLizard}
         durationInFrames={120}
         fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="WorldCupAnimals"
+        component={WorldCupAnimals}
+        durationInFrames={650}
+        fps={30}
         width={720}
         height={1280}
       />

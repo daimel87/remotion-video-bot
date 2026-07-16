@@ -35,8 +35,10 @@ const TITLE_PARTS = ['Ranking The Most ', 'DEADLY', ' World Cup Animals'];
 // revela el nombre cuando su clip entra. Ordenado por letalidad real (clímax al #1).
 type Item = {n: number; color: string; team: string; animal: string; emoji: string; src: string; objX: number; off: number};
 const ITEMS: Item[] = [
-  {n: 3, color: '#FF3B30', team: 'SOUTH KOREA', animal: 'Tiger', emoji: '🐯', src: 'ba-tiger-adult', objX: 22, off: 1},
-  {n: 2, color: '#FF8C00', team: 'ENGLAND', animal: 'Lion', emoji: '🦁', src: 'ba-lion-adult', objX: 50, off: 1},
+  {n: 5, color: '#FFD23F', team: 'FRANCE', animal: 'Rooster', emoji: '🐓', src: 'ba-rooster-adult', objX: 50, off: 1},
+  {n: 4, color: '#FF3B30', team: 'SPAIN', animal: 'Bull', emoji: '🐂', src: 'ba-bull-adult', objX: 50, off: 1},
+  {n: 3, color: '#FF8C00', team: 'SOUTH KOREA', animal: 'Tiger', emoji: '🐯', src: 'ba-tiger-adult', objX: 22, off: 1},
+  {n: 2, color: '#4aa3ff', team: 'ENGLAND', animal: 'Lion', emoji: '🦁', src: 'ba-lion-adult', objX: 50, off: 1},
   {n: 1, color: GREEN, team: 'IVORY COAST', animal: 'Elephant', emoji: '🐘', src: 'ba-elephant-adult', objX: 50, off: 1},
 ];
 
