@@ -6,7 +6,7 @@ export interface Shot {from: number; dur: number; src: string; video: boolean; m
 export interface StatDef {value?: number; display?: string; prefix?: string; suffix?: string; label?: string; decimals?: number; format?: 'plain' | 'comma'; accent?: Accent;}
 export interface Overlay {
   from: number; dur: number;
-  kind: 'title' | 'chapter' | 'stat' | 'chart' | 'slam' | 'question' | 'newspaper' | 'quote' | 'definition' | 'name';
+  kind: 'title' | 'chapter' | 'stat' | 'chart' | 'slam' | 'question' | 'newspaper' | 'quote' | 'definition' | 'name' | 'date' | 'fulltext';
   pre?: string; text?: string; num?: number; stat?: StatDef; chart?: 'growth' | 'decline'; accent?: Accent;
   headline?: string; dek?: string; img?: string; quote?: string; author?: string;
   term?: string; pos?: string; def?: string; name?: string; role?: string;
@@ -133,6 +133,21 @@ const STATS: Record<number, StatDef> = {
 };
 const CHARTS: Record<number, 'growth' | 'decline'> = {35: 'growth', 111: 'decline'};
 
+// Sellos de fecha (esquina)
+const DATES: Record<number, string> = {
+  18: '1982', 44: '1991', 46: '1993', 51: '1997', 59: '1999',
+  81: '2001', 95: '2003', 120: '2005', 138: '2007', 156: '2012',
+};
+// Textos a pantalla completa (declaraciones dramáticas)
+const FULLTEXT: Record<number, {text: string; accent?: Accent}> = {
+  45: {text: 'Un error histórico', accent: 'red'},
+  80: {text: 'La venganza del mercado', accent: 'amber'},
+  94: {text: 'Lo que vino después', accent: 'paper'},
+  119: {text: 'Algo más oscuro', accent: 'red'},
+  159: {text: '¿Por qué murió el CD,\nrealmente?', accent: 'amber'},
+  168: {text: 'No fue la tecnología.\nFue la codicia.', accent: 'red'},
+};
+
 // Capa editorial: periódicos, citas, definiciones y rótulos de nombre
 const EDITORIAL: Record<number, Ed> = {
   9: {kind: 'definition', secs: 3.2, term: 'Piratería doméstica', pos: 'sustantivo', def: 'Copiar discos y casetes en casa, sin pagarle a la industria.'},
@@ -195,12 +210,12 @@ export const buildPlan = (fps: number, total: number) => {
     const dur = Math.max(1, to - from);
     const isIntro = c.i <= 3;
     const cands = isIntro ? candidatesFor(INTRO_TOKENS) : candidatesFor(poolFor(resolveBase(c.text)));
-    const special = STATS[c.i] || CHARTS[c.i] || c.i === 4; // cue 4 = título (fondo calmo)
+    const special = STATS[c.i] || CHARTS[c.i] || FULLTEXT[c.i] || c.i === 4; // fondo calmo bajo el texto
 
     if (special) {
       shots.push({from, dur, ...pickBest(cands), motion: 'zoomIn'});
     } else {
-      const target = (isIntro ? 1.05 : 2.1) * fps;
+      const target = (isIntro ? 1.5 : 2.8) * fps;
       const n = Math.max(1, Math.round(dur / target));
       for (let k = 0; k < n; k++) {
         const sFrom = from + Math.round((k * dur) / n);
@@ -217,6 +232,8 @@ export const buildPlan = (fps: number, total: number) => {
     if (c.i === 4) overlays.push({from, dur, kind: 'title', pre: 'la historia real del', text: 'CD'});
     if (STATS[c.i]) overlays.push({from, dur, kind: 'stat', stat: STATS[c.i]});
     if (CHARTS[c.i]) overlays.push({from, dur, kind: 'chart', chart: CHARTS[c.i]});
+    if (DATES[c.i]) overlays.push({from, dur: Math.round(fps * 2.4), kind: 'date', text: DATES[c.i]});
+    if (FULLTEXT[c.i]) overlays.push({from, dur: Math.min(dur, Math.round(fps * 3.2)), kind: 'fulltext', text: FULLTEXT[c.i].text, accent: FULLTEXT[c.i].accent});
     const ed = EDITORIAL[c.i];
     if (ed) {
       overlays.push({
@@ -227,9 +244,9 @@ export const buildPlan = (fps: number, total: number) => {
     }
   });
 
-  // Slams del cold-open (curiosidad)
-  overlays.push({from: Math.round(0.5 * fps), dur: Math.round(1.9 * fps), kind: 'slam', text: '1988', accent: 'teal'});
-  overlays.push({from: Math.round(15.4 * fps), dur: Math.round(4.2 * fps), kind: 'question', text: '¿POR QUÉ MURIÓ EL CD?', accent: 'red'});
+  // Cold-open: fecha + pregunta de curiosidad
+  overlays.push({from: Math.round(0.6 * fps), dur: Math.round(2.2 * fps), kind: 'date', text: '1988'});
+  overlays.push({from: Math.round(15.4 * fps), dur: Math.round(4.4 * fps), kind: 'fulltext', text: '¿Por qué murió\nel CD?', accent: 'red'});
 
   return {shots, overlays};
 };
