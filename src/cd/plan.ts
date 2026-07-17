@@ -6,7 +6,7 @@ export interface Shot {from: number; dur: number; src: string; video: boolean; m
 export interface StatDef {value?: number; display?: string; prefix?: string; suffix?: string; label?: string; decimals?: number; format?: 'plain' | 'comma'; accent?: Accent;}
 export interface Overlay {
   from: number; dur: number;
-  kind: 'title' | 'chapter' | 'stat' | 'chart' | 'slam' | 'question' | 'newspaper' | 'quote' | 'definition' | 'name' | 'date' | 'fulltext';
+  kind: 'title' | 'chapter' | 'stat' | 'chart' | 'slam' | 'question' | 'newspaper' | 'quote' | 'definition' | 'name' | 'date' | 'fulltext' | 'shrink' | 'network' | 'timeline';
   pre?: string; text?: string; num?: number; stat?: StatDef; chart?: 'growth' | 'decline'; accent?: Accent;
   headline?: string; dek?: string; img?: string; quote?: string; author?: string;
   term?: string; pos?: string; def?: string; name?: string; role?: string;
@@ -119,7 +119,6 @@ const CHAPTERS: {cue: number; num: number; title: string}[] = [
 // Cifras / gráficas (callouts numéricos)
 const STATS: Record<number, StatDef> = {
   23: {value: 1000, prefix: '$', label: 'El primer reproductor'},
-  43: {display: '40 MB → 4 MB', label: 'La misma canción'},
   65: {value: 25, suffix: ' M', label: 'usuarios en 12 meses'},
   66: {value: 80, suffix: ' M', label: 'usuarios', accent: 'red'},
   71: {value: 335000, format: 'comma', label: 'usuarios denunciados', accent: 'red'},
@@ -132,6 +131,13 @@ const STATS: Record<number, StatDef> = {
   157: {display: '#1', label: 'fuente de ingresos', accent: 'teal'},
 };
 const CHARTS: Record<number, 'growth' | 'decline'> = {35: 'growth', 111: 'decline'};
+
+// Motion graphics especiales (fondo calmo detrás)
+const GRAPHICS: Record<number, {kind: 'shrink' | 'network' | 'timeline'; secs: number; active?: string}> = {
+  43: {kind: 'shrink', secs: 3.6},
+  62: {kind: 'network', secs: 3.8},
+  158: {kind: 'timeline', secs: 4.2, active: '2015'},
+};
 
 // Sellos de fecha (esquina)
 const DATES: Record<number, string> = {
@@ -174,16 +180,15 @@ const INTRO_TOKENS = [
 ];
 
 type Cand = {src: string; video: boolean};
-// Solo FOTOS (Ken Burns) — los videos (OffthreadVideo) soltaban frames en negro = parpadeo.
+// Fotos + videos mezclados (ya es determinista → sin parpadeo).
 const candidatesFor = (pool: string[]): Cand[] => {
   const out: Cand[] = [];
   for (const token of pool) {
-    if (token.startsWith('v:')) continue; // se omiten los videos
-    for (const src of photoVariants(token)) out.push({src, video: false});
+    const isV = token.startsWith('v:');
+    const base = isV ? token.slice(2) : token;
+    for (const src of (isV ? videoVariants(base) : photoVariants(base))) out.push({src, video: isV});
   }
-  if (out.length === 0) {
-    for (const src of photoVariants('cd-disc')) out.push({src, video: false});
-  }
+  if (out.length === 0) for (const src of photoVariants('cd-disc')) out.push({src, video: false});
   return out;
 };
 
@@ -216,12 +221,14 @@ export const buildPlan = (fps: number, total: number) => {
     const dur = Math.max(1, to - from);
     const isIntro = c.i <= 3;
     const cands = isIntro ? candidatesFor(INTRO_TOKENS) : candidatesFor(poolFor(resolveBase(c.text)));
-    const special = STATS[c.i] || CHARTS[c.i] || FULLTEXT[c.i] || c.i === 4; // fondo calmo bajo el texto
+    const special = STATS[c.i] || CHARTS[c.i] || GRAPHICS[c.i] || FULLTEXT[c.i] || c.i === 4; // fondo calmo bajo el texto
 
     if (special) {
       shots.push({from, dur, ...pickBest(cands), motion: 'zoomIn'});
     } else {
-      const target = (isIntro ? 3.2 : 5.0) * fps;
+      // ritmo variado y determinista: intro ágil, cuerpo alternando tomas medias/largas
+      const varied = [4.0, 5.6, 4.6, 6.2][c.i % 4];
+      const target = (isIntro ? 2.8 : varied) * fps;
       const n = Math.max(1, Math.round(dur / target));
       for (let k = 0; k < n; k++) {
         const sFrom = from + Math.round((k * dur) / n);
@@ -239,6 +246,7 @@ export const buildPlan = (fps: number, total: number) => {
     if (STATS[c.i]) overlays.push({from, dur, kind: 'stat', stat: STATS[c.i]});
     if (CHARTS[c.i]) overlays.push({from, dur, kind: 'chart', chart: CHARTS[c.i]});
     if (DATES[c.i]) overlays.push({from, dur: Math.round(fps * 2.4), kind: 'date', text: DATES[c.i]});
+    if (GRAPHICS[c.i]) overlays.push({from, dur: Math.round(GRAPHICS[c.i].secs * fps), kind: GRAPHICS[c.i].kind, text: GRAPHICS[c.i].active});
     if (FULLTEXT[c.i]) overlays.push({from, dur: Math.min(dur, Math.round(fps * 3.2)), kind: 'fulltext', text: FULLTEXT[c.i].text, accent: FULLTEXT[c.i].accent});
     const ed = EDITORIAL[c.i];
     if (ed) {

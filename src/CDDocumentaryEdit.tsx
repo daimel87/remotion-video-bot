@@ -6,6 +6,7 @@ import {buildPlan} from './cd/plan';
 import {
   KenBurns, VideoBG, Grade, Atmosphere, Letterbox, TitleCard, ChapterTitle, DateStamp,
   FullScreenText, StatBox, BarChart, NewspaperCard, QuoteCard, DefinitionCard, LowerThird, ProgressBar,
+  ShrinkBar, NetworkDiagram, Timeline,
 } from './cd/components';
 import {COLORS} from './cd/theme';
 
@@ -58,6 +59,9 @@ export const CDDocumentaryEdit: React.FC = () => {
           {o.kind === 'quote' && <QuoteCard quote={o.quote ?? ''} author={o.author} durationInFrames={o.dur} />}
           {o.kind === 'definition' && <DefinitionCard term={o.term ?? ''} pos={o.pos} def={o.def ?? ''} durationInFrames={o.dur} />}
           {o.kind === 'name' && <LowerThird name={o.name ?? ''} role={o.role} />}
+          {o.kind === 'shrink' && <ShrinkBar durationInFrames={o.dur} />}
+          {o.kind === 'network' && <NetworkDiagram durationInFrames={o.dur} />}
+          {o.kind === 'timeline' && <Timeline active={o.text ?? ''} durationInFrames={o.dur} />}
         </Sequence>
       ))}
 

@@ -15,11 +15,11 @@ export const KenBurns: React.FC<{
   const frame = useCurrentFrame();
   const p = interpolate(frame, [0, durationInFrames], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   let scale = 1.1, tx = 0, ty = 0;
-  if (motion === 'zoomIn') scale = interpolate(p, [0, 1], [1.06, 1.16]);
-  else if (motion === 'zoomOut') scale = interpolate(p, [0, 1], [1.16, 1.06]);
-  else if (motion === 'panLeft') {scale = 1.14; tx = interpolate(p, [0, 1], [3, -3]);}
-  else if (motion === 'panRight') {scale = 1.14; tx = interpolate(p, [0, 1], [-3, 3]);}
-  else {scale = interpolate(p, [0, 1], [1.14, 1.06]); ty = interpolate(p, [0, 1], [1.5, -1.5]);}
+  if (motion === 'zoomIn') {scale = interpolate(p, [0, 1], [1.05, 1.22]); ty = interpolate(p, [0, 1], [1, -1]);}
+  else if (motion === 'zoomOut') {scale = interpolate(p, [0, 1], [1.22, 1.06]); ty = interpolate(p, [0, 1], [-1, 1]);}
+  else if (motion === 'panLeft') {scale = 1.2; tx = interpolate(p, [0, 1], [5, -5]);}
+  else if (motion === 'panRight') {scale = 1.2; tx = interpolate(p, [0, 1], [-5, 5]);}
+  else {scale = interpolate(p, [0, 1], [1.22, 1.08]); ty = interpolate(p, [0, 1], [2.5, -2.5]); tx = interpolate(p, [0, 1], [1.5, -1.5]);}
   return (
     <AbsoluteFill style={{overflow: 'hidden', backgroundColor: '#000'}}>
       <Img src={src} style={{
@@ -270,6 +270,98 @@ export const DefinitionCard: React.FC<{term: string; pos?: string; def: string; 
         <div style={{fontFamily: FONT, fontStyle: 'italic', color: COLORS.dim, fontSize: 32, margin: '8px 0 14px'}}>{pos}</div>
         <div style={{height: 2, width: `${w}%`, background: COLORS.amber, marginBottom: 18}} />
         <div style={{fontFamily: FONT_SANS, fontWeight: 500, color: COLORS.paper, fontSize: 38, lineHeight: 1.35, textShadow: '0 3px 14px rgba(0,0,0,0.9)'}}>{def}</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// ============ MOTION GRAPHIC: compresión MP3 (40 MB → 4 MB) ============
+export const ShrinkBar: React.FC<{durationInFrames: number}> = ({durationInFrames}) => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const o = fadeInOut(frame, durationInFrames, 16, 14);
+  const g1 = spring({frame, fps, delay: 6, config: {damping: 20, stiffness: 70}});
+  const g2 = spring({frame, fps, delay: 24, config: {damping: 20, stiffness: 70}});
+  const Row = ({label, w, val, g, color}: {label: string; w: number; val: string; g: number; color: string}) => (
+    <div style={{display: 'flex', alignItems: 'center', gap: 24, marginBottom: 26}}>
+      <div style={{width: 150, textAlign: 'right', fontFamily: FONT_SANS, fontWeight: 700, color: COLORS.dim, fontSize: 30, letterSpacing: 2}}>{label}</div>
+      <div style={{width: w * g, height: 52, background: color, boxShadow: `0 0 40px ${color}55`}} />
+      <div style={{fontFamily: FONT, fontWeight: 700, color: COLORS.paper, fontSize: 44, opacity: g}}>{val}</div>
+    </div>
+  );
+  return (
+    <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', opacity: o}}>
+      <AbsoluteFill style={{background: 'rgba(5,7,10,0.6)'}} />
+      <div style={{position: 'relative'}}>
+        <Row label="CD" w={680} val="40 MB" g={g1} color={COLORS.teal} />
+        <Row label="MP3" w={68} val="4 MB" g={g2} color={COLORS.amber} />
+        <div style={{marginTop: 18, textAlign: 'center', fontFamily: FONT, fontWeight: 700, color: COLORS.amber, fontSize: 64, opacity: g2}}>−90% de tamaño</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// ============ MOTION GRAPHIC: red P2P de Napster (sin servidor central) ============
+export const NetworkDiagram: React.FC<{durationInFrames: number}> = ({durationInFrames}) => {
+  const frame = useCurrentFrame();
+  const o = fadeInOut(frame, durationInFrames, 16, 14);
+  const N = 9, R = 260, cx = 960, cy = 470;
+  const nodes = Array.from({length: N}, (_, i) => {
+    const a = (i / N) * Math.PI * 2 - Math.PI / 2;
+    return {x: cx + Math.cos(a) * R, y: cy + Math.sin(a) * R};
+  });
+  const edges: [number, number][] = [];
+  for (let i = 0; i < N; i++) {edges.push([i, (i + 1) % N]); edges.push([i, (i + 2) % N]); edges.push([i, (i + 4) % N]);}
+  const draw = interpolate(frame, [8, 46], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  return (
+    <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', opacity: o}}>
+      <AbsoluteFill style={{background: 'rgba(5,7,10,0.4)'}} />
+      <svg width="1920" height="1080" style={{position: 'absolute'}}>
+        {edges.map(([a, b], i) => {
+          const na = nodes[a], nb = nodes[b];
+          const p = Math.max(0, Math.min(1, draw * 1.4 - (i / edges.length) * 0.4));
+          return <line key={i} x1={na.x} y1={na.y} x2={na.x + (nb.x - na.x) * p} y2={na.y + (nb.y - na.y) * p} stroke={`${COLORS.teal}`} strokeOpacity={0.5} strokeWidth={2} />;
+        })}
+        {nodes.map((n, i) => {
+          const pulse = 1 + Math.sin(frame / 10 + i) * 0.12;
+          return <g key={i}>
+            <circle cx={n.x} cy={n.y} r={22 * pulse} fill={COLORS.amber} />
+            <circle cx={n.x} cy={n.y} r={22 * pulse} fill="none" stroke={COLORS.paper} strokeOpacity={0.25} strokeWidth={2} />
+          </g>;
+        })}
+      </svg>
+      <div style={{position: 'absolute', bottom: '15%', textAlign: 'center'}}>
+        <div style={{fontFamily: FONT, fontWeight: 700, color: COLORS.paper, fontSize: 64, letterSpacing: 1}}>Sin servidor central</div>
+        <div style={{marginTop: 8, fontFamily: FONT_SANS, fontWeight: 600, color: COLORS.amber, fontSize: 30, letterSpacing: 6, textTransform: 'uppercase'}}>usuario ↔ usuario</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// ============ MOTION GRAPHIC: línea de tiempo ============
+export const Timeline: React.FC<{active: string; durationInFrames: number}> = ({active, durationInFrames}) => {
+  const frame = useCurrentFrame();
+  const o = fadeInOut(frame, durationInFrames, 16, 14);
+  const years = ['1979', '1982', '1991', '1997', '1999', '2003', '2007', '2015'];
+  const grow = interpolate(frame, [8, 40], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const activeIdx = years.indexOf(active);
+  return (
+    <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', opacity: o}}>
+      <AbsoluteFill style={{background: 'rgba(5,7,10,0.6)'}} />
+      <div style={{width: '82%', position: 'relative'}}>
+        <div style={{position: 'absolute', top: 40, left: 0, height: 3, width: `${grow * 100}%`, background: 'rgba(236,231,220,0.4)'}} />
+        <div style={{display: 'flex', justifyContent: 'space-between', position: 'relative'}}>
+          {years.map((y, i) => {
+            const on = i <= activeIdx * grow * 1.2;
+            const isActive = i === activeIdx;
+            return (
+              <div key={y} style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18, opacity: interpolate(frame, [8 + i * 3, 20 + i * 3], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}}>
+                <div style={{width: isActive ? 26 : 14, height: isActive ? 26 : 14, borderRadius: '50%', background: isActive ? COLORS.amber : on ? COLORS.teal : 'rgba(236,231,220,0.3)', boxShadow: isActive ? `0 0 28px ${COLORS.amber}` : 'none'}} />
+                <div style={{fontFamily: FONT, fontWeight: 700, color: isActive ? COLORS.amber : COLORS.dim, fontSize: isActive ? 44 : 34}}>{y}</div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </AbsoluteFill>
   );
