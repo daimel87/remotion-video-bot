@@ -34,18 +34,18 @@ const CLIPS = [
   {id: 'walkman-ad-1979',      src: 'ytsearch1:sony walkman commercial 1979 original ad', section: '*0:00-1:00', note: 'Anuncio Walkman 1979'},
   {id: 'cassette-dubbing',     src: 'ytsearch1:cassette tape dubbing home recording 1980s', section: '*0:00-1:30', note: 'Copia casera de casetes'},
   // Cap 2 — El disco perfecto
-  {id: 'cd-intro-1982',        src: 'ytsearch1:compact disc introduction 1982 philips sony news', section: '*0:00-2:00', note: 'Presentación del CD 1982'},
-  {id: 'cd-how-it-works',      src: 'ytsearch1:how compact disc works laser 1980s documentary', section: '*0:00-2:00', note: 'Cómo funciona el CD / láser'},
+  {id: 'cd-intro-1982',        src: 'ytsearch1:"compact disc" 1982 vintage news report archival footage launch', section: '*0:00-2:00', note: 'Presentación del CD 1982 (v2, evitar docu de fonógrafo Edison)'},
+  {id: 'cd-how-it-works',      src: 'ytsearch1:how a cd works laser optical disc explained animation', section: '*0:00-2:00', note: 'Cómo funciona el CD / láser (v2)'},
   {id: 'cdp101-player',        src: 'ytsearch1:sony cdp-101 first cd player 1982', section: '*0:00-1:30', note: 'Primer reproductor CDP-101'},
   // Cap 3 — La mina de oro
   {id: 'cd-store-90s',         src: 'ytsearch1:record store cd shopping 1990s news footage', section: '*0:00-1:30', note: 'Tiendas de CDs años 90'},
   // Cap 4 — La rebelión (MP3 / internet)
-  {id: 'mp3-fraunhofer',       src: 'ytsearch1:mp3 history fraunhofer brandenburg documentary', section: '*0:00-2:00', note: 'Historia del MP3'},
+  {id: 'mp3-fraunhofer',       src: 'ytsearch1:karlheinz brandenburg mp3 inventor interview documentary', section: '*0:00-2:00', note: 'Historia del MP3 (v2, la primera búsqueda falló al descargar)'},
   {id: 'dialup-internet-90s',  src: 'ytsearch1:internet 1995 dial up news report AOL', section: '*0:00-1:30', note: 'Internet de los 90'},
   {id: 'rio-pmp300',           src: 'ytsearch1:diamond rio pmp300 mp3 player 1998 review news', section: '*0:00-1:30', note: 'Rio PMP300'},
   // Cap 5 — Napster
   {id: 'napster-news-1999',    src: 'ytsearch1:napster news report 1999 2000 cnn', section: '*0:00-2:00', note: 'Noticiero Napster'},
-  {id: 'shawn-fanning',        src: 'ytsearch1:shawn fanning interview 2000 napster mtv', section: '*0:00-1:30', note: 'Shawn Fanning'},
+  {id: 'shawn-fanning',        src: 'ytsearch1:shawn fanning napster founder news interview archive 2000', section: '*0:00-1:30', note: 'Shawn Fanning (v2, la anterior no se pudo confirmar)'},
   {id: 'ulrich-senate-2000',   src: 'ytsearch1:lars ulrich senate testimony napster 2000', section: '*0:00-2:00', note: 'Ulrich en el Senado (dominio público, obra del gob. EE.UU.)'},
   {id: 'napster-shutdown',     src: 'ytsearch1:napster shut down 2001 news report', section: '*0:00-1:30', note: 'Cierre de Napster'},
   {id: 'kazaa-limewire',       src: 'ytsearch1:kazaa limewire file sharing 2002 news', section: '*0:00-1:30', note: 'Kazaa/LimeWire'},
@@ -56,9 +56,9 @@ const CLIPS = [
   // Caída del CD / Tower
   {id: 'tower-records-close',  src: 'ytsearch1:tower records closing 2006 news report bankruptcy', section: '*0:00-2:00', note: 'Cierre de Tower Records'},
   // Cap 7 — Sony rootkit
-  {id: 'sony-rootkit-2005',    src: 'ytsearch1:sony bmg rootkit scandal 2005 news report', section: '*0:00-2:00', note: 'Escándalo rootkit Sony'},
+  {id: 'sony-rootkit-2005',    src: 'ytsearch1:sony bmg rootkit cd scandal cnn abc nbc news 2005 archival', section: '*0:00-2:00', note: 'Escándalo rootkit Sony (v2, la anterior era un video moderno no de época)'},
   // Cap 8 — Streaming / veredicto
-  {id: 'spotify-ek',           src: 'ytsearch1:daniel ek spotify interview 2011', section: '*0:00-1:30', note: 'Daniel Ek / Spotify'},
+  {id: 'spotify-ek',           src: 'ytsearch1:daniel ek spotify founder ceo news interview launch', section: '*0:00-1:30', note: 'Daniel Ek / Spotify (v2, la anterior no se pudo confirmar identidad)'},
   {id: 'vinyl-revival',        src: 'ytsearch1:vinyl revival news report record sales comeback', section: '*0:00-1:30', note: 'Regreso del vinilo'},
 ];
 // --------------------------------------------------------------------------
