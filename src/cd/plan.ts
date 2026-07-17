@@ -234,16 +234,16 @@ const OVERRIDE_BASE: Record<number, string> = {
   144: 'smartphone-music',           // "la gente quería música gratis" (no concierto)
 };
 
-type Cand = {src: string; video: boolean};
+type Cand = {src: string; video: boolean; base: string};
 // Fotos + videos mezclados (ya es determinista → sin parpadeo).
 const candidatesFor = (pool: string[]): Cand[] => {
   const out: Cand[] = [];
   for (const token of pool) {
     const isV = token.startsWith('v:');
     const base = isV ? token.slice(2) : token;
-    for (const src of (isV ? videoVariants(base) : photoVariants(base))) out.push({src, video: isV});
+    for (const src of (isV ? videoVariants(base) : photoVariants(base))) out.push({src, video: isV, base});
   }
-  if (out.length === 0) for (const src of photoVariants('cd-disc')) out.push({src, video: false});
+  if (out.length === 0) for (const src of photoVariants('cd-disc')) out.push({src, video: false, base: 'cd-disc'});
   return out;
 };
 
@@ -251,19 +251,32 @@ export const buildPlan = (fps: number, total: number) => {
   const shots: Shot[] = [];
   const overlays: Overlay[] = [];
   const useCount: Record<string, number> = {};
-  const recent: string[] = [];
+  const baseCount: Record<string, number> = {};
+  const recent: string[] = [];      // últimos archivos exactos usados
+  const recentBase: string[] = [];  // últimos SUJETOS (base) usados — evita "mismo clip" con otra variante
   // Elige el candidato menos usado y no reciente. DETERMINISTA (sin Math.random,
   // que rompía el render de Remotion re-sorteando las imágenes en cada frame).
+  // Penaliza fuerte repetir el mismo SUJETO en una ventana amplia: dos tomas del
+  // "muchacho con la computadora" seguidas dan sensación de documental barato.
   const pickBest = (cands: Cand[]): Cand => {
     let best = cands[0]; let bestScore = Infinity;
     for (let k = 0; k < cands.length; k++) {
       const c = cands[k];
       const tie = (k * 2654435761) % 997 / 997; // desempate determinista para variar
-      const score = (recent.includes(c.src) ? 1000 : 0) + (useCount[c.src] ?? 0) * 10 + tie;
+      const idxInBase = recentBase.lastIndexOf(c.base); // cuán reciente es el sujeto
+      const baseRecency = idxInBase === -1 ? 0 : 4000 - (recentBase.length - 1 - idxInBase) * 260;
+      const score =
+        (recent.includes(c.src) ? 6000 : 0) +   // mismo archivo exacto: casi prohibido
+        baseRecency +                            // mismo sujeto reciente: fuerte penalización decreciente
+        (baseCount[c.base] ?? 0) * 40 +          // sujeto muy usado en todo el video: penalización suave
+        (useCount[c.src] ?? 0) * 8 +
+        tie;
       if (score < bestScore) {bestScore = score; best = c;}
     }
     useCount[best.src] = (useCount[best.src] ?? 0) + 1;
-    recent.push(best.src); if (recent.length > 12) recent.shift();
+    baseCount[best.base] = (baseCount[best.base] ?? 0) + 1;
+    recent.push(best.src); if (recent.length > 10) recent.shift();
+    recentBase.push(best.base); if (recentBase.length > 14) recentBase.shift();
     return best;
   };
   const cutMotions: Shot['motion'][] = ['punchIn', 'zoomIn', 'punchIn', 'zoomOut', 'panRight', 'punchIn', 'panLeft', 'zoomIn'];
