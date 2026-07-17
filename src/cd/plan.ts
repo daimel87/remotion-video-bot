@@ -215,7 +215,7 @@ export const buildPlan = (fps: number, total: number) => {
     if (special) {
       shots.push({from, dur, ...pickBest(cands), motion: 'zoomIn'});
     } else {
-      const target = (isIntro ? 1.5 : 2.8) * fps;
+      const target = (isIntro ? 2.2 : 3.4) * fps;
       const n = Math.max(1, Math.round(dur / target));
       for (let k = 0; k < n; k++) {
         const sFrom = from + Math.round((k * dur) / n);

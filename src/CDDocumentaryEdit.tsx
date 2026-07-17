@@ -16,17 +16,12 @@ export const CDDocumentaryEdit: React.FC = () => {
     <AbsoluteFill style={{backgroundColor: COLORS.bg}}>
       <Audio src={staticFile('audio/cd-narration.mp3')} />
 
-      {/* B-roll con disolvencias reales (solape = crossfade, sin parpadeo) */}
-      {shots.map((s, i) => {
-        const overlap = i > 0 ? 8 : 0;
-        const from = Math.max(0, s.from - overlap);
-        const dur = s.dur + overlap;
-        return (
-          <Sequence key={`s${i}`} from={from} durationInFrames={dur}>
-            {s.video ? <VideoBG src={s.src} /> : <KenBurns src={s.src} motion={s.motion} durationInFrames={dur} />}
-          </Sequence>
-        );
-      })}
+      {/* B-roll con cortes duros limpios (sin fade, sin parpadeo) */}
+      {shots.map((s, i) => (
+        <Sequence key={`s${i}`} from={s.from} durationInFrames={s.dur}>
+          {s.video ? <VideoBG src={s.src} /> : <KenBurns src={s.src} motion={s.motion} durationInFrames={s.dur} />}
+        </Sequence>
+      ))}
 
       {/* Grade cine + atmósfera */}
       <Grade />

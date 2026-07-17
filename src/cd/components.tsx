@@ -20,13 +20,12 @@ export const KenBurns: React.FC<{
   else if (motion === 'panLeft') {scale = 1.14; tx = interpolate(p, [0, 1], [3, -3]);}
   else if (motion === 'panRight') {scale = 1.14; tx = interpolate(p, [0, 1], [-3, 3]);}
   else {scale = interpolate(p, [0, 1], [1.14, 1.06]); ty = interpolate(p, [0, 1], [1.5, -1.5]);}
-  const fade = interpolate(frame, [0, 9], [0, 1], {extrapolateRight: 'clamp'}); // disolvencia suave
   return (
-    <AbsoluteFill style={{overflow: 'hidden', backgroundColor: '#000', opacity: fade}}>
+    <AbsoluteFill style={{overflow: 'hidden', backgroundColor: '#000'}}>
       <Img src={src} style={{
         width: '100%', height: '100%', objectFit: 'cover',
         transform: `scale(${scale}) translate(${tx}%, ${ty}%)`,
-        filter: 'saturate(0.68) contrast(1.2) brightness(0.9)',
+        filter: 'saturate(0.7) contrast(1.12) brightness(0.92)',
       }} />
     </AbsoluteFill>
   );
@@ -35,12 +34,11 @@ export const KenBurns: React.FC<{
 export const VideoBG: React.FC<{src: string}> = ({src}) => {
   const frame = useCurrentFrame();
   const scale = interpolate(frame, [0, 150], [1.08, 1.15], {extrapolateRight: 'clamp'});
-  const fade = interpolate(frame, [0, 9], [0, 1], {extrapolateRight: 'clamp'});
   return (
-    <AbsoluteFill style={{overflow: 'hidden', backgroundColor: '#000', opacity: fade}}>
+    <AbsoluteFill style={{overflow: 'hidden', backgroundColor: '#000'}}>
       <OffthreadVideo src={src} muted style={{
         width: '100%', height: '100%', objectFit: 'cover',
-        transform: `scale(${scale})`, filter: 'saturate(0.68) contrast(1.18) brightness(0.9)',
+        transform: `scale(${scale})`, filter: 'saturate(0.7) contrast(1.1) brightness(0.92)',
       }} />
     </AbsoluteFill>
   );
