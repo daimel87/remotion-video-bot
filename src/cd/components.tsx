@@ -19,14 +19,14 @@ export const KenBurns: React.FC<{
   else if (motion === 'zoomOut') scale = interpolate(p, [0, 1], [1.2, 1.06]);
   else if (motion === 'panLeft') {scale = 1.18; tx = interpolate(p, [0, 1], [4, -4]);}
   else if (motion === 'panRight') {scale = 1.18; tx = interpolate(p, [0, 1], [-4, 4]);}
-  else scale = interpolate(frame, [0, 8, durationInFrames], [1.4, 1.16, 1.26], {extrapolateRight: 'clamp'}); // punch-in
-  const flash = interpolate(frame, [0, 3], [1.55, 1], {extrapolateRight: 'clamp'}); // pop de brillo en el corte
+  else scale = interpolate(frame, [0, 10, durationInFrames], [1.16, 1.1, 1.16], {extrapolateRight: 'clamp'}); // punch-in suave
+  const flash = interpolate(frame, [0, 4], [1.12, 1], {extrapolateRight: 'clamp'}); // pop de brillo tenue
   return (
     <AbsoluteFill style={{overflow: 'hidden', backgroundColor: '#000'}}>
       <Img src={src} style={{
         width: '100%', height: '100%', objectFit: 'cover',
         transform: `scale(${scale}) translateX(${tx}%)`,
-        filter: `contrast(1.14) saturate(1.22) brightness(${flash})`,
+        filter: `contrast(1.12) saturate(1.18) brightness(${flash})`,
       }} />
     </AbsoluteFill>
   );
@@ -35,13 +35,13 @@ export const KenBurns: React.FC<{
 // ---------- Fondo: video ----------
 export const VideoBG: React.FC<{src: string; startFrom?: number}> = ({src, startFrom = 0}) => {
   const frame = useCurrentFrame();
-  const scale = interpolate(frame, [0, 90], [1.16, 1.24], {extrapolateRight: 'clamp'});
-  const flash = interpolate(frame, [0, 3], [1.5, 1], {extrapolateRight: 'clamp'});
+  const scale = interpolate(frame, [0, 120], [1.12, 1.18], {extrapolateRight: 'clamp'});
+  const flash = interpolate(frame, [0, 4], [1.1, 1], {extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill style={{overflow: 'hidden', backgroundColor: '#000'}}>
       <OffthreadVideo src={src} muted startFrom={startFrom} style={{
         width: '100%', height: '100%', objectFit: 'cover',
-        transform: `scale(${scale})`, filter: `contrast(1.12) saturate(1.2) brightness(${flash})`,
+        transform: `scale(${scale})`, filter: `contrast(1.1) saturate(1.16) brightness(${flash})`,
       }} />
     </AbsoluteFill>
   );
@@ -50,9 +50,9 @@ export const VideoBG: React.FC<{src: string; startFrom?: number}> = ({src, start
 // ---------- Grade + viñeta + duotono unificador + light-leak ----------
 export const Grade: React.FC = () => {
   const frame = useCurrentFrame();
-  const leakX = 20 + Math.sin(frame / 90) * 30;
-  const leakO = 0.10 + Math.sin(frame / 40) * 0.04;
-  const vig = 0.6 + Math.sin(frame / 70) * 0.06; // viñeta que respira
+  const leakX = 25 + Math.sin(frame / 160) * 18;
+  const leakO = 0.08 + Math.sin(frame / 110) * 0.02;
+  const vig = 0.56; // viñeta estable
   return (
     <>
       {/* duotono: armoniza todo el stock en una sola paleta */}
@@ -63,49 +63,26 @@ export const Grade: React.FC = () => {
       <AbsoluteFill style={{background: `radial-gradient(130% 100% at 50% 45%, rgba(0,0,0,0) 42%, rgba(0,0,0,${vig}) 100%)`}} />
       <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(20,10,4,0.3) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 66%, rgba(8,5,3,0.6) 100%)'}} />
       {/* scanlines VHS muy sutiles */}
-      <AbsoluteFill style={{background: 'repeating-linear-gradient(0deg, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 2px, transparent 4px)', opacity: 0.28, mixBlendMode: 'multiply'}} />
+      <AbsoluteFill style={{background: 'repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 2px, transparent 4px)', opacity: 0.14, mixBlendMode: 'multiply'}} />
     </>
   );
 };
 
-// ---------- Transición de corte (flashy dark doc) ----------
-export const CutFX: React.FC<{type: number}> = ({type}) => {
+// ---------- Transición de luz entre cortes (suave, un solo tipo) ----------
+export const CutFX: React.FC<{type?: number}> = () => {
   const frame = useCurrentFrame();
-  const t = ((type % 6) + 6) % 6;
-  if (t === 0) { // flash blanco
-    const o = interpolate(frame, [0, 5], [0.8, 0], {extrapolateRight: 'clamp'});
-    return <AbsoluteFill style={{background: '#fff', opacity: o, mixBlendMode: 'screen', pointerEvents: 'none'}} />;
-  }
-  if (t === 1) { // dip a negro
-    const o = interpolate(frame, [0, 4], [1, 0], {extrapolateRight: 'clamp'});
-    return <AbsoluteFill style={{background: '#000', opacity: o, pointerEvents: 'none'}} />;
-  }
-  if (t === 2) { // destello ámbar (light leak)
-    const o = interpolate(frame, [0, 2, 9], [0, 0.75, 0], {extrapolateRight: 'clamp'});
-    return <AbsoluteFill style={{background: 'radial-gradient(60% 80% at 78% 18%, rgba(255,176,32,0.95), rgba(0,0,0,0) 62%)', opacity: o, mixBlendMode: 'screen', pointerEvents: 'none'}} />;
-  }
-  if (t === 3) { // glitch RGB
-    if (frame >= 4) return null;
-    const dx = frame % 2 === 0 ? 8 : -8;
-    return (
-      <AbsoluteFill style={{pointerEvents: 'none'}}>
-        <AbsoluteFill style={{background: 'linear-gradient(0deg, transparent 38%, rgba(22,199,199,0.4) 46%, transparent 54%)', transform: `translateX(${dx}px)`, mixBlendMode: 'screen'}} />
-        <AbsoluteFill style={{background: 'linear-gradient(0deg, transparent 56%, rgba(255,59,48,0.4) 62%, transparent 68%)', transform: `translateX(${-dx}px)`, mixBlendMode: 'screen'}} />
-      </AbsoluteFill>
-    );
-  }
-  if (t === 4) { // barrido de luz diagonal
-    const x = interpolate(frame, [0, 9], [-30, 130], {extrapolateRight: 'clamp'});
-    const o = interpolate(frame, [0, 4, 10], [0, 0.55, 0], {extrapolateRight: 'clamp'});
-    return (
-      <AbsoluteFill style={{pointerEvents: 'none', overflow: 'hidden'}}>
-        <div style={{position: 'absolute', top: -40, bottom: -40, left: `${x}%`, width: '24%', background: 'linear-gradient(100deg, transparent, rgba(255,255,255,0.55), transparent)', transform: 'skewX(-12deg)', opacity: o, mixBlendMode: 'screen'}} />
-      </AbsoluteFill>
-    );
-  }
-  // t === 5: pulso de zoom-oscuro (dip corto + flash tenue)
-  const o = interpolate(frame, [0, 3, 6], [0.7, 0.15, 0], {extrapolateRight: 'clamp'});
-  return <AbsoluteFill style={{background: 'radial-gradient(120% 120% at 50% 50%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.9) 100%)', opacity: o, pointerEvents: 'none'}} />;
+  // barrido cálido suave de izquierda a derecha
+  const x = interpolate(frame, [0, 14], [-25, 125], {extrapolateRight: 'clamp'});
+  const o = interpolate(frame, [0, 5, 14], [0, 0.4, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  return (
+    <AbsoluteFill style={{pointerEvents: 'none', overflow: 'hidden'}}>
+      <div style={{
+        position: 'absolute', top: -60, bottom: -60, left: `${x}%`, width: '40%',
+        background: 'linear-gradient(100deg, transparent, rgba(255,214,150,0.55), rgba(255,255,255,0.4), transparent)',
+        transform: 'skewX(-10deg)', opacity: o, mixBlendMode: 'screen', filter: 'blur(6px)',
+      }} />
+    </AbsoluteFill>
+  );
 };
 
 // grano animado ligero (una capa SVG)
