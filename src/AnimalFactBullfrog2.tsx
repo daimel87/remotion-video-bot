@@ -56,10 +56,10 @@ const RedArrow: React.FC = () => (
 export const AnimalFactBullfrog2: React.FC<{showFox?: boolean}> = ({showFox = false}) => {
   const frame = useCurrentFrame();
 
-  const profileOpacity = interpolate(frame, [0, 6], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-  const headlineOpacity = interpolate(frame, [4, 12], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-
-  const ctaOpacity = interpolate(frame, [14, 22], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  // Texto fijo desde el frame 0 (sin fade): el clip ya se sube con el texto puesto.
+  const profileOpacity = 1;
+  const headlineOpacity = 1;
+  const ctaOpacity = 1;
   const ctaPulse = 1 + Math.sin(frame * 0.22) * 0.045;
 
   // Seguimiento del escarabajo (fracción del recuadro del video, 5s @ 24fps = 120f)
