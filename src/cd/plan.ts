@@ -1,8 +1,32 @@
+import {staticFile} from 'remotion';
 import {cues} from '../data/cdCues';
 import {photoVariants, videoVariants} from './assets';
 
 type Accent = 'amber' | 'teal' | 'red' | 'paper';
-export interface Shot {from: number; dur: number; src: string; video: boolean; motion: 'punchIn' | 'zoomIn' | 'zoomOut' | 'panLeft' | 'panRight';}
+export interface Shot {from: number; dur: number; src: string; video: boolean; motion: 'punchIn' | 'zoomIn' | 'zoomOut' | 'panLeft' | 'panRight'; startFrom?: number; archival?: boolean;}
+
+// Clips de archivo real (verificados cuadro por cuadro) — id -> {duración total (s), mejor punto de inicio (s)}
+const ARCHIVAL: Record<string, {dur: number; start: number}> = {
+  'walkman-ad-1979': {dur: 30, start: 2},
+  'cassette-dubbing': {dur: 90, start: 8},
+  'cd-how-it-works': {dur: 120, start: 4}, // timeline LaserDisc->CD 1982->DVD->Blu-ray
+  'cdp101-player': {dur: 90, start: 6},
+  'cd-store-90s': {dur: 52, start: 5},
+  'dialup-internet-90s': {dur: 90, start: 6},
+  'rio-pmp300': {dur: 90, start: 10},
+  'napster-news-1999': {dur: 24, start: 2},
+  'shawn-fanning': {dur: 90, start: 6},
+  'ulrich-senate-2000': {dur: 120, start: 20},
+  'napster-shutdown': {dur: 90, start: 4},
+  'kazaa-limewire': {dur: 90, start: 12},
+  'ipod-keynote-2001': {dur: 26, start: 2},
+  'itunes-store-2003': {dur: 150, start: 8},
+  'iphone-2007': {dur: 120, start: 4},
+  'tower-records-close': {dur: 72, start: 4},
+  'spotify-ek': {dur: 90, start: 38},
+  'vinyl-revival': {dur: 90, start: 3},
+};
+const archivalSrc = (id: string) => staticFile(`archival/${id}.mp4`);
 export interface StatDef {value?: number; display?: string; prefix?: string; suffix?: string; label?: string; decimals?: number; format?: 'plain' | 'comma'; accent?: Accent;}
 export interface Overlay {
   from: number; dur: number;
@@ -103,6 +127,21 @@ const resolveBase = (text: string): string => {
   return 'cd-disc';
 };
 const poolFor = (base: string): string[] => POOLS[base] ?? [base];
+
+// Clip de archivo forzado para cues específicos (verificados, prioridad sobre el pool de stock)
+const ARCHIVAL_BY_CUE: Record<number, string> = {
+  6: 'walkman-ad-1979', 7: 'cassette-dubbing', 8: 'cassette-dubbing',
+  17: 'cd-how-it-works', 18: 'cd-how-it-works', 22: 'cdp101-player',
+  38: 'dialup-internet-90s', 44: 'dialup-internet-90s',
+  51: 'rio-pmp300',
+  58: 'shawn-fanning', 59: 'shawn-fanning', 61: 'napster-news-1999',
+  64: 'napster-news-1999', 65: 'napster-news-1999',
+  69: 'napster-news-1999', 70: 'ulrich-senate-2000', 81: 'napster-shutdown',
+  88: 'ipod-keynote-2001', 89: 'ipod-keynote-2001', 95: 'itunes-store-2003',
+  113: 'tower-records-close', 114: 'tower-records-close',
+  142: 'iphone-2007', 143: 'spotify-ek',
+  155: 'kazaa-limewire', 156: 'kazaa-limewire', 157: 'vinyl-revival',
+};
 
 // Capítulos (por número de cue donde arrancan)
 const CHAPTERS: {cue: number; num: number; title: string}[] = [
@@ -212,6 +251,7 @@ export const buildPlan = (fps: number, total: number) => {
     return best;
   };
   const cutMotions: Shot['motion'][] = ['punchIn', 'zoomIn', 'punchIn', 'zoomOut', 'panRight', 'punchIn', 'panLeft', 'zoomIn'];
+  const archivalProgress: Record<string, number> = {}; // avanza el punto de lectura dentro de cada clip
 
   const chapterByCue = new Map(CHAPTERS.map((c) => [c.cue, c]));
 
@@ -220,12 +260,24 @@ export const buildPlan = (fps: number, total: number) => {
     const to = idx < cues.length - 1 ? Math.round(cues[idx + 1].start * fps) : total;
     const dur = Math.max(1, to - from);
     const isIntro = c.i <= 3;
-    const cands = isIntro ? candidatesFor(INTRO_TOKENS) : candidatesFor(poolFor(resolveBase(c.text)));
     const special = STATS[c.i] || CHARTS[c.i] || GRAPHICS[c.i] || FULLTEXT[c.i] || c.i === 4; // fondo calmo bajo el texto
+    const archId = ARCHIVAL_BY_CUE[c.i];
 
-    if (special) {
+    if (archId && !special) {
+      // clip de archivo real: una sola toma que ocupa todo el cue, avanzando dentro del video fuente
+      const meta = ARCHIVAL[archId];
+      const already = archivalProgress[archId] ?? meta.start;
+      const startFrom = Math.round(Math.min(already, meta.dur - dur / fps - 1) * fps);
+      archivalProgress[archId] = already + dur / fps + 0.5;
+      shots.push({
+        from, dur, src: archivalSrc(archId), video: true, motion: 'zoomIn',
+        startFrom: Math.max(0, startFrom), archival: true,
+      });
+    } else if (special) {
+      const cands = isIntro ? candidatesFor(INTRO_TOKENS) : candidatesFor(poolFor(resolveBase(c.text)));
       shots.push({from, dur, ...pickBest(cands), motion: 'zoomIn'});
     } else {
+      const cands = isIntro ? candidatesFor(INTRO_TOKENS) : candidatesFor(poolFor(resolveBase(c.text)));
       // ritmo variado y determinista: intro ágil, cuerpo alternando tomas medias/largas
       const varied = [4.0, 5.6, 4.6, 6.2][c.i % 4];
       const target = (isIntro ? 2.8 : varied) * fps;

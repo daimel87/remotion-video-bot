@@ -31,14 +31,17 @@ export const KenBurns: React.FC<{
   );
 };
 
-export const VideoBG: React.FC<{src: string}> = ({src}) => {
+export const VideoBG: React.FC<{src: string; startFrom?: number; archival?: boolean}> = ({src, startFrom = 0, archival}) => {
   const frame = useCurrentFrame();
   const scale = interpolate(frame, [0, 150], [1.08, 1.15], {extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill style={{overflow: 'hidden', backgroundColor: '#000'}}>
-      <OffthreadVideo src={src} muted style={{
+      <OffthreadVideo src={src} muted startFrom={startFrom} style={{
         width: '100%', height: '100%', objectFit: 'cover',
-        transform: `scale(${scale})`, filter: 'saturate(0.7) contrast(1.1) brightness(0.92)',
+        transform: `scale(${scale})`,
+        filter: archival
+          ? 'saturate(0.55) contrast(1.16) brightness(0.88) sepia(0.08)' // material de archivo: un poco más desaturado/sepia
+          : 'saturate(0.7) contrast(1.1) brightness(0.92)',
       }} />
     </AbsoluteFill>
   );
@@ -77,7 +80,8 @@ export const TitleCard: React.FC<{pre?: string; text: string; durationInFrames: 
   const scale = interpolate(frame, [0, durationInFrames], [1.04, 1.09]);
   return (
     <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', opacity: o}}>
-      <div style={{textAlign: 'center', transform: `scale(${scale})`}}>
+      <AbsoluteFill style={{background: 'radial-gradient(60% 60% at 50% 50%, rgba(5,7,10,0.88), rgba(5,7,10,0.4) 78%, rgba(0,0,0,0.1) 100%)'}} />
+      <div style={{textAlign: 'center', transform: `scale(${scale})`, position: 'relative'}}>
         {pre && <div style={{fontFamily: FONT_SANS, fontWeight: 600, color: COLORS.dim, fontSize: 30, letterSpacing: 10, textTransform: 'uppercase', marginBottom: 22}}>{pre}</div>}
         <div style={{fontFamily: FONT, fontWeight: 700, color: COLORS.paper, fontSize: 150, lineHeight: 0.95, letterSpacing: 2, textShadow: '0 6px 40px rgba(0,0,0,0.9)'}}>{text}</div>
         <div style={{height: 2, width: 260, background: COLORS.amber, margin: '32px auto 0'}} />
@@ -94,7 +98,7 @@ export const FullScreenText: React.FC<{text: string; accent?: Accent; durationIn
   const lines = text.split('\n');
   return (
     <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', padding: '0 12%', opacity: o}}>
-      <AbsoluteFill style={{background: 'radial-gradient(60% 55% at 50% 50%, rgba(5,7,10,0.78), rgba(5,7,10,0.25) 75%, rgba(0,0,0,0) 100%)'}} />
+      <AbsoluteFill style={{background: 'radial-gradient(65% 62% at 50% 50%, rgba(5,7,10,0.9), rgba(5,7,10,0.45) 78%, rgba(0,0,0,0.12) 100%)'}} />
       <div style={{textAlign: 'center', transform: `translateY(${y}px)`, position: 'relative'}}>
         <div style={{width: 70, height: 2, background: accentColor(accent), margin: '0 auto 30px'}} />
         {lines.map((l, i) => (
@@ -114,7 +118,8 @@ export const ChapterTitle: React.FC<{num: number; title: string; durationInFrame
   const lineW = interpolate(frame, [0, 30], [0, 340], {extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', opacity: o}}>
-      <div style={{textAlign: 'center'}}>
+      <AbsoluteFill style={{background: 'radial-gradient(58% 55% at 50% 50%, rgba(5,7,10,0.85), rgba(5,7,10,0.35) 78%, rgba(0,0,0,0.08) 100%)'}} />
+      <div style={{textAlign: 'center', position: 'relative'}}>
         <div style={{fontFamily: FONT_SANS, fontWeight: 700, color: COLORS.amber, fontSize: 28, letterSpacing: 12, textTransform: 'uppercase'}}>Capítulo {roman}</div>
         <div style={{height: 1.5, width: lineW, background: 'rgba(236,231,220,0.4)', margin: '20px auto'}} />
         <div style={{fontFamily: FONT, fontWeight: 700, color: COLORS.paper, fontSize: 96, lineHeight: 1, letterSpacing: 1, textShadow: '0 6px 34px rgba(0,0,0,0.95)'}}>{title}</div>
@@ -391,18 +396,24 @@ export const HUD: React.FC<{chapters: {from: number; num: number; title: string}
       {bracket({bottom: '14%', left: 64}, {bottom: 0, left: 0}, {bottom: 0, left: 0})}
       {bracket({bottom: '14%', right: 64}, {bottom: 0, right: 0}, {bottom: 0, right: 0})}
       {/* kicker / marca arriba-izquierda */}
-      <div style={{position: 'absolute', top: '16.5%', left: 96, display: 'flex', alignItems: 'center', gap: 12}}>
+      <div style={{
+        position: 'absolute', top: '16.5%', left: 96, display: 'flex', alignItems: 'center', gap: 12,
+        background: 'linear-gradient(90deg, rgba(5,7,10,0.7), rgba(5,7,10,0))', padding: '8px 60px 8px 14px', borderRadius: 4,
+      }}>
         <div style={{width: 22, height: 2, background: COLORS.amber}} />
-        <div style={{fontFamily: FONT_SANS, fontWeight: 700, color: COLORS.dim, fontSize: 20, letterSpacing: 6, textTransform: 'uppercase'}}>{title}</div>
+        <div style={{fontFamily: FONT_SANS, fontWeight: 700, color: COLORS.paper, fontSize: 20, letterSpacing: 6, textTransform: 'uppercase', textShadow: '0 2px 8px rgba(0,0,0,0.9)'}}>{title}</div>
       </div>
-      {/* capítulo activo abajo-izquierda */}
+      {/* capítulo activo arriba-derecha (nunca choca con rótulos de nombre abajo-izquierda) */}
       {active && (
-        <div style={{position: 'absolute', bottom: '16.5%', left: 96, display: 'flex', alignItems: 'center', gap: 14}}>
-          <div style={{width: 3, height: 34, background: COLORS.amber}} />
-          <div>
-            <div style={{fontFamily: FONT_SANS, fontWeight: 700, color: COLORS.amber, fontSize: 17, letterSpacing: 5}}>CAP. {ROMAN[active.num] ?? active.num}</div>
-            <div style={{fontFamily: FONT, fontWeight: 700, color: COLORS.paper, fontSize: 30, letterSpacing: 0.5, textShadow: '0 2px 10px rgba(0,0,0,0.9)'}}>{active.title}</div>
+        <div style={{
+          position: 'absolute', top: '16.5%', right: 96, display: 'flex', alignItems: 'center', gap: 14,
+          background: 'linear-gradient(270deg, rgba(5,7,10,0.72), rgba(5,7,10,0.15) 85%, rgba(5,7,10,0))', padding: '10px 14px 10px 70px', borderRadius: 4,
+        }}>
+          <div style={{textAlign: 'right'}}>
+            <div style={{fontFamily: FONT_SANS, fontWeight: 700, color: COLORS.amber, fontSize: 17, letterSpacing: 5, textShadow: '0 2px 8px rgba(0,0,0,0.9)'}}>CAP. {ROMAN[active.num] ?? active.num}</div>
+            <div style={{fontFamily: FONT, fontWeight: 700, color: COLORS.paper, fontSize: 30, letterSpacing: 0.5, textShadow: '0 2px 12px rgba(0,0,0,0.95), 0 0 3px rgba(0,0,0,0.95)'}}>{active.title}</div>
           </div>
+          <div style={{width: 3, height: 34, background: COLORS.amber}} />
         </div>
       )}
     </AbsoluteFill>

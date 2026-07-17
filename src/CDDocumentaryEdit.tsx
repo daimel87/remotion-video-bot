@@ -26,7 +26,7 @@ export const CDDocumentaryEdit: React.FC = () => {
         {shots.flatMap((s, i) => {
           const seq = (
             <TransitionSeries.Sequence key={`seq${i}`} durationInFrames={s.dur + XFADE}>
-              {s.video ? <VideoBG src={s.src} /> : <KenBurns src={s.src} motion={s.motion} durationInFrames={s.dur + XFADE} />}
+              {s.video ? <VideoBG src={s.src} startFrom={s.startFrom} archival={s.archival} /> : <KenBurns src={s.src} motion={s.motion} durationInFrames={s.dur + XFADE} />}
             </TransitionSeries.Sequence>
           );
           if (i === 0) return [seq];
