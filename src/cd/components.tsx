@@ -94,7 +94,8 @@ export const FullScreenText: React.FC<{text: string; accent?: Accent; durationIn
   const lines = text.split('\n');
   return (
     <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', padding: '0 12%', opacity: o}}>
-      <div style={{textAlign: 'center', transform: `translateY(${y}px)`}}>
+      <AbsoluteFill style={{background: 'radial-gradient(60% 55% at 50% 50%, rgba(5,7,10,0.78), rgba(5,7,10,0.25) 75%, rgba(0,0,0,0) 100%)'}} />
+      <div style={{textAlign: 'center', transform: `translateY(${y}px)`, position: 'relative'}}>
         <div style={{width: 70, height: 2, background: accentColor(accent), margin: '0 auto 30px'}} />
         {lines.map((l, i) => (
           <div key={i} style={{fontFamily: FONT, fontWeight: 700, color: COLORS.paper, fontSize: text.length > 34 ? 78 : 104, lineHeight: 1.08, letterSpacing: 1, textShadow: '0 6px 34px rgba(0,0,0,0.95)'}}>{l}</div>
@@ -129,9 +130,9 @@ export const DateStamp: React.FC<{year: string; durationInFrames: number}> = ({y
   const lineW = interpolate(frame, [0, 22], [0, 70], {extrapolateRight: 'clamp'});
   return (
     <div style={{position: 'absolute', top: '20%', left: 100, opacity: o}}>
-      <div style={{display: 'flex', alignItems: 'center', gap: 18}}>
+      <div style={{display: 'flex', alignItems: 'center', gap: 18, background: 'linear-gradient(90deg, rgba(5,7,10,0.72), rgba(5,7,10,0))', padding: '10px 60px 10px 20px', borderRadius: 4}}>
         <div style={{width: lineW, height: 2, background: COLORS.amber}} />
-        <div style={{fontFamily: FONT, fontWeight: 700, color: COLORS.paper, fontSize: 92, letterSpacing: 3, textShadow: '0 4px 20px rgba(0,0,0,0.9)'}}>{year}</div>
+        <div style={{fontFamily: FONT, fontWeight: 700, color: COLORS.paper, fontSize: 92, letterSpacing: 3, textShadow: '0 4px 20px rgba(0,0,0,0.95)'}}>{year}</div>
       </div>
     </div>
   );
@@ -144,7 +145,7 @@ export const LowerThird: React.FC<{name: string; role?: string}> = ({name, role}
   const s = spring({frame, fps, config: {damping: 20, stiffness: 130}});
   const x = interpolate(s, [0, 1], [-50, 0]);
   return (
-    <div style={{position: 'absolute', left: 100, bottom: '17%', opacity: s, transform: `translateX(${x}px)`, display: 'flex', gap: 18}}>
+    <div style={{position: 'absolute', left: 100, bottom: '17%', opacity: s, transform: `translateX(${x}px)`, display: 'flex', gap: 18, background: 'linear-gradient(90deg, rgba(5,7,10,0.75), rgba(5,7,10,0.35) 80%, rgba(5,7,10,0))', padding: '16px 70px 16px 18px', borderRadius: 4}}>
       <div style={{width: 3, background: COLORS.amber}} />
       <div>
         <div style={{fontFamily: FONT, fontWeight: 700, color: COLORS.paper, fontSize: 52, letterSpacing: 1, lineHeight: 1, textShadow: '0 3px 16px rgba(0,0,0,0.95)'}}>{name}</div>
@@ -370,6 +371,43 @@ export const Timeline: React.FC<{active: string; durationInFrames: number}> = ({
 // Alias para compatibilidad (intro slam / pregunta usan FullScreenText)
 export const ImpactSlam = FullScreenText;
 export const ChapterRibbon = ChapterTitle;
+
+// ============ HUD permanente (densidad de diseño) ============
+const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+export const HUD: React.FC<{chapters: {from: number; num: number; title: string}[]; title: string}> = ({chapters, title}) => {
+  const frame = useCurrentFrame();
+  const active = [...chapters].filter((c) => c.from <= frame).pop();
+  const bracket = (pos: React.CSSProperties, h: React.CSSProperties, v: React.CSSProperties) => (
+    <div style={{position: 'absolute', ...pos}}>
+      <div style={{position: 'absolute', width: 46, height: 3, background: COLORS.amber, opacity: 0.8, ...h}} />
+      <div style={{position: 'absolute', width: 3, height: 46, background: COLORS.amber, opacity: 0.8, ...v}} />
+    </div>
+  );
+  return (
+    <AbsoluteFill style={{pointerEvents: 'none'}}>
+      {/* esquinas (dentro del área segura del letterbox) */}
+      {bracket({top: '14%', left: 64}, {top: 0, left: 0}, {top: 0, left: 0})}
+      {bracket({top: '14%', right: 64}, {top: 0, right: 0}, {top: 0, right: 0})}
+      {bracket({bottom: '14%', left: 64}, {bottom: 0, left: 0}, {bottom: 0, left: 0})}
+      {bracket({bottom: '14%', right: 64}, {bottom: 0, right: 0}, {bottom: 0, right: 0})}
+      {/* kicker / marca arriba-izquierda */}
+      <div style={{position: 'absolute', top: '16.5%', left: 96, display: 'flex', alignItems: 'center', gap: 12}}>
+        <div style={{width: 22, height: 2, background: COLORS.amber}} />
+        <div style={{fontFamily: FONT_SANS, fontWeight: 700, color: COLORS.dim, fontSize: 20, letterSpacing: 6, textTransform: 'uppercase'}}>{title}</div>
+      </div>
+      {/* capítulo activo abajo-izquierda */}
+      {active && (
+        <div style={{position: 'absolute', bottom: '16.5%', left: 96, display: 'flex', alignItems: 'center', gap: 14}}>
+          <div style={{width: 3, height: 34, background: COLORS.amber}} />
+          <div>
+            <div style={{fontFamily: FONT_SANS, fontWeight: 700, color: COLORS.amber, fontSize: 17, letterSpacing: 5}}>CAP. {ROMAN[active.num] ?? active.num}</div>
+            <div style={{fontFamily: FONT, fontWeight: 700, color: COLORS.paper, fontSize: 30, letterSpacing: 0.5, textShadow: '0 2px 10px rgba(0,0,0,0.9)'}}>{active.title}</div>
+          </div>
+        </div>
+      )}
+    </AbsoluteFill>
+  );
+};
 
 // Barra de progreso
 export const ProgressBar: React.FC<{progress: number}> = ({progress}) => (

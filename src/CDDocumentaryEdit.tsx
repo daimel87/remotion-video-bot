@@ -6,7 +6,7 @@ import {buildPlan} from './cd/plan';
 import {
   KenBurns, VideoBG, Grade, Atmosphere, Letterbox, TitleCard, ChapterTitle, DateStamp,
   FullScreenText, StatBox, BarChart, NewspaperCard, QuoteCard, DefinitionCard, LowerThird, ProgressBar,
-  ShrinkBar, NetworkDiagram, Timeline,
+  ShrinkBar, NetworkDiagram, Timeline, HUD,
 } from './cd/components';
 import {COLORS} from './cd/theme';
 
@@ -15,7 +15,7 @@ const XFADE = 24; // duración del crossfade entre tomas (frames)
 export const CDDocumentaryEdit: React.FC = () => {
   const {fps, durationInFrames} = useVideoConfig();
   const frame = useCurrentFrame();
-  const {shots, overlays} = React.useMemo(() => buildPlan(fps, durationInFrames), [fps, durationInFrames]);
+  const {shots, overlays, chapters} = React.useMemo(() => buildPlan(fps, durationInFrames), [fps, durationInFrames]);
 
   return (
     <AbsoluteFill style={{backgroundColor: COLORS.bg}}>
@@ -65,7 +65,8 @@ export const CDDocumentaryEdit: React.FC = () => {
         </Sequence>
       ))}
 
-      {/* Barras de cine + progreso */}
+      {/* HUD permanente + barras de cine + progreso */}
+      <HUD chapters={chapters} title="La historia real del CD" />
       <Letterbox />
       <ProgressBar progress={frame / durationInFrames} />
     </AbsoluteFill>

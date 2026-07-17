@@ -262,5 +262,9 @@ export const buildPlan = (fps: number, total: number) => {
   overlays.push({from: Math.round(0.6 * fps), dur: Math.round(2.2 * fps), kind: 'date', text: '1988'});
   overlays.push({from: Math.round(15.4 * fps), dur: Math.round(4.4 * fps), kind: 'fulltext', text: '¿Por qué murió\nel CD?', accent: 'red'});
 
-  return {shots, overlays};
+  // Marcas de capítulo para el HUD permanente
+  const cueFrom = (i: number) => Math.round((cues.find((c) => c.i === i)?.start ?? 0) * fps);
+  const chapterMarks = CHAPTERS.map((ch) => ({from: cueFrom(ch.cue), num: ch.num, title: ch.title}));
+
+  return {shots, overlays, chapters: chapterMarks};
 };
