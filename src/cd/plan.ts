@@ -211,12 +211,28 @@ const EDITORIAL: Record<number, Ed> = {
   143: {kind: 'name', secs: 3.0, name: 'Daniel Ek', role: 'Fundador de Spotify'},
 };
 
-// Montaje del cold-open: teasea toda la historia (dinero, piratería, tribunales, escándalo)
-const INTRO_TOKENS = [
-  'v:compact-disc-spinning', 'stack-of-cds', 'cash-money', 'broken-cd', 'v:cd-player-laser',
-  'cd-disc-macro', 'cassette-tape', 'v:downloading-progress-bar', 'courtroom', 'cybersecurity-hacker',
-  'concert-crowd', 'cd-bargain-bin', 'coins', 'v:hacker-typing', 'compact-disc',
-];
+// Cold-open: cada línea muestra EXACTAMENTE lo que se narra (nada de hackers/conciertos sueltos)
+const INTRO_POOLS: Record<number, string[]> = {
+  // "En 1988, una sola canción en un solo disco vendió más copias..." -> CDs y ventas
+  1: ['v:compact-disc-spinning', 'cd-disc-macro', 'compact-disc', 'stack-of-cds', 'cash-money'],
+  // "El disco compacto llevaba 6 años y había matado a su competidor" -> CD vs casete
+  2: ['cd-disc', 'v:cd-player-laser', 'cassette-tape', 'dual-cassette-deck', 'compact-disc'],
+  // "el CD no murió... decidieron que era más rentable matarlo" -> oscuro, CD roto, codicia
+  3: ['broken-cd', 'cd-disc-macro', 'cd-bargain-bin', 'cash-money'],
+};
+
+// Correcciones puntuales: cues donde el resolvedor por palabra clave elige mal la imagen
+const OVERRIDE_BASE: Record<number, string> = {
+  27: 'warehouse-archive',           // "algo que la mayoría no sabe" (antesala de las bodegas)
+  39: 'computer-code-programming',   // "MPEG-1 Audio Layer 3" (el codec)
+  40: 'mp3-player',                  // "el mundo lo conocería como MP3"
+  42: 'headphones',                  // "sin que el oído humano notara diferencia"
+  90: 'ipod',                        // "Mil canciones en tu bolsillo"
+  99: 'cash-money',                  // "querían seguir vendiendo álbumes a 15 dólares" (no era subscribe)
+  101: 'cash-money',                 // ultimátum de Jobs sobre precios
+  104: 'music-streaming-app',        // "en su primera semana, un millón" (iTunes)
+  144: 'smartphone-music',           // "la gente quería música gratis" (no concierto)
+};
 
 type Cand = {src: string; video: boolean};
 // Fotos + videos mezclados (ya es determinista → sin parpadeo).
@@ -262,6 +278,10 @@ export const buildPlan = (fps: number, total: number) => {
     const isIntro = c.i <= 3;
     const special = STATS[c.i] || CHARTS[c.i] || GRAPHICS[c.i] || FULLTEXT[c.i] || c.i === 4; // fondo calmo bajo el texto
     const archId = ARCHIVAL_BY_CUE[c.i];
+    // pool de la toma: intro por-cue > override puntual > resolución por palabra clave
+    const shotPool = (isIntro && INTRO_POOLS[c.i])
+      ? INTRO_POOLS[c.i]
+      : poolFor(OVERRIDE_BASE[c.i] ?? resolveBase(c.text));
 
     if (archId && !special) {
       // clip de archivo real: una sola toma que ocupa todo el cue, avanzando dentro del video fuente
@@ -274,10 +294,10 @@ export const buildPlan = (fps: number, total: number) => {
         startFrom: Math.max(0, startFrom), archival: true,
       });
     } else if (special) {
-      const cands = isIntro ? candidatesFor(INTRO_TOKENS) : candidatesFor(poolFor(resolveBase(c.text)));
+      const cands = candidatesFor(shotPool);
       shots.push({from, dur, ...pickBest(cands), motion: 'zoomIn'});
     } else {
-      const cands = isIntro ? candidatesFor(INTRO_TOKENS) : candidatesFor(poolFor(resolveBase(c.text)));
+      const cands = candidatesFor(shotPool);
       // ritmo variado y determinista: intro ágil, cuerpo alternando tomas medias/largas
       const varied = [4.0, 5.6, 4.6, 6.2][c.i % 4];
       const target = (isIntro ? 2.8 : varied) * fps;
