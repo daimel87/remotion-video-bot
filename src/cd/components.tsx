@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   AbsoluteFill, Img, OffthreadVideo, interpolate, useCurrentFrame,
-  useVideoConfig, spring, random,
+  useVideoConfig, spring,
 } from 'remotion';
 import {COLORS, FONT, FONT_SANS, accentColor} from './theme';
 
@@ -49,39 +49,22 @@ export const VideoBG: React.FC<{src: string}> = ({src}) => {
 // ============ GRADE CINEMATOGRÁFICO (teal/ámbar, negros aplastados) ============
 export const Grade: React.FC = () => (
   <>
-    <AbsoluteFill style={{background: 'rgba(9,24,30,0.30)', mixBlendMode: 'multiply'}} />
-    <AbsoluteFill style={{background: `radial-gradient(70% 60% at 50% 30%, ${COLORS.amber}22, rgba(0,0,0,0) 65%)`, mixBlendMode: 'screen'}} />
-    <AbsoluteFill style={{background: `linear-gradient(180deg, ${COLORS.amber}18 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,0) 55%, ${COLORS.teal}20 100%)`, mixBlendMode: 'soft-light'}} />
-    <AbsoluteFill style={{background: 'radial-gradient(120% 100% at 50% 48%, rgba(0,0,0,0) 38%, rgba(0,0,0,0.72) 100%)'}} />
-    <AbsoluteFill style={{background: 'repeating-linear-gradient(0deg, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 2px, transparent 4px)', opacity: 0.12, mixBlendMode: 'multiply'}} />
+    <AbsoluteFill style={{background: 'rgba(9,24,30,0.26)', mixBlendMode: 'multiply'}} />
+    <AbsoluteFill style={{background: `radial-gradient(70% 60% at 50% 30%, ${COLORS.amber}1e, rgba(0,0,0,0) 65%)`, mixBlendMode: 'screen'}} />
+    <AbsoluteFill style={{background: `linear-gradient(180deg, ${COLORS.amber}16 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,0) 55%, ${COLORS.teal}1c 100%)`, mixBlendMode: 'soft-light'}} />
+    <AbsoluteFill style={{background: 'radial-gradient(120% 100% at 50% 48%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.68) 100%)'}} />
   </>
 );
 
-// ============ ATMÓSFERA (niebla + partículas + rayos) ============
+// ============ ATMÓSFERA (niebla suave y estable, sin parpadeo) ============
 export const Atmosphere: React.FC = () => {
   const frame = useCurrentFrame();
-  const {height, width} = useVideoConfig();
-  const h1 = 30 + Math.sin(frame / 130) * 12;
-  const h2 = 70 + Math.cos(frame / 170) * 10;
-  const dust = Array.from({length: 46}, (_, i) => {
-    const sx = random(`x${i}`) * 100;
-    const speed = 0.15 + random(`s${i}`) * 0.4;
-    const size = 1 + random(`z${i}`) * 2.5;
-    const y = (random(`y${i}`) * height + frame * speed) % height;
-    const tw = 0.15 + Math.abs(Math.sin(frame / 22 + i)) * 0.35;
-    return {sx, y, size, tw};
-  });
+  const h1 = 30 + Math.sin(frame / 220) * 8;
+  const h2 = 70 + Math.cos(frame / 260) * 7;
   return (
     <AbsoluteFill style={{pointerEvents: 'none'}}>
-      {/* niebla */}
-      <AbsoluteFill style={{background: `radial-gradient(45% 55% at ${h1}% 25%, rgba(120,150,160,0.10), rgba(0,0,0,0) 60%)`, mixBlendMode: 'screen'}} />
-      <AbsoluteFill style={{background: `radial-gradient(50% 60% at ${h2}% 80%, rgba(160,130,90,0.08), rgba(0,0,0,0) 60%)`, mixBlendMode: 'screen'}} />
-      {/* rayo de luz */}
-      <div style={{position: 'absolute', top: -80, left: '18%', width: 260, height: '150%', background: 'linear-gradient(180deg, rgba(224,162,74,0.10), rgba(0,0,0,0))', transform: 'rotate(14deg)', filter: 'blur(24px)', mixBlendMode: 'screen'}} />
-      {/* partículas de polvo */}
-      {dust.map((d, i) => (
-        <div key={i} style={{position: 'absolute', left: `${d.sx}%`, top: d.y, width: d.size, height: d.size, borderRadius: '50%', background: 'rgba(230,225,210,0.9)', opacity: d.tw, filter: 'blur(0.4px)'}} />
-      ))}
+      <AbsoluteFill style={{background: `radial-gradient(45% 55% at ${h1}% 24%, rgba(120,150,160,0.08), rgba(0,0,0,0) 60%)`, mixBlendMode: 'screen'}} />
+      <AbsoluteFill style={{background: `radial-gradient(50% 60% at ${h2}% 82%, rgba(160,130,90,0.06), rgba(0,0,0,0) 60%)`, mixBlendMode: 'screen'}} />
     </AbsoluteFill>
   );
 };
