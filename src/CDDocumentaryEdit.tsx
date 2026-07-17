@@ -3,6 +3,7 @@ import {AbsoluteFill, Audio, Sequence, staticFile, useVideoConfig, useCurrentFra
 import {buildPlan} from './cd/plan';
 import {
   KenBurns, VideoBG, Grade, Grain, TitleCard, ChapterRibbon, StatBox, BarChart, ProgressBar,
+  ImpactSlam, NewspaperCard, QuoteCard, DefinitionCard, LowerThird, CutFX,
 } from './cd/components';
 import {COLORS} from './cd/theme';
 
@@ -19,6 +20,7 @@ export const CDDocumentaryEdit: React.FC = () => {
       {shots.map((s, i) => (
         <Sequence key={`s${i}`} from={s.from} durationInFrames={s.dur}>
           {s.video ? <VideoBG src={s.src} /> : <KenBurns src={s.src} motion={s.motion} durationInFrames={s.dur} />}
+          <CutFX type={i} />
         </Sequence>
       ))}
 
@@ -38,6 +40,12 @@ export const CDDocumentaryEdit: React.FC = () => {
             />
           )}
           {o.kind === 'chart' && o.chart && <BarChart mode={o.chart} />}
+          {o.kind === 'slam' && <ImpactSlam text={o.text ?? ''} accent={o.accent} durationInFrames={o.dur} />}
+          {o.kind === 'question' && <ImpactSlam text={o.text ?? ''} accent={o.accent} durationInFrames={o.dur} />}
+          {o.kind === 'newspaper' && <NewspaperCard headline={o.headline ?? ''} dek={o.dek} img={o.img} durationInFrames={o.dur} />}
+          {o.kind === 'quote' && <QuoteCard quote={o.quote ?? ''} author={o.author} durationInFrames={o.dur} />}
+          {o.kind === 'definition' && <DefinitionCard term={o.term ?? ''} pos={o.pos} def={o.def ?? ''} durationInFrames={o.dur} />}
+          {o.kind === 'name' && <LowerThird name={o.name ?? ''} role={o.role} />}
         </Sequence>
       ))}
 

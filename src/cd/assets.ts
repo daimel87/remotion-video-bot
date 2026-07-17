@@ -49,3 +49,15 @@ export const videoSrc = (base: string, n: number) => {
 
 export const hasPhoto = (base: string) => base in PHOTO_POOL || base in PHOTO_POOL2;
 export const hasVideo = (base: string) => base in VIDEO_POOL;
+
+const photoCount = (base: string) => (base in PHOTO_POOL2 ? PHOTO_POOL2[base] : PHOTO_POOL[base]) ?? 0;
+
+// Todas las variantes de una base (para repartir sin repetir)
+export const photoVariants = (base: string) => {
+  const start = PHOTO_START[base] ?? 1;
+  return Array.from({length: photoCount(base)}, (_, i) => staticFile(`stock/photos/${base}-${start + i}.jpg`));
+};
+export const videoVariants = (base: string) => {
+  const count = VIDEO_POOL[base] ?? 0;
+  return Array.from({length: count}, (_, i) => staticFile(`stock/videos/${base}-${i + 1}.mp4`));
+};

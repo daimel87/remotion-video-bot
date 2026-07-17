@@ -1,10 +1,17 @@
 import {cues} from '../data/cdCues';
-import {photoSrc, videoSrc} from './assets';
+import {photoVariants, videoVariants} from './assets';
 
 type Accent = 'amber' | 'teal' | 'red' | 'paper';
 export interface Shot {from: number; dur: number; src: string; video: boolean; motion: 'punchIn' | 'zoomIn' | 'zoomOut' | 'panLeft' | 'panRight';}
 export interface StatDef {value?: number; display?: string; prefix?: string; suffix?: string; label?: string; decimals?: number; format?: 'plain' | 'comma'; accent?: Accent;}
-export interface Overlay {from: number; dur: number; kind: 'title' | 'chapter' | 'stat' | 'chart'; pre?: string; text?: string; num?: number; stat?: StatDef; chart?: 'growth' | 'decline';}
+export interface Overlay {
+  from: number; dur: number;
+  kind: 'title' | 'chapter' | 'stat' | 'chart' | 'slam' | 'question' | 'newspaper' | 'quote' | 'definition' | 'name';
+  pre?: string; text?: string; num?: number; stat?: StatDef; chart?: 'growth' | 'decline'; accent?: Accent;
+  headline?: string; dek?: string; img?: string; quote?: string; author?: string;
+  term?: string; pos?: string; def?: string; name?: string; role?: string;
+}
+type Ed = {kind: 'newspaper' | 'quote' | 'definition' | 'name'; secs: number; headline?: string; dek?: string; imgBase?: string; quote?: string; author?: string; term?: string; pos?: string; def?: string; name?: string; role?: string;};
 
 const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 
@@ -116,7 +123,6 @@ const STATS: Record<number, StatDef> = {
   65: {value: 25, suffix: ' M', label: 'usuarios en 12 meses'},
   66: {value: 80, suffix: ' M', label: 'usuarios', accent: 'red'},
   71: {value: 335000, format: 'comma', label: 'usuarios denunciados', accent: 'red'},
-  90: {display: '1.000', label: 'canciones en tu bolsillo'},
   91: {value: 5, suffix: ' GB', label: 'de música'},
   97: {display: '$0.99', label: 'por canción'},
   103: {value: 200000, format: 'comma', label: 'canciones · día 1'},
@@ -127,18 +133,59 @@ const STATS: Record<number, StatDef> = {
 };
 const CHARTS: Record<number, 'growth' | 'decline'> = {35: 'growth', 111: 'decline'};
 
+// Capa editorial: periódicos, citas, definiciones y rótulos de nombre
+const EDITORIAL: Record<number, Ed> = {
+  9: {kind: 'definition', secs: 3.2, term: 'Piratería doméstica', pos: 'sustantivo', def: 'Copiar discos y casetes en casa, sin pagarle a la industria.'},
+  10: {kind: 'newspaper', secs: 3.8, headline: 'Guerra a la copia casera', dek: 'Las discográficas presionan para prohibir las grabadoras.', imgBase: 'dual-cassette-deck'},
+  40: {kind: 'definition', secs: 3.0, term: 'MP3', pos: 'formato de audio', def: 'Comprime una canción a una fracción de su tamaño, casi sin pérdida.'},
+  54: {kind: 'newspaper', secs: 3.8, headline: 'La RIAA demanda al primer MP3', dek: 'La industria intenta frenar el reproductor Rio PMP300.', imgBase: 'legal-documents'},
+  59: {kind: 'name', secs: 3.0, name: 'Shawn Fanning', role: 'Creador de Napster'},
+  69: {kind: 'newspaper', secs: 3.8, headline: 'Demandan a Napster', dek: 'Las mayores discográficas del mundo van a los tribunales.', imgBase: 'courtroom'},
+  70: {kind: 'name', secs: 3.0, name: 'Lars Ulrich', role: 'Batería de Metallica'},
+  89: {kind: 'name', secs: 2.8, name: 'Steve Jobs', role: 'Apple'},
+  90: {kind: 'quote', secs: 3.4, quote: '«Mil canciones en tu bolsillo.»', author: 'Steve Jobs'},
+  101: {kind: 'quote', secs: 3.8, quote: '«O me dan sus catálogos a 99¢, o lo pierden todo.»', author: 'Steve Jobs'},
+  114: {kind: 'newspaper', secs: 3.8, headline: 'Tower Records, en bancarrota', dek: '500 tiendas y 30 años de historia, cerradas en meses.', imgBase: 'empty-retail-store'},
+  124: {kind: 'definition', secs: 3.2, term: 'Rootkit', pos: 'informática', def: 'Programa oculto que espía y controla tu computadora sin permiso.'},
+  130: {kind: 'newspaper', secs: 4.0, headline: 'Sony ocultaba un «rootkit» en sus CDs', dek: 'Un investigador destapa el espionaje en 22 millones de discos.', imgBase: 'cybersecurity-hacker'},
+  143: {kind: 'name', secs: 3.0, name: 'Daniel Ek', role: 'Fundador de Spotify'},
+};
+
+// Montaje del cold-open: teasea toda la historia (dinero, piratería, tribunales, escándalo)
+const INTRO_TOKENS = [
+  'v:compact-disc-spinning', 'stack-of-cds', 'cash-money', 'broken-cd', 'v:cd-player-laser',
+  'cd-disc-macro', 'cassette-tape', 'v:downloading-progress-bar', 'courtroom', 'cybersecurity-hacker',
+  'concert-crowd', 'cd-bargain-bin', 'coins', 'v:hacker-typing', 'compact-disc',
+];
+
+type Cand = {src: string; video: boolean};
+const candidatesFor = (pool: string[]): Cand[] => {
+  const out: Cand[] = [];
+  for (const token of pool) {
+    const isV = token.startsWith('v:');
+    const base = isV ? token.slice(2) : token;
+    for (const src of (isV ? videoVariants(base) : photoVariants(base))) out.push({src, video: isV});
+  }
+  return out;
+};
+
 export const buildPlan = (fps: number, total: number) => {
   const shots: Shot[] = [];
   const overlays: Overlay[] = [];
-  const counter: Record<string, number> = {};
-  const pick = (pool: string[], k: number) => {
-    const token = pool[k % pool.length];
-    const isV = token.startsWith('v:');
-    const base = isV ? token.slice(2) : token;
-    counter[base] = (counter[base] ?? 0) + 1;
-    return {src: isV ? videoSrc(base, counter[base] - 1) : photoSrc(base, counter[base] - 1), video: isV};
+  const useCount: Record<string, number> = {};
+  const recent: string[] = [];
+  // Elige el candidato menos usado y no reciente (anti-repetición global)
+  const pickBest = (cands: Cand[]): Cand => {
+    let best = cands[0]; let bestScore = Infinity;
+    for (const c of cands) {
+      const score = (recent.includes(c.src) ? 1000 : 0) + (useCount[c.src] ?? 0) * 10 + Math.random();
+      if (score < bestScore) {bestScore = score; best = c;}
+    }
+    useCount[best.src] = (useCount[best.src] ?? 0) + 1;
+    recent.push(best.src); if (recent.length > 12) recent.shift();
+    return best;
   };
-  const cutMotions: Shot['motion'][] = ['punchIn', 'zoomIn', 'punchIn', 'zoomOut', 'panRight', 'punchIn', 'panLeft'];
+  const cutMotions: Shot['motion'][] = ['punchIn', 'zoomIn', 'punchIn', 'zoomOut', 'panRight', 'punchIn', 'panLeft', 'zoomIn'];
 
   const chapterByCue = new Map(CHAPTERS.map((c) => [c.cue, c]));
 
@@ -146,32 +193,43 @@ export const buildPlan = (fps: number, total: number) => {
     const from = Math.round(c.start * fps);
     const to = idx < cues.length - 1 ? Math.round(cues[idx + 1].start * fps) : total;
     const dur = Math.max(1, to - from);
-    const base = resolveBase(c.text);
-    const pool = poolFor(base);
-    const special = STATS[c.i] || CHARTS[c.i] || c.i === 4; // cue 4 = título
+    const isIntro = c.i <= 3;
+    const cands = isIntro ? candidatesFor(INTRO_TOKENS) : candidatesFor(poolFor(resolveBase(c.text)));
+    const special = STATS[c.i] || CHARTS[c.i] || c.i === 4; // cue 4 = título (fondo calmo)
 
     if (special) {
-      const b = pick(pool, 0);
-      shots.push({from, dur, ...b, motion: 'zoomIn'});
+      shots.push({from, dur, ...pickBest(cands), motion: 'zoomIn'});
     } else {
-      const target = 2.1 * fps;
+      const target = (isIntro ? 1.05 : 2.1) * fps;
       const n = Math.max(1, Math.round(dur / target));
       for (let k = 0; k < n; k++) {
         const sFrom = from + Math.round((k * dur) / n);
         const sTo = from + Math.round(((k + 1) * dur) / n);
-        shots.push({from: sFrom, dur: Math.max(1, sTo - sFrom), ...pick(pool, k), motion: cutMotions[(idx + k) % cutMotions.length]});
+        shots.push({from: sFrom, dur: Math.max(1, sTo - sFrom), ...pickBest(cands), motion: cutMotions[(idx + k) % cutMotions.length]});
       }
     }
 
     // Overlays
-    if (c.i === 4) overlays.push({from, dur, kind: 'title', pre: 'la historia real del', text: 'CD'});
     if (chapterByCue.has(c.i)) {
       const ch = chapterByCue.get(c.i)!;
       overlays.push({from, dur: Math.round(fps * 2.3), kind: 'chapter', num: ch.num, text: ch.title});
     }
+    if (c.i === 4) overlays.push({from, dur, kind: 'title', pre: 'la historia real del', text: 'CD'});
     if (STATS[c.i]) overlays.push({from, dur, kind: 'stat', stat: STATS[c.i]});
     if (CHARTS[c.i]) overlays.push({from, dur, kind: 'chart', chart: CHARTS[c.i]});
+    const ed = EDITORIAL[c.i];
+    if (ed) {
+      overlays.push({
+        from, dur: Math.round(ed.secs * fps), kind: ed.kind,
+        headline: ed.headline, dek: ed.dek, img: ed.imgBase ? photoVariants(ed.imgBase)[0] : undefined,
+        quote: ed.quote, author: ed.author, term: ed.term, pos: ed.pos, def: ed.def, name: ed.name, role: ed.role,
+      });
+    }
   });
+
+  // Slams del cold-open (curiosidad)
+  overlays.push({from: Math.round(0.5 * fps), dur: Math.round(1.9 * fps), kind: 'slam', text: '1988', accent: 'teal'});
+  overlays.push({from: Math.round(15.4 * fps), dur: Math.round(4.2 * fps), kind: 'question', text: '¿POR QUÉ MURIÓ EL CD?', accent: 'red'});
 
   return {shots, overlays};
 };
