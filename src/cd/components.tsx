@@ -25,7 +25,7 @@ export const KenBurns: React.FC<{
       <Img src={src} style={{
         width: '100%', height: '100%', objectFit: 'cover',
         transform: `scale(${scale}) translate(${tx}%, ${ty}%)`,
-        filter: 'saturate(0.7) contrast(1.12) brightness(0.92)',
+        filter: 'saturate(0.72) contrast(1.04) brightness(0.86)',
       }} />
     </AbsoluteFill>
   );
@@ -44,28 +44,16 @@ export const VideoBG: React.FC<{src: string}> = ({src}) => {
   );
 };
 
-// ============ GRADE CINEMATOGRÁFICO (teal/ámbar, negros aplastados) ============
+// ============ GRADE CINEMATOGRÁFICO (transparencias normales, SIN mixBlendMode) ============
 export const Grade: React.FC = () => (
   <>
-    <AbsoluteFill style={{background: 'rgba(9,24,30,0.26)', mixBlendMode: 'multiply'}} />
-    <AbsoluteFill style={{background: `radial-gradient(70% 60% at 50% 30%, ${COLORS.amber}1e, rgba(0,0,0,0) 65%)`, mixBlendMode: 'screen'}} />
-    <AbsoluteFill style={{background: `linear-gradient(180deg, ${COLORS.amber}16 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,0) 55%, ${COLORS.teal}1c 100%)`, mixBlendMode: 'soft-light'}} />
-    <AbsoluteFill style={{background: 'radial-gradient(120% 100% at 50% 48%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.68) 100%)'}} />
+    <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(40,26,10,0.14) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 58%, rgba(6,16,20,0.20) 100%)'}} />
+    <AbsoluteFill style={{background: 'radial-gradient(125% 105% at 50% 46%, rgba(0,0,0,0) 44%, rgba(0,0,0,0.52) 100%)'}} />
   </>
 );
 
-// ============ ATMÓSFERA (niebla suave y estable, sin parpadeo) ============
-export const Atmosphere: React.FC = () => {
-  const frame = useCurrentFrame();
-  const h1 = 30 + Math.sin(frame / 220) * 8;
-  const h2 = 70 + Math.cos(frame / 260) * 7;
-  return (
-    <AbsoluteFill style={{pointerEvents: 'none'}}>
-      <AbsoluteFill style={{background: `radial-gradient(45% 55% at ${h1}% 24%, rgba(120,150,160,0.08), rgba(0,0,0,0) 60%)`, mixBlendMode: 'screen'}} />
-      <AbsoluteFill style={{background: `radial-gradient(50% 60% at ${h2}% 82%, rgba(160,130,90,0.06), rgba(0,0,0,0) 60%)`, mixBlendMode: 'screen'}} />
-    </AbsoluteFill>
-  );
-};
+// ============ ATMÓSFERA (desactivada para evitar parpadeo) ============
+export const Atmosphere: React.FC = () => null;
 
 // ============ BARRAS DE CINE ============
 export const Letterbox: React.FC = () => (

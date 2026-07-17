@@ -174,12 +174,15 @@ const INTRO_TOKENS = [
 ];
 
 type Cand = {src: string; video: boolean};
+// Solo FOTOS (Ken Burns) — los videos (OffthreadVideo) soltaban frames en negro = parpadeo.
 const candidatesFor = (pool: string[]): Cand[] => {
   const out: Cand[] = [];
   for (const token of pool) {
-    const isV = token.startsWith('v:');
-    const base = isV ? token.slice(2) : token;
-    for (const src of (isV ? videoVariants(base) : photoVariants(base))) out.push({src, video: isV});
+    if (token.startsWith('v:')) continue; // se omiten los videos
+    for (const src of photoVariants(token)) out.push({src, video: false});
+  }
+  if (out.length === 0) {
+    for (const src of photoVariants('cd-disc')) out.push({src, video: false});
   }
   return out;
 };
@@ -189,11 +192,14 @@ export const buildPlan = (fps: number, total: number) => {
   const overlays: Overlay[] = [];
   const useCount: Record<string, number> = {};
   const recent: string[] = [];
-  // Elige el candidato menos usado y no reciente (anti-repetición global)
+  // Elige el candidato menos usado y no reciente. DETERMINISTA (sin Math.random,
+  // que rompía el render de Remotion re-sorteando las imágenes en cada frame).
   const pickBest = (cands: Cand[]): Cand => {
     let best = cands[0]; let bestScore = Infinity;
-    for (const c of cands) {
-      const score = (recent.includes(c.src) ? 1000 : 0) + (useCount[c.src] ?? 0) * 10 + Math.random();
+    for (let k = 0; k < cands.length; k++) {
+      const c = cands[k];
+      const tie = (k * 2654435761) % 997 / 997; // desempate determinista para variar
+      const score = (recent.includes(c.src) ? 1000 : 0) + (useCount[c.src] ?? 0) * 10 + tie;
       if (score < bestScore) {bestScore = score; best = c;}
     }
     useCount[best.src] = (useCount[best.src] ?? 0) + 1;
@@ -215,7 +221,7 @@ export const buildPlan = (fps: number, total: number) => {
     if (special) {
       shots.push({from, dur, ...pickBest(cands), motion: 'zoomIn'});
     } else {
-      const target = (isIntro ? 2.2 : 3.4) * fps;
+      const target = (isIntro ? 3.2 : 5.0) * fps;
       const n = Math.max(1, Math.round(dur / target));
       for (let k = 0; k < n; k++) {
         const sFrom = from + Math.round((k * dur) / n);

@@ -9,7 +9,7 @@ import {
 } from './cd/components';
 import {COLORS} from './cd/theme';
 
-const XFADE = 20; // duración del crossfade entre tomas (frames)
+const XFADE = 24; // duración del crossfade entre tomas (frames)
 
 export const CDDocumentaryEdit: React.FC = () => {
   const {fps, durationInFrames} = useVideoConfig();
