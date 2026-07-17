@@ -1,11 +1,15 @@
 import React from 'react';
 import {AbsoluteFill, Audio, Sequence, staticFile, useVideoConfig, useCurrentFrame} from 'remotion';
+import {TransitionSeries, linearTiming} from '@remotion/transitions';
+import {fade} from '@remotion/transitions/fade';
 import {buildPlan} from './cd/plan';
 import {
   KenBurns, VideoBG, Grade, Atmosphere, Letterbox, TitleCard, ChapterTitle, DateStamp,
   FullScreenText, StatBox, BarChart, NewspaperCard, QuoteCard, DefinitionCard, LowerThird, ProgressBar,
 } from './cd/components';
 import {COLORS} from './cd/theme';
+
+const XFADE = 20; // duración del crossfade entre tomas (frames)
 
 export const CDDocumentaryEdit: React.FC = () => {
   const {fps, durationInFrames} = useVideoConfig();
@@ -16,12 +20,21 @@ export const CDDocumentaryEdit: React.FC = () => {
     <AbsoluteFill style={{backgroundColor: COLORS.bg}}>
       <Audio src={staticFile('audio/cd-narration.mp3')} />
 
-      {/* B-roll con cortes duros limpios (sin fade, sin parpadeo) */}
-      {shots.map((s, i) => (
-        <Sequence key={`s${i}`} from={s.from} durationInFrames={s.dur}>
-          {s.video ? <VideoBG src={s.src} /> : <KenBurns src={s.src} motion={s.motion} durationInFrames={s.dur} />}
-        </Sequence>
-      ))}
+      {/* B-roll con crossfades oficiales (@remotion/transitions) — disolvencia real A↔B */}
+      <TransitionSeries>
+        {shots.flatMap((s, i) => {
+          const seq = (
+            <TransitionSeries.Sequence key={`seq${i}`} durationInFrames={s.dur + XFADE}>
+              {s.video ? <VideoBG src={s.src} /> : <KenBurns src={s.src} motion={s.motion} durationInFrames={s.dur + XFADE} />}
+            </TransitionSeries.Sequence>
+          );
+          if (i === 0) return [seq];
+          return [
+            <TransitionSeries.Transition key={`tr${i}`} presentation={fade()} timing={linearTiming({durationInFrames: XFADE})} />,
+            seq,
+          ];
+        })}
+      </TransitionSeries>
 
       {/* Grade cine + atmósfera */}
       <Grade />
