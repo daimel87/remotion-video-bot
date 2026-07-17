@@ -93,7 +93,7 @@ const POOLS: Record<string, string[]> = {
   'orchestra-classical-music': ['orchestra-classical-music', 'recording-studio', 'audio-mixing-console'],
   'recording-studio': ['recording-studio', 'audio-mixing-console', 'reel-to-reel-tape', 'v:recording-studio'],
   'warehouse-archive': ['warehouse-archive', 'reel-to-reel-tape', 'vinyl-collection', 'stack-of-cds'],
-  'cash-money': ['cash-money', 'coins', 'stock-market-screen'],
+  'cash-money': ['cash-money', 'coins'], // sin gráfico de trading/velas: no tiene que ver con el CD
   'coins': ['coins', 'cash-money'],
   'tokyo-neon-night': ['tokyo-neon-night', 'stereo-system', 'hifi-stereo-system'],
   'headphones': ['headphones', 'headphones-vintage', 'v:headphones-music'],
@@ -134,10 +134,16 @@ const ARCHIVAL_BY_CUE: Record<number, string> = {
   17: 'cd-how-it-works', 18: 'cd-how-it-works', 22: 'cdp101-player',
   38: 'dialup-internet-90s', 44: 'dialup-internet-90s',
   51: 'rio-pmp300',
-  58: 'shawn-fanning', 59: 'shawn-fanning', 61: 'napster-news-1999',
+  // 58/59 sin clip de Fanning (el metraje no era él): b-roll de estudiante/programador
+  61: 'napster-news-1999',
   64: 'napster-news-1999', 65: 'napster-news-1999',
-  69: 'napster-news-1999', 70: 'ulrich-senate-2000', 81: 'napster-shutdown',
-  88: 'ipod-keynote-2001', 89: 'ipod-keynote-2001', 95: 'itunes-store-2003',
+  69: 'napster-news-1999', 81: 'napster-shutdown', // 70 sin clip de Ulrich (no era él)
+  // iPod: metraje real del lanzamiento a lo largo de toda la presentación
+  88: 'ipod-keynote-2001', 89: 'ipod-keynote-2001', 90: 'ipod-keynote-2001',
+  91: 'ipod-keynote-2001', 92: 'ipod-keynote-2001',
+  // iTunes Store: keynote real durante toda la introducción y las cifras de ventas
+  95: 'itunes-store-2003', 96: 'itunes-store-2003', 97: 'itunes-store-2003',
+  98: 'itunes-store-2003', 103: 'itunes-store-2003', 104: 'itunes-store-2003',
   113: 'tower-records-close', 114: 'tower-records-close',
   142: 'iphone-2007', 143: 'spotify-ek',
   155: 'kazaa-limewire', 156: 'kazaa-limewire', 157: 'vinyl-revival',
@@ -199,9 +205,8 @@ const EDITORIAL: Record<number, Ed> = {
   10: {kind: 'newspaper', secs: 3.8, headline: 'Guerra a la copia casera', dek: 'Las discográficas presionan para prohibir las grabadoras.', imgBase: 'dual-cassette-deck'},
   40: {kind: 'definition', secs: 3.0, term: 'MP3', pos: 'formato de audio', def: 'Comprime una canción a una fracción de su tamaño, casi sin pérdida.'},
   54: {kind: 'newspaper', secs: 3.8, headline: 'La RIAA demanda al primer MP3', dek: 'La industria intenta frenar el reproductor Rio PMP300.', imgBase: 'legal-documents'},
-  59: {kind: 'name', secs: 3.0, name: 'Shawn Fanning', role: 'Creador de Napster'},
+  // (sin rótulo de nombre en 59/70: no tenemos metraje verificado de esas personas)
   69: {kind: 'newspaper', secs: 3.8, headline: 'Demandan a Napster', dek: 'Las mayores discográficas del mundo van a los tribunales.', imgBase: 'courtroom'},
-  70: {kind: 'name', secs: 3.0, name: 'Lars Ulrich', role: 'Batería de Metallica'},
   89: {kind: 'name', secs: 2.8, name: 'Steve Jobs', role: 'Apple'},
   90: {kind: 'quote', secs: 3.4, quote: '«Mil canciones en tu bolsillo.»', author: 'Steve Jobs'},
   101: {kind: 'quote', secs: 3.8, quote: '«O me dan sus catálogos a 99¢, o lo pierden todo.»', author: 'Steve Jobs'},
@@ -234,11 +239,16 @@ const OVERRIDE_BASE: Record<number, string> = {
   39: 'computer-code-programming',   // "MPEG-1 Audio Layer 3" (el codec)
   40: 'mp3-player',                  // "el mundo lo conocería como MP3"
   42: 'headphones',                  // "sin que el oído humano notara diferencia"
-  90: 'ipod',                        // "Mil canciones en tu bolsillo"
+  58: 'college-student-laptop',      // "llegó Sean Fanning" -> estudiante/programador (sin retrato falso)
+  93: 'ipod',                        // "lo que cambió todo no fue el iPod..." -> iPod
+  94: 'ipod',                        // "...fue lo que vino después" -> iPod
   99: 'cash-money',                  // "querían seguir vendiendo álbumes a 15 dólares" (no era subscribe)
   101: 'cash-money',                 // ultimátum de Jobs sobre precios
-  104: 'music-streaming-app',        // "en su primera semana, un millón" (iTunes)
-  144: 'smartphone-music',           // "la gente quería música gratis" (no concierto)
+  103: 'music-streaming-app',        // "vendió 200 mil canciones" (cifra iTunes)
+  104: 'music-streaming-app',        // "en su primera semana, un millón" (cifra iTunes)
+  144: 'music-streaming-app',        // "música gratis" -> app de streaming (video)
+  145: 'streaming-music-phone',      // "hacer legal escuchar música gratis" -> streaming
+  146: 'music-streaming-app',        // "con anuncios que financiaran el servicio" -> app de streaming
 };
 
 type Cand = {src: string; video: boolean; base: string};
