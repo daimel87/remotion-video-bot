@@ -280,6 +280,33 @@ export const Caption: React.FC<{text: string; emphasis?: string[]}> = ({text, em
   );
 };
 
+// ---------- Palabras clave animadas (reemplaza subtítulos) ----------
+export const KeywordPop: React.FC<{words: string[]; accent?: 'red' | 'gold' | 'white'}> = ({words, accent = 'gold'}) => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const color = accentColor(accent);
+  return (
+    <div style={{
+      position: 'absolute', left: '50%', bottom: '13%', transform: 'translateX(-50%)',
+      width: '86%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14,
+    }}>
+      {words.slice(0, 3).map((w, i) => {
+        const s = spring({frame, fps, delay: i * 7, config: {damping: 13, stiffness: 170, mass: 0.6}});
+        const y = interpolate(s, [0, 1], [34, 0]);
+        return (
+          <div key={i} style={{
+            opacity: s, transform: `translateY(${y}px) scale(${interpolate(s, [0, 1], [0.8, 1])})`,
+            fontFamily: FONT, fontWeight: 900, color, fontSize: 74, lineHeight: 1,
+            textTransform: 'uppercase', letterSpacing: 0.5, textAlign: 'center',
+            textShadow: '0 4px 20px rgba(0,0,0,0.95), 0 0 4px rgba(0,0,0,0.9)',
+            WebkitTextStroke: '1px rgba(0,0,0,0.35)',
+          }}>{w}</div>
+        );
+      })}
+    </div>
+  );
+};
+
 // ---------- Barra de progreso del video (retención) ----------
 export const ProgressBar: React.FC<{progress: number}> = ({progress}) => (
   <div style={{position: 'absolute', bottom: 0, left: 0, height: 6, width: `${progress * 100}%`, background: COLORS.red, boxShadow: `0 0 12px ${COLORS.red}`}} />

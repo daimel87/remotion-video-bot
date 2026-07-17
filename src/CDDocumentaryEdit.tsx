@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Audio, Sequence, staticFile, useVideoConfig, useCurrentFrame} from 'remotion';
 import {buildScenes} from './cd/scenes';
 import {
-  KenBurns, VideoBG, Grade, YearTag, Headline, TextCard, StatBig, BarChart, Caption, ProgressBar,
+  KenBurns, VideoBG, Grade, YearTag, Headline, TextCard, StatBig, BarChart, KeywordPop, ProgressBar,
 } from './cd/components';
 import {COLORS} from './cd/theme';
 
@@ -25,7 +25,7 @@ export const CDDocumentaryEdit: React.FC = () => {
             ) : (
               <AbsoluteFill>
                 {sc.video ? <VideoBG src={sc.bg} /> : <KenBurns src={sc.bg} motion={sc.motion} durationInFrames={dur} />}
-                <Grade strong={sc.caption} />
+                <Grade />
                 {sc.tag && <YearTag label={sc.tag} />}
                 {sc.chart && <BarChart mode={sc.chart} />}
                 {sc.stat && (
@@ -38,7 +38,9 @@ export const CDDocumentaryEdit: React.FC = () => {
                 {sc.headline && !sc.stat && !sc.chart && (
                   <Headline text={sc.headline} sub={sc.sub} accent={sc.accent} holdFrames={Math.min(dur, Math.round(fps * 2.2))} />
                 )}
-                {sc.caption && <Caption text={sc.text} emphasis={sc.emphasis} />}
+                {!sc.headline && !sc.stat && !sc.chart && sc.emphasis && sc.emphasis.length > 0 && (
+                  <KeywordPop words={sc.emphasis} accent={sc.accent ?? 'gold'} />
+                )}
               </AbsoluteFill>
             )}
           </Sequence>
