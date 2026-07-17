@@ -221,6 +221,13 @@ const INTRO_POOLS: Record<number, string[]> = {
   3: ['broken-cd', 'cd-disc-macro', 'cd-bargain-bin', 'cash-money'],
 };
 
+// Secuencia explícita de sujetos dentro de un cue: fuerza qué muestra cada sub-toma,
+// en orden. Sirve para narrar visualmente una frase que cambia de tema a mitad
+// (p.ej. "el CD... había matado a su competidor" -> CD y luego el casete que mató).
+const SHOT_SEQ: Record<number, string[]> = {
+  2: ['cd-disc', 'cassette-tape'], // "el disco compacto..." -> CD ; "...su competidor más certero" -> casete
+};
+
 // Correcciones puntuales: cues donde el resolvedor por palabra clave elige mal la imagen
 const OVERRIDE_BASE: Record<number, string> = {
   27: 'warehouse-archive',           // "algo que la mayoría no sabe" (antesala de las bodegas)
@@ -311,14 +318,17 @@ export const buildPlan = (fps: number, total: number) => {
       shots.push({from, dur, ...pickBest(cands), motion: 'zoomIn'});
     } else {
       const cands = candidatesFor(shotPool);
+      const seq = SHOT_SEQ[c.i];
       // ritmo variado y determinista: intro ágil, cuerpo alternando tomas medias/largas
       const varied = [4.0, 5.6, 4.6, 6.2][c.i % 4];
       const target = (isIntro ? 2.8 : varied) * fps;
-      const n = Math.max(1, Math.round(dur / target));
+      // si hay secuencia explícita, una toma por sujeto indicado; si no, según el ritmo
+      const n = seq ? seq.length : Math.max(1, Math.round(dur / target));
       for (let k = 0; k < n; k++) {
         const sFrom = from + Math.round((k * dur) / n);
         const sTo = from + Math.round(((k + 1) * dur) / n);
-        shots.push({from: sFrom, dur: Math.max(1, sTo - sFrom), ...pickBest(cands), motion: cutMotions[(idx + k) % cutMotions.length]});
+        const kcands = seq ? candidatesFor(poolFor(seq[k % seq.length])) : cands;
+        shots.push({from: sFrom, dur: Math.max(1, sTo - sFrom), ...pickBest(kcands), motion: cutMotions[(idx + k) % cutMotions.length]});
       }
     }
 
