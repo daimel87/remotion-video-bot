@@ -1,29 +1,17 @@
 # Documental: ¿Por qué desapareció el CD?
 
-Máster final en 1080p (11:34), sin recomprimir. Por el límite de 100 MB por
-archivo de GitHub, el video se subió partido en 5 trozos. Se reúnen en 1 solo
-archivo (byte a byte idéntico al máster, sin pérdida de calidad).
+Video final en 1080p (11:34). Un solo archivo bajo 100 MB.
 
-## Reunir el video
+**Descarga:** `por-que-desaparecio-el-cd.mp4` (98,7 MB)
 
-**Windows (CMD):**
-```cmd
-copy /b cd.part-00+cd.part-01+cd.part-02+cd.part-03+cd.part-04 por-que-desaparecio-el-cd.mp4
-```
-
-**Windows (PowerShell):**
-```powershell
-cmd /c copy /b cd.part-00+cd.part-01+cd.part-02+cd.part-03+cd.part-04 por-que-desaparecio-el-cd.mp4
-```
-
-**macOS / Linux:**
-```bash
-cat cd.part-* > por-que-desaparecio-el-cd.mp4
-```
+Comprimido con x264 a 2 pasadas (~1,0 Mbps de video, audio AAC 128 kbps)
+para caber bajo el límite de 100 MB por archivo de GitHub manteniendo buena
+calidad. Si más adelante quieres el máster sin comprimir (494 MB), se puede
+regenerar con el render de Remotion.
 
 ## Verificar (opcional)
-SHA-256 del máster reunido:
+SHA-256:
 ```
-9ed30fe6786f6b37d57fa83e4164654d69b41eeedc9936a8bee9ffe79b18439f
+a322b8631547ceb1ee5b7daba3e2752e702aeac1f1c975adbcdb6dc34202bd2a
 ```
 Windows: `certutil -hashfile por-que-desaparecio-el-cd.mp4 SHA256`
