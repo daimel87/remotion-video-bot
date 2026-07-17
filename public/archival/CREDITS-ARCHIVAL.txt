@@ -22,3 +22,6 @@ tower-records-close.mp4: Clumsy Reporter Knocks Down Jenga Tower | naias8 | http
 sony-rootkit-2005.mp4: That Time Sony Secretly Installed Rootkit Software on Hundreds of Thousands of Computers | Today I Found Out | https://www.youtube.com/watch?v=imMRzBzQm1U
 spotify-ek.mp4: Technology Pioneer 2011 - Daniel Ek (Spotify) | World Economic Forum | https://www.youtube.com/watch?v=SuPs32Y4u0Y
 vinyl-revival.mp4: Vinyl revival | CBC News | https://www.youtube.com/watch?v=fquSpwOzKlk
+cd-how-it-works.mp4: How Does Blu-ray Work? - LaserDisc, CD, DVD, Blu-ray Explained | Into The Ordinary | https://www.youtube.com/watch?v=H-jxTzFrnpg
+shawn-fanning.mp4: Story of the Week | MC Hammer on Napster | The Wall Street Journal | https://www.youtube.com/watch?v=claPwvpSJtU
+spotify-ek.mp4: Exclusive: Spotify releasing biggest update to its platform since its mobile launch | CBS Mornings | https://www.youtube.com/watch?v=xV8dRfC13Bk
