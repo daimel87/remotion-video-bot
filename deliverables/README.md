@@ -12,6 +12,6 @@ regenerar con el render de Remotion.
 ## Verificar (opcional)
 SHA-256:
 ```
-a322b8631547ceb1ee5b7daba3e2752e702aeac1f1c975adbcdb6dc34202bd2a
+3dad6c5fa313c28bf9171b5d8a560c54908cd3e255dbfce392252c4652deab8d
 ```
 Windows: `certutil -hashfile por-que-desaparecio-el-cd.mp4 SHA256`
