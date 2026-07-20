@@ -1,0 +1,155 @@
+{
+  "version": 1,
+  "meta": {
+    "project": "loca-por-ti",
+    "segmentType": "intro",
+    "run": "loca-intro-01",
+    "directorNotes": "Intro talking-head continuo (sin cortes). Ritmo me/gráfico/me/gráfico con 3 respiros. 8 eventos: hooks en 75-split y full-screen, dos comparaciones split-screen, subscribe anclado a 'Quédate'. Tema liquid-glass."
+  },
+  "source": {
+    "file": "public/src.mp4",
+    "durationSec": 100.88,
+    "width": 1920,
+    "height": 1080,
+    "fps": 25,
+    "transcriptSrt": "transcript.srt",
+    "audioMaxVolumeDb": -0.9
+  },
+  "brand": { "theme": "liquid-glass", "kitSource": "theme-defaults" },
+  "events": [
+    {
+      "id": "evt-01",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 0.6,
+      "endSec": 11.0,
+      "anchor": { "transcript": "en los primeros tres segundos de verte", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "PSICOLOGIA FEMENINA",
+        "text": "LOS PRIMEROS 3 SEGUNDOS",
+        "emphasis": ["3 SEGUNDOS"]
+      },
+      "notes": "Hook de apertura, statement grande manteniendo a la creadora presente."
+    },
+    {
+      "id": "evt-02",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 12.2,
+      "endSec": 17.0,
+      "anchor": { "transcript": "es como te saluda", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "LA SEÑAL",
+        "text": "ES COMO TE SALUDA",
+        "emphasis": ["SALUDA"]
+      },
+      "notes": "El reveal central del video, full-screen para golpe grande, audio continua."
+    },
+    {
+      "id": "evt-03",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 19.0,
+      "endSec": 26.5,
+      "anchor": { "transcript": "el cuerpo delata el deseo antes de que la mente", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "overlay",
+        "zone": "top",
+        "kind": "statement",
+        "text": "EL CUERPO DELATA EL DESEO",
+        "emphasis": ["DESEO"]
+      },
+      "notes": "Overlay arriba (pared limpia); ella sigue presente."
+    },
+    {
+      "id": "evt-04",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 37.2,
+      "endSec": 46.0,
+      "anchor": { "transcript": "la ultima que es la mas dificil de fingir de todas", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "LA SEÑAL FINAL",
+        "text": "LA MAS DIFICIL DE FINGIR",
+        "emphasis": ["DIFICIL DE FINGIR"]
+      },
+      "notes": "Open loop hacia la señal 6."
+    },
+    {
+      "id": "evt-05",
+      "move": "SUBSCRIBE_CTA",
+      "tier": "conversion",
+      "startSec": 47.2,
+      "endSec": 55.0,
+      "anchor": { "transcript": "Quedate porque la mayoria de hombres la tiene enfrente y no la ve", "placement": "spoken", "shot": "talking-head" },
+      "position": "bottom-center",
+      "payload": { "label": "SUBSCRIBE", "bell": true, "clickSec": 48.0 },
+      "notes": "Ask de retencion 'Quedate'; boton rojo YT + campana glass."
+    },
+    {
+      "id": "evt-06",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 62.8,
+      "endSec": 70.0,
+      "anchor": { "transcript": "Eso es ansiedad, no lectura", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "split-screen",
+        "kind": "comparison",
+        "eyebrow": "NO CONFUNDIR",
+        "items": [
+          { "text": "ANSIEDAD", "negated": true, "icon": "x", "revealSec": 63.4 },
+          { "text": "LECTURA", "negated": false, "icon": "check", "revealSec": 64.4 }
+        ]
+      },
+      "notes": "Contraste ansiedad vs lectura."
+    },
+    {
+      "id": "evt-07",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 72.0,
+      "endSec": 82.0,
+      "anchor": { "transcript": "microseñales que el cuerpo emite y la voluntad no alcanza a esconder", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "LENGUAJE CORPORAL",
+        "text": "MICROSEÑALES INVOLUNTARIAS",
+        "emphasis": ["INVOLUNTARIAS"]
+      },
+      "notes": "Refuerza el concepto de señales que no se controlan."
+    },
+    {
+      "id": "evt-08",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 87.0,
+      "endSec": 96.0,
+      "anchor": { "transcript": "una mujer que es amable contigo y una que sin saberlo te esta eligiendo", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "split-screen",
+        "kind": "comparison",
+        "eyebrow": "LA DIFERENCIA",
+        "items": [
+          { "text": "AMABLE CONTIGO", "negated": false, "icon": "person", "revealSec": 89.0 },
+          { "text": "TE ESTA ELIGIENDO", "negated": false, "icon": "check", "revealSec": 92.5 }
+        ]
+      },
+      "notes": "Comparacion payoff: amabilidad vs eleccion real."
+    }
+  ]
+}
