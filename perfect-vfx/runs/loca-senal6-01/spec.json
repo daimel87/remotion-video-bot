@@ -57,8 +57,8 @@
       "move": "CONCEPT_GRAPHIC",
       "tier": "content",
       "startSec": 13.5,
-      "endSec": 25.5,
-      "anchor": { "transcript": "Observa cómo saluda a los demás y cómo te saluda a ti. A todos un hola plano, a ti con sonrisa de ojos.", "placement": "spoken", "shot": "talking-head" },
+      "endSec": 23.0,
+      "anchor": { "transcript": "Observa cómo saluda a los demás y cómo te saluda a ti. A todos un hola plano.", "placement": "spoken", "shot": "talking-head" },
       "position": "layout",
       "payload": {
         "variant": "split-screen",
@@ -75,8 +75,8 @@
       "id": "evt-04",
       "move": "CONCEPT_GRAPHIC",
       "tier": "content",
-      "startSec": 26.5,
-      "endSec": 33.0,
+      "startSec": 23.8,
+      "endSec": 32.5,
       "anchor": { "transcript": "sonrisa de ojos, cercanía, voz suave y un gesto en el pelo, eso es una elección.", "placement": "spoken", "shot": "talking-head" },
       "position": "layout",
       "payload": {
@@ -84,9 +84,9 @@
         "kind": "list",
         "eyebrow": "SOLO CONTIGO",
         "items": [
-          { "text": "Sonrisa de ojos", "icon": "person", "revealSec": 27.0 },
-          { "text": "Voz suave", "icon": "link", "revealSec": 29.0 },
-          { "text": "Gesto en el pelo", "icon": "check", "revealSec": 31.0 }
+          { "text": "Sonrisa de ojos", "icon": "person", "revealSec": 24.3 },
+          { "text": "Voz suave", "icon": "link", "revealSec": 26.5 },
+          { "text": "Gesto en el pelo", "icon": "check", "revealSec": 28.5 }
         ]
       },
       "notes": "El trato reservado solo para ti; el conjunto que prueba la elección."
