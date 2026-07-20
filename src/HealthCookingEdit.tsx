@@ -24,11 +24,7 @@ import {COLORS} from './health/theme';
 const XFADE = 20;                 // crossfade suave entre tomas (frames)
 const HAS_NARRATION = true;       // voz del usuario en public/audio/health-narration.mp3
 const HAS_MUSIC = false;          // -> true cuando exista public/audio/health-music.mp3
-const ASSET_MODE = 'procedural' as 'procedural' | 'media'; // 'media' cuando haya stock/archivo
-
-// Resolver base -> archivo real (se completa cuando descarguemos el stock).
-// Por ahora vacío: en modo 'media' cae a ProceduralBG si no encuentra archivo.
-const mediaFor = (_base: string, _seed: number): {src: string; video: boolean} | null => null;
+const ASSET_MODE = 'media' as 'procedural' | 'media'; // stock descargado en public/stock-health/ (el plan ya resuelve cada toma)
 
 export const HealthCookingEdit: React.FC = () => {
   const {fps, durationInFrames} = useVideoConfig();
@@ -39,11 +35,10 @@ export const HealthCookingEdit: React.FC = () => {
   );
 
   const renderBG = (s: (typeof shots)[number]) => {
-    if (ASSET_MODE === 'media') {
-      const m = mediaFor(s.base, s.seed);
-      if (m) return m.video
-        ? <VideoBG src={m.src} archival={s.archival} />
-        : <KenBurns src={m.src} motion={s.motion} durationInFrames={s.dur + XFADE} />;
+    if (ASSET_MODE === 'media' && s.src) {
+      return s.video
+        ? <VideoBG src={s.src} />
+        : <KenBurns src={s.src} motion={s.motion} durationInFrames={s.dur + XFADE} />;
     }
     return <ProceduralBG seed={s.seed} durationInFrames={s.dur + XFADE} />;
   };
