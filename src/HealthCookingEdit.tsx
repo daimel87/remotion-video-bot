@@ -9,6 +9,7 @@ import {
   HookText, FoodNumber, PriceTag, RecipeCard, TipCard, QuoteCard, IngredientLabel,
   HUD, ProgressBar,
 } from './health/components';
+import {mediaFor} from './health/assets';
 import {COLORS} from './health/theme';
 
 // ============================================================
@@ -24,11 +25,7 @@ import {COLORS} from './health/theme';
 const XFADE = 20;                 // crossfade suave entre tomas (frames)
 const HAS_NARRATION = true;       // voz del usuario en public/audio/health-narration.mp3
 const HAS_MUSIC = false;          // -> true cuando exista public/audio/health-music.mp3
-const ASSET_MODE = 'procedural' as 'procedural' | 'media'; // 'media' cuando haya stock/archivo
-
-// Resolver base -> archivo real (se completa cuando descarguemos el stock).
-// Por ahora vacío: en modo 'media' cae a ProceduralBG si no encuentra archivo.
-const mediaFor = (_base: string, _seed: number): {src: string; video: boolean} | null => null;
+const ASSET_MODE = 'media' as 'procedural' | 'media'; // stock descargado en public/stock-health/
 
 export const HealthCookingEdit: React.FC = () => {
   const {fps, durationInFrames} = useVideoConfig();
