@@ -60,13 +60,13 @@
       "anchor": { "transcript": "el cuerpo delata el deseo antes de que la mente", "placement": "spoken", "shot": "talking-head" },
       "position": "layout",
       "payload": {
-        "variant": "overlay",
-        "zone": "top",
+        "variant": "75-split",
         "kind": "statement",
+        "eyebrow": "EL CUERPO NO MIENTE",
         "text": "EL CUERPO DELATA EL DESEO",
         "emphasis": ["DESEO"]
       },
-      "notes": "Overlay arriba (pared limpia); ella sigue presente."
+      "notes": "75-split para no cubrir su cara (centrada); la manda a la card derecha."
     },
     {
       "id": "evt-04",
@@ -77,7 +77,7 @@
       "anchor": { "transcript": "la ultima que es la mas dificil de fingir de todas", "placement": "spoken", "shot": "talking-head" },
       "position": "layout",
       "payload": {
-        "variant": "75-split",
+        "variant": "full-screen",
         "kind": "statement",
         "eyebrow": "LA SEÑAL FINAL",
         "text": "LA MAS DIFICIL DE FINGIR",
