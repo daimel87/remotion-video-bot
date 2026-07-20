@@ -26,7 +26,7 @@ import {TestudoDemo} from './TestudoDemo';
 import {ThenNowEdit} from './ThenNowEdit';
 import {CDDocumentaryEdit} from './CDDocumentaryEdit';
 import {HealthCookingEdit} from './HealthCookingEdit';
-import {DURATION_SECONDS as HEALTH_SECS} from './health/sampleCues';
+import {DURATION_SECONDS as HEALTH_SECS} from './health/healthCues';
 
 export const RemotionRoot: React.FC = () => {
   return (

@@ -3,10 +3,10 @@ import {AbsoluteFill, Audio, Sequence, staticFile, useVideoConfig, useCurrentFra
 import {TransitionSeries, linearTiming} from '@remotion/transitions';
 import {fade} from '@remotion/transitions/fade';
 import {buildPlan} from './health/plan';
-import {cues} from './health/sampleCues';
+import {cues} from './health/healthCues';
 import {
   ProceduralBG, KenBurns, VideoBG, Grade, Letterbox,
-  HookText, RecipeNumber, PriceTag, RecipeCard, TipCard, QuoteCard, IngredientLabel,
+  HookText, FoodNumber, PriceTag, RecipeCard, TipCard, QuoteCard, IngredientLabel,
   HUD, ProgressBar,
 } from './health/components';
 import {COLORS} from './health/theme';
@@ -22,7 +22,7 @@ import {COLORS} from './health/theme';
 // ============================================================
 
 const XFADE = 20;                 // crossfade suave entre tomas (frames)
-const HAS_NARRATION = false;      // -> true cuando exista public/audio/health-narration.mp3
+const HAS_NARRATION = true;       // voz del usuario en public/audio/health-narration.mp3
 const HAS_MUSIC = false;          // -> true cuando exista public/audio/health-music.mp3
 const ASSET_MODE = 'procedural' as 'procedural' | 'media'; // 'media' cuando haya stock/archivo
 
@@ -33,7 +33,7 @@ const mediaFor = (_base: string, _seed: number): {src: string; video: boolean} |
 export const HealthCookingEdit: React.FC = () => {
   const {fps, durationInFrames} = useVideoConfig();
   const frame = useCurrentFrame();
-  const {shots, overlays, recipes} = React.useMemo(
+  const {shots, overlays, items} = React.useMemo(
     () => buildPlan(fps, durationInFrames, cues),
     [fps, durationInFrames],
   );
@@ -76,7 +76,7 @@ export const HealthCookingEdit: React.FC = () => {
       {overlays.map((o, i) => (
         <Sequence key={`o${i}`} from={o.from} durationInFrames={o.dur}>
           {o.kind === 'hook' && <HookText text={o.text ?? ''} accent={o.accent} durationInFrames={o.dur} />}
-          {o.kind === 'recipeNum' && <RecipeNumber num={o.num ?? 1} title={o.title ?? ''} durationInFrames={o.dur} />}
+          {o.kind === 'foodNum' && <FoodNumber num={o.num ?? 1} title={o.title ?? ''} kind={o.foodKind} durationInFrames={o.dur} />}
           {o.kind === 'price' && <PriceTag value={o.value} display={o.display} prefix={o.prefix} suffix={o.suffix} label={o.label} accent={o.accent} />}
           {o.kind === 'card' && <RecipeCard kicker={o.kicker} headline={o.headline ?? ''} dek={o.dek} durationInFrames={o.dur} />}
           {o.kind === 'tip' && <TipCard term={o.term ?? ''} def={o.def ?? ''} accent={o.accent} durationInFrames={o.dur} />}
@@ -86,7 +86,7 @@ export const HealthCookingEdit: React.FC = () => {
       ))}
 
       {/* HUD del canal + barras suaves + progreso */}
-      <HUD recipes={recipes} channel="Cocina & Salud 50+" />
+      <HUD items={items} channel="Cocina & Salud 50+" />
       <Letterbox />
       <ProgressBar progress={frame / durationInFrames} />
     </AbsoluteFill>

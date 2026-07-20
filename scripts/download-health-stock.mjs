@@ -18,30 +18,37 @@ const ROOT = path.resolve(__dirname, '..');
 const PEXELS_KEY = process.argv[2] || process.env.PEXELS_KEY;
 if (!PEXELS_KEY) {console.error('Uso: node scripts/download-health-stock.mjs TU_CLAVE_DE_PEXELS'); process.exit(1);}
 
-// {base, q} — base = palabra clave del plan; q = búsqueda en Pexels.
+// {base, q} — base = palabra clave del plan (src/health/plan.ts); q = búsqueda en Pexels.
+// ---- 5 alimentos BUENOS ----
 const PHOTOS = [
-  {base: 'lentil-soup', q: 'lentil soup bowl'},
-  {base: 'oatmeal-bowl', q: 'oatmeal porridge cinnamon'},
-  {base: 'canned-fish', q: 'sardines canned fish toast'},
-  {base: 'vegetable-soup', q: 'homemade vegetable soup pot'},
-  {base: 'rice-chicken', q: 'rice chicken one pot meal'},
-  {base: 'healthy-ingredients', q: 'fresh healthy ingredients table'},
-  {base: 'grocery-budget', q: 'grocery budget shopping vegetables'},
-  {base: 'pantry-stock', q: 'pantry canned goods shelf'},
-  {base: 'vintage-kitchen', q: 'vintage kitchen cooking'},
+  {base: 'oatmeal-bowl', q: 'oatmeal porridge cinnamon fruit'},
+  {base: 'lentils-beans', q: 'lentils beans chickpeas bowl'},
+  {base: 'oily-fish', q: 'grilled salmon sardines plate'},
+  {base: 'leafy-greens', q: 'spinach leafy greens vegetables'},
+  {base: 'yogurt', q: 'plain yogurt bowl fruit'},
+  // ---- 5 alimentos a MODERAR ----
+  {base: 'processed-meat', q: 'sausages ham cold cuts'},
+  {base: 'sugary-drinks', q: 'soda sugary drinks glass'},
+  {base: 'fried-food', q: 'fried food greasy'},
+  {base: 'pastries', q: 'packaged pastries cookies sweets'},
+  {base: 'salt-herbs', q: 'salt shaker herbs spices'},
+  // ---- apoyo / contexto ----
+  {base: 'water-tea', q: 'glass of water herbal tea'},
+  {base: 'senior-portrait', q: 'happy senior person portrait'},
+  {base: 'grocery-budget', q: 'grocery shopping vegetables budget'},
   {base: 'senior-cooking', q: 'senior woman cooking kitchen'},
-  {base: 'bone-health', q: 'older couple eating healthy'},
-  {base: 'heart-health', q: 'healthy heart food vegetables'},
 ];
 const VIDEOS = [
-  {base: 'lentil-soup', q: 'soup simmering pot'},
-  {base: 'vegetable-soup', q: 'chopping vegetables cutting board'},
   {base: 'oatmeal-bowl', q: 'stirring oatmeal breakfast'},
-  {base: 'rice-chicken', q: 'cooking rice pan stove'},
-  {base: 'senior-cooking', q: 'elderly person cooking'},
-  {base: 'grocery-budget', q: 'hands counting coins money'},
-  {base: 'healthy-ingredients', q: 'fresh vegetables kitchen'},
-  {base: 'pantry-stock', q: 'grocery store aisle shelves'},
+  {base: 'lentils-beans', q: 'lentil soup simmering pot'},
+  {base: 'oily-fish', q: 'cooking fish pan'},
+  {base: 'leafy-greens', q: 'washing green vegetables'},
+  {base: 'yogurt', q: 'spoon yogurt bowl'},
+  {base: 'processed-meat', q: 'sausages frying pan'},
+  {base: 'sugary-drinks', q: 'pouring soda glass'},
+  {base: 'fried-food', q: 'deep frying food oil'},
+  {base: 'senior-cooking', q: 'elderly person cooking kitchen'},
+  {base: 'water-tea', q: 'pouring tea cup'},
 ];
 const PER = 3, MINW = 1920;
 

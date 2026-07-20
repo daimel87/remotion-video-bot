@@ -119,18 +119,24 @@ export const HookText: React.FC<{text: string; accent?: Accent; durationInFrames
   );
 };
 
-// Número de receta (countdown listicle): "RECETA Nº 4  ·  Sopa de lentejas"
-export const RecipeNumber: React.FC<{num: number; title: string; durationInFrames: number}> = ({num, title, durationInFrames}) => {
+// Número de alimento (countdown): sección SÍ/NO con color + "N.º X" + nombre.
+export const FoodNumber: React.FC<{num: number; title: string; kind?: 'good' | 'bad'; durationInFrames: number}> = ({num, title, kind = 'good', durationInFrames}) => {
   const frame = useCurrentFrame();
   const o = fadeInOut(frame, durationInFrames, 16, 14);
-  const lineW = interpolate(frame, [0, 26], [0, 380], {extrapolateRight: 'clamp'});
+  const lineW = interpolate(frame, [0, 26], [0, 400], {extrapolateRight: 'clamp'});
+  const col = kind === 'bad' ? COLORS.tomato : COLORS.sage;
+  const section = kind === 'bad' ? 'Mejor dejar atrás' : 'Lo que sí te cae bien';
+  const badge = kind === 'bad' ? '✕' : '✓';
   return (
     <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', opacity: o}}>
       <Scrim o={0.5} />
       <div style={{textAlign: 'center', position: 'relative'}}>
-        <div style={{fontFamily: FONT_SANS, fontWeight: 800, color: COLORS.amber, fontSize: 40, letterSpacing: 10, textTransform: 'uppercase'}}>Receta N.º {num}</div>
-        <div style={{height: 3, width: lineW, background: 'rgba(251,246,236,0.5)', margin: '24px auto', borderRadius: 2}} />
-        <div style={{fontFamily: FONT, fontWeight: 800, color: COLORS.paper, fontSize: 104, lineHeight: 1.02, letterSpacing: 0.5, textShadow: '0 6px 30px rgba(0,0,0,0.98)'}}>{title}</div>
+        <div style={{display: 'inline-flex', alignItems: 'center', gap: 16, marginBottom: 8}}>
+          <span style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: 54, height: 54, borderRadius: '50%', background: col, color: '#fff', fontFamily: FONT_SANS, fontWeight: 900, fontSize: 34}}>{badge}</span>
+          <span style={{fontFamily: FONT_SANS, fontWeight: 800, color: col, fontSize: 38, letterSpacing: 7, textTransform: 'uppercase'}}>{section} · N.º {num}</span>
+        </div>
+        <div style={{height: 3, width: lineW, background: 'rgba(251,246,236,0.5)', margin: '22px auto', borderRadius: 2}} />
+        <div style={{fontFamily: FONT, fontWeight: 800, color: COLORS.paper, fontSize: 112, lineHeight: 1.02, letterSpacing: 0.5, textShadow: '0 6px 30px rgba(0,0,0,0.98)'}}>{title}</div>
       </div>
     </AbsoluteFill>
   );
@@ -231,10 +237,11 @@ export const IngredientLabel: React.FC<{name: string; role?: string; accent?: Ac
   );
 };
 
-// ============ HUD permanente (marca del canal + receta activa) ============
-export const HUD: React.FC<{recipes: {from: number; num: number; title: string}[]; channel: string}> = ({recipes, channel}) => {
+// ============ HUD permanente (marca del canal + alimento activo) ============
+export const HUD: React.FC<{items: {from: number; num: number; title: string; kind: 'good' | 'bad'}[]; channel: string}> = ({items, channel}) => {
   const frame = useCurrentFrame();
-  const active = [...recipes].filter((c) => c.from <= frame).pop();
+  const active = [...items].filter((c) => c.from <= frame).pop();
+  const col = active?.kind === 'bad' ? COLORS.tomato : COLORS.sage;
   return (
     <AbsoluteFill style={{pointerEvents: 'none'}}>
       {/* marca del canal arriba-izquierda */}
@@ -242,14 +249,14 @@ export const HUD: React.FC<{recipes: {from: number; num: number; title: string}[
         <div style={{width: 24, height: 3, background: COLORS.amber, borderRadius: 2}} />
         <div style={{fontFamily: FONT_SANS, fontWeight: 800, color: COLORS.paper, fontSize: 24, letterSpacing: 5, textTransform: 'uppercase', textShadow: '0 2px 8px rgba(0,0,0,0.95)'}}>{channel}</div>
       </div>
-      {/* receta activa arriba-derecha */}
+      {/* alimento activo arriba-derecha (verde = sí, rojo = mejor no) */}
       {active && (
         <div style={{position: 'absolute', top: '9%', right: 84, display: 'flex', alignItems: 'center', gap: 14, background: 'linear-gradient(270deg, rgba(10,7,3,0.74), rgba(10,7,3,0.15) 85%, rgba(10,7,3,0))', padding: '12px 16px 12px 72px', borderRadius: 6}}>
           <div style={{textAlign: 'right'}}>
-            <div style={{fontFamily: FONT_SANS, fontWeight: 800, color: COLORS.amber, fontSize: 20, letterSpacing: 4, textShadow: '0 2px 8px rgba(0,0,0,0.9)'}}>RECETA {active.num}</div>
+            <div style={{fontFamily: FONT_SANS, fontWeight: 800, color: col, fontSize: 20, letterSpacing: 4, textShadow: '0 2px 8px rgba(0,0,0,0.9)'}}>{active.kind === 'bad' ? '✕ MEJOR NO' : '✓ SÍ'} · {active.num}</div>
             <div style={{fontFamily: FONT, fontWeight: 800, color: COLORS.paper, fontSize: 34, letterSpacing: 0.5, textShadow: '0 2px 12px rgba(0,0,0,0.98)'}}>{active.title}</div>
           </div>
-          <div style={{width: 4, height: 40, background: COLORS.amber, borderRadius: 2}} />
+          <div style={{width: 4, height: 40, background: col, borderRadius: 2}} />
         </div>
       )}
     </AbsoluteFill>
