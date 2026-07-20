@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "meta": {
+    "project": "loca-por-ti",
+    "segmentType": "chapter-card",
+    "run": "loca-senal4-01",
+    "directorNotes": "Señal 4 - 'Los pies y el torso te apuntan' (orientación corporal). Talking-head continuo, presentadora centrada. 5 eventos: apertura full-screen, statement 75-split, comparación split-screen cabeza vs pies, statement 75-split, open loop full-screen hacia la señal final (la voz). Sin cubrir la cara. Tema liquid-glass.",
+    "directorNotesVariety": "Secuencia: FS/statement, 75/statement, SS/comparison, 75/statement, FS/statement. Ningún variant+kind consecutivo repetido."
+  },
+  "source": {
+    "file": "public/src.mp4",
+    "durationSec": 48.48,
+    "width": 1920,
+    "height": 1080,
+    "fps": 25,
+    "transcriptSrt": "transcript.srt",
+    "audioMaxVolumeDb": -1.5
+  },
+  "brand": { "theme": "liquid-glass", "kitSource": "theme-defaults" },
+  "events": [
+    {
+      "id": "evt-01",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 0.4,
+      "endSec": 4.8,
+      "anchor": { "transcript": "Señal número 4. Los pies y el torso te apuntan.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "SEÑAL Nº 4",
+        "text": "LOS PIES Y EL TORSO TE APUNTAN",
+        "emphasis": ["TE APUNTAN"]
+      },
+      "notes": "Apertura de capítulo, golpe grande full-screen; audio continúa."
+    },
+    {
+      "id": "evt-02",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 6.5,
+      "endSec": 15.5,
+      "anchor": { "transcript": "El cuerpo siempre apunta hacia lo que desea y esto no se controla.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "NO SE CONTROLA",
+        "text": "EL CUERPO APUNTA AL DESEO",
+        "emphasis": ["AL DESEO"]
+      },
+      "notes": "Statement clave manteniendo a la presentadora en la card derecha."
+    },
+    {
+      "id": "evt-03",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 16.5,
+      "endSec": 23.6,
+      "anchor": { "transcript": "Aunque su cabeza hable con otro, si sus pies apuntan a ti, su interés está en ti.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "split-screen",
+        "kind": "comparison",
+        "eyebrow": "LA PRUEBA",
+        "items": [
+          { "text": "CABEZA A OTRO", "negated": true, "icon": "x", "revealSec": 17.5 },
+          { "text": "PIES HACIA TI", "negated": false, "icon": "check", "revealSec": 20.5 }
+        ]
+      },
+      "notes": "Contraste: la cabeza puede mentir, los pies no."
+    },
+    {
+      "id": "evt-04",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 25.0,
+      "endSec": 34.5,
+      "anchor": { "transcript": "Los psicólogos lo llaman orientación corporal. Es de las señales más honestas que existe.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "LOS PSICÓLOGOS",
+        "text": "ORIENTACIÓN CORPORAL",
+        "emphasis": ["CORPORAL"]
+      },
+      "notes": "El término técnico, presentadora en card."
+    },
+    {
+      "id": "evt-05",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 36.0,
+      "endSec": 47.8,
+      "anchor": { "transcript": "Y aún queda la señal más reveladora de todas, la que es casi imposible fingir, porque sucede en su voz.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "LA MÁS REVELADORA",
+        "text": "TODO SUCEDE EN SU VOZ",
+        "emphasis": ["EN SU VOZ"]
+      },
+      "notes": "Open loop hacia la señal final (la voz), cierre de capítulo."
+    }
+  ]
+}
