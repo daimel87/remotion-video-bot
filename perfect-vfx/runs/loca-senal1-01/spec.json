@@ -66,9 +66,9 @@
         "kind": "list",
         "eyebrow": "BUSCA EL CONTACTO",
         "items": [
-          { "text": "Abrazo medio segundo de más", "icon": "person", "revealSec": 27.5 },
-          { "text": "Una mano en tu brazo", "icon": "link", "revealSec": 29.5 },
-          { "text": "Beso muy cerca de lo normal", "icon": "check", "revealSec": 31.8 }
+          { "text": "Abrazo largo", "icon": "person", "revealSec": 27.5 },
+          { "text": "Mano en tu brazo", "icon": "link", "revealSec": 29.5 },
+          { "text": "Beso muy cerca", "icon": "check", "revealSec": 31.8 }
         ]
       },
       "notes": "Las tres micro-señales de contacto físico, reveladas en cadencia con el habla."
