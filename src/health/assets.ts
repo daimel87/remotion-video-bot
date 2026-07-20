@@ -2,6 +2,7 @@ import {staticFile} from 'remotion';
 
 // Conteo de variantes descargadas por 'base' (public/stock-health/).
 // Fotos: 4 por base. Videos: 2 por base (solo en las bases con metraje).
+// (Si re-descargas con más variantes, sube estos números y listo.)
 const PHOTO_COUNT: Record<string, number> = {
   'fried-food': 4, 'grocery-budget': 4, 'leafy-greens': 4, 'lentils-beans': 4,
   'oatmeal-bowl': 4, 'oily-fish': 4, 'pastries': 4, 'processed-meat': 4,
@@ -14,19 +15,17 @@ const VIDEO_COUNT: Record<string, number> = {
   'water-tea': 2, 'yogurt': 2,
 };
 
-const photoSrc = (base: string, n: number) =>
-  staticFile(`stock-health/photos/${base}-${(n % (PHOTO_COUNT[base] || 1)) + 1}.jpg`);
-const videoSrc = (base: string, n: number) =>
-  staticFile(`stock-health/videos/${base}-${(n % (VIDEO_COUNT[base] || 1)) + 1}.mp4`);
+const photoSrc = (base: string, n: number) => staticFile(`stock-health/photos/${base}-${n}.jpg`);
+const videoSrc = (base: string, n: number) => staticFile(`stock-health/videos/${base}-${n}.mp4`);
 
-// Resuelve una toma: intercala videos (primero, para dar movimiento) y luego fotos,
-// ciclando por 'seed' (contador global) para no repetir la misma variante seguida.
-export const mediaFor = (base: string, seed: number): {src: string; video: boolean} | null => {
-  const vids = VIDEO_COUNT[base] ?? 0;
-  const phts = PHOTO_COUNT[base] ?? 0;
-  const total = vids + phts;
-  if (total === 0) return null;
-  const idx = seed % total;
-  if (idx < vids) return {src: videoSrc(base, idx), video: true};
-  return {src: photoSrc(base, idx - vids), video: false};
+export interface Variant {src: string; video: boolean;}
+
+// Todas las variantes de una base (videos primero, para dar movimiento; luego fotos).
+export const variantsOf = (base: string): Variant[] => {
+  const out: Variant[] = [];
+  for (let i = 1; i <= (VIDEO_COUNT[base] ?? 0); i++) out.push({src: videoSrc(base, i), video: true});
+  for (let i = 1; i <= (PHOTO_COUNT[base] ?? 0); i++) out.push({src: photoSrc(base, i), video: false});
+  return out;
 };
+
+export const hasMedia = (base: string) => (VIDEO_COUNT[base] ?? 0) + (PHOTO_COUNT[base] ?? 0) > 0;

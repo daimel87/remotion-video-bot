@@ -1,55 +1,65 @@
 import {Cue} from './healthCues';
 import {Accent} from './theme';
+import {variantsOf, hasMedia} from './assets';
 
 // ============================================================
 // EL CEREBRO: narración -> visuales + overlays.
 // Video: "5 alimentos que SÍ + 5 que MEJOR dejar atrás (después de los 60)".
-// Hoy renderiza FONDOS PROCEDURALES; cada toma lleva un 'base' (palabra clave)
-// para mapear al stock real cuando esté descargado.
+// Mapeo por SECCIONES (cada alimento con su imagen) + anti-repetición real
+// (DIRECTIVA: nunca repetir el mismo archivo ni el mismo sujeto de cerca).
 // ============================================================
 
 export type Motion = 'zoomIn' | 'zoomOut' | 'panLeft' | 'panRight' | 'punchIn';
-export interface Shot {from: number; dur: number; base: string; seed: number; motion: Motion; video?: boolean; archival?: boolean;}
+export interface Shot {from: number; dur: number; base: string; seed: number; motion: Motion; src?: string; video?: boolean;}
 
 export interface Overlay {
   from: number; dur: number;
   delay?: number; // segundos DENTRO del cue en que aparece (la frase no siempre está al inicio)
   kind: 'hook' | 'foodNum' | 'price' | 'card' | 'tip' | 'quote' | 'label';
   text?: string; accent?: Accent;
-  num?: number; title?: string; foodKind?: 'good' | 'bad';    // foodNum
-  value?: number; display?: string; prefix?: string; suffix?: string; label?: string; // price
-  kicker?: string; headline?: string; dek?: string; imgBase?: string; // card
-  term?: string; def?: string;                                // tip
-  quote?: string; author?: string;                            // quote
-  name?: string; role?: string;                               // label
+  num?: number; title?: string; foodKind?: 'good' | 'bad';
+  value?: number; display?: string; prefix?: string; suffix?: string; label?: string;
+  kicker?: string; headline?: string; dek?: string; imgBase?: string;
+  term?: string; def?: string;
+  quote?: string; author?: string;
+  name?: string; role?: string;
 }
 
-const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-
-// Palabra clave -> base (query de stock). Primera coincidencia gana.
-const RULES: [RegExp, string][] = [
-  [/avena|canela|nueces|desayuno|media mañana|media manana/, 'oatmeal-bowl'],
-  [/legumbre|lenteja|garbanzo|frijol/, 'lentils-beans'],
-  [/pescado|salmon|sardina|azul|filete|lata/, 'oily-fish'],
-  [/verdura|espinaca|acelga|lechuga|hoja verde|ensalada/, 'leafy-greens'],
-  [/yogur|digestion|tentempi/, 'yogurt'],
-  [/embutido|jamon|salchicha|carne procesada|procesad/, 'processed-meat'],
-  [/refresco|bebida|jugo|azucarad|subidon|subidón/, 'sugary-drinks'],
-  [/fritura|frito/, 'fried-food'],
-  [/bolleria|pastelito|galleta|postre|dulce/, 'pastries'],
-  [/\bsal\b|salado|snack|caldo|especias|hierbas/, 'salt-herbs'],
-  [/agua|te\b|infusion/, 'water-tea'],
-  [/medico|experiencia|charla|sentido comun|escuchar a tu cuerpo|conoces tu cuerpo/, 'senior-portrait'],
-  [/mercado|super|comprar|despensa|economic|barat|rinde/, 'grocery-budget'],
-  [/energia|salud|cuerpo|sentir|animo|animo|vivir/, 'senior-cooking'],
+// ---- Mapeo de la imagen por SECCIÓN del guion (rango de cues -> alimento) ----
+const SECTION: [number, number, string][] = [
+  [11, 14, 'oatmeal-bowl'],   // #1 avena
+  [15, 17, 'lentils-beans'],  // #2 legumbres
+  [18, 21, 'oily-fish'],      // #3 pescado azul
+  [22, 24, 'leafy-greens'],   // #4 verduras verdes
+  [25, 27, 'yogurt'],         // #5 yogur
+  [30, 32, 'processed-meat'], // malo #1 embutidos
+  [33, 34, 'sugary-drinks'],  // malo #2 bebidas azucaradas
+  [35, 36, 'fried-food'],     // malo #3 frituras
+  [37, 39, 'pastries'],       // malo #4 bollería
+  [40, 41, 'salt-herbs'],     // malo #5 exceso de sal
 ];
-const resolveBase = (text: string): string => {
-  const t = norm(text);
-  for (const [re, base] of RULES) if (re.test(t)) return base;
-  return 'senior-cooking';
+// Overrides puntuales (intro, transición, cierre y frases concretas).
+const OVERRIDE: Record<number, string> = {
+  1: 'senior-portrait',   // "algo que noté con los años"
+  2: 'leafy-greens',      // "comidas que te dejan con energía" -> comida sana
+  3: 'fried-food',        // "y otras te dejan pesado, cansado" -> comida pesada/chatarra
+  6: 'senior-portrait',   // "quédate, el número 3 sorprende"
+  7: 'senior-portrait',   // "no soy médico"
+  8: 'senior-portrait',
+  28: 'processed-meat',   // "a la otra parte" -> adelanto de lo malo
+  29: 'sugary-drinks',
+  45: 'oatmeal-bowl',     // "mañana, un plato de avena"
+};
+// Para todo lo demás (intro/disclaimer/cierre): rota entre varias bases -> variación.
+const GENERIC_POOL = ['senior-portrait', 'senior-cooking', 'grocery-budget', 'leafy-greens', 'oatmeal-bowl'];
+
+const poolForCue = (i: number): string[] => {
+  if (OVERRIDE[i]) return [OVERRIDE[i]];
+  for (const [a, b, base] of SECTION) if (i >= a && i <= b) return [base];
+  return GENERIC_POOL;
 };
 
-// Lista de alimentos (para el HUD y los rótulos de número).
+// Lista de alimentos (HUD + rótulos de número).
 export const FOODS: {num: number; cue: number; title: string; kind: 'good' | 'bad'}[] = [
   {num: 1, cue: 11, title: 'Avena', kind: 'good'},
   {num: 2, cue: 15, title: 'Legumbres', kind: 'good'},
@@ -63,9 +73,7 @@ export const FOODS: {num: number; cue: number; title: string; kind: 'good' | 'ba
   {num: 5, cue: 40, title: 'Exceso de sal', kind: 'bad'},
 ];
 
-// Overlays por cue (mapeados a la narración real).
-// 'delay' = segundos dentro del cue en que se DICE la frase (calculado del guion),
-// para que el texto aparezca sincronizado con la voz, no antes.
+// 'delay' = segundos dentro del cue en que se DICE la frase (sincroniza el texto con la voz).
 const OVERLAYS: Record<number, Overlay[]> = {
   1: [{kind: 'hook', from: 0, dur: 0, delay: 3.6, text: 'Después de los 60,\ntu cuerpo ya no come igual', accent: 'amber'}],
   4: [{kind: 'hook', from: 0, dur: 0, delay: 2.0, text: '5 que te caen bien\n5 que mejor dejar', accent: 'sage'}],
@@ -107,11 +115,42 @@ export const buildPlan = (fps: number, total: number, cues: Cue[]) => {
   const overlays: Overlay[] = [];
   let shotSeed = 0;
 
+  // DIRECTIVA ANTI-REPETICIÓN (determinista, sin Math.random):
+  // no repetir el mismo ARCHIVO ni el mismo SUJETO dentro de una ventana amplia.
+  const recentSrc: string[] = [];
+  const recentBase: string[] = [];
+  const pick = (pool: string[], seed: number): {base: string; src?: string; video?: boolean} => {
+    // 1) elige la base menos usada recientemente dentro del pool
+    let base = pool[0];
+    if (pool.length > 1) {
+      let bs = Infinity;
+      for (let k = 0; k < pool.length; k++) {
+        const b = pool[(seed + k) % pool.length];
+        const ri = recentBase.lastIndexOf(b);
+        const score = ri < 0 ? 0 : recentBase.length - ri;
+        if (score < bs) {bs = score; base = b; if (score === 0) break;}
+      }
+    }
+    // 2) elige la variante (archivo) menos usada recientemente de esa base
+    const cands = hasMedia(base) ? variantsOf(base) : [];
+    if (cands.length === 0) {recentBase.push(base); return {base};}
+    let best = cands[0]; let bs2 = Infinity;
+    for (let k = 0; k < cands.length; k++) {
+      const c = cands[(seed + k) % cands.length];
+      const ri = recentSrc.lastIndexOf(c.src);
+      const score = ri < 0 ? 0 : recentSrc.length - ri;
+      if (score < bs2) {bs2 = score; best = c; if (score === 0) break;}
+    }
+    recentBase.push(base); if (recentBase.length > 4) recentBase.shift();
+    recentSrc.push(best.src); if (recentSrc.length > 12) recentSrc.shift();
+    return {base, src: best.src, video: best.video};
+  };
+
   cues.forEach((c, idx) => {
     const from = Math.round(c.start * fps);
     const to = idx < cues.length - 1 ? Math.round(cues[idx + 1].start * fps) : total;
     const dur = Math.max(1, to - from);
-    const base = resolveBase(c.text);
+    const pool = poolForCue(c.i);
 
     // Ritmo calmado (como el video de referencia): tomas de ~5 s.
     const target = 5.0 * fps;
@@ -119,12 +158,13 @@ export const buildPlan = (fps: number, total: number, cues: Cue[]) => {
     for (let k = 0; k < n; k++) {
       const sFrom = from + Math.round((k * dur) / n);
       const sTo = from + Math.round(((k + 1) * dur) / n);
-      shots.push({from: sFrom, dur: Math.max(1, sTo - sFrom), base, seed: shotSeed++, motion: cutMotions[(idx + k) % cutMotions.length]});
+      const chosen = pick(pool, shotSeed);
+      shots.push({from: sFrom, dur: Math.max(1, sTo - sFrom), base: chosen.base, seed: shotSeed++, motion: cutMotions[(idx + k) % cutMotions.length], src: chosen.src, video: chosen.video});
     }
 
     const cap: Record<Overlay['kind'], number> = {hook: 3.6, foodNum: 3.2, price: 2.8, card: 4.4, tip: 4.2, quote: 3.6, label: 3.6};
     for (const o of (OVERLAYS[c.i] ?? [])) {
-      const oFrom = from + Math.round((o.delay ?? 0) * fps); // aparece cuando se dice la frase
+      const oFrom = from + Math.round((o.delay ?? 0) * fps);
       overlays.push({...o, from: oFrom, dur: Math.round(cap[o.kind] * fps)});
     }
   });
