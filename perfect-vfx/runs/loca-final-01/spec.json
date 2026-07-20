@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "meta": {
+    "project": "loca-por-ti",
+    "segmentType": "custom",
+    "customBrief": "Cierre estoico del video: leer señales da claridad, no poder; observa-confirma-actúa; advertencia estoica (patrón, no excepción); el hombre sólido lee sin necesitar; CTA de suscripción final.",
+    "run": "loca-final-01",
+    "directorNotes": "Cierre del video. Talking-head continuo, presentadora centrada. 7 eventos: statement full-screen de apertura, lista full-screen observa/confirma/actúa, statement 75-split advertencia, statement full-screen del ladrillo, comparación split-screen patrón vs excepción, statement 75-split 'léela sin necesitarla', y SUBSCRIBE_CTA bottom-center al cierre. Sin cubrir la cara. Tema liquid-glass.",
+    "directorNotesVariety": "Secuencia CG: FS/statement, FS/list, 75/statement, FS/statement, SS/comparison, 75/statement. Ningún variant+kind consecutivo repetido. Cierre con conversión."
+  },
+  "source": {
+    "file": "public/src.mp4",
+    "durationSec": 56.64,
+    "width": 1920,
+    "height": 1080,
+    "fps": 25,
+    "transcriptSrt": "transcript.srt",
+    "audioMaxVolumeDb": -2.3
+  },
+  "brand": { "theme": "liquid-glass", "kitSource": "theme-defaults" },
+  "events": [
+    {
+      "id": "evt-01",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 2.6,
+      "endSec": 8.2,
+      "anchor": { "transcript": "Leer estas señales no te da poder sobre ella, te da claridad sobre ti.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "LO QUE DE VERDAD IMPORTA",
+        "text": "TE DA CLARIDAD SOBRE TI",
+        "emphasis": ["CLARIDAD"]
+      },
+      "notes": "Reframe estoico de apertura, full-screen; audio continúa."
+    },
+    {
+      "id": "evt-02",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 13.2,
+      "endSec": 20.0,
+      "anchor": { "transcript": "Observa, confirma y actúa con calma desde el valor, no desde la necesidad.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "list",
+        "eyebrow": "EL QUE SABE LEER",
+        "items": [
+          { "text": "Observa", "icon": "person", "revealSec": 13.8 },
+          { "text": "Confirma", "icon": "link", "revealSec": 14.9 },
+          { "text": "Actúa con calma", "icon": "check", "revealSec": 16.2 }
+        ]
+      },
+      "notes": "El método sereno: observa, confirma, actúa; en cadencia con el habla."
+    },
+    {
+      "id": "evt-03",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 22.4,
+      "endSec": 27.8,
+      "anchor": { "transcript": "Y una advertencia estoica. Una sola señal no es nada.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "ADVERTENCIA ESTOICA",
+        "text": "UNA SEÑAL NO ES NADA",
+        "emphasis": ["NO ES NADA"]
+      },
+      "notes": "La advertencia clave, presentadora en card."
+    },
+    {
+      "id": "evt-04",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 28.3,
+      "endSec": 33.5,
+      "anchor": { "transcript": "No construyas un castillo con un ladrillo.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "NO EXAGERES",
+        "text": "UN LADRILLO NO ES UN CASTILLO",
+        "emphasis": ["NO ES UN CASTILLO"]
+      },
+      "notes": "La metáfora estoica, full-screen."
+    },
+    {
+      "id": "evt-05",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 33.9,
+      "endSec": 39.2,
+      "anchor": { "transcript": "Busca el patrón, no la excepción.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "split-screen",
+        "kind": "comparison",
+        "eyebrow": "BUSCA",
+        "items": [
+          { "text": "LA EXCEPCIÓN", "negated": true, "icon": "x", "revealSec": 34.4 },
+          { "text": "EL PATRÓN", "negated": false, "icon": "check", "revealSec": 36.4 }
+        ]
+      },
+      "notes": "Regla de decisión: el patrón, no la excepción."
+    },
+    {
+      "id": "evt-06",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 43.5,
+      "endSec": 50.0,
+      "anchor": { "transcript": "es el que se ha vuelto tan sólido en sí mismo que puede leerla sin necesitarla.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "SÓLIDO EN SÍ MISMO",
+        "text": "LÉELA SIN NECESITARLA",
+        "emphasis": ["SIN NECESITARLA"]
+      },
+      "notes": "La tesis final del video, presentadora en card."
+    },
+    {
+      "id": "evt-07",
+      "move": "SUBSCRIBE_CTA",
+      "tier": "conversion",
+      "startSec": 50.2,
+      "endSec": 56.5,
+      "anchor": { "transcript": "Si este video te sumó, suscríbete. Aquí entrenamos la mente para entender.", "placement": "spoken", "shot": "talking-head" },
+      "position": "bottom-center",
+      "payload": { "label": "SUBSCRIBE", "bell": true, "clickSec": 51.6 },
+      "notes": "CTA de cierre anclado a 'suscríbete'; botón rojo YT + campana glass."
+    }
+  ]
+}
