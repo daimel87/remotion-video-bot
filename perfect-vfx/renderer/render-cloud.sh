@@ -42,6 +42,7 @@ cd "$HERE"
 npx remotion render src/index.ts PerfectVfx "$OUT" \
   --props="$SPEC" --crf=16 --color-space=bt709 \
   --browser-executable="$HEADLESS_SHELL" \
+  --timeout=120000 --concurrency=2 \
   --log=error
 
 echo "[render-cloud] done -> $OUT"
