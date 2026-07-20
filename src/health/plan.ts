@@ -13,6 +13,7 @@ export interface Shot {from: number; dur: number; base: string; seed: number; mo
 
 export interface Overlay {
   from: number; dur: number;
+  delay?: number; // segundos DENTRO del cue en que aparece (la frase no siempre está al inicio)
   kind: 'hook' | 'foodNum' | 'price' | 'card' | 'tip' | 'quote' | 'label';
   text?: string; accent?: Accent;
   num?: number; title?: string; foodKind?: 'good' | 'bad';    // foodNum
@@ -63,38 +64,40 @@ export const FOODS: {num: number; cue: number; title: string; kind: 'good' | 'ba
 ];
 
 // Overlays por cue (mapeados a la narración real).
+// 'delay' = segundos dentro del cue en que se DICE la frase (calculado del guion),
+// para que el texto aparezca sincronizado con la voz, no antes.
 const OVERLAYS: Record<number, Overlay[]> = {
-  1: [{kind: 'hook', from: 0, dur: 0, text: 'Después de los 60,\ntu cuerpo ya no come igual', accent: 'amber'}],
-  4: [{kind: 'hook', from: 0, dur: 0, text: '5 que te caen bien\n5 que mejor dejar', accent: 'sage'}],
-  6: [{kind: 'hook', from: 0, dur: 0, text: 'El número 3\nsorprende a muchos', accent: 'tomato'}],
-  7: [{kind: 'card', from: 0, dur: 0, kicker: 'Antes de empezar', headline: 'Una charla entre nosotros, no una dieta', dek: 'No soy médico. Toma lo que te sirva y lo demás déjalo pasar.'}],
+  1: [{kind: 'hook', from: 0, dur: 0, delay: 3.6, text: 'Después de los 60,\ntu cuerpo ya no come igual', accent: 'amber'}],
+  4: [{kind: 'hook', from: 0, dur: 0, delay: 2.0, text: '5 que te caen bien\n5 que mejor dejar', accent: 'sage'}],
+  6: [{kind: 'hook', from: 0, dur: 0, delay: 2.3, text: 'El número 3\nsorprende a muchos', accent: 'tomato'}],
+  7: [{kind: 'card', from: 0, dur: 0, delay: 2.1, kicker: 'Antes de empezar', headline: 'Una charla entre nosotros, no una dieta', dek: 'No soy médico. Toma lo que te sirva y lo demás déjalo pasar.'}],
 
-  11: [{kind: 'foodNum', from: 0, dur: 0, num: 1, title: 'Avena', foodKind: 'good'}],
-  13: [{kind: 'label', from: 0, dur: 0, name: 'Avena + canela', role: 'sin bajón a media mañana'}],
-  15: [{kind: 'foodNum', from: 0, dur: 0, num: 2, title: 'Legumbres', foodKind: 'good'}],
-  16: [{kind: 'label', from: 0, dur: 0, name: 'Lentejas · garbanzos', role: 'económicas y rinden'}],
-  18: [{kind: 'foodNum', from: 0, dur: 0, num: 3, title: 'Pescado azul', foodKind: 'good'}],
-  20: [{kind: 'tip', from: 0, dur: 0, term: 'Omega 3 barato', def: 'Una lata de sardinas es tan valiosa como un filete.', accent: 'sage'}],
-  22: [{kind: 'foodNum', from: 0, dur: 0, num: 4, title: 'Verduras verdes', foodKind: 'good'}],
-  23: [{kind: 'label', from: 0, dur: 0, name: 'Espinaca · acelga', role: 'una porción al día'}],
-  25: [{kind: 'foodNum', from: 0, dur: 0, num: 5, title: 'Yogur natural', foodKind: 'good'}],
-  26: [{kind: 'label', from: 0, dur: 0, name: 'Yogur natural', role: 'sin azúcar añadida'}],
+  11: [{kind: 'foodNum', from: 0, dur: 0, delay: 0.2, num: 1, title: 'Avena', foodKind: 'good'}],
+  13: [{kind: 'label', from: 0, dur: 0, delay: 2.0, name: 'Avena + canela', role: 'sin bajón a media mañana'}],
+  15: [{kind: 'foodNum', from: 0, dur: 0, delay: 0.3, num: 2, title: 'Legumbres', foodKind: 'good'}],
+  16: [{kind: 'label', from: 0, dur: 0, delay: 0.6, name: 'Lentejas · garbanzos', role: 'económicas y rinden'}],
+  18: [{kind: 'foodNum', from: 0, dur: 0, delay: 0.4, num: 3, title: 'Pescado azul', foodKind: 'good'}],
+  20: [{kind: 'tip', from: 0, dur: 0, delay: 1.3, term: 'Omega 3 barato', def: 'Una lata de sardinas es tan valiosa como un filete.', accent: 'sage'}],
+  22: [{kind: 'foodNum', from: 0, dur: 0, delay: 0.4, num: 4, title: 'Verduras verdes', foodKind: 'good'}],
+  23: [{kind: 'label', from: 0, dur: 0, delay: 0.5, name: 'Espinaca · acelga', role: 'una porción al día'}],
+  25: [{kind: 'foodNum', from: 0, dur: 0, delay: 0.5, num: 5, title: 'Yogur natural', foodKind: 'good'}],
+  26: [{kind: 'label', from: 0, dur: 0, delay: 0.6, name: 'Yogur natural', role: 'sin azúcar añadida'}],
 
-  28: [{kind: 'hook', from: 0, dur: 0, text: 'Ahora, lo que\nmejor dejar atrás', accent: 'tomato'}],
-  30: [{kind: 'foodNum', from: 0, dur: 0, num: 1, title: 'Embutidos', foodKind: 'bad'}],
-  31: [{kind: 'tip', from: 0, dur: 0, term: 'Demasiada sal', def: 'De vez en cuando no pasa; a diario, cae pesado.', accent: 'tomato'}],
-  33: [{kind: 'foodNum', from: 0, dur: 0, num: 2, title: 'Bebidas azucaradas', foodKind: 'bad'}],
-  34: [{kind: 'label', from: 0, dur: 0, name: 'Mejor agua o té', role: 'tu cuerpo lo agradece', accent: 'sage'}],
-  35: [{kind: 'foodNum', from: 0, dur: 0, num: 3, title: 'Frituras', foodKind: 'bad'}],
-  37: [{kind: 'foodNum', from: 0, dur: 0, num: 4, title: 'Bollería industrial', foodKind: 'bad'}],
-  38: [{kind: 'tip', from: 0, dur: 0, term: 'Azúcar sin energía', def: 'Un postre casero, hecho con calma, es mejor compañía.', accent: 'tomato'}],
-  40: [{kind: 'foodNum', from: 0, dur: 0, num: 5, title: 'Exceso de sal', foodKind: 'bad'}],
-  41: [{kind: 'label', from: 0, dur: 0, name: 'Hierbas y especias', role: 'en vez de tanta sal', accent: 'sage'}],
+  28: [{kind: 'hook', from: 0, dur: 0, delay: 0.4, text: 'Ahora, lo que\nmejor dejar atrás', accent: 'tomato'}],
+  30: [{kind: 'foodNum', from: 0, dur: 0, delay: 0.4, num: 1, title: 'Embutidos', foodKind: 'bad'}],
+  31: [{kind: 'tip', from: 0, dur: 0, delay: 2.6, term: 'Demasiada sal', def: 'De vez en cuando no pasa; a diario, cae pesado.', accent: 'tomato'}],
+  33: [{kind: 'foodNum', from: 0, dur: 0, delay: 0.5, num: 2, title: 'Bebidas azucaradas', foodKind: 'bad'}],
+  34: [{kind: 'label', from: 0, dur: 0, delay: 1.2, name: 'Mejor agua o té', role: 'tu cuerpo lo agradece', accent: 'sage'}],
+  35: [{kind: 'foodNum', from: 0, dur: 0, delay: 0.5, num: 3, title: 'Frituras', foodKind: 'bad'}],
+  37: [{kind: 'foodNum', from: 0, dur: 0, delay: 0.5, num: 4, title: 'Bollería industrial', foodKind: 'bad'}],
+  38: [{kind: 'tip', from: 0, dur: 0, delay: 3.1, term: 'Azúcar sin energía', def: 'Un postre casero, hecho con calma, es mejor compañía.', accent: 'tomato'}],
+  40: [{kind: 'foodNum', from: 0, dur: 0, delay: 0.4, num: 5, title: 'Exceso de sal', foodKind: 'bad'}],
+  41: [{kind: 'label', from: 0, dur: 0, delay: 0.5, name: 'Hierbas y especias', role: 'en vez de tanta sal', accent: 'sage'}],
 
-  42: [{kind: 'hook', from: 0, dur: 0, text: 'No es una dieta.\nEs volver a lo sencillo', accent: 'sage'}],
-  45: [{kind: 'tip', from: 0, dur: 0, term: 'Empieza por uno', def: 'Mañana, un plato de avena. Y observa cómo te sientes.', accent: 'amber'}],
-  46: [{kind: 'card', from: 0, dur: 0, kicker: 'Suscríbete', headline: 'Ideas sencillas para vivir con más energía', dek: 'Después de los 50 y los 60, sin complicaciones.'}],
-  48: [{kind: 'hook', from: 0, dur: 0, text: '¿Cuál es tu favorito?', accent: 'amber'}],
+  42: [{kind: 'hook', from: 0, dur: 0, delay: 2.1, text: 'No es una dieta.\nEs volver a lo sencillo', accent: 'sage'}],
+  45: [{kind: 'tip', from: 0, dur: 0, delay: 1.0, term: 'Empieza por uno', def: 'Mañana, un plato de avena. Y observa cómo te sientes.', accent: 'amber'}],
+  46: [{kind: 'card', from: 0, dur: 0, delay: 1.8, kicker: 'Suscríbete', headline: 'Ideas sencillas para vivir con más energía', dek: 'Después de los 50 y los 60, sin complicaciones.'}],
+  48: [{kind: 'hook', from: 0, dur: 0, delay: 1.8, text: '¿Cuál es tu favorito?', accent: 'amber'}],
 };
 
 const cutMotions: Motion[] = ['punchIn', 'zoomIn', 'panRight', 'zoomOut', 'panLeft', 'zoomIn'];
@@ -121,7 +124,8 @@ export const buildPlan = (fps: number, total: number, cues: Cue[]) => {
 
     const cap: Record<Overlay['kind'], number> = {hook: 3.6, foodNum: 3.2, price: 2.8, card: 4.4, tip: 4.2, quote: 3.6, label: 3.6};
     for (const o of (OVERLAYS[c.i] ?? [])) {
-      overlays.push({...o, from, dur: Math.min(dur, Math.round(cap[o.kind] * fps))});
+      const oFrom = from + Math.round((o.delay ?? 0) * fps); // aparece cuando se dice la frase
+      overlays.push({...o, from: oFrom, dur: Math.round(cap[o.kind] * fps)});
     }
   });
 
