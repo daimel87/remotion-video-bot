@@ -1,0 +1,127 @@
+{
+  "version": 1,
+  "meta": {
+    "project": "loca-por-ti",
+    "segmentType": "chapter-card",
+    "run": "loca-senal3-01",
+    "directorNotes": "Señal 3 - 'El arreglo instantáneo' (acicalamiento inconsciente). Talking-head continuo, presentadora centrada. 6 eventos: apertura full-screen, lista full-screen de gestos de acicalamiento, statements 75-split y full-screen alternados, open loop full-screen hacia la señal 4. Sin cubrir la cara. Tema liquid-glass.",
+    "directorNotesVariety": "Secuencia: FS/statement, FS/list, 75/statement, FS/statement, 75/statement, FS/statement. Ningún variant+kind consecutivo repetido."
+  },
+  "source": {
+    "file": "public/src.mp4",
+    "durationSec": 58.92,
+    "width": 1920,
+    "height": 1080,
+    "fps": 25,
+    "transcriptSrt": "transcript.srt",
+    "audioMaxVolumeDb": -1.3
+  },
+  "brand": { "theme": "liquid-glass", "kitSource": "theme-defaults" },
+  "events": [
+    {
+      "id": "evt-01",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 0.4,
+      "endSec": 6.5,
+      "anchor": { "transcript": "Señal número 3. El arreglo instantáneo.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "SEÑAL Nº 3",
+        "text": "EL ARREGLO INSTANTÁNEO",
+        "emphasis": ["INSTANTÁNEO"]
+      },
+      "notes": "Apertura de capítulo, golpe grande full-screen; audio continúa."
+    },
+    {
+      "id": "evt-02",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 8.5,
+      "endSec": 23.0,
+      "anchor": { "transcript": "Se acomoda el cabello, se lo pone detrás de la oreja, se ajusta la ropa, se toca el cuello, se muerde el labio.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "list",
+        "eyebrow": "EL ARREGLO",
+        "items": [
+          { "text": "Toca su cabello", "icon": "person", "revealSec": 9.5 },
+          { "text": "Ajusta la ropa", "icon": "link", "revealSec": 14.0 },
+          { "text": "Muerde el labio", "icon": "check", "revealSec": 18.5 }
+        ]
+      },
+      "notes": "Los gestos de acicalamiento, revelados en cadencia con el habla."
+    },
+    {
+      "id": "evt-03",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 24.0,
+      "endSec": 31.4,
+      "anchor": { "transcript": "El cuerpo preparándose inconscientemente para gustarle a alguien que le importa.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "INCONSCIENTE",
+        "text": "SE PREPARA PARA GUSTARTE",
+        "emphasis": ["GUSTARTE"]
+      },
+      "notes": "Statement clave manteniendo a la presentadora en la card derecha."
+    },
+    {
+      "id": "evt-04",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 32.4,
+      "endSec": 39.6,
+      "anchor": { "transcript": "Nadie se arregla el pelo frente a alguien que le da igual.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "LA CLAVE",
+        "text": "NADIE LO HACE POR CUALQUIERA",
+        "emphasis": ["CUALQUIERA"]
+      },
+      "notes": "Golpe de reflexión, full-screen."
+    },
+    {
+      "id": "evt-05",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 41.0,
+      "endSec": 48.6,
+      "anchor": { "transcript": "Ese pequeño gesto es su subconsciente diciendo, quiero verme bien para ti.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "SU SUBCONSCIENTE DICE",
+        "text": "QUIERO VERME BIEN PARA TI",
+        "emphasis": ["PARA TI"]
+      },
+      "notes": "El payoff emocional, presentadora en card."
+    },
+    {
+      "id": "evt-06",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 50.0,
+      "endSec": 58.2,
+      "anchor": { "transcript": "la señal número 4 tiene que ver con algo que ella hace con su cuerpo entero y apunta directo hacia ti.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "LA SEÑAL 4",
+        "text": "SU CUERPO ENTERO TE APUNTA",
+        "emphasis": ["TE APUNTA"]
+      },
+      "notes": "Open loop hacia la señal 4, cierre de capítulo."
+    }
+  ]
+}
