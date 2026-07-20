@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "meta": {
+    "project": "loca-por-ti",
+    "segmentType": "chapter-card",
+    "run": "loca-senal1-01",
+    "directorNotes": "Señal 1 - 'El saludo que rompe la distancia'. Talking-head continuo, presentadora centrada. 5 eventos: apertura de capítulo full-screen, comparación split-screen tolera vs atraída, lista full-screen de señales de contacto, statement 75-split 'la cercanía no se finge', open loop full-screen hacia la señal 2. Sin cubrir la cara: full-screen esconde footage, split/75 la mueven. Tema liquid-glass."
+  },
+  "source": {
+    "file": "public/src.mp4",
+    "durationSec": 55.92,
+    "width": 1920,
+    "height": 1080,
+    "fps": 25,
+    "transcriptSrt": "transcript.srt",
+    "audioMaxVolumeDb": -1.4
+  },
+  "brand": { "theme": "liquid-glass", "kitSource": "theme-defaults" },
+  "events": [
+    {
+      "id": "evt-01",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 0.4,
+      "endSec": 5.5,
+      "anchor": { "transcript": "Señal número 1. El saludo que rompe la distancia.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "SEÑAL Nº 1",
+        "text": "EL SALUDO QUE ROMPE LA DISTANCIA",
+        "emphasis": ["ROMPE LA DISTANCIA"]
+      },
+      "notes": "Apertura de capítulo, golpe grande full-screen; audio continúa."
+    },
+    {
+      "id": "evt-02",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 11.0,
+      "endSec": 24.5,
+      "anchor": { "transcript": "Una mujer que solo te tolera saluda desde lejos ... pero cuando le atraes acorta la distancia", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "split-screen",
+        "kind": "comparison",
+        "eyebrow": "LA DISTANCIA LO DICE",
+        "items": [
+          { "text": "SOLO TE TOLERA", "negated": true, "icon": "x", "revealSec": 13.5 },
+          { "text": "LE ATRAES", "negated": false, "icon": "check", "revealSec": 19.5 }
+        ]
+      },
+      "notes": "Contraste tolerar (paso atrás) vs atracción (acorta distancia)."
+    },
+    {
+      "id": "evt-03",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 26.5,
+      "endSec": 34.5,
+      "anchor": { "transcript": "Busca el contacto. Un abrazo que dura medio segundo de más, una mano en tu brazo, un beso en la mejilla", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "list",
+        "eyebrow": "BUSCA EL CONTACTO",
+        "items": [
+          { "text": "Abrazo medio segundo de más", "icon": "person", "revealSec": 27.5 },
+          { "text": "Una mano en tu brazo", "icon": "link", "revealSec": 29.5 },
+          { "text": "Beso muy cerca de lo normal", "icon": "check", "revealSec": 31.8 }
+        ]
+      },
+      "notes": "Las tres micro-señales de contacto físico, reveladas en cadencia con el habla."
+    },
+    {
+      "id": "evt-04",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 40.4,
+      "endSec": 47.0,
+      "anchor": { "transcript": "La cercanía no se finge. O el cuerpo quiere estar ahí o retrocede.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "SIN PALABRAS",
+        "text": "LA CERCANÍA NO SE FINGE",
+        "emphasis": ["NO SE FINGE"]
+      },
+      "notes": "Statement clave manteniendo a la presentadora en la card derecha."
+    },
+    {
+      "id": "evt-05",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 50.2,
+      "endSec": 55.6,
+      "anchor": { "transcript": "cuando viene acompañada de la segunda señal. Y ahí es donde ya no hay duda.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "LA SEGUNDA SEÑAL",
+        "text": "AHÍ YA NO HAY DUDA",
+        "emphasis": ["NO HAY DUDA"]
+      },
+      "notes": "Open loop hacia la señal 2, cierre de capítulo."
+    }
+  ]
+}
