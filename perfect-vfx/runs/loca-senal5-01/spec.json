@@ -1,0 +1,146 @@
+{
+  "version": 1,
+  "meta": {
+    "project": "loca-por-ti",
+    "segmentType": "chapter-card",
+    "run": "loca-senal5-01",
+    "directorNotes": "Señal 5 - 'La voz cambia' (la voz se musicaliza ante quien nos atrae). Talking-head continuo, presentadora centrada. 7 eventos: apertura full-screen, statement 75-split, lista full-screen de cambios de voz, statement 75-split, comparación split-screen hola seco vs cantado, statement full-screen, open loop 75-split hacia la señal 6. Sin cubrir la cara. Tema liquid-glass.",
+    "directorNotesVariety": "Secuencia: FS/statement, 75/statement, FS/list, 75/statement, SS/comparison, FS/statement, 75/statement. Ningún variant+kind consecutivo repetido."
+  },
+  "source": {
+    "file": "public/src.mp4",
+    "durationSec": 58.56,
+    "width": 1920,
+    "height": 1080,
+    "fps": 25,
+    "transcriptSrt": "transcript.srt",
+    "audioMaxVolumeDb": -0.9
+  },
+  "brand": { "theme": "liquid-glass", "kitSource": "theme-defaults" },
+  "events": [
+    {
+      "id": "evt-01",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 0.4,
+      "endSec": 6.2,
+      "anchor": { "transcript": "Señal número 5. La voz cambia.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "SEÑAL Nº 5",
+        "text": "LA VOZ CAMBIA",
+        "emphasis": ["CAMBIA"]
+      },
+      "notes": "Apertura de capítulo, golpe grande full-screen; audio continúa."
+    },
+    {
+      "id": "evt-02",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 7.0,
+      "endSec": 15.5,
+      "anchor": { "transcript": "Escucha cómo te saluda, no solo qué dice. Su voz cambia sin que ella lo note.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "AL SALUDAR",
+        "text": "NO ES QUÉ DICE, ES CÓMO",
+        "emphasis": ["CÓMO"]
+      },
+      "notes": "Statement clave manteniendo a la presentadora en la card derecha."
+    },
+    {
+      "id": "evt-03",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 16.3,
+      "endSec": 23.0,
+      "anchor": { "transcript": "Se vuelve un poco más suave, más melodiosa, a veces ligeramente más aguda.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "list",
+        "eyebrow": "CÓMO SUENA",
+        "items": [
+          { "text": "Más suave", "icon": "person", "revealSec": 17.0 },
+          { "text": "Más melodiosa", "icon": "link", "revealSec": 19.0 },
+          { "text": "Más aguda", "icon": "check", "revealSec": 21.0 }
+        ]
+      },
+      "notes": "Los tres cambios audibles de la voz, en cadencia con el habla."
+    },
+    {
+      "id": "evt-04",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 24.0,
+      "endSec": 29.6,
+      "anchor": { "transcript": "Es un fenómeno estudiado. La voz se musicaliza ante alguien que nos atrae.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "FENÓMENO ESTUDIADO",
+        "text": "LA VOZ SE MUSICALIZA",
+        "emphasis": ["SE MUSICALIZA"]
+      },
+      "notes": "El término del fenómeno, presentadora en card."
+    },
+    {
+      "id": "evt-05",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 30.5,
+      "endSec": 41.5,
+      "anchor": { "transcript": "Compara. El hola seco que le da a un conocido cualquiera, versus el hola alargado, casi cantado que te da a ti.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "split-screen",
+        "kind": "comparison",
+        "eyebrow": "COMPARA",
+        "items": [
+          { "text": "HOLA SECO", "negated": true, "icon": "x", "revealSec": 31.5 },
+          { "text": "HOLA CANTADO", "negated": false, "icon": "check", "revealSec": 36.0 }
+        ]
+      },
+      "notes": "Contraste del saludo seco vs el saludo cantado que te da a ti."
+    },
+    {
+      "id": "evt-06",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 42.2,
+      "endSec": 46.6,
+      "anchor": { "transcript": "Ese cambio de tono es su interés filtrándose por la garganta.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "EL CAMBIO DE TONO",
+        "text": "SU INTERÉS SE FILTRA",
+        "emphasis": ["SE FILTRA"]
+      },
+      "notes": "El insight emocional, full-screen."
+    },
+    {
+      "id": "evt-07",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 47.5,
+      "endSec": 58.2,
+      "anchor": { "transcript": "la más difícil de fingir de todas, la señal número 6. La que separa la amabilidad de la atracción real.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "LA SEÑAL 6",
+        "text": "LA MÁS DIFÍCIL DE FINGIR",
+        "emphasis": ["DIFÍCIL DE FINGIR"]
+      },
+      "notes": "Open loop hacia la señal 6, presentadora en card."
+    }
+  ]
+}
