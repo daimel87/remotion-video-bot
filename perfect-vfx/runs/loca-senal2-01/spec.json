@@ -1,0 +1,146 @@
+{
+  "version": 1,
+  "meta": {
+    "project": "loca-por-ti",
+    "segmentType": "chapter-card",
+    "run": "loca-senal2-01",
+    "directorNotes": "Señal 2 - 'La sonrisa que llega a los ojos' (Duchenne). Talking-head continuo, presentadora centrada. 7 eventos: apertura full-screen, comparación split-screen social vs real, lista full-screen de las señales del rostro, statements 75-split y full-screen, open loop 75-split hacia la tercera señal, cierre full-screen con el 90%. Sin cubrir la cara. Tema liquid-glass.",
+    "directorNotesVariety": "Secuencia de variantes: FS/statement, SS/comparison, FS/list, 75/statement, FS/statement, 75/statement, FS/statement. Ningún variant+kind consecutivo repetido."
+  },
+  "source": {
+    "file": "public/src.mp4",
+    "durationSec": 60.6,
+    "width": 1920,
+    "height": 1080,
+    "fps": 25,
+    "transcriptSrt": "transcript.srt",
+    "audioMaxVolumeDb": -1.5
+  },
+  "brand": { "theme": "liquid-glass", "kitSource": "theme-defaults" },
+  "events": [
+    {
+      "id": "evt-01",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 0.4,
+      "endSec": 5.8,
+      "anchor": { "transcript": "Señal número 2. La sonrisa que llega a los ojos.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "SEÑAL Nº 2",
+        "text": "LA SONRISA QUE LLEGA A LOS OJOS",
+        "emphasis": ["A LOS OJOS"]
+      },
+      "notes": "Apertura de capítulo, golpe grande full-screen; audio continúa."
+    },
+    {
+      "id": "evt-02",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 12.5,
+      "endSec": 22.6,
+      "anchor": { "transcript": "Existe una sonrisa social, de compromiso, sólo la boca se mueve. Y existe la sonrisa real, la de Duchenne.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "split-screen",
+        "kind": "comparison",
+        "eyebrow": "DOS SONRISAS",
+        "items": [
+          { "text": "SOCIAL", "negated": true, "icon": "x", "revealSec": 13.5 },
+          { "text": "REAL (DUCHENNE)", "negated": false, "icon": "check", "revealSec": 18.5 }
+        ]
+      },
+      "notes": "Contraste sonrisa social (solo boca) vs sonrisa real de Duchenne."
+    },
+    {
+      "id": "evt-03",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 23.5,
+      "endSec": 30.2,
+      "anchor": { "transcript": "Los ojos se entrecierran, se forman arrugitas al costado, la cara entera se ilumina.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "list",
+        "eyebrow": "LA SONRISA REAL",
+        "items": [
+          { "text": "Ojos entornados", "icon": "person", "revealSec": 24.0 },
+          { "text": "Arrugas al lado", "icon": "link", "revealSec": 26.0 },
+          { "text": "Cara iluminada", "icon": "check", "revealSec": 28.0 }
+        ]
+      },
+      "notes": "Las tres señales visibles de la sonrisa de Duchenne, en cadencia con el habla."
+    },
+    {
+      "id": "evt-04",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 30.6,
+      "endSec": 37.4,
+      "anchor": { "transcript": "Esa no se puede fingir a voluntad.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "INVOLUNTARIA",
+        "text": "NO SE PUEDE FINGIR",
+        "emphasis": ["NO SE PUEDE"]
+      },
+      "notes": "Statement clave manteniendo a la presentadora en la card derecha."
+    },
+    {
+      "id": "evt-05",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 38.2,
+      "endSec": 44.6,
+      "anchor": { "transcript": "su cerebro está genuinamente contento de verte. No lo decidió, le salió.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "SU CEREBRO LA DELATA",
+        "text": "LE SALIÓ, NO LO DECIDIÓ",
+        "emphasis": ["NO LO DECIDIÓ"]
+      },
+      "notes": "Refuerza que la reacción es genuina e involuntaria."
+    },
+    {
+      "id": "evt-06",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 45.4,
+      "endSec": 52.0,
+      "anchor": { "transcript": "Hay una tercera señal que ella hace justo después de sonreír.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "ALGO INCÓMODO",
+        "text": "UNA TERCERA SEÑAL",
+        "emphasis": ["TERCERA SEÑAL"]
+      },
+      "notes": "Open loop hacia la señal 3, presentadora en card."
+    },
+    {
+      "id": "evt-07",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 53.0,
+      "endSec": 59.8,
+      "anchor": { "transcript": "Es tan sutil que el 90% de los hombres la pasa por alto.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "TAN SUTIL QUE",
+        "text": "EL 90% LO PASA POR ALTO",
+        "emphasis": ["90%"]
+      },
+      "notes": "Cierre de capítulo con el dato de retención (90%)."
+    }
+  ]
+}
