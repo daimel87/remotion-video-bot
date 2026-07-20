@@ -25,6 +25,8 @@ import {GacruxFinalEdit} from './GacruxFinalEdit';
 import {TestudoDemo} from './TestudoDemo';
 import {ThenNowEdit} from './ThenNowEdit';
 import {CDDocumentaryEdit} from './CDDocumentaryEdit';
+import {HealthCookingEdit} from './HealthCookingEdit';
+import {DURATION_SECONDS as HEALTH_SECS} from './health/sampleCues';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -233,6 +235,14 @@ export const RemotionRoot: React.FC = () => {
         id="CDDocumentaryEdit"
         component={CDDocumentaryEdit}
         durationInFrames={20820}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="HealthCookingEdit"
+        component={HealthCookingEdit}
+        durationInFrames={Math.round(HEALTH_SECS * 30)}
         fps={30}
         width={1920}
         height={1080}
