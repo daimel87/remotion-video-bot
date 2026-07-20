@@ -1,0 +1,146 @@
+{
+  "version": 1,
+  "meta": {
+    "project": "loca-por-ti",
+    "segmentType": "chapter-card",
+    "run": "loca-senal6-01",
+    "directorNotes": "Señal 6 - 'Te saluda distinto que a los demás' (la señal definitiva es el contraste). Talking-head continuo, presentadora centrada. 7 eventos: apertura full-screen, statement 75-split, comparación split-screen a los demás vs a ti, lista full-screen del trato especial, statement 75-split del contraste, statement full-screen 'tú eres la excepción', cierre 75-split 'su cuerpo lo supo antes'. Sin cubrir la cara. Tema liquid-glass.",
+    "directorNotesVariety": "Secuencia: FS/statement, 75/statement, SS/comparison, FS/list, 75/statement, FS/statement, 75/statement. Ningún variant+kind consecutivo repetido."
+  },
+  "source": {
+    "file": "public/src.mp4",
+    "durationSec": 57.36,
+    "width": 1920,
+    "height": 1080,
+    "fps": 25,
+    "transcriptSrt": "transcript.srt",
+    "audioMaxVolumeDb": -2.1
+  },
+  "brand": { "theme": "liquid-glass", "kitSource": "theme-defaults" },
+  "events": [
+    {
+      "id": "evt-01",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 0.4,
+      "endSec": 5.5,
+      "anchor": { "transcript": "Señal número 6. Te saluda distinto que a los demás.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "SEÑAL Nº 6",
+        "text": "TE SALUDA DISTINTO",
+        "emphasis": ["DISTINTO"]
+      },
+      "notes": "Apertura de capítulo, golpe grande full-screen; audio continúa."
+    },
+    {
+      "id": "evt-02",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 6.5,
+      "endSec": 12.5,
+      "anchor": { "transcript": "La señal definitiva no está en el saludo en sí, está en la diferencia.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "LA DEFINITIVA",
+        "text": "ESTÁ EN LA DIFERENCIA",
+        "emphasis": ["LA DIFERENCIA"]
+      },
+      "notes": "Statement clave manteniendo a la presentadora en la card derecha."
+    },
+    {
+      "id": "evt-03",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 13.5,
+      "endSec": 25.5,
+      "anchor": { "transcript": "Observa cómo saluda a los demás y cómo te saluda a ti. A todos un hola plano, a ti con sonrisa de ojos.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "split-screen",
+        "kind": "comparison",
+        "eyebrow": "OBSERVA EL CONTRASTE",
+        "items": [
+          { "text": "A LOS DEMÁS", "negated": true, "icon": "x", "revealSec": 15.0 },
+          { "text": "A TI", "negated": false, "icon": "check", "revealSec": 20.0 }
+        ]
+      },
+      "notes": "El corazón de la señal: contraste entre cómo saluda a otros vs a ti."
+    },
+    {
+      "id": "evt-04",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 26.5,
+      "endSec": 33.0,
+      "anchor": { "transcript": "sonrisa de ojos, cercanía, voz suave y un gesto en el pelo, eso es una elección.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "list",
+        "eyebrow": "SOLO CONTIGO",
+        "items": [
+          { "text": "Sonrisa de ojos", "icon": "person", "revealSec": 27.0 },
+          { "text": "Voz suave", "icon": "link", "revealSec": 29.0 },
+          { "text": "Gesto en el pelo", "icon": "check", "revealSec": 31.0 }
+        ]
+      },
+      "notes": "El trato reservado solo para ti; el conjunto que prueba la elección."
+    },
+    {
+      "id": "evt-05",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 34.0,
+      "endSec": 40.5,
+      "anchor": { "transcript": "La atracción no se prueba con un gesto aislado, se prueba con el contraste.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "LA ATRACCIÓN",
+        "text": "SE PRUEBA CON EL CONTRASTE",
+        "emphasis": ["EL CONTRASTE"]
+      },
+      "notes": "La regla central, presentadora en card."
+    },
+    {
+      "id": "evt-06",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 41.5,
+      "endSec": 48.0,
+      "anchor": { "transcript": "Cuando tú eres la excepción a su forma normal de saludar, ya tienes la respuesta.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "YA TIENES LA RESPUESTA",
+        "text": "TÚ ERES LA EXCEPCIÓN",
+        "emphasis": ["LA EXCEPCIÓN"]
+      },
+      "notes": "El payoff del video entero, full-screen."
+    },
+    {
+      "id": "evt-07",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 49.0,
+      "endSec": 56.8,
+      "anchor": { "transcript": "ella muchas veces ni siquiera se ha dado cuenta todavía. Su cuerpo lo supo antes que su mente.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "LO MÁS PODEROSO",
+        "text": "SU CUERPO LO SUPO ANTES",
+        "emphasis": ["ANTES"]
+      },
+      "notes": "Cierre memorable: el cuerpo sabe antes que la mente."
+    }
+  ]
+}
