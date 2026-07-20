@@ -35,8 +35,8 @@ const SECTION: [number, number, string][] = [
   [30, 32, 'processed-meat'], // malo #1 embutidos
   [33, 34, 'sugary-drinks'],  // malo #2 bebidas azucaradas
   [35, 36, 'fried-food'],     // malo #3 frituras
-  [37, 39, 'pastries'],       // malo #4 bollería
-  [40, 41, 'salt-herbs'],     // malo #5 exceso de sal
+  [37, 38, 'pastries'],       // malo #4 bollería
+  [39, 41, 'salt-herbs'],     // malo #5 exceso de sal (el "Número 5" se dice en el cue 39)
 ];
 // Overrides puntuales (intro, transición, cierre y frases concretas).
 const OVERRIDE: Record<number, string> = {
@@ -70,7 +70,7 @@ export const FOODS: {num: number; cue: number; title: string; kind: 'good' | 'ba
   {num: 2, cue: 33, title: 'Bebidas azucaradas', kind: 'bad'},
   {num: 3, cue: 35, title: 'Frituras', kind: 'bad'},
   {num: 4, cue: 37, title: 'Bollería industrial', kind: 'bad'},
-  {num: 5, cue: 40, title: 'Exceso de sal', kind: 'bad'},
+  {num: 5, cue: 39, title: 'Exceso de sal', kind: 'bad'},
 ];
 
 // 'delay' = segundos dentro del cue en que se DICE la frase (sincroniza el texto con la voz).
@@ -99,7 +99,7 @@ const OVERLAYS: Record<number, Overlay[]> = {
   35: [{kind: 'foodNum', from: 0, dur: 0, delay: 0.5, num: 3, title: 'Frituras', foodKind: 'bad'}],
   37: [{kind: 'foodNum', from: 0, dur: 0, delay: 0.5, num: 4, title: 'Bollería industrial', foodKind: 'bad'}],
   38: [{kind: 'tip', from: 0, dur: 0, delay: 3.1, term: 'Azúcar sin energía', def: 'Un postre casero, hecho con calma, es mejor compañía.', accent: 'tomato'}],
-  40: [{kind: 'foodNum', from: 0, dur: 0, delay: 0.4, num: 5, title: 'Exceso de sal', foodKind: 'bad'}],
+  39: [{kind: 'foodNum', from: 0, dur: 0, delay: 2.1, num: 5, title: 'Exceso de sal', foodKind: 'bad'}], // "Número 5" se dice a los 2.1s del cue 39
   41: [{kind: 'label', from: 0, dur: 0, delay: 0.5, name: 'Hierbas y especias', role: 'en vez de tanta sal', accent: 'sage'}],
 
   42: [{kind: 'hook', from: 0, dur: 0, delay: 2.1, text: 'No es una dieta.\nEs volver a lo sencillo', accent: 'sage'}],
