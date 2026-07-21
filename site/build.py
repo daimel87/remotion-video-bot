@@ -60,6 +60,8 @@ FOOT = f'''</main>
   <p class="disclaimer">Las herramientas enlazadas pertenecen a sus respectivos fabricantes.
      Úsalas bajo tu responsabilidad; una reparación de bajo nivel borra todos los datos de la USB.</p>
 </footer>
+<!-- Adsterra Social Bar -->
+<script src="{SITE['adsterra_socialbar']}" data-cfasync="false" async></script>
 </body></html>'''
 
 def write(path, content):
@@ -94,7 +96,8 @@ def tool_page(t):
     <h1>{html.escape(t['title'])}</h1>
     <p class="lead">{t['intro']}</p>
     {ad('top')}
-    <a class="download" href="{t['url']}" target="_blank" rel="noopener nofollow">
+    <a class="download" href="{t['url']}" target="_blank" rel="noopener nofollow"
+       onclick="window.open('{SITE['adsterra_smartlink']}','_blank')">
        ⬇ Descargar {html.escape(t['brand'])}</a>
     {key_html}
     <h2>Cómo usar esta herramienta paso a paso</h2>

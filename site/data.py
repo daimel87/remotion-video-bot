@@ -12,6 +12,8 @@ SITE = {
                    "Guías paso a paso para formatear y reparar pendrives dañados.",
     "adsterra_desktop": "bef7ad1928b96e7c8a74641eae7831f2",  # banner Adsterra 728x90 (escritorio)
     "adsterra_mobile": "34b9456d140c391cf222a083843e7112",   # banner Adsterra 320x50 (móvil)
+    "adsterra_smartlink": "https://www.effectivecpmnetwork.com/rw6cjraf55?key=d14fae77a93a3d3ac84c55802e5d0f7a",  # Smartlink en botones de descarga
+    "adsterra_socialbar": "https://pl30472951.effectivecpmnetwork.com/24/cd/3c/24cd3c81b3ba31e15d37a3e645e60a7e.js",  # Social Bar
     "google_verify": "4t1k_fsPm-BsPZ6JQFLArsFhmg_LqMMaYAX1iqdFg4E",  # Google Search Console
 }
 
