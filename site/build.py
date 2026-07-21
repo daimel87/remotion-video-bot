@@ -96,7 +96,7 @@ def tool_page(t):
     <h1>{html.escape(t['title'])}</h1>
     <p class="lead">{t['intro']}</p>
     {ad('top')}
-    <a class="download" href="{t['url']}" target="_blank" rel="noopener nofollow"
+    <a class="download" href="{t['url']}" rel="noopener nofollow"
        onclick="window.open('{SITE['adsterra_smartlink']}','_blank')">
        ⬇ Descargar {html.escape(t['brand'])}</a>
     {key_html}
