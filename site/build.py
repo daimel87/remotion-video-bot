@@ -27,6 +27,20 @@ def ad(slot):
       </div>
     </div>'''
 
+# ---- Reproductor de la lista de reproducción de YouTube ----
+def video(titulo="🎥 Tutoriales en vídeo"):
+    pid = SITE["playlist_id"]
+    return f'''<section class="video-tut">
+      <h2>{titulo}</h2>
+      <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
+      <div class="video-frame">
+        <iframe src="https://www.youtube.com/embed/videoseries?list={pid}"
+          title="Tutoriales de reparación USB" loading="lazy"
+          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+    </section>'''
+
 # ---- Native Banner Adsterra (se integra con el contenido) ----
 def native():
     nk = SITE["adsterra_native"]
@@ -116,6 +130,7 @@ def tool_page(t):
     <h2>Cómo usar esta herramienta paso a paso</h2>
     <ol class="steps">{steps}</ol>
     {ad('mid')}
+    {video(f"🎥 Vídeotutoriales de reparación USB")}
     {faq}
     <p class="cta">📺 ¿Prefieres verlo en vídeo? Mira el tutorial en
        <a href="{SITE['youtube']}" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
@@ -141,6 +156,7 @@ def home():
     <a class="btn ghost" href="/chipgenius.html">¿No sabes tu controlador? Empieza aquí</a>
   </section>
   {ad('home-top')}
+  {video("🎥 Videotutoriales: repara tu USB paso a paso")}
   <section class="guide">
     <h2>¿Cómo reparar una memoria USB dañada?</h2>
     <p>Cuando una USB no da formato, aparece con 0 bytes, pide formatear una y otra vez o Windows no
