@@ -28,8 +28,8 @@ def ad(slot):
     </div>'''
 
 # ---- Reproductor de la lista de reproducción de YouTube ----
-def video(titulo="🎥 Tutoriales en vídeo"):
-    pid = SITE["playlist_id"]
+def video(titulo="🎥 Tutoriales en vídeo", pid=None):
+    pid = pid or SITE["playlist_id"]
     return f'''<section class="video-tut">
       <h2>{titulo}</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
@@ -104,7 +104,30 @@ def tool_page(t):
     if t.get("key"):
         key_html = f'<p class="note">🔑 Contraseña del archivo: <code>{t["key"]}</code></p>'
     steps = "\n".join(f"<li>{s}</li>" for s in t["steps"])
-    faq = f'''
+    is_guide = t.get("kind") == "guide"
+
+    if is_guide:
+        # Página informativa: sin descarga, sin popunder/smartlink; FAQ genérica.
+        download = ""
+        steps_title = "Pasos a seguir"
+        faq = f'''
+    <section class="faq">
+      <h2>Preguntas frecuentes</h2>
+      <details><summary>¿Es gratis?</summary>
+        <p>Sí, totalmente gratis. Sigue los pasos y mira los vídeos de esta página.</p></details>
+      <details><summary>¿Necesito conocimientos técnicos?</summary>
+        <p>No. Los tutoriales están explicados paso a paso para cualquier usuario.</p></details>
+      <details><summary>¿Y si sigo con problemas?</summary>
+        <p>Identifica el controlador de tu USB con <a href="/chipgenius.html">ChipGenius</a> y usa la
+           herramienta de reparación correspondiente de esta web.</p></details>
+    </section>'''
+    else:
+        download = f'''<a class="download" href="{t['url']}" rel="noopener nofollow"
+       onclick="window.open('{SITE['adsterra_smartlink']}','_blank')">
+       ⬇ Descargar {html.escape(t['brand'])}</a>
+    {key_html}'''
+        steps_title = "Cómo usar esta herramienta paso a paso"
+        faq = f'''
     <section class="faq">
       <h2>Preguntas frecuentes</h2>
       <details><summary>¿Esta herramienta borra mis archivos?</summary>
@@ -117,28 +140,27 @@ def tool_page(t):
         <p>Prueba otro puerto USB (mejor traseros 2.0), ejecútala como administrador y evita hubs
            o alargadores. Revisa también la <a href="/tabla-solucionadas.html">tabla de solucionadas</a>.</p></details>
     </section>'''
+
     body = f'''
   <article class="tool">
     <nav class="crumbs"><a href="/">Inicio</a> › {html.escape(t['brand'])}</nav>
     <h1>{html.escape(t['title'])}</h1>
     <p class="lead">{t['intro']}</p>
     {ad('top')}
-    <a class="download" href="{t['url']}" rel="noopener nofollow"
-       onclick="window.open('{SITE['adsterra_smartlink']}','_blank')">
-       ⬇ Descargar {html.escape(t['brand'])}</a>
-    {key_html}
-    <h2>Cómo usar esta herramienta paso a paso</h2>
+    {download}
+    <h2>{steps_title}</h2>
     <ol class="steps">{steps}</ol>
     {ad('mid')}
-    {video(f"🎥 Vídeotutoriales de reparación USB")}
+    {video("🎥 Vídeotutoriales", t.get("playlist"))}
     {faq}
-    <p class="cta">📺 ¿Prefieres verlo en vídeo? Mira el tutorial en
+    <p class="cta">📺 Más tutoriales en
        <a href="{SITE['youtube']}" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
     {native()}
     {ad('bottom')}
   </article>'''
     desc = t['intro'][:155]
-    write(f"{t['slug']}.html", head(t['title'], desc, canonical) + body + POPUNDER + FOOT)
+    tail = FOOT if is_guide else (POPUNDER + FOOT)
+    write(f"{t['slug']}.html", head(t['title'], desc, canonical) + body + tail)
 
 # ---------- Home ----------
 def home():

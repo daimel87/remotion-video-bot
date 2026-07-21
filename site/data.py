@@ -63,6 +63,7 @@ TOOLS = [
         "brand": "Alcor Micro",
         "url": "https://mega.nz/file/m2IClIiB#PEoPCBH7n4X7qtBEPNBIESWFuE0AI_F8apKMYtj4qsc",
         "kind": "mptool",
+        "playlist": "PLBfPLvLvAgajTrTQS-ylyjDlgsvou8RWi",
         "intro": "Herramienta de bajo nivel (MPTool) para reparar memorias USB con controlador "
                  "Alcor Micro. Permite reformatear el chip NAND, borrar bloques dañados y devolver "
                  "la capacidad real al pendrive cuando Windows ya no lo reconoce o no da formato.",
@@ -94,6 +95,14 @@ _CONTROLLERS = [
     ("huayi", "Huayi", "https://mega.nz/file/zmRwGBYR#yh4DURtrmlJbGiVeJnOddzy56sJjJ7p9wwDzjs1dS-M"),
 ]
 
+# Listas de reproducción específicas por controlador (las demás usan la general)
+_PLAYLISTS = {
+    "phison": "PLBfPLvLvAgagQG5879qSm9SQIN5xbFV5T",
+    "firstchip": "PLBfPLvLvAgaiTQeX9xzR-THQfrLYFw8Zv",
+    "smi": "PLBfPLvLvAgag228yMuFf73HoLK3Mfxz8I",
+    "chipsbank": "PLBfPLvLvAgahLZkPvVydZOPsUvIk0RCl_",
+}
+
 for slug, brand, url in _CONTROLLERS:
     TOOLS.append({
         "slug": slug,
@@ -101,6 +110,7 @@ for slug, brand, url in _CONTROLLERS:
         "brand": brand,
         "url": url,
         "kind": "mptool",
+        "playlist": _PLAYLISTS.get(slug),
         "intro": f"Herramienta de bajo nivel (MPTool) para reparar memorias USB con controlador "
                  f"{brand}. Permite reformatear el chip NAND, borrar bloques dañados y devolver la "
                  f"capacidad real al pendrive cuando Windows ya no lo reconoce o no da formato.",
@@ -113,3 +123,42 @@ for slug, brand, url in _CONTROLLERS:
             "Extrae la USB, vuelve a conectarla y formatéala en Windows si hace falta.",
         ],
     })
+
+# ---- Páginas-guía (temas muy buscados en Google, sin descarga) ----
+TOOLS.append({
+    "slug": "quitar-proteccion-escritura-usb",
+    "title": "Cómo quitar la protección contra escritura de una USB",
+    "brand": "Quitar protección contra escritura",
+    "url": None,
+    "kind": "guide",
+    "playlist": "PLBfPLvLvAgago9OauNwERklrDwRVMEIl4",
+    "intro": "¿Tu memoria USB dice \"el disco está protegido contra escritura\" y no te deja "
+             "formatear ni borrar? Aquí tienes todas las formas de quitar la protección contra "
+             "escritura de un pendrive o tarjeta SD, paso a paso y en vídeo.",
+    "steps": [
+        "Comprueba si tu USB tiene un <strong>interruptor físico</strong> de bloqueo en el lateral; muévelo a la posición de desbloqueo.",
+        "Prueba con <strong>Diskpart</strong>: abre CMD como administrador → <code>diskpart</code> → <code>list disk</code> → <code>select disk N</code> → <code>attributes disk clear readonly</code>.",
+        "Edita el <strong>registro de Windows</strong> en <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\StorageDevicePolicies</code> y pon <code>WriteProtect = 0</code>.",
+        "Si nada funciona, el problema es del controlador: identifica tu chip con <a href=\"/chipgenius.html\">ChipGenius</a> y usa su herramienta de reparación de esta web.",
+        "Mira los vídeos de abajo para verlo en detalle según tu caso.",
+    ],
+})
+TOOLS.append({
+    "slug": "formatear-usb-exfat-a-fat32",
+    "title": "Cómo formatear una USB de exFAT a FAT32",
+    "brand": "Formatear de exFAT a FAT32",
+    "url": None,
+    "kind": "guide",
+    "playlist": "PLBfPLvLvAgagMCh6WjAzsLokj1qkfIMhB",
+    "intro": "¿Necesitas pasar tu memoria USB de exFAT a FAT32 (por ejemplo para una consola, "
+             "TV o coche que no lee exFAT)? Windows a veces no da la opción de FAT32 en unidades "
+             "grandes. Aquí te explico cómo hacerlo paso a paso, gratis.",
+    "steps": [
+        "<strong>Haz copia de seguridad:</strong> formatear borra todos los datos de la USB.",
+        "Para unidades de hasta 32 GB: clic derecho sobre la unidad → Formatear → elige <strong>FAT32</strong>.",
+        "Para unidades grandes (más de 32 GB) Windows oculta FAT32: usa una herramienta gratuita como <strong>guiformat</strong> o <strong>Rufus</strong>.",
+        "Con Rufus: selecciona tu USB, sistema de archivos <strong>FAT32</strong>, y pulsa Empezar.",
+        "También puedes usar CMD: <code>format /FS:FAT32 X:</code> (cambia X por tu unidad).",
+        "Mira los vídeos de abajo para el método exacto según el tamaño de tu memoria.",
+    ],
+})
