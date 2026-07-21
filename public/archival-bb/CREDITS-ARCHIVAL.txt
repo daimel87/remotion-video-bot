@@ -17,3 +17,4 @@ bb-outage-2011.mp4: BlackBerry users suffer blackout | Al Jazeera English | http
 rim-layoffs-news.mp4: Rim Shares Pummeled Over Latest Report | Associated Press | https://www.youtube.com/watch?v=kRBdP80IBio
 blackberry-10-launch.mp4: RIM's BlackBerry 10 Launch Event | Cass Stuart | https://www.youtube.com/watch?v=2qUDqQMbER8
 bb-stops-phones-2016.mp4: Blackberry hangs up the phone to focus on selling software and services | euronews | https://www.youtube.com/watch?v=qkJDgptaS-E
+rim-founders.mp4: Interview with BlackBerry co-CEO Jim Balsillie | CrackBerry Kevin | https://www.youtube.com/watch?v=wQRcEObmSRM
