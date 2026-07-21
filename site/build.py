@@ -7,16 +7,23 @@ from data import SITE, TOOLS
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
 
-# ---- Bloque de anuncio Adsterra (banner 728x90) ----
+# ---- Bloque de anuncio Adsterra (responsive: 728x90 escritorio / 320x50 móvil) ----
 def ad(slot):
-    key = SITE["adsterra_key"]
+    dk = SITE["adsterra_desktop"]
+    mk = SITE["adsterra_mobile"]
     return f'''<div class="ad" data-slot="{slot}">
       <span class="ad-label">Publicidad</span>
-      <div class="ad-inner">
+      <div class="ad-inner ad-desktop">
         <script type="text/javascript">
-          atOptions = {{ 'key':'{key}', 'format':'iframe', 'height':90, 'width':728, 'params':{{}} }};
+          atOptions = {{ 'key':'{dk}', 'format':'iframe', 'height':90, 'width':728, 'params':{{}} }};
         </script>
-        <script type="text/javascript" src="https://www.highperformanceformat.com/{key}/invoke.js"></script>
+        <script type="text/javascript" src="https://www.highperformanceformat.com/{dk}/invoke.js"></script>
+      </div>
+      <div class="ad-inner ad-mobile">
+        <script type="text/javascript">
+          atOptions = {{ 'key':'{mk}', 'format':'iframe', 'height':50, 'width':320, 'params':{{}} }};
+        </script>
+        <script type="text/javascript" src="https://www.highperformanceformat.com/{mk}/invoke.js"></script>
       </div>
     </div>'''
 
