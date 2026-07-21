@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://dtechusb.pages.dev/sitemap.xml
