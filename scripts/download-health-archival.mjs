@@ -45,9 +45,8 @@ for (const clip of CLIPS) {
   try {
     execSync(
       `yt-dlp "${clip.src}" ` +
-      // 480p máx (liviano) para que cada clip quede bajo 25 MB
+      // 480p máx (liviano); sin --max-filesize (con --download-sections aborta de más)
       `-f "bv*[height<=480][ext=mp4]+ba[ext=m4a]/b[height<=480][ext=mp4]/b[height<=480]" ` +
-      `--max-filesize 25M ` +
       `--download-sections "${clip.section}" --force-keyframes-at-cuts ` +
       `--no-playlist --merge-output-format mp4 ` +
       `-o "${dest}" --print-to-file "%(title)s | %(uploader)s | %(webpage_url)s" "${CREDITS}.tmp"`,

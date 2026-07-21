@@ -27,6 +27,8 @@ import {ThenNowEdit} from './ThenNowEdit';
 import {CDDocumentaryEdit} from './CDDocumentaryEdit';
 import {HealthCookingEdit} from './HealthCookingEdit';
 import {DURATION_SECONDS as HEALTH_SECS} from './health/healthCues';
+import {BlackBerryDocumentaryEdit} from './BlackBerryDocumentaryEdit';
+import {DURATION_SECONDS as BB_SECS} from './data/bbCues';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -243,6 +245,14 @@ export const RemotionRoot: React.FC = () => {
         id="HealthCookingEdit"
         component={HealthCookingEdit}
         durationInFrames={Math.round(HEALTH_SECS * 30)}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="BlackBerryDocumentaryEdit"
+        component={BlackBerryDocumentaryEdit}
+        durationInFrames={Math.round(BB_SECS * 30)}
         fps={30}
         width={1920}
         height={1080}
