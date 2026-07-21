@@ -128,6 +128,26 @@ const ARCHIVAL_BY_CUE: Record<number, string> = {
   139: 'bb-stops-phones-2016', 140: 'bb-stops-phones-2016', 141: 'bb-stops-phones-2016',
 };
 
+// ---- VENTANAS BUENAS por clip (segundos [inicio, fin] donde SÍ se ve BlackBerry).
+// Verificado cuadro por cuadro: estos clips son reviews/documentales que mezclan
+// el dispositivo con cabezas parlantes, iPhone o calle. El avance dentro del clip
+// solo gira por estos segmentos, nunca por las zonas malas. ----
+const WINDOWS: Record<string, [number, number][]> = {
+  'obama-blackberry':     [[9, 15]],                    // BB Bold closeup + UI (antes: Obama lejano / iPhone / analistas)
+  'blackberry-keyboard':  [[8, 29], [32, 39], [50, 58]],// KEY2 en soporte/mano (evita al reseñador en el sofá)
+  'rim-reaction-iphone':  [[4, 11], [22, 35]],          // BB clásico monocromo + teclado redondo (evita bigotón / iPhone)
+  'bb-stops-phones-2016': [[2, 17]],                    // letrero BlackBerry + BB Bold + evento (evita teléfono moderno)
+  'bbm-messenger':        [[2, 9], [18, 22], [24, 42]], // BB Torch + letrero RIM + Lazaridis + pantallas BBM (evita calle/Apple)
+  'rim-founders':         [[6, 57]],                    // Balsillie + letrero RIM + edificio + BB + cifras (evita hockey/MRI)
+  'crackberry-news':      [[27, 30], [42, 54], [57, 88]],// "Berry Addictive" + gente con BB + closeups
+  'wall-street-bb':       [[9, 52]],                    // Bloomberg "BlackBerry" + BB en mano (continuo, oro puro)
+  'iphone-2007-keynote':  [[6, 118]],                   // Steve Jobs en el escenario (revelación iPhone)
+  'blackberry-storm':     [[27, 88]],                   // unboxing del Storm (caja + dispositivo en mano)
+  'bb-outage-2011':       [[3, 9], [24, 40]],           // BB en mano + letrero + PlayBook (evita analistas)
+  'blackberry-10-launch': [[0, 42]],                    // demos "BlackBerry Keyboard" + BB10 en mano
+  'rim-layoffs-news':     [[6, 21], [39, 46], [60, 72]],// BB Bold/BB10 en mano + campus RIM (evita analista S&P)
+};
+
 // ---- Estadísticas / fechas grandes ----
 const STATS: Record<number, StatDef> = {
   9: {value: 85, suffix: ' millones', label: 'dependían de él', accent: 'amber'},
@@ -226,16 +246,29 @@ export const buildPlan = (fps: number, total: number) => {
     return best;
   };
 
-  const archivalProgress: Record<string, number> = {}; // avanza el punto de lectura dentro de cada clip
-  // devuelve el startFrom (frames) para un clip de archivo, avanzando dentro del video
-  // fuente en cada uso (y reiniciando cuando se acaba) -> continuidad sin congelar.
+  const archCursor: Record<string, number> = {}; // avanza por la línea de tiempo VIRTUAL (solo segmentos buenos)
+  // devuelve el startFrom (frames) girando SOLO por las ventanas buenas del clip,
+  // de modo que cada frame mostrado tiene BlackBerry garantizado.
   const nextArchStart = (id: string, durSecs: number): number => {
     const meta = ARCHIVAL[id] ?? {dur: 30, start: 1};
-    const maxStart = Math.max(0, meta.dur - durSecs - 0.5);
-    let already = archivalProgress[id] ?? meta.start;
-    if (already > maxStart) already = Math.min(meta.start, maxStart); // se acabó -> reinicia
-    archivalProgress[id] = already + durSecs + 0.4;
-    return Math.max(0, Math.round(already * fps));
+    const segs = (WINDOWS[id] ?? [[meta.start, meta.start + meta.dur]])
+      .map(([a, b]) => [a, Math.max(a + 0.6, b)] as [number, number]);
+    const totalLen = segs.reduce((s, [a, b]) => s + (b - a), 0);
+    if (totalLen <= 0) return Math.max(0, Math.round(segs[0][0] * fps));
+    let cursor = (archCursor[id] ?? 0) % totalLen;
+    let acc = 0, startSec = segs[0][0];
+    for (const [a, b] of segs) {
+      const len = b - a;
+      if (cursor < acc + len) {
+        let s = a + (cursor - acc);
+        const maxS = Math.max(a, b - durSecs);   // que la toma no se salga del segmento
+        if (s > maxS) s = maxS;
+        startSec = s; break;
+      }
+      acc += len;
+    }
+    archCursor[id] = (archCursor[id] ?? 0) + Math.max(durSecs, 1.6); // avanza para variar la próxima
+    return Math.max(0, Math.round(startSec * fps));
   };
   const chapterByCue = new Map(CHAPTERS.map((c) => [c.cue, c]));
 
