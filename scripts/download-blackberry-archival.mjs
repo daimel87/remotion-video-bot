@@ -63,7 +63,8 @@ for (const clip of CLIPS) {
     execSync(
       `yt-dlp "${clip.src}" ` +
       `-f "bv*[height<=720][ext=mp4]+ba[ext=m4a]/b[height<=720][ext=mp4]/b[height<=720]" ` +
-      `--max-filesize 40M ` +
+      // (sin --max-filesize: con --download-sections compara el tamaño del video
+      //  completo y abortaba casi todo; el tramo + 720p ya lo mantiene liviano)
       `--download-sections "${clip.section}" --force-keyframes-at-cuts ` +
       `--no-playlist --merge-output-format mp4 ` +
       `-o "${dest}" --print-to-file "%(title)s | %(uploader)s | %(webpage_url)s" "${CREDITS}.tmp"`,
