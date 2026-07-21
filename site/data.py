@@ -51,19 +51,21 @@ TOOLS = [
         ],
     },
     {
-        "slug": "herramientas-generales",
-        "title": "Pack de herramientas de reparación USB (todas)",
-        "brand": "Pack general",
+        "slug": "alcor-micro",
+        "title": "Herramienta Alcor Micro – Reparar y formatear USB Alcor",
+        "brand": "Alcor Micro",
         "url": "https://mega.nz/file/m2IClIiB#PEoPCBH7n4X7qtBEPNBIESWFuE0AI_F8apKMYtj4qsc",
-        "kind": "pack",
-        "intro": "Pack completo con las principales herramientas MPTool de reparación de memorias "
-                 "USB reunidas en un solo archivo. Ideal si aún no sabes qué controlador tiene tu "
-                 "pendrive o quieres tenerlas todas a mano.",
+        "kind": "mptool",
+        "intro": "Herramienta de bajo nivel (MPTool) para reparar memorias USB con controlador "
+                 "Alcor Micro. Permite reformatear el chip NAND, borrar bloques dañados y devolver "
+                 "la capacidad real al pendrive cuando Windows ya no lo reconoce o no da formato.",
         "steps": [
-            "Descarga y descomprime el pack de herramientas.",
-            "Identifica antes tu controlador con ChipGenius.",
-            "Abre la carpeta correspondiente a tu chip (Phison, SMI, etc.).",
-            "Ejecuta el MPTool y sigue la guía de esa marca en esta web.",
+            "Confirma con ChipGenius que tu controlador es <strong>Alcor Micro</strong>.",
+            "Descarga y descomprime la herramienta Alcor Micro.",
+            "Conecta la memoria USB directamente a un puerto trasero del PC.",
+            "Ejecuta el MPTool como administrador; debe detectar tu unidad.",
+            "Pulsa Start / Iniciar y espera SIN desconectar hasta que termine en verde (OK/Pass).",
+            "Extrae la USB, vuelve a conectarla y formatéala en Windows si hace falta.",
         ],
     },
 ]
