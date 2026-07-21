@@ -91,6 +91,11 @@ const creditLines = fs.existsSync(CREDITS) ? [fs.readFileSync(CREDITS, 'utf8')] 
   'comentario, crítica y educación, acompañados de narración original. Fuentes:\n\n',
 ];
 
+// limpia restos de descargas cortadas (.part / fragmentos) para no dejar archivos a medias
+for (const f of fs.readdirSync(OUT)) {
+  if (/\.(part|ytdl|part-Frag\d+|temp)$/.test(f)) {try {fs.unlinkSync(path.join(OUT, f));} catch {}}
+}
+
 let ok = 0, fail = 0, skip = 0;
 for (const clip of CLIPS) {
   const dest = path.join(OUT, `${clip.id}.mp4`);
@@ -103,16 +108,24 @@ for (const clip of CLIPS) {
       // (sin --max-filesize: con --download-sections compara el video completo y aborta;
       //  el tramo + 720p ya lo mantiene liviano)
       `--download-sections "${clip.section}" --force-keyframes-at-cuts ` +
+      // resistencia a atascos: corta conexiones lentas y reintenta en vez de colgarse
+      `--socket-timeout 30 --retries 5 --fragment-retries 20 --retry-sleep 2 --concurrent-fragments 4 ` +
       `--no-playlist --merge-output-format mp4 ` +
       `-o "${dest}" --print-to-file "%(title)s | %(uploader)s | %(webpage_url)s" "${CREDITS}.tmp"`,
-      {stdio: 'inherit', timeout: 12 * 60 * 1000},
+      {stdio: 'inherit', timeout: 8 * 60 * 1000}, // si un clip tarda >8 min, se corta y sigue con el siguiente
     );
     if (fs.existsSync(`${CREDITS}.tmp`)) {
       creditLines.push(`${clip.id}.mp4: ${fs.readFileSync(`${CREDITS}.tmp`, 'utf8').trim()}\n`);
       fs.unlinkSync(`${CREDITS}.tmp`);
     }
     ok++;
-  } catch {console.log(`✗ Falló ${clip.id} — se continúa`); fail++;}
+  } catch {
+    // borra el archivo a medias para reintentarlo en la próxima corrida
+    for (const f of fs.readdirSync(OUT)) {
+      if (f.startsWith(clip.id) && /\.(mp4|part|ytdl|temp)/.test(f)) {try {fs.unlinkSync(path.join(OUT, f));} catch {}}
+    }
+    console.log(`✗ Falló/atascó ${clip.id} — borrado el parcial, se continúa`); fail++;
+  }
 }
 fs.writeFileSync(CREDITS, creditLines.join(''));
 console.log(`\n✅ Listo: ${ok} descargados, ${skip} ya existían, ${fail} fallidos.`);
