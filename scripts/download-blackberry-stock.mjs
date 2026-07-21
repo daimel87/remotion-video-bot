@@ -20,11 +20,19 @@ if (!PEXELS_KEY) {console.error('Uso: node scripts/download-blackberry-stock.mjs
 
 const MAX_BYTES = 25 * 1024 * 1024;
 
+// NOTA: se subió perQuery (más variantes = menos repetición). Las bases nuevas
+// 'blackberry-*' buscan el aparato de verdad (Pexels sí tiene fotos del Passport/
+// Classic con teclado). Reanudable: si una base ya está completa, se omite.
 const CONFIG = {
   photos: {
-    perQuery: 4, orientation: 'landscape', minWidth: 1920,
+    perQuery: 6, orientation: 'landscape', minWidth: 1600,
     queries: [
-      {base: 'qwerty-phone', q: 'phone physical keyboard qwerty'},
+      // --- BlackBerry de verdad (aparato con teclado físico) ---
+      {base: 'blackberry-device', q: 'blackberry phone'},
+      {base: 'blackberry-keyboard-closeup', q: 'blackberry keyboard qwerty phone'},
+      {base: 'qwerty-phone', q: 'phone physical keyboard qwerty black'},
+      {base: 'phone-in-hand-dark', q: 'black smartphone hand dark moody'},
+      // --- Contexto ---
       {base: 'business-phone', q: 'businessman using phone suit'},
       {base: 'smartphone-modern', q: 'modern smartphone touchscreen hand'},
       {base: 'texting-hands', q: 'typing texting phone hands closeup'},
@@ -43,8 +51,9 @@ const CONFIG = {
     ],
   },
   videos: {
-    perQuery: 2, orientation: 'landscape', minWidth: 1280,
+    perQuery: 3, orientation: 'landscape', minWidth: 1280,
     queries: [
+      {base: 'phone-in-hand-dark', q: 'black smartphone in hand close up dark'},
       {base: 'texting-hands', q: 'typing on smartphone closeup'},
       {base: 'business-phone', q: 'businessman walking phone city'},
       {base: 'smartphone-modern', q: 'scrolling touchscreen smartphone'},
