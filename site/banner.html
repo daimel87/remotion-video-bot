@@ -1,0 +1,49 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{width:1280px;height:1280px;overflow:hidden}
+.card{width:1280px;height:1280px;
+  background:radial-gradient(circle at 20% 0%,#1b2740 0%,#0f1420 55%,#0a0e17 100%);
+  color:#e8edf6;display:flex;flex-direction:column;justify-content:center;
+  padding:90px 80px;position:relative}
+.glow{position:absolute;width:620px;height:620px;border-radius:50%;
+  background:radial-gradient(circle,rgba(59,167,255,.28),transparent 70%);
+  top:-160px;right:-160px;filter:blur(10px)}
+.glow2{position:absolute;width:520px;height:520px;border-radius:50%;
+  background:radial-gradient(circle,rgba(37,211,102,.20),transparent 70%);
+  bottom:-160px;left:-140px}
+.brand{display:flex;align-items:center;gap:16px;font-size:34px;font-weight:800;
+  letter-spacing:.5px;color:#9fc7ff;margin-bottom:40px;z-index:2}
+.brand .dot{font-size:44px}
+h1{font-size:96px;line-height:1.02;font-weight:900;z-index:2;letter-spacing:-1px}
+h1 .hi{color:#3ba7ff}
+.sub{font-size:38px;color:#9aa7bd;margin-top:28px;z-index:2;font-weight:500;line-height:1.35}
+.chips{display:flex;flex-wrap:wrap;gap:14px;margin-top:46px;z-index:2}
+.chip{background:rgba(59,167,255,.12);border:1.5px solid rgba(59,167,255,.35);
+  color:#cfe4ff;padding:12px 24px;border-radius:40px;font-size:27px;font-weight:600}
+.url{margin-top:56px;z-index:2;display:inline-flex;align-items:center;gap:18px;
+  background:#25d366;color:#04250f;font-size:42px;font-weight:900;
+  padding:26px 46px;border-radius:20px;align-self:flex-start;
+  box-shadow:0 12px 40px rgba(37,211,102,.35)}
+.foot{position:absolute;bottom:60px;left:80px;right:80px;z-index:2;
+  display:flex;justify-content:space-between;align-items:center;
+  color:#7d8aa0;font-size:26px;font-weight:600}
+.free{background:#ff5d5d;color:#fff;font-size:26px;font-weight:800;
+  padding:10px 24px;border-radius:12px;transform:rotate(-4deg);
+  position:absolute;top:70px;right:80px;z-index:3;box-shadow:0 8px 24px rgba(255,93,93,.4)}
+</style></head>
+<body>
+<div class="card">
+  <div class="glow"></div><div class="glow2"></div>
+  <div class="free">100% GRATIS</div>
+  <div class="brand"><span class="dot">🔧</span> D-TECH USB</div>
+  <h1>Todas las<br>herramientas para<br><span class="hi">reparar tu USB</span></h1>
+  <div class="sub">Identifica tu controlador y descarga<br>la herramienta con guía paso a paso.</div>
+  <div class="chips">
+    <span class="chip">Phison</span><span class="chip">SMI</span>
+    <span class="chip">Chipsbank</span><span class="chip">Alcor</span>
+    <span class="chip">FirstChip</span><span class="chip">+ 11 más</span>
+  </div>
+  <div class="url">🌐 dtechusb.pages.dev</div>
+  <div class="foot"><span>💾 Repara memorias USB dañadas</span><span>🔔 Suscríbete al canal</span></div>
+</div>
+</body></html>
