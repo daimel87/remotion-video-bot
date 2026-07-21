@@ -11,6 +11,7 @@ SITE = {
                    "para todos los controladores: Phison, SMI, Chipsbank, FirstChip y más. "
                    "Guías paso a paso para formatear y reparar pendrives dañados.",
     "adsterra_key": "PON_AQUI_TU_CLAVE_ADSTERRA",  # reemplazar por tu código real de Adsterra
+    "google_verify": "4t1k_fsPm-BsPZ6JQFLArsFhmg_LqMMaYAX1iqdFg4E",  # Google Search Console
 }
 
 # slug, título, marca, enlace de descarga, clave (opcional), intro SEO, pasos
