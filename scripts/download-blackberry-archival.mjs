@@ -53,7 +53,9 @@ const SEARCHES = [
   {id: 'bb-curve-8520',    q: 'BlackBerry Curve 8520 unboxing hands on', section: '*0:00-2:20', note: 'Curve 8520 (unboxing)'},
   {id: 'bb-pearl-8100',    q: 'BlackBerry Pearl 8100 review 2006', section: '*0:10-2:20', note: 'Pearl 8100 (2006)'},
   {id: 'bb-torch-9800',    q: 'BlackBerry Torch 9800 unboxing hands on', section: '*0:00-2:30', note: 'Torch 9800 (unboxing)'},
-  {id: 'bb-passport',      q: 'BlackBerry Passport unboxing hands on', section: '*0:10-2:40', note: 'Passport (unboxing)'},
+  // bb-passport OMITIDO: el 1er resultado se colgaba al descargar. (Ya tenemos el
+  // Passport en la foto qwerty-phone-1.) Si quieres incluirlo, pega una URL exacta
+  // corta en el bloque URLS de arriba.
   {id: 'bb-classic-q20',   q: 'BlackBerry Classic Q20 unboxing hands on', section: '*0:10-2:30', note: 'Classic Q20 (unboxing)'},
   {id: 'bb-z10',           q: 'BlackBerry Z10 unboxing hands on', section: '*0:10-2:30', note: 'Z10 (unboxing)'},
   {id: 'bb-priv',          q: 'BlackBerry Priv unboxing hands on', section: '*0:10-2:30', note: 'Priv (unboxing)'},
