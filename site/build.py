@@ -7,11 +7,17 @@ from data import SITE, TOOLS
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
 
-# ---- Bloque de anuncio Adsterra (reemplaza el comentario por tu código real) ----
+# ---- Bloque de anuncio Adsterra (banner 728x90) ----
 def ad(slot):
+    key = SITE["adsterra_key"]
     return f'''<div class="ad" data-slot="{slot}">
-      <!-- ADSTERRA: pega aquí tu código de anuncio ({slot}). Clave demo: {SITE["adsterra_key"]} -->
       <span class="ad-label">Publicidad</span>
+      <div class="ad-inner">
+        <script type="text/javascript">
+          atOptions = {{ 'key':'{key}', 'format':'iframe', 'height':90, 'width':728, 'params':{{}} }};
+        </script>
+        <script type="text/javascript" src="https://www.highperformanceformat.com/{key}/invoke.js"></script>
+      </div>
     </div>'''
 
 def head(title, desc, canonical):

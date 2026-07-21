@@ -10,7 +10,7 @@ SITE = {
     "description": "Repositorio gratuito de herramientas de reparación de memorias USB (MPTool) "
                    "para todos los controladores: Phison, SMI, Chipsbank, FirstChip y más. "
                    "Guías paso a paso para formatear y reparar pendrives dañados.",
-    "adsterra_key": "PON_AQUI_TU_CLAVE_ADSTERRA",  # reemplazar por tu código real de Adsterra
+    "adsterra_key": "bef7ad1928b96e7c8a74641eae7831f2",  # banner Adsterra 728x90
     "google_verify": "4t1k_fsPm-BsPZ6JQFLArsFhmg_LqMMaYAX1iqdFg4E",  # Google Search Console
 }
 

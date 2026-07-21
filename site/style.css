@@ -62,7 +62,7 @@ code{background:var(--line);padding:2px 7px;border-radius:6px;font-size:.95em}
 
 /* anuncios */
 .ad{min-height:90px;display:flex;align-items:center;justify-content:center;
-  background:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(120,140,180,.06) 10px,rgba(120,140,180,.06) 20px);
-  border:1px dashed var(--line);border-radius:10px;margin:22px 0;position:relative}
-.ad-label{position:absolute;top:4px;left:8px;font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  margin:22px 0;position:relative;padding-top:16px}
+.ad-inner{max-width:100%;overflow-x:auto;display:flex;justify-content:center}
+.ad-label{position:absolute;top:0;left:4px;font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
 @media(max-width:520px){.hero h1{font-size:1.7rem}h1{font-size:1.6rem}}
