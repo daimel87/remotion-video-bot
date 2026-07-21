@@ -6,7 +6,7 @@ SITE = {
     "name": "D-TECH USB",
     "tagline": "Herramientas y guías para reparar memorias USB",
     "domain": "https://dtechusb.pages.dev",  # cambiar por tu dominio propio cuando lo tengas
-    "youtube": "https://www.youtube.com/@DtechUSB",
+    "youtube": "https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1",
     "description": "Repositorio gratuito de herramientas de reparación de memorias USB (MPTool) "
                    "para todos los controladores: Phison, SMI, Chipsbank, FirstChip y más. "
                    "Guías paso a paso para formatear y reparar pendrives dañados.",
