@@ -1,3 +1,4 @@
+import {staticFile} from 'remotion';
 import {cues} from '../data/bbCues';
 import {photoVariants, videoVariants, hasPhoto, ARCHIVAL, archivalSrc} from './assets';
 
@@ -65,55 +66,65 @@ const baseForCue = (i: number): string => {
   return 'bb-device';
 };
 
-// ---- POOLS: fotos + videos por base ('v:' = video de stock) ----
+// ---- POOLS por base. TOKENS:
+//   'a:ID'      = clip de ARCHIVO real (verificado cuadro por cuadro)
+//   'v:base'    = video de stock ; 'img:base-n' = foto puntual ; 'base' = todas las fotos
+// REGLA (por lo que se auditó): las tomas del DISPOSITIVO usan BlackBerry REAL
+// (archivo BB + la foto del Passport). El stock genérico solo va en momentos de
+// CONTEXTO (multitudes, oficinas, Wall Street, competidores).
+// Clips de archivo que SÍ muestran BlackBerry:
+//   rim-reaction-iphone (BB clásico + pantalla MESSAGES), bb-stops-phones-2016 (BB Bold),
+//   bbm-messenger, blackberry-keyboard, blackberry-storm, rim-layoffs-news, obama-blackberry,
+//   crackberry-news ("Berry Addictive"), rim-founders (Balsillie), wall-street-bb (Bloomberg BB),
+//   bb-outage-2011, blackberry-10-launch, iphone-2007-keynote.
+// Descartados por búsqueda equivocada: blackberry-850-1999, blackberry-ad-2000s, two-way-pager-90s.
 const POOLS: Record<string, string[]> = {
-  'bb-device':   ['old-phones', 'qwerty-phone', 'v:business-phone', 'business-phone'],
-  'waterloo':    ['canada-waterloo', 'empty-office', 'old-phones'],
-  'qwerty':      ['qwerty-phone', 'old-phones', 'email-screen', 'v:texting-hands', 'texting-hands'],
-  'bbm':         ['v:texting-hands', 'texting-hands', 'email-screen', 'v:smartphone-modern', 'smartphone-modern'],
-  'crowd':       ['v:city-commuters', 'city-commuters', 'v:texting-hands', 'texting-hands'],
-  'corporate':   ['boardroom-execs', 'v:office-corporate', 'office-corporate', 'v:business-phone', 'business-phone', 'wall-street'],
-  'obama':       ['boardroom-execs', 'business-phone', 'v:office-corporate', 'office-corporate'],
-  'iphone':      ['v:smartphone-modern', 'smartphone-modern'],
-  'decline':     ['v:stock-market', 'stock-market', 'empty-office', 'v:office-corporate', 'office-corporate'],
-  'whatsapp':    ['v:smartphone-modern', 'smartphone-modern', 'v:texting-hands', 'texting-hands'],
-  'lesson':      ['empty-office', 'old-phones', 'v:factory-tech', 'factory-tech', 'v:city-commuters'],
+  'bb-device':   ['a:rim-reaction-iphone', 'a:bb-stops-phones-2016', 'a:bbm-messenger', 'img:qwerty-phone-1', 'a:blackberry-keyboard'],
+  'waterloo':    ['a:rim-founders', 'canada-waterloo', 'a:bb-stops-phones-2016', 'empty-office'],
+  'qwerty':      ['a:blackberry-keyboard', 'a:rim-reaction-iphone', 'img:qwerty-phone-1', 'a:bb-stops-phones-2016', 'email-screen'],
+  'bbm':         ['a:bbm-messenger', 'v:texting-hands', 'texting-hands', 'email-screen'],
+  'crowd':       ['a:crackberry-news', 'v:city-commuters', 'city-commuters', 'a:bbm-messenger', 'v:texting-hands'],
+  'corporate':   ['a:wall-street-bb', 'boardroom-execs', 'v:office-corporate', 'office-corporate', 'a:bb-stops-phones-2016', 'v:business-phone'],
+  'obama':       ['a:obama-blackberry', 'boardroom-execs', 'business-phone'],
+  'iphone':      ['a:iphone-2007-keynote', 'v:smartphone-modern', 'smartphone-modern'],
+  'decline':     ['a:blackberry-storm', 'a:bb-outage-2011', 'v:stock-market', 'stock-market', 'empty-office'],
+  'whatsapp':    ['a:rim-layoffs-news', 'v:smartphone-modern', 'smartphone-modern', 'a:bb-stops-phones-2016', 'v:texting-hands'],
+  'lesson':      ['old-phones', 'empty-office', 'v:factory-tech', 'factory-tech', 'v:city-commuters'],
   'competitors': ['old-phones', 'v:factory-tech', 'factory-tech', 'empty-office'],
   'security':    ['security-encryption', 'v:server-room', 'server-room'],
 };
-const poolFor = (base: string) => POOLS[base] ?? ['old-phones'];
+const poolFor = (base: string) => POOLS[base] ?? ['img:qwerty-phone-1'];
 
-// ---- Clips de ARCHIVO forzados por cue (ocupan todo el cue, prioridad sobre stock) ----
+// ---- Clips de ARCHIVO forzados por cue (ocupan todo el cue, un solo clip continuo).
+// Solo para momentos NARRATIVAMENTE bloqueados donde debe verse ESE clip. Lo demás
+// sale del pool (que ya trae archivo BB donde corresponde). Sin clips basura. ----
 const ARCHIVAL_BY_CUE: Record<number, string> = {
-  // Obama no soltó su BlackBerry
-  4: 'obama-blackberry', 5: 'obama-blackberry', 6: 'obama-blackberry',
-  // Orígenes / RIM / Lazaridis / Waterloo
+  // Obama no soltó su BlackBerry (device en la mano)
+  4: 'obama-blackberry', 5: 'obama-blackberry', 6: 'obama-blackberry', 7: 'obama-blackberry',
+  // Orígenes / RIM / Lazaridis / Waterloo (Balsillie, edificio RIM)
   16: 'rim-founders', 18: 'rim-founders', 19: 'rim-founders', 20: 'rim-founders', 21: 'rim-founders',
-  // 1999: el aparato raro / busca-personas con correo
-  23: 'blackberry-850-1999', 24: 'blackberry-850-1999', 25: 'two-way-pager-90s',
-  // el teclado QWERTY
-  27: 'blackberry-keyboard', 30: 'blackberry-keyboard', 34: 'blackberry-keyboard', 35: 'blackberry-keyboard',
-  // el ejecutivo respondiendo desde cualquier lado (anuncio de época)
-  36: 'blackberry-ad-2000s', 37: 'blackberry-ad-2000s',
-  // BBM
+  // 1999: el aparato raro, busca-personas con teclado que recibía correo (BB clásico + MESSAGES)
+  23: 'rim-reaction-iphone', 24: 'rim-reaction-iphone', 25: 'rim-reaction-iphone', 26: 'rim-reaction-iphone',
+  // el teclado QWERTY (primer plano del BB)
+  30: 'blackberry-keyboard', 34: 'blackberry-keyboard', 35: 'blackberry-keyboard',
+  // BBM (BlackBerry en la mano, escribiendo)
   41: 'bbm-messenger', 44: 'bbm-messenger', 45: 'bbm-messenger', 53: 'bbm-messenger', 54: 'bbm-messenger',
-  // CrackBerry / palabra del año 2006
+  // CrackBerry / palabra del año 2006 ("Berry Addictive")
   62: 'crackberry-news', 63: 'crackberry-news', 64: 'crackberry-news',
-  // mundo corporativo / Wall Street
-  66: 'wall-street-bb', 72: 'wall-street-bb',
-  // iPhone 2007: Steve Jobs en el escenario
+  // mundo corporativo / Wall Street (Bloomberg BlackBerry)
+  66: 'wall-street-bb',
+  // iPhone 2007: Steve Jobs en el escenario (y la risa de RIM, por contraste)
   80: 'iphone-2007-keynote', 81: 'iphone-2007-keynote', 82: 'iphone-2007-keynote', 83: 'iphone-2007-keynote',
-  // en Canadá se rieron
-  84: 'rim-reaction-iphone', 85: 'rim-reaction-iphone', 86: 'rim-reaction-iphone',
-  // BlackBerry Storm (táctil fallido, 2008)
+  84: 'iphone-2007-keynote', 85: 'iphone-2007-keynote',
+  // BlackBerry Storm (táctil fallido, 2008 — unboxing Vodafone)
   104: 'blackberry-storm', 105: 'blackberry-storm', 106: 'blackberry-storm',
   // caída global del servicio (2011)
   116: 'bb-outage-2011',
   // BlackBerry 10 (2013)
   131: 'blackberry-10-launch', 132: 'blackberry-10-launch',
-  // pérdidas / despidos / acción se desploma
+  // pérdidas / despidos / acción se desploma (BB Bold en mano + analista S&P)
   134: 'rim-layoffs-news', 135: 'rim-layoffs-news', 136: 'rim-layoffs-news',
-  // deja de fabricar teléfonos (2016)
+  // deja de fabricar teléfonos (2016 — BB Bold en primer plano)
   139: 'bb-stops-phones-2016', 140: 'bb-stops-phones-2016', 141: 'bb-stops-phones-2016',
 };
 
@@ -160,15 +171,25 @@ const EDITORIAL: Record<number, Ed> = {
 
 const cutMotions: Motion[] = ['punchIn', 'zoomIn', 'punchIn', 'zoomOut', 'panRight', 'punchIn', 'panLeft', 'zoomIn'];
 
-type Cand = {src: string; video: boolean; base: string};
+type Cand = {src: string; video: boolean; base: string; archId?: string};
 const candidatesFor = (pool: string[]): Cand[] => {
   const out: Cand[] = [];
   for (const token of pool) {
-    const isV = token.startsWith('v:');
-    const base = isV ? token.slice(2) : token;
-    for (const src of (isV ? videoVariants(base) : photoVariants(base))) out.push({src, video: isV, base});
+    if (token.startsWith('a:')) {           // clip de archivo
+      const id = token.slice(2);
+      out.push({src: archivalSrc(id), video: true, base: 'a:' + id, archId: id});
+    } else if (token.startsWith('v:')) {    // video de stock
+      const base = token.slice(2);
+      for (const src of videoVariants(base)) out.push({src, video: true, base});
+    } else if (token.startsWith('img:')) {  // foto puntual (base-n)
+      const name = token.slice(4);
+      const base = name.replace(/-\d+$/, '');
+      out.push({src: staticFile(`stock-bb/photos/${name}.jpg`), video: false, base});
+    } else {                                // todas las fotos de la base
+      for (const src of photoVariants(token)) out.push({src, video: false, base: token});
+    }
   }
-  if (out.length === 0) for (const src of photoVariants('old-phones')) out.push({src, video: false, base: 'old-phones'});
+  if (out.length === 0) out.push({src: staticFile('stock-bb/photos/qwerty-phone-1.jpg'), video: false, base: 'qwerty-phone'});
   return out;
 };
 
@@ -206,6 +227,16 @@ export const buildPlan = (fps: number, total: number) => {
   };
 
   const archivalProgress: Record<string, number> = {}; // avanza el punto de lectura dentro de cada clip
+  // devuelve el startFrom (frames) para un clip de archivo, avanzando dentro del video
+  // fuente en cada uso (y reiniciando cuando se acaba) -> continuidad sin congelar.
+  const nextArchStart = (id: string, durSecs: number): number => {
+    const meta = ARCHIVAL[id] ?? {dur: 30, start: 1};
+    const maxStart = Math.max(0, meta.dur - durSecs - 0.5);
+    let already = archivalProgress[id] ?? meta.start;
+    if (already > maxStart) already = Math.min(meta.start, maxStart); // se acabó -> reinicia
+    archivalProgress[id] = already + durSecs + 0.4;
+    return Math.max(0, Math.round(already * fps));
+  };
   const chapterByCue = new Map(CHAPTERS.map((c) => [c.cue, c]));
 
   cues.forEach((c, idx) => {
@@ -218,15 +249,12 @@ export const buildPlan = (fps: number, total: number) => {
     const shotPool = poolFor(baseForCue(c.i));
 
     if (archId && !special) {
-      const meta = ARCHIVAL[archId];
-      const already = archivalProgress[archId] ?? meta.start;
-      const startFrom = Math.round(Math.min(already, Math.max(0, meta.dur - dur / fps - 1)) * fps);
-      archivalProgress[archId] = already + dur / fps + 0.5;
-      shots.push({from, dur, base: baseForCue(c.i), seed: shotSeed++, src: archivalSrc(archId), video: true, motion: 'zoomIn', startFrom: Math.max(0, startFrom), archival: true});
+      // clip forzado: un solo plano continuo por todo el cue
+      shots.push({from, dur, base: 'a:' + archId, seed: shotSeed++, src: archivalSrc(archId), video: true, motion: 'zoomIn', startFrom: nextArchStart(archId, dur / fps), archival: true});
     } else if (special) {
-      const cands = candidatesFor(shotPool);
-      const pick = pickBest(cands);
-      shots.push({from, dur, base: pick.base, seed: shotSeed++, src: pick.src, video: pick.video, motion: 'zoomIn'});
+      const pick = pickBest(candidatesFor(shotPool));
+      const isArch = !!pick.archId;
+      shots.push({from, dur, base: pick.base, seed: shotSeed++, src: pick.src, video: pick.video, motion: 'zoomIn', archival: isArch, startFrom: isArch ? nextArchStart(pick.archId!, dur / fps) : undefined});
     } else {
       const cands = candidatesFor(shotPool);
       const varied = [4.2, 5.6, 4.6, 6.0][c.i % 4];
@@ -235,8 +263,10 @@ export const buildPlan = (fps: number, total: number) => {
       for (let k = 0; k < n; k++) {
         const sFrom = from + Math.round((k * dur) / n);
         const sTo = from + Math.round(((k + 1) * dur) / n);
+        const sdur = Math.max(1, sTo - sFrom);
         const pick = pickBest(cands);
-        shots.push({from: sFrom, dur: Math.max(1, sTo - sFrom), base: pick.base, seed: shotSeed++, src: pick.src, video: pick.video, motion: cutMotions[(idx + k) % cutMotions.length]});
+        const isArch = !!pick.archId;
+        shots.push({from: sFrom, dur: sdur, base: pick.base, seed: shotSeed++, src: pick.src, video: pick.video, motion: isArch ? 'zoomIn' : cutMotions[(idx + k) % cutMotions.length], archival: isArch, startFrom: isArch ? nextArchStart(pick.archId!, sdur / fps) : undefined});
       }
     }
 
