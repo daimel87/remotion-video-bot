@@ -27,6 +27,19 @@ def ad(slot):
       </div>
     </div>'''
 
+# ---- Native Banner Adsterra (se integra con el contenido) ----
+def native():
+    nk = SITE["adsterra_native"]
+    return f'''<div class="native-ad">
+      <span class="ad-label">Publicidad</span>
+      <script async="async" data-cfasync="false" src="https://pl30473127.effectivecpmnetwork.com/{nk}/invoke.js"></script>
+      <div id="container-{nk}"></div>
+    </div>'''
+
+# ---- Popunder Adsterra (solo se inyecta en páginas de descarga) ----
+POPUNDER = f'''<!-- Adsterra Popunder -->
+<script type="text/javascript" src="{SITE['adsterra_popunder']}"></script>'''
+
 def head(title, desc, canonical):
     return f'''<!DOCTYPE html>
 <html lang="es">
@@ -106,10 +119,11 @@ def tool_page(t):
     {faq}
     <p class="cta">📺 ¿Prefieres verlo en vídeo? Mira el tutorial en
        <a href="{SITE['youtube']}" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
+    {native()}
     {ad('bottom')}
   </article>'''
     desc = t['intro'][:155]
-    write(f"{t['slug']}.html", head(t['title'], desc, canonical) + body + FOOT)
+    write(f"{t['slug']}.html", head(t['title'], desc, canonical) + body + POPUNDER + FOOT)
 
 # ---------- Home ----------
 def home():
@@ -144,6 +158,7 @@ def home():
     <h2>Todas las herramientas ({len(TOOLS)})</h2>
     <div class="grid">{cards}</div>
   </section>
+  {native()}
   {ad('home-bottom')}'''
     write("index.html", head(f"{SITE['name']} — {SITE['tagline']}", SITE['description'],
                              SITE['domain'] + "/") + body + FOOT)
