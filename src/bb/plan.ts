@@ -79,15 +79,15 @@ const baseForCue = (i: number): string => {
 //   bb-outage-2011, blackberry-10-launch, iphone-2007-keynote.
 // Descartados por búsqueda equivocada: blackberry-850-1999, blackberry-ad-2000s, two-way-pager-90s.
 const POOLS: Record<string, string[]> = {
-  'bb-device':   ['a:rim-reaction-iphone', 'a:bb-stops-phones-2016', 'a:bbm-messenger', 'img:qwerty-phone-1', 'a:blackberry-keyboard'],
-  'waterloo':    ['a:rim-founders', 'canada-waterloo', 'a:bb-stops-phones-2016', 'empty-office'],
-  'qwerty':      ['a:blackberry-keyboard', 'a:rim-reaction-iphone', 'img:qwerty-phone-1', 'a:bb-stops-phones-2016', 'email-screen'],
-  'bbm':         ['a:bbm-messenger', 'v:texting-hands', 'texting-hands', 'email-screen'],
-  'crowd':       ['a:crackberry-news', 'v:city-commuters', 'city-commuters', 'a:bbm-messenger', 'v:texting-hands'],
-  'corporate':   ['a:wall-street-bb', 'boardroom-execs', 'v:office-corporate', 'office-corporate', 'a:bb-stops-phones-2016', 'v:business-phone'],
+  'bb-device':   ['a:rim-reaction-iphone', 'a:bb-bold-9900', 'a:bbm-messenger', 'img:qwerty-phone-1', 'a:bb-torch-9800', 'a:bb-pearl-8100', 'a:bb-stops-phones-2016', 'a:blackberry-keyboard'],
+  'waterloo':    ['a:rim-founders', 'canada-waterloo', 'a:bb-bold-9000', 'a:bb-stops-phones-2016', 'empty-office'],
+  'qwerty':      ['a:blackberry-keyboard', 'a:bb-curve-8520', 'a:rim-reaction-iphone', 'a:bb-bold-9900', 'img:qwerty-phone-1', 'a:bb-pearl-8100', 'email-screen'],
+  'bbm':         ['a:bbm-messenger', 'a:bb-pearl-8100', 'v:texting-hands', 'texting-hands', 'email-screen'],
+  'crowd':       ['a:crackberry-news', 'a:bb-curve-8520', 'v:city-commuters', 'city-commuters', 'a:bbm-messenger', 'a:bb-pearl-8100', 'v:texting-hands'],
+  'corporate':   ['a:wall-street-bb', 'a:bb-bold-9900', 'boardroom-execs', 'v:office-corporate', 'a:bb-bold-9000', 'office-corporate', 'v:business-phone'],
   'obama':       ['a:obama-blackberry', 'boardroom-execs', 'business-phone'],
   'iphone':      ['a:iphone-2007-keynote', 'v:smartphone-modern', 'smartphone-modern'],
-  'decline':     ['a:blackberry-storm', 'a:bb-outage-2011', 'v:stock-market', 'stock-market', 'empty-office'],
+  'decline':     ['a:blackberry-storm', 'a:bb-torch-9800', 'a:bb-outage-2011', 'v:stock-market', 'stock-market', 'empty-office'],
   'whatsapp':    ['a:rim-layoffs-news', 'v:smartphone-modern', 'smartphone-modern', 'a:bb-stops-phones-2016', 'v:texting-hands'],
   'lesson':      ['old-phones', 'empty-office', 'v:factory-tech', 'factory-tech', 'v:city-commuters'],
   'competitors': ['old-phones', 'v:factory-tech', 'factory-tech', 'empty-office'],
@@ -107,8 +107,8 @@ const ARCHIVAL_BY_CUE: Record<number, string> = {
   23: 'rim-reaction-iphone', 24: 'rim-reaction-iphone', 25: 'rim-reaction-iphone', 26: 'rim-reaction-iphone',
   // el teclado QWERTY (primer plano del BB)
   30: 'blackberry-keyboard', 34: 'blackberry-keyboard', 35: 'blackberry-keyboard',
-  // BBM (BlackBerry en la mano, escribiendo)
-  41: 'bbm-messenger', 44: 'bbm-messenger', 45: 'bbm-messenger', 53: 'bbm-messenger', 54: 'bbm-messenger',
+  // BBM (44/45 liberados al pool ampliado -> variedad; 53/54 fijos por las pantallas D/R)
+  41: 'bbm-messenger', 53: 'bbm-messenger', 54: 'bbm-messenger',
   // CrackBerry / palabra del año 2006 ("Berry Addictive")
   62: 'crackberry-news', 63: 'crackberry-news', 64: 'crackberry-news',
   // mundo corporativo / Wall Street (Bloomberg BlackBerry)
@@ -146,6 +146,12 @@ const WINDOWS: Record<string, [number, number][]> = {
   'bb-outage-2011':       [[3, 9], [24, 40]],           // BB en mano + letrero + PlayBook (evita analistas)
   'blackberry-10-launch': [[0, 42]],                    // demos "BlackBerry Keyboard" + BB10 en mano
   'rim-layoffs-news':     [[6, 21], [39, 46], [60, 72]],// BB Bold/BB10 en mano + campus RIM (evita analista S&P)
+  // --- nuevos modelos (verificado cuadro por cuadro) ---
+  'bb-bold-9000':         [[0, 6], [42, 72]],           // Bold en pantalla "OUR INNOVATION" + escenario de marca
+  'bb-pearl-8100':        [[4, 60]],                    // Pearl en mano mostrando la interfaz (oscuro)
+  'bb-bold-9900':         [[0, 34], [42, 148]],         // caja "BLACKBERRY BOLD" + unboxing del aparato (evita bumper 36s)
+  'bb-curve-8520':        [[0, 23], [44, 60], [102, 120]],// caja BlackBerry + Curve 8520 en mano
+  'bb-torch-9800':        [[6, 18], [36, 72], [136, 148]],// caja "Torch 9800" + aparato deslizante revelado
 };
 
 // ---- Estadísticas / fechas grandes ----

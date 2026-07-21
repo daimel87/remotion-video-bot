@@ -46,5 +46,11 @@ export const ARCHIVAL: Record<string, {dur: number; start: number}> = {
   'rim-layoffs-news': {dur: 90, start: 4},
   'blackberry-10-launch': {dur: 90, start: 4},
   'bb-stops-phones-2016': {dur: 25, start: 1},
+  // --- nuevos modelos (unboxings / eventos) ---
+  'bb-bold-9000': {dur: 76, start: 0},
+  'bb-pearl-8100': {dur: 68, start: 4},
+  'bb-bold-9900': {dur: 150, start: 0},
+  'bb-curve-8520': {dur: 140, start: 0},
+  'bb-torch-9800': {dur: 150, start: 6},
 };
 export const archivalSrc = (id: string) => staticFile(`archival-bb/${id}.mp4`);
