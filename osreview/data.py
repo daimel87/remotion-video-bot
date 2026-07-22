@@ -14,7 +14,7 @@ SITE = {
     # ==== ADSTERRA AD SLOTS (paste your <script> codes once this site exists in your Adsterra panel) ====
     "ad_top": "<script type=\"text/javascript\">atOptions={'key':'ab53cfe039a1c5e505d5c7cc66f5f7c8','format':'iframe','height':90,'width':728,'params':{}};</script><script type=\"text/javascript\" src=\"https://russiaexternalknew.com/ab53cfe039a1c5e505d5c7cc66f5f7c8/invoke.js\"></script>",        # 728x90 banner
     "ad_incontent": "<script type=\"text/javascript\">atOptions={'key':'4aadfd4a7309458cf7bc2bf2ebf24ecf','format':'iframe','height':250,'width':300,'params':{}};</script><script type=\"text/javascript\" src=\"https://russiaexternalknew.com/4aadfd4a7309458cf7bc2bf2ebf24ecf/invoke.js\"></script>",  # 300x250 in-article
-    "ad_native": "",      # native banner
+    "ad_native": "<script async=\"async\" data-cfasync=\"false\" src=\"https://russiaexternalknew.com/5524506a126811425caad821aed47ee2/invoke.js\"></script><div id=\"container-5524506a126811425caad821aed47ee2\"></div>",      # native banner
     "ad_bottom": "<script type=\"text/javascript\">atOptions={'key':'ab53cfe039a1c5e505d5c7cc66f5f7c8','format':'iframe','height':90,'width':728,'params':{}};</script><script type=\"text/javascript\" src=\"https://russiaexternalknew.com/ab53cfe039a1c5e505d5c7cc66f5f7c8/invoke.js\"></script>",      # 728x90 banner (bottom)
     "ad_social": "",      # social bar script src
     "ad_modal": "4aadfd4a7309458cf7bc2bf2ebf24ecf",       # key for the 300x250 shown inside the download modal
