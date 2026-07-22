@@ -15,7 +15,7 @@ SITE = {
     # Deja el string vacío "" para que salga un placeholder "Publicidad" mientras tanto.
     "ad_top": "<script type=\"text/javascript\">atOptions={'key':'4cc6893bc84e7afeb251d2250af83ae9','format':'iframe','height':90,'width':728,'params':{}};</script><script type=\"text/javascript\" src=\"https://www.highperformanceformat.com/4cc6893bc84e7afeb251d2250af83ae9/invoke.js\"></script>",  # banner superior 728x90
     "ad_incontent": "",# 300x250 dentro del artículo (el que MÁS CPM da)
-    "ad_native": "",   # native banner (se integra con el texto)
+    "ad_native": "<script async=\"async\" data-cfasync=\"false\" src=\"https://pl30477756.effectivecpmnetwork.com/758335b1c8d20ccab8242f1ba293f8e5/invoke.js\"></script><div id=\"container-758335b1c8d20ccab8242f1ba293f8e5\"></div>",  # native banner
     "ad_bottom": "",   # banner inferior
     "ad_social": "",   # social bar (script, va en todas las páginas)
 }
