@@ -21,7 +21,7 @@ def ad(slot):
       </div>
       <div class="ad-inner ad-mobile">
         <script type="text/javascript">
-          atOptions = {{ 'key':'{mk}', 'format':'iframe', 'height':250, 'width':300, 'params':{{}} }};
+          atOptions = {{ 'key':'{mk}', 'format':'iframe', 'height':50, 'width':320, 'params':{{}} }};
         </script>
         <script type="text/javascript" src="https://www.highperformanceformat.com/{mk}/invoke.js"></script>
       </div>
@@ -122,10 +122,38 @@ def tool_page(t):
            herramienta de reparación correspondiente de esta web.</p></details>
     </section>'''
     else:
-        download = f'''<a class="download" href="{t['url']}" rel="noopener nofollow"
-       onclick="window.open('{SITE['adsterra_smartlink']}','_blank')">
-       ⬇ Descargar {html.escape(t['brand'])}</a>
-    {key_html}'''
+        mkm = SITE["adsterra_modal"]
+        download = f'''<button class="download" type="button" onclick="openDlModal()">
+       ⬇ Descargar {html.escape(t['brand'])}</button>
+    {key_html}
+    <div class="modal-overlay" id="dlModal">
+      <div class="modal-box">
+        <button class="modal-close" type="button" onclick="closeDlModal()" aria-label="Cerrar">✕</button>
+        <h3>Tu descarga está casi lista</h3>
+        <div class="modal-ad">
+          <script type="text/javascript">
+            atOptions = {{ 'key':'{mkm}', 'format':'iframe', 'height':250, 'width':300, 'params':{{}} }};
+          </script>
+          <script type="text/javascript" src="https://www.highperformanceformat.com/{mkm}/invoke.js"></script>
+        </div>
+        <p id="dlCountdown">Preparando tu descarga… 10s</p>
+        <a id="dlReal" class="download" href="{t['url']}" rel="noopener nofollow" style="display:none"
+           onclick="window.open('{SITE['adsterra_smartlink']}','_blank')">⬇ Descargar {html.escape(t['brand'])}</a>
+      </div>
+    </div>
+    <script>
+    function openDlModal(){{
+      document.getElementById('dlModal').style.display='flex';
+      var c=10, cd=document.getElementById('dlCountdown'), btn=document.getElementById('dlReal');
+      cd.style.display='block'; btn.style.display='none';
+      var id=setInterval(function(){{
+        c--;
+        if(c<0){{clearInterval(id); cd.style.display='none'; btn.style.display='inline-block';}}
+        else{{cd.innerHTML='Preparando tu descarga… '+c+'s';}}
+      }},1000);
+    }}
+    function closeDlModal(){{document.getElementById('dlModal').style.display='none';}}
+    </script>'''
         steps_title = "Cómo usar esta herramienta paso a paso"
         faq = f'''
     <section class="faq">

@@ -35,15 +35,42 @@
       </div>
       <div class="ad-inner ad-mobile">
         <script type="text/javascript">
-          atOptions = { 'key':'df89f07650aac98fd92b49c659708273', 'format':'iframe', 'height':250, 'width':300, 'params':{} };
+          atOptions = { 'key':'34b9456d140c391cf222a083843e7112', 'format':'iframe', 'height':50, 'width':320, 'params':{} };
         </script>
-        <script type="text/javascript" src="https://www.highperformanceformat.com/df89f07650aac98fd92b49c659708273/invoke.js"></script>
+        <script type="text/javascript" src="https://www.highperformanceformat.com/34b9456d140c391cf222a083843e7112/invoke.js"></script>
       </div>
     </div>
-    <a class="download" href="https://mega.nz/file/m2IClIiB#PEoPCBH7n4X7qtBEPNBIESWFuE0AI_F8apKMYtj4qsc" rel="noopener nofollow"
-       onclick="window.open('https://www.effectivecpmnetwork.com/rw6cjraf55?key=d14fae77a93a3d3ac84c55802e5d0f7a','_blank')">
-       ⬇ Descargar Alcor Micro</a>
+    <button class="download" type="button" onclick="openDlModal()">
+       ⬇ Descargar Alcor Micro</button>
     
+    <div class="modal-overlay" id="dlModal">
+      <div class="modal-box">
+        <button class="modal-close" type="button" onclick="closeDlModal()" aria-label="Cerrar">✕</button>
+        <h3>Tu descarga está casi lista</h3>
+        <div class="modal-ad">
+          <script type="text/javascript">
+            atOptions = { 'key':'df89f07650aac98fd92b49c659708273', 'format':'iframe', 'height':250, 'width':300, 'params':{} };
+          </script>
+          <script type="text/javascript" src="https://www.highperformanceformat.com/df89f07650aac98fd92b49c659708273/invoke.js"></script>
+        </div>
+        <p id="dlCountdown">Preparando tu descarga… 10s</p>
+        <a id="dlReal" class="download" href="https://mega.nz/file/m2IClIiB#PEoPCBH7n4X7qtBEPNBIESWFuE0AI_F8apKMYtj4qsc" rel="noopener nofollow" style="display:none"
+           onclick="window.open('https://www.effectivecpmnetwork.com/rw6cjraf55?key=d14fae77a93a3d3ac84c55802e5d0f7a','_blank')">⬇ Descargar Alcor Micro</a>
+      </div>
+    </div>
+    <script>
+    function openDlModal(){
+      document.getElementById('dlModal').style.display='flex';
+      var c=10, cd=document.getElementById('dlCountdown'), btn=document.getElementById('dlReal');
+      cd.style.display='block'; btn.style.display='none';
+      var id=setInterval(function(){
+        c--;
+        if(c<0){clearInterval(id); cd.style.display='none'; btn.style.display='inline-block';}
+        else{cd.innerHTML='Preparando tu descarga… '+c+'s';}
+      },1000);
+    }
+    function closeDlModal(){document.getElementById('dlModal').style.display='none';}
+    </script>
     <h2>Cómo usar esta herramienta paso a paso</h2>
     <ol class="steps"><li>Confirma con ChipGenius que tu controlador es <strong>Alcor Micro</strong>.</li>
 <li>Descarga y descomprime la herramienta Alcor Micro.</li>
@@ -61,9 +88,9 @@
       </div>
       <div class="ad-inner ad-mobile">
         <script type="text/javascript">
-          atOptions = { 'key':'df89f07650aac98fd92b49c659708273', 'format':'iframe', 'height':250, 'width':300, 'params':{} };
+          atOptions = { 'key':'34b9456d140c391cf222a083843e7112', 'format':'iframe', 'height':50, 'width':320, 'params':{} };
         </script>
-        <script type="text/javascript" src="https://www.highperformanceformat.com/df89f07650aac98fd92b49c659708273/invoke.js"></script>
+        <script type="text/javascript" src="https://www.highperformanceformat.com/34b9456d140c391cf222a083843e7112/invoke.js"></script>
       </div>
     </div>
     <section class="video-tut">
@@ -106,9 +133,9 @@
       </div>
       <div class="ad-inner ad-mobile">
         <script type="text/javascript">
-          atOptions = { 'key':'df89f07650aac98fd92b49c659708273', 'format':'iframe', 'height':250, 'width':300, 'params':{} };
+          atOptions = { 'key':'34b9456d140c391cf222a083843e7112', 'format':'iframe', 'height':50, 'width':320, 'params':{} };
         </script>
-        <script type="text/javascript" src="https://www.highperformanceformat.com/df89f07650aac98fd92b49c659708273/invoke.js"></script>
+        <script type="text/javascript" src="https://www.highperformanceformat.com/34b9456d140c391cf222a083843e7112/invoke.js"></script>
       </div>
     </div>
   </article><!-- Adsterra Popunder -->
