@@ -1,0 +1,163 @@
+{
+  "version": 1,
+  "meta": {
+    "project": "hombres",
+    "segmentType": "chapter-card",
+    "run": "hombres-05",
+    "directorNotes": "Hombres 5 - 'las 3 cosas que matan tu presencia' (teléfono, ansiedad social, necesidad de aprobación). Talking-head sentada en sofá, plano medio, presentadora centrada. 8 eventos: statement full-screen (el teléfono), statement 75-split (el mensaje llega igual), statement full-screen (la ansiedad social), statement 75-split (deja de estar presente), lista full-screen (las preguntas internas), statement full-screen (la necesidad de aprobación), statement 75-split (lo saca del momento), comparación split-screen de cierre (necesitar algo externo vs estar completo). Sin cubrir la cara. Tema liquid-glass.",
+    "directorNotesVariety": "Secuencia: FS/statement, 75/statement, FS/statement, 75/statement, FS/list, FS/statement, 75/statement, SS/comparison. Ningún variant+kind consecutivo repetido."
+  },
+  "source": {
+    "file": "public/src.mp4",
+    "durationSec": 64.44,
+    "width": 1920,
+    "height": 1080,
+    "fps": 25,
+    "transcriptSrt": "transcript.srt",
+    "audioMaxVolumeDb": -2.2
+  },
+  "brand": { "theme": "liquid-glass", "kitSource": "theme-defaults" },
+  "events": [
+    {
+      "id": "evt-01",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 0.4,
+      "endSec": 8.4,
+      "anchor": { "transcript": "El primero, el teléfono. Cada vez que estás con alguien y revisas el teléfono, le estás diciendo sin palabras.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "3 COSAS QUE MATAN TU PRESENCIA",
+        "text": "EL PRIMERO: EL TELÉFONO",
+        "emphasis": ["EL TELÉFONO"]
+      },
+      "notes": "Apertura, primer punto de la lista; full-screen, audio continúa."
+    },
+    {
+      "id": "evt-02",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 8.6,
+      "endSec": 17.8,
+      "anchor": { "transcript": "Aunque no lo pienses, aunque no sea tu intención, el mensaje llega igual.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "AUNQUE NO SEA TU INTENCIÓN",
+        "text": "EL MENSAJE LLEGA IGUAL",
+        "emphasis": ["LLEGA IGUAL"]
+      },
+      "notes": "El costo silencioso del teléfono, presentadora en card."
+    },
+    {
+      "id": "evt-03",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 18.0,
+      "endSec": 24.2,
+      "anchor": { "transcript": "El segundo, la ansiedad social. Cuando un hombre está más preocupado por cómo lo están viendo.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "3 COSAS QUE MATAN TU PRESENCIA",
+        "text": "EL SEGUNDO: LA ANSIEDAD SOCIAL",
+        "emphasis": ["LA ANSIEDAD SOCIAL"]
+      },
+      "notes": "Segundo punto de la lista, full-screen."
+    },
+    {
+      "id": "evt-04",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 24.4,
+      "endSec": 30.4,
+      "anchor": { "transcript": "deja de estar presente. Su atención se vuelca hacia adentro.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "SU ATENCIÓN SE VUELCA HACIA ADENTRO",
+        "text": "DEJA DE ESTAR PRESENTE",
+        "emphasis": ["DEJA DE ESTAR"]
+      },
+      "notes": "El efecto de la ansiedad social, presentadora en card."
+    },
+    {
+      "id": "evt-05",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 30.8,
+      "endSec": 41.4,
+      "anchor": { "transcript": "Que digo ahora, cómo me veo, le estoy gustando y esa energía se siente.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "list",
+        "eyebrow": "ESA ENERGÍA SE SIENTE",
+        "items": [
+          { "text": "¿Qué digo ahora?", "icon": "person", "revealSec": 31.5 },
+          { "text": "¿Cómo me veo?", "icon": "link", "revealSec": 34.5 },
+          { "text": "¿Le estoy gustando?", "icon": "check", "revealSec": 37.5 }
+        ]
+      },
+      "notes": "Las preguntas internas que roban la atención."
+    },
+    {
+      "id": "evt-06",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 41.6,
+      "endSec": 51.4,
+      "anchor": { "transcript": "Y el tercero, la necesidad de aprobación. El hombre que necesita que le digan que está bien, que lo validen.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "3 COSAS QUE MATAN TU PRESENCIA",
+        "text": "EL TERCERO: LA NECESIDAD DE APROBACIÓN",
+        "emphasis": ["APROBACIÓN"]
+      },
+      "notes": "Tercer y último punto de la lista, full-screen."
+    },
+    {
+      "id": "evt-07",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 51.6,
+      "endSec": 58.0,
+      "anchor": { "transcript": "está constantemente mirando hacia afuera buscando algo, y esa búsqueda lo saca del momento.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "ESA BÚSQUEDA",
+        "text": "LO SACA DEL MOMENTO",
+        "emphasis": ["LO SACA"]
+      },
+      "notes": "El efecto de necesitar aprobación externa, presentadora en card."
+    },
+    {
+      "id": "evt-08",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 58.2,
+      "endSec": 64.2,
+      "anchor": { "transcript": "La presencia real solo existe cuando no necesitas nada del exterior para estar completo.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "split-screen",
+        "kind": "comparison",
+        "eyebrow": "LA PRESENCIA REAL",
+        "items": [
+          { "text": "NECESITAS ALGO DEL EXTERIOR", "negated": true, "icon": "x", "revealSec": 58.7 },
+          { "text": "ESTÁS COMPLETO", "negated": false, "icon": "check", "revealSec": 61.5 }
+        ]
+      },
+      "notes": "El payoff del video: la presencia real nace de no necesitar nada externo."
+    }
+  ]
+}
