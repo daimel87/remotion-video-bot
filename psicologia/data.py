@@ -7,7 +7,7 @@ SITE = {
     "name": "Seducción e Infidelidades",
     "tagline": "Psicología femenina, relaciones y señales de infidelidad",
     "domain": "https://seduccioninfidelidades.pages.dev",  # cambiar por tu URL/dominio real
-    "facebook": "https://www.facebook.com/",  # <-- pon aquí el enlace de tu página
+    "facebook": "https://www.facebook.com/profile.php?id=61590438389871",  # página de Facebook
     "description": "Aprende a entender la psicología femenina, reconocer las señales de una "
                    "infidelidad y mejorar tus relaciones de pareja. Artículos claros, directos y "
                    "con vídeo sobre atracción, comportamiento y confianza.",
