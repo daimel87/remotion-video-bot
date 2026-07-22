@@ -1,0 +1,163 @@
+{
+  "version": 1,
+  "meta": {
+    "project": "hombres",
+    "segmentType": "chapter-card",
+    "run": "hombres-03",
+    "directorNotes": "Hombres 3 - 'la ciencia detrás de la presencia' (neuronas espejo, por qué las mujeres lo detectan). Talking-head sentada en sofá, plano medio, presentadora centrada. 8 eventos: statement full-screen de apertura, statement 75-split (neuronas espejo), lista full-screen (lenguaje corporal/tono/ritmo), statement 75-split (milisegundos), statement full-screen (autenticidad), comparación split-screen (desaparecer vs confiar), statement 75-split (magnético), statement full-screen de cierre (seguridad/reconocimiento). Sin cubrir la cara. Tema liquid-glass.",
+    "directorNotesVariety": "Secuencia: FS/statement, 75/statement, FS/list, 75/statement, FS/statement, SS/comparison, 75/statement, FS/statement. Ningún variant+kind consecutivo repetido."
+  },
+  "source": {
+    "file": "public/src.mp4",
+    "durationSec": 70.12,
+    "width": 1920,
+    "height": 1080,
+    "fps": 25,
+    "transcriptSrt": "transcript.srt",
+    "audioMaxVolumeDb": -2.1
+  },
+  "brand": { "theme": "liquid-glass", "kitSource": "theme-defaults" },
+  "events": [
+    {
+      "id": "evt-01",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 0.4,
+      "endSec": 4.5,
+      "anchor": { "transcript": "Esto no es poesía, es neurociencia.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "NO ES POESÍA",
+        "text": "ES NEUROCIENCIA",
+        "emphasis": ["NEUROCIENCIA"]
+      },
+      "notes": "Apertura, reframe científico; full-screen, audio continúa."
+    },
+    {
+      "id": "evt-02",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 4.7,
+      "endSec": 13.0,
+      "anchor": { "transcript": "El cerebro humano tiene lo que se llama neuronas espejo, células que nos permiten sentir lo que el otro está sintiendo.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "EL CEREBRO TIENE",
+        "text": "NEURONAS ESPEJO",
+        "emphasis": ["ESPEJO"]
+      },
+      "notes": "El mecanismo, presentadora en card."
+    },
+    {
+      "id": "evt-03",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 15.3,
+      "endSec": 24.1,
+      "anchor": { "transcript": "su lenguaje corporal, su tono de voz, su ritmo cambien.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "list",
+        "eyebrow": "CUANDO ESTÁ PRESENTE, CAMBIAN",
+        "items": [
+          { "text": "Lenguaje corporal", "icon": "person", "revealSec": 15.9 },
+          { "text": "Tono de voz", "icon": "link", "revealSec": 18.9 },
+          { "text": "El ritmo", "icon": "check", "revealSec": 21.5 }
+        ]
+      },
+      "notes": "Los tres cambios que delatan la presencia real."
+    },
+    {
+      "id": "evt-04",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 24.1,
+      "endSec": 29.2,
+      "anchor": { "transcript": "Y el cerebro de la persona frente a él lo capta en milisegundos.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "EL CEREBRO DEL OTRO",
+        "text": "LO CAPTA EN MILISEGUNDOS",
+        "emphasis": ["MILISEGUNDOS"]
+      },
+      "notes": "La velocidad de la percepción, presentadora en card."
+    },
+    {
+      "id": "evt-05",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 29.4,
+      "endSec": 38.9,
+      "anchor": { "transcript": "Las mujeres en particular tienen una sensibilidad muy desarrollada para detectar autenticidad.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "SENSIBILIDAD DESARROLLADA",
+        "text": "DETECTAR AUTENTICIDAD",
+        "emphasis": ["AUTENTICIDAD"]
+      },
+      "notes": "El dato central sobre las mujeres, full-screen."
+    },
+    {
+      "id": "evt-06",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 39.0,
+      "endSec": 49.7,
+      "anchor": { "transcript": "Un hombre que no estaba realmente presente era un hombre que podía desaparecer. Un hombre que sí lo estaba era un hombre en quien se podía confiar.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "split-screen",
+        "kind": "comparison",
+        "eyebrow": "EVOLUTIVAMENTE, LO NECESITABAN",
+        "items": [
+          { "text": "PODÍA DESAPARECER", "negated": true, "icon": "x", "revealSec": 40.0 },
+          { "text": "SE PODÍA CONFIAR", "negated": false, "icon": "check", "revealSec": 45.0 }
+        ]
+      },
+      "notes": "El contraste evolutivo: el que desaparece vs el confiable."
+    },
+    {
+      "id": "evt-07",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 49.8,
+      "endSec": 59.4,
+      "anchor": { "transcript": "ella siente algo que no puede nombrarlo, pero que le resulta magnético.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "NO PUEDE NOMBRARLO",
+        "text": "LE RESULTA MAGNÉTICO",
+        "emphasis": ["MAGNÉTICO"]
+      },
+      "notes": "El efecto sentido pero indescriptible, presentadora en card."
+    },
+    {
+      "id": "evt-08",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 59.5,
+      "endSec": 70.0,
+      "anchor": { "transcript": "No es atracción física todavía, es algo anterior, es seguridad, es reconocimiento, es la sensación de ser vista de verdad.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "ANTES QUE LA ATRACCIÓN FÍSICA",
+        "text": "SEGURIDAD Y RECONOCIMIENTO",
+        "emphasis": ["RECONOCIMIENTO"]
+      },
+      "notes": "Cierre: lo que realmente siente, antes de lo físico. Full-screen."
+    }
+  ]
+}
