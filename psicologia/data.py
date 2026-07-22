@@ -14,7 +14,7 @@ SITE = {
     # ==== HUECOS DE ADSTERRA (pega aquí tus <script> cuando crees esta web en Adsterra) ====
     # Deja el string vacío "" para que salga un placeholder "Publicidad" mientras tanto.
     "ad_top": "<script type=\"text/javascript\">atOptions={'key':'4cc6893bc84e7afeb251d2250af83ae9','format':'iframe','height':90,'width':728,'params':{}};</script><script type=\"text/javascript\" src=\"https://www.highperformanceformat.com/4cc6893bc84e7afeb251d2250af83ae9/invoke.js\"></script>",  # banner superior 728x90
-    "ad_incontent": "",# 300x250 dentro del artículo (el que MÁS CPM da)
+    "ad_incontent": "<script type=\"text/javascript\">atOptions={'key':'1f8801b7132d1e9d33588546a2917c59','format':'iframe','height':250,'width':300,'params':{}};</script><script type=\"text/javascript\" src=\"https://www.highperformanceformat.com/1f8801b7132d1e9d33588546a2917c59/invoke.js\"></script>",  # 300x250 dentro del artículo
     "ad_native": "<script async=\"async\" data-cfasync=\"false\" src=\"https://pl30477756.effectivecpmnetwork.com/758335b1c8d20ccab8242f1ba293f8e5/invoke.js\"></script><div id=\"container-758335b1c8d20ccab8242f1ba293f8e5\"></div>",  # native banner
     "ad_bottom": "",   # banner inferior
     "ad_social": "",   # social bar (script, va en todas las páginas)
