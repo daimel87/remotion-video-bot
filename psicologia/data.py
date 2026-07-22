@@ -13,7 +13,7 @@ SITE = {
                    "con vídeo sobre atracción, comportamiento y confianza.",
     # ==== HUECOS DE ADSTERRA (pega aquí tus <script> cuando crees esta web en Adsterra) ====
     # Deja el string vacío "" para que salga un placeholder "Publicidad" mientras tanto.
-    "ad_top": "",      # banner superior (recomendado 728x90 / 320x50 responsive)
+    "ad_top": "<script type=\"text/javascript\">atOptions={'key':'4cc6893bc84e7afeb251d2250af83ae9','format':'iframe','height':90,'width':728,'params':{}};</script><script type=\"text/javascript\" src=\"https://www.highperformanceformat.com/4cc6893bc84e7afeb251d2250af83ae9/invoke.js\"></script>",  # banner superior 728x90
     "ad_incontent": "",# 300x250 dentro del artículo (el que MÁS CPM da)
     "ad_native": "",   # native banner (se integra con el texto)
     "ad_bottom": "",   # banner inferior
