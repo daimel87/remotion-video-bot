@@ -1,0 +1,163 @@
+{
+  "version": 1,
+  "meta": {
+    "project": "hombres",
+    "segmentType": "chapter-card",
+    "run": "hombres-02",
+    "directorNotes": "Hombres 2 - 'la presencia real' (estar completamente aquí, no en el teléfono). Talking-head sentada en sofá, centrada. 8 eventos: statement full-screen, statement 75-split, lista de negaciones full-screen, statement punch full-screen, statement 75-split (era de la distracción), dato full-screen (96 veces), comparación split-screen cuerpo vs mente, statement 75-split de cierre. Sin cubrir la cara. Tema liquid-glass.",
+    "directorNotesVariety": "Secuencia: FS/statement, 75/statement, FS/list-strike, FS/statement, 75/statement, FS/statement, SS/comparison, 75/statement. Ningún variant+kind consecutivo repetido."
+  },
+  "source": {
+    "file": "public/src.mp4",
+    "durationSec": 64.04,
+    "width": 1920,
+    "height": 1080,
+    "fps": 25,
+    "transcriptSrt": "transcript.srt",
+    "audioMaxVolumeDb": -1.8
+  },
+  "brand": { "theme": "liquid-glass", "kitSource": "theme-defaults" },
+  "events": [
+    {
+      "id": "evt-01",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 0.4,
+      "endSec": 7.4,
+      "anchor": { "transcript": "No hablo de presencia física, no hablo de ser alto o fuerte, hablo de algo más profundo.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "NO ES FÍSICO",
+        "text": "ALGO MÁS PROFUNDO",
+        "emphasis": ["MÁS PROFUNDO"]
+      },
+      "notes": "Apertura, reframe del concepto; full-screen, audio continúa."
+    },
+    {
+      "id": "evt-02",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 8.2,
+      "endSec": 14.5,
+      "anchor": { "transcript": "La presencia real es el estado en que un hombre está completamente aquí.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "PRESENCIA REAL",
+        "text": "ESTÁ COMPLETAMENTE AQUÍ",
+        "emphasis": ["AQUÍ"]
+      },
+      "notes": "La definición, presentadora en card."
+    },
+    {
+      "id": "evt-03",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 15.2,
+      "endSec": 20.6,
+      "anchor": { "transcript": "No en su teléfono, no pensando en lo que dijo ayer o en lo que tiene que hacer mañana.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "list-strike",
+        "eyebrow": "NO ESTÁ",
+        "items": [
+          { "text": "En su teléfono", "negated": true, "icon": "x", "revealSec": 15.7 },
+          { "text": "En el ayer", "negated": true, "icon": "x", "revealSec": 17.2 },
+          { "text": "En el mañana", "negated": true, "icon": "x", "revealSec": 18.7 }
+        ]
+      },
+      "notes": "Dónde NO está su mente; tres negaciones en cadencia."
+    },
+    {
+      "id": "evt-04",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 21.0,
+      "endSec": 24.6,
+      "anchor": { "transcript": "Aquí, ahora, contigo.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "SINO",
+        "text": "AQUÍ, AHORA, CONTIGO",
+        "emphasis": ["CONTIGO"]
+      },
+      "notes": "El golpe corto de tres tiempos; full-screen."
+    },
+    {
+      "id": "evt-05",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 28.8,
+      "endSec": 34.3,
+      "anchor": { "transcript": "Y eso es extraordinariamente raro hoy. Vivimos en la era de la distracción.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "HOY VIVIMOS EN",
+        "text": "LA ERA DE LA DISTRACCIÓN",
+        "emphasis": ["DISTRACCIÓN"]
+      },
+      "notes": "El contexto cultural, presentadora en card."
+    },
+    {
+      "id": "evt-06",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 34.8,
+      "endSec": 40.0,
+      "anchor": { "transcript": "El hombre promedio revisa su teléfono 96 veces al día, según estudios de comportamiento digital.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "REVISA EL TELÉFONO",
+        "text": "96 VECES AL DÍA",
+        "emphasis": ["96 VECES"]
+      },
+      "notes": "El dato de choque; full-screen para que el número golpee."
+    },
+    {
+      "id": "evt-07",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 41.0,
+      "endSec": 49.5,
+      "anchor": { "transcript": "Físicamente presente pero mentalmente ausente. Su cuerpo está ahí, su mente no.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "split-screen",
+        "kind": "comparison",
+        "eyebrow": "PRESENTE PERO AUSENTE",
+        "items": [
+          { "text": "CUERPO PRESENTE", "negated": false, "icon": "check", "revealSec": 42.0 },
+          { "text": "MENTE AUSENTE", "negated": true, "icon": "x", "revealSec": 46.0 }
+        ]
+      },
+      "notes": "El contraste que define el problema: cuerpo ahí, mente no."
+    },
+    {
+      "id": "evt-08",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 50.6,
+      "endSec": 63.5,
+      "anchor": { "transcript": "Cuando un hombre con presencia real te habla, sientes que eres la única persona en el cuarto.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "CON PRESENCIA REAL",
+        "text": "ERES LA ÚNICA AQUÍ",
+        "emphasis": ["LA ÚNICA"]
+      },
+      "notes": "El payoff: te hace sentir la única persona en el cuarto. Presentadora en card."
+    }
+  ]
+}
