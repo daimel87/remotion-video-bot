@@ -228,27 +228,37 @@ export const buildPlan = (fps: number, total: number) => {
   // mismo SUJETO reciente penalizado con fuerza decreciente. Determinista.
   const useCount: Record<string, number> = {};
   const baseCount: Record<string, number> = {};
-  const recent: string[] = [];
   const recentBase: string[] = [];
-  const pickBest = (cands: Cand[]): Cand => {
+  const lastEndFrame: Record<string, number> = {}; // frame en que dejó de verse cada src
+  const MIN_SEP = Math.round(60 * fps); // DIRECTIVA: mínimo 1 minuto entre reapariciones del mismo clip
+  // registra que un src ocupó [from, from+dur]. Se llama para TODA toma (pool y forzada)
+  // para que ningún clip del pool caiga a menos de 1 min de la última vez que se vio ese mismo clip.
+  const recordUse = (src: string, base: string, from: number, dur: number) => {
+    useCount[src] = (useCount[src] ?? 0) + 1;
+    baseCount[base] = (baseCount[base] ?? 0) + 1;
+    lastEndFrame[src] = from + dur;
+    recentBase.push(base); if (recentBase.length > 14) recentBase.shift();
+  };
+  const pickBest = (cands: Cand[], nowFrame: number): Cand => {
     let best = cands[0]; let bestScore = Infinity;
     for (let k = 0; k < cands.length; k++) {
       const c = cands[k];
       const tie = ((k * 2654435761) % 997) / 997;
       const idxInBase = recentBase.lastIndexOf(c.base);
       const baseRecency = idxInBase === -1 ? 0 : 4000 - (recentBase.length - 1 - idxInBase) * 260;
+      const lastEnd = lastEndFrame[c.src];
+      const elapsed = lastEnd === undefined ? MIN_SEP : nowFrame - lastEnd;
+      // castigo fuerte si el mismo clip quiere volver antes de 1 min; decae a 0 al cumplirse la separación.
+      // Si el pool es pequeño y todos incumplen, se elige el de mayor separación (degradación elegante).
+      const sepPenalty = elapsed >= MIN_SEP ? 0 : 500000 * (1 - elapsed / MIN_SEP);
       const score =
-        (recent.includes(c.src) ? 6000 : 0) +
+        sepPenalty +
         baseRecency +
         (baseCount[c.base] ?? 0) * 40 +
         (useCount[c.src] ?? 0) * 8 +
         tie;
       if (score < bestScore) {bestScore = score; best = c;}
     }
-    useCount[best.src] = (useCount[best.src] ?? 0) + 1;
-    baseCount[best.base] = (baseCount[best.base] ?? 0) + 1;
-    recent.push(best.src); if (recent.length > 10) recent.shift();
-    recentBase.push(best.base); if (recentBase.length > 14) recentBase.shift();
     return best;
   };
 
@@ -289,11 +299,14 @@ export const buildPlan = (fps: number, total: number) => {
 
     if (archId && !special) {
       // clip forzado: un solo plano continuo por todo el cue
-      shots.push({from, dur, base: 'a:' + archId, seed: shotSeed++, src: archivalSrc(archId), video: true, motion: 'zoomIn', startFrom: nextArchStart(archId, dur / fps), archival: true});
+      const fsrc = archivalSrc(archId);
+      shots.push({from, dur, base: 'a:' + archId, seed: shotSeed++, src: fsrc, video: true, motion: 'zoomIn', startFrom: nextArchStart(archId, dur / fps), archival: true});
+      recordUse(fsrc, 'a:' + archId, from, dur);
     } else if (special) {
-      const pick = pickBest(candidatesFor(shotPool));
+      const pick = pickBest(candidatesFor(shotPool), from);
       const isArch = !!pick.archId;
       shots.push({from, dur, base: pick.base, seed: shotSeed++, src: pick.src, video: pick.video, motion: 'zoomIn', archival: isArch, startFrom: isArch ? nextArchStart(pick.archId!, dur / fps) : undefined});
+      recordUse(pick.src, pick.base, from, dur);
     } else {
       const cands = candidatesFor(shotPool);
       const varied = [4.2, 5.6, 4.6, 6.0][c.i % 4];
@@ -303,9 +316,10 @@ export const buildPlan = (fps: number, total: number) => {
         const sFrom = from + Math.round((k * dur) / n);
         const sTo = from + Math.round(((k + 1) * dur) / n);
         const sdur = Math.max(1, sTo - sFrom);
-        const pick = pickBest(cands);
+        const pick = pickBest(cands, sFrom);
         const isArch = !!pick.archId;
         shots.push({from: sFrom, dur: sdur, base: pick.base, seed: shotSeed++, src: pick.src, video: pick.video, motion: isArch ? 'zoomIn' : cutMotions[(idx + k) % cutMotions.length], archival: isArch, startFrom: isArch ? nextArchStart(pick.archId!, sdur / fps) : undefined});
+        recordUse(pick.src, pick.base, sFrom, sdur);
       }
     }
 
