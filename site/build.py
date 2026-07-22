@@ -21,7 +21,7 @@ def ad(slot):
       </div>
       <div class="ad-inner ad-mobile">
         <script type="text/javascript">
-          atOptions = {{ 'key':'{mk}', 'format':'iframe', 'height':50, 'width':320, 'params':{{}} }};
+          atOptions = {{ 'key':'{mk}', 'format':'iframe', 'height':250, 'width':300, 'params':{{}} }};
         </script>
         <script type="text/javascript" src="https://www.highperformanceformat.com/{mk}/invoke.js"></script>
       </div>
