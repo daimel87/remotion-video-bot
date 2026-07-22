@@ -124,7 +124,7 @@ def download_block(a):
         <h3>Your download link is almost ready</h3>
         <div class="modal-ad">{modal_ad}</div>
         <p id="dlCountdown">Preparing your link… 10s</p>
-        <a id="dlReal" class="download" href="{a['url']}" target="_blank" rel="noopener nofollow" style="display:none"
+        <a id="dlReal" class="download" href="{a['url']}" rel="noopener nofollow" style="display:none"
            onclick="{smartlink_click}">⬇ Download {html.escape(a['cat'])}</a>
       </div>
     </div>
