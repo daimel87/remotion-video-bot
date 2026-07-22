@@ -1,0 +1,129 @@
+{
+  "version": 1,
+  "meta": {
+    "project": "hombres",
+    "segmentType": "intro",
+    "run": "hombres-01",
+    "directorNotes": "Intro del video sobre presencia masculina - 'el rasgo que el 99% no desarrolla'. Talking-head sentada en sofá, plano medio abierto, presentadora centrada. 6 eventos: hook full-screen, lista de negaciones full-screen, statement 75-split, comparación split-screen (destacan vs invisibles), statement 75-split del rasgo/99%, open loop full-screen 'presencia'. Sin cubrir la cara. Tema liquid-glass.",
+    "directorNotesVariety": "Secuencia: FS/statement, FS/list, 75/statement, SS/comparison, 75/statement, FS/statement. Ningún variant+kind consecutivo repetido."
+  },
+  "source": {
+    "file": "public/src.mp4",
+    "durationSec": 54.52,
+    "width": 1920,
+    "height": 1080,
+    "fps": 25,
+    "transcriptSrt": "transcript.srt",
+    "audioMaxVolumeDb": -1.4
+  },
+  "brand": { "theme": "liquid-glass", "kitSource": "theme-defaults" },
+  "events": [
+    {
+      "id": "evt-01",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 0.4,
+      "endSec": 3.6,
+      "anchor": { "transcript": "Hay hombres que entran a un lugar y algo pasa.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "OBSERVA",
+        "text": "ALGO PASA CUANDO ENTRAN",
+        "emphasis": ["ALGO PASA"]
+      },
+      "notes": "Hook de apertura, golpe grande full-screen; audio continúa."
+    },
+    {
+      "id": "evt-02",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 4.0,
+      "endSec": 9.0,
+      "anchor": { "transcript": "No son los más guapos, no son los más altos, no son los que más hablan.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "list-strike",
+        "eyebrow": "NO ES LO QUE CREES",
+        "items": [
+          { "text": "El más guapo", "negated": true, "icon": "x", "revealSec": 4.5 },
+          { "text": "El más alto", "negated": true, "icon": "x", "revealSec": 6.0 },
+          { "text": "El que más habla", "negated": true, "icon": "x", "revealSec": 7.5 }
+        ]
+      },
+      "notes": "Descarta los estereotipos obvios; tres negaciones en cadencia con el habla."
+    },
+    {
+      "id": "evt-03",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 10.0,
+      "endSec": 16.0,
+      "anchor": { "transcript": "Pero las mujeres los notan, los siguen con la mirada.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "SIN EXPLICAR POR QUÉ",
+        "text": "LAS MUJERES LOS NOTAN",
+        "emphasis": ["LOS NOTAN"]
+      },
+      "notes": "El efecto observable, presentadora en card."
+    },
+    {
+      "id": "evt-04",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 17.0,
+      "endSec": 27.0,
+      "anchor": { "transcript": "Y hay otros hombres que pasan toda su vida sin que nadie los note, sin que nadie los recuerde.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "split-screen",
+        "kind": "comparison",
+        "eyebrow": "DOS TIPOS DE HOMBRE",
+        "items": [
+          { "text": "GENERAN PRESENCIA", "negated": false, "icon": "check", "revealSec": 18.0 },
+          { "text": "PASAN INVISIBLES", "negated": true, "icon": "x", "revealSec": 22.0 }
+        ]
+      },
+      "notes": "El contraste central: los que se notan vs los que nadie recuerda."
+    },
+    {
+      "id": "evt-05",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 28.5,
+      "endSec": 41.5,
+      "anchor": { "transcript": "les falta un rasgo, uno solo, que el 99% nunca desarrolla porque nadie les dijo que existía.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "EL 99% NUNCA LO DESARROLLA",
+        "text": "LES FALTA UN RASGO",
+        "emphasis": ["UN RASGO"]
+      },
+      "notes": "El núcleo del video: un solo rasgo que casi nadie tiene. Presentadora en card."
+    },
+    {
+      "id": "evt-06",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 48.5,
+      "endSec": 54.2,
+      "anchor": { "transcript": "vas a entender exactamente por qué algunos siempre generan más presencia que otros.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "AL TERMINAR LO VERÁS",
+        "text": "GENERAN MÁS PRESENCIA",
+        "emphasis": ["PRESENCIA"]
+      },
+      "notes": "Open loop hacia el desarrollo del rasgo (la presencia)."
+    }
+  ]
+}
