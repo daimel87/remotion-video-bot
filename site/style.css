@@ -36,6 +36,15 @@ code{background:var(--line);padding:2px 7px;border-radius:6px;font-size:.95em}
 .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
 .btn:hover{text-decoration:none;opacity:.92}
 
+/* Anti-adblock overlay */
+.ab-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,14,22,.94);
+  align-items:center;justify-content:center;padding:20px}
+.ab-box{max-width:420px;width:100%;background:var(--card);border:1px solid var(--line);
+  border-radius:16px;padding:30px 26px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.ab-box h2{margin-top:0;font-size:1.3rem}
+.ab-box p{color:var(--muted);font-size:.98rem}
+.ab-box .btn{margin-top:10px}
+
 /* grid de tarjetas */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;

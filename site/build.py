@@ -79,6 +79,30 @@ def head(title, desc, canonical):
 </header>
 <main>'''
 
+ADBLOCK_DETECT = '''
+<div class="ab-overlay" id="abOverlay">
+  <div class="ab-box">
+    <h2>🚫 Bloqueador de anuncios detectado</h2>
+    <p>Esta web es gratuita gracias a la publicidad. Para seguir viendo el contenido y las
+       herramientas, desactiva tu bloqueador de anuncios (AdBlock, uBlock, etc.) para este sitio
+       y vuelve a cargar la página.</p>
+    <button class="btn" type="button" onclick="location.reload()">Ya lo desactivé, recargar</button>
+  </div>
+</div>
+<div class="ab-bait ad-banner ads adsbox adsbygoogle" style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;"></div>
+<script>
+(function(){
+  function showBlock(){ document.getElementById('abOverlay').style.display='flex'; }
+  window.addEventListener('load', function(){
+    setTimeout(function(){
+      var bait = document.querySelector('.ab-bait');
+      var blocked = !bait || bait.offsetParent===null || bait.offsetHeight===0 || bait.clientHeight===0;
+      if(blocked){ showBlock(); }
+    }, 700);
+  });
+})();
+</script>'''
+
 FOOT = f'''</main>
 <footer class="site-footer">
   <p>{SITE['name']} — {SITE['tagline']}.</p>
@@ -87,6 +111,7 @@ FOOT = f'''</main>
   <p class="disclaimer">Las herramientas enlazadas pertenecen a sus respectivos fabricantes.
      Úsalas bajo tu responsabilidad; una reparación de bajo nivel borra todos los datos de la USB.</p>
 </footer>
+{ADBLOCK_DETECT}
 <!-- Adsterra Social Bar -->
 <script src="{SITE['adsterra_socialbar']}" data-cfasync="false" async></script>
 </body></html>'''
