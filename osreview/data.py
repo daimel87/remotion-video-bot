@@ -18,7 +18,7 @@ SITE = {
     "ad_bottom": "<script type=\"text/javascript\">atOptions={'key':'ab53cfe039a1c5e505d5c7cc66f5f7c8','format':'iframe','height':90,'width':728,'params':{}};</script><script type=\"text/javascript\" src=\"https://russiaexternalknew.com/ab53cfe039a1c5e505d5c7cc66f5f7c8/invoke.js\"></script>",      # 728x90 banner (bottom)
     "ad_social": "https://russiaexternalknew.com/8b/aa/2e/8baa2ea4f317414de7f4020fc067bd4f.js",      # social bar script src
     "ad_modal": "4aadfd4a7309458cf7bc2bf2ebf24ecf",       # key for the 300x250 shown inside the download modal
-    "smartlink": "",      # smartlink URL opened on download click (optional, leave "" to skip)
+    "smartlink": "https://russiaexternalknew.com/ayhd2dq0hi?key=0bb4d97d1ef0ebb6521e1661fed1488b",      # smartlink URL opened on download click (optional, leave "" to skip)
 }
 
 # slug, title, cat, summary, yt (YouTube id), url (download link), body=[(subtitle,[paragraphs])]
