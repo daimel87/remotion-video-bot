@@ -19,6 +19,7 @@ SITE = {
     "ad_social": "https://russiaexternalknew.com/8b/aa/2e/8baa2ea4f317414de7f4020fc067bd4f.js",      # social bar script src
     "ad_modal": "4aadfd4a7309458cf7bc2bf2ebf24ecf",       # key for the 300x250 shown inside the download modal
     "smartlink": "https://russiaexternalknew.com/ayhd2dq0hi?key=0bb4d97d1ef0ebb6521e1661fed1488b",      # smartlink URL opened on download click (optional, leave "" to skip)
+    "popunder": "https://russiaexternalknew.com/8c/d8/e4/8cd8e452d4a62d0b80262231498f8daa.js",      # popunder script src (review pages only)
 }
 
 # slug, title, cat, summary, yt (YouTube id), url (download link), body=[(subtitle,[paragraphs])]

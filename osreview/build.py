@@ -47,6 +47,9 @@ def head(title, desc, canonical):
 </header>
 <main>'''
 
+POPUNDER = f'''<!-- Adsterra Popunder -->
+<script type="text/javascript" src="{SITE['popunder']}"></script>''' if SITE.get('popunder') else ''
+
 ADBLOCK_DETECT = '''
 <div class="ab-overlay" id="abOverlay">
   <div class="ab-box">
@@ -170,7 +173,7 @@ def article_page(a):
     <div class="rel-grid">{related(a)}</div>
     {ad("ad_bottom")}
   </article>'''
-    write(f"{a['slug']}.html", head(a['title'], a['summary'], canonical) + body + FOOT)
+    write(f"{a['slug']}.html", head(a['title'], a['summary'], canonical) + body + POPUNDER + FOOT)
 
 # ---------- Home ----------
 def home():
