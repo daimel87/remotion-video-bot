@@ -17,13 +17,13 @@ def ad(slot):
         <script type="text/javascript">
           atOptions = {{ 'key':'{dk}', 'format':'iframe', 'height':90, 'width':728, 'params':{{}} }};
         </script>
-        <script type="text/javascript" src="https://www.highperformanceformat.com/{dk}/invoke.js"></script>
+        <script type="text/javascript" src="https://russiaexternalknew.com/{dk}/invoke.js"></script>
       </div>
       <div class="ad-inner ad-mobile">
         <script type="text/javascript">
           atOptions = {{ 'key':'{mk}', 'format':'iframe', 'height':50, 'width':320, 'params':{{}} }};
         </script>
-        <script type="text/javascript" src="https://www.highperformanceformat.com/{mk}/invoke.js"></script>
+        <script type="text/javascript" src="https://russiaexternalknew.com/{mk}/invoke.js"></script>
       </div>
     </div>'''
 
@@ -46,7 +46,7 @@ def native():
     nk = SITE["adsterra_native"]
     return f'''<div class="native-ad">
       <span class="ad-label">Publicidad</span>
-      <script async="async" data-cfasync="false" src="https://pl30473127.effectivecpmnetwork.com/{nk}/invoke.js"></script>
+      <script async="async" data-cfasync="false" src="https://russiaexternalknew.com/{nk}/invoke.js"></script>
       <div id="container-{nk}"></div>
     </div>'''
 
@@ -134,7 +134,7 @@ def tool_page(t):
           <script type="text/javascript">
             atOptions = {{ 'key':'{mkm}', 'format':'iframe', 'height':250, 'width':300, 'params':{{}} }};
           </script>
-          <script type="text/javascript" src="https://www.highperformanceformat.com/{mkm}/invoke.js"></script>
+          <script type="text/javascript" src="https://russiaexternalknew.com/{mkm}/invoke.js"></script>
         </div>
         <p id="dlCountdown">Preparando tu descarga… 10s</p>
         <a id="dlReal" class="download" href="{t['url']}" rel="noopener nofollow" style="display:none"
