@@ -52,7 +52,7 @@ const SECTION: [number, number, string][] = [
 ];
 // Overrides puntuales (frases concretas).
 const OVERRIDE_BASE: Record<number, string> = {
-  4: 'obama', 5: 'obama', 6: 'obama', 7: 'obama',
+  4: 'obama', 5: 'obama', 6: 'bb-device', 7: 'bb-device', // 6-7: "version blindada/modificada" -> otros BlackBerry, no más Obama
   36: 'corporate', 37: 'corporate', 38: 'corporate',
   67: 'security', 68: 'security', 69: 'security',
   71: 'obama',
@@ -99,8 +99,8 @@ const poolFor = (base: string) => POOLS[base] ?? ['img:qwerty-phone-1'];
 // Solo para momentos NARRATIVAMENTE bloqueados donde debe verse ESE clip. Lo demás
 // sale del pool (que ya trae archivo BB donde corresponde). Sin clips basura. ----
 const ARCHIVAL_BY_CUE: Record<number, string> = {
-  // Obama no soltó su BlackBerry (device en la mano)
-  4: 'obama-blackberry', 5: 'obama-blackberry', 6: 'obama-blackberry', 7: 'obama-blackberry',
+  // Obama no soltó su BlackBerry (solo 4-5; 6-7 van al pool de dispositivos para no repetir el mismo clip)
+  4: 'obama-blackberry', 5: 'obama-blackberry',
   // Orígenes / RIM / Lazaridis / Waterloo (Balsillie, edificio RIM)
   16: 'rim-founders', 18: 'rim-founders', 19: 'rim-founders', 20: 'rim-founders', 21: 'rim-founders',
   // 1999: el aparato raro, busca-personas con teclado que recibía correo (BB clásico + MESSAGES)
@@ -133,7 +133,7 @@ const ARCHIVAL_BY_CUE: Record<number, string> = {
 // el dispositivo con cabezas parlantes, iPhone o calle. El avance dentro del clip
 // solo gira por estos segmentos, nunca por las zonas malas. ----
 const WINDOWS: Record<string, [number, number][]> = {
-  'obama-blackberry':     [[9, 15]],                    // BB Bold closeup + UI (antes: Obama lejano / iPhone / analistas)
+  'obama-blackberry':     [[0, 15]],                    // Obama sosteniendo el aparato (0-8) + BB Bold closeup/UI (10-15); evita iPhone/analistas (16+)
   'blackberry-keyboard':  [[8, 29], [32, 39], [50, 58]],// KEY2 en soporte/mano (evita al reseñador en el sofá)
   'rim-reaction-iphone':  [[4, 11], [22, 35]],          // BB clásico monocromo + teclado redondo (evita bigotón / iPhone)
   'bb-stops-phones-2016': [[2, 17]],                    // letrero BlackBerry + BB Bold + evento (evita teléfono moderno)
