@@ -113,9 +113,12 @@ const topicFor = (i: number): string => {
 // Clips de archivo que SÍ muestran BlackBerry:
 //   rim-reaction-iphone (BB clásico + pantalla MESSAGES), bb-stops-phones-2016 (BB Bold),
 //   bbm-messenger, blackberry-keyboard, blackberry-storm, rim-layoffs-news, obama-blackberry,
-//   crackberry-news ("Berry Addictive"), rim-founders (Balsillie), wall-street-bb (Bloomberg BB),
-//   bb-outage-2011, blackberry-10-launch, iphone-2007-keynote.
-// Descartados por búsqueda equivocada: blackberry-850-1999, blackberry-ad-2000s, two-way-pager-90s.
+//   crackberry-news ("Berry Addictive"), rim-founders (Balsillie),
+//   bb-outage-2011 (en realidad PlayBook, ver WINDOWS), blackberry-10-launch, iphone-2007-keynote.
+// Descartados por búsqueda equivocada: blackberry-850-1999, blackberry-ad-2000s, two-way-pager-90s,
+//   wall-street-bb (es mesa de trading de Bloomberg con tabla de resultados financieros —
+//   EPS/Revenue/Gross Margin —, cero BlackBerry en pantalla la mayor parte del clip; PROHIBIDO,
+//   es exactamente el tipo de video de trading que el usuario dijo que no quiere ver nunca más).
 // POOLS por TEMA. Todo lo que aparece aquí fue verificado cuadro por cuadro y
 // corresponde a su tema. Notas de las correcciones del usuario:
 //   · 'stock-market' (velas de trading) NO aparece en ningún tema. Prohibido.
@@ -136,8 +139,8 @@ const POOLS: Record<string, string[]> = {
   // LatAm / todos lo querían / estatus — BlackBerry + una pizca de multitud
   'crowd':      ['a:crackberry-news', 'a:bb-curve-8520', 'a:bb-pearl-8100', 'a:bbm-messenger', 'v:city-commuters'],
   'security':   ['security-encryption', 'v:server-room', 'server-room'],
-  // gobiernos/bancos/oficinas funcionaban SOBRE BlackBerry — Bloomberg BB + modelos
-  'corporate':  ['a:wall-street-bb', 'a:bb-bold-9900', 'a:bb-bold-9000', 'boardroom-execs', 'business-phone'],
+  // gobiernos/bancos/oficinas funcionaban SOBRE BlackBerry — modelos + oficinas
+  'corporate':  ['a:bb-bold-9900', 'a:bb-bold-9000', 'boardroom-execs', 'business-phone'],
   // iPhone / Android / pantalla táctil — ÚNICO tema con el teléfono blanco moderno
   'iphone':     ['a:iphone-2007-keynote', 'v:smartphone-modern', 'smartphone-modern'],
   'storm':      ['a:blackberry-storm'],
@@ -170,8 +173,6 @@ const ARCHIVAL_BY_CUE: Record<number, string> = {
   41: 'bbm-messenger', 53: 'bbm-messenger', 54: 'bbm-messenger',
   // CrackBerry / palabra del año 2006 ("Berry Addictive")
   62: 'crackberry-news', 63: 'crackberry-news', 64: 'crackberry-news',
-  // mundo corporativo / Wall Street (Bloomberg BlackBerry)
-  66: 'wall-street-bb',
   // iPhone 2007: Steve Jobs en el escenario (y la risa de RIM, por contraste)
   80: 'iphone-2007-keynote', 81: 'iphone-2007-keynote', 82: 'iphone-2007-keynote', 83: 'iphone-2007-keynote',
   84: 'iphone-2007-keynote', 85: 'iphone-2007-keynote',
@@ -196,13 +197,12 @@ const WINDOWS: Record<string, [number, number][]> = {
   'blackberry-keyboard':  [[8, 29], [32, 39], [50, 58]],// KEY2 en soporte/mano (evita al reseñador en el sofá)
   'rim-reaction-iphone':  [[4, 11], [22, 35]],          // BB clásico monocromo + teclado redondo (evita bigotón / iPhone)
   'bb-stops-phones-2016': [[2, 17]],                    // letrero BlackBerry + BB Bold + evento (evita teléfono moderno)
-  'bbm-messenger':        [[2, 9], [18, 22], [24, 42]], // BB Torch + letrero RIM + Lazaridis + pantallas BBM (evita calle/Apple)
+  'bbm-messenger':        [[2, 9], [10, 22]],           // BB Torch en mano escribiendo + gente usando su BB en la calle/aeropuerto/mercado + edificio RIM (excluye 23+: Lazaridis disculpándose por el apagón 2011 y tuits de quejas, nada que ver con el lanzamiento de BBM)
   'rim-founders':         [[6, 57]],                    // Balsillie + letrero RIM + edificio + BB + cifras (evita hockey/MRI)
   'crackberry-news':      [[27, 30], [42, 54], [57, 88]],// "Berry Addictive" + gente con BB + closeups
-  'wall-street-bb':       [[9, 52]],                    // Bloomberg "BlackBerry" + BB en mano (continuo, oro puro)
   'iphone-2007-keynote':  [[6, 118]],                   // Steve Jobs en el escenario (revelación iPhone)
   'blackberry-storm':     [[27, 88]],                   // unboxing del Storm (caja + dispositivo en mano)
-  'bb-outage-2011':       [[3, 9], [24, 40]],           // BB en mano + letrero + PlayBook (evita analistas)
+  'bb-outage-2011':       [[29, 35.5]],                 // PlayBook: logo de arranque + pantalla de inicio real de la tablet (App World, Music, Videos). Excluye 3-9 ("BLACKBERRY BLACKOUT", habla del apagón, NO de la tablet) y 36+ (presentadora)
   'blackberry-10-launch': [[0, 42]],                    // demos "BlackBerry Keyboard" + BB10 en mano
   'rim-layoffs-news':     [[6, 21], [39, 46], [60, 72]],// BB Bold/BB10 en mano + campus RIM (evita analista S&P)
   // --- nuevos modelos (verificado cuadro por cuadro) ---
