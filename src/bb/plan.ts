@@ -37,33 +37,71 @@ const CHAPTERS = [
   {num: 8, cue: 143, title: 'La lección'},
 ];
 
-// ---- base por sección del guion (rango de cues -> base) ----
-const SECTION: [number, number, string][] = [
-  [1, 15, 'bb-device'],        // intro/gancho
-  [16, 22, 'waterloo'],        // orígenes / RIM en Canadá
-  [23, 39, 'qwerty'],          // el aparato raro, correo, teclado
-  [40, 56, 'bbm'],             // BBM, PIN
-  [57, 66, 'crowd'],           // CrackBerry, LatAm, apogeo
-  [67, 79, 'corporate'],       // seguridad, gobiernos, modelos, soberbia
-  [80, 96, 'iphone'],          // la tormenta: iPhone 2007
-  [97, 119, 'decline'],        // jaula de oro, Storm, PlayBook
-  [120, 142, 'whatsapp'],      // WhatsApp, colapso, 2016
-  [143, 166, 'lesson'],        // la lección + suscríbete
+// ============================================================
+// DIRECTIVA PALABRA-POR-PALABRA: cada cue de la transcripción se asocia a un
+// TEMA, y cada tema solo puede usar material que corresponde a esa frase. Así
+// nunca aparece algo que no tenga que ver con lo que se está narrando.
+// (Verificado cuadro por cuadro contra el guion de bbCues.ts.)
+// Reglas duras que salieron de la revisión:
+//   · NADA de trading / velas japonesas (stock-market) — jamás, no trata de eso.
+//   · El teléfono blanco moderno (smartphone-modern) SOLO en el tema 'iphone'
+//     (cuando se habla del iPhone/Android/pantalla táctil), nunca con BlackBerry.
+//   · Cuando se habla del TECLADO (la jaula del teclado) se muestra el TECLADO
+//     de BlackBerry, no sillas ni oficinas.
+// ------------------------------------------------------------
+// Tema por rango de cue (por defecto). Debajo, ajustes cue a cue.
+const TOPIC_RANGES: [number, number, string][] = [
+  [1, 3, 'dev'],        // "tener uno de estos"... símbolo (presidentes, actrices, banqueros)
+  [4, 5, 'obama'],      // el presidente de EEUU se negó a soltarlo / Obama
+  [6, 7, 'dev'],        // su BlackBerry blindado, secreto -> OTROS BlackBerry (no más Obama)
+  [8, 15, 'dev'],       // máquina con teclado, 85M dependían, "y luego desapareció", la corona/ataúd
+  [16, 17, 'waterloo'], // Canadá, Waterloo
+  [18, 26, 'rim'],      // 1984 Lazaridis/Balsillie, RIM, el aparato raro que recibía correo
+  [27, 30, 'kbd'],      // teclado diminuto como semillas de mora, el nombre, "el corazón de todo"
+  [31, 33, 'oldphone'], // los teléfonos numéricos de entonces (apretar 2 tres veces) = tortura
+  [34, 35, 'kbd'],      // llegó BlackBerry con teclado completo, escribir con dos pulgares
+  [36, 40, 'dev'],      // responder correo desde taxi/aeropuerto/cama; poderoso y adictivo
+  [41, 56, 'bbm'],      // BBM, gratis/ilimitado, PIN, club privado, "pásame tu pin", D/R
+  [57, 64, 'crowd'],    // LatAm explosión, todos lo querían, estatus, CrackBerry, palabra del año
+  [65, 66, 'corporate'],// 85M usuarios, dueños del mundo corporativo, gobiernos/ejércitos/bancos
+  [67, 69, 'security'], // por qué los gobiernos lo amaban: seguridad, encriptación, servidores
+  [70, 71, 'obama'],    // valía oro para presidentes; Obama, raperos, celebridades
+  [72, 72, 'corporate'],// oficinas/empresas funcionaban sobre la columna vertebral de BlackBerry
+  [73, 73, 'dev'],      // los modelos íconos: Pearl, Curve, Bold
+  [74, 79, 'kbd'],      // el teclado perfecto; RIM creía que el teclado físico era eterno
+  [80, 87, 'iphone'],   // enero 2007, Steve Jobs, el iPhone; "se rieron", "juguete caro"
+  [88, 89, 'kbd'],      // confundieron su fortaleza; el teclado los había hecho reyes
+  [90, 95, 'iphone'],   // lo que Jobs entendió: una pantalla que se transforma; computadora disfrazada
+  [96, 103, 'kbd'],     // BlackBerry no podía cambiar: TODO giraba en torno al teclado físico
+  [104, 106, 'storm'],  // 2008 BlackBerry Storm táctil = fracaso
+  [107, 107, 'dev'],    // aparatos devueltos, intento estrellado
+  [108, 109, 'kbd'],    // volvieron al teclado; el teclado comiéndose la mitad del frente
+  [110, 110, 'iphone'], // el iPhone y Android ofrecían pantallas enormes de borde a borde
+  [111, 111, 'kbd'],    // BlackBerry seguía ofreciendo un teclado que ya nadie quería
+  [112, 115, 'dev'],    // tienda de apps vacía; sin apps, un ladrillo bonito y caro
+  [116, 116, 'outage'], // tabletas/iPad; 2011 PlayBook
+  [117, 119, 'dev'],    // PlayBook incompleta, sin correo, pérdidas enormes
+  [120, 122, 'whatsapp'],// cayó el último pilar (BBM); 2010 aparece WhatsApp
+  [123, 123, 'iphone'], // WhatsApp funcionaba en iPhone, Android, cualquier aparato barato
+  [124, 128, 'whatsapp'],// no necesitabas BlackBerry; el club abierto deja de valer
+  [129, 129, 'kbd'],    // miró su BlackBerry, miró su teclado, ya no había razón para quedarse
+  [130, 130, 'whatsapp'],// la caída fue brutal y rápida
+  [131, 133, 'bb10'],   // 2013 BlackBerry 10 táctil, llegó tarde (la fiesta ya terminó)
+  [134, 136, 'layoffs'],// pérdidas de ~$1.000M, despidos, acción 140 -> menos de 10
+  [137, 138, 'whatsapp'],// liberaron BBM para iPhone/Android; regalaron su joya, tarde
+  [139, 141, 'stops'],  // 2016 deja de fabricar teléfonos; el rey se rinde
+  [142, 142, 'dev'],    // de 85M a cero en 5 años
+  [143, 148, 'lesson'], // la lección; no lo mató el iPhone, lo mató el teclado (su éxito)
+  [149, 150, 'kbd'],    // ese mismo teclado se volvió una jaula de oro
+  [151, 154, 'lesson'], // no por falta de talento; murió por arrogancia
+  [155, 158, 'competitors'], // Kodak, Nokia, Blockbuster: la misma trampa
+  [159, 162, 'lesson'], // la pregunta: ¿de qué estás tan orgulloso que no puedes soltarlo?
+  [163, 164, 'kbd'],    // lo que te corona te entierra; el teclado hizo rey y mató a BlackBerry
+  [165, 166, 'lesson'], // suscríbete a Crónicas Ilustradas
 ];
-// Overrides puntuales (frases concretas).
-const OVERRIDE_BASE: Record<number, string> = {
-  4: 'obama', 5: 'obama', 6: 'bb-device', 7: 'bb-device', // 6-7: "version blindada/modificada" -> otros BlackBerry, no más Obama
-  36: 'corporate', 37: 'corporate', 38: 'corporate',
-  67: 'security', 68: 'security', 69: 'security',
-  71: 'obama',
-  81: 'iphone', 82: 'iphone', 83: 'iphone',
-  135: 'decline', 136: 'decline',
-  155: 'competitors', 156: 'competitors', 157: 'competitors', 158: 'competitors',
-};
-const baseForCue = (i: number): string => {
-  if (OVERRIDE_BASE[i]) return OVERRIDE_BASE[i];
-  for (const [a, b, base] of SECTION) if (i >= a && i <= b) return base;
-  return 'bb-device';
+const topicFor = (i: number): string => {
+  for (const [a, b, t] of TOPIC_RANGES) if (i >= a && i <= b) return t;
+  return 'dev';
 };
 
 // ---- POOLS por base. TOKENS:
@@ -78,22 +116,43 @@ const baseForCue = (i: number): string => {
 //   crackberry-news ("Berry Addictive"), rim-founders (Balsillie), wall-street-bb (Bloomberg BB),
 //   bb-outage-2011, blackberry-10-launch, iphone-2007-keynote.
 // Descartados por búsqueda equivocada: blackberry-850-1999, blackberry-ad-2000s, two-way-pager-90s.
+// POOLS por TEMA. Todo lo que aparece aquí fue verificado cuadro por cuadro y
+// corresponde a su tema. Notas de las correcciones del usuario:
+//   · 'stock-market' (velas de trading) NO aparece en ningún tema. Prohibido.
+//   · 'smartphone-modern' (teléfono blanco moderno) SOLO en 'iphone'.
+//   · 'kbd' = teclado de BlackBerry en primer plano (Passport, cajas, KEY2), sin oficinas.
 const POOLS: Record<string, string[]> = {
-  'bb-device':   ['a:rim-reaction-iphone', 'a:bb-bold-9900', 'a:bbm-messenger', 'img:qwerty-phone-1', 'a:bb-torch-9800', 'a:bb-pearl-8100', 'a:bb-stops-phones-2016', 'a:blackberry-keyboard'],
-  'waterloo':    ['a:rim-founders', 'canada-waterloo', 'a:bb-bold-9000', 'a:bb-stops-phones-2016', 'empty-office'],
-  'qwerty':      ['a:blackberry-keyboard', 'a:bb-curve-8520', 'a:rim-reaction-iphone', 'a:bb-bold-9900', 'img:qwerty-phone-1', 'a:bb-pearl-8100', 'email-screen'],
-  'bbm':         ['a:bbm-messenger', 'a:bb-pearl-8100', 'v:texting-hands', 'texting-hands', 'email-screen'],
-  'crowd':       ['a:crackberry-news', 'a:bb-curve-8520', 'v:city-commuters', 'city-commuters', 'a:bbm-messenger', 'a:bb-pearl-8100', 'v:texting-hands'],
-  'corporate':   ['a:wall-street-bb', 'a:bb-bold-9900', 'boardroom-execs', 'v:office-corporate', 'a:bb-bold-9000', 'office-corporate', 'v:business-phone'],
-  'obama':       ['a:obama-blackberry', 'boardroom-execs', 'business-phone'],
-  'iphone':      ['a:iphone-2007-keynote', 'v:smartphone-modern', 'smartphone-modern'],
-  'decline':     ['a:blackberry-storm', 'a:bb-torch-9800', 'a:bb-outage-2011', 'v:stock-market', 'stock-market', 'empty-office'],
-  'whatsapp':    ['a:rim-layoffs-news', 'v:smartphone-modern', 'smartphone-modern', 'a:bb-stops-phones-2016', 'v:texting-hands'],
-  'lesson':      ['old-phones', 'empty-office', 'v:factory-tech', 'factory-tech', 'v:city-commuters'],
-  'competitors': ['old-phones', 'v:factory-tech', 'factory-tech', 'empty-office'],
-  'security':    ['security-encryption', 'v:server-room', 'server-room'],
+  // Aparato/modelos de BlackBerry (belleza del objeto). email-screen es fiel:
+  // BlackBerry nació del correo ("responder un correo desde un taxi").
+  'dev':        ['a:bb-bold-9900', 'a:bb-torch-9800', 'a:bb-pearl-8100', 'a:bb-curve-8520', 'a:bb-bold-9000', 'a:blackberry-keyboard', 'img:qwerty-phone-1', 'email-screen'],
+  // El TECLADO en primer plano — para toda la narrativa de "la jaula del teclado"
+  'kbd':        ['img:qwerty-phone-1', 'a:blackberry-keyboard', 'a:bb-torch-9800', 'a:bb-curve-8520', 'a:bb-bold-9900', 'a:bb-pearl-8100'],
+  'obama':      ['a:obama-blackberry'],
+  'waterloo':   ['a:rim-founders', 'canada-waterloo'],
+  'rim':        ['a:rim-founders'],
+  // teléfonos numéricos viejos (la tortura de escribir) — aquí SÍ 'old-phones'
+  'oldphone':   ['old-phones', 'a:blackberry-keyboard'],
+  'bbm':        ['a:bbm-messenger', 'a:bb-pearl-8100', 'v:texting-hands', 'texting-hands', 'email-screen'],
+  // LatAm / todos lo querían / estatus — BlackBerry + una pizca de multitud
+  'crowd':      ['a:crackberry-news', 'a:bb-curve-8520', 'a:bb-pearl-8100', 'a:bbm-messenger', 'v:city-commuters'],
+  'security':   ['security-encryption', 'v:server-room', 'server-room'],
+  // gobiernos/bancos/oficinas funcionaban SOBRE BlackBerry — Bloomberg BB + modelos
+  'corporate':  ['a:wall-street-bb', 'a:bb-bold-9900', 'a:bb-bold-9000', 'boardroom-execs', 'business-phone'],
+  // iPhone / Android / pantalla táctil — ÚNICO tema con el teléfono blanco moderno
+  'iphone':     ['a:iphone-2007-keynote', 'v:smartphone-modern', 'smartphone-modern'],
+  'storm':      ['a:blackberry-storm'],
+  'outage':     ['a:bb-outage-2011'],
+  'bb10':       ['a:blackberry-10-launch'],
+  'layoffs':    ['a:rim-layoffs-news'],
+  'stops':      ['a:bb-stops-phones-2016'],
+  // WhatsApp mata a BBM — mensajería de BlackBerry en declive (sin iPhone blanco)
+  'whatsapp':   ['a:bbm-messenger', 'a:rim-layoffs-news', 'a:bb-stops-phones-2016', 'v:texting-hands', 'texting-hands'],
+  // lección / retrospectiva — aparato BB + teclado + teléfonos viejos
+  'lesson':     ['a:blackberry-keyboard', 'img:qwerty-phone-1', 'a:bb-bold-9900', 'old-phones'],
+  // Kodak / Nokia / Blockbuster — otras marcas y eras (fábrica, aparatos viejos)
+  'competitors':['old-phones', 'v:factory-tech', 'factory-tech'],
 };
-const poolFor = (base: string) => POOLS[base] ?? ['img:qwerty-phone-1'];
+const poolFor = (topic: string) => POOLS[topic] ?? ['img:qwerty-phone-1'];
 
 // ---- Clips de ARCHIVO forzados por cue (ocupan todo el cue, un solo clip continuo).
 // Solo para momentos NARRATIVAMENTE bloqueados donde debe verse ESE clip. Lo demás
@@ -295,7 +354,7 @@ export const buildPlan = (fps: number, total: number) => {
     const isIntro = c.i <= 15;
     const special = STATS[c.i] || FULLTEXT[c.i] || c.i === 12; // fondo calmo bajo el texto
     const archId = ARCHIVAL_BY_CUE[c.i];
-    const shotPool = poolFor(baseForCue(c.i));
+    const shotPool = poolFor(topicFor(c.i));
 
     if (archId && !special) {
       // clip forzado: un solo plano continuo por todo el cue
@@ -359,9 +418,10 @@ export const buildPlan = (fps: number, total: number) => {
 
 // se conserva para el fondo procedural de respaldo (por si falta una base)
 const HUE: Record<string, number> = {
-  'bb-device': 210, 'waterloo': 200, 'qwerty': 220, 'bbm': 160, 'crowd': 30,
-  'corporate': 205, 'obama': 215, 'iphone': 190, 'decline': 5, 'whatsapp': 140,
-  'lesson': 265, 'competitors': 20, 'security': 185,
+  'dev': 210, 'kbd': 220, 'waterloo': 200, 'rim': 200, 'oldphone': 40, 'bbm': 160,
+  'crowd': 30, 'corporate': 205, 'obama': 215, 'iphone': 190, 'storm': 5, 'outage': 5,
+  'bb10': 150, 'layoffs': 5, 'stops': 10, 'whatsapp': 140, 'lesson': 265,
+  'competitors': 20, 'security': 185,
 };
 export const hueFor = (base: string) => HUE[base] ?? 205;
 export {hasPhoto};
