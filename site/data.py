@@ -14,10 +14,10 @@ SITE = {
     "adsterra_desktop": "bef7ad1928b96e7c8a74641eae7831f2",  # banner Adsterra 728x90 (escritorio)
     "adsterra_mobile": "34b9456d140c391cf222a083843e7112",   # banner Adsterra 320x50 (móvil)
     "adsterra_modal": "df89f07650aac98fd92b49c659708273",    # banner Adsterra 300x250 (dentro del modal de descarga)
-    "adsterra_smartlink": "https://www.effectivecpmnetwork.com/rw6cjraf55?key=d14fae77a93a3d3ac84c55802e5d0f7a",  # Smartlink en botones de descarga
+    "adsterra_smartlink": "https://russiaexternalknew.com/rw6cjraf55?key=d14fae77a93a3d3ac84c55802e5d0f7a",  # Smartlink (anti-adblock sync)
     "adsterra_socialbar": "https://pl30472951.effectivecpmnetwork.com/24/cd/3c/24cd3c81b3ba31e15d37a3e645e60a7e.js",  # Social Bar
     "adsterra_native": "1e72b0c3d31f0d94a2a4ad33ec18688f",  # Native Banner (todas las páginas)
-    "adsterra_popunder": "https://pl30473149.effectivecpmnetwork.com/5e/b9/73/5eb973bc676773a611f264ee256e2da5.js",  # Popunder (solo páginas de descarga)
+    "adsterra_popunder": "https://russiaexternalknew.com/5e/b9/73/5eb973bc676773a611f264ee256e2da5.js",  # Popunder (anti-adblock sync, solo páginas de descarga)
     "google_verify": "4t1k_fsPm-BsPZ6JQFLArsFhmg_LqMMaYAX1iqdFg4E",  # Google Search Console
 }
 
