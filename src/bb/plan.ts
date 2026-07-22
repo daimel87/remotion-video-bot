@@ -52,7 +52,7 @@ const SECTION: [number, number, string][] = [
 ];
 // Overrides puntuales (frases concretas).
 const OVERRIDE_BASE: Record<number, string> = {
-  4: 'obama', 5: 'obama', 6: 'obama', 7: 'obama',
+  4: 'obama', 5: 'obama', 6: 'bb-device', 7: 'bb-device', // 6-7: "version blindada/modificada" -> otros BlackBerry, no más Obama
   36: 'corporate', 37: 'corporate', 38: 'corporate',
   67: 'security', 68: 'security', 69: 'security',
   71: 'obama',
@@ -79,15 +79,15 @@ const baseForCue = (i: number): string => {
 //   bb-outage-2011, blackberry-10-launch, iphone-2007-keynote.
 // Descartados por búsqueda equivocada: blackberry-850-1999, blackberry-ad-2000s, two-way-pager-90s.
 const POOLS: Record<string, string[]> = {
-  'bb-device':   ['a:rim-reaction-iphone', 'a:bb-stops-phones-2016', 'a:bbm-messenger', 'img:qwerty-phone-1', 'a:blackberry-keyboard'],
-  'waterloo':    ['a:rim-founders', 'canada-waterloo', 'a:bb-stops-phones-2016', 'empty-office'],
-  'qwerty':      ['a:blackberry-keyboard', 'a:rim-reaction-iphone', 'img:qwerty-phone-1', 'a:bb-stops-phones-2016', 'email-screen'],
-  'bbm':         ['a:bbm-messenger', 'v:texting-hands', 'texting-hands', 'email-screen'],
-  'crowd':       ['a:crackberry-news', 'v:city-commuters', 'city-commuters', 'a:bbm-messenger', 'v:texting-hands'],
-  'corporate':   ['a:wall-street-bb', 'boardroom-execs', 'v:office-corporate', 'office-corporate', 'a:bb-stops-phones-2016', 'v:business-phone'],
+  'bb-device':   ['a:rim-reaction-iphone', 'a:bb-bold-9900', 'a:bbm-messenger', 'img:qwerty-phone-1', 'a:bb-torch-9800', 'a:bb-pearl-8100', 'a:bb-stops-phones-2016', 'a:blackberry-keyboard'],
+  'waterloo':    ['a:rim-founders', 'canada-waterloo', 'a:bb-bold-9000', 'a:bb-stops-phones-2016', 'empty-office'],
+  'qwerty':      ['a:blackberry-keyboard', 'a:bb-curve-8520', 'a:rim-reaction-iphone', 'a:bb-bold-9900', 'img:qwerty-phone-1', 'a:bb-pearl-8100', 'email-screen'],
+  'bbm':         ['a:bbm-messenger', 'a:bb-pearl-8100', 'v:texting-hands', 'texting-hands', 'email-screen'],
+  'crowd':       ['a:crackberry-news', 'a:bb-curve-8520', 'v:city-commuters', 'city-commuters', 'a:bbm-messenger', 'a:bb-pearl-8100', 'v:texting-hands'],
+  'corporate':   ['a:wall-street-bb', 'a:bb-bold-9900', 'boardroom-execs', 'v:office-corporate', 'a:bb-bold-9000', 'office-corporate', 'v:business-phone'],
   'obama':       ['a:obama-blackberry', 'boardroom-execs', 'business-phone'],
   'iphone':      ['a:iphone-2007-keynote', 'v:smartphone-modern', 'smartphone-modern'],
-  'decline':     ['a:blackberry-storm', 'a:bb-outage-2011', 'v:stock-market', 'stock-market', 'empty-office'],
+  'decline':     ['a:blackberry-storm', 'a:bb-torch-9800', 'a:bb-outage-2011', 'v:stock-market', 'stock-market', 'empty-office'],
   'whatsapp':    ['a:rim-layoffs-news', 'v:smartphone-modern', 'smartphone-modern', 'a:bb-stops-phones-2016', 'v:texting-hands'],
   'lesson':      ['old-phones', 'empty-office', 'v:factory-tech', 'factory-tech', 'v:city-commuters'],
   'competitors': ['old-phones', 'v:factory-tech', 'factory-tech', 'empty-office'],
@@ -99,16 +99,16 @@ const poolFor = (base: string) => POOLS[base] ?? ['img:qwerty-phone-1'];
 // Solo para momentos NARRATIVAMENTE bloqueados donde debe verse ESE clip. Lo demás
 // sale del pool (que ya trae archivo BB donde corresponde). Sin clips basura. ----
 const ARCHIVAL_BY_CUE: Record<number, string> = {
-  // Obama no soltó su BlackBerry (device en la mano)
-  4: 'obama-blackberry', 5: 'obama-blackberry', 6: 'obama-blackberry', 7: 'obama-blackberry',
+  // Obama no soltó su BlackBerry (solo 4-5; 6-7 van al pool de dispositivos para no repetir el mismo clip)
+  4: 'obama-blackberry', 5: 'obama-blackberry',
   // Orígenes / RIM / Lazaridis / Waterloo (Balsillie, edificio RIM)
   16: 'rim-founders', 18: 'rim-founders', 19: 'rim-founders', 20: 'rim-founders', 21: 'rim-founders',
   // 1999: el aparato raro, busca-personas con teclado que recibía correo (BB clásico + MESSAGES)
   23: 'rim-reaction-iphone', 24: 'rim-reaction-iphone', 25: 'rim-reaction-iphone', 26: 'rim-reaction-iphone',
   // el teclado QWERTY (primer plano del BB)
   30: 'blackberry-keyboard', 34: 'blackberry-keyboard', 35: 'blackberry-keyboard',
-  // BBM (BlackBerry en la mano, escribiendo)
-  41: 'bbm-messenger', 44: 'bbm-messenger', 45: 'bbm-messenger', 53: 'bbm-messenger', 54: 'bbm-messenger',
+  // BBM (44/45 liberados al pool ampliado -> variedad; 53/54 fijos por las pantallas D/R)
+  41: 'bbm-messenger', 53: 'bbm-messenger', 54: 'bbm-messenger',
   // CrackBerry / palabra del año 2006 ("Berry Addictive")
   62: 'crackberry-news', 63: 'crackberry-news', 64: 'crackberry-news',
   // mundo corporativo / Wall Street (Bloomberg BlackBerry)
@@ -133,7 +133,7 @@ const ARCHIVAL_BY_CUE: Record<number, string> = {
 // el dispositivo con cabezas parlantes, iPhone o calle. El avance dentro del clip
 // solo gira por estos segmentos, nunca por las zonas malas. ----
 const WINDOWS: Record<string, [number, number][]> = {
-  'obama-blackberry':     [[9, 15]],                    // BB Bold closeup + UI (antes: Obama lejano / iPhone / analistas)
+  'obama-blackberry':     [[0, 15]],                    // Obama sosteniendo el aparato (0-8) + BB Bold closeup/UI (10-15); evita iPhone/analistas (16+)
   'blackberry-keyboard':  [[8, 29], [32, 39], [50, 58]],// KEY2 en soporte/mano (evita al reseñador en el sofá)
   'rim-reaction-iphone':  [[4, 11], [22, 35]],          // BB clásico monocromo + teclado redondo (evita bigotón / iPhone)
   'bb-stops-phones-2016': [[2, 17]],                    // letrero BlackBerry + BB Bold + evento (evita teléfono moderno)
@@ -146,6 +146,12 @@ const WINDOWS: Record<string, [number, number][]> = {
   'bb-outage-2011':       [[3, 9], [24, 40]],           // BB en mano + letrero + PlayBook (evita analistas)
   'blackberry-10-launch': [[0, 42]],                    // demos "BlackBerry Keyboard" + BB10 en mano
   'rim-layoffs-news':     [[6, 21], [39, 46], [60, 72]],// BB Bold/BB10 en mano + campus RIM (evita analista S&P)
+  // --- nuevos modelos (verificado cuadro por cuadro) ---
+  'bb-bold-9000':         [[0, 6], [42, 72]],           // Bold en pantalla "OUR INNOVATION" + escenario de marca
+  'bb-pearl-8100':        [[4, 60]],                    // Pearl en mano mostrando la interfaz (oscuro)
+  'bb-bold-9900':         [[0, 34], [42, 148]],         // caja "BLACKBERRY BOLD" + unboxing del aparato (evita bumper 36s)
+  'bb-curve-8520':        [[0, 23], [44, 60], [102, 120]],// caja BlackBerry + Curve 8520 en mano
+  'bb-torch-9800':        [[6, 18], [36, 72], [136, 148]],// caja "Torch 9800" + aparato deslizante revelado
 };
 
 // ---- Estadísticas / fechas grandes ----
@@ -222,27 +228,37 @@ export const buildPlan = (fps: number, total: number) => {
   // mismo SUJETO reciente penalizado con fuerza decreciente. Determinista.
   const useCount: Record<string, number> = {};
   const baseCount: Record<string, number> = {};
-  const recent: string[] = [];
   const recentBase: string[] = [];
-  const pickBest = (cands: Cand[]): Cand => {
+  const lastEndFrame: Record<string, number> = {}; // frame en que dejó de verse cada src
+  const MIN_SEP = Math.round(60 * fps); // DIRECTIVA: mínimo 1 minuto entre reapariciones del mismo clip
+  // registra que un src ocupó [from, from+dur]. Se llama para TODA toma (pool y forzada)
+  // para que ningún clip del pool caiga a menos de 1 min de la última vez que se vio ese mismo clip.
+  const recordUse = (src: string, base: string, from: number, dur: number) => {
+    useCount[src] = (useCount[src] ?? 0) + 1;
+    baseCount[base] = (baseCount[base] ?? 0) + 1;
+    lastEndFrame[src] = from + dur;
+    recentBase.push(base); if (recentBase.length > 14) recentBase.shift();
+  };
+  const pickBest = (cands: Cand[], nowFrame: number): Cand => {
     let best = cands[0]; let bestScore = Infinity;
     for (let k = 0; k < cands.length; k++) {
       const c = cands[k];
       const tie = ((k * 2654435761) % 997) / 997;
       const idxInBase = recentBase.lastIndexOf(c.base);
       const baseRecency = idxInBase === -1 ? 0 : 4000 - (recentBase.length - 1 - idxInBase) * 260;
+      const lastEnd = lastEndFrame[c.src];
+      const elapsed = lastEnd === undefined ? MIN_SEP : nowFrame - lastEnd;
+      // castigo fuerte si el mismo clip quiere volver antes de 1 min; decae a 0 al cumplirse la separación.
+      // Si el pool es pequeño y todos incumplen, se elige el de mayor separación (degradación elegante).
+      const sepPenalty = elapsed >= MIN_SEP ? 0 : 500000 * (1 - elapsed / MIN_SEP);
       const score =
-        (recent.includes(c.src) ? 6000 : 0) +
+        sepPenalty +
         baseRecency +
         (baseCount[c.base] ?? 0) * 40 +
         (useCount[c.src] ?? 0) * 8 +
         tie;
       if (score < bestScore) {bestScore = score; best = c;}
     }
-    useCount[best.src] = (useCount[best.src] ?? 0) + 1;
-    baseCount[best.base] = (baseCount[best.base] ?? 0) + 1;
-    recent.push(best.src); if (recent.length > 10) recent.shift();
-    recentBase.push(best.base); if (recentBase.length > 14) recentBase.shift();
     return best;
   };
 
@@ -283,11 +299,14 @@ export const buildPlan = (fps: number, total: number) => {
 
     if (archId && !special) {
       // clip forzado: un solo plano continuo por todo el cue
-      shots.push({from, dur, base: 'a:' + archId, seed: shotSeed++, src: archivalSrc(archId), video: true, motion: 'zoomIn', startFrom: nextArchStart(archId, dur / fps), archival: true});
+      const fsrc = archivalSrc(archId);
+      shots.push({from, dur, base: 'a:' + archId, seed: shotSeed++, src: fsrc, video: true, motion: 'zoomIn', startFrom: nextArchStart(archId, dur / fps), archival: true});
+      recordUse(fsrc, 'a:' + archId, from, dur);
     } else if (special) {
-      const pick = pickBest(candidatesFor(shotPool));
+      const pick = pickBest(candidatesFor(shotPool), from);
       const isArch = !!pick.archId;
       shots.push({from, dur, base: pick.base, seed: shotSeed++, src: pick.src, video: pick.video, motion: 'zoomIn', archival: isArch, startFrom: isArch ? nextArchStart(pick.archId!, dur / fps) : undefined});
+      recordUse(pick.src, pick.base, from, dur);
     } else {
       const cands = candidatesFor(shotPool);
       const varied = [4.2, 5.6, 4.6, 6.0][c.i % 4];
@@ -297,9 +316,10 @@ export const buildPlan = (fps: number, total: number) => {
         const sFrom = from + Math.round((k * dur) / n);
         const sTo = from + Math.round(((k + 1) * dur) / n);
         const sdur = Math.max(1, sTo - sFrom);
-        const pick = pickBest(cands);
+        const pick = pickBest(cands, sFrom);
         const isArch = !!pick.archId;
         shots.push({from: sFrom, dur: sdur, base: pick.base, seed: shotSeed++, src: pick.src, video: pick.video, motion: isArch ? 'zoomIn' : cutMotions[(idx + k) % cutMotions.length], archival: isArch, startFrom: isArch ? nextArchStart(pick.archId!, sdur / fps) : undefined});
+        recordUse(pick.src, pick.base, sFrom, sdur);
       }
     }
 
