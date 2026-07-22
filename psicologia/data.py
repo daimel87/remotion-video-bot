@@ -8,6 +8,7 @@ SITE = {
     "tagline": "Psicología femenina, relaciones y señales de infidelidad",
     "domain": "https://seduccion.pages.dev",  # URL de producción Cloudflare Pages
     "facebook": "https://www.facebook.com/profile.php?id=61590438389871",  # página de Facebook
+    "google_verify": "4t1k_fsPm-BsPZ6JQFLArsFhmg_LqMMaYAX1iqdFg4E",  # Google Search Console
     "description": "Aprende a entender la psicología femenina, reconocer las señales de una "
                    "infidelidad y mejorar tus relaciones de pareja. Artículos claros, directos y "
                    "con vídeo sobre atracción, comportamiento y confianza.",

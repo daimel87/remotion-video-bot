@@ -36,6 +36,7 @@ def head(title, desc, canonical):
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:site_name" content="{SITE['name']}">
 <meta name="robots" content="index,follow">
+<meta name="google-site-verification" content="{SITE['google_verify']}">
 <link rel="stylesheet" href="/style.css">
 {social_tag}
 </head>
