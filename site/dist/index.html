@@ -173,21 +173,35 @@
   <div class="ab-box">
     <h2>🚫 Bloqueador de anuncios detectado</h2>
     <p>Esta web es gratuita gracias a la publicidad. Para seguir viendo el contenido y las
-       herramientas, desactiva tu bloqueador de anuncios (AdBlock, uBlock, etc.) para este sitio
-       y vuelve a cargar la página.</p>
+       herramientas, desactiva tu bloqueador de anuncios (AdBlock, uBlock, Brave Shields, etc.)
+       para este sitio y vuelve a cargar la página.</p>
     <button class="btn" type="button" onclick="location.reload()">Ya lo desactivé, recargar</button>
   </div>
 </div>
-<div class="ab-bait ad-banner ads adsbox adsbygoogle" style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;"></div>
+<div class="ab-bait ad-banner ads adsbox adsbygoogle textads banner_ad" style="position:absolute;left:-9999px;top:-9999px;width:300px;height:250px;"></div>
 <script>
 (function(){
-  function showBlock(){ document.getElementById('abOverlay').style.display='flex'; }
+  var shown = false;
+  function showBlock(){
+    if(shown) return; shown = true;
+    document.getElementById('abOverlay').style.display='flex';
+  }
+  function checkBait(){
+    var bait = document.querySelector('.ab-bait');
+    if(!bait) return true;
+    var cs = window.getComputedStyle(bait);
+    return bait.offsetParent===null || bait.offsetHeight===0 || cs.display==='none' || cs.visibility==='hidden';
+  }
+  function checkNetwork(cb){
+    fetch('https://www3.doubleclick.net/pagead/adview.js?a=1', {mode:'no-cors', cache:'no-store'})
+      .then(function(){ cb(false); })
+      .catch(function(){ cb(true); });
+  }
   window.addEventListener('load', function(){
     setTimeout(function(){
-      var bait = document.querySelector('.ab-bait');
-      var blocked = !bait || bait.offsetParent===null || bait.offsetHeight===0 || bait.clientHeight===0;
-      if(blocked){ showBlock(); }
-    }, 700);
+      if(checkBait()){ showBlock(); return; }
+      checkNetwork(function(blocked){ if(blocked){ showBlock(); } });
+    }, 800);
   });
 })();
 </script>
