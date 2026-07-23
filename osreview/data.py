@@ -5,8 +5,8 @@ Edit here, then run build.py"""
 SITE = {
     "name": "Lite OS Reviews",
     "tagline": "Reviews of modified Windows builds & lightweight OS for gaming and low-end PCs",
-    "domain": "https://liteosreviews.pages.dev",  # update once deployed on Cloudflare Pages
-    "youtube": "https://www.youtube.com/@YOUR_CHANNEL",  # TODO: paste your channel URL
+    "domain": "https://paginaingles.pages.dev",  # Cloudflare Pages production URL
+    "youtube": "https://www.youtube.com/channel/UCsAZA8xdUfr41QsX8WoyOQA?sub_confirmation=1",  # channel subscribe link
     "google_verify": "",  # paste Google Search Console verification code
     "description": "Honest reviews and install guides for modified Windows builds (Ghost Spectre, "
                    "AtlasOS, KernelOS, ReviOS, X-Lite) and lightweight operating systems built for "
