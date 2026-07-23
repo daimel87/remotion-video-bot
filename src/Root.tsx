@@ -226,8 +226,8 @@ export const RemotionRoot: React.FC = () => {
         component={MemoriaEdit}
         durationInFrames={TOTAL_FRAMES}
         fps={30}
-        width={1080}
-        height={1920}
+        width={1920}
+        height={1080}
       />
     </>
   );
