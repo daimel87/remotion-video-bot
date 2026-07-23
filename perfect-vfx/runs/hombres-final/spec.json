@@ -1,0 +1,212 @@
+{
+  "version": 1,
+  "meta": {
+    "project": "hombres",
+    "segmentType": "custom",
+    "customBrief": "Cierre del video: 3 formas concretas de desarrollar presencia real (escuchar para entender, eliminar el teléfono, habitar el cuerpo), el payoff de que te recuerdan por cómo hiciste sentir, y CTA de suscripción.",
+    "run": "hombres-final",
+    "directorNotes": "Segmento final. Talking-head continuo, presentadora centrada. 10 eventos de contenido: statement full-screen de apertura, statement 75-split (escucha para entender), comparación split-screen (futuro vs presente), statement full-screen (elimina el teléfono), statement 75-split (el cerebro reacciona), statement full-screen (habita tu cuerpo), lista full-screen (relación con el cuerpo), statement 75-split (es arraigo), lista full-screen list-strike (físico/dinero/ropa no sirven), statement 75-split (cómo las hiciste sentir), y SUBSCRIBE_CTA bottom-center al cierre. Sin cubrir la cara. Tema liquid-glass.",
+    "directorNotesVariety": "Secuencia CG: FS/statement, 75/statement, SS/comparison, FS/statement, 75/statement, FS/statement, FS/list, 75/statement, FS/list-strike, 75/statement. Ningún variant+kind consecutivo repetido. Cierre con conversión."
+  },
+  "source": {
+    "file": "public/src.mp4",
+    "durationSec": 128.8,
+    "width": 1920,
+    "height": 1080,
+    "fps": 25,
+    "transcriptSrt": "transcript.srt",
+    "audioMaxVolumeDb": -1.9
+  },
+  "brand": { "theme": "liquid-glass", "kitSource": "theme-defaults" },
+  "events": [
+    {
+      "id": "evt-01",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 0.4,
+      "endSec": 7.6,
+      "anchor": { "transcript": "No puedes fingir presencia. Lo intentas dos segundos y la otra persona lo nota.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "NO PUEDES FINGIR PRESENCIA",
+        "text": "LA OTRA PERSONA LO NOTA",
+        "emphasis": ["LO NOTA"]
+      },
+      "notes": "Apertura del cierre, golpe grande; audio continúa."
+    },
+    {
+      "id": "evt-02",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 7.8,
+      "endSec": 14.6,
+      "anchor": { "transcript": "Pero sí puedes desarrollarla. Aquí hay tres formas concretas. La primera, escucha para entender, no para responder.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "LA PRIMERA FORMA",
+        "text": "ESCUCHA PARA ENTENDER",
+        "emphasis": ["ENTENDER"]
+      },
+      "notes": "Primera forma concreta, presentadora en card."
+    },
+    {
+      "id": "evt-03",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 26.4,
+      "endSec": 35.5,
+      "anchor": { "transcript": "Cuando escuchas para responder, tu mente ya está en el futuro. Cuando escuchas para entender, estás completamente en el presente.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "split-screen",
+        "kind": "comparison",
+        "eyebrow": "TU MENTE ESTÁ",
+        "items": [
+          { "text": "EN EL FUTURO", "negated": true, "icon": "x", "revealSec": 26.9 },
+          { "text": "EN EL PRESENTE", "negated": false, "icon": "check", "revealSec": 31.5 }
+        ]
+      },
+      "notes": "El contraste central de la primera forma."
+    },
+    {
+      "id": "evt-04",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 35.6,
+      "endSec": 40.1,
+      "anchor": { "transcript": "La segunda, elimina el teléfono en conversaciones importantes.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "LA SEGUNDA FORMA",
+        "text": "ELIMINA EL TELÉFONO",
+        "emphasis": ["EL TELÉFONO"]
+      },
+      "notes": "Segunda forma concreta, full-screen."
+    },
+    {
+      "id": "evt-05",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 44.5,
+      "endSec": 52.8,
+      "anchor": { "transcript": "El cerebro reacciona al teléfono incluso cuando no lo usas. Solo verlo activa el pensamiento de lo que puede estar ahí.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "EL CEREBRO",
+        "text": "REACCIONA AL TELÉFONO",
+        "emphasis": ["REACCIONA"]
+      },
+      "notes": "El porqué del teléfono, presentadora en card."
+    },
+    {
+      "id": "evt-06",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 58.0,
+      "endSec": 61.0,
+      "anchor": { "transcript": "La tercera, habita tu cuerpo.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "LA TERCERA FORMA",
+        "text": "HABITA TU CUERPO",
+        "emphasis": ["TU CUERPO"]
+      },
+      "notes": "Tercera forma concreta, full-screen."
+    },
+    {
+      "id": "evt-07",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 65.8,
+      "endSec": 75.6,
+      "anchor": { "transcript": "Respiran de espacio, se mueven sin prisa, ocupan el espacio sin disculparse por ello.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "list",
+        "eyebrow": "RELACIÓN DIFERENTE CON SU CUERPO",
+        "items": [
+          { "text": "Respiran de espacio", "icon": "person", "revealSec": 66.0 },
+          { "text": "Se mueven sin prisa", "icon": "link", "revealSec": 69.6 },
+          { "text": "Ocupan el espacio", "icon": "check", "revealSec": 72.9 }
+        ]
+      },
+      "notes": "Las tres señales corporales de la presencia real."
+    },
+    {
+      "id": "evt-08",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 75.6,
+      "endSec": 81.0,
+      "anchor": { "transcript": "Esto no es arrogancia, es arraigo.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "ESTO NO ES ARROGANCIA",
+        "text": "ES ARRAIGO",
+        "emphasis": ["ARRAIGO"]
+      },
+      "notes": "El reframe clave, presentadora en card."
+    },
+    {
+      "id": "evt-09",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 81.0,
+      "endSec": 91.6,
+      "anchor": { "transcript": "Puedes trabajar el físico, el dinero, la ropa. Pero si tu mente está en otro lado, todo lo demás no sirve de nada.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "list-strike",
+        "eyebrow": "PUEDES TRABAJAR TODO ESTO",
+        "items": [
+          { "text": "El físico", "negated": true, "icon": "x", "revealSec": 81.1 },
+          { "text": "El dinero", "negated": true, "icon": "x", "revealSec": 82.8 },
+          { "text": "La ropa", "negated": true, "icon": "x", "revealSec": 84.4 }
+        ]
+      },
+      "notes": "Nada de eso sirve si la mente está ausente."
+    },
+    {
+      "id": "evt-10",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 95.6,
+      "endSec": 105.5,
+      "anchor": { "transcript": "no es lo que dijiste, es cómo las hiciste sentir cuando las mirabas.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "NO ES LO QUE DIJISTE",
+        "text": "CÓMO LAS HICISTE SENTIR",
+        "emphasis": ["SENTIR"]
+      },
+      "notes": "La tesis final del video, presentadora en card."
+    },
+    {
+      "id": "evt-11",
+      "move": "SUBSCRIBE_CTA",
+      "tier": "conversion",
+      "startSec": 105.6,
+      "endSec": 118.8,
+      "anchor": { "transcript": "Si este video te hizo reflexionar, suscríbete y activa la campana.", "placement": "spoken", "shot": "talking-head" },
+      "position": "bottom-center",
+      "payload": { "label": "SUBSCRIBE", "bell": true, "clickSec": 107.2 },
+      "notes": "CTA de cierre anclado a 'suscríbete'; botón rojo YT + campana glass."
+    }
+  ]
+}
