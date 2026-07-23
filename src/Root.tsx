@@ -23,6 +23,8 @@ import {Gacrux4Edit} from './Gacrux4Edit';
 import {Gacrux5Edit} from './Gacrux5Edit';
 import {GacruxFinalEdit} from './GacruxFinalEdit';
 import {TestudoDemo} from './TestudoDemo';
+import {MemoriaEdit} from './MemoriaEdit';
+import {TOTAL_FRAMES} from './content/memoriaData';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -218,6 +220,14 @@ export const RemotionRoot: React.FC = () => {
         fps={25}
         width={1920}
         height={1080}
+      />
+      <Composition
+        id="MemoriaEdit"
+        component={MemoriaEdit}
+        durationInFrames={TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
       />
     </>
   );
