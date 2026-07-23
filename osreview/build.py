@@ -23,6 +23,7 @@ def head(title, desc, canonical):
     social = SITE.get("ad_social", "")
     social_tag = f'<script src="{social}" data-cfasync="false" async></script>' if social else ""
     verify = f'<meta name="google-site-verification" content="{SITE["google_verify"]}">' if SITE.get("google_verify") else ""
+    admaven_verify = f'<meta name="admaven-placement" content="{SITE["admaven_verify"]}">' if SITE.get("admaven_verify") else ""
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,6 +38,7 @@ def head(title, desc, canonical):
 <meta property="og:site_name" content="{SITE['name']}">
 <meta name="robots" content="index,follow">
 {verify}
+{admaven_verify}
 <link rel="stylesheet" href="/style.css">
 {social_tag}
 </head>
