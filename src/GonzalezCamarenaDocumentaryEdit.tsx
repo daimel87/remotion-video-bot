@@ -91,7 +91,7 @@ export const GonzalezCamarenaDocumentaryEdit: React.FC = () => {
         </Sequence>
       ))}
 
-      <HUD chapters={chapters} title="Guillermo González Camarena" />
+      <HUD chapters={chapters} title="El joven que creó la TV a color" />
       <Letterbox />
       <ProgressBar progress={frame / durationInFrames} />
       <Sequence from={0} durationInFrames={26}>

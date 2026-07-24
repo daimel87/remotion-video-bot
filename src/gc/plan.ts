@@ -4,12 +4,17 @@ import {photoVariants, videoVariants, hasPhoto, ARCHIVAL, archivalSrc} from './a
 
 // ============================================================
 // EL CEREBRO del documental "Un MEXICANO de 23 Años le Dio COLOR a tu TV"
-// (Guillermo González Camarena). Misma mecánica del CD/BlackBerry.
+// (Guillermo González Camarena). Misma mecánica del CD/BlackBerry, pero el
+// MINUTO 1 (cues 1-12) es un STORYBOARD explícito, verificado cuadro por
+// cuadro contra los clips reales, con cortes rápidos (estilo dinámico del
+// video de referencia): cada cue se parte en 2-3 planos cortos con zooms
+// punch, en vez de un solo plano lento. El resto del guion usa el pool
+// genérico de respaldo hasta auditarlo igual.
 //
-// >>> ESTADO: solo el MINUTO 1 (cues 1-12) está verificado cuadro por cuadro
-// contra contact-sheets reales de los clips de archivo. El resto del guion
-// usa un pool genérico de respaldo (topic 'context') hasta que se audite
-// igual de estricto al construir el documental completo. <<<
+// HALLAZGO CLAVE de la auditoría: los tres clips gc-* son cortes del MISMO
+// documental animado (Deyadira Medina Lara). Sus primeros ~12s son cine de
+// época que NO es GGC (aparece Cantinflas). Los segmentos que SÍ muestran a
+// González Camarena (retrato animado) están marcados abajo con @segundo.
 // ============================================================
 
 export type Motion = 'zoomIn' | 'zoomOut' | 'panLeft' | 'panRight' | 'punchIn';
@@ -26,107 +31,97 @@ export interface Overlay {
   label?: string; sub?: string;
 }
 
-// ---- Capítulos (arco narrativo; solo el I confirmado para el minuto 1) ----
+// Los textos se nudgean un pelín DESPUÉS del inicio de su cue para que caigan
+// CON la frase hablada y nunca antes (la transcripción marca el inicio del
+// segmento un poco antes de que arranque la voz).
+const TEXT_NUDGE = 0.35;
+
+// ---- Capítulos ----
 const CHAPTERS = [
   {num: 1, cue: 12, title: 'Guadalajara, 1917'},
 ];
 
 // ============================================================
-// DIRECTIVA palabra-por-palabra (cues 1-12, verificado cuadro por cuadro
-// contra contact-sheets de gc-documental / gc-canal5-xhgc / mexico-revolucion-1917):
-//   1: "viendo esto en color, rojo verde azul de tu pantalla" -> macro de píxeles reales
-//   2: "ese color no siempre estuvo ahí"                      -> espectro/prisma (nace el color)
-//   3: "alguien tuvo que inventarlo... imaginar"               -> taller de electrónica (inventor)
-//   4: "caja de vidrio" (la tele antigua)                      -> TV en blanco y negro real
-//   5: "no fue Nueva York... no fue Londres" (negación)        -> texto en pantalla, SIN metraje
-//                                                                  falso de esas ciudades (no tenemos)
-//   6: "un joven de Guadalajara, 23 años, con sus manos"       -> gc-documental (retrato de época)
-//   7: "país que apenas salía de una revolución"               -> mexico-revolucion-1917 (jinetes reales)
-//   8: "su invento tocó el mundo entero"                       -> torre de transmisión (alcance/señal)
-//   9: "esta es su historia..."                                -> TÍTULO del documental
-//   10: "el olvido que se lo tragó"                            -> archivo/documentos viejos
-//   11: "Todo empezó el 17 de..."                              -> prensa vieja (antesala del capítulo)
-//   12: "17 de febrero de 1917, Guadalajara... la revolución"  -> gc-documental (tarjeta "17 DE FEBRERO
-//                                                                  DE 1917" real) + mexico-revolucion-1917
-// ------------------------------------------------------------
-const TOPIC_RANGES: [number, number, string][] = [
-  [1, 1, 'pixels'],
-  [2, 2, 'spectrum'],
-  [3, 3, 'invent'],
-  [4, 4, 'oldtv'],
-  [5, 5, 'negation'],
-  [6, 6, 'ggc-bio'],
-  [7, 7, 'revolution'],
-  [8, 8, 'reach'],
-  [9, 9, 'title'],
-  [10, 10, 'archive'],
-  [11, 11, 'press'],
-  [12, 12, 'chapter1'],
-];
-const topicFor = (i: number): string => {
-  for (const [a, b, t] of TOPIC_RANGES) if (i >= a && i <= b) return t;
-  return 'context'; // resto del guion: pool genérico de respaldo hasta auditar el video completo
+// STORYBOARD del MINUTO 1 — cada cue -> lista de planos cortos.
+// Token de plano:
+//   'a:ID@S'    clip de ARCHIVO ID, inicio FIJO en el segundo S (inicio verificado)
+//   'v:base'    video de stock (elige variante sin repetir)
+//   'img:base-n' foto puntual
+//   'base'      fotos de esa base (elige variante sin repetir)
+// motion por plano; si se omite, alterna punch/zoom para dar energía.
+// ============================================================
+type SB = {t: string; m?: Motion; w?: number};
+const STORYBOARD: Record<number, SB[]> = {
+  // 1 (0-5): "estás viendo esto en color, el rojo el verde el azul de tu pantalla"
+  1:  [{t: 'v:rgb-pixels-macro', m: 'punchIn'}, {t: 'color-spectrum-prism', m: 'zoomIn'}],
+  // 2 (5-9): "ese color no siempre estuvo ahí" -> del color al B/N
+  2:  [{t: 'v:color-spectrum-prism', m: 'panRight'}, {t: 'old-black-white-tv', m: 'zoomIn'}],
+  // 3 (9-14): "alguien tuvo que inventarlo... imaginar cómo meter todos los colores"
+  3:  [{t: 'v:engineer-workshop', m: 'punchIn'}, {t: 'vintage-radio-parts', m: 'zoomIn'}],
+  // 4 (14-18): "dentro de una caja de vidrio. no fue una gran corporación en Nueva York"
+  4:  [{t: 'old-black-white-tv', m: 'zoomIn'}, {t: 'v:vintage-tv-workshop', m: 'panRight'}],
+  // 5 (18-23): "no fue un laboratorio millonario en Londres" -> FULLTEXT sobre fondo calmo
+  5:  [{t: 'v:engineer-workshop', m: 'zoomIn'}],
+  // 6 (23-28): "fue un joven de Guadalajara, 23 años, con sus propias manos" -> GGC REAL
+  6:  [{t: 'a:gc-historia-tv-color@18', m: 'zoomIn'}, {t: 'a:gc-historia-tv-color@62', m: 'punchIn'}],
+  // 7 (28-33): "un país que apenas salía de una revolución" -> Revolución mexicana REAL
+  7:  [{t: 'a:mexico-revolucion-1917@2', m: 'panRight'}, {t: 'a:mexico-revolucion-1917@10.5', m: 'panLeft'}],
+  // 8 (33-38): "su invento tocó el mundo entero" -> GGC en la TV + alcance/señal
+  8:  [{t: 'a:gc-historia-tv-color@66', m: 'zoomIn'}, {t: 'v:broadcast-tower', m: 'panRight'}],
+  // 9 (38-42): "esta es su historia, el muchacho que le dio color a la televisión" -> TÍTULO
+  9:  [{t: 'a:gc-historia-tv-color@63', m: 'zoomIn'}],
+  // 10 (42-47): "y del olvido que se lo tragó" -> GGC se desvanece + archivos
+  10: [{t: 'a:gc-historia-tv-color@74', m: 'zoomIn'}, {t: 'old-office-files', m: 'zoomOut'}],
+  // 11 (47-52): "todo empezó el 17 de..." -> antesala documental
+  11: [{t: 'patent-document', m: 'panRight'}, {t: 'old-office-files', m: 'zoomIn'}],
+  // 12 (52-58): "17 de febrero de 1917, Guadalajara... la revolución" -> fecha REAL + Revolución
+  12: [{t: 'a:gc-documental@13.5', m: 'zoomIn'}, {t: 'a:mexico-revolucion-1917@9', m: 'panRight'}],
 };
 
-// ---- POOLS por tema. Tokens: 'a:ID' archivo real, 'v:base' video de stock,
-// 'img:base-n' foto puntual, 'base' = todas las fotos de esa base. ----
-const POOLS: Record<string, string[]> = {
-  'pixels':     ['v:rgb-pixels-macro', 'rgb-pixels-macro'],
-  'spectrum':   ['v:color-spectrum-prism', 'color-spectrum-prism'],
-  'invent':     ['v:engineer-workshop', 'engineer-workshop', 'vintage-radio-parts', 'tube-radio'],
-  'oldtv':      ['old-black-white-tv', 'v:vintage-tv-workshop'],
-  'negation':   ['old-office-files', 'patent-document'], // fondo neutro bajo el texto de negación
-  'ggc-bio':    ['a:gc-documental'],
-  'revolution': ['a:mexico-revolucion-1917'],
-  'reach':      ['v:broadcast-tower', 'broadcast-tower'],
-  'title':      ['v:vintage-tv-workshop', 'old-black-white-tv'],
-  // 'old-newspaper' se descarta: los recortes de Pexels traen titulares reales en
-  // alemán/turco (WWII, Estambul) — fuera de contexto para una historia mexicana.
-  'archive':    ['old-office-files'],
-  'press':      ['old-office-files', 'patent-document'],
-  'chapter1':   ['a:gc-documental', 'a:mexico-revolucion-1917'],
-  // ---- respaldo genérico para el resto del guion (sin verificar aún) ----
-  // 'old-newspaper' fuera del pool (titulares reales en alemán/turco, ver arriba).
-  'context':    ['patent-document', 'old-office-files', 'v:broadcast-tower', 'university-engineering'],
-};
-const poolFor = (topic: string) => POOLS[topic] ?? ['patent-document'];
-
-// ---- Clips de ARCHIVO forzados por cue (ocupan todo el cue) ----
-const ARCHIVAL_BY_CUE: Record<number, string> = {
-  6: 'gc-documental',
-  7: 'mexico-revolucion-1917',
-  12: 'gc-documental', // el segundo shot del cue 12 fuerza mexico-revolucion-1917 (ver buildPlan)
-};
-
-// ---- VENTANAS BUENAS por clip (verificado cuadro por cuadro con contact-sheets) ----
+// ---- Ventanas buenas (para los cues NO cubiertos por el storyboard, y como
+// respaldo). Verificadas cuadro por cuadro. ----
 const WINDOWS: Record<string, [number, number][]> = {
-  // gc-documental: 0-10 retrato/foto de época en B/N (biografía); 13-19 tarjeta real
-  // "17 DE FEBRERO DE 1917". Evita 25+ (motion graphics genéricos sin verificar aún).
-  'gc-documental': [[1, 10], [13, 19]],
-  // jinetes/tropas/soldados reales de la Revolución (verificado 1-15, con un
-  // hueco ~7-9s: vitrina/tienda que NO es de la Revolución, evitado a mano en
-  // el cue 12 con un startFrom fijo — ver buildPlan). Evita 17-21 (aviones
-  // biplano de la Primera Guerra Mundial, b-roll genérico no-mexicano) y 23+
-  // (tarjeta "THE GREAT WAR" del canal, rompe la ilusión documental).
-  'mexico-revolucion-1917': [[1, 15.5]],
+  'gc-documental': [[13, 16], [18, 21]],
+  'gc-historia-tv-color': [[18, 21], [62, 65], [66, 72], [74, 76]],
+  'mexico-revolucion-1917': [[1, 6.5], [9, 15]],
 };
 
-// ---- Fechas / capítulo ----
 const DATES: Record<number, string> = {12: '1917'};
 
-// ---- Texto a pantalla completa ----
 const FULLTEXT: Record<number, {text: string; accent?: Accent}> = {
   5: {text: 'No fue Nueva York.\nNo fue Londres.', accent: 'amber'},
 };
 
-// ---- Fuente citada bajo material de archivo real ----
 const SOURCE: Record<number, {label: string; sub?: string}> = {
   12: {label: 'Documental biográfico', sub: 'Deyadira Medina Lara · Archivo Revolución Mexicana'},
 };
 
-const cutMotions: Motion[] = ['punchIn', 'zoomIn', 'panRight', 'zoomOut'];
+// ---- Pool genérico de respaldo para cues 13+ (sin auditar aún) ----
+const CONTEXT_POOL = ['patent-document', 'old-office-files', 'v:broadcast-tower', 'university-engineering'];
 
-type Cand = {src: string; video: boolean; base: string; archId?: string};
+const cutMotions: Motion[] = ['punchIn', 'zoomIn', 'panRight', 'zoomOut', 'panLeft'];
+
+type Cand = {src: string; video: boolean; base: string; archId?: string; fixedStart?: number};
+// resuelve UN token de plano a un candidato concreto (para storyboard).
+const resolveToken = (t: string, pickVariant: (cands: Cand[]) => Cand): Cand => {
+  const at = t.indexOf('@');
+  if (t.startsWith('a:')) {
+    const body = t.slice(2);
+    const [id, s] = at >= 0 ? [body.slice(0, body.indexOf('@')), parseFloat(body.slice(body.indexOf('@') + 1))] : [body, undefined];
+    return {src: archivalSrc(id), video: true, base: 'a:' + id, archId: id, fixedStart: s};
+  }
+  if (t.startsWith('v:')) {
+    const base = t.slice(2);
+    return pickVariant(videoVariants(base).map((src) => ({src, video: true, base})));
+  }
+  if (t.startsWith('img:')) {
+    const name = t.slice(4);
+    const base = name.replace(/-\d+$/, '');
+    return {src: staticFile(`stock-gc/photos/${name}.jpg`), video: false, base};
+  }
+  return pickVariant(photoVariants(t).map((src) => ({src, video: false, base: t})));
+};
+
 const candidatesFor = (pool: string[]): Cand[] => {
   const out: Cand[] = [];
   for (const token of pool) {
@@ -136,10 +131,6 @@ const candidatesFor = (pool: string[]): Cand[] => {
     } else if (token.startsWith('v:')) {
       const base = token.slice(2);
       for (const src of videoVariants(base)) out.push({src, video: true, base});
-    } else if (token.startsWith('img:')) {
-      const name = token.slice(4);
-      const base = name.replace(/-\d+$/, '');
-      out.push({src: staticFile(`stock-gc/photos/${name}.jpg`), video: false, base});
     } else {
       for (const src of photoVariants(token)) out.push({src, video: false, base: token});
     }
@@ -154,32 +145,26 @@ export const buildPlan = (fps: number, total: number) => {
   let shotSeed = 0;
 
   const useCount: Record<string, number> = {};
-  const baseCount: Record<string, number> = {};
   const recentBase: string[] = [];
   const lastEndFrame: Record<string, number> = {};
-  const MIN_SEP = Math.round(45 * fps);
   const recordUse = (src: string, base: string, from: number, dur: number) => {
     useCount[src] = (useCount[src] ?? 0) + 1;
-    baseCount[base] = (baseCount[base] ?? 0) + 1;
     lastEndFrame[src] = from + dur;
-    recentBase.push(base); if (recentBase.length > 14) recentBase.shift();
+    recentBase.push(base); if (recentBase.length > 12) recentBase.shift();
   };
-  const pickBest = (cands: Cand[], nowFrame: number): Cand => {
+  const pickVariant = (cands: Cand[]): Cand => {
+    if (cands.length === 0) return {src: staticFile('stock-gc/photos/patent-document-1.jpg'), video: false, base: 'patent-document'};
     let best = cands[0]; let bestScore = Infinity;
     for (let k = 0; k < cands.length; k++) {
       const c = cands[k];
       const tie = ((k * 2654435761) % 997) / 997;
-      const idxInBase = recentBase.lastIndexOf(c.base);
-      const baseRecency = idxInBase === -1 ? 0 : 4000 - (recentBase.length - 1 - idxInBase) * 260;
-      const lastEnd = lastEndFrame[c.src];
-      const elapsed = lastEnd === undefined ? MIN_SEP : nowFrame - lastEnd;
-      const sepPenalty = elapsed >= MIN_SEP ? 0 : 500000 * (1 - elapsed / MIN_SEP);
-      const score = sepPenalty + baseRecency + (baseCount[c.base] ?? 0) * 40 + (useCount[c.src] ?? 0) * 8 + tie;
+      const score = (useCount[c.src] ?? 0) * 100 + tie;
       if (score < bestScore) {bestScore = score; best = c;}
     }
     return best;
   };
 
+  // avance por ventanas buenas (para archival del pool sin inicio fijo)
   const archCursor: Record<string, number> = {};
   const nextArchStart = (id: string, durSecs: number): number => {
     const meta = ARCHIVAL[id] ?? {dur: 30, start: 1};
@@ -190,67 +175,68 @@ export const buildPlan = (fps: number, total: number) => {
     let acc = 0, startSec = segs[0][0];
     for (const [a, b] of segs) {
       const len = b - a;
-      if (cursor < acc + len) {
-        let s = a + (cursor - acc);
-        const maxS = Math.max(a, b - durSecs);
-        if (s > maxS) s = maxS;
-        startSec = s; break;
-      }
+      if (cursor < acc + len) {let s = a + (cursor - acc); const maxS = Math.max(a, b - durSecs); if (s > maxS) s = maxS; startSec = s; break;}
       acc += len;
     }
     archCursor[id] = (archCursor[id] ?? 0) + Math.max(durSecs, 1.6);
     return Math.max(0, Math.round(startSec * fps));
   };
+
   const chapterByCue = new Map(CHAPTERS.map((c) => [c.cue, c]));
+
+  const pushShot = (from: number, dur: number, c: Cand, motion: Motion, signalCut?: boolean) => {
+    const startFrom = c.archId
+      ? (c.fixedStart !== undefined ? Math.round(c.fixedStart * fps) : nextArchStart(c.archId, dur / fps))
+      : undefined;
+    shots.push({from, dur, base: c.base, seed: shotSeed++, src: c.src, video: c.video, motion, archival: !!c.archId, startFrom, signalCut});
+    recordUse(c.src, c.base, from, dur);
+  };
 
   cues.forEach((c, idx) => {
     const from = Math.round(c.start * fps);
     const to = idx < cues.length - 1 ? Math.round(cues[idx + 1].start * fps) : total;
     const dur = Math.max(1, to - from);
-    const special = !!FULLTEXT[c.i];
-    const archId = ARCHIVAL_BY_CUE[c.i];
-    const shotPool = poolFor(topicFor(c.i));
 
-    if (c.i === 12) {
-      // dos planos reales dentro del mismo cue: la tarjeta "17 DE FEBRERO DE 1917"
-      // del documental (fijo, NO por el cursor compartido: esa fecha exacta debe
-      // verse aquí, no en cualquier punto de la ventana [13,19]), seguida de
-      // metraje real de la Revolución Mexicana.
-      const d1 = Math.round(dur * 0.42);
-      const d2 = dur - d1;
-      shots.push({from, dur: d1, base: 'a:gc-documental', seed: shotSeed++, src: archivalSrc('gc-documental'), video: true, motion: 'zoomIn', archival: true, startFrom: Math.round(14 * fps), signalCut: true});
-      recordUse(archivalSrc('gc-documental'), 'a:gc-documental', from, d1);
-      // fijo en 9s (soldados marchando, verificado): a los ~7-9s del clip hay un
-      // corte breve a una vitrina/tienda que NO es de la Revolución — se evita
-      // por completo en vez de dejar que el cursor compartido caiga ahí.
-      shots.push({from: from + d1, dur: d2, base: 'a:mexico-revolucion-1917', seed: shotSeed++, src: archivalSrc('mexico-revolucion-1917'), video: true, motion: 'panRight', archival: true, startFrom: Math.round(9 * fps)});
-      recordUse(archivalSrc('mexico-revolucion-1917'), 'a:mexico-revolucion-1917', from + d1, d2);
-    } else if (archId && !special) {
-      const fsrc = archivalSrc(archId);
-      shots.push({from, dur, base: 'a:' + archId, seed: shotSeed++, src: fsrc, video: true, motion: 'zoomIn', startFrom: nextArchStart(archId, dur / fps), archival: true});
-      recordUse(fsrc, 'a:' + archId, from, dur);
-    } else if (special) {
-      const pick = pickBest(candidatesFor(shotPool), from);
-      const isArch = !!pick.archId;
-      shots.push({from, dur, base: pick.base, seed: shotSeed++, src: pick.src, video: pick.video, motion: 'zoomIn', archival: isArch, startFrom: isArch ? nextArchStart(pick.archId!, dur / fps) : undefined});
-      recordUse(pick.src, pick.base, from, dur);
+    const sb = STORYBOARD[c.i];
+    if (sb) {
+      // reparte el cue entre los planos del storyboard (según peso w, default 1)
+      const totalW = sb.reduce((s, p) => s + (p.w ?? 1), 0);
+      let acc = 0;
+      sb.forEach((p, k) => {
+        const w = p.w ?? 1;
+        const sFrom = from + Math.round((acc / totalW) * dur);
+        const sTo = from + Math.round(((acc + w) / totalW) * dur);
+        acc += w;
+        const sdur = Math.max(1, sTo - sFrom);
+        const cand = resolveToken(p.t, pickVariant);
+        const motion = p.m ?? cutMotions[(idx + k) % cutMotions.length];
+        // signalCut solo en el primer plano del cue del capítulo (corte de señal)
+        const sc = c.i === 12 && k === 0;
+        pushShot(sFrom, sdur, cand, motion, sc);
+      });
     } else {
-      const cands = candidatesFor(shotPool);
-      const pick = pickBest(cands, from);
-      const isArch = !!pick.archId;
-      shots.push({from, dur, base: pick.base, seed: shotSeed++, src: pick.src, video: pick.video, motion: isArch ? 'zoomIn' : cutMotions[idx % cutMotions.length], archival: isArch, startFrom: isArch ? nextArchStart(pick.archId!, dur / fps) : undefined});
-      recordUse(pick.src, pick.base, from, dur);
+      // pool genérico de respaldo, subdividido para no quedar lento
+      const cands = candidatesFor(CONTEXT_POOL);
+      const target = 4.0 * fps;
+      const n = Math.max(1, Math.round(dur / target));
+      for (let k = 0; k < n; k++) {
+        const sFrom = from + Math.round((k * dur) / n);
+        const sTo = from + Math.round(((k + 1) * dur) / n);
+        const cand = pickVariant(cands);
+        pushShot(sFrom, Math.max(1, sTo - sFrom), cand, cutMotions[(idx + k) % cutMotions.length]);
+      }
     }
 
-    // ---- Overlays ----
+    // ---- Overlays (nudgeados para caer CON la frase) ----
     if (chapterByCue.has(c.i)) {
       const ch = chapterByCue.get(c.i)!;
-      overlays.push({from, dur: Math.round(fps * 2.4), kind: 'chapter', num: ch.num, text: ch.title});
+      // "Guadalajara" se dice a mitad del cue 12 -> ancla ahí
+      overlays.push({from, dur: Math.round(fps * 2.6), delay: 0.9, kind: 'chapter', num: ch.num, text: ch.title});
     }
-    if (c.i === 9) overlays.push({from, dur: Math.round(fps * 4.6), delay: 0.3, kind: 'title', pre: 'la historia de', text: 'Guillermo González Camarena'});
-    if (DATES[c.i]) overlays.push({from, dur: Math.round(fps * 2.4), delay: (dur / fps) * 0.42, kind: 'date', text: DATES[c.i]});
-    if (FULLTEXT[c.i]) overlays.push({from, dur: Math.min(dur, Math.round(fps * 3.6)), kind: 'fulltext', text: FULLTEXT[c.i].text, accent: FULLTEXT[c.i].accent});
-    if (SOURCE[c.i]) overlays.push({from, dur: Math.round(fps * 3.4), delay: 0.3, kind: 'source', label: SOURCE[c.i].label, sub: SOURCE[c.i].sub});
+    if (c.i === 9) overlays.push({from, dur: Math.round(fps * 4.2), delay: TEXT_NUDGE, kind: 'title', pre: 'la historia de', text: 'Guillermo González Camarena'});
+    if (DATES[c.i]) overlays.push({from, dur: Math.round(fps * 2.4), delay: 0.5, kind: 'date', text: DATES[c.i]});
+    if (FULLTEXT[c.i]) overlays.push({from, dur: Math.min(dur, Math.round(fps * 3.6)), delay: TEXT_NUDGE, kind: 'fulltext', text: FULLTEXT[c.i].text, accent: FULLTEXT[c.i].accent});
+    if (SOURCE[c.i]) overlays.push({from, dur: Math.round(fps * 3.2), delay: 0.6, kind: 'source', label: SOURCE[c.i].label, sub: SOURCE[c.i].sub});
   });
 
   const cueFrom = (i: number) => Math.round((cues.find((c) => c.i === i)?.start ?? 0) * fps);
@@ -262,9 +248,10 @@ export const buildPlan = (fps: number, total: number) => {
 };
 
 const HUE: Record<string, number> = {
-  'pixels': 200, 'spectrum': 280, 'invent': 40, 'oldtv': 210, 'negation': 30,
-  'ggc-bio': 35, 'revolution': 25, 'reach': 195, 'title': 210, 'archive': 40,
-  'press': 45, 'chapter1': 30, 'context': 205,
+  'a:gc-documental': 35, 'a:gc-historia-tv-color': 35, 'a:mexico-revolucion-1917': 25,
+  'rgb-pixels-macro': 200, 'color-spectrum-prism': 280, 'engineer-workshop': 40,
+  'old-black-white-tv': 210, 'vintage-radio-parts': 40, 'vintage-tv-workshop': 210,
+  'broadcast-tower': 195, 'patent-document': 45, 'old-office-files': 40, 'university-engineering': 205,
 };
 export const hueFor = (base: string) => HUE[base] ?? 205;
 export {hasPhoto};
