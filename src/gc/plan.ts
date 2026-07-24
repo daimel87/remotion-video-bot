@@ -50,7 +50,7 @@ const CHAPTERS = [
 //   'base'      fotos de esa base (elige variante sin repetir)
 // motion por plano; si se omite, alterna punch/zoom para dar energía.
 // ============================================================
-type SB = {t: string; m?: Motion; w?: number};
+type SB = {t: string; m?: Motion; w?: number; sc?: boolean};
 const STORYBOARD: Record<number, SB[]> = {
   // 1 (0-5): "estás viendo esto en color, el rojo el verde el azul de tu pantalla"
   1:  [{t: 'v:rgb-pixels-macro', m: 'punchIn'}, {t: 'color-spectrum-prism', m: 'zoomIn'}],
@@ -72,11 +72,12 @@ const STORYBOARD: Record<number, SB[]> = {
   // 9 (38-42): "esta es su historia, el muchacho que le dio color a la televisión" -> TÍTULO
   9:  [{t: 'a:gc-historia-tv-color@63', m: 'zoomIn'}],
   // 10 (42-47): "y del olvido que se lo tragó. Quédate hasta el final porque lo que le pasó"
-  //   GGC se desvanece (olvido) -> asoma el TEASER de la patente (gancho de "quédate").
-  10: [{t: 'a:gc-historia-tv-color@74', m: 'zoomIn'}, {t: 'c:patent'}],
-  // 11 (47-52): "dice más sobre la justicia que cualquier libro" -> TEASER de la patente
-  11: [{t: 'c:patent'}],
-  // 12 (52-58): "17 de febrero de 1917, Guadalajara... la revolución" -> fecha REAL + Revolución
+  //   TEASER de la patente (gancho de "quédate hasta el final"), UNA sola vez y largo.
+  10: [{t: 'c:patent'}],
+  // 11 (47-52): "dice más sobre la justicia que cualquier libro. Todo empezó el 17 de"
+  //   el hombre (justicia) -> y AL DECIR "todo empezó el 17 de" entra la tarjeta 17-feb.
+  11: [{t: 'a:gc-historia-tv-color@62', m: 'zoomIn', w: 1.5}, {t: 'a:gc-documental@13.5', m: 'zoomIn', sc: true}],
+  // 12 (52-58): "febrero de 1917, Guadalajara... la revolución" -> tarjeta continúa + Revolución
   12: [{t: 'a:gc-documental@13.5', m: 'zoomIn'}, {t: 'a:mexico-revolucion-1917@9', m: 'panRight'}],
   // 13 (58-64): "la revolución acababa de terminar, el país estaba roto, pobre" -> secuelas reales
   //   @6 = auto destruido (país roto); @13 = soldados. Evita 7.2-8.8 (una vitrina de
@@ -225,9 +226,8 @@ export const buildPlan = (fps: number, total: number) => {
         const sdur = Math.max(1, sTo - sFrom);
         const cand = resolveToken(p.t, pickVariant);
         const motion = p.m ?? cutMotions[(idx + k) % cutMotions.length];
-        // signalCut solo en el primer plano del cue del capítulo (corte de señal)
-        const sc = c.i === 12 && k === 0;
-        pushShot(sFrom, sdur, cand, motion, sc);
+        // signalCut (corte de estática de TV) donde el storyboard lo pida
+        pushShot(sFrom, sdur, cand, motion, !!p.sc);
       });
     } else {
       // pool genérico de respaldo, subdividido para no quedar lento
@@ -249,7 +249,7 @@ export const buildPlan = (fps: number, total: number) => {
       overlays.push({from, dur: Math.round(fps * 2.6), delay: 0.9, kind: 'chapter', num: ch.num, text: ch.title});
     }
     if (c.i === 9) overlays.push({from, dur: Math.round(fps * 4.2), delay: TEXT_NUDGE, kind: 'title', pre: 'la historia de', text: 'Guillermo González Camarena'});
-    if (DATES[c.i]) overlays.push({from, dur: Math.round(fps * 2.4), delay: 0.5, kind: 'date', text: DATES[c.i]});
+    // (sin DateStamp "1917": la tarjeta de archivo ya muestra "17 DE FEBRERO DE 1917")
     if (FULLTEXT[c.i]) overlays.push({from, dur: Math.min(dur, Math.round(fps * 3.6)), delay: TEXT_NUDGE, kind: 'fulltext', text: FULLTEXT[c.i].text, accent: FULLTEXT[c.i].accent});
     if (SOURCE[c.i]) overlays.push({from, dur: Math.round(fps * 3.2), delay: 0.6, kind: 'source', label: SOURCE[c.i].label, sub: SOURCE[c.i].sub});
   });
