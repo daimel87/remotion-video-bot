@@ -102,9 +102,11 @@ const WINDOWS: Record<string, [number, number][]> = {
   // gc-documental: 0-10 retrato/foto de época en B/N (biografía); 13-19 tarjeta real
   // "17 DE FEBRERO DE 1917". Evita 25+ (motion graphics genéricos sin verificar aún).
   'gc-documental': [[1, 10], [13, 19]],
-  // jinetes/tropas/soldados reales de la Revolución (verificado 1-15). Evita 17-21
-  // (aviones biplano de la Primera Guerra Mundial, video genérico no-mexicano) y
-  // 23+ (tarjeta "THE GREAT WAR" del canal, rompe la ilusión documental).
+  // jinetes/tropas/soldados reales de la Revolución (verificado 1-15, con un
+  // hueco ~7-9s: vitrina/tienda que NO es de la Revolución, evitado a mano en
+  // el cue 12 con un startFrom fijo — ver buildPlan). Evita 17-21 (aviones
+  // biplano de la Primera Guerra Mundial, b-roll genérico no-mexicano) y 23+
+  // (tarjeta "THE GREAT WAR" del canal, rompe la ilusión documental).
   'mexico-revolucion-1917': [[1, 15.5]],
 };
 
@@ -217,7 +219,10 @@ export const buildPlan = (fps: number, total: number) => {
       const d2 = dur - d1;
       shots.push({from, dur: d1, base: 'a:gc-documental', seed: shotSeed++, src: archivalSrc('gc-documental'), video: true, motion: 'zoomIn', archival: true, startFrom: Math.round(14 * fps), signalCut: true});
       recordUse(archivalSrc('gc-documental'), 'a:gc-documental', from, d1);
-      shots.push({from: from + d1, dur: d2, base: 'a:mexico-revolucion-1917', seed: shotSeed++, src: archivalSrc('mexico-revolucion-1917'), video: true, motion: 'panRight', archival: true, startFrom: nextArchStart('mexico-revolucion-1917', d2 / fps)});
+      // fijo en 9s (soldados marchando, verificado): a los ~7-9s del clip hay un
+      // corte breve a una vitrina/tienda que NO es de la Revolución — se evita
+      // por completo en vez de dejar que el cursor compartido caiga ahí.
+      shots.push({from: from + d1, dur: d2, base: 'a:mexico-revolucion-1917', seed: shotSeed++, src: archivalSrc('mexico-revolucion-1917'), video: true, motion: 'panRight', archival: true, startFrom: Math.round(9 * fps)});
       recordUse(archivalSrc('mexico-revolucion-1917'), 'a:mexico-revolucion-1917', from + d1, d2);
     } else if (archId && !special) {
       const fsrc = archivalSrc(archId);
