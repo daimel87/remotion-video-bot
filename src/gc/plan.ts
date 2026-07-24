@@ -71,12 +71,9 @@ const STORYBOARD: Record<number, SB[]> = {
   8:  [{t: 'a:gc-historia-tv-color@66', m: 'zoomIn'}, {t: 'v:broadcast-tower', m: 'panRight'}],
   // 9 (38-42): "esta es su historia, el muchacho que le dio color a la televisión" -> TÍTULO
   9:  [{t: 'a:gc-historia-tv-color@63', m: 'zoomIn'}],
-  // 10 (42-47): "y del olvido que se lo tragó. Quédate hasta el final porque lo que le pasó"
-  //   TEASER de la patente (gancho de "quédate hasta el final"), UNA sola vez y largo.
-  10: [{t: 'c:patent'}],
-  // 11 (47-52): "dice más sobre la justicia que cualquier libro. Todo empezó el 17 de"
-  //   el hombre (justicia) -> y AL DECIR "todo empezó el 17 de" entra la tarjeta 17-feb.
-  11: [{t: 'a:gc-historia-tv-color@62', m: 'zoomIn', w: 1.5}, {t: 'a:gc-documental@13.5', m: 'zoomIn', sc: true}],
+  // cues 10-11 se manejan con TIEMPOS ABSOLUTOS (ver buildPlan): la patente es un
+  //   solo plano continuo que cruza el límite 10->11, visible EXACTAMENTE durante
+  //   "lo que le pasó a este hombre... dice más sobre la justicia que cualquier libro".
   // 12 (52-58): "febrero de 1917, Guadalajara... la revolución" -> tarjeta continúa + Revolución
   12: [{t: 'a:gc-documental@13.5', m: 'zoomIn'}, {t: 'a:mexico-revolucion-1917@9', m: 'panRight'}],
   // 13 (58-64): "la revolución acababa de terminar, el país estaba roto, pobre" -> secuelas reales
@@ -212,6 +209,24 @@ export const buildPlan = (fps: number, total: number) => {
     const from = Math.round(c.start * fps);
     const to = idx < cues.length - 1 ? Math.round(cues[idx + 1].start * fps) : total;
     const dur = Math.max(1, to - from);
+
+    // ---- CASO ESPECIAL (minuto 1): bloque "olvido -> patente -> tarjeta 17-feb"
+    // con TIEMPOS ABSOLUTOS, porque la patente debe ser UN plano continuo que
+    // cruza el límite del cue 10 al 11.
+    //   42.48-45.4  GGC se desvanece ("y del olvido... quédate hasta el final")
+    //   45.4-50.4   PATENTE ("lo que le pasó a este hombre... cualquier libro")
+    //   50.4-51.92  tarjeta "17 DE FEBRERO DE 1917" ("Todo empezó el 17 de")
+    const PATENT_START = Math.round(45.4 * fps);
+    const PATENT_END = Math.round(50.4 * fps);
+    if (c.i === 10) {
+      pushShot(from, PATENT_START - from, resolveToken('a:gc-historia-tv-color@74', pickVariant), 'zoomIn');
+      pushShot(PATENT_START, PATENT_END - PATENT_START, {src: '', video: false, base: 'c:patent', component: 'patent'}, 'zoomIn');
+      return;
+    }
+    if (c.i === 11) {
+      pushShot(PATENT_END, to - PATENT_END, resolveToken('a:gc-documental@13.5', pickVariant), 'zoomIn', true);
+      return;
+    }
 
     const sb = STORYBOARD[c.i];
     if (sb) {
