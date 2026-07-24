@@ -86,7 +86,8 @@ const POOLS: Record<string, string[]> = {
   'press':      ['old-office-files', 'patent-document'],
   'chapter1':   ['a:gc-documental', 'a:mexico-revolucion-1917'],
   // ---- respaldo genérico para el resto del guion (sin verificar aún) ----
-  'context':    ['patent-document', 'old-newspaper', 'v:broadcast-tower', 'university-engineering'],
+  // 'old-newspaper' fuera del pool (titulares reales en alemán/turco, ver arriba).
+  'context':    ['patent-document', 'old-office-files', 'v:broadcast-tower', 'university-engineering'],
 };
 const poolFor = (topic: string) => POOLS[topic] ?? ['patent-document'];
 
