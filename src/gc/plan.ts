@@ -21,7 +21,7 @@ export type Motion = 'zoomIn' | 'zoomOut' | 'panLeft' | 'panRight' | 'punchIn';
 export type Accent = 'amber' | 'teal' | 'red' | 'paper';
 
 export interface StatDef {value?: number; display?: string; prefix?: string; suffix?: string; label?: string; decimals?: number; format?: 'plain' | 'comma'; accent?: Accent;}
-export interface Shot {from: number; dur: number; base: string; seed: number; motion: Motion; src?: string; video?: boolean; archival?: boolean; startFrom?: number; signalCut?: boolean;}
+export interface Shot {from: number; dur: number; base: string; seed: number; motion: Motion; src?: string; video?: boolean; archival?: boolean; startFrom?: number; signalCut?: boolean; component?: 'patent';}
 export interface Overlay {
   from: number; dur: number; delay?: number;
   kind: 'title' | 'chapter' | 'date' | 'fulltext' | 'stat' | 'newspaper' | 'quote' | 'definition' | 'name' | 'source';
@@ -64,18 +64,22 @@ const STORYBOARD: Record<number, SB[]> = {
   5:  [{t: 'v:engineer-workshop', m: 'zoomIn'}],
   // 6 (23-28): "fue un joven de Guadalajara, 23 años, con sus propias manos" -> GGC REAL
   6:  [{t: 'a:gc-historia-tv-color@18', m: 'zoomIn'}, {t: 'a:gc-historia-tv-color@62', m: 'punchIn'}],
-  // 7 (28-33): "un país que apenas salía de una revolución" -> Revolución mexicana REAL
-  7:  [{t: 'a:mexico-revolucion-1917@2', m: 'panRight'}, {t: 'a:mexico-revolucion-1917@10.5', m: 'panLeft'}],
-  // 8 (33-38): "su invento tocó el mundo entero" -> GGC en la TV + alcance/señal
+  // 7 (28-33): "un país que salía de una revolución. Su nombre era Guillermo González"
+  //   REGLA: cuando se dice el NOMBRE, sale GGC -> revolución primero, retrato al decir el nombre.
+  7:  [{t: 'a:mexico-revolucion-1917@2', m: 'panRight'}, {t: 'a:gc-historia-tv-color@18', m: 'zoomIn'}],
+  // 8 (33-38): "Camarena y aunque su invento tocó el mundo entero" -> GGC en la TV + alcance
   8:  [{t: 'a:gc-historia-tv-color@66', m: 'zoomIn'}, {t: 'v:broadcast-tower', m: 'panRight'}],
   // 9 (38-42): "esta es su historia, el muchacho que le dio color a la televisión" -> TÍTULO
   9:  [{t: 'a:gc-historia-tv-color@63', m: 'zoomIn'}],
-  // 10 (42-47): "y del olvido que se lo tragó" -> GGC se desvanece + archivos
-  10: [{t: 'a:gc-historia-tv-color@74', m: 'zoomIn'}, {t: 'old-office-files', m: 'zoomOut'}],
-  // 11 (47-52): "todo empezó el 17 de..." -> antesala documental
-  11: [{t: 'patent-document', m: 'panRight'}, {t: 'old-office-files', m: 'zoomIn'}],
+  // 10 (42-47): "y del olvido que se lo tragó. Quédate hasta el final porque lo que le pasó"
+  //   GGC se desvanece (olvido) -> asoma el TEASER de la patente (gancho de "quédate").
+  10: [{t: 'a:gc-historia-tv-color@74', m: 'zoomIn'}, {t: 'c:patent'}],
+  // 11 (47-52): "dice más sobre la justicia que cualquier libro" -> TEASER de la patente
+  11: [{t: 'c:patent'}],
   // 12 (52-58): "17 de febrero de 1917, Guadalajara... la revolución" -> fecha REAL + Revolución
   12: [{t: 'a:gc-documental@13.5', m: 'zoomIn'}, {t: 'a:mexico-revolucion-1917@9', m: 'panRight'}],
+  // 13 (58-64): "la revolución acababa de terminar, el país estaba roto, pobre" -> secuelas reales
+  13: [{t: 'a:mexico-revolucion-1917@7', m: 'zoomIn'}, {t: 'a:mexico-revolucion-1917@13', m: 'panLeft'}],
 };
 
 // ---- Ventanas buenas (para los cues NO cubiertos por el storyboard, y como
@@ -83,7 +87,8 @@ const STORYBOARD: Record<number, SB[]> = {
 const WINDOWS: Record<string, [number, number][]> = {
   'gc-documental': [[13, 16], [18, 21]],
   'gc-historia-tv-color': [[18, 21], [62, 65], [66, 72], [74, 76]],
-  'mexico-revolucion-1917': [[1, 6.5], [9, 15]],
+  // 1-6.5 jinetes; 7-8 auto destruido (país roto); 9-15 soldados. Evita 17+ (aviones WWI, tarjeta canal).
+  'mexico-revolucion-1917': [[1, 6.5], [7, 8.5], [9, 15]],
 };
 
 const DATES: Record<number, string> = {12: '1917'};
@@ -96,15 +101,22 @@ const SOURCE: Record<number, {label: string; sub?: string}> = {
   12: {label: 'Documental biográfico', sub: 'Deyadira Medina Lara · Archivo Revolución Mexicana'},
 };
 
-// ---- Pool genérico de respaldo para cues 13+ (sin auditar aún) ----
-const CONTEXT_POOL = ['patent-document', 'old-office-files', 'v:broadcast-tower', 'university-engineering'];
+// ---- Pool genérico de respaldo para cues 14+ (sin auditar aún). SOLO material
+// temático de TV/color, neutro y sin anacronismos. PROHIBIDO: patent-document
+// (resultó ser bocetos anatómicos de mano/ojos de Pexels), old-office-files
+// (oficinas modernas), university-engineering (edificios extranjeros modernos),
+// child-electronics (niños con robots modernos) — todo fuera de contexto. ----
+const CONTEXT_POOL = ['v:broadcast-tower', 'old-black-white-tv', 'v:tv-static-noise', 'color-spectrum-prism'];
 
 const cutMotions: Motion[] = ['punchIn', 'zoomIn', 'panRight', 'zoomOut', 'panLeft'];
 
-type Cand = {src: string; video: boolean; base: string; archId?: string; fixedStart?: number};
+type Cand = {src: string; video: boolean; base: string; archId?: string; fixedStart?: number; component?: 'patent'};
 // resuelve UN token de plano a un candidato concreto (para storyboard).
 const resolveToken = (t: string, pickVariant: (cands: Cand[]) => Cand): Cand => {
   const at = t.indexOf('@');
+  if (t.startsWith('c:')) {           // componente motion-graphic (teaser, etc.)
+    return {src: '', video: false, base: t, component: t.slice(2) as 'patent'};
+  }
   if (t.startsWith('a:')) {
     const body = t.slice(2);
     const [id, s] = at >= 0 ? [body.slice(0, body.indexOf('@')), parseFloat(body.slice(body.indexOf('@') + 1))] : [body, undefined];
@@ -188,8 +200,8 @@ export const buildPlan = (fps: number, total: number) => {
     const startFrom = c.archId
       ? (c.fixedStart !== undefined ? Math.round(c.fixedStart * fps) : nextArchStart(c.archId, dur / fps))
       : undefined;
-    shots.push({from, dur, base: c.base, seed: shotSeed++, src: c.src, video: c.video, motion, archival: !!c.archId, startFrom, signalCut});
-    recordUse(c.src, c.base, from, dur);
+    shots.push({from, dur, base: c.base, seed: shotSeed++, src: c.src, video: c.video, motion, archival: !!c.archId, startFrom, signalCut, component: c.component});
+    if (c.src) recordUse(c.src, c.base, from, dur);
   };
 
   cues.forEach((c, idx) => {

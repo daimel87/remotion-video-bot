@@ -3,7 +3,7 @@ import {AbsoluteFill, Audio, Sequence, staticFile, useVideoConfig, useCurrentFra
 import {TransitionSeries, linearTiming} from '@remotion/transitions';
 import {fade} from '@remotion/transitions/fade';
 import {buildPlan, hueFor} from './gc/plan';
-import {CRTPowerOn, SourceCard, signalCut} from './gc/components';
+import {CRTPowerOn, SourceCard, signalCut, PatentTeaser} from './gc/components';
 import {
   KenBurns, VideoBG, Grade, Atmosphere, Letterbox, TitleCard, ChapterTitle, DateStamp,
   FullScreenText, StatBox, NewspaperCard, QuoteCard, DefinitionCard, LowerThird, ProgressBar, HUD,
@@ -43,6 +43,7 @@ export const GonzalezCamarenaDocumentaryEdit: React.FC = () => {
   const {shots, overlays, chapters} = React.useMemo(() => buildPlan(fps, durationInFrames), [fps, durationInFrames]);
 
   const renderBG = (s: (typeof shots)[number]) => {
+    if (s.component === 'patent') return <PatentTeaser durationInFrames={s.dur + XFADE} />;
     if (s.src) {
       return s.video
         ? <VideoBG src={s.src} startFrom={s.startFrom} archival={s.archival} />

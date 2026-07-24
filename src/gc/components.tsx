@@ -90,3 +90,70 @@ export const SourceCard: React.FC<{label: string; sub?: string; durationInFrames
     </div>
   );
 };
+
+// ---- TEASER de la PATENTE (fondo de pantalla completa). Documento de patente
+// de época que ASOMA del archivo, con el número PARCIALMENTE VELADO (bloques
+// ▮) para intrigar sin spoilear: la narración aún no llegó a 1940/la patente.
+// Sirve de gancho visual en "quédate hasta el final... lo que le pasó a este
+// hombre". Papel sepia envejecido, sello circular, líneas de escáner de archivo. ----
+export const PatentTeaser: React.FC<{durationInFrames: number}> = ({durationInFrames}) => {
+  const frame = useCurrentFrame();
+  const inO = interpolate(frame, [0, 22], [0, 1], {extrapolateRight: 'clamp'});
+  const scale = interpolate(frame, [0, durationInFrames], [1.06, 1.14]);
+  const rot = interpolate(frame, [0, durationInFrames], [-3.2, -1.8]);
+  // barrido de "lupa" que revela y vuelve a velar el número
+  const reveal = interpolate(frame, [10, 40, 70], [0, 1, 0.35], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const stampS = interpolate(frame, [14, 34], [0.4, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const stampO = interpolate(frame, [14, 30], [0, 0.9], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  return (
+    <AbsoluteFill style={{backgroundColor: '#080a0d', justifyContent: 'center', alignItems: 'center', overflow: 'hidden'}}>
+      {/* halo cálido de foco */}
+      <AbsoluteFill style={{background: 'radial-gradient(60% 60% at 52% 48%, rgba(224,162,74,0.10), rgba(0,0,0,0) 62%)'}} />
+      {/* documento */}
+      <div style={{
+        position: 'relative', width: 1080, height: 720, transform: `rotate(${rot}deg) scale(${scale})`, opacity: inO,
+        background: 'linear-gradient(160deg, #e7ddc4 0%, #d8cca9 55%, #c8b98f 100%)',
+        boxShadow: '0 40px 120px rgba(0,0,0,0.85)', padding: '54px 66px', filter: 'sepia(0.25) contrast(1.02)',
+      }}>
+        <div style={{fontFamily: FONT_SANS, fontWeight: 700, color: '#3a3222', fontSize: 26, letterSpacing: 8, textAlign: 'center'}}>UNITED STATES PATENT OFFICE</div>
+        <div style={{height: 2, background: '#5c5030', margin: '18px 0 30px'}} />
+        <div style={{display: 'flex', gap: 40}}>
+          <div style={{flex: 1}}>
+            <div style={{fontFamily: FONT, fontStyle: 'italic', color: '#443a26', fontSize: 30, lineHeight: 1.35}}>
+              Adaptador cromoscópico<br/>para equipo de televisión
+            </div>
+            <div style={{marginTop: 34, fontFamily: FONT_SANS, fontWeight: 700, color: '#2e2716', fontSize: 22, letterSpacing: 3}}>PATENT No.</div>
+            {/* número parcialmente redactado (teaser) */}
+            <div style={{marginTop: 6, fontFamily: FONT, fontWeight: 700, color: '#1e190e', fontSize: 76, letterSpacing: 4, display: 'flex', gap: 6}}>
+              {['2', ',', '2', '9', '▮', ',', '0', '▮', '9'].map((ch, i) => {
+                const isBlock = ch === '▮';
+                return <span key={i} style={{
+                  color: isBlock ? '#1e190e' : `rgba(30,25,14,${0.35 + reveal * 0.65})`,
+                  background: isBlock ? '#1e190e' : 'transparent',
+                  filter: isBlock ? 'none' : `blur(${(1 - reveal) * 2.2}px)`,
+                }}>{isBlock ? ' ' : ch}</span>;
+              })}
+            </div>
+            <div style={{marginTop: 30, fontFamily: FONT, fontSize: 16, lineHeight: 1.5, color: '#4a4028', textAlign: 'justify'}}>
+              {'▮▮▮ ▮▮▮▮▮ ▮▮ ▮▮▮▮▮▮ ▮▮▮ ▮▮ ▮▮▮▮ ▮▮▮▮▮ ▮▮▮ ▮▮▮▮ ▮▮ ▮▮▮▮▮ ▮▮▮▮ ▮▮ ▮▮▮ ▮▮▮▮▮ ▮▮'.repeat(4)}
+            </div>
+          </div>
+          {/* sello circular */}
+          <div style={{width: 210, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', paddingTop: 20}}>
+            <div style={{
+              width: 176, height: 176, borderRadius: '50%', border: '5px double #8a3b2e', opacity: stampO,
+              transform: `scale(${stampS}) rotate(-14deg)`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              color: '#8a3b2e', fontFamily: FONT, fontWeight: 700,
+            }}>
+              <div style={{fontSize: 20, letterSpacing: 2}}>PATENTADO</div>
+              <div style={{fontSize: 52, lineHeight: 1, margin: '4px 0'}}>1940</div>
+              <div style={{fontSize: 14, letterSpacing: 3}}>MÉXICO · E.U.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* líneas de escáner de archivo */}
+      <AbsoluteFill style={{opacity: 0.12, background: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, rgba(0,0,0,0) 1px 4px)', pointerEvents: 'none'}} />
+    </AbsoluteFill>
+  );
+};
