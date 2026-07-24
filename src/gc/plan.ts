@@ -80,8 +80,10 @@ const POOLS: Record<string, string[]> = {
   'revolution': ['a:mexico-revolucion-1917'],
   'reach':      ['v:broadcast-tower', 'broadcast-tower'],
   'title':      ['v:vintage-tv-workshop', 'old-black-white-tv'],
-  'archive':    ['old-newspaper', 'old-office-files'],
-  'press':      ['old-newspaper'],
+  // 'old-newspaper' se descarta: los recortes de Pexels traen titulares reales en
+  // alemán/turco (WWII, Estambul) — fuera de contexto para una historia mexicana.
+  'archive':    ['old-office-files'],
+  'press':      ['old-office-files', 'patent-document'],
   'chapter1':   ['a:gc-documental', 'a:mexico-revolucion-1917'],
   // ---- respaldo genérico para el resto del guion (sin verificar aún) ----
   'context':    ['patent-document', 'old-newspaper', 'v:broadcast-tower', 'university-engineering'],
@@ -100,8 +102,10 @@ const WINDOWS: Record<string, [number, number][]> = {
   // gc-documental: 0-10 retrato/foto de época en B/N (biografía); 13-19 tarjeta real
   // "17 DE FEBRERO DE 1917". Evita 25+ (motion graphics genéricos sin verificar aún).
   'gc-documental': [[1, 10], [13, 19]],
-  // jinetes/tropas reales de la Revolución. Evita 25+ (aparece un presentador moderno).
-  'mexico-revolucion-1917': [[1, 22]],
+  // jinetes/tropas/soldados reales de la Revolución (verificado 1-15). Evita 17-21
+  // (aviones biplano de la Primera Guerra Mundial, video genérico no-mexicano) y
+  // 23+ (tarjeta "THE GREAT WAR" del canal, rompe la ilusión documental).
+  'mexico-revolucion-1917': [[1, 15.5]],
 };
 
 // ---- Fechas / capítulo ----
@@ -206,10 +210,12 @@ export const buildPlan = (fps: number, total: number) => {
 
     if (c.i === 12) {
       // dos planos reales dentro del mismo cue: la tarjeta "17 DE FEBRERO DE 1917"
-      // del documental, seguida de metraje real de la Revolución Mexicana.
+      // del documental (fijo, NO por el cursor compartido: esa fecha exacta debe
+      // verse aquí, no en cualquier punto de la ventana [13,19]), seguida de
+      // metraje real de la Revolución Mexicana.
       const d1 = Math.round(dur * 0.42);
       const d2 = dur - d1;
-      shots.push({from, dur: d1, base: 'a:gc-documental', seed: shotSeed++, src: archivalSrc('gc-documental'), video: true, motion: 'zoomIn', archival: true, startFrom: nextArchStart('gc-documental', d1 / fps), signalCut: true});
+      shots.push({from, dur: d1, base: 'a:gc-documental', seed: shotSeed++, src: archivalSrc('gc-documental'), video: true, motion: 'zoomIn', archival: true, startFrom: Math.round(14 * fps), signalCut: true});
       recordUse(archivalSrc('gc-documental'), 'a:gc-documental', from, d1);
       shots.push({from: from + d1, dur: d2, base: 'a:mexico-revolucion-1917', seed: shotSeed++, src: archivalSrc('mexico-revolucion-1917'), video: true, motion: 'panRight', archival: true, startFrom: nextArchStart('mexico-revolucion-1917', d2 / fps)});
       recordUse(archivalSrc('mexico-revolucion-1917'), 'a:mexico-revolucion-1917', from + d1, d2);
