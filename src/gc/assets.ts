@@ -37,6 +37,9 @@ export const ARCHIVAL: Record<string, {dur: number; start: number}> = {
   'gc-historia-tv-color': {dur: 120, start: 1},
   'gc-canal5-xhgc': {dur: 110, start: 1},           // "Historia de la Televisión Mexicana" (VHS de época) + emblema XHGC Canal 5
   'gc-patente-noticia': {dur: 100, start: 1},
+  'gc-tvunam': {dur: 100, start: 20},               // FOTOS REALES de GGC: trabajando (@20,@60), cara (@40), retrato de traje (@85)
+  'gc-entrevista': {dur: 49, start: 10},            // Archivo General de la Nación: aparatos "construidos en México" (@20), laboratorio B/N (@30)
+  'gc-canal5-1963': {dur: 38, start: 2},            // videotape REAL de la 1ra transmisión a color 1963 "Paraíso Infantil" XHGC (B/N)
   'mechanical-color-disc': {dur: 100, start: 1},
   'cbs-goldmark-1940': {dur: 100, start: 1},
   'rca-color-tv-1950s': {dur: 65, start: 1},
