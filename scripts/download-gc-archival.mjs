@@ -34,7 +34,12 @@ fs.mkdirSync(OUT, {recursive: true});
 //     Ejemplo:  {id: 'gc-doc-canal5', url: 'https://youtu.be/XXXX', section: '*0:10-2:30', note: '...'}
 // =============================================================================
 const URLS = [
-  // {id: 'gc-doc-canal5', url: 'https://www.youtube.com/watch?v=XXXXXXXX', section: '*0:00-1:30', note: 'Documental Canal 5 sobre GGC'},
+  // >>> PEGA AQUÍ URLs EXACTAS de YouTube donde SE VEA a González Camarena
+  //     (fotos reales, entrevistas, su laboratorio, Canal 5). Es lo MÁS confiable.
+  //     Copia el id tal cual; cambia solo la url y el tramo (section: "*min:seg-min:seg").
+  // {id: 'gc-real-1',  url: 'https://www.youtube.com/watch?v=XXXX', section: '*0:10-1:10', note: 'GGC real / entrevista'},
+  // {id: 'gc-real-2',  url: 'https://www.youtube.com/watch?v=XXXX', section: '*0:05-1:00', note: 'GGC en su laboratorio'},
+  // {id: 'gc-real-3',  url: 'https://www.youtube.com/watch?v=XXXX', section: '*0:00-1:00', note: 'Canal 5 / XHGC 1963'},
 ];
 
 // =============================================================================
@@ -47,6 +52,15 @@ const SEARCHES = [
   {id: 'gc-historia-tv-color', q: 'historia television a color mexico Gonzalez Camarena', section: '*0:00-2:00', note: 'Historia TV a color en México'},
   {id: 'gc-canal5-xhgc',       q: 'Canal 5 XHGC historia television mexicana', section: '*0:00-1:50', note: 'Historia Canal 5 / XHGC'},
   {id: 'gc-patente-noticia',   q: 'Guillermo Gonzalez Camarena patente television color noticia', section: '*0:00-1:40', note: 'Noticia sobre la patente'},
+  // --- MÁS material real de él (formatos/canales distintos para NO repetir video) ---
+  {id: 'gc-entrevista',        q: 'Guillermo Gonzalez Camarena entrevista archivo television', section: '*0:00-1:40', note: 'Entrevista/archivo de GGC'},
+  {id: 'gc-inehrm',            q: 'Gonzalez Camarena INEHRM inventor mexicano television color', section: '*0:00-1:40', note: 'Semblanza INEHRM/gobierno'},
+  {id: 'gc-tvunam',            q: 'Guillermo Gonzalez Camarena TV UNAM biografia inventor', section: '*0:00-1:40', note: 'TV UNAM / biografía'},
+  {id: 'gc-laboratorio',       q: 'Gonzalez Camarena laboratorio camara tricromatica invento', section: '*0:00-1:30', note: 'Su laboratorio / invento'},
+  {id: 'gc-homenaje',          q: 'Guillermo Gonzalez Camarena homenaje estampilla monumento mexico', section: '*0:00-1:20', note: 'Homenajes / estampilla / monumento'},
+  {id: 'gc-canal5-1963',       q: 'primera transmision color mexico 1963 canal 5 paraiso infantil', section: '*0:00-1:30', note: 'Primera transmisión a color 1963'},
+  {id: 'gc-fotos',             q: 'Guillermo Gonzalez Camarena fotos joven retrato biografia', section: '*0:00-1:20', note: 'Fotos/retratos de GGC'},
+  {id: 'gc-patente-1942',      q: 'Gonzalez Camarena patente 2296019 Estados Unidos adaptador cromoscopico', section: '*0:00-1:20', note: 'Patente EEUU 1942'},
   // --- Sistema tricromático / disco giratorio (contexto técnico) ---
   {id: 'mechanical-color-disc', q: 'mechanical color television disc system demonstration vintage', section: '*0:00-1:40', note: 'Sistema de disco mecánico a color'},
   {id: 'cbs-goldmark-1940',    q: 'CBS field sequential color television 1940 Goldmark demonstration', section: '*0:00-1:40', note: 'Sistema CBS de Goldmark (1940)'},
