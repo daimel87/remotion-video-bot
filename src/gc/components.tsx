@@ -91,18 +91,79 @@ export const SourceCard: React.FC<{label: string; sub?: string; durationInFrames
   );
 };
 
+// ---- DIAGRAMA del disco tricromático (motion graphic). Un disco con sectores
+// Rojo/Verde/Azul que gira a velocidad, frente a un "haz" — explica el sistema
+// de González Camarena. Fondo cinematográfico oscuro. ----
+export const ColorWheelDiagram: React.FC<{durationInFrames: number}> = ({durationInFrames}) => {
+  const frame = useCurrentFrame();
+  const o = Math.min(
+    interpolate(frame, [0, 18], [0, 1], {extrapolateRight: 'clamp'}),
+    interpolate(frame, [durationInFrames - 14, durationInFrames], [1, 0], {extrapolateLeft: 'clamp'}),
+  );
+  const spin = frame * 7; // grados/frame -> gira rápido
+  const cx = 960, cy = 500, R = 240;
+  const sectors = [
+    {c: '#d64535', a0: -90, a1: 30, label: 'R'},
+    {c: '#3fae57', a0: 30, a1: 150, label: 'V'},
+    {c: '#3f7fd6', a0: 150, a1: 270, label: 'A'},
+  ];
+  const arc = (a0: number, a1: number) => {
+    const p = (a: number) => [cx + R * Math.cos((a * Math.PI) / 180), cy + R * Math.sin((a * Math.PI) / 180)];
+    const [x0, y0] = p(a0), [x1, y1] = p(a1);
+    return `M ${cx} ${cy} L ${x0} ${y0} A ${R} ${R} 0 0 1 ${x1} ${y1} Z`;
+  };
+  return (
+    <AbsoluteFill style={{backgroundColor: COLORS.bg, justifyContent: 'center', alignItems: 'center', opacity: o}}>
+      <AbsoluteFill style={{background: 'radial-gradient(55% 55% at 50% 46%, rgba(224,162,74,0.08), rgba(0,0,0,0) 60%)'}} />
+      <svg width="1920" height="1080" style={{position: 'absolute'}}>
+        <g transform={`rotate(${spin} ${cx} ${cy})`}>
+          {sectors.map((s, i) => (
+            <path key={i} d={arc(s.a0, s.a1)} fill={s.c} fillOpacity={0.9} stroke="#0a0d10" strokeWidth={4} />
+          ))}
+        </g>
+        <circle cx={cx} cy={cy} r={R} fill="none" stroke="rgba(236,231,220,0.35)" strokeWidth={3} />
+        <circle cx={cx} cy={cy} r={30} fill="#0a0d10" stroke="rgba(236,231,220,0.4)" strokeWidth={3} />
+      </svg>
+      <div style={{position: 'absolute', bottom: '16%', textAlign: 'center'}}>
+        <div style={{fontFamily: FONT, fontWeight: 700, color: COLORS.paper, fontSize: 60, letterSpacing: 2, textShadow: '0 3px 18px rgba(0,0,0,0.9)'}}>Rojo · Verde · Azul</div>
+        <div style={{marginTop: 10, fontFamily: FONT_SANS, fontWeight: 600, color: COLORS.amber, fontSize: 26, letterSpacing: 6, textTransform: 'uppercase'}}>Sistema tricromático secuencial</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// ---- APAGÓN de señal (cue "se apagó de golpe como una pantalla a la que le
+// cortan la señal"). La imagen colapsa a una línea y a un punto, con estática. ----
+export const ScreenOff: React.FC<{durationInFrames: number}> = ({durationInFrames}) => {
+  const frame = useCurrentFrame();
+  const p = interpolate(frame, [0, durationInFrames], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const vClose = interpolate(p, [0, 0.35], [100, 3], {extrapolateRight: 'clamp'});   // colapsa en vertical a una línea
+  const hClose = interpolate(p, [0.35, 0.6], [100, 0.4], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}); // la línea a un punto
+  const dot = interpolate(p, [0.55, 0.7, 1], [1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const noiseOp = interpolate(p, [0, 0.3], [0.5, 0], {extrapolateRight: 'clamp'});
+  return (
+    <AbsoluteFill style={{backgroundColor: '#000', justifyContent: 'center', alignItems: 'center', zIndex: 40}}>
+      <div style={{width: `${hClose}%`, height: `${vClose}%`, background: 'rgba(236,231,220,0.9)', boxShadow: '0 0 80px 30px rgba(236,231,220,0.5)', position: 'relative', overflow: 'hidden'}}>
+        <TVNoise seed={Math.floor(frame * 9) % 997} opacity={noiseOp} />
+      </div>
+      {p >= 0.55 && <div style={{position: 'absolute', width: 8, height: 8, borderRadius: '50%', background: '#fff', opacity: dot, boxShadow: '0 0 40px 12px rgba(255,255,255,0.7)'}} />}
+    </AbsoluteFill>
+  );
+};
+
 // ---- TEASER de la PATENTE (fondo de pantalla completa). Documento de patente
 // de época que ASOMA del archivo, con el número PARCIALMENTE VELADO (bloques
 // ▮) para intrigar sin spoilear: la narración aún no llegó a 1940/la patente.
 // Sirve de gancho visual en "quédate hasta el final... lo que le pasó a este
 // hombre". Papel sepia envejecido, sello circular, líneas de escáner de archivo. ----
-export const PatentTeaser: React.FC<{durationInFrames: number}> = ({durationInFrames}) => {
+export const PatentTeaser: React.FC<{durationInFrames: number; revealed?: boolean}> = ({durationInFrames, revealed}) => {
   const frame = useCurrentFrame();
   const inO = interpolate(frame, [0, 22], [0, 1], {extrapolateRight: 'clamp'});
   const scale = interpolate(frame, [0, durationInFrames], [1.06, 1.14]);
   const rot = interpolate(frame, [0, durationInFrames], [-3.2, -1.8]);
-  // barrido de "lupa" que revela y vuelve a velar el número
-  const reveal = interpolate(frame, [10, 40, 70], [0, 1, 0.35], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  // teaser: barrido de "lupa" que revela y vuelve a velar. revealed: número fijo y nítido.
+  const reveal = revealed ? 1 : interpolate(frame, [10, 40, 70], [0, 1, 0.35], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const digits = revealed ? ['2', ',', '2', '9', '6', ',', '0', '1', '9'] : ['2', ',', '2', '9', '▮', ',', '0', '▮', '9'];
   const stampS = interpolate(frame, [14, 34], [0.4, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   const stampO = interpolate(frame, [14, 30], [0, 0.9], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   return (
@@ -125,7 +186,7 @@ export const PatentTeaser: React.FC<{durationInFrames: number}> = ({durationInFr
             <div style={{marginTop: 34, fontFamily: FONT_SANS, fontWeight: 700, color: '#2e2716', fontSize: 22, letterSpacing: 3}}>PATENT No.</div>
             {/* número parcialmente redactado (teaser) */}
             <div style={{marginTop: 6, fontFamily: FONT, fontWeight: 700, color: '#1e190e', fontSize: 76, letterSpacing: 4, display: 'flex', gap: 6}}>
-              {['2', ',', '2', '9', '▮', ',', '0', '▮', '9'].map((ch, i) => {
+              {digits.map((ch, i) => {
                 const isBlock = ch === '▮';
                 return <span key={i} style={{
                   color: isBlock ? '#1e190e' : `rgba(30,25,14,${0.35 + reveal * 0.65})`,
