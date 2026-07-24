@@ -79,7 +79,9 @@ const STORYBOARD: Record<number, SB[]> = {
   // 12 (52-58): "17 de febrero de 1917, Guadalajara... la revolución" -> fecha REAL + Revolución
   12: [{t: 'a:gc-documental@13.5', m: 'zoomIn'}, {t: 'a:mexico-revolucion-1917@9', m: 'panRight'}],
   // 13 (58-64): "la revolución acababa de terminar, el país estaba roto, pobre" -> secuelas reales
-  13: [{t: 'a:mexico-revolucion-1917@7', m: 'zoomIn'}, {t: 'a:mexico-revolucion-1917@13', m: 'panLeft'}],
+  //   @6 = auto destruido (país roto); @13 = soldados. Evita 7.2-8.8 (una vitrina de
+  //   tienda "Velvet" que NO es de la Revolución).
+  13: [{t: 'a:mexico-revolucion-1917@6', m: 'zoomIn'}, {t: 'a:mexico-revolucion-1917@13', m: 'panLeft'}],
 };
 
 // ---- Ventanas buenas (para los cues NO cubiertos por el storyboard, y como
@@ -87,8 +89,9 @@ const STORYBOARD: Record<number, SB[]> = {
 const WINDOWS: Record<string, [number, number][]> = {
   'gc-documental': [[13, 16], [18, 21]],
   'gc-historia-tv-color': [[18, 21], [62, 65], [66, 72], [74, 76]],
-  // 1-6.5 jinetes; 7-8 auto destruido (país roto); 9-15 soldados. Evita 17+ (aviones WWI, tarjeta canal).
-  'mexico-revolucion-1917': [[1, 6.5], [7, 8.5], [9, 15]],
+  // 1-5.5 jinetes; 5.8-7 auto destruido (país roto); 9-15 soldados. Evita 7.2-8.8
+  // (una vitrina de tienda que NO es de la Revolución) y 17+ (aviones WWI, tarjeta canal).
+  'mexico-revolucion-1917': [[1, 7], [9, 15]],
 };
 
 const DATES: Record<number, string> = {12: '1917'};
