@@ -60,8 +60,8 @@ const POOLS: Record<string, string[]> = {
     'a:gc-tvunam@48',        // frente a la cámara de televisión (real)
     'a:gc-tvunam@62',        // operando la cámara (real)
     'a:gc-tvunam@12',        // sentado, con su TV (real)
-    'a:gc-entrevista@20',    // aparatos "construidos en México" (archivo AGN)
-    'a:gc-historia-tv-color@62', 'a:gc-patente-noticia@62', // dibujo (respaldo)
+    'a:gc-entrevista@20',    // aparatos "construidos en México" (archivo AGN, real)
+    'a:gc-entrevista@30',    // laboratorio B/N de época (archivo AGN, real)
   ],
   // El joven inventor / trasteando (niñez, "armaba radios", "inventando"). Stock real.
   inventor: ['child-electronics', 'engineer-workshop', 'v:engineer-workshop', 'vintage-radio-parts', 'tube-radio', 'vintage-typewriter'],
@@ -75,12 +75,12 @@ const POOLS: Record<string, string[]> = {
   disco: ['c:colorwheel', 'a:mechanical-color-disc@26', 'a:mechanical-color-disc@38', 'a:mechanical-color-disc@88'],
   // prensa / reconocimiento (periódicos, El Universal).
   press: ['old-newspaper', 'vintage-typewriter'],
-  // contexto mexicano.
-  mexico: ['mexico-flag', 'guadalajara-city', 'mexico-city-skyline', 'a:mexico-city-1930s@50', 'a:mexico-city-1930s@70'],
+  // contexto mexicano (mexico-city-1930s FUERA: trae timecode "REF XD060934" quemado).
+  mexico: ['mexico-flag', 'guadalajara-city', 'mexico-city-skyline'],
   // torre / señal / estática.
   senal: ['broadcast-tower', 'v:broadcast-tower', 'tv-static-noise', 'v:tv-static-noise', 'tv-test-pattern'],
-  // corporaciones (RCA diluido con prensa/torre/TV mexicana).
-  corp: ['a:rca-color-tv-1950s@2', 'a:rca-color-tv-1950s@26', 'a:rca-color-tv-1950s@58', 'old-newspaper', 'a:vintage-tv-broadcast-mx@20', 'broadcast-tower', 'vintage-typewriter'],
+  // corporaciones EEUU (RCA + prensa/torre; los comerciales mexicanos van en tvmx, no aquí).
+  corp: ['a:rca-color-tv-1950s@2', 'a:rca-color-tv-1950s@26', 'a:rca-color-tv-1950s@58', 'a:rca-color-tv-1950s@14', 'old-newspaper', 'broadcast-tower', 'vintage-typewriter'],
   // carretera (accidente).
   carretera: ['v:highway-mexico', 'highway-mexico'],
   // revolución mexicana real.

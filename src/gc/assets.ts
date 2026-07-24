@@ -25,10 +25,27 @@ const VIDEO_POOL: Record<string, number> = {
 export const hasPhoto = (base: string) => base in PHOTO_POOL;
 export const hasVideo = (base: string) => base in VIDEO_POOL;
 
+// LISTA NEGRA de variantes defectuosas (marca de agua, texto de stock, fuera de
+// época o tema equivocado) detectadas en la revisión densa de frames.
+const BLOCK_PHOTO: Record<string, number[]> = {
+  'rgb-pixels-macro': [2, 3, 4, 6],       // "EDITORIAL ONLY", "Settings", videojuego, código
+  'old-newspaper': [2, 4, 5, 6],          // "ISTANBUL", libro, diccionario, "Newspaper"
+  'family-tv-vintage': [1, 2, 3, 5, 6],   // familias modernas (fuera de época); solo la 4 es de época
+  'tv-test-pattern': [5],                 // gráfico de barras moderno
+};
+const BLOCK_VIDEO: Record<string, number[]> = {
+  'family-tv-vintage': [1],               // pareja moderna
+  'rgb-pixels-macro': [2],                // estática (mal etiquetada)
+};
+
 export const photoVariants = (base: string) =>
-  Array.from({length: PHOTO_POOL[base] ?? 0}, (_, i) => staticFile(`stock-gc/photos/${base}-${i + 1}.jpg`));
+  Array.from({length: PHOTO_POOL[base] ?? 0}, (_, i) => i + 1)
+    .filter((n) => !(BLOCK_PHOTO[base] ?? []).includes(n))
+    .map((n) => staticFile(`stock-gc/photos/${base}-${n}.jpg`));
 export const videoVariants = (base: string) =>
-  Array.from({length: VIDEO_POOL[base] ?? 0}, (_, i) => staticFile(`stock-gc/videos/${base}-${i + 1}.mp4`));
+  Array.from({length: VIDEO_POOL[base] ?? 0}, (_, i) => i + 1)
+    .filter((n) => !(BLOCK_VIDEO[base] ?? []).includes(n))
+    .map((n) => staticFile(`stock-gc/videos/${base}-${n}.mp4`));
 
 // Clips de ARCHIVO reales — id -> {duración total descargada (s), mejor punto de inicio (s)}.
 // Todos verificados con contact-sheets (cuadro por cuadro) antes de usarse en el plan.
