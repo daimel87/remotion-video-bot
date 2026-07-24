@@ -105,7 +105,7 @@ const STORYBOARD: Record<number, SB[]> = {
   // 24 "eso le parecía incompleto... él quería color" -> B/N a color
   24: [{t: 'old-black-white-tv', m: 'zoomIn'}, {t: 'v:color-spectrum-prism', m: 'punchIn'}],
   // 25 "en los años 30 la televisión apenas existía, era un experimento"
-  25: [{t: 'a:mechanical-color-disc@20', m: 'zoomIn'}, {t: 'a:mechanical-color-disc@40', m: 'panRight'}],
+  25: [{t: 'a:mechanical-color-disc@38', m: 'zoomIn'}, {t: 'a:mechanical-color-disc@26', m: 'panRight'}],
   // 26 "un truco de laboratorio, y este muchacho en México..." -> GGC laboratorio
   26: [{t: GGC_LAB, m: 'zoomIn'}],
   // 27 "no quería copiar la televisión de los gringos o los ingleses" -> RCA (potencias)
@@ -123,15 +123,15 @@ const STORYBOARD: Record<number, SB[]> = {
   // 32 "diseñó un disco giratorio con filtros de esos tres colores" -> disco real + diagrama
   32: [{t: 'a:cbs-goldmark-1940@2', m: 'zoomIn'}, {t: 'c:colorwheel'}],
   // 33 "giraba frente a una cámara de blanco y negro, otro disco sincronizado"
-  33: [{t: 'a:mechanical-color-disc@30', m: 'zoomIn'}, {t: 'a:mechanical-color-disc@20', m: 'panRight'}],
+  33: [{t: 'a:mechanical-color-disc@26', m: 'zoomIn'}, {t: 'a:mechanical-color-disc@38', m: 'panRight'}],
   // 34 "dentro del televisor. El ojo humano engañado juntaba los tres colores"
-  34: [{t: 'a:mechanical-color-disc@40', m: 'zoomIn'}, {t: 'v:rgb-pixels-macro', m: 'punchIn'}],
+  34: [{t: 'a:mechanical-color-disc@38', m: 'zoomIn'}, {t: 'v:rgb-pixels-macro', m: 'punchIn'}],
   // 35 "la imagen completa a todo color. ingenioso, barato y mexicano"
   35: [{t: 'a:cbs-goldmark-1940@2', m: 'zoomIn'}, {t: 'v:color-spectrum-prism', m: 'panRight'}],
 
   // ---------- CAP V: la patente ----------
   // 36 "la fecha que casi nadie conoce: el 19 de agosto de 1940" -> DateStamp 1940
-  36: [{t: 'a:mechanical-color-disc@90', m: 'zoomIn'}],  // dibujos de patente
+  36: [{t: 'a:mechanical-color-disc@88', m: 'zoomIn'}],  // dibujos de patente
   // 37 "le otorgó la patente oficial de su sistema" -> PatentTeaser
   37: [{t: 'c:patent'}],
   // 38 "Guillermo González Camarena tenía 23 años" -> GGC + StatBox 23
@@ -153,9 +153,9 @@ const STORYBOARD: Record<number, SB[]> = {
 
   // ---------- CAP VI: la misma luz ----------
   // 46 "un ingeniero de CBS llamado Peter Goldmark" -> name Goldmark + disco
-  46: [{t: 'a:cbs-goldmark-1940@2', m: 'zoomIn'}, {t: 'a:mechanical-color-disc@20', m: 'panRight'}],
+  46: [{t: 'a:cbs-goldmark-1940@2', m: 'zoomIn'}, {t: 'a:mechanical-color-disc@26', m: 'panRight'}],
   // 47 "trabajaba en un sistema parecido, también con discos giratorios"
-  47: [{t: 'a:mechanical-color-disc@30', m: 'zoomIn'}, {t: 'c:colorwheel'}],
+  47: [{t: 'a:mechanical-color-disc@38', m: 'zoomIn'}, {t: 'c:colorwheel'}],
   // 48 "dos países persiguiendo la misma luz al mismo tiempo"
   48: [{t: 'a:cbs-goldmark-1940@2', m: 'zoomIn'}, {t: 'v:color-spectrum-prism', m: 'punchIn'}],
   // 49 "a González Camarena. Goldmark tenía una corporación gigante" -> GGC vs RCA
@@ -187,7 +187,7 @@ const STORYBOARD: Record<number, SB[]> = {
   // 61 "empezaba la guerra fría, la tecnología campo de batalla"
   61: [{t: 'a:rca-color-tv-1950s@26', m: 'zoomIn'}, {t: 'a:rca-color-tv-1950s@58', m: 'panRight'}],
   // 62 "la industria mundial no adoptó el sistema"
-  62: [{t: 'a:mechanical-color-disc@40', m: 'zoomIn'}, {t: 'a:rca-color-tv-1950s@2', m: 'panRight'}],
+  62: [{t: 'a:mechanical-color-disc@26', m: 'zoomIn'}, {t: 'a:rca-color-tv-1950s@2', m: 'panRight'}],
   // 63 "de discos giratorios. se fue por otro camino, el de las grandes empresas"
   63: [{t: 'c:colorwheel'}, {t: 'a:rca-color-tv-1950s@58', m: 'zoomIn'}],
   // 64 "estadounidenses, el estándar comercial. y así poco a poco"
@@ -306,7 +306,7 @@ const WINDOWS: Record<string, [number, number][]> = {
   'gc-historia-tv-color': [[18, 21], [62, 65], [66, 72], [74, 76]],
   'gc-patente-noticia': [[18, 21], [62, 65], [96, 100]],
   'mexico-revolucion-1917': [[1, 7], [9, 15]],
-  'mechanical-color-disc': [[18, 47], [58, 66], [88, 95]],
+  'mechanical-color-disc': [[26, 31], [38, 44.5], [88, 91]],
   'cbs-goldmark-1940': [[1, 4.5]],
   'rca-color-tv-1950s': [[0, 44], [56, 64]],
   'ipn-politecnico-historia': [[2, 80]],
