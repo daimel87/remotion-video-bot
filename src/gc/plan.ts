@@ -34,18 +34,19 @@ export interface Overlay {
 
 const TEXT_NUDGE = 0.35;
 
-// ---- Capítulos (arco narrativo) ----
+// ---- Capítulos (arco narrativo). delay = segundos DENTRO del cue en que el
+// título entra (para que caiga CON la frase del tema, no antes). ----
 const CHAPTERS = [
-  {num: 1, cue: 12, title: 'Guadalajara, 1917'},
-  {num: 2, cue: 15, title: 'El niño que lo desarmaba todo'},
-  {num: 3, cue: 22, title: 'La obsesión del color'},
-  {num: 4, cue: 31, title: 'El disco giratorio'},
-  {num: 5, cue: 36, title: 'La patente'},
-  {num: 6, cue: 46, title: 'La misma luz'},
-  {num: 7, cue: 58, title: 'El olvido'},
-  {num: 8, cue: 74, title: 'XHGC'},
-  {num: 9, cue: 85, title: 'El último golpe'},
-  {num: 10, cue: 95, title: 'La verdad documentada'},
+  {num: 1, cue: 12, title: 'Guadalajara, 1917', delay: 0.9},
+  {num: 2, cue: 15, title: 'El niño que lo desarmaba todo', delay: 1.6},
+  {num: 3, cue: 24, title: 'La obsesión del color', delay: 1.4},   // "él quería color"
+  {num: 4, cue: 32, title: 'El disco giratorio', delay: 1.2},      // "diseñó un disco giratorio"
+  {num: 5, cue: 37, title: 'La patente', delay: 1.2},              // "le otorgó la patente"
+  {num: 6, cue: 47, title: 'La misma luz', delay: 1.6},            // "un sistema parecido"
+  {num: 7, cue: 58, title: 'El olvido', delay: 1.8},               // "empieza a torcerse"
+  {num: 8, cue: 74, title: 'XHGC', delay: 1.8},                    // "su gran día"
+  {num: 9, cue: 85, title: 'El último golpe', delay: 1.4},
+  {num: 10, cue: 95, title: 'La verdad documentada', delay: 1.4},
 ];
 
 // ============================================================
@@ -56,13 +57,53 @@ const CHAPTERS = [
 // ============================================================
 type SB = {t: string; m?: Motion; w?: number; sc?: boolean};
 
-// abreviaturas de retrato de GGC (documental animado) — SIEMPRE muestran a GGC
-const GGC_CATEDRAL = 'a:gc-historia-tv-color@18';   // GGC joven + catedral de Guadalajara
-const GGC_CARA = 'a:gc-historia-tv-color@62';        // primer plano de su cara
-const GGC_TV = 'a:gc-historia-tv-color@66';          // GGC dentro de una TV
-const GGC_PENSANDO = 'a:gc-historia-tv-color@74';    // GGC pensando (se desvanece)
-const GGC_LAB = 'a:gc-patente-noticia@98';           // GGC en su laboratorio con aparatos
-const GGC_APARATOS = 'a:gc-documental@33';           // aparatos/herramientas animados (invención)
+// retratos de GGC para el minuto 1 (tokens fijos ya aprobados por el usuario)
+const GGC_CATEDRAL = 'a:gc-historia-tv-color@18';
+const GGC_CARA = 'a:gc-historia-tv-color@62';
+const GGC_TV = 'a:gc-historia-tv-color@66';
+const GGC_PENSANDO = 'a:gc-historia-tv-color@74';
+
+// ============================================================
+// POOLS temáticos. Un token 'p:nombre' en el storyboard se resuelve al miembro
+// del pool MENOS usado recientemente (anti-repetición con separación mínima),
+// para APROVECHAR todo el material descargado y no repetir las mismas tomas.
+// ============================================================
+const POOLS: Record<string, string[]> = {
+  // 11 retratos DISTINTOS de GGC (los 3 clips del documental animado + segmentos)
+  ggc: [
+    'a:gc-historia-tv-color@18', 'a:gc-historia-tv-color@62', 'a:gc-historia-tv-color@74',
+    'a:gc-patente-noticia@18', 'a:gc-patente-noticia@62', 'a:gc-patente-noticia@74',
+    'a:gc-documental@18', 'a:gc-historia-tv-color@66', 'a:gc-patente-noticia@68',
+    'a:gc-patente-noticia@98', 'a:gc-documental@96',
+  ],
+  // GGC en su laboratorio / con aparatos (invención)
+  'ggc-lab': ['a:gc-patente-noticia@98', 'a:gc-documental@96', 'a:gc-documental@33', 'a:gc-historia-tv-color@66'],
+  // sistema de color / disco tricromático (cbs-goldmark FUERA: a partir de ~2.6s
+  // el clip muestra un loro con la ventana del reproductor; usamos disco propio)
+  disco: ['c:colorwheel', 'a:mechanical-color-disc@26', 'a:mechanical-color-disc@38', 'a:mechanical-color-disc@88'],
+  // RGB / espectro / píxeles a color
+  color: ['v:color-spectrum-prism', 'color-spectrum-prism', 'v:rgb-pixels-macro', 'rgb-pixels-macro', 'v:tv-test-pattern', 'tv-test-pattern'],
+  // televisión antigua
+  tvvieja: ['old-black-white-tv', 'v:vintage-tv-workshop', 'v:family-tv-vintage', 'family-tv-vintage', 'tv-test-pattern'],
+  // electrónica / radios / taller (niñez, invención)
+  electro: ['vintage-radio-parts', 'tube-radio', 'v:engineer-workshop', 'engineer-workshop', 'vintage-typewriter'],
+  // contexto mexicano
+  mexico: ['mexico-flag', 'guadalajara-city', 'mexico-city-skyline', 'a:mexico-city-1930s@50', 'a:mexico-city-1930s@70'],
+  // corporaciones estadounidenses (RCA, comercial de época)
+  rca: ['a:rca-color-tv-1950s@2', 'a:rca-color-tv-1950s@14', 'a:rca-color-tv-1950s@26', 'a:rca-color-tv-1950s@58'],
+  // televisión mexicana / transmisión (comerciales de época + Canal 5)
+  tvmx: ['a:vintage-tv-broadcast-mx@2', 'a:vintage-tv-broadcast-mx@20', 'a:vintage-tv-broadcast-mx@40', 'a:vintage-tv-broadcast-mx@60'],
+  // torre / señal / estática
+  senal: ['v:broadcast-tower', 'broadcast-tower', 'v:tv-static-noise', 'tv-static-noise'],
+  // carretera (accidente)
+  carretera: ['v:highway-mexico', 'highway-mexico'],
+  // revolución mexicana real
+  revol: ['a:mexico-revolucion-1917@2', 'a:mexico-revolucion-1917@6', 'a:mexico-revolucion-1917@13'],
+  // sondas Voyager / espacio
+  voyager: ['a:voyager-nasa-images@20', 'a:voyager-nasa-images@55', 'a:voyager-nasa-images@62'],
+  // música mexicana (huapango)
+  musica: ['a:huapango-mexicano@15', 'a:huapango-mexicano@40', 'a:huapango-mexicano@60', 'mexican-musician'],
+};
 
 const STORYBOARD: Record<number, SB[]> = {
   // ---------- MINUTO 1 (verificado cuadro por cuadro) ----------
@@ -79,225 +120,124 @@ const STORYBOARD: Record<number, SB[]> = {
   12: [{t: 'a:gc-documental@13.5', m: 'zoomIn'}, {t: 'a:mexico-revolucion-1917@9', m: 'panRight'}],
   13: [{t: 'a:mexico-revolucion-1917@6', m: 'zoomIn'}, {t: 'a:mexico-revolucion-1917@13', m: 'panLeft'}],
 
-  // ---------- CAP II: la niñez ----------
-  // 14 "Camarena se mudó a la Ciudad de México y desde muy chico Guillermo..." -> CDMX época + GGC
-  14: [{t: 'a:mexico-city-1930s@50', m: 'panRight'}, {t: GGC_CATEDRAL, m: 'zoomIn'}],
-  // 15 "niño que vuelve locos a sus padres, el que desarmó todo en la casa"
-  15: [{t: 'vintage-radio-parts', m: 'punchIn'}, {t: 'tube-radio', m: 'zoomIn'}],
-  // 16 "ver cómo funciona por dentro. él lo entendía"
-  16: [{t: 'v:engineer-workshop', m: 'zoomIn'}, {t: 'vintage-radio-parts', m: 'panLeft'}],
-  // 17 "construía sus propios juguetes eléctricos, armaba radios con piezas sueltas"
-  17: [{t: 'tube-radio', m: 'punchIn'}, {t: 'v:engineer-workshop', m: 'zoomIn'}],
-  // 18 "con lo que encontraba... No había dinero para comprar aparatos caros"
-  18: [{t: 'vintage-radio-parts', m: 'zoomIn'}, {t: 'tube-radio', m: 'panRight'}],
-  // 19 "Si no puedes comprarlo, constrúyelo tú mismo" -> FULLTEXT
-  19: [{t: 'v:engineer-workshop', m: 'zoomIn'}],
-  // 20 "Entró a la escuela de ingeniería del Politécnico" -> IPN
-  20: [{t: 'a:ipn-politecnico-historia@5', m: 'zoomIn'}, {t: 'university-engineering', m: 'panRight'}],
-  // 21 "mientras otros soñaban con cosas normales, Guillermo estaba obsesionado con" -> GGC
-  21: [{t: GGC_CARA, m: 'zoomIn'}, {t: GGC_PENSANDO, m: 'punchIn'}],
+  // ---------- CAP II: la niñez (pools rotativos) ----------
+  14: [{t: 'p:mexico', m: 'panRight'}, {t: 'p:ggc', m: 'zoomIn'}],       // "Camarena se mudó a CDMX / Guillermo"
+  15: [{t: 'p:electro', m: 'punchIn'}, {t: 'p:electro', m: 'zoomIn'}],   // "desarmó todo en la casa"
+  16: [{t: 'p:electro', m: 'zoomIn'}, {t: 'p:electro', m: 'panLeft'}],   // "cómo funciona por dentro"
+  17: [{t: 'p:electro', m: 'punchIn'}, {t: 'p:electro', m: 'zoomIn'}],   // "armaba radios con piezas sueltas"
+  18: [{t: 'p:electro', m: 'zoomIn'}, {t: 'p:electro', m: 'panRight'}],  // "no había dinero para aparatos caros"
+  19: [{t: 'p:electro', m: 'zoomIn'}],                                    // FULLTEXT "constrúyelo tú mismo"
+  20: [{t: 'a:ipn-politecnico-historia@5', m: 'zoomIn'}, {t: 'university-engineering', m: 'panRight'}], // Politécnico
+  21: [{t: 'p:ggc', m: 'zoomIn'}, {t: 'p:ggc', m: 'punchIn'}],           // "Guillermo estaba obsesionado"
 
   // ---------- CAP III: la obsesión del color ----------
-  // 22 "una tecnología casi ciencia ficción: la televisión"
-  22: [{t: 'old-black-white-tv', m: 'zoomIn'}, {t: 'v:vintage-tv-workshop', m: 'panRight'}],
-  // 23 "todo el mundo veía en blanco y negro"
-  23: [{t: 'old-black-white-tv', m: 'punchIn'}, {t: 'v:vintage-tv-workshop', m: 'zoomIn'}],
-  // 24 "eso le parecía incompleto... él quería color" -> B/N a color
-  24: [{t: 'old-black-white-tv', m: 'zoomIn'}, {t: 'v:color-spectrum-prism', m: 'punchIn'}],
-  // 25 "en los años 30 la televisión apenas existía, era un experimento"
-  25: [{t: 'a:mechanical-color-disc@38', m: 'zoomIn'}, {t: 'a:mechanical-color-disc@26', m: 'panRight'}],
-  // 26 "un truco de laboratorio, y este muchacho en México..." -> GGC laboratorio
-  26: [{t: GGC_LAB, m: 'zoomIn'}],
-  // 27 "no quería copiar la televisión de los gringos o los ingleses" -> RCA (potencias)
-  27: [{t: 'a:rca-color-tv-1950s@2', m: 'panRight'}, {t: 'a:rca-color-tv-1950s@26', m: 'zoomIn'}],
-  // 28 "dar el siguiente salto que ni ellos habían dado. tuvo la idea" -> GGC
-  28: [{t: GGC_CARA, m: 'zoomIn'}, {t: GGC_APARATOS, m: 'punchIn'}],
-  // 29 "el sistema tricromático secuencial de campos" -> DEFINICIÓN + disco RGB
-  29: [{t: 'a:cbs-goldmark-1940@2', m: 'zoomIn'}],
-  // 30 "González Camarena entendió que..." -> GGC + disco
-  30: [{t: GGC_CARA, m: 'zoomIn'}, {t: 'c:colorwheel'}],
+  22: [{t: 'p:tvvieja', m: 'zoomIn'}, {t: 'p:tvvieja', m: 'panRight'}],  // "la televisión, ciencia ficción"
+  23: [{t: 'p:tvvieja', m: 'punchIn'}, {t: 'p:tvvieja', m: 'zoomIn'}],   // "todos veían en blanco y negro"
+  24: [{t: 'p:tvvieja', m: 'zoomIn'}, {t: 'p:color', m: 'punchIn'}],     // "él quería color"
+  25: [{t: 'p:disco', m: 'zoomIn'}, {t: 'p:disco', m: 'panRight'}],      // "la TV era un experimento"
+  26: [{t: 'p:ggc-lab', m: 'zoomIn'}],                                    // "este muchacho en México"
+  27: [{t: 'p:rca', m: 'panRight'}, {t: 'p:rca', m: 'zoomIn'}],          // "copiar a los gringos o ingleses"
+  28: [{t: 'p:ggc', m: 'zoomIn'}, {t: 'p:ggc-lab', m: 'punchIn'}],       // "tuvo la idea"
+  29: [{t: 'c:colorwheel'}, {t: 'a:mechanical-color-disc@38', m: 'zoomIn'}], // "sistema tricromático" + DEF
+  30: [{t: 'p:ggc', m: 'zoomIn'}, {t: 'c:colorwheel'}],                  // "González Camarena entendió"
 
   // ---------- CAP IV: el disco giratorio ----------
-  // 31 "todos los colores se forman con tres: rojo, verde y azul" -> ColorWheel
-  31: [{t: 'c:colorwheel'}],
-  // 32 "diseñó un disco giratorio con filtros de esos tres colores" -> disco real + diagrama
-  32: [{t: 'a:cbs-goldmark-1940@2', m: 'zoomIn'}, {t: 'c:colorwheel'}],
-  // 33 "giraba frente a una cámara de blanco y negro, otro disco sincronizado"
-  33: [{t: 'a:mechanical-color-disc@26', m: 'zoomIn'}, {t: 'a:mechanical-color-disc@38', m: 'panRight'}],
-  // 34 "dentro del televisor. El ojo humano engañado juntaba los tres colores"
-  34: [{t: 'a:mechanical-color-disc@38', m: 'zoomIn'}, {t: 'v:rgb-pixels-macro', m: 'punchIn'}],
-  // 35 "la imagen completa a todo color. ingenioso, barato y mexicano"
-  35: [{t: 'a:cbs-goldmark-1940@2', m: 'zoomIn'}, {t: 'v:color-spectrum-prism', m: 'panRight'}],
+  31: [{t: 'c:colorwheel'}],                                              // "rojo, verde y azul"
+  32: [{t: 'a:mechanical-color-disc@26', m: 'zoomIn'}, {t: 'c:colorwheel'}], // "un disco giratorio"
+  33: [{t: 'a:mechanical-color-disc@26', m: 'zoomIn'}, {t: 'a:mechanical-color-disc@38', m: 'panRight'}], // "giraba frente a la cámara"
+  34: [{t: 'a:mechanical-color-disc@38', m: 'zoomIn'}, {t: 'p:color', m: 'punchIn'}], // "el ojo humano engañado"
+  35: [{t: 'a:mechanical-color-disc@38', m: 'zoomIn'}, {t: 'p:color', m: 'panRight'}], // "imagen a todo color"
 
   // ---------- CAP V: la patente ----------
-  // 36 "la fecha que casi nadie conoce: el 19 de agosto de 1940" -> DateStamp 1940
-  36: [{t: 'a:mechanical-color-disc@88', m: 'zoomIn'}],  // dibujos de patente
-  // 37 "le otorgó la patente oficial de su sistema" -> PatentTeaser
-  37: [{t: 'c:patent'}],
-  // 38 "Guillermo González Camarena tenía 23 años" -> GGC + StatBox 23
-  38: [{t: GGC_CARA, m: 'zoomIn'}],
-  // 39 "mientras el mundo se incendiaba en la Segunda Guerra Mundial"
-  39: [{t: 'a:rca-color-tv-1950s@2', m: 'panRight'}, {t: 'old-black-white-tv', m: 'zoomIn'}],
-  // 40 "un joven mexicano de 23 años en su taller había patentado" -> GGC laboratorio
-  40: [{t: GGC_LAB, m: 'zoomIn'}],
-  // 41 "al año siguiente solicitó la patente en Estados Unidos" -> PatentTeaser
-  41: [{t: 'c:patent'}],
-  // 42 "el 15 de septiembre de 1942 se la concedió. la patente número" -> DateStamp 1942 + patente
-  42: [{t: 'c:patent-full'}],
-  // 43 "2,296,019, adaptador cromoscópico. registrada con su nombre" -> patente REVELADA
-  43: [{t: 'c:patent-full'}],
-  // 44 "en las oficinas de patentes del país más poderoso"
-  44: [{t: 'c:patent-full'}],
-  // 45 "Guillermo no fue el único que pensó en esto" -> GGC
-  45: [{t: GGC_CARA, m: 'zoomIn'}],
+  36: [{t: 'a:mechanical-color-disc@88', m: 'zoomIn'}],                   // "19 de agosto de 1940" (dibujos)
+  37: [{t: 'c:patent'}],                                                  // "le otorgó la patente"
+  38: [{t: 'p:ggc', m: 'zoomIn'}],                                        // "GGC tenía 23 años" + Stat
+  39: [{t: 'p:rca', m: 'panRight'}, {t: 'p:tvvieja', m: 'zoomIn'}],      // "Segunda Guerra Mundial"
+  40: [{t: 'p:ggc-lab', m: 'zoomIn'}],                                    // "en su taller había patentado"
+  41: [{t: 'c:patent'}],                                                  // "patente en Estados Unidos"
+  42: [{t: 'c:patent-full'}],                                             // "15 de septiembre de 1942"
+  43: [{t: 'c:patent-full'}],                                             // "2,296,019, adaptador cromoscópico"
+  44: [{t: 'c:patent-full'}],                                             // "oficinas del país más poderoso"
+  45: [{t: 'p:ggc', m: 'zoomIn'}],                                        // "Guillermo no fue el único"
 
   // ---------- CAP VI: la misma luz ----------
-  // 46 "un ingeniero de CBS llamado Peter Goldmark" -> name Goldmark + disco
-  46: [{t: 'a:cbs-goldmark-1940@2', m: 'zoomIn'}, {t: 'a:mechanical-color-disc@26', m: 'panRight'}],
-  // 47 "trabajaba en un sistema parecido, también con discos giratorios"
-  47: [{t: 'a:mechanical-color-disc@38', m: 'zoomIn'}, {t: 'c:colorwheel'}],
-  // 48 "dos países persiguiendo la misma luz al mismo tiempo"
-  48: [{t: 'a:cbs-goldmark-1940@2', m: 'zoomIn'}, {t: 'v:color-spectrum-prism', m: 'punchIn'}],
-  // 49 "a González Camarena. Goldmark tenía una corporación gigante" -> GGC vs RCA
-  49: [{t: GGC_CARA, m: 'zoomIn'}, {t: 'a:rca-color-tv-1950s@2', m: 'panRight'}],
-  // 50 "Guillermo tenía su talento, su terquedad y un país pobre" -> GGC
-  50: [{t: GGC_LAB, m: 'zoomIn'}],
-  // 51 "aún así llegó ahí, en paralelo, un mexicano casi solo" -> GGC
-  51: [{t: GGC_CARA, m: 'zoomIn'}, {t: GGC_APARATOS, m: 'punchIn'}],
-  // 52 "los periódicos de la época lo notaron" -> NewspaperCard
-  52: [{t: GGC_LAB, m: 'zoomIn'}],
-  // 53 "diarios como El Universal reseñaron a este joven inventor mexicano" -> Newspaper + GGC
-  53: [{t: GGC_CARA, m: 'zoomIn'}],
-  // 54 "haciendo algo imposible. México volvió a verlo" -> México
-  54: [{t: 'mexico-flag', m: 'panRight'}, {t: GGC_CATEDRAL, m: 'zoomIn'}],
-  // 55 "el 31 de agosto de 1946 hizo sus primeras transmisiones experimentales" -> DateStamp 1946
-  55: [{t: GGC_LAB, m: 'zoomIn'}],
-  // 56 "desde su laboratorio en la calle de Lucerna, en Ciudad de México"
-  56: [{t: GGC_LAB, m: 'panRight'}, {t: 'a:mexico-city-1930s@70', m: 'zoomIn'}],
-  // 57 "con sus aparatos hechos por él. justo cuando debería premiarlo"
-  57: [{t: GGC_APARATOS, m: 'zoomIn'}, {t: GGC_LAB, m: 'punchIn'}],
+  46: [{t: 'c:colorwheel'}, {t: 'a:mechanical-color-disc@26', m: 'panRight'}], // Goldmark
+  47: [{t: 'p:disco', m: 'zoomIn'}, {t: 'c:colorwheel'}],                // "sistema parecido, discos giratorios"
+  48: [{t: 'c:colorwheel'}, {t: 'p:color', m: 'punchIn'}], // "la misma luz"
+  49: [{t: 'p:ggc', m: 'zoomIn'}, {t: 'p:rca', m: 'panRight'}],          // "González Camarena vs corporación"
+  50: [{t: 'p:ggc-lab', m: 'zoomIn'}],                                    // "Guillermo tenía su talento"
+  51: [{t: 'p:ggc', m: 'zoomIn'}, {t: 'p:ggc-lab', m: 'punchIn'}],       // "un mexicano casi solo"
+  52: [{t: 'p:ggc-lab', m: 'zoomIn'}],                                    // "los periódicos lo notaron"
+  53: [{t: 'p:ggc', m: 'zoomIn'}],                                        // "El Universal, joven inventor" + News
+  54: [{t: 'p:mexico', m: 'panRight'}, {t: 'p:ggc', m: 'zoomIn'}],       // "México volvió a verlo"
+  55: [{t: 'p:ggc-lab', m: 'zoomIn'}],                                    // "31 de agosto de 1946"
+  56: [{t: 'p:ggc-lab', m: 'panRight'}, {t: 'p:mexico', m: 'zoomIn'}],   // "laboratorio en Lucerna, CDMX"
+  57: [{t: 'p:ggc-lab', m: 'zoomIn'}, {t: 'p:ggc-lab', m: 'punchIn'}],   // "con sus aparatos"
 
   // ---------- CAP VII: el olvido ----------
-  // 58 "empieza a torcerse. inventar primero no es quedarse con la gloria"
-  58: [{t: GGC_PENSANDO, m: 'zoomIn'}],
-  // 59 "la gloria se la lleva el que tiene más dinero. Guillermo trabajaba con lo que tenía"
-  59: [{t: 'a:rca-color-tv-1950s@26', m: 'panRight'}, {t: GGC_LAB, m: 'zoomIn'}],
-  // 60 "corporaciones como RCA invertían millones" -> RCA + name
-  60: [{t: 'a:rca-color-tv-1950s@2', m: 'zoomIn'}, {t: 'a:rca-color-tv-1950s@26', m: 'panRight'}],
-  // 61 "empezaba la guerra fría, la tecnología campo de batalla"
-  61: [{t: 'a:rca-color-tv-1950s@26', m: 'zoomIn'}, {t: 'a:rca-color-tv-1950s@58', m: 'panRight'}],
-  // 62 "la industria mundial no adoptó el sistema"
-  62: [{t: 'a:mechanical-color-disc@26', m: 'zoomIn'}, {t: 'a:rca-color-tv-1950s@2', m: 'panRight'}],
-  // 63 "de discos giratorios. se fue por otro camino, el de las grandes empresas"
-  63: [{t: 'c:colorwheel'}, {t: 'a:rca-color-tv-1950s@58', m: 'zoomIn'}],
-  // 64 "estadounidenses, el estándar comercial. y así poco a poco"
-  64: [{t: 'a:rca-color-tv-1950s@58', m: 'zoomIn'}, {t: 'a:rca-color-tv-1950s@26', m: 'panRight'}],
-  // 65 "el nombre del muchacho de Guadalajara se fue borrando" -> GGC se desvanece
-  65: [{t: GGC_PENSANDO, m: 'zoomIn'}],
-  // 66 "una historia escrita en inglés en los países ricos"
-  66: [{t: 'a:rca-color-tv-1950s@58', m: 'zoomIn'}],
-  // 67 "Pero Guillermo nunca fue por el dinero" -> GGC
-  67: [{t: GGC_CARA, m: 'zoomIn'}],
-  // 68 "un héroe de verdad. siguió inventando" -> GGC inventando
-  68: [{t: GGC_APARATOS, m: 'zoomIn'}, {t: GGC_LAB, m: 'punchIn'}],
-  // 69 "diseñó televisores baratos para un país pobre"
-  69: [{t: 'old-black-white-tv', m: 'zoomIn'}, {t: 'v:vintage-tv-workshop', m: 'panRight'}],
-  // 70 "soñaba con llevar la educación por televisión a México"
-  70: [{t: 'v:family-tv-vintage', m: 'zoomIn'}, {t: 'family-tv-vintage', m: 'panRight'}],
-  // 71 "a las escuelas rurales, a los niños"
-  71: [{t: 'family-tv-vintage', m: 'zoomIn'}, {t: 'v:family-tv-vintage', m: 'punchIn'}],
-  // 72 "era músico, compuso un huapango" -> mariachi
-  72: [{t: 'a:huapango-mexicano@15', m: 'panRight'}, {t: 'mexican-musician', m: 'zoomIn'}],
-  // 73 "llamado Río Colorado. veía el mundo en colores" -> mariachi + color
-  73: [{t: 'a:huapango-mexicano@40', m: 'zoomIn'}, {t: 'v:color-spectrum-prism', m: 'punchIn'}],
+  58: [{t: 'p:ggc', m: 'zoomIn'}],                                        // "empieza a torcerse"
+  59: [{t: 'p:rca', m: 'panRight'}, {t: 'p:ggc-lab', m: 'zoomIn'}],      // "el que tiene más dinero"
+  60: [{t: 'p:rca', m: 'zoomIn'}, {t: 'p:rca', m: 'panRight'}],          // "RCA invertía millones"
+  61: [{t: 'p:rca', m: 'zoomIn'}, {t: 'p:rca', m: 'panRight'}],          // "la guerra fría"
+  62: [{t: 'p:disco', m: 'zoomIn'}, {t: 'p:rca', m: 'panRight'}],        // "no adoptó el sistema"
+  63: [{t: 'c:colorwheel'}, {t: 'p:rca', m: 'zoomIn'}],                  // "se fue por otro camino"
+  64: [{t: 'p:rca', m: 'zoomIn'}, {t: 'p:rca', m: 'panRight'}],          // "el estándar comercial"
+  65: [{t: 'p:ggc', m: 'zoomIn'}],                                        // "se fue borrando"
+  66: [{t: 'p:rca', m: 'zoomIn'}],                                        // "escrita en inglés"
+  67: [{t: 'p:ggc', m: 'zoomIn'}],                                        // "Guillermo nunca fue por el dinero"
+  68: [{t: 'p:ggc-lab', m: 'zoomIn'}, {t: 'p:ggc-lab', m: 'punchIn'}],   // "siguió inventando"
+  69: [{t: 'p:tvvieja', m: 'zoomIn'}, {t: 'p:tvvieja', m: 'panRight'}],  // "televisores baratos"
+  70: [{t: 'v:family-tv-vintage', m: 'zoomIn'}, {t: 'family-tv-vintage', m: 'panRight'}], // "educación por TV"
+  71: [{t: 'family-tv-vintage', m: 'zoomIn'}, {t: 'v:family-tv-vintage', m: 'punchIn'}],  // "escuelas rurales"
+  72: [{t: 'p:musica', m: 'panRight'}, {t: 'p:musica', m: 'zoomIn'}],    // "era músico, un huapango"
+  73: [{t: 'p:musica', m: 'zoomIn'}, {t: 'p:color', m: 'punchIn'}],      // "Río Colorado, el mundo en colores"
 
   // ---------- CAP VIII: XHGC ----------
-  // 74 "por fin llegó su gran día, su desquite contra el olvido" -> GGC
-  74: [{t: GGC_CARA, m: 'zoomIn'}, {t: GGC_TV, m: 'punchIn'}],
-  // 75 "el 21 de enero de 1963, a través del Canal 5" -> Canal 5 + DateStamp 1963
-  75: [{t: 'a:gc-canal5-xhgc@2', m: 'zoomIn'}],
-  // 76 "primera transmisión a color de México. paraíso infantil"
-  76: [{t: 'a:cbs-goldmark-1940@2', m: 'zoomIn'}, {t: 'a:vintage-tv-broadcast-mx@30', m: 'panRight'}],
-  // 77 "México se convirtió en el cuarto país del mundo" -> StatBox 4°
-  77: [{t: 'mexico-flag', m: 'zoomIn'}],
-  // 78 "en emitir a color, solo después de EEUU"
-  78: [{t: 'a:vintage-tv-broadcast-mx@2', m: 'panRight'}, {t: 'mexico-flag', m: 'zoomIn'}],
-  // 79 "Japón y Canadá. cuarto lugar en el planeta" -> StatBox
-  79: [{t: 'mexico-flag', m: 'zoomIn'}],
-  // 80 "¿y sabes cómo se llama ese canal hasta hoy?" -> Canal 5
-  80: [{t: 'a:gc-canal5-xhgc@2', m: 'zoomIn'}],
-  // 81 "Canal 5 lleva las siglas XHGC: González Camarena, sus iniciales" -> emblema XHGC + name
-  81: [{t: 'a:gc-canal5-xhgc@70', m: 'zoomIn'}],
-  // 82 "en el aire de la televisión mexicana"
-  82: [{t: 'a:vintage-tv-broadcast-mx@60', m: 'panRight'}, {t: 'a:gc-canal5-xhgc@70', m: 'zoomIn'}],
-  // 83 "sin saberlo pronuncia su nombre. el destino le había robado el crédito"
-  83: [{t: GGC_CARA, m: 'zoomIn'}],
-  // 84 "todavía le tenía guardado un último golpe, el más cruel" -> tensión
-  84: [{t: GGC_PENSANDO, m: 'zoomIn'}],
+  74: [{t: 'p:ggc', m: 'zoomIn'}, {t: 'p:ggc', m: 'punchIn'}],           // "su gran día"
+  75: [{t: 'a:gc-canal5-xhgc@2', m: 'zoomIn'}],                           // "21 de enero de 1963, Canal 5"
+  76: [{t: 'c:colorwheel'}, {t: 'p:tvmx', m: 'panRight'}], // "primera transmisión a color"
+  77: [{t: 'p:mexico', m: 'zoomIn'}],                                     // "cuarto país del mundo" + Stat
+  78: [{t: 'p:tvmx', m: 'panRight'}, {t: 'p:mexico', m: 'zoomIn'}],      // "después de EEUU"
+  79: [{t: 'p:mexico', m: 'zoomIn'}],                                     // "cuarto lugar del planeta"
+  80: [{t: 'a:gc-canal5-xhgc@2', m: 'zoomIn'}],                           // "¿cómo se llama ese canal?"
+  81: [{t: 'a:gc-canal5-xhgc@70', m: 'zoomIn'}],                          // XHGC emblema + name
+  82: [{t: 'p:tvmx', m: 'panRight'}, {t: 'a:gc-canal5-xhgc@70', m: 'zoomIn'}], // "el aire de la TV mexicana"
+  83: [{t: 'p:ggc', m: 'zoomIn'}],                                        // "pronuncia su nombre"
+  84: [{t: 'p:ggc', m: 'zoomIn'}],                                        // "un último golpe"
 
   // ---------- CAP IX: el último golpe ----------
-  // 85 "el 18 de abril de 1965, Guillermo González Camarena regresaba" -> GGC + carretera + 1965
-  85: [{t: GGC_CARA, m: 'zoomIn'}, {t: 'v:highway-mexico', m: 'panRight'}],
-  // 86 "por la carretera entre México y Veracruz. un accidente"
-  86: [{t: 'v:highway-mexico', m: 'zoomIn'}, {t: 'highway-mexico', m: 'punchIn'}],
-  // 87 "murió. tenía apenas 48 años" -> StatBox 48
-  87: [{t: 'highway-mexico', m: 'zoomIn'}],
-  // 88 "todavía inventando, soñando con el color y la educación" -> GGC
-  88: [{t: GGC_APARATOS, m: 'zoomIn'}, {t: GGC_LAB, m: 'punchIn'}],
-  // 89 "Se apagó de golpe como una pantalla a la que le cortan la señal" -> SCREEN OFF
-  89: [{t: 'c:screenoff'}],
+  85: [{t: 'p:ggc', m: 'zoomIn'}, {t: 'p:carretera', m: 'panRight'}],    // "18 de abril de 1965, GGC regresaba"
+  86: [{t: 'p:carretera', m: 'zoomIn'}, {t: 'p:carretera', m: 'punchIn'}], // "carretera México-Veracruz"
+  87: [{t: 'p:carretera', m: 'zoomIn'}],                                  // "murió, 48 años" + Stat
+  88: [{t: 'p:ggc-lab', m: 'zoomIn'}, {t: 'p:ggc-lab', m: 'punchIn'}],   // "todavía inventando"
+  89: [{t: 'c:screenoff'}],                                               // "como pantalla a la que le cortan la señal"
 
   // ---------- CAP X: la verdad documentada ----------
-  // 90 "una leyenda: que la NASA usó su sistema para el Voyager" -> sonda Voyager
-  90: [{t: 'a:voyager-nasa-images@20', m: 'zoomIn'}],
-  // 91 "las primeras imágenes del espacio desde las sondas Voyager"
-  91: [{t: 'a:voyager-nasa-images@55', m: 'zoomIn'}, {t: 'a:voyager-nasa-images@20', m: 'panRight'}],
-  // 92 "y la vas a escuchar por todas partes. pero voy a ser honesto"
-  92: [{t: 'a:voyager-nasa-images@55', m: 'zoomIn'}],
-  // 93 "mereces la verdad. esa parte no está del todo comprobada"
-  93: [{t: 'a:voyager-nasa-images@20', m: 'zoomIn'}],
-  // 94 "es probable que se exageró. ¿y sabes qué? no hace falta"
-  94: [{t: GGC_CARA, m: 'zoomIn'}],
-  // 95 "lo que sí es cierto, lo que sí está firmado y documentado" -> PatentTeaser revelado
-  95: [{t: 'c:patent-full'}],
-  // 96 "un joven mexicano de 23 años patentó" -> GGC + StatBox 23
-  96: [{t: GGC_CARA, m: 'zoomIn'}],
-  // 97 "un sistema de televisión a color en 1940, con los gigantes"
-  97: [{t: 'c:patent-full'}],
-  // 98 "con una fracción de recursos, cuarto país en ver a todo color" -> StatBox
-  98: [{t: 'v:color-spectrum-prism', m: 'zoomIn'}, {t: 'mexico-flag', m: 'panRight'}],
-  // 99 "¿eso no es leyenda? es historia. ¿por qué nadie lo conoce?" -> GGC
-  99: [{t: GGC_CARA, m: 'zoomIn'}, {t: GGC_PENSANDO, m: 'punchIn'}],
-  // 100 "la historia no la escriben los que llegan primero"
-  100: [{t: 'a:rca-color-tv-1950s@58', m: 'zoomIn'}],
-  // 101 "la escriben los que tienen el poder. no estuvo en México"
-  101: [{t: 'a:rca-color-tv-1950s@2', m: 'panRight'}, {t: 'mexico-flag', m: 'zoomIn'}],
-  // 102 "estuvo en las corporaciones, los países ricos, otro idioma"
-  102: [{t: 'a:rca-color-tv-1950s@58', m: 'zoomIn'}, {t: 'a:rca-color-tv-1950s@26', m: 'panRight'}],
-  // 103 "que decidieron que el color lo inventaron ellos"
-  103: [{t: 'a:rca-color-tv-1950s@26', m: 'zoomIn'}],
-  // 104 "González Camarena fue borrado porque era de aquí" -> GGC + México
-  104: [{t: GGC_CARA, m: 'zoomIn'}, {t: 'mexico-flag', m: 'panRight'}],
-  // 105 "porque era de nuestro país"
-  105: [{t: 'mexico-flag', m: 'zoomIn'}, {t: 'a:mexico-city-1930s@70', m: 'panRight'}],
-  // 106 "les toca el papel de espectadores. solo si lo permitimos"
-  106: [{t: GGC_CARA, m: 'zoomIn'}],
-  // 107 "si dejamos que su nombre se apague. la próxima vez que enciendas tu TV"
-  107: [{t: 'v:tv-static-noise', m: 'zoomIn'}, {t: 'old-black-white-tv', m: 'punchIn'}],
-  // 108 "tu celular, cualquier pantalla, ese rojo verde azul, acuérdate de él" -> RGB
-  108: [{t: 'v:rgb-pixels-macro', m: 'punchIn'}, {t: 'v:color-spectrum-prism', m: 'zoomIn'}],
-  // 109 "acuérdate del muchacho de Guadalajara que desarmaba radios" -> GGC + radios
-  109: [{t: GGC_CATEDRAL, m: 'zoomIn'}, {t: 'vintage-radio-parts', m: 'panRight'}],
-  // 110 "que armaba sus aparatos porque no tenía para comprarlos, a los 23 años" -> GGC
-  110: [{t: GGC_LAB, m: 'zoomIn'}],
-  // 111 "a soñar en color cuando el mundo veía en blanco y negro. Guillermo González" -> GGC
-  111: [{t: 'old-black-white-tv', m: 'zoomIn'}, {t: GGC_CARA, m: 'punchIn'}],
-  // 112 "Camarena. el mundo se olvidó de él. México no tiene por qué" -> GGC + México
-  112: [{t: GGC_CARA, m: 'zoomIn'}, {t: 'mexico-flag', m: 'panRight'}],
-  // 113 "compártela. suscríbete a Crónicas Ilustradas" -> name
-  113: [{t: GGC_CATEDRAL, m: 'zoomIn'}],
-  // 114 "cada semana rescatamos una historia que merecías conocer" -> cierre
-  114: [{t: GGC_CARA, m: 'zoomIn'}, {t: GGC_TV, m: 'punchIn'}],
+  90: [{t: 'p:voyager', m: 'zoomIn'}],                                    // "leyenda: la NASA / Voyager"
+  91: [{t: 'p:voyager', m: 'zoomIn'}, {t: 'p:voyager', m: 'panRight'}],  // "imágenes del espacio"
+  92: [{t: 'p:voyager', m: 'zoomIn'}],                                    // "voy a ser honesto"
+  93: [{t: 'p:voyager', m: 'zoomIn'}],                                    // "no está comprobada"
+  94: [{t: 'p:ggc', m: 'zoomIn'}],                                        // "no hace falta"
+  95: [{t: 'c:patent-full'}],                                             // "firmado y documentado"
+  96: [{t: 'p:ggc', m: 'zoomIn'}],                                        // "un joven de 23 años patentó" + Stat
+  97: [{t: 'c:patent-full'}],                                             // "en 1940, con los gigantes"
+  98: [{t: 'p:color', m: 'zoomIn'}, {t: 'p:mexico', m: 'panRight'}],     // "cuarto país a todo color"
+  99: [{t: 'p:ggc', m: 'zoomIn'}, {t: 'p:ggc', m: 'punchIn'}],           // "¿por qué nadie lo conoce?"
+  100: [{t: 'p:rca', m: 'zoomIn'}],                                       // "no la escriben los primeros"
+  101: [{t: 'p:rca', m: 'panRight'}, {t: 'p:mexico', m: 'zoomIn'}],      // "el poder no estuvo en México"
+  102: [{t: 'p:rca', m: 'zoomIn'}, {t: 'p:rca', m: 'panRight'}],         // "las corporaciones, otro idioma"
+  103: [{t: 'p:rca', m: 'zoomIn'}],                                       // "lo inventaron ellos"
+  104: [{t: 'p:ggc', m: 'zoomIn'}, {t: 'p:mexico', m: 'panRight'}],      // "González Camarena borrado por ser de aquí"
+  105: [{t: 'p:mexico', m: 'zoomIn'}, {t: 'p:mexico', m: 'panRight'}],   // "de nuestro país"
+  106: [{t: 'p:ggc', m: 'zoomIn'}],                                       // "solo si lo permitimos"
+  107: [{t: 'p:senal', m: 'zoomIn'}, {t: 'p:tvvieja', m: 'punchIn'}],    // "la próxima vez que enciendas tu TV"
+  108: [{t: 'p:color', m: 'punchIn'}, {t: 'p:color', m: 'zoomIn'}],      // "ese rojo, verde, azul"
+  109: [{t: 'p:ggc', m: 'zoomIn'}, {t: 'p:electro', m: 'panRight'}],     // "el muchacho que desarmaba radios"
+  110: [{t: 'p:ggc-lab', m: 'zoomIn'}],                                   // "armaba sus aparatos, 23 años"
+  111: [{t: 'p:tvvieja', m: 'zoomIn'}, {t: 'p:ggc', m: 'punchIn'}],      // "en color cuando el mundo veía B/N"
+  112: [{t: 'p:ggc', m: 'zoomIn'}, {t: 'p:mexico', m: 'panRight'}],      // "el mundo se olvidó de él"
+  113: [{t: 'p:ggc', m: 'zoomIn'}],                                       // "suscríbete a Crónicas Ilustradas"
+  114: [{t: 'p:ggc', m: 'zoomIn'}, {t: 'p:ggc', m: 'punchIn'}],          // cierre
 };
 
 // ---- Ventanas verificadas por clip (para el avance interno del archivo) ----
@@ -307,7 +247,7 @@ const WINDOWS: Record<string, [number, number][]> = {
   'gc-patente-noticia': [[18, 21], [62, 65], [96, 100]],
   'mexico-revolucion-1917': [[1, 7], [9, 15]],
   'mechanical-color-disc': [[26, 31], [38, 44.5], [88, 91]],
-  'cbs-goldmark-1940': [[1, 4.5]],
+  'cbs-goldmark-1940': [[1, 2.6]],  // sólo el disco tricolor; después sale el loro
   'rca-color-tv-1950s': [[0, 44], [56, 64]],
   'ipn-politecnico-historia': [[2, 80]],
   'mexico-city-1930s': [[45, 82]],
@@ -398,6 +338,27 @@ export const buildPlan = (fps: number, total: number) => {
   };
   const recordUse = (src: string) => {if (src) useCount[src] = (useCount[src] ?? 0) + 1;};
 
+  // ---- selector de POOL con anti-repetición: elige el miembro menos usado
+  // recientemente para NO repetir las mismas tomas. MIN_SEP = separación mínima. ----
+  const poolLast: Record<string, number> = {};   // token -> frame de último uso
+  const poolCount: Record<string, number> = {};
+  const MIN_SEP = Math.round(22 * fps);           // no repetir el mismo token en <22s
+  const pickFromPool = (poolName: string, nowFrame: number): string => {
+    const tokens = POOLS[poolName] ?? [poolName];
+    let best = tokens[0], bestScore = Infinity;
+    tokens.forEach((tk, k) => {
+      const last = poolLast[tk];
+      const elapsed = last === undefined ? MIN_SEP : nowFrame - last;
+      const sepPenalty = elapsed >= MIN_SEP ? 0 : 1e6 * (1 - elapsed / MIN_SEP);
+      const tie = ((k * 2654435761) % 997) / 997;
+      const score = sepPenalty + (poolCount[tk] ?? 0) * 50 + tie;
+      if (score < bestScore) {bestScore = score; best = tk;}
+    });
+    poolLast[best] = nowFrame;
+    poolCount[best] = (poolCount[best] ?? 0) + 1;
+    return best;
+  };
+
   const archCursor: Record<string, number> = {};
   const nextArchStart = (id: string, durSecs: number): number => {
     const meta = ARCHIVAL[id] ?? {dur: 30, start: 1};
@@ -452,7 +413,9 @@ export const buildPlan = (fps: number, total: number) => {
         const sFrom = from + Math.round((acc / totalW) * dur);
         const sTo = from + Math.round(((acc + w) / totalW) * dur);
         acc += w;
-        const cand = resolveToken(p.t, pickVariant);
+        // token de pool 'p:X' -> se resuelve al miembro menos repetido
+        const token = p.t.startsWith('p:') ? pickFromPool(p.t.slice(2), sFrom) : p.t;
+        const cand = resolveToken(token, pickVariant);
         const motion = p.m ?? cutMotions[(idx + k) % cutMotions.length];
         pushShot(sFrom, Math.max(1, sTo - sFrom), cand, motion, !!p.sc);
       });
@@ -467,18 +430,19 @@ export const buildPlan = (fps: number, total: number) => {
       }
     }
 
-    // ---- Overlays ----
+    // ---- Overlays (delays SUBIDOS: los textos centrados y capítulos entran CON
+    // la frase, no antes) ----
     if (chapterByCue.has(c.i)) {
       const ch = chapterByCue.get(c.i)!;
-      overlays.push({from, dur: Math.round(fps * 2.6), delay: 0.5, kind: 'chapter', num: ch.num, text: ch.title});
+      overlays.push({from, dur: Math.round(fps * 2.6), delay: ch.delay ?? 1.5, kind: 'chapter', num: ch.num, text: ch.title});
     }
     if (c.i === 9) overlays.push({from, dur: Math.round(fps * 4.2), delay: TEXT_NUDGE, kind: 'title', pre: 'la historia de', text: 'Guillermo González Camarena'});
-    if (FULLTEXT[c.i]) overlays.push({from, dur: Math.min(dur, Math.round(fps * 3.6)), delay: TEXT_NUDGE, kind: 'fulltext', text: FULLTEXT[c.i].text, accent: FULLTEXT[c.i].accent});
-    if (STATS[c.i]) overlays.push({from, dur: Math.round(fps * 3.0), delay: 0.6, kind: 'stat', stat: STATS[c.i]});
-    if (DATES[c.i]) overlays.push({from, dur: Math.round(fps * 2.4), delay: 0.4, kind: 'date', text: DATES[c.i]});
-    if (NEWSPAPER[c.i]) overlays.push({from, dur: Math.round(fps * 3.8), delay: 0.4, kind: 'newspaper', headline: NEWSPAPER[c.i].headline, dek: NEWSPAPER[c.i].dek});
-    if (NAMES[c.i]) overlays.push({from, dur: Math.round(fps * 3.0), delay: NAMES[c.i].delay ?? 0.4, kind: 'name', name: NAMES[c.i].name, role: NAMES[c.i].role});
-    if (DEFS[c.i]) overlays.push({from, dur: Math.round(fps * 3.6), delay: DEFS[c.i].delay ?? 0.5, kind: 'definition', term: DEFS[c.i].term, pos: DEFS[c.i].pos, def: DEFS[c.i].def});
+    if (FULLTEXT[c.i]) overlays.push({from, dur: Math.min(dur, Math.round(fps * 3.6)), delay: 0.8, kind: 'fulltext', text: FULLTEXT[c.i].text, accent: FULLTEXT[c.i].accent});
+    if (STATS[c.i]) overlays.push({from, dur: Math.round(fps * 3.0), delay: 1.1, kind: 'stat', stat: STATS[c.i]});
+    if (DATES[c.i]) overlays.push({from, dur: Math.round(fps * 2.4), delay: 0.7, kind: 'date', text: DATES[c.i]});
+    if (NEWSPAPER[c.i]) overlays.push({from, dur: Math.round(fps * 3.8), delay: 0.9, kind: 'newspaper', headline: NEWSPAPER[c.i].headline, dek: NEWSPAPER[c.i].dek});
+    if (NAMES[c.i]) overlays.push({from, dur: Math.round(fps * 3.0), delay: NAMES[c.i].delay ?? 0.9, kind: 'name', name: NAMES[c.i].name, role: NAMES[c.i].role});
+    if (DEFS[c.i]) overlays.push({from, dur: Math.round(fps * 3.6), delay: DEFS[c.i].delay ?? 1.0, kind: 'definition', term: DEFS[c.i].term, pos: DEFS[c.i].pos, def: DEFS[c.i].def});
     if (SOURCE[c.i]) overlays.push({from, dur: Math.round(fps * 3.2), delay: 0.6, kind: 'source', label: SOURCE[c.i].label, sub: SOURCE[c.i].sub});
   });
 
