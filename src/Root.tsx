@@ -28,10 +28,19 @@ import {AtomOsEdit} from './atomos/AtomOsEdit';
 import {GhostSpectreEdit} from './ghostspectre/GhostSpectreEdit';
 import {GhostSpectre10Edit} from './ghostspectre10/GhostSpectre10Edit';
 import {GhostSpectre10v11Table} from './ghostspectre10/ComparisonTable';
+import {AlcorTrucoEdit} from './alcortruco/AlcorTrucoEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="AlcorTrucoEdit"
+        component={AlcorTrucoEdit}
+        durationInFrames={6457}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="GhostSpectre10v11Table"
         component={GhostSpectre10v11Table}
