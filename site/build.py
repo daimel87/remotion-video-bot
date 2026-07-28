@@ -7,26 +7,6 @@ from data import SITE, TOOLS
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
 
-# ---- Bloque de anuncio Adsterra (responsive: 728x90 escritorio / 320x50 móvil) ----
-def ad(slot):
-    dk = SITE["adsterra_desktop"]
-    mk = SITE["adsterra_mobile"]
-    return f'''<div class="ad" data-slot="{slot}">
-      <span class="ad-label">Publicidad</span>
-      <div class="ad-inner ad-desktop">
-        <script type="text/javascript">
-          atOptions = {{ 'key':'{dk}', 'format':'iframe', 'height':90, 'width':728, 'params':{{}} }};
-        </script>
-        <script type="text/javascript" src="https://russiaexternalknew.com/{dk}/invoke.js"></script>
-      </div>
-      <div class="ad-inner ad-mobile">
-        <script type="text/javascript">
-          atOptions = {{ 'key':'{mk}', 'format':'iframe', 'height':50, 'width':320, 'params':{{}} }};
-        </script>
-        <script type="text/javascript" src="https://russiaexternalknew.com/{mk}/invoke.js"></script>
-      </div>
-    </div>'''
-
 # ---- Reproductor de la lista de reproducción de YouTube ----
 def video(titulo="🎥 Tutoriales en vídeo", pid=None):
     pid = pid or SITE["playlist_id"]
@@ -41,18 +21,22 @@ def video(titulo="🎥 Tutoriales en vídeo", pid=None):
       </div>
     </section>'''
 
-# ---- Native Banner Adsterra (se integra con el contenido) ----
-def native():
-    nk = SITE["adsterra_native"]
-    return f'''<div class="native-ad">
-      <span class="ad-label">Publicidad</span>
-      <script async="async" data-cfasync="false" src="https://russiaexternalknew.com/{nk}/invoke.js"></script>
-      <div id="container-{nk}"></div>
-    </div>'''
+# ---- Popunder Monetag (solo se inyecta en páginas de descarga) ----
+POPUNDER = f'''<!-- Monetag Popunder -->
+{SITE['monetag_popunder']}'''
 
-# ---- Popunder Adsterra (solo se inyecta en páginas de descarga) ----
-POPUNDER = f'''<!-- Adsterra Popunder -->
-<script type="text/javascript" src="{SITE['adsterra_popunder']}"></script>'''
+# ---- Push, In-Page Push y Vignette Monetag (todas las páginas) ----
+MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
+{SITE['monetag_push']}
+<!-- Monetag In-Page Push -->
+{SITE['monetag_inpage_push']}
+<!-- Monetag Vignette Banner -->
+{SITE['monetag_vignette']}
+<script>
+if ('serviceWorker' in navigator) {{
+  navigator.serviceWorker.register('/sw.js').catch(function(){{}});
+}}
+</script>'''
 
 def head(title, desc, canonical):
     return f'''<!DOCTYPE html>
@@ -126,8 +110,7 @@ FOOT = f'''</main>
      Úsalas bajo tu responsabilidad; una reparación de bajo nivel borra todos los datos de la USB.</p>
 </footer>
 {ADBLOCK_DETECT}
-<!-- Adsterra Social Bar -->
-<script src="{SITE['adsterra_socialbar']}" data-cfasync="false" async></script>
+{MONETAG_SITEWIDE}
 </body></html>'''
 
 def write(path, content):
@@ -161,7 +144,6 @@ def tool_page(t):
            herramienta de reparación correspondiente de esta web.</p></details>
     </section>'''
     else:
-        mkm = SITE["adsterra_modal"]
         download = f'''<button class="download" type="button" onclick="openDlModal()">
        ⬇ Descargar {html.escape(t['brand'])}</button>
     {key_html}
@@ -169,15 +151,9 @@ def tool_page(t):
       <div class="modal-box">
         <button class="modal-close" type="button" onclick="closeDlModal()" aria-label="Cerrar">✕</button>
         <h3>Tu descarga está casi lista</h3>
-        <div class="modal-ad">
-          <script type="text/javascript">
-            atOptions = {{ 'key':'{mkm}', 'format':'iframe', 'height':250, 'width':300, 'params':{{}} }};
-          </script>
-          <script type="text/javascript" src="https://russiaexternalknew.com/{mkm}/invoke.js"></script>
-        </div>
         <p id="dlCountdown">Preparando tu descarga… 10s</p>
         <a id="dlReal" class="download" href="{t['url']}" rel="noopener nofollow" style="display:none"
-           onclick="window.open('{SITE['adsterra_smartlink']}','_blank')">⬇ Descargar {html.escape(t['brand'])}</a>
+           onclick="window.open('{SITE['monetag_directlink']}','_blank')">⬇ Descargar {html.escape(t['brand'])}</a>
       </div>
     </div>
     <script>
@@ -213,17 +189,13 @@ def tool_page(t):
     <nav class="crumbs"><a href="/">Inicio</a> › {html.escape(t['brand'])}</nav>
     <h1>{html.escape(t['title'])}</h1>
     <p class="lead">{t['intro']}</p>
-    {ad('top')}
     {download}
     <h2>{steps_title}</h2>
     <ol class="steps">{steps}</ol>
-    {ad('mid')}
     {video("🎥 Vídeotutoriales", t.get("playlist"))}
     {faq}
     <p class="cta">📺 Más tutoriales en
        <a href="{SITE['youtube']}" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
-    {native()}
-    {ad('bottom')}
   </article>'''
     desc = t['intro'][:155]
     tail = FOOT if is_guide else (POPUNDER + FOOT)
@@ -244,7 +216,6 @@ def home():
     <a class="btn" href="#herramientas">Ver herramientas</a>
     <a class="btn ghost" href="/chipgenius.html">¿No sabes tu controlador? Empieza aquí</a>
   </section>
-  {ad('home-top')}
   {video("🎥 Videotutoriales: repara tu USB paso a paso")}
   <section class="guide">
     <h2>¿Cómo reparar una memoria USB dañada?</h2>
@@ -262,16 +233,14 @@ def home():
   <section id="herramientas" class="grid-wrap">
     <h2>Todas las herramientas ({len(TOOLS)})</h2>
     <div class="grid">{cards}</div>
-  </section>
-  {native()}
-  {ad('home-bottom')}'''
+  </section>'''
     write("index.html", head(f"{SITE['name']} — {SITE['tagline']}", SITE['description'],
                              SITE['domain'] + "/") + body + FOOT)
 
 # ---------- Páginas legales (requeridas por AdSense/Adsterra) ----------
 def legal():
     priv = '''<article class="tool"><h1>Política de privacidad</h1>
-      <p>Este sitio muestra publicidad de terceros (redes como Adsterra o Google AdSense). Estas
+      <p>Este sitio muestra publicidad de terceros (redes como Monetag o Google AdSense). Estas
       redes pueden usar cookies para mostrar anuncios relevantes según tu navegación. Puedes
       desactivar las cookies de personalización en la configuración de tu navegador.</p>
       <p>No recopilamos datos personales identificables. El tráfico se mide de forma anónima.</p></article>'''
@@ -299,6 +268,7 @@ def main():
         shutil.rmtree(DIST)
     os.makedirs(DIST)
     shutil.copy(os.path.join(HERE, "style.css"), os.path.join(DIST, "style.css"))
+    shutil.copy(os.path.join(HERE, "sw.js"), os.path.join(DIST, "sw.js"))
     home(); legal(); seo_files()
     for t in TOOLS:
         tool_page(t)
