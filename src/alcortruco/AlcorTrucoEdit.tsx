@@ -14,7 +14,7 @@ import {
 } from 'remotion';
 import '../revios/fonts.css';
 import {backOut, easeIn, easeOut, FONT_MONO, FONT_TITLE, panelShadow, textShadow, theme} from './theme';
-import {Arrow, Chip, ClickRipple, Highlight, Panel, StepCard, SubNudge, Watermark, useLife} from './components';
+import {Arrow, Chip, ClickRipple, Panel, StepCard, SubNudge, Watermark, useLife} from './components';
 
 // "El Alcor Truco" — repair-channel edit. 3:35.23 source (30 fps).
 const SRC = 'alcor_truco.mp4';
@@ -685,10 +685,6 @@ export const AlcorTrucoEdit: React.FC = () => {
       <Sequence from={s(89.5)} durationInFrames={s(97.2) - s(89.5)}>
         <StepCard step={1} total={3} title="Abrimos ChipGenius y AlcorMP" sub="Detectamos el chip y probamos la MP" x={70} y={150} accent={theme.red} durationInFrames={s(97.2) - s(89.5)} />
       </Sequence>
-      <Sequence from={s(93.7)} durationInFrames={s(97.0) - s(93.7)}>
-        <Highlight x={615} y={678} w={700} h={40} color={theme.amber} label="Alcor Micro · AU6989SN" labelPos="bottom" durationInFrames={s(97.0) - s(93.7)} />
-      </Sequence>
-
       <Sequence from={s(97.2)} durationInFrames={s(101.5) - s(97.2)}>
         <Note x={1100} y={150} icon="❌" title="¡Sorpresa! No aparece en AlcorMP" body="La memoria USB no es detectada" accent={theme.warn} durationInFrames={s(101.5) - s(97.2)} />
       </Sequence>
@@ -707,18 +703,11 @@ export const AlcorTrucoEdit: React.FC = () => {
       <Sequence from={s(121.7)} durationInFrames={s(122.8) - s(121.7)}>
         <QuestionScene text="¿Y cómo lo hacemos? 🤔" durationInFrames={s(122.8) - s(121.7)} />
       </Sequence>
-      <Sequence from={s(122.8)} durationInFrames={s(126.6) - s(122.8)}>
-        <Highlight x={1108} y={422} w={300} h={32} color={theme.cyan} label="VID · PID" durationInFrames={s(126.6) - s(122.8)} />
-      </Sequence>
       <Sequence from={s(126.6)} durationInFrames={s(132.9) - s(126.6)}>
         <StepCard step={2} total={3} title="Igualamos VID y PID en Setup" sub="Clic derecho en la herramienta → Setup" x={70} y={150} accent={theme.red} durationInFrames={s(132.9) - s(126.6)} />
-        <Highlight x={963} y={474} w={125} h={34} color={theme.amber} label="Clic derecho → Setup" durationInFrames={s(132.9) - s(126.6)} />
       </Sequence>
       <Sequence from={s(128)} durationInFrames={40}>
         <ClickRipple x={1025} y={490} durationInFrames={40} />
-      </Sequence>
-      <Sequence from={s(132.9)} durationInFrames={s(138.8) - s(132.9)}>
-        <Highlight x={548} y={278} w={162} h={34} color={theme.amber} label="Pestaña Information" durationInFrames={s(138.8) - s(132.9)} />
       </Sequence>
       <Sequence from={s(142.6)} durationInFrames={s(149.5) - s(142.6)}>
         <KeyValueBig durationInFrames={s(149.5) - s(142.6)} />
@@ -728,9 +717,6 @@ export const AlcorTrucoEdit: React.FC = () => {
       </Sequence>
       <Sequence from={s(152.7)} durationInFrames={s(158.5) - s(152.7)}>
         <StepCard step={3} total={3} title="Start → reparar la memoria" sub="Ya la reconoce sin problemas" x={1100} y={150} accent={theme.red} durationInFrames={s(158.5) - s(152.7)} />
-      </Sequence>
-      <Sequence from={s(153.4)} durationInFrames={s(158.5) - s(153.4)}>
-        <Highlight x={963} y={432} w={125} h={38} color={theme.green} label="¡Reconocida! → Start" durationInFrames={s(158.5) - s(153.4)} />
       </Sequence>
       <Sequence from={s(155)} durationInFrames={40}>
         <ClickRipple x={1025} y={450} durationInFrames={40} />
