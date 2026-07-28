@@ -593,6 +593,19 @@ export const AlcorTrucoEdit: React.FC = () => {
       <FontGate />
       <OffthreadVideo src={staticFile(SRC)} />
 
+      {/*
+        Solid backdrop under every intro scene except the final WipeOut.
+        Individual scenes fade in/out (opacity) for their own transitions;
+        without an opaque floor here, those fades would let the raw footage
+        flash through underneath for a frame or two, which read as an editing
+        mistake. This keeps every intro-to-intro cut seamless. The WipeOut
+        scene (from s(86.2)) is intentionally left uncovered — its own fade
+        is the designed reveal of the real footage at s(89.5).
+      */}
+      <Sequence from={0} durationInFrames={s(86.2)}>
+        <AbsoluteFill style={{background: theme.gradientDark}} />
+      </Sequence>
+
       {/* =============================== INTRO =============================== */}
       <Sequence from={0} durationInFrames={s(7.8)}>
         <Hook kicker="Atención" title="1 SOLA ESTRATEGIA" sub="para reparar CIENTOS, MILES de memorias USB" icon="🧠" durationInFrames={s(7.8)} />
