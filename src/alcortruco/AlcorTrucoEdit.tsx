@@ -685,9 +685,6 @@ export const AlcorTrucoEdit: React.FC = () => {
       <Sequence from={s(89.5)} durationInFrames={s(97.2) - s(89.5)}>
         <StepCard step={1} total={3} title="Abrimos ChipGenius y AlcorMP" sub="Detectamos el chip y probamos la MP" x={70} y={150} accent={theme.red} durationInFrames={s(97.2) - s(89.5)} />
       </Sequence>
-      <Sequence from={s(90.2)} durationInFrames={s(93.7) - s(90.2)}>
-        <Highlight x={615} y={533} w={410} h={38} color={theme.cyan} label="VID 8564 · PID 1000" durationInFrames={s(93.7) - s(90.2)} />
-      </Sequence>
       <Sequence from={s(93.7)} durationInFrames={s(97.0) - s(93.7)}>
         <Highlight x={615} y={678} w={700} h={40} color={theme.amber} label="Alcor Micro · AU6989SN" labelPos="bottom" durationInFrames={s(97.0) - s(93.7)} />
       </Sequence>
@@ -713,10 +710,8 @@ export const AlcorTrucoEdit: React.FC = () => {
       <Sequence from={s(122.8)} durationInFrames={s(126.6) - s(122.8)}>
         <Highlight x={1108} y={422} w={300} h={32} color={theme.cyan} label="VID · PID" durationInFrames={s(126.6) - s(122.8)} />
       </Sequence>
-      <Sequence from={s(122.8)} durationInFrames={s(132.9) - s(122.8)}>
-        <StepCard step={2} total={3} title="Igualamos VID y PID en Setup" sub="Clic derecho en la herramienta → Setup" x={70} y={150} accent={theme.red} durationInFrames={s(132.9) - s(122.8)} />
-      </Sequence>
       <Sequence from={s(126.6)} durationInFrames={s(132.9) - s(126.6)}>
+        <StepCard step={2} total={3} title="Igualamos VID y PID en Setup" sub="Clic derecho en la herramienta → Setup" x={70} y={150} accent={theme.red} durationInFrames={s(132.9) - s(126.6)} />
         <Highlight x={963} y={474} w={125} h={34} color={theme.amber} label="Clic derecho → Setup" durationInFrames={s(132.9) - s(126.6)} />
       </Sequence>
       <Sequence from={s(128)} durationInFrames={40}>
@@ -724,9 +719,6 @@ export const AlcorTrucoEdit: React.FC = () => {
       </Sequence>
       <Sequence from={s(132.9)} durationInFrames={s(138.8) - s(132.9)}>
         <Highlight x={548} y={278} w={162} h={34} color={theme.amber} label="Pestaña Information" durationInFrames={s(138.8) - s(132.9)} />
-      </Sequence>
-      <Sequence from={s(138.8)} durationInFrames={s(147.1) - s(138.8)}>
-        <Highlight x={280} y={325} w={410} h={140} color={theme.amber} label="Escribe aquí: VID y PID" eyes={false} durationInFrames={s(147.1) - s(138.8)} />
       </Sequence>
       <Sequence from={s(142.6)} durationInFrames={s(149.5) - s(142.6)}>
         <KeyValueBig durationInFrames={s(149.5) - s(142.6)} />
