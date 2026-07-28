@@ -242,6 +242,27 @@ def absorb_lone_details(raw, groups):
                 break
     return groups
 
+def write_bg_clean(img, fg, out_dir, src_path):
+    """Reconstruye el 'plato vacio' de papel. El relleno fila-por-fila deja
+    bandeado horizontal visible (variacion natural del papel entre filas); se
+    difumina fuerte SOLO dentro del hueco (un blur grande no afecta nada real
+    porque mask3 es 0 fuera del hueco) para que quede como papel liso, no como
+    una silueta rayada de la pieza que se quito."""
+    H, W = img.shape[:2]
+    holes = cv2.dilate((fg).astype(np.uint8) * 255, np.ones((7, 7), np.uint8)) > 0
+    filled = rowwise_fill(img, holes)
+    mask3 = cv2.merge([holes.astype(np.uint8) * 255] * 3).astype(np.float32) / 255.0
+    mask3 = cv2.GaussianBlur(mask3, (0, 0), 6)
+    blurred = cv2.GaussianBlur(filled.astype(np.uint8), (0, 0), 21)
+    mixed = filled * (1 - mask3) + blurred.astype(np.float32) * mask3
+    rng = np.random.default_rng(abs(hash(src_path)) % (2**31))
+    noise = rng.normal(0, 5.0, size=(H, W, 1))
+    mixed = mixed + noise * mask3
+    mixed = np.clip(mixed, 0, 255).astype(np.uint8)
+    mask3_soft = cv2.GaussianBlur(mask3, (0, 0), 8)
+    final_bg = (img.astype(np.float32) * (1 - mask3_soft) + mixed.astype(np.float32) * mask3_soft).astype(np.uint8)
+    cv2.imwrite(f"{out_dir}/bg-clean.jpg", final_bg, [cv2.IMWRITE_JPEG_QUALITY, 92])
+
 def process(src_path, out_dir, thresh=None):
     os.makedirs(out_dir, exist_ok=True)
     img = load(src_path)
@@ -330,19 +351,7 @@ def process(src_path, out_dir, thresh=None):
 
     pieces.sort(key=lambda p: -p['area'])
 
-    holes = cv2.dilate((fg).astype(np.uint8) * 255, np.ones((7, 7), np.uint8)) > 0
-    filled = rowwise_fill(img, holes)
-    mask3 = cv2.merge([holes.astype(np.uint8) * 255] * 3).astype(np.float32) / 255.0
-    mask3 = cv2.GaussianBlur(mask3, (0, 0), 4)
-    blurred = cv2.GaussianBlur(filled.astype(np.uint8), (0, 0), 2.0)
-    mixed = filled * (1 - mask3) + blurred.astype(np.float32) * mask3
-    rng = np.random.default_rng(abs(hash(src_path)) % (2**31))
-    noise = rng.normal(0, 4.0, size=(H, W, 1))
-    mixed = mixed + noise * mask3
-    mixed = np.clip(mixed, 0, 255).astype(np.uint8)
-    mask3_soft = cv2.GaussianBlur(mask3, (0, 0), 5)
-    final_bg = (img.astype(np.float32) * (1 - mask3_soft) + mixed.astype(np.float32) * mask3_soft).astype(np.uint8)
-    cv2.imwrite(f"{out_dir}/bg-clean.jpg", final_bg, [cv2.IMWRITE_JPEG_QUALITY, 92])
+    write_bg_clean(img, fg, out_dir, src_path)
 
     with open(f"{out_dir}/pieces.json", 'w') as f:
         json.dump({'source_w': W, 'source_h': H, 'pieces': pieces}, f, indent=2)

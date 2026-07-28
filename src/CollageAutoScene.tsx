@@ -165,12 +165,12 @@ export const CollageAutoScene: React.FC<{folder: string}> = ({folder}) => {
       />
       {pieces.map((p, i) => {
         const isHero = i === 0;
-        // La pieza mas grande (el "hero") tapa casi todo el hueco reconstruido del
-        // fondo; si tarda en llegar a opacidad completa se alcanza a ver el parche
-        // sucio de la reconstruccion. Por eso entra casi instantanea y opaca, como
-        // si ya estuviera puesta en la mesa, con solo un pequeno asentamiento.
+        // La pieza mas grande (el "hero") siempre es opaca (nunca hace fade
+        // desde transparente) para no dejar ver el fondo reconstruido detras;
+        // pero SI se desliza visiblemente desde arriba hacia su lugar, como
+        // las demas piezas, para que quede claro que "llega de algun lado".
         const startFrame = isHero ? 0 : Math.round(6 + i * step);
-        const durFrames = isHero ? 8 : (KIND_DUR[p.kind] ?? 12);
+        const durFrames = isHero ? 22 : (KIND_DUR[p.kind] ?? 12);
         const z = 10 + i;
         if (p.kind === 'string') {
           return (
@@ -180,7 +180,7 @@ export const CollageAutoScene: React.FC<{folder: string}> = ({folder}) => {
             />
           );
         }
-        const from = isHero ? {dy: -14, rot: -1.8, scale: 0.985} : KIND_FROM(p.kind, i);
+        const from = isHero ? {dy: -170, rot: -5, scale: 0.93} : KIND_FROM(p.kind, i);
         return (
           <Placed
             key={p.name} piece={p} scale={scale} offsetX={offsetX} offsetY={offsetY}
