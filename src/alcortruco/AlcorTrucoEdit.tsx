@@ -14,7 +14,7 @@ import {
 } from 'remotion';
 import '../revios/fonts.css';
 import {backOut, easeIn, easeOut, FONT_MONO, FONT_TITLE, panelShadow, textShadow, theme} from './theme';
-import {ClickRipple, Highlight, Watermark, useLife} from './components';
+import {Arrow, Chip, ClickRipple, Highlight, Panel, StepCard, SubNudge, Watermark, useLife} from './components';
 
 // "El Alcor Truco" — repair-channel edit. 3:35.23 source (30 fps).
 const SRC = 'alcor_truco.mp4';
@@ -148,8 +148,8 @@ const Nudge: React.FC<{text: string; durationInFrames: number}> = ({text, durati
   const sc = interpolate(enter, [0, 1], [0.85, 1], {easing: backOut});
   return (
     <SceneShell durationInFrames={durationInFrames}>
-      <div style={{opacity: vis, transform: `scale(${sc})`, textAlign: 'center'}}>
-        <span style={{fontFamily: FONT_TITLE, fontWeight: 800, fontSize: 40, color: theme.text, textShadow: '0 6px 30px rgba(0,0,0,0.6)'}}>{text}</span>
+      <div style={{opacity: vis, transform: `scale(${sc})`, background: theme.panel, border: `1px solid ${theme.panelBorder}`, borderRadius: 999, padding: '20px 44px', boxShadow: panelShadow}}>
+        <span style={{fontFamily: FONT_TITLE, fontWeight: 800, fontSize: 36, color: theme.text}}>{text}</span>
       </div>
     </SceneShell>
   );
@@ -290,8 +290,10 @@ const ExplainScene: React.FC<{
         </div>
         <div style={{fontFamily: FONT_TITLE, fontWeight: 600, fontSize: 32, color: theme.textDim, marginTop: 18, opacity: s1}}>{sub}</div>
         {secondary ? (
-          <div style={{marginTop: 30, opacity: s2, transform: `translateY(${interpolate(s2, [0, 1], [14, 0])}px)`}}>
-            <span style={{fontFamily: FONT_TITLE, fontWeight: 600, fontSize: 24, color: theme.textDim, fontStyle: 'italic'}}>{secondary}</span>
+          <div style={{marginTop: 34, opacity: s2, transform: `translateY(${interpolate(s2, [0, 1], [16, 0])}px)`}}>
+            <div style={{display: 'inline-block', background: theme.panel, border: `1px solid ${theme.panelBorder}`, borderLeft: `4px solid ${theme.amber}`, borderRadius: 14, padding: '14px 26px'}}>
+              <span style={{fontFamily: FONT_TITLE, fontWeight: 700, fontSize: 26, color: theme.text}}>{secondary}</span>
+            </div>
           </div>
         ) : null}
       </div>
@@ -439,9 +441,84 @@ const WipeOutScene: React.FC<{durationInFrames: number}> = ({durationInFrames}) 
 };
 
 // ===========================================================================
-// TUTORIAL PART — the real footage plays clean; only bracket highlights and
-// click ripples point at the exact UI elements the narration is describing.
+// TUTORIAL PART — light overlays over the real footage (from 1:29.5 onward).
 // ===========================================================================
+const Note: React.FC<{
+  x: number;
+  y: number;
+  title: string;
+  body?: string;
+  icon?: string;
+  accent?: string;
+  align?: 'left' | 'right';
+  durationInFrames: number;
+}> = ({x, y, title, body, icon, accent = theme.cyan, align = 'left', durationInFrames}) => {
+  const {vis} = useLife(durationInFrames, 12, 10);
+  const dy = interpolate(vis, [0, 1], [22, 0]);
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: align === 'left' ? x : undefined,
+        right: align === 'right' ? 1920 - x : undefined,
+        top: y,
+        opacity: vis,
+        transform: `translateY(${dy}px)`,
+        maxWidth: 620,
+      }}
+    >
+      <Panel accent={accent}>
+        <div style={{display: 'flex', gap: 12, alignItems: 'flex-start'}}>
+          {icon ? <span style={{fontSize: 30, lineHeight: 1}}>{icon}</span> : null}
+          <div>
+            <div style={{fontFamily: FONT_TITLE, fontWeight: 800, fontSize: 25, color: theme.text, textShadow}}>{title}</div>
+            {body ? (
+              <div style={{fontFamily: FONT_TITLE, fontWeight: 400, fontSize: 18, color: theme.textDim, marginTop: 5, lineHeight: 1.3}}>{body}</div>
+            ) : null}
+          </div>
+        </div>
+      </Panel>
+    </div>
+  );
+};
+
+const KeyValueBig: React.FC<{durationInFrames: number}> = ({durationInFrames}) => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const {vis} = useLife(durationInFrames, 12, 10);
+  const pop = interpolate(spring({frame, fps, config: {damping: 200}}), [0, 1], [0.8, 1], {easing: backOut});
+  return (
+    <div style={{position: 'absolute', left: '50%', bottom: 120, transform: `translateX(-50%) scale(${pop})`, opacity: vis}}>
+      <div style={{display: 'flex', gap: 18, alignItems: 'center', background: theme.gradient, padding: '20px 36px', borderRadius: 18, boxShadow: panelShadow}}>
+        <span style={{fontSize: 34}}>🔑</span>
+        <span style={{fontFamily: FONT_MONO, fontWeight: 800, fontSize: 36, color: '#fff'}}>VID: 8564 · PID: 1000</span>
+      </div>
+    </div>
+  );
+};
+
+const CTABar: React.FC<{icon: string; title: string; sub?: string; accent?: string; durationInFrames: number}> = ({
+  icon,
+  title,
+  sub,
+  accent = theme.amber,
+  durationInFrames,
+}) => {
+  const {vis, enter} = useLife(durationInFrames, 14, 12);
+  const sc = interpolate(enter, [0, 1], [0.92, 1], {easing: backOut});
+  return (
+    <div style={{position: 'absolute', left: '50%', bottom: 110, transform: `translateX(-50%) scale(${sc})`, opacity: vis, maxWidth: 1300}}>
+      <Panel accent={accent} style={{display: 'flex', alignItems: 'center', gap: 20, padding: '18px 30px'}}>
+        <span style={{fontSize: 40}}>{icon}</span>
+        <div>
+          <div style={{fontFamily: FONT_TITLE, fontWeight: 800, fontSize: 28, color: theme.text}}>{title}</div>
+          {sub ? <div style={{fontFamily: FONT_TITLE, fontWeight: 500, fontSize: 19, color: theme.textDim, marginTop: 4}}>{sub}</div> : null}
+        </div>
+      </Panel>
+    </div>
+  );
+};
+
 const Stamp: React.FC<{text: string; sub?: string; durationInFrames: number}> = ({text, sub, durationInFrames}) => {
   const frame = useCurrentFrame();
   const {vis} = useLife(durationInFrames, 8, 10);
@@ -473,7 +550,7 @@ const EndCardFinal: React.FC<{durationInFrames: number}> = ({durationInFrames}) 
         <div style={{fontFamily: FONT_TITLE, fontWeight: 900, fontSize: 86, color: theme.text}}>
           El <span style={{color: theme.red}}>Alcor</span> Truco
         </div>
-        <div style={{display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center', marginTop: 34}}>
+        <div style={{display: 'flex', gap: 16, justifyContent: 'center', marginTop: 34, flexWrap: 'wrap', maxWidth: 1400}}>
           {steps.map((t, i) => {
             const ap = interpolate(frame, [20 + i * 8, 34 + i * 8], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: easeOut});
             return (
@@ -484,12 +561,15 @@ const EndCardFinal: React.FC<{durationInFrames: number}> = ({durationInFrames}) 
                   transform: `translateY(${interpolate(ap, [0, 1], [18, 0])}px)`,
                   fontFamily: FONT_TITLE,
                   fontWeight: 700,
-                  fontSize: 24,
+                  fontSize: 20,
                   color: theme.text,
-                  textShadow,
+                  background: theme.panel,
+                  border: `1px solid ${theme.panelBorder}`,
+                  padding: '12px 20px',
+                  borderRadius: 12,
                 }}
               >
-                <span style={{color: theme.green, fontWeight: 900, marginRight: 10}}>✓</span>
+                <span style={{color: theme.green, fontWeight: 900, marginRight: 8}}>✓</span>
                 {t}
               </div>
             );
@@ -602,32 +682,85 @@ export const AlcorTrucoEdit: React.FC = () => {
         <Watermark />
       </Sequence>
 
+      <Sequence from={s(89.5)} durationInFrames={s(97.2) - s(89.5)}>
+        <StepCard step={1} total={3} title="Abrimos ChipGenius y AlcorMP" sub="Detectamos el chip y probamos la MP" x={70} y={150} accent={theme.red} durationInFrames={s(97.2) - s(89.5)} />
+      </Sequence>
       <Sequence from={s(93.7)} durationInFrames={s(97.0) - s(93.7)}>
-        <Highlight x={615} y={678} w={700} h={40} color={theme.amber} durationInFrames={s(97.0) - s(93.7)} />
+        <Highlight x={615} y={678} w={700} h={40} color={theme.amber} label="Alcor Micro · AU6989SN" labelPos="bottom" durationInFrames={s(97.0) - s(93.7)} />
+      </Sequence>
+
+      <Sequence from={s(97.2)} durationInFrames={s(101.5) - s(97.2)}>
+        <Note x={1100} y={150} icon="❌" title="¡Sorpresa! No aparece en AlcorMP" body="La memoria USB no es detectada" accent={theme.warn} durationInFrames={s(101.5) - s(97.2)} />
+      </Sequence>
+      <Sequence from={s(101.5)} durationInFrames={s(104.4) - s(101.5)}>
+        <Note x={1100} y={150} icon="😌" title="Tranquilo, no entres en pánico" accent={theme.cyan} durationInFrames={s(104.4) - s(101.5)} />
+      </Sequence>
+      <Sequence from={s(104.4)} durationInFrames={s(107.8) - s(104.4)}>
+        <Chip text="🔧 Aquí entra el ALCOR TRUCO" x={70} y={780} accent durationInFrames={s(107.8) - s(104.4)} />
+      </Sequence>
+      <Sequence from={s(107.8)} durationInFrames={s(116.1) - s(107.8)}>
+        <Note x={70} y={150} icon="🎯" title="La clave: igualar VID y PID" body="con los datos que pide la herramienta" accent={theme.cyan} durationInFrames={s(116.1) - s(107.8)} />
+      </Sequence>
+      <Sequence from={s(116.1)} durationInFrames={s(121.7) - s(116.1)}>
+        <Note x={70} y={150} icon="💬" title="Así le decimos: revisa SOLO esta memoria" accent={theme.cyan} durationInFrames={s(121.7) - s(116.1)} />
       </Sequence>
       <Sequence from={s(121.7)} durationInFrames={s(122.8) - s(121.7)}>
         <QuestionScene text="¿Y cómo lo hacemos? 🤔" durationInFrames={s(122.8) - s(121.7)} />
       </Sequence>
       <Sequence from={s(122.8)} durationInFrames={s(126.6) - s(122.8)}>
-        <Highlight x={1108} y={422} w={300} h={32} color={theme.cyan} durationInFrames={s(126.6) - s(122.8)} />
+        <Highlight x={1108} y={422} w={300} h={32} color={theme.cyan} label="VID · PID" durationInFrames={s(126.6) - s(122.8)} />
       </Sequence>
       <Sequence from={s(126.6)} durationInFrames={s(132.9) - s(126.6)}>
-        <Highlight x={963} y={474} w={125} h={34} color={theme.amber} durationInFrames={s(132.9) - s(126.6)} />
+        <StepCard step={2} total={3} title="Igualamos VID y PID en Setup" sub="Clic derecho en la herramienta → Setup" x={70} y={150} accent={theme.red} durationInFrames={s(132.9) - s(126.6)} />
+        <Highlight x={963} y={474} w={125} h={34} color={theme.amber} label="Clic derecho → Setup" durationInFrames={s(132.9) - s(126.6)} />
       </Sequence>
       <Sequence from={s(128)} durationInFrames={40}>
         <ClickRipple x={1025} y={490} durationInFrames={40} />
       </Sequence>
       <Sequence from={s(132.9)} durationInFrames={s(138.8) - s(132.9)}>
-        <Highlight x={548} y={278} w={162} h={34} color={theme.amber} durationInFrames={s(138.8) - s(132.9)} />
+        <Highlight x={548} y={278} w={162} h={34} color={theme.amber} label="Pestaña Information" durationInFrames={s(138.8) - s(132.9)} />
+      </Sequence>
+      <Sequence from={s(142.6)} durationInFrames={s(149.5) - s(142.6)}>
+        <KeyValueBig durationInFrames={s(149.5) - s(142.6)} />
+      </Sequence>
+      <Sequence from={s(149.5)} durationInFrames={s(152.7) - s(149.5)}>
+        <Note x={70} y={780} icon="✅" title="Damos OK y listo" accent={theme.green} durationInFrames={s(152.7) - s(149.5)} />
+      </Sequence>
+      <Sequence from={s(152.7)} durationInFrames={s(158.5) - s(152.7)}>
+        <StepCard step={3} total={3} title="Start → reparar la memoria" sub="Ya la reconoce sin problemas" x={1100} y={150} accent={theme.red} durationInFrames={s(158.5) - s(152.7)} />
       </Sequence>
       <Sequence from={s(153.4)} durationInFrames={s(158.5) - s(153.4)}>
-        <Highlight x={963} y={432} w={125} h={38} color={theme.green} durationInFrames={s(158.5) - s(153.4)} />
+        <Highlight x={963} y={432} w={125} h={38} color={theme.green} label="¡Reconocida! → Start" durationInFrames={s(158.5) - s(153.4)} />
       </Sequence>
       <Sequence from={s(155)} durationInFrames={40}>
         <ClickRipple x={1025} y={450} durationInFrames={40} />
       </Sequence>
+      <Sequence from={s(158.5)} durationInFrames={s(160.7) - s(158.5)}>
+        <Note x={70} y={150} icon="▶️" title="Comenzamos a reparar la memoria" accent={theme.green} durationInFrames={s(160.7) - s(158.5)} />
+      </Sequence>
       <Sequence from={s(160.7)} durationInFrames={s(162.3) - s(160.7)}>
         <Stamp text="¡ES SENCILLO!" sub="🔧 ALCOR TRUCO" durationInFrames={s(162.3) - s(160.7)} />
+      </Sequence>
+      <Sequence from={s(162.3)} durationInFrames={s(167.9) - s(162.3)}>
+        <Note x={70} y={150} icon="🌶️" title="Este Alcor Truco es la bomba" accent={theme.red} durationInFrames={s(167.9) - s(162.3)} />
+      </Sequence>
+      <Sequence from={s(167.9)} durationInFrames={s(172.0) - s(167.9)}>
+        <Note x={1100} y={150} icon="🔴" title="Existe una variante PLUS" body="cuando la memoria aparece en ROJO (error)" accent={theme.warn} durationInFrames={s(172.0) - s(167.9)} />
+      </Sequence>
+      <Sequence from={s(172.0)} durationInFrames={s(175.5) - s(172.0)}>
+        <Note x={70} y={780} icon="🛠️" title="Podemos modificarlo para repararla igual" accent={theme.cyan} durationInFrames={s(175.5) - s(172.0)} />
+      </Sequence>
+      <Sequence from={s(175.5)} durationInFrames={s(182.2) - s(175.5)}>
+        <CTABar icon="🐤" title="Deja un emoji de POLLITO en los comentarios" sub="para que traiga el ALCOR TRUCO PLUS" durationInFrames={s(182.2) - s(175.5)} />
+      </Sequence>
+      <Sequence from={s(182.2)} durationInFrames={s(185.7) - s(182.2)}>
+        <Note x={70} y={150} icon="🐔" title="Si veo muchos pollitos, ¡traigo el video!" accent={theme.amber} durationInFrames={s(185.7) - s(182.2)} />
+      </Sequence>
+      <Sequence from={s(185.7)} durationInFrames={s(189.3) - s(185.7)}>
+        <SubNudge text="¿Te sirvió? Deja tu LIKE y SUSCRÍBETE" durationInFrames={s(189.3) - s(185.7)} />
+      </Sequence>
+      <Sequence from={s(189.3)} durationInFrames={s(193.4) - s(189.3)}>
+        <Note x={1100} y={150} icon="🔔" title="No te pierdas las próximas estrategias" accent={theme.red} durationInFrames={s(193.4) - s(189.3)} />
       </Sequence>
 
       {/* ============================== OUTRO ============================== */}
