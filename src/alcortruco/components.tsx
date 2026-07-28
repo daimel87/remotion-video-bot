@@ -122,11 +122,8 @@ export const Highlight: React.FC<{
   w: number;
   h: number;
   color?: string;
-  label?: string;
-  labelPos?: 'top' | 'bottom';
-  eyes?: boolean;
   durationInFrames: number;
-}> = ({x, y, w, h, color = theme.cyan, label, labelPos = 'top', eyes = true, durationInFrames}) => {
+}> = ({x, y, w, h, color = theme.cyan, durationInFrames}) => {
   const frame = useCurrentFrame();
   const {vis, enter} = useLife(durationInFrames, 14, 10);
   const grow = interpolate(enter, [0, 1], [1.14, 1], {easing: backOut});
@@ -161,28 +158,6 @@ export const Highlight: React.FC<{
       <div style={corner(w - bracket + 6, -6, -1, 1)} />
       <div style={corner(-6, h - bracket + 6, 1, -1)} />
       <div style={corner(w - bracket + 6, h - bracket + 6, -1, -1)} />
-      {label ? (
-        <div
-          style={{
-            position: 'absolute',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            top: labelPos === 'top' ? -46 : h + 12,
-            whiteSpace: 'nowrap',
-            fontFamily: FONT_TITLE,
-            fontWeight: 800,
-            fontSize: 20,
-            color: '#0A0A0C',
-            background: color,
-            padding: '5px 14px',
-            borderRadius: 8,
-            boxShadow: panelShadow,
-          }}
-        >
-          {eyes ? '👀 ' : ''}
-          {label}
-        </div>
-      ) : null}
     </div>
   );
 };
