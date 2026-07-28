@@ -145,14 +145,25 @@ def string_anchors(mask, bbox):
     return [float(p0[0] - x0), float(p0[1] - y0)], [float(p1[0] - x0), float(p1[1] - y0)]
 
 MERGE_GAP = 20  # px maximo de hueco para fusionar fragmentos cercanos
+SMALL_TEXTY_AREA = 6000  # una pieza 'photo' pequeña asi suele ser texto mal clasificado
+
+def _is_mergeable(p):
+    if p['kind'] in ('detail', 'tape'):
+        return True
+    # Un sello/leyenda (p.ej. "8,000 YEARS") a veces cae en 'photo' por
+    # default de classify() cuando su area supera el corte de 'detail'; si es
+    # chica igual es candidata a fusionarse con el fragmento vecino.
+    if p['kind'] == 'photo' and p['area'] < SMALL_TEXTY_AREA:
+        return True
+    return False
 
 def merge_text_fragments(raw, gap=MERGE_GAP):
-    """Las leyendas/cintas con texto quedan partidas en varios blobs pequenos
-    porque el hueco entre palabras/letras es del mismo color que el fondo
-    (no hay tarjeta solida detras). Se agrupan por proximidad (union-find)
-    los fragmentos 'detail'/'tape' cercanos para que se animen como UNA sola
-    pieza (la cinta completa con su texto), en vez de que cada palabra entre
-    volando por separado."""
+    """Las leyendas/cintas/sellos con texto quedan partidos en varios blobs
+    pequenos porque el hueco entre palabras/letras es del mismo color que el
+    fondo (no hay tarjeta solida detras). Se agrupan por proximidad
+    (union-find) los fragmentos cercanos para que se animen como UNA sola
+    pieza (la cinta/sello completo con su texto), en vez de que cada palabra
+    entre volando por separado."""
     n = len(raw)
     parent = list(range(n))
 
@@ -167,12 +178,11 @@ def merge_text_fragments(raw, gap=MERGE_GAP):
         if ra != rb:
             parent[ra] = rb
 
-    mergeable = {'detail', 'tape'}
     for i in range(n):
-        if raw[i]['kind'] not in mergeable:
+        if not _is_mergeable(raw[i]):
             continue
         for j in range(i + 1, n):
-            if raw[j]['kind'] not in mergeable:
+            if not _is_mergeable(raw[j]):
                 continue
             a, b = raw[i], raw[j]
             dx = max(0, b['x0'] - a['x1'], a['x0'] - b['x1'])
@@ -265,19 +275,25 @@ def process(src_path, out_dir, thresh=None):
     pieces = []
     for gi, members in enumerate(groups, start=1):
         name = f"p{gi:02d}"
-        non_detail = [m for m in members if raw[m]['kind'] != 'detail']
+        # "portador real" = una foto o cinta genuina (no otro fragmento de texto
+        # mal clasificado como 'photo' por ser un poco grande, p.ej. un sello).
+        real_host = [m for m in members
+                     if raw[m]['kind'] == 'tape'
+                     or (raw[m]['kind'] == 'photo' and raw[m]['area'] >= SMALL_TEXTY_AREA)]
         if len(members) == 1:
             r = raw[members[0]]
             x0p, y0p, x1p, y1p = r['x0p'], r['y0p'], r['x1p'], r['y1p']
             bool_mask = r['mask'][y0p:y1p, x0p:x1p]
             kind = r['kind']
             area = r['area']
-        elif not non_detail:
-            # cluster de puro texto sin un portador real cerca: se exporta como
-            # tarjeta solida (rectangulo) para que viaje como un solo objeto.
+        elif not real_host:
+            # cluster de puro texto/sello sin un portador real cerca: se
+            # exporta como tarjeta solida (rectangulo, con margen generoso
+            # para capturar bordes finos como el recuadro de un sello) para
+            # que viaje como un solo objeto completo.
             x0 = min(raw[m]['x0'] for m in members); y0 = min(raw[m]['y0'] for m in members)
             x1 = max(raw[m]['x1'] for m in members); y1 = max(raw[m]['y1'] for m in members)
-            pad = 6
+            pad = 26
             x0p, y0p = max(0, x0 - pad), max(0, y0 - pad)
             x1p, y1p = min(W, x1 + pad), min(H, y1 + pad)
             bool_mask = np.ones((y1p - y0p, x1p - x0p), bool)
@@ -287,7 +303,7 @@ def process(src_path, out_dir, thresh=None):
             # texto/fragmento absorbido por su portador real (foto o cinta):
             # se mantiene la silueta natural del portador, solo se le pega el
             # fragmento encima en su posicion real, sin rectangularizar.
-            host = max(non_detail, key=lambda m: raw[m]['area'])
+            host = max(real_host, key=lambda m: raw[m]['area'])
             x0 = min(raw[m]['x0'] for m in members); y0 = min(raw[m]['y0'] for m in members)
             x1 = max(raw[m]['x1'] for m in members); y1 = max(raw[m]['y1'] for m in members)
             pad = 3
