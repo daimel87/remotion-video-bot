@@ -144,6 +144,47 @@ def string_anchors(mask, bbox):
     x0, y0, _, _ = bbox
     return [float(p0[0] - x0), float(p0[1] - y0)], [float(p1[0] - x0), float(p1[1] - y0)]
 
+MERGE_GAP = 20  # px maximo de hueco para fusionar fragmentos cercanos
+
+def merge_text_fragments(raw, gap=MERGE_GAP):
+    """Las leyendas/cintas con texto quedan partidas en varios blobs pequenos
+    porque el hueco entre palabras/letras es del mismo color que el fondo
+    (no hay tarjeta solida detras). Se agrupan por proximidad (union-find)
+    los fragmentos 'detail'/'tape' cercanos para que se animen como UNA sola
+    pieza (la cinta completa con su texto), en vez de que cada palabra entre
+    volando por separado."""
+    n = len(raw)
+    parent = list(range(n))
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    def union(a, b):
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[ra] = rb
+
+    mergeable = {'detail', 'tape'}
+    for i in range(n):
+        if raw[i]['kind'] not in mergeable:
+            continue
+        for j in range(i + 1, n):
+            if raw[j]['kind'] not in mergeable:
+                continue
+            a, b = raw[i], raw[j]
+            dx = max(0, b['x0'] - a['x1'], a['x0'] - b['x1'])
+            dy = max(0, b['y0'] - a['y1'], a['y0'] - b['y1'])
+            if dx <= gap and dy <= gap:
+                union(i, j)
+
+    groups = {}
+    for i in range(n):
+        groups.setdefault(find(i), []).append(i)
+    return list(groups.values())
+
 def process(src_path, out_dir, thresh=None):
     os.makedirs(out_dir, exist_ok=True)
     img = load(src_path)
@@ -154,29 +195,56 @@ def process(src_path, out_dir, thresh=None):
     fg = clean_fg_mask(~bg)
 
     lbl, n = ndimage.label(fg, structure=np.ones((3, 3)))
-    pieces = []
+    raw = []
     for i in range(1, n + 1):
         comp = lbl == i
         area = int(comp.sum())
         if area < MIN_AREA:
             continue
         ys, xs = np.where(comp)
-        x0, y0, x1, y1 = xs.min(), ys.min(), xs.max() + 1, ys.max() + 1
+        x0, y0, x1, y1 = int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1
         pad = 3
         x0p, y0p = max(0, x0 - pad), max(0, y0 - pad)
         x1p, y1p = min(W, x1 + pad), min(H, y1 + pad)
-        local_mask = comp[y0p:y1p, x0p:x1p].astype(np.uint8) * 255
+        crop = img[y0p:y1p, x0p:x1p]
+        local_bool = comp[y0p:y1p, x0p:x1p]
+        kind = classify(crop, local_bool, (x0p, y0p, x1p, y1p))
+        raw.append({'mask': comp, 'area': area, 'kind': kind,
+                     'x0': x0, 'y0': y0, 'x1': x1, 'y1': y1,
+                     'x0p': x0p, 'y0p': y0p, 'x1p': x1p, 'y1p': y1p})
+
+    groups = merge_text_fragments(raw)
+    pieces = []
+    for gi, members in enumerate(groups, start=1):
+        name = f"p{gi:02d}"
+        if len(members) == 1:
+            r = raw[members[0]]
+            x0p, y0p, x1p, y1p = r['x0p'], r['y0p'], r['x1p'], r['y1p']
+            bool_mask = r['mask'][y0p:y1p, x0p:x1p]
+            kind = r['kind']
+            area = r['area']
+        else:
+            x0 = min(raw[m]['x0'] for m in members); y0 = min(raw[m]['y0'] for m in members)
+            x1 = max(raw[m]['x1'] for m in members); y1 = max(raw[m]['y1'] for m in members)
+            pad = 6
+            x0p, y0p = max(0, x0 - pad), max(0, y0 - pad)
+            x1p, y1p = min(W, x1 + pad), min(H, y1 + pad)
+            # Rectangulo solido (no la mascara irregular de cada fragmento): asi la
+            # "cinta"/tarjeta que sostiene el texto viaja pegada al texto como un
+            # solo objeto opaco, sin huecos transparentes entre palabras.
+            bool_mask = np.ones((y1p - y0p, x1p - x0p), bool)
+            kind = 'tape'  # varios fragmentos fusionados = cinta/leyenda completa
+            area = int(bool_mask.sum())
+        local_mask = bool_mask.astype(np.uint8) * 255
         local_mask = cv2.GaussianBlur(local_mask, (0, 0), 1.2)
         crop = img[y0p:y1p, x0p:x1p]
         rgba = cv2.cvtColor(crop, cv2.COLOR_BGR2RGBA)
         rgba[..., 3] = local_mask
-        kind = classify(crop, comp[y0p:y1p, x0p:x1p], (x0p, y0p, x1p, y1p))
-        name = f"p{i:02d}"
         Image.fromarray(rgba, 'RGBA').save(f"{out_dir}/{name}.png")
         meta = {'name': name, 'x': int(x0p), 'y': int(y0p), 'w': int(x1p - x0p),
                 'h': int(y1p - y0p), 'area': area, 'kind': kind}
         if kind == 'string':
-            anchors = string_anchors(comp[y0p:y1p, x0p:x1p], (x0p, y0p, x1p, y1p))
+            anchors = string_anchors(bool_mask, (x0p, y0p, x1p, y1p))
             if anchors:
                 meta['p0'], meta['p1'] = anchors
         pieces.append(meta)

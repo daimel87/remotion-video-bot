@@ -54,8 +54,9 @@ const GRAIN =
 
 const Placed: React.FC<{
   piece: PieceMeta; scale: number; offsetX: number; offsetY: number; startFrame: number; durFrames: number;
-  from: {dx?: number; dy?: number; rot?: number; scale?: number}; z: number; folder: string;
-}> = ({piece, scale, offsetX, offsetY, startFrame, durFrames, from, z, folder}) => {
+  from: {dx?: number; dy?: number; rot?: number; scale?: number}; z: number; folder: string; opSpeed?: number;
+  alwaysOpaque?: boolean;
+}> = ({piece, scale, offsetX, offsetY, startFrame, durFrames, from, z, folder, opSpeed = 5, alwaysOpaque = false}) => {
   const frame = useCurrentFrame();
   const sf = stepped(frame, 3);
   const t = clamp((sf - startFrame) / durFrames);
@@ -64,7 +65,10 @@ const Placed: React.FC<{
   const dy = (from.dy ?? 0) * (1 - e);
   const rot = (from.rot ?? 0) * (1 - e);
   const sc = (from.scale ?? 1) + (1 - (from.scale ?? 1)) * e;
-  const op = clamp(t * 2.4);
+  // El hero (pieza mas grande) nunca es transparente: si se desvanece desde 0,
+  // se alcanza a ver el parche reconstruido del fondo detras suyo durante el
+  // hold inicial de stop-motion. Siempre opaco, solo se anima su posicion.
+  const op = alwaysOpaque ? 1 : clamp(t * opSpeed);
   const breathe = piece.kind === 'photo' ? 0.15 : 0.08;
   const life = Math.sin((frame / 30) * 1.1 + piece.x) * breathe * clamp((frame - (startFrame + durFrames)) / 20);
 
@@ -160,8 +164,13 @@ export const CollageAutoScene: React.FC<{folder: string}> = ({folder}) => {
         style={{position: 'absolute', width: '100%', height: '100%', objectFit: 'cover'}}
       />
       {pieces.map((p, i) => {
-        const startFrame = Math.round(6 + i * step);
-        const durFrames = KIND_DUR[p.kind] ?? 12;
+        const isHero = i === 0;
+        // La pieza mas grande (el "hero") tapa casi todo el hueco reconstruido del
+        // fondo; si tarda en llegar a opacidad completa se alcanza a ver el parche
+        // sucio de la reconstruccion. Por eso entra casi instantanea y opaca, como
+        // si ya estuviera puesta en la mesa, con solo un pequeno asentamiento.
+        const startFrame = isHero ? 0 : Math.round(6 + i * step);
+        const durFrames = isHero ? 8 : (KIND_DUR[p.kind] ?? 12);
         const z = 10 + i;
         if (p.kind === 'string') {
           return (
@@ -171,10 +180,11 @@ export const CollageAutoScene: React.FC<{folder: string}> = ({folder}) => {
             />
           );
         }
+        const from = isHero ? {dy: -14, rot: -1.8, scale: 0.985} : KIND_FROM(p.kind, i);
         return (
           <Placed
             key={p.name} piece={p} scale={scale} offsetX={offsetX} offsetY={offsetY}
-            startFrame={startFrame} durFrames={durFrames} from={KIND_FROM(p.kind, i)} z={z} folder={folder}
+            startFrame={startFrame} durFrames={durFrames} from={from} alwaysOpaque={isHero} z={z} folder={folder}
           />
         );
       })}
