@@ -31,10 +31,19 @@ import {BlackBerryDocumentaryEdit} from './BlackBerryDocumentaryEdit';
 import {DURATION_SECONDS as BB_SECS} from './data/bbCues';
 import {GonzalezCamarenaDocumentaryEdit} from './GonzalezCamarenaDocumentaryEdit';
 import {DURATION_SECONDS as GC_SECS} from './gc/cues';
+import {CollageTest} from './CollageTest';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="CollageTest"
+        component={CollageTest}
+        durationInFrames={180}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="VideoEdit"
         component={VideoEdit}
