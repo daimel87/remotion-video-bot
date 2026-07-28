@@ -31,10 +31,28 @@ import {BlackBerryDocumentaryEdit} from './BlackBerryDocumentaryEdit';
 import {DURATION_SECONDS as BB_SECS} from './data/bbCues';
 import {GonzalezCamarenaDocumentaryEdit} from './GonzalezCamarenaDocumentaryEdit';
 import {DURATION_SECONDS as GC_SECS} from './gc/cues';
+import {CollageTest} from './CollageTest';
+import {CollageHourglass, CANVAS_W, CANVAS_H} from './CollageHourglass';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="CollageHourglass"
+        component={CollageHourglass}
+        durationInFrames={150}
+        fps={30}
+        width={CANVAS_W}
+        height={CANVAS_H}
+      />
+      <Composition
+        id="CollageTest"
+        component={CollageTest}
+        durationInFrames={180}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="VideoEdit"
         component={VideoEdit}

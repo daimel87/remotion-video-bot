@@ -52,16 +52,21 @@ const CHAPTERS = [
 // Objetivo: gastar TODO el material sin repetir.
 // ============================================================
 const POOLS: Record<string, string[]> = {
-  // La CARA de GGC (dibujo animado). SOLO en menciones del nombre. 4 archivos.
+  // La CARA de GGC — ahora con FOTOS REALES de él (gc-tvunam) + archivo AGN.
+  // El dibujo animado queda solo como respaldo puntual.
   ggcface: [
-    'a:gc-historia-tv-color@18', 'a:gc-historia-tv-color@62', 'a:gc-historia-tv-color@74',
-    'a:gc-patente-noticia@18', 'a:gc-patente-noticia@62', 'a:gc-patente-noticia@98',
-    'a:gc-documental@18', 'a:gc-documental@96',
+    'a:gc-tvunam@78',        // retrato formal icónico (real)
+    'a:gc-tvunam@24',        // de perfil trabajando en su equipo (real)
+    'a:gc-tvunam@48',        // frente a la cámara de televisión (real)
+    'a:gc-tvunam@62',        // operando la cámara (real)
+    'a:gc-tvunam@12',        // sentado, con su TV (real)
+    'a:gc-entrevista@20',    // aparatos "construidos en México" (archivo AGN, real)
+    'a:gc-entrevista@30',    // laboratorio B/N de época (archivo AGN, real)
   ],
   // El joven inventor / trasteando (niñez, "armaba radios", "inventando"). Stock real.
   inventor: ['child-electronics', 'engineer-workshop', 'v:engineer-workshop', 'vintage-radio-parts', 'tube-radio', 'vintage-typewriter'],
-  // GGC trabajando en su laboratorio/aparatos: mayormente stock + 2 frames suyos.
-  lab: ['engineer-workshop', 'v:engineer-workshop', 'vintage-radio-parts', 'tube-radio', 'vintage-tv-workshop', 'a:gc-documental@33', 'a:gc-patente-noticia@98'],
+  // GGC trabajando en su laboratorio/aparatos: stock + frames REALES suyos.
+  lab: ['engineer-workshop', 'v:engineer-workshop', 'vintage-radio-parts', 'tube-radio', 'vintage-tv-workshop', 'a:gc-entrevista@30', 'a:gc-entrevista@20', 'a:gc-tvunam@62'],
   // RGB / espectro / píxeles a color.
   color: ['color-spectrum-prism', 'v:color-spectrum-prism', 'rgb-pixels-macro', 'v:rgb-pixels-macro', 'tv-test-pattern', 'v:tv-test-pattern', 'c:colorwheel'],
   // televisión antigua.
@@ -70,12 +75,12 @@ const POOLS: Record<string, string[]> = {
   disco: ['c:colorwheel', 'a:mechanical-color-disc@26', 'a:mechanical-color-disc@38', 'a:mechanical-color-disc@88'],
   // prensa / reconocimiento (periódicos, El Universal).
   press: ['old-newspaper', 'vintage-typewriter'],
-  // contexto mexicano.
-  mexico: ['mexico-flag', 'guadalajara-city', 'mexico-city-skyline', 'a:mexico-city-1930s@50', 'a:mexico-city-1930s@70'],
+  // contexto mexicano (mexico-city-1930s FUERA: trae timecode "REF XD060934" quemado).
+  mexico: ['mexico-flag', 'guadalajara-city', 'mexico-city-skyline'],
   // torre / señal / estática.
   senal: ['broadcast-tower', 'v:broadcast-tower', 'tv-static-noise', 'v:tv-static-noise', 'tv-test-pattern'],
-  // corporaciones (RCA diluido con prensa/torre/TV mexicana).
-  corp: ['a:rca-color-tv-1950s@2', 'a:rca-color-tv-1950s@26', 'a:rca-color-tv-1950s@58', 'old-newspaper', 'a:vintage-tv-broadcast-mx@20', 'broadcast-tower', 'vintage-typewriter'],
+  // corporaciones EEUU (RCA + prensa/torre; los comerciales mexicanos van en tvmx, no aquí).
+  corp: ['a:rca-color-tv-1950s@2', 'a:rca-color-tv-1950s@26', 'a:rca-color-tv-1950s@58', 'a:rca-color-tv-1950s@14', 'old-newspaper', 'broadcast-tower', 'vintage-typewriter'],
   // carretera (accidente).
   carretera: ['v:highway-mexico', 'highway-mexico'],
   // revolución mexicana real.
@@ -84,8 +89,8 @@ const POOLS: Record<string, string[]> = {
   voyager: ['a:voyager-nasa-images@20', 'a:voyager-nasa-images@55', 'a:voyager-nasa-images@62'],
   // música mexicana (huapango).
   musica: ['mexican-musician', 'a:huapango-mexicano@15', 'a:huapango-mexicano@40', 'a:huapango-mexicano@60'],
-  // televisión mexicana / Canal 5.
-  tvmx: ['a:vintage-tv-broadcast-mx@2', 'a:vintage-tv-broadcast-mx@40', 'a:vintage-tv-broadcast-mx@60', 'a:gc-canal5-xhgc@2'],
+  // televisión mexicana / Canal 5 — con la transmisión REAL de 1963 "Paraíso Infantil".
+  tvmx: ['a:gc-canal5-1963@4', 'a:gc-canal5-1963@16', 'a:gc-canal5-1963@28', 'a:vintage-tv-broadcast-mx@2', 'a:vintage-tv-broadcast-mx@40', 'a:gc-canal5-xhgc@2'],
 };
 
 // ============================================================
@@ -171,7 +176,7 @@ const STORYBOARD: Record<number, SB[]> = {
   62: [{t: 'p:disco', m: 'zoomIn'}, {t: 'p:corp', m: 'panRight'}],       // "no adoptó el sistema de discos"
   63: [{t: 'p:corp', m: 'zoomIn'}, {t: 'p:disco', m: 'panRight'}],       // "otro camino técnico, grandes empresas"
   64: [{t: 'p:corp', m: 'zoomIn'}, {t: 'p:tvvieja', m: 'panRight'}],     // "el estándar comercial"
-  65: [{t: 'p:mexico', m: 'zoomIn'}, {t: 'p:ggcface', m: 'punchIn'}],    // "el muchacho de Guadalajara se fue borrando"
+  65: [{t: 'p:mexico', m: 'zoomIn'}, {t: 'p:tvvieja', m: 'punchIn'}],    // "el muchacho de Guadalajara se fue borrando"
   66: [{t: 'p:press', m: 'zoomIn'}, {t: 'p:corp', m: 'panRight'}],       // "historia escrita en inglés"
   67: [{t: 'p:ggcface', m: 'zoomIn'}],                                    // NOMBRE "Guillermo nunca fue por el dinero"
   68: [{t: 'p:inventor', m: 'zoomIn'}, {t: 'p:lab', m: 'punchIn'}],      // "siguió inventando"
@@ -183,7 +188,7 @@ const STORYBOARD: Record<number, SB[]> = {
 
   // ---------- CAP VIII: XHGC ----------
   74: [{t: 'p:ggcface', m: 'zoomIn'}, {t: 'p:tvmx', m: 'panRight'}],     // "su gran día"
-  75: [{t: 'a:gc-canal5-xhgc@2', m: 'zoomIn'}, {t: 'p:tvmx', m: 'punchIn'}], // DATE "21 ene 1963, Canal 5"
+  75: [{t: 'a:gc-canal5-1963@4', m: 'zoomIn'}, {t: 'p:tvmx', m: 'punchIn'}], // DATE "21 ene 1963, Canal 5" (transmisión real)
   76: [{t: 'p:tvmx', m: 'zoomIn'}, {t: 'p:color', m: 'panRight'}],       // "primera transmisión a color de México"
   77: [{t: 'p:mexico', m: 'zoomIn'}, {t: 'p:color', m: 'punchIn'}],      // "cuarto país del mundo" + Stat
   78: [{t: 'p:tvmx', m: 'panRight'}, {t: 'p:mexico', m: 'zoomIn'}],      // "después de EEUU, Japón, Canadá"
@@ -192,7 +197,7 @@ const STORYBOARD: Record<number, SB[]> = {
   81: [{t: 'a:gc-canal5-xhgc@70', m: 'zoomIn'}, {t: 'p:tvmx', m: 'panRight'}], // NAME "XHGC, iniciales"
   82: [{t: 'p:tvmx', m: 'panRight'}, {t: 'a:gc-canal5-xhgc@70', m: 'zoomIn'}], // "el aire de la TV mexicana"
   83: [{t: 'p:ggcface', m: 'zoomIn'}],                                    // "pronuncia su nombre"
-  84: [{t: 'p:ggcface', m: 'zoomIn'}, {t: 'p:carretera', m: 'punchIn'}], // "un último golpe"
+  84: [{t: 'p:tvvieja', m: 'zoomIn'}, {t: 'p:carretera', m: 'punchIn'}], // "un último golpe"
 
   // ---------- CAP IX: el último golpe ----------
   85: [{t: 'p:ggcface', m: 'zoomIn'}, {t: 'p:carretera', m: 'panRight'}], // NOMBRE DATE "18 abr 1965 Guillermo regresaba"
@@ -204,9 +209,9 @@ const STORYBOARD: Record<number, SB[]> = {
   // ---------- CAP X: la verdad documentada ----------
   90: [{t: 'p:voyager', m: 'zoomIn'}],                                    // "leyenda: la NASA / Voyager"
   91: [{t: 'p:voyager', m: 'zoomIn'}, {t: 'p:voyager', m: 'panRight'}],  // "imágenes del espacio"
-  92: [{t: 'p:voyager', m: 'zoomIn'}, {t: 'p:ggcface', m: 'punchIn'}],   // "voy a ser honesto"
+  92: [{t: 'p:voyager', m: 'zoomIn'}, {t: 'p:voyager', m: 'panRight'}],  // "voy a ser honesto"
   93: [{t: 'p:voyager', m: 'zoomIn'}],                                    // "no está comprobada"
-  94: [{t: 'p:ggcface', m: 'zoomIn'}],                                    // "no hace falta"
+  94: [{t: 'p:lab', m: 'zoomIn'}],                                        // "no hace falta"
   95: [{t: 'c:patent-full'}],                                             // "firmado y documentado"
   96: [{t: 'p:ggcface', m: 'zoomIn'}, {t: 'c:patent'}],                  // "joven de 23 años patentó" + Stat
   97: [{t: 'c:patent-full'}, {t: 'p:corp', m: 'panRight'}],              // "en 1940, con los gigantes"
@@ -218,7 +223,7 @@ const STORYBOARD: Record<number, SB[]> = {
   103: [{t: 'p:corp', m: 'zoomIn'}],                                      // "lo inventaron ellos"
   104: [{t: 'p:ggcface', m: 'zoomIn'}, {t: 'p:mexico', m: 'panRight'}],  // NOMBRE "González Camarena borrado por ser de aquí"
   105: [{t: 'p:mexico', m: 'zoomIn'}, {t: 'p:mexico', m: 'panRight'}],   // "de nuestro país"
-  106: [{t: 'p:mexico', m: 'zoomIn'}, {t: 'p:ggcface', m: 'punchIn'}],   // "solo si lo permitimos"
+  106: [{t: 'p:mexico', m: 'zoomIn'}, {t: 'p:senal', m: 'punchIn'}],     // "solo si lo permitimos"
   107: [{t: 'p:tvvieja', m: 'zoomIn'}, {t: 'p:senal', m: 'punchIn'}],    // "la próxima vez que enciendas tu TV"
   108: [{t: 'p:color', m: 'punchIn'}, {t: 'p:color', m: 'zoomIn'}],      // "ese rojo, verde, azul"
   109: [{t: 'p:inventor', m: 'zoomIn'}, {t: 'p:mexico', m: 'panRight'}], // "el muchacho que desarmaba radios"
@@ -235,6 +240,9 @@ const WINDOWS: Record<string, [number, number][]> = {
   'gc-historia-tv-color': [[18, 21], [62, 65], [66, 72], [74, 76]],
   'gc-patente-noticia': [[18, 21], [62, 65], [96, 100]],
   'gc-canal5-xhgc': [[2, 8], [68, 74]],
+  'gc-tvunam': [[12, 92]],
+  'gc-entrevista': [[8, 45]],
+  'gc-canal5-1963': [[2, 36]],
   'mexico-revolucion-1917': [[1, 7], [9, 15]],
   'mechanical-color-disc': [[26, 31], [38, 44.5], [88, 91]],
   'cbs-goldmark-1940': [[1, 2.6]],
@@ -401,7 +409,7 @@ export const buildPlan = (fps: number, total: number) => {
     const PATENT_START = Math.round(45.4 * fps);
     const PATENT_END = Math.round(50.4 * fps);
     if (c.i === 10) {
-      pushShot(from, PATENT_START - from, resolveToken('a:gc-historia-tv-color@74', pickVariant), 'zoomIn');
+      pushShot(from, PATENT_START - from, resolveToken('a:gc-tvunam@78', pickVariant), 'zoomIn');
       pushShot(PATENT_START, PATENT_END - PATENT_START, {src: '', video: false, base: 'c:patent', component: 'patent'}, 'zoomIn');
       return;
     }
@@ -459,6 +467,7 @@ export const buildPlan = (fps: number, total: number) => {
 
 const HUE: Record<string, number> = {
   'a:gc-documental': 35, 'a:gc-historia-tv-color': 35, 'a:gc-patente-noticia': 35, 'a:gc-canal5-xhgc': 300,
+  'a:gc-tvunam': 35, 'a:gc-entrevista': 35, 'a:gc-canal5-1963': 300,
   'a:mexico-revolucion-1917': 25, 'a:mechanical-color-disc': 200, 'a:cbs-goldmark-1940': 280,
   'a:rca-color-tv-1950s': 210, 'a:ipn-politecnico-historia': 5, 'a:mexico-city-1930s': 30,
   'a:vintage-tv-broadcast-mx': 300, 'a:voyager-nasa-images': 220, 'a:huapango-mexicano': 340,
