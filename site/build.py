@@ -21,15 +21,13 @@ def video(titulo="🎥 Tutoriales en vídeo", pid=None):
       </div>
     </section>'''
 
-# ---- Popunder Monetag (solo se inyecta en páginas de descarga) ----
-POPUNDER = f'''<!-- Monetag Popunder -->
-{SITE['monetag_popunder']}'''
-
-# ---- Push, In-Page Push y Vignette Monetag (todas las páginas) ----
+# ---- Push, In-Page Push, Popunder y Vignette Monetag (todas las páginas) ----
 MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 {SITE['monetag_push']}
 <!-- Monetag In-Page Push -->
 {SITE['monetag_inpage_push']}
+<!-- Monetag Popunder -->
+{SITE['monetag_popunder']}
 <!-- Monetag Vignette Banner -->
 {SITE['monetag_vignette']}
 <script>
@@ -198,8 +196,7 @@ def tool_page(t):
        <a href="{SITE['youtube']}" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
   </article>'''
     desc = t['intro'][:155]
-    tail = FOOT if is_guide else (POPUNDER + FOOT)
-    write(f"{t['slug']}.html", head(t['title'], desc, canonical) + body + tail)
+    write(f"{t['slug']}.html", head(t['title'], desc, canonical) + body + FOOT)
 
 # ---------- Home ----------
 def home():
