@@ -8,7 +8,7 @@
   {
     "scene": "02",
     "src": "02_A_halftone_black_and_white_202607270917.jpeg",
-    "pieces": 5,
+    "pieces": 8,
     "thresh": 55
   },
   {
@@ -32,19 +32,19 @@
   {
     "scene": "06",
     "src": "6_Farmer_hands_cupping_soil_202607270917.jpeg",
-    "pieces": 8,
+    "pieces": 13,
     "thresh": 55
   },
   {
     "scene": "07",
     "src": "07_A_hand-cut_hourglass_silhouett_202607270917.jpeg",
-    "pieces": 7,
+    "pieces": 8,
     "thresh": 55
   },
   {
     "scene": "08",
     "src": "08_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 8,
+    "pieces": 13,
     "thresh": 55
   },
   {
@@ -68,7 +68,7 @@
   {
     "scene": "12",
     "src": "12_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 1,
+    "pieces": 2,
     "thresh": 55
   },
   {
@@ -80,25 +80,25 @@
   {
     "scene": "14",
     "src": "14_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 4,
+    "pieces": 5,
     "thresh": 55
   },
   {
     "scene": "15",
     "src": "15_A_hand-cut_paper_tuber_shape_202607270917.jpeg",
-    "pieces": 2,
+    "pieces": 4,
     "thresh": 7
   },
   {
     "scene": "16",
     "src": "16_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 10,
+    "pieces": 17,
     "thresh": 55
   },
   {
     "scene": "17",
     "src": "17_A_hand-cut_anatomical_hand_ill_202607270917.jpeg",
-    "pieces": 1,
+    "pieces": 3,
     "thresh": 55
   },
   {
@@ -110,7 +110,7 @@
   {
     "scene": "19",
     "src": "19_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 6,
+    "pieces": 7,
     "thresh": 55
   },
   {
@@ -128,7 +128,7 @@
   {
     "scene": "22",
     "src": "22_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 4,
+    "pieces": 8,
     "thresh": 55
   },
   {
@@ -146,37 +146,37 @@
   {
     "scene": "25",
     "src": "25_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 4,
+    "pieces": 5,
     "thresh": 55
   },
   {
     "scene": "26",
     "src": "26_A_hand-cut_paper_lightbulb_sil_202607270917.jpeg",
-    "pieces": 6,
+    "pieces": 7,
     "thresh": 40
   },
   {
     "scene": "27",
     "src": "27_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 4,
+    "pieces": 7,
     "thresh": 55
   },
   {
     "scene": "28",
     "src": "28_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 6,
+    "pieces": 12,
     "thresh": 55
   },
   {
     "scene": "29",
     "src": "29_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 6,
+    "pieces": 7,
     "thresh": 55
   },
   {
     "scene": "30",
     "src": "30_A_hand-cut_paper_moon_shape_202607270917.jpeg",
-    "pieces": 2,
+    "pieces": 7,
     "thresh": 55
   },
   {
@@ -188,13 +188,13 @@
   {
     "scene": "32",
     "src": "32_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 10,
+    "pieces": 12,
     "thresh": 55
   },
   {
     "scene": "33",
     "src": "33_A_hand-cut_paper_tuber_shape_202607270917.jpeg",
-    "pieces": 1,
+    "pieces": 3,
     "thresh": 55
   },
   {
@@ -206,31 +206,31 @@
   {
     "scene": "35",
     "src": "35_A_torn_archival_map_of_202607270917.jpeg",
-    "pieces": 5,
+    "pieces": 6,
     "thresh": 55
   },
   {
     "scene": "36",
     "src": "36_A_hand-cut_paper_scale_illustr_202607270917.jpeg",
-    "pieces": 1,
+    "pieces": 5,
     "thresh": 55
   },
   {
     "scene": "37",
     "src": "37_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 8,
+    "pieces": 11,
     "thresh": 55
   },
   {
     "scene": "38",
     "src": "38_A_hand-cut_paper_cottage_rooft_202607270917.jpeg",
-    "pieces": 2,
+    "pieces": 3,
     "thresh": 55
   },
   {
     "scene": "39",
     "src": "39_A_torn_calendar_page_reading_202607270917.jpeg",
-    "pieces": 15,
+    "pieces": 16,
     "thresh": 30
   },
   {
@@ -248,13 +248,13 @@
   {
     "scene": "42",
     "src": "42_A_torn_typewriter_strip_readin_202607270917.jpeg",
-    "pieces": 6,
+    "pieces": 7,
     "thresh": 55
   },
   {
     "scene": "43",
     "src": "43_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 10,
+    "pieces": 12,
     "thresh": 55
   },
   {
@@ -266,7 +266,7 @@
   {
     "scene": "45",
     "src": "45_A_torn_archival_map_showing_202607270917.jpeg",
-    "pieces": 7,
+    "pieces": 8,
     "thresh": 55
   },
   {
@@ -284,31 +284,31 @@
   {
     "scene": "48",
     "src": "48_A_hand-cut_paper_domino_chain_202607270917.jpeg",
-    "pieces": 3,
+    "pieces": 4,
     "thresh": 55
   },
   {
     "scene": "49",
     "src": "49_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 2,
+    "pieces": 4,
     "thresh": 17
   },
   {
     "scene": "50",
     "src": "50_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 5,
+    "pieces": 6,
     "thresh": 55
   },
   {
     "scene": "51",
     "src": "51_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 1,
+    "pieces": 2,
     "thresh": 55
   },
   {
     "scene": "52",
     "src": "52_A_hand-cut_paper_wind-swirl_mo_202607270917.jpeg",
-    "pieces": 3,
+    "pieces": 4,
     "thresh": 55
   },
   {
@@ -320,7 +320,7 @@
   {
     "scene": "54",
     "src": "54_A_torn_calendar_strip_spanning_202607270917.jpeg",
-    "pieces": 6,
+    "pieces": 9,
     "thresh": 40
   },
   {
@@ -332,13 +332,13 @@
   {
     "scene": "56",
     "src": "56_A_torn_calendar_page_reading_202607270917.jpeg",
-    "pieces": 3,
+    "pieces": 4,
     "thresh": 55
   },
   {
     "scene": "57",
     "src": "57_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 5,
+    "pieces": 6,
     "thresh": 55
   },
   {
@@ -368,13 +368,13 @@
   {
     "scene": "62",
     "src": "62_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 2,
+    "pieces": 4,
     "thresh": 55
   },
   {
     "scene": "63",
     "src": "63_A_torn_typewriter_strip_readin_202607270917.jpeg",
-    "pieces": 4,
+    "pieces": 6,
     "thresh": 40
   },
   {
@@ -386,7 +386,7 @@
   {
     "scene": "65",
     "src": "65_A_torn_archival_map_of_202607270917.jpeg",
-    "pieces": 2,
+    "pieces": 4,
     "thresh": 55
   },
   {
@@ -404,7 +404,7 @@
   {
     "scene": "68",
     "src": "68_A_torn_archival_map_of_202607270917.jpeg",
-    "pieces": 15,
+    "pieces": 16,
     "thresh": 55
   },
   {
@@ -416,31 +416,31 @@
   {
     "scene": "70",
     "src": "70_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 7,
+    "pieces": 10,
     "thresh": 55
   },
   {
     "scene": "71",
     "src": "71_A_torn_archival_map_of_202607270917.jpeg",
-    "pieces": 5,
+    "pieces": 6,
     "thresh": 55
   },
   {
     "scene": "72",
     "src": "72_A_hand-cut_paper_wild-plant_il_202607270917.jpeg",
-    "pieces": 11,
+    "pieces": 12,
     "thresh": 55
   },
   {
     "scene": "73",
     "src": "73_A_hand-cut_paper_timeline_stri_202607270917.jpeg",
-    "pieces": 10,
+    "pieces": 16,
     "thresh": 40
   },
   {
     "scene": "74",
     "src": "74_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 8,
+    "pieces": 10,
     "thresh": 40
   },
   {
@@ -452,49 +452,49 @@
   {
     "scene": "76",
     "src": "76_A_hand-cut_paper_family_tree_202607270917.jpeg",
-    "pieces": 4,
+    "pieces": 9,
     "thresh": 55
   },
   {
     "scene": "77",
     "src": "77_A_torn_calendar_page_reading_202607270917.jpeg",
-    "pieces": 6,
+    "pieces": 14,
     "thresh": 55
   },
   {
     "scene": "78",
     "src": "78_A_hand-cut_paper_podium_with_202607270917.jpeg",
-    "pieces": 9,
+    "pieces": 10,
     "thresh": 55
   },
   {
     "scene": "79",
     "src": "79_A_torn_archival_world_map_202607270917.jpeg",
-    "pieces": 10,
+    "pieces": 15,
     "thresh": 55
   },
   {
     "scene": "80",
     "src": "80_A_hand-cut_paper_globe_cutout_202607270917.jpeg",
-    "pieces": 1,
+    "pieces": 2,
     "thresh": 40
   },
   {
     "scene": "81",
     "src": "81_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 8,
+    "pieces": 17,
     "thresh": 55
   },
   {
     "scene": "82",
     "src": "82_A_hand-cut_paper_rocket_silhou_202607270917.jpeg",
-    "pieces": 6,
+    "pieces": 8,
     "thresh": 30
   },
   {
     "scene": "83",
     "src": "83_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 5,
+    "pieces": 14,
     "thresh": 55
   },
   {
@@ -506,37 +506,37 @@
   {
     "scene": "85",
     "src": "85_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 5,
+    "pieces": 7,
     "thresh": 55
   },
   {
     "scene": "86",
     "src": "86_A_torn_archival_map_of_202607270917.jpeg",
-    "pieces": 3,
+    "pieces": 5,
     "thresh": 55
   },
   {
     "scene": "87",
     "src": "87_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 3,
+    "pieces": 6,
     "thresh": 55
   },
   {
     "scene": "88",
     "src": "88_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 7,
+    "pieces": 10,
     "thresh": 55
   },
   {
     "scene": "89",
     "src": "89_A_hand-cut_paper_vault_shelf_202607270917.jpeg",
-    "pieces": 2,
+    "pieces": 4,
     "thresh": 30
   },
   {
     "scene": "90",
     "src": "90_A_hand-cut_paper_tuber_shape_202607270917.jpeg",
-    "pieces": 4,
+    "pieces": 8,
     "thresh": 55
   },
   {
@@ -554,13 +554,13 @@
   {
     "scene": "93",
     "src": "93_A_halftone_photograph_cutout_o_202607270917.jpeg",
-    "pieces": 1,
+    "pieces": 3,
     "thresh": 55
   },
   {
     "scene": "94",
     "src": "94_A_hand-cut_paper_world_map_202607270917.jpeg",
-    "pieces": 10,
+    "pieces": 14,
     "thresh": 55
   }
 ]

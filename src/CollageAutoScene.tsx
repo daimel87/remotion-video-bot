@@ -32,15 +32,27 @@ const paperShadow =
   'drop-shadow(0 1px 1px rgba(35,28,16,.35)) drop-shadow(0 6px 10px rgba(35,28,16,.26)) drop-shadow(0 16px 20px rgba(35,28,16,.15))';
 
 const KIND_DUR: Record<string, number> = {photo: 20, tape: 9, string: 16, detail: 10};
-const KIND_FROM = (kind: string, i: number): {dx?: number; dy?: number; rot?: number; scale?: number} => {
-  const sign = i % 2 === 0 ? 1 : -1;
+
+// 4 direcciones de entrada (arriba, abajo, izquierda, derecha) elegidas por
+// "seed" (numero de escena +/o indice de pieza) para que nunca sea siempre
+// la misma direccion: cada escena/pieza entra de un lado distinto.
+const DIRS: Array<{dx?: number; dy?: number}> = [{dy: -1}, {dy: 1}, {dx: -1}, {dx: 1}];
+const pickDir = (seed: number) => DIRS[((seed % DIRS.length) + DIRS.length) % DIRS.length];
+
+const KIND_FROM = (kind: string, seed: number): {dx?: number; dy?: number; rot?: number; scale?: number} => {
+  const sign = seed % 2 === 0 ? 1 : -1;
+  const dir = pickDir(seed);
   switch (kind) {
-    case 'photo':
-      return {dy: sign > 0 ? -130 : 130, rot: -7 * sign, scale: 0.92};
+    case 'photo': {
+      const mag = 160;
+      return {dx: dir.dx ? dir.dx * mag : undefined, dy: dir.dy ? dir.dy * mag : undefined, rot: -7 * sign, scale: 0.92};
+    }
     case 'tape':
       return {dy: -35, scale: 1.35};
-    case 'detail':
-      return {dy: 40 * sign, rot: 10 * sign, scale: 0.7};
+    case 'detail': {
+      const mag = 60;
+      return {dx: dir.dx ? dir.dx * mag : 40 * sign, dy: dir.dy ? dir.dy * mag : undefined, rot: 10 * sign, scale: 0.7};
+    }
     default:
       return {dy: -100};
   }
@@ -156,6 +168,9 @@ export const CollageAutoScene: React.FC<{folder: string}> = ({folder}) => {
   const N = pieces.length;
   const assemblyWindow = 96;
   const step = N > 0 ? Math.min(13, assemblyWindow / N) : 0;
+  const sceneNum = parseInt(folder, 10) || 0;
+  const heroDir = pickDir(sceneNum);
+  const heroMag = 190;
 
   return (
     <AbsoluteFill style={{backgroundColor: '#e9e2d0', width: TARGET_W, height: TARGET_H, overflow: 'hidden'}}>
@@ -180,7 +195,14 @@ export const CollageAutoScene: React.FC<{folder: string}> = ({folder}) => {
             />
           );
         }
-        const from = isHero ? {dy: -170, rot: -5, scale: 0.93} : KIND_FROM(p.kind, i);
+        const from = isHero
+          ? {
+              dx: heroDir.dx ? heroDir.dx * heroMag : undefined,
+              dy: heroDir.dy ? heroDir.dy * heroMag : undefined,
+              rot: sceneNum % 2 === 0 ? -5 : 5,
+              scale: 0.93,
+            }
+          : KIND_FROM(p.kind, sceneNum + i);
         return (
           <Placed
             key={p.name} piece={p} scale={scale} offsetX={offsetX} offsetY={offsetY}

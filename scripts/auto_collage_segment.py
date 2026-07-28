@@ -130,7 +130,23 @@ def classify(piece_bgr, mask, bbox):
         return 'tape'
     return 'photo'
 
-def string_anchors(mask, bbox):
+STRING_MIN_AREA = 120
+
+def red_string_mask(img, fg):
+    """Aisla los pixeles del hilo rojo ANTES de etiquetar componentes. Si no se
+    separan primero, el hilo (que suele tocar/pisar la foto principal u otra
+    pieza) queda fusionado en el mismo blob conectado y nunca se detecta como
+    su propia pieza 'string' animable."""
+    b = img[..., 0].astype(np.int32); g = img[..., 1].astype(np.int32); r = img[..., 2].astype(np.int32)
+    red = (r > 90) & (g < 100) & (b < 100) & (r - g > 35) & (r - b > 35)
+    red = red & fg
+    red8 = cv2.morphologyEx(red.astype(np.uint8) * 255, cv2.MORPH_CLOSE, np.ones((7, 7), np.uint8))
+    return red8 > 0
+
+def string_anchors(mask):
+    """mask ya viene recortado (coords locales 0..w, 0..h); NO restar el
+    origen del bbox de nuevo aqui (eso ya duplicaba el offset y mandaba las
+    anclas a coordenadas negativas fuera del piece)."""
     ys, xs = np.where(mask)
     if len(xs) < 2:
         return None
@@ -141,8 +157,7 @@ def string_anchors(mask, bbox):
     proj = (pts - mean) @ axis
     i0, i1 = proj.argmin(), proj.argmax()
     p0, p1 = pts[i0], pts[i1]
-    x0, y0, _, _ = bbox
-    return [float(p0[0] - x0), float(p0[1] - y0)], [float(p1[0] - x0), float(p1[1] - y0)]
+    return [float(p0[0]), float(p0[1])], [float(p1[0]), float(p1[1])]
 
 MERGE_GAP = 20  # px maximo de hueco para fusionar fragmentos cercanos
 SMALL_TEXTY_AREA = 6000  # una pieza 'photo' pequeña asi suele ser texto mal clasificado
@@ -272,8 +287,41 @@ def process(src_path, out_dir, thresh=None):
     bg, bg_med = background_mask(img, thresh=thresh)
     fg = clean_fg_mask(~bg)
 
-    lbl, n = ndimage.label(fg, structure=np.ones((3, 3)))
+    # El hilo rojo se separa ANTES de etiquetar componentes: si se deja dentro
+    # de fg junto con todo lo demas, cuando toca la foto principal u otra
+    # pieza queda fusionado en un solo blob y nunca sale como pieza 'string'
+    # independiente (no anima el hilo, solo queda pegado a lo que lo toque).
+    red_cand = red_string_mask(img, fg)
+
+    # De los blobs rojos candidatos, solo los realmente FINOS y ALARGADOS
+    # (fill_ratio bajo: una linea diagonal ocupa poco de su propio bbox) son
+    # hilo real. Un sello en tinta roja (p.ej. "1532") tambien es rojo pero es
+    # macizo (fill_ratio alto) y NO debe partirse como si fuera hilo.
+    str_lbl0, str_n0 = ndimage.label(red_cand, structure=np.ones((3, 3)))
     raw = []
+    accepted_string_mask = np.zeros_like(red_cand)
+    for i in range(1, str_n0 + 1):
+        comp = str_lbl0 == i
+        area = int(comp.sum())
+        if area < STRING_MIN_AREA:
+            continue
+        ys, xs = np.where(comp)
+        x0, y0, x1, y1 = int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1
+        w, h = x1 - x0, y1 - y0
+        fill_ratio = area / max(1, w * h)
+        if fill_ratio >= 0.08 or max(w, h) < 40:
+            continue  # bloque macizo (tinta de sello) o mota chica: no es hilo
+        pad = 3
+        x0p, y0p = max(0, x0 - pad), max(0, y0 - pad)
+        x1p, y1p = min(W, x1 + pad), min(H, y1 + pad)
+        raw.append({'mask': comp, 'area': area, 'kind': 'string',
+                     'x0': x0, 'y0': y0, 'x1': x1, 'y1': y1,
+                     'x0p': x0p, 'y0p': y0p, 'x1p': x1p, 'y1p': y1p})
+        accepted_string_mask |= comp
+
+    fg_shapes = fg & ~accepted_string_mask
+
+    lbl, n = ndimage.label(fg_shapes, structure=np.ones((3, 3)))
     for i in range(1, n + 1):
         comp = lbl == i
         area = int(comp.sum())
@@ -344,7 +392,7 @@ def process(src_path, out_dir, thresh=None):
         meta = {'name': name, 'x': int(x0p), 'y': int(y0p), 'w': int(x1p - x0p),
                 'h': int(y1p - y0p), 'area': area, 'kind': kind}
         if kind == 'string':
-            anchors = string_anchors(bool_mask, (x0p, y0p, x1p, y1p))
+            anchors = string_anchors(bool_mask)
             if anchors:
                 meta['p0'], meta['p1'] = anchors
         pieces.append(meta)
