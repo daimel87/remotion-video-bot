@@ -185,6 +185,53 @@ def merge_text_fragments(raw, gap=MERGE_GAP):
         groups.setdefault(find(i), []).append(i)
     return list(groups.values())
 
+def _group_kind(raw, members):
+    if len(members) == 1:
+        return raw[members[0]]['kind']
+    return 'tape'
+
+def _group_bbox(raw, members):
+    x0 = min(raw[m]['x0'] for m in members); y0 = min(raw[m]['y0'] for m in members)
+    x1 = max(raw[m]['x1'] for m in members); y1 = max(raw[m]['y1'] for m in members)
+    return x0, y0, x1, y1
+
+def _bbox_gap(a, b):
+    ax0, ay0, ax1, ay1 = a
+    bx0, by0, bx1, by1 = b
+    dx = max(0, bx0 - ax1, ax0 - bx1)
+    dy = max(0, by0 - ay1, ay0 - by1)
+    return max(dx, dy)
+
+def absorb_lone_details(raw, groups):
+    """Un fragmento de texto/detalle que no encontro con quien agruparse no
+    debe animar solo: se pega al elemento mas cercano (fondo/foto/cinta) para
+    viajar siempre junto a su portador, nunca como texto suelto flotando."""
+    groups = [list(g) for g in groups]
+    guard = 0
+    changed = True
+    while changed and guard < len(groups) + 5:
+        changed = False
+        guard += 1
+        for i, members in enumerate(groups):
+            if _group_kind(raw, members) != 'detail' or len(members) != 1:
+                continue
+            if len(groups) < 2:
+                break
+            bbox_i = _group_bbox(raw, members)
+            best_j, best_d = None, None
+            for j, other in enumerate(groups):
+                if j == i or _group_kind(raw, other) == 'string':
+                    continue
+                d = _bbox_gap(bbox_i, _group_bbox(raw, other))
+                if best_d is None or d < best_d:
+                    best_d, best_j = d, j
+            if best_j is not None:
+                groups[best_j] = groups[best_j] + members
+                groups.pop(i)
+                changed = True
+                break
+    return groups
+
 def process(src_path, out_dir, thresh=None):
     os.makedirs(out_dir, exist_ok=True)
     img = load(src_path)
@@ -214,26 +261,42 @@ def process(src_path, out_dir, thresh=None):
                      'x0p': x0p, 'y0p': y0p, 'x1p': x1p, 'y1p': y1p})
 
     groups = merge_text_fragments(raw)
+    groups = absorb_lone_details(raw, groups)
     pieces = []
     for gi, members in enumerate(groups, start=1):
         name = f"p{gi:02d}"
+        non_detail = [m for m in members if raw[m]['kind'] != 'detail']
         if len(members) == 1:
             r = raw[members[0]]
             x0p, y0p, x1p, y1p = r['x0p'], r['y0p'], r['x1p'], r['y1p']
             bool_mask = r['mask'][y0p:y1p, x0p:x1p]
             kind = r['kind']
             area = r['area']
-        else:
+        elif not non_detail:
+            # cluster de puro texto sin un portador real cerca: se exporta como
+            # tarjeta solida (rectangulo) para que viaje como un solo objeto.
             x0 = min(raw[m]['x0'] for m in members); y0 = min(raw[m]['y0'] for m in members)
             x1 = max(raw[m]['x1'] for m in members); y1 = max(raw[m]['y1'] for m in members)
             pad = 6
             x0p, y0p = max(0, x0 - pad), max(0, y0 - pad)
             x1p, y1p = min(W, x1 + pad), min(H, y1 + pad)
-            # Rectangulo solido (no la mascara irregular de cada fragmento): asi la
-            # "cinta"/tarjeta que sostiene el texto viaja pegada al texto como un
-            # solo objeto opaco, sin huecos transparentes entre palabras.
             bool_mask = np.ones((y1p - y0p, x1p - x0p), bool)
-            kind = 'tape'  # varios fragmentos fusionados = cinta/leyenda completa
+            kind = 'tape'
+            area = int(bool_mask.sum())
+        else:
+            # texto/fragmento absorbido por su portador real (foto o cinta):
+            # se mantiene la silueta natural del portador, solo se le pega el
+            # fragmento encima en su posicion real, sin rectangularizar.
+            host = max(non_detail, key=lambda m: raw[m]['area'])
+            x0 = min(raw[m]['x0'] for m in members); y0 = min(raw[m]['y0'] for m in members)
+            x1 = max(raw[m]['x1'] for m in members); y1 = max(raw[m]['y1'] for m in members)
+            pad = 3
+            x0p, y0p = max(0, x0 - pad), max(0, y0 - pad)
+            x1p, y1p = min(W, x1 + pad), min(H, y1 + pad)
+            bool_mask = np.zeros((y1p - y0p, x1p - x0p), bool)
+            for m in members:
+                bool_mask |= raw[m]['mask'][y0p:y1p, x0p:x1p]
+            kind = raw[host]['kind']
             area = int(bool_mask.sum())
         local_mask = bool_mask.astype(np.uint8) * 255
         local_mask = cv2.GaussianBlur(local_mask, (0, 0), 1.2)
