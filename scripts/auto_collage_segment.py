@@ -157,6 +157,17 @@ def string_anchors(mask):
     proj = (pts - mean) @ axis
     i0, i1 = proj.argmin(), proj.argmax()
     p0, p1 = pts[i0], pts[i1]
+    # El signo del eje principal (PCA) es arbitrario, asi que el orden p0->p1
+    # podia salir en cualquier sentido. Se fuerza un orden consistente: el
+    # hilo siempre se revela de izquierda a derecha (o de abajo hacia arriba
+    # si es mas vertical que horizontal), como una trayectoria que avanza,
+    # en vez de una direccion al azar.
+    if abs(p1[0] - p0[0]) >= abs(p1[1] - p0[1]):
+        if p0[0] > p1[0]:
+            p0, p1 = p1, p0
+    else:
+        if p0[1] < p1[1]:
+            p0, p1 = p1, p0
     return [float(p0[0]), float(p0[1])], [float(p1[0]), float(p1[1])]
 
 MERGE_GAP = 20  # px maximo de hueco para fusionar fragmentos cercanos
@@ -309,7 +320,7 @@ def process(src_path, out_dir, thresh=None):
         x0, y0, x1, y1 = int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1
         w, h = x1 - x0, y1 - y0
         fill_ratio = area / max(1, w * h)
-        if fill_ratio >= 0.08 or max(w, h) < 40:
+        if fill_ratio >= 0.11 or max(w, h) < 40:
             continue  # bloque macizo (tinta de sello) o mota chica: no es hilo
         pad = 3
         x0p, y0p = max(0, x0 - pad), max(0, y0 - pad)
