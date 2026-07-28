@@ -12,15 +12,12 @@ SITE = {
     "description": "Honest reviews and install guides for modified Windows builds (Ghost Spectre, "
                    "AtlasOS, KernelOS, ReviOS, X-Lite) and lightweight operating systems built for "
                    "gaming and low-end PCs.",
-    # ==== ADSTERRA AD SLOTS (paste your <script> codes once this site exists in your Adsterra panel) ====
-    "ad_top": "<script type=\"text/javascript\">atOptions={'key':'ab53cfe039a1c5e505d5c7cc66f5f7c8','format':'iframe','height':90,'width':728,'params':{}};</script><script type=\"text/javascript\" src=\"https://russiaexternalknew.com/ab53cfe039a1c5e505d5c7cc66f5f7c8/invoke.js\"></script>",        # 728x90 banner
-    "ad_incontent": "<script type=\"text/javascript\">atOptions={'key':'4aadfd4a7309458cf7bc2bf2ebf24ecf','format':'iframe','height':250,'width':300,'params':{}};</script><script type=\"text/javascript\" src=\"https://russiaexternalknew.com/4aadfd4a7309458cf7bc2bf2ebf24ecf/invoke.js\"></script>",  # 300x250 in-article
-    "ad_native": "<script async=\"async\" data-cfasync=\"false\" src=\"https://russiaexternalknew.com/5524506a126811425caad821aed47ee2/invoke.js\"></script><div id=\"container-5524506a126811425caad821aed47ee2\"></div>",      # native banner
-    "ad_bottom": "<script type=\"text/javascript\">atOptions={'key':'ab53cfe039a1c5e505d5c7cc66f5f7c8','format':'iframe','height':90,'width':728,'params':{}};</script><script type=\"text/javascript\" src=\"https://russiaexternalknew.com/ab53cfe039a1c5e505d5c7cc66f5f7c8/invoke.js\"></script>",      # 728x90 banner (bottom)
-    "ad_social": "https://russiaexternalknew.com/8b/aa/2e/8baa2ea4f317414de7f4020fc067bd4f.js",      # social bar script src
-    "ad_modal": "4aadfd4a7309458cf7bc2bf2ebf24ecf",       # key for the 300x250 shown inside the download modal
-    "smartlink": "https://russiaexternalknew.com/ayhd2dq0hi?key=0bb4d97d1ef0ebb6521e1661fed1488b",      # smartlink URL opened on download click (optional, leave "" to skip)
-    "popunder": "https://russiaexternalknew.com/8c/d8/e4/8cd8e452d4a62d0b80262231498f8daa.js",      # popunder script src (review pages only)
+    # ==== MONETAG (all zones for this site) ====
+    "monetag_push": '<script src="https://5gvci.com/act/files/tag.min.js?z=11425169" data-cfasync="false" async></script>',
+    "monetag_inpage_push": "<script>(function(s){s.dataset.zone='11443747',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
+    "monetag_vignette": "<script>(function(s){s.dataset.zone='11443748',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
+    "monetag_popunder": "<script>(function(s){s.dataset.zone='11424953',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
+    "monetag_directlink": "https://omg10.com/4/11443749",  # Direct Link (opened on download button click)
 }
 
 # slug, title, cat, summary, yt (YouTube id), url (download link), body=[(subtitle,[paragraphs])]

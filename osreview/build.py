@@ -7,12 +7,6 @@ from data import SITE, ARTICLES
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
 
-def ad(slot_key, label="Advertisement"):
-    code = SITE.get(slot_key, "")
-    inner = code if code else '<span class="ad-ph">Ad space</span>'
-    return f'''<div class="ad"><span class="ad-label">{label}</span>
-      <div class="ad-inner">{inner}</div></div>'''
-
 def video(yt):
     return f'''<div class="video-frame">
       <iframe src="https://www.youtube.com/embed/{yt}" title="Video" loading="lazy"
@@ -20,10 +14,7 @@ def video(yt):
         allowfullscreen></iframe></div>'''
 
 def head(title, desc, canonical):
-    social = SITE.get("ad_social", "")
-    social_tag = f'<script src="{social}" data-cfasync="false" async></script>' if social else ""
     verify = f'<meta name="google-site-verification" content="{SITE["google_verify"]}">' if SITE.get("google_verify") else ""
-    admaven_verify = f'<meta name="admaven-placement" content="{SITE["admaven_verify"]}">' if SITE.get("admaven_verify") else ""
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,9 +29,7 @@ def head(title, desc, canonical):
 <meta property="og:site_name" content="{SITE['name']}">
 <meta name="robots" content="index,follow">
 {verify}
-{admaven_verify}
 <link rel="stylesheet" href="/style.css">
-{social_tag}
 </head>
 <body>
 <header class="site-header">
@@ -49,8 +38,19 @@ def head(title, desc, canonical):
 </header>
 <main>'''
 
-POPUNDER = f'''<!-- Adsterra Popunder -->
-<script type="text/javascript" src="{SITE['popunder']}"></script>''' if SITE.get('popunder') else ''
+MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
+{SITE['monetag_push']}
+<!-- Monetag In-Page Push -->
+{SITE['monetag_inpage_push']}
+<!-- Monetag Popunder -->
+{SITE['monetag_popunder']}
+<!-- Monetag Vignette Banner -->
+{SITE['monetag_vignette']}
+<script>
+if ('serviceWorker' in navigator) {{
+  navigator.serviceWorker.register('/sw.js').catch(function(){{}});
+}}
+</script>'''
 
 ADBLOCK_DETECT = '''
 <div class="ab-overlay" id="abOverlay">
@@ -90,6 +90,7 @@ FOOT = f'''</main>
      valid license for the OS you install and back up your data before reinstalling.</p>
 </footer>
 {ADBLOCK_DETECT}
+{MONETAG_SITEWIDE}
 </body></html>'''
 
 def write(path, content):
@@ -111,23 +112,16 @@ def related(current):
     return out
 
 def download_block(a):
-    mkm = SITE.get("ad_modal", "")
-    modal_ad = f'''<script type="text/javascript">
-            atOptions = {{ 'key':'{mkm}', 'format':'iframe', 'height':250, 'width':300, 'params':{{}} }};
-          </script>
-          <script type="text/javascript" src="https://russiaexternalknew.com/{mkm}/invoke.js"></script>''' \
-        if mkm else '<span class="ad-ph">Ad space</span>'
-    smartlink_click = f"window.open('{SITE['smartlink']}','_blank')" if SITE.get("smartlink") else ""
+    directlink_click = f"window.open('{SITE['monetag_directlink']}','_blank')" if SITE.get("monetag_directlink") else ""
     return f'''<button class="download" type="button" onclick="openDlModal()">
        ⬇ Get download link</button>
     <div class="modal-overlay" id="dlModal">
       <div class="modal-box">
         <button class="modal-close" type="button" onclick="closeDlModal()" aria-label="Close">✕</button>
         <h3>Your download link is almost ready</h3>
-        <div class="modal-ad">{modal_ad}</div>
         <p id="dlCountdown">Preparing your link… 10s</p>
         <a id="dlReal" class="download" href="{a['url']}" rel="noopener nofollow" style="display:none"
-           onclick="{smartlink_click}">⬇ Download {html.escape(a['cat'])}</a>
+           onclick="{directlink_click}">⬇ Download {html.escape(a['cat'])}</a>
       </div>
     </div>
     <script>
@@ -152,30 +146,25 @@ def article_page(a):
         sections += f"<h2>{html.escape(sub)}</h2>\n"
         for p in paras:
             sections += f"<p>{p}</p>\n"
-        if i == 1:
-            sections += ad("ad_native", "Advertisement")
     body = f'''
   <article class="post">
     <nav class="crumbs"><a href="/">Home</a> › <span>{html.escape(a['cat'])}</span></nav>
     <span class="tag">{html.escape(a['cat'])}</span>
     <h1>{html.escape(a['title'])}</h1>
     <p class="lead">{html.escape(a['summary'])}</p>
-    {ad("ad_top")}
     {video(a['yt'])}
     {download_block(a)}
     <p class="note">⚠️ Always back up your files before reinstalling any operating system. Make sure
        you have a valid license for Windows before using a modified build.</p>
     {sections}
-    {ad("ad_incontent")}
     <div class="fb-cta">
       <p>📺 Liked this review? Subscribe on <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a>
          for more lightweight OS builds and install guides.</p>
     </div>
     <h2>More reviews</h2>
     <div class="rel-grid">{related(a)}</div>
-    {ad("ad_bottom")}
   </article>'''
-    write(f"{a['slug']}.html", head(a['title'], a['summary'], canonical) + body + POPUNDER + FOOT)
+    write(f"{a['slug']}.html", head(a['title'], a['summary'], canonical) + body + FOOT)
 
 # ---------- Home ----------
 def home():
@@ -191,12 +180,10 @@ def home():
     <p class="lead">{SITE['description']}</p>
     <a class="btn" href="{SITE['youtube']}" target="_blank" rel="noopener">📺 Subscribe on YouTube</a>
   </section>
-  {ad("ad_top")}
   <section class="grid-wrap">
     <h2>Reviews</h2>
     <div class="grid">{cards}</div>
-  </section>
-  {ad("ad_bottom")}'''
+  </section>'''
     write("index.html", head(f"{SITE['name']} — {SITE['tagline']}", SITE['description'],
                              SITE['domain'] + "/") + body + FOOT)
 
@@ -230,6 +217,7 @@ def main():
         shutil.rmtree(DIST)
     os.makedirs(DIST)
     shutil.copy(os.path.join(HERE, "style.css"), os.path.join(DIST, "style.css"))
+    shutil.copy(os.path.join(HERE, "sw.js"), os.path.join(DIST, "sw.js"))
     home(); legal(); seo_files()
     for a in ARTICLES:
         article_page(a)
