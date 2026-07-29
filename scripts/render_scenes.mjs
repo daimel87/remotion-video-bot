@@ -10,22 +10,35 @@ const localChrome = path.join(
   projectRoot,
   '.chrome/chrome-headless-shell/linux-131.0.6778.204/chrome-headless-shell-linux64/chrome-headless-shell',
 );
+const chrome = fs.existsSync(localChrome) ? localChrome : undefined;
 
 const log = (msg) => {
   fs.appendFileSync('/tmp/papa-scenes-render.log', `[${new Date().toISOString()}] ${msg}\n`);
 };
 
+// Bundle cacheado: si ya existe de un lanzamiento previo, se reutiliza para no
+// perder ~30s rebundleando en cada relanzamiento (el contenedor se reinicia
+// seguido y mata el proceso).
+const BUNDLE_DIR = path.join(projectRoot, 'out/papa-bundle');
+
 const main = async () => {
-  log('Bundling...');
-  const bundled = await bundle({
-    entryPoint: path.join(projectRoot, 'src/index.ts'),
-  });
-  log('Bundle done: ' + bundled);
+  let bundled;
+  if (fs.existsSync(path.join(BUNDLE_DIR, 'index.html'))) {
+    bundled = BUNDLE_DIR;
+    log('Reusing cached bundle: ' + bundled);
+  } else {
+    log('Bundling...');
+    bundled = await bundle({
+      entryPoint: path.join(projectRoot, 'src/index.ts'),
+      outDir: BUNDLE_DIR,
+    });
+    log('Bundle done: ' + bundled);
+  }
 
   const composition = await selectComposition({
     serveUrl: bundled,
     id: 'PapaHistoriaFull',
-    browserExecutable: fs.existsSync(localChrome) ? localChrome : undefined,
+    browserExecutable: chrome,
   });
   log('Composition selected.');
 
@@ -39,7 +52,7 @@ const main = async () => {
     const start = (i - 1) * 150;
     const end = start + 149;
     log(`RENDER scene ${n}: frames ${start}-${end}`);
-    const tmpPath = outPath + '.tmp';
+    const tmpPath = path.join(outDir, `${n}.part.mp4`);
     try {
       await renderMedia({
         composition,
@@ -47,8 +60,8 @@ const main = async () => {
         codec: 'h264',
         outputLocation: tmpPath,
         frameRange: [start, end],
-        concurrency: 2,
-        browserExecutable: fs.existsSync(localChrome) ? localChrome : undefined,
+        concurrency: 4,
+        browserExecutable: chrome,
       });
       fs.renameSync(tmpPath, outPath);
       log(`DONE scene ${n}`);
