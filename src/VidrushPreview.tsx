@@ -55,21 +55,28 @@ type Shot = {
 const FADE = 1; // s de crossfade
 
 // -------- Guion visual del hook (0-30s), calzado con la narracion --------
+// Cada plano calzado con lo que se DICE en ese segundo (ver cues.ts):
+//  0-5   "viendo esto en color, rojo verde azul"        -> pixeles RGB
+//  5-9   "ese color no siempre estuvo ahi"              -> espectro de color -> TV B/N
+//  9-14  "alguien tuvo que inventarlo / meter colores"  -> inventor en su taller
+//  14-18 "dentro de una caja de vidrio"                 -> el televisor (caja de vidrio)
+//  18-23 "no fue una corporacion en NY, ni Londres"     -> torre de transmision + titular
+//  23-25 (card capitulo)                                -> "Guadalajara, 1917"
+//  25-30 "un joven de Guadalajara, tenia 23 años"       -> Guadalajara + numero 23
 const SHOTS: Shot[] = [
-  {from: 0, dur: 4, kind: 'video', src: 'stock-gc/preview/rgb-pixels-macro-1.mp4'},
-  {from: 4, dur: 4, kind: 'video', src: 'stock-gc/preview/tv-test-pattern-1.mp4'},
-  {from: 8, dur: 3.5, kind: 'photo', src: 'stock-gc/photos/old-black-white-tv-2.jpg', motion: 'zoomIn'},
-  {from: 11.5, dur: 3.5, kind: 'photo', src: 'stock-gc/photos/family-tv-vintage-3.jpg', motion: 'panRight', fade: true},
-  {from: 15, dur: 3.5, kind: 'photo', src: 'stock-gc/photos/engineer-workshop-2.jpg', motion: 'zoomOut'},
-  {from: 18.5, dur: 3.5, kind: 'photo', src: 'stock-gc/photos/patent-document-1.jpg', motion: 'zoomIn'},
-  {from: 22, dur: 3, kind: 'card', num: '01', title: 'Guadalajara, 1917', sub: 'El joven que soñó en color'},
+  {from: 0, dur: 5, kind: 'video', src: 'stock-gc/preview/rgb-pixels-macro-1.mp4'},
+  {from: 5, dur: 4, kind: 'photo', src: 'stock-gc/photos/color-spectrum-prism-2.jpg', motion: 'zoomIn'},
+  {from: 9, dur: 5, kind: 'photo', src: 'stock-gc/photos/engineer-workshop-2.jpg', motion: 'panRight'},
+  {from: 14, dur: 4, kind: 'photo', src: 'stock-gc/photos/family-tv-vintage-3.jpg', motion: 'zoomIn', fade: true},
+  {from: 18, dur: 5, kind: 'photo', src: 'stock-gc/photos/broadcast-tower-2.jpg', motion: 'zoomOut'},
+  {from: 23, dur: 2, kind: 'card', num: '01', title: 'Guadalajara, 1917', sub: 'El joven que soñó en color'},
   {from: 25, dur: 5, kind: 'photo', src: 'stock-gc/photos/guadalajara-city-1.jpg', motion: 'zoomIn', fade: true},
 ];
 
-// Titular serif de enfasis (aparece con la frase, no antes)
-const HEADLINE = {from: 18.6, dur: 3.2, text: 'Ni Nueva York.\nNi Londres.'};
-// Numero fantasma sobre el b-roll (la narracion dice "tenia 23 años")
-const GHOST = {from: 25.3, dur: 4.4, text: '23'};
+// Titular serif de enfasis — cae EXACTO sobre "corporacion en Nueva York... Londres"
+const HEADLINE = {from: 19.2, dur: 3.4, text: 'Ni Nueva York.\nNi Londres.'};
+// Numero fantasma — la narracion dice "tenia 23 años" (~seg 25-27)
+const GHOST = {from: 25.4, dur: 4.2, text: '23'};
 
 // -------- Subtitulos corridos: parte cada cue en trozos de ~6 palabras --------
 type Cap = {start: number; end: number; text: string};
