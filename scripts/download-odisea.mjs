@@ -240,6 +240,8 @@ async function fromPixabay(item, prefix, per, credits) {
       console.log(`   ✓ ${prefix}-${i}.mp4 (${(b / 1048576).toFixed(1)} MB) [pixabay]`);
       credits.push(`${prefix}-${i}.mp4: Pixabay/${h.user} ${h.pageURL}`);
     } else {
+      // Para un documental de "historia REAL": nada de imagenes generadas por IA.
+      if (h.isAiGenerated) continue;
       i++;
       const dest = path.join(dir, `${prefix}-${i}.jpg`);
       if (fs.existsSync(dest)) continue;
