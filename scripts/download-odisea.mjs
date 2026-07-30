@@ -30,8 +30,15 @@ import {fileURLToPath} from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 
-const PEXELS_KEY = process.argv[2] || process.env.PEXELS_KEY || '';
-const PIXABAY_KEY = process.argv[3] || process.env.PIXABAY_KEY || '';
+// Args: las dos primeras que NO sean "bN" son las keys (pexels, pixabay).
+// Cualquier arg tipo b1, b2... filtra para descargar SOLO ese/esos bloques.
+//   node scripts/download-odisea.mjs PEXELS_KEY PIXABAY_KEY b1
+//   node scripts/download-odisea.mjs PEXELS_KEY PIXABAY_KEY        (todo)
+const rawArgs = process.argv.slice(2);
+const chapterFilter = new Set(rawArgs.filter((a) => /^b\d+$/i.test(a)).map((a) => a.toLowerCase()));
+const keyArgs = rawArgs.filter((a) => !/^b\d+$/i.test(a));
+const PEXELS_KEY = keyArgs[0] || process.env.PEXELS_KEY || '';
+const PIXABAY_KEY = keyArgs[1] || process.env.PIXABAY_KEY || '';
 const MAX_BYTES = 25 * 1024 * 1024;
 
 const PHOTOS_DIR = path.join(ROOT, 'public', 'stock-odisea', 'photos');
@@ -50,6 +57,8 @@ const DEF = {photo: 5, video: 2, commons: 5};
 const PLAN = [
   // ---------- BLOQUE 1: HOOK + HOMERO ----------
   {ch: 'b1', base: 'stormy-sea-epic', src: 'pexels', type: 'video', q: 'dramatic stormy ocean waves dark'},
+  {ch: 'b1', base: 'greek-gods-art', src: 'commons', q: 'ancient Greek gods mythology classical painting'},
+  {ch: 'b1', base: 'greek-monster-art', src: 'commons', q: 'Greek mythology monster ancient vase painting'},
   {ch: 'b1', base: 'ancient-greek-ruins', src: 'pexels', type: 'photo', q: 'ancient greek temple ruins'},
   {ch: 'b1', base: 'mediterranean-coast', src: 'pexels', type: 'video', q: 'mediterranean sea rocky coast aerial'},
   {ch: 'b1', base: 'turkey-landscape', src: 'pixabay', type: 'photo', q: 'turkey anatolia landscape hills'},
@@ -130,14 +139,12 @@ const PLAN = [
   {ch: 'b7', base: 'stormy-shipwreck', src: 'pexels', type: 'video', q: 'ship storm waves dramatic ocean'},
   {ch: 'b7', base: 'home-longing', src: 'pexels', type: 'photo', q: 'silhouette man looking sea horizon longing'},
 
-  // ---------- BLOQUE 8: PAYOFF + HITITAS ----------
-  {ch: 'b8', base: 'hittite-tablet', src: 'commons', q: 'Hittite clay tablet cuneiform'},
-  {ch: 'b8', base: 'cuneiform-writing', src: 'commons', q: 'cuneiform clay tablet bronze age'},
-  {ch: 'b8', base: 'hattusa-ruins', src: 'commons', q: 'Hattusa Hittite capital ruins'},
-  {ch: 'b8', base: 'hittite-relief', src: 'commons', q: 'Hittite relief sculpture stone'},
-  {ch: 'b8', base: 'bronze-age-map', src: 'commons', q: 'map Bronze Age Anatolia Wilusa Ahhiyawa'},
+  // ---------- BLOQUE 8: PAYOFF / CIERRE ----------
+  // (El cliffhanger hitita se elimino: el guion cierra en "...obras mas
+  // poderosas que ha producido la humanidad". El recap reutiliza material de
+  // b1-b7; aqui solo se añade el plano epico de cierre.)
   {ch: 'b8', base: 'epic-sea-crescendo', src: 'pexels', type: 'video', q: 'epic ocean waves golden light aerial'},
-  {ch: 'b8', base: 'ancient-archive', src: 'pexels', type: 'photo', q: 'ancient clay tablets archive shelves'},
+  {ch: 'b8', base: 'greek-ruins-sunset', src: 'pexels', type: 'photo', q: 'greek temple ruins sunset golden'},
 ];
 
 // ---------------- helpers ----------------
@@ -287,8 +294,11 @@ async function fromCommons(item, prefix, per, credits) {
   console.log(`Pixabay: ${PIXABAY_KEY ? 'OK' : 'SIN KEY (se salta)'}`);
   console.log('Wikimedia Commons: OK (sin key)\n');
 
+  if (chapterFilter.size) console.log(`Filtro de bloques: ${[...chapterFilter].join(', ')}\n`);
+
   const credits = [];
   for (const item of PLAN) {
+    if (chapterFilter.size && !chapterFilter.has(item.ch)) continue;
     const per = item.per ?? (item.src === 'commons' ? DEF.commons : DEF[item.type]);
     const prefix = `${item.ch}-${item.base}`;
     const tag = item.src === 'commons' ? 'commons' : `${item.src}/${item.type}`;
