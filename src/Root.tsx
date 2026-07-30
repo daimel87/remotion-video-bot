@@ -35,10 +35,19 @@ import {CollageTest} from './CollageTest';
 import {CollageHourglass, CANVAS_W, CANVAS_H} from './CollageHourglass';
 import {PapaHistoriaTest, PapaHistoriaFull} from './PapaHistoria';
 import {SCENE_DURATION, SCENE_FPS, TARGET_W} from './CollageAutoScene';
+import {VidrushPreview, VP_FPS, VP_DURATION} from './VidrushPreview';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="VidrushPreview"
+        component={VidrushPreview}
+        durationInFrames={VP_DURATION}
+        fps={VP_FPS}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="PapaHistoriaTest"
         component={PapaHistoriaTest}
