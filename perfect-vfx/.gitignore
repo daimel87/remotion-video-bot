@@ -2,3 +2,4 @@ runs/**/*.mp4
 !runs/**/out/*.mp4
 runs/**/frames/
 runs/**/*.png
+runs/**/scenes.txt
