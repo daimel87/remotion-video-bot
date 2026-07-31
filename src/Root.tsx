@@ -33,10 +33,19 @@ import {GonzalezCamarenaDocumentaryEdit} from './GonzalezCamarenaDocumentaryEdit
 import {DURATION_SECONDS as GC_SECS} from './gc/cues';
 import {CollageTest} from './CollageTest';
 import {CollageHourglass, CANVAS_W, CANVAS_H} from './CollageHourglass';
+import {VidrushPreview, VP_FPS, VP_DURATION} from './VidrushPreview';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="VidrushPreview"
+        component={VidrushPreview}
+        durationInFrames={VP_DURATION}
+        fps={VP_FPS}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="CollageHourglass"
         component={CollageHourglass}
