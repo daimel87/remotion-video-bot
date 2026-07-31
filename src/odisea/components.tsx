@@ -174,11 +174,12 @@ export const ImageShot: React.FC<{
   direction?: KenBurnsDirection;
   pan?: 'left' | 'right' | 'none';
   captionDelay?: number;
-}> = ({src, caption, direction = 'in', pan = 'none', captionDelay = 10}) => {
+  fadeOut?: boolean;
+}> = ({src, caption, direction = 'in', pan = 'none', captionDelay = 10, fadeOut = true}) => {
   const {durationInFrames} = useVideoConfig();
   const exitO = useExit(durationInFrames);
   return (
-    <AbsoluteFill style={{opacity: exitO}}>
+    <AbsoluteFill style={{opacity: fadeOut ? exitO : 1}}>
       <KenBurns src={src} direction={direction} pan={pan} />
       <Grade />
       <RunningCaption text={caption} delay={captionDelay} />
