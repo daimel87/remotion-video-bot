@@ -62,7 +62,7 @@ export const MontagePreview: React.FC = () => {
 
       {/* 438-498 (2.0s): stinger de golpe, corte seco */}
       <Sequence from={438} durationInFrames={60}>
-        <PunchCard word="ODISEO" />
+        <PunchCard word="Odiseo" eyebrow="El protagonista" />
       </Sequence>
 
       {/* 498-618 (4.0s): imagen, corte seco */}

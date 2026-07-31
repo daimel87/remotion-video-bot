@@ -3,13 +3,16 @@
 // al estilo "documental de archivo" (Vidrush) que usamos en Odisea: grade
 // filmico calido, dorado como color heroe, tipografia serif para titulares.
 //
-// Fuentes de sistema (no Google Fonts): evita depender de una red externa
-// durante el render, que falla detras de proxies restrictivos y hace el
-// render fragil sin necesidad -- no hay diferencia visible relevante para
-// un preview de este tipo.
+// Playfair Display auto-hospedada (public/fonts/, ver src/fonts.ts) para los
+// titulares -- no depende de la red en render, a diferencia de
+// @remotion/google-fonts, pero da la tipografia serif real (no un fallback
+// generico de sistema) que pide un documental "premium".
 import {Easing} from 'remotion';
+import {ensurePlayfairLoaded} from './fonts';
 
-const playfair = 'Georgia, "Playfair Display", "Times New Roman", serif';
+ensurePlayfairLoaded();
+
+const playfair = '"Playfair Display", Georgia, "Times New Roman", serif';
 const inter = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif';
 
 export const theme = {
