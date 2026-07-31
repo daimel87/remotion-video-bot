@@ -1,0 +1,414 @@
+{
+  "version": 1,
+  "meta": {
+    "project": "prueba-psicologia",
+    "segmentType": "custom",
+    "customBrief": "Video largo (8:01) sobre 5 frases que dicen las personas cuando ocultan una infidelidad, según la psicología. Avatar IA con micro-cortes; los eventos están anclados a pausas naturales del habla para no resaltar los cortes. Al final se agregan 20s extra (frame congelado) con un texto de cierre para ajustar la duración a 8:01 para más anuncios.",
+    "run": "prueba-psicologia",
+    "directorNotes": "Talking-head continuo (avatar IA), plano medio, presentadora centrada. 21 eventos de contenido + CTA + cierre extendido. Estructura: hook, contexto, aclaración, y 5 frases cada una con su statement de apertura + concepto psicológico de apoyo (comparación, lista o statement). Sin cubrir la cara. Tema liquid-glass. Los tiempos de cada evento respetan el cue completo del SRT, sin apurar los textos.",
+    "directorNotesVariety": "Alterna FS/statement y 75/statement de forma consistente, con dos comparaciones split-screen y una lista full-screen como quiebres de variedad. Ningún variant+kind consecutivo repetido en toda la secuencia."
+  },
+  "source": {
+    "file": "public/src.mp4",
+    "durationSec": 480.776009,
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "transcriptSrt": "transcript.srt",
+    "audioMaxVolumeDb": -1.0
+  },
+  "brand": { "theme": "liquid-glass", "kitSource": "theme-defaults" },
+  "events": [
+    {
+      "id": "evt-01",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 0.4,
+      "endSec": 9.6,
+      "anchor": { "transcript": "¿Alguna vez has escuchado una frase de tu pareja y sin saber por qué algo dentro de ti se encendió como una alarma?", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "¿ALGUNA VEZ SENTISTE ESTO?",
+        "text": "SE ENCENDIÓ UNA ALARMA",
+        "emphasis": ["ALARMA"]
+      },
+      "notes": "Hook de apertura, golpe grande; audio continúa."
+    },
+    {
+      "id": "evt-02",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 9.6,
+      "endSec": 13.0,
+      "anchor": { "transcript": "No fue lo que dijo, fue como lo dijo.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "NO FUE LO QUE DIJO",
+        "text": "FUE CÓMO LO DIJO",
+        "emphasis": ["CÓMO"]
+      },
+      "notes": "El giro clave, presentadora en card."
+    },
+    {
+      "id": "evt-03",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 22.96,
+      "endSec": 38.56,
+      "anchor": { "transcript": "Cuando alguien oculta una infidelidad, no necesariamente cambia lo que hace, cambia lo que dice y lo hace de formas muy específicas, casi como un código.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "CUANDO OCULTA UNA INFIDELIDAD",
+        "text": "CAMBIA LO QUE DICE",
+        "emphasis": ["LO QUE DICE"]
+      },
+      "notes": "La premisa central del video, full-screen."
+    },
+    {
+      "id": "evt-04",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 38.56,
+      "endSec": 52.8,
+      "anchor": { "transcript": "Hoy quiero mostrarte cinco frases que, según distintos estudios de psicología conductual, aparecen con mucha frecuencia en personas que están ocultando una infidelidad.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "SEGÚN LA PSICOLOGÍA CONDUCTUAL",
+        "text": "5 FRASES QUE SE REPITEN",
+        "emphasis": ["5 FRASES"]
+      },
+      "notes": "El promise del video, presentadora en card."
+    },
+    {
+      "id": "evt-05",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 57.52,
+      "endSec": 74.56,
+      "anchor": { "transcript": "Esto no es para que sospeches de todo el mundo, no es para vivir con paranoia, es para comprender mejor cómo funciona la comunicación humana.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "ANTES DE EMPEZAR, ACLAREMOS ALGO",
+        "text": "NO ES PARA VIVIR CON PARANOIA",
+        "emphasis": ["PARANOIA"]
+      },
+      "notes": "La aclaración importante, full-screen."
+    },
+    {
+      "id": "evt-06",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 98.4,
+      "endSec": 111.04,
+      "anchor": { "transcript": "Frase número uno. ¿Por qué siempre desconfías de mí? Probablemente sea la más común de todas.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "FRASE Nº 1",
+        "text": "¿POR QUÉ SIEMPRE DESCONFÍAS DE MÍ?",
+        "emphasis": ["DESCONFÍAS"]
+      },
+      "notes": "Primera frase del video, presentadora en card."
+    },
+    {
+      "id": "evt-07",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 116.32,
+      "endSec": 122.56,
+      "anchor": { "transcript": "Los psicólogos que estudian los patrones de engaño hablan de algo llamado inversión de la culpa.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "LOS PSICÓLOGOS LO LLAMAN",
+        "text": "INVERSIÓN DE LA CULPA",
+        "emphasis": ["LA CULPA"]
+      },
+      "notes": "El término técnico, full-screen."
+    },
+    {
+      "id": "evt-08",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 122.72,
+      "endSec": 147.2,
+      "anchor": { "transcript": "Tú haces una pregunta sencilla y de repente ya no se habla de anoche, ahora se habla de tu inseguridad, de tus problemas de confianza.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "split-screen",
+        "kind": "comparison",
+        "eyebrow": "LA CONVERSACIÓN SE TRASLADA A",
+        "items": [
+          { "text": "TU PREGUNTA", "negated": false, "icon": "check", "revealSec": 123.5 },
+          { "text": "TU INSEGURIDAD", "negated": true, "icon": "x", "revealSec": 132.0 }
+        ]
+      },
+      "notes": "El mecanismo de la inversión de la culpa explicado."
+    },
+    {
+      "id": "evt-09",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 161.44,
+      "endSec": 172.32,
+      "anchor": { "transcript": "Frase número dos. No necesito darte explicaciones de todo lo que hago. Aquí el tono cambia.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "FRASE Nº 2",
+        "text": "NO NECESITO DARTE EXPLICACIONES",
+        "emphasis": ["EXPLICACIONES"]
+      },
+      "notes": "Segunda frase del video, presentadora en card."
+    },
+    {
+      "id": "evt-10",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 182.96,
+      "endSec": 197.84,
+      "anchor": { "transcript": "Cuando esta frase aparece justo después de una pregunta concreta, puede convertirse en una forma de cerrar la conversación antes de que llegue a una zona incómoda.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "ANTES DE LA ZONA INCÓMODA",
+        "text": "CIERRA LA CONVERSACIÓN",
+        "emphasis": ["CIERRA"]
+      },
+      "notes": "El efecto de la frase 2, full-screen."
+    },
+    {
+      "id": "evt-11",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 221.84,
+      "endSec": 233.84,
+      "anchor": { "transcript": "Frase número tres. Tú también has hecho cosas que no me han gustado. En psicología, existe un fenómeno conocido como desviación por comparación.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "FRASE Nº 3",
+        "text": "TÚ TAMBIÉN HAS HECHO COSAS",
+        "emphasis": ["TAMBIÉN"]
+      },
+      "notes": "Tercera frase del video, presentadora en card."
+    },
+    {
+      "id": "evt-12",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 235.84,
+      "endSec": 250.64,
+      "anchor": { "transcript": "En lugar de hablar de lo que está ocurriendo ahora, la conversación se mueve hacia algo que pasó hace semanas, meses o incluso años.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "LA CONVERSACIÓN",
+        "text": "SE MUEVE HACIA EL PASADO",
+        "emphasis": ["EL PASADO"]
+      },
+      "notes": "El mecanismo de la desviación por comparación, full-screen."
+    },
+    {
+      "id": "evt-13",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 250.64,
+      "endSec": 263.04,
+      "anchor": { "transcript": "Porque despierta culpa. Y cuando una persona se siente culpable, deja de investigar, deja de preguntar.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "POR QUÉ FUNCIONA",
+        "text": "DESPIERTA CULPA",
+        "emphasis": ["CULPA"]
+      },
+      "notes": "El porqué del mecanismo, presentadora en card."
+    },
+    {
+      "id": "evt-14",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 281.28,
+      "endSec": 295.28,
+      "anchor": { "transcript": "Frase número cuatro. Estás exagerando, de verdad que no es para tanto. Esta frase no responde al hecho, responde a tu percepción del hecho.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "FRASE Nº 4",
+        "text": "ESTÁS EXAGERANDO",
+        "emphasis": ["EXAGERANDO"]
+      },
+      "notes": "Cuarta frase del video, full-screen."
+    },
+    {
+      "id": "evt-15",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 295.28,
+      "endSec": 313.36,
+      "anchor": { "transcript": "Y por eso algunos psicólogos la relacionan con formas leves de gaslighting, una dinámica donde poco a poco empiezas a cuestionar tu propia interpretación de la realidad.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "ALGUNOS PSICÓLOGOS LA RELACIONAN CON",
+        "text": "FORMAS LEVES DE GASLIGHTING",
+        "emphasis": ["GASLIGHTING"]
+      },
+      "notes": "El término técnico de la frase 4, presentadora en card."
+    },
+    {
+      "id": "evt-16",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 334.4,
+      "endSec": 344.4,
+      "anchor": { "transcript": "Y para muchas personas es la más dolorosa de todas. Frase número cinco. Si de verdad me conocieras, no dudarías de mí.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "FRASE Nº 5",
+        "text": "SI DE VERDAD ME CONOCIERAS",
+        "emphasis": ["ME CONOCIERAS"]
+      },
+      "notes": "Quinta y última frase, full-screen."
+    },
+    {
+      "id": "evt-17",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 344.4,
+      "endSec": 358.48,
+      "anchor": { "transcript": "Esta frase es especialmente poderosa porque ya no cuestiona la situación, ni los hechos. Cuestiona tu amor, tu confianza y tu capacidad para comprender a la otra persona.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "YA NO CUESTIONA LOS HECHOS",
+        "text": "CUESTIONA TU AMOR",
+        "emphasis": ["TU AMOR"]
+      },
+      "notes": "El poder de la frase 5, presentadora en card."
+    },
+    {
+      "id": "evt-18",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 362.48,
+      "endSec": 376.48,
+      "anchor": { "transcript": "El problema no es lo que hice, el problema es que tú no confías lo suficiente.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "split-screen",
+        "kind": "comparison",
+        "eyebrow": "EL MENSAJE OCULTO",
+        "items": [
+          { "text": "LO QUE HICE", "negated": true, "icon": "x", "revealSec": 363.0 },
+          { "text": "QUE NO CONFÍAS", "negated": false, "icon": "check", "revealSec": 368.0 }
+        ]
+      },
+      "notes": "El mensaje oculto de la frase 5, contraste."
+    },
+    {
+      "id": "evt-19",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 388.56,
+      "endSec": 398.56,
+      "anchor": { "transcript": "El miedo a aparecer inseguro, el miedo a aparecer controlador.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "list",
+        "eyebrow": "TOCA EL MIEDO A",
+        "items": [
+          { "text": "Aparecer inseguro", "icon": "person", "revealSec": 389.5 },
+          { "text": "Aparecer controlador", "icon": "check", "revealSec": 394.5 }
+        ]
+      },
+      "notes": "Los dos miedos que activa la frase 5."
+    },
+    {
+      "id": "evt-20",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 400.56,
+      "endSec": 412.64,
+      "anchor": { "transcript": "Ninguna de estas frases es una prueba definitiva de infidelidad. Ninguna.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "75-split",
+        "kind": "statement",
+        "eyebrow": "LA IDEA MÁS IMPORTANTE",
+        "text": "NINGUNA ES PRUEBA DEFINITIVA",
+        "emphasis": ["NINGUNA"]
+      },
+      "notes": "El disclaimer central del video, presentadora en card."
+    },
+    {
+      "id": "evt-21",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 424.64,
+      "endSec": 432.64,
+      "anchor": { "transcript": "Es a observar, a prestar atención a los patrones, a las repeticiones y, sobre todo, al contexto.", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "LO QUE ENSEÑA LA PSICOLOGÍA",
+        "text": "OBSERVA EL PATRÓN",
+        "emphasis": ["EL PATRÓN"]
+      },
+      "notes": "El cierre de la enseñanza, full-screen."
+    },
+    {
+      "id": "evt-22",
+      "move": "SUBSCRIBE_CTA",
+      "tier": "conversion",
+      "startSec": 440.72,
+      "endSec": 460.72,
+      "anchor": { "transcript": "Y si te gustó este contenido, suscríbete al canal.", "placement": "spoken", "shot": "talking-head" },
+      "position": "bottom-center",
+      "payload": { "label": "SUBSCRIBE", "bell": true, "clickSec": 442.0 },
+      "notes": "CTA de cierre anclado a 'suscríbete'; botón rojo YT + campana glass."
+    },
+    {
+      "id": "evt-23",
+      "move": "CONCEPT_GRAPHIC",
+      "tier": "content",
+      "startSec": 461.0,
+      "endSec": 480.5,
+      "anchor": { "transcript": "(extensión sobre frame congelado, sin audio hablado)", "placement": "spoken", "shot": "talking-head" },
+      "position": "layout",
+      "payload": {
+        "variant": "full-screen",
+        "kind": "statement",
+        "eyebrow": "NOS VEMOS EN EL PRÓXIMO VIDEO",
+        "text": "GRACIAS POR VER HASTA EL FINAL",
+        "emphasis": ["GRACIAS"]
+      },
+      "notes": "Texto de cierre de 20s sobre el frame congelado, para ajustar la duración total a 8:01."
+    }
+  ]
+}
