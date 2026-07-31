@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import {theme} from '../theme';
-import {Entrance, Grain, Vignette, WordReveal, useExit} from './components';
+import {Entrance, Grain, Vignette, WordReveal, useExit} from '../odisea/components';
 import {TextMaskReveal} from '../scenes-lib/scenes/TextAnimations/TextMaskReveal';
 
 // Card de apertura -- reusa TextMaskReveal del skill remotion-scenes tal

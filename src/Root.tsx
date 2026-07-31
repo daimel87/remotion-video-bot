@@ -29,10 +29,23 @@ import {DURATION_SECONDS as HEALTH_SECS} from './health/healthCues';
 import {CollageTest} from './CollageTest';
 import {CollageHourglass, CANVAS_W, CANVAS_H} from './CollageHourglass';
 import {MontagePreview, FPS as MP_FPS, DURATION as MP_DURATION} from './montage/MontagePreview';
+import {
+  OdiseaDocumentaryEdit,
+  FPS as ODISEA_FPS,
+  odiseaDurationInFrames,
+} from './odisea/OdiseaDocumentaryEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="OdiseaDocumentaryEdit"
+        component={OdiseaDocumentaryEdit}
+        durationInFrames={odiseaDurationInFrames()}
+        fps={ODISEA_FPS}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="MontagePreview"
         component={MontagePreview}

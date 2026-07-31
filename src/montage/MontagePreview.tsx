@@ -9,7 +9,7 @@ import {AbsoluteFill, Sequence} from 'remotion';
 import {TransitionSeries, linearTiming} from '@remotion/transitions';
 import {slide} from '@remotion/transitions/slide';
 import {fade} from '@remotion/transitions/fade';
-import {ImageShot} from './components';
+import {ImageShot} from '../odisea/components';
 import {HeroCard, PunchCard, ChapterCard, ClosingCard} from './cards';
 
 export const FPS = 30;
