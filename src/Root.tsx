@@ -24,28 +24,14 @@ import {Gacrux5Edit} from './Gacrux5Edit';
 import {GacruxFinalEdit} from './GacruxFinalEdit';
 import {TestudoDemo} from './TestudoDemo';
 import {ThenNowEdit} from './ThenNowEdit';
-import {CDDocumentaryEdit} from './CDDocumentaryEdit';
 import {HealthCookingEdit} from './HealthCookingEdit';
 import {DURATION_SECONDS as HEALTH_SECS} from './health/healthCues';
-import {BlackBerryDocumentaryEdit} from './BlackBerryDocumentaryEdit';
-import {DURATION_SECONDS as BB_SECS} from './data/bbCues';
-import {GonzalezCamarenaDocumentaryEdit} from './GonzalezCamarenaDocumentaryEdit';
-import {DURATION_SECONDS as GC_SECS} from './gc/cues';
 import {CollageTest} from './CollageTest';
 import {CollageHourglass, CANVAS_W, CANVAS_H} from './CollageHourglass';
-import {VidrushPreview, VP_FPS, VP_DURATION} from './VidrushPreview';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
-      <Composition
-        id="VidrushPreview"
-        component={VidrushPreview}
-        durationInFrames={VP_DURATION}
-        fps={VP_FPS}
-        width={1920}
-        height={1080}
-      />
       <Composition
         id="CollageHourglass"
         component={CollageHourglass}
@@ -263,33 +249,9 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="CDDocumentaryEdit"
-        component={CDDocumentaryEdit}
-        durationInFrames={20820}
-        fps={30}
-        width={1920}
-        height={1080}
-      />
-      <Composition
         id="HealthCookingEdit"
         component={HealthCookingEdit}
         durationInFrames={Math.round(HEALTH_SECS * 30)}
-        fps={30}
-        width={1920}
-        height={1080}
-      />
-      <Composition
-        id="BlackBerryDocumentaryEdit"
-        component={BlackBerryDocumentaryEdit}
-        durationInFrames={Math.round(BB_SECS * 30)}
-        fps={30}
-        width={1920}
-        height={1080}
-      />
-      <Composition
-        id="GonzalezCamarenaDocumentaryEdit"
-        component={GonzalezCamarenaDocumentaryEdit}
-        durationInFrames={Math.round(GC_SECS * 30)}
         fps={30}
         width={1920}
         height={1080}
