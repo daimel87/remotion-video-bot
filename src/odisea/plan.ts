@@ -37,10 +37,10 @@ export function pickFromPool(poolName: string, state: UsageState, atIndex: numbe
 export type Cue = {
   text: string;
   pool: string;
-  durationSec?: number; // por defecto DEFAULT_SHOT_SEC (pacing Vidrush ~4s)
+  durationSec?: number; // por defecto DEFAULT_SHOT_SEC
 };
 
-export const DEFAULT_SHOT_SEC = 4;
+export const DEFAULT_SHOT_SEC = 5;
 
 export type PlannedShot = Cue & {item: PoolItem; fromSec: number};
 
