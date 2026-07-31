@@ -28,10 +28,19 @@ import {HealthCookingEdit} from './HealthCookingEdit';
 import {DURATION_SECONDS as HEALTH_SECS} from './health/healthCues';
 import {CollageTest} from './CollageTest';
 import {CollageHourglass, CANVAS_W, CANVAS_H} from './CollageHourglass';
+import {MontagePreview, FPS as MP_FPS, DURATION as MP_DURATION} from './montage/MontagePreview';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="MontagePreview"
+        component={MontagePreview}
+        durationInFrames={MP_DURATION}
+        fps={MP_FPS}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="CollageHourglass"
         component={CollageHourglass}
