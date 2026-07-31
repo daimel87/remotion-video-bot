@@ -56,7 +56,7 @@ export const OdiseaDocumentaryEdit: React.FC<{cues?: typeof BLOQUE_1}> = ({cues 
         })}
       </TransitionSeries>
       <Audio src={staticFile('audio/odisea/bloque1-vo.mp3')} volume={1} />
-      <Audio src={staticFile('audio/odisea/bloque1-music.mp3')} volume={0.16} />
+      {/* Musica de fondo desactivada a pedido del usuario: la agrega en su editor. */}
     </AbsoluteFill>
   );
 };
