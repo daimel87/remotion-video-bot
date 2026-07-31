@@ -30,11 +30,6 @@ import {CollageTest} from './CollageTest';
 import {CollageHourglass, CANVAS_W, CANVAS_H} from './CollageHourglass';
 import {MontagePreview, FPS as MP_FPS, DURATION as MP_DURATION} from './montage/MontagePreview';
 import {
-  CaptionsThemesDemo,
-  FPS as CT_FPS,
-  DURATION as CT_DURATION,
-} from './montage/CaptionsThemesDemo';
-import {
   OdiseaDocumentaryEdit,
   FPS as ODISEA_FPS,
   odiseaDurationInFrames,
@@ -48,14 +43,6 @@ export const RemotionRoot: React.FC = () => {
         component={OdiseaDocumentaryEdit}
         durationInFrames={odiseaDurationInFrames()}
         fps={ODISEA_FPS}
-        width={1920}
-        height={1080}
-      />
-      <Composition
-        id="CaptionsThemesDemo"
-        component={CaptionsThemesDemo}
-        durationInFrames={CT_DURATION}
-        fps={CT_FPS}
         width={1920}
         height={1080}
       />
