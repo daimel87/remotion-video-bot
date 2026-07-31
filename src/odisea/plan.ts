@@ -2,7 +2,11 @@
 // Evita repetir el mismo archivo seguido y reparte todo el material
 // descargado entre los cues del guion, en vez de reusar siempre los
 // primeros resultados de cada pool.
-import {POOLS, type PoolItem} from './pools.generated';
+import {POOLS as POOLS_STOCK} from './pools.generated';
+import {POOLS_AI} from './pools-ai';
+import type {PoolItem} from './pools.generated';
+
+const POOLS: Record<string, PoolItem[]> = {...POOLS_STOCK, ...POOLS_AI};
 
 const MIN_SEP = 4; // minimo de tomas entre dos usos del mismo archivo
 
