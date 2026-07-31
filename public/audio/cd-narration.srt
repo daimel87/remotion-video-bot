@@ -1,0 +1,684 @@
+1
+00:00:00,000 --> 00:00:07,700
+En 1988, una sola canción en un solo disco vendió más copias en un solo día de lo que muchos artistas venden en toda su carrera.
+
+2
+00:00:07,700 --> 00:00:13,320
+El disco compacto llevaba apenas seis años en el mercado y había matado a su competidor más certero.
+
+3
+00:00:13,320 --> 00:00:21,480
+Lo que nadie te dice es que el CD no murió porque llegó a lo mejor, murió porque las mismas personas que lo crearon decidieron que era más rentable matarlo.
+
+4
+00:00:21,480 --> 00:00:25,760
+Esta es la historia real del CD y es mucho más sucia de lo que te contaron.
+
+5
+00:00:25,880 --> 00:00:31,880
+Retrocedamos al año 1979 y en ese momento el cassette era el rey absoluto de la música portátil.
+
+6
+00:00:31,880 --> 00:00:37,680
+Sony acababa de lanzar el Gualman, las personas podían escuchar música en la calle por primera vez en la historia.
+
+7
+00:00:37,680 --> 00:00:42,480
+Pero había un problema que la industria musical odiaba profundamente, el cassette se podía copiar.
+
+8
+00:00:42,480 --> 00:00:46,920
+Cualquier persona con dos reproductores podía duplicar un álbum completo en tiempo real.
+
+9
+00:00:46,920 --> 00:00:49,680
+La industria llamó a esto piratería doméstica.
+
+10
+00:00:49,760 --> 00:00:56,080
+Y lo daban tanto que algunas discográficas llegaron a presionar a los gobiernos para ilegalizar las grabadores de cassette domésticas.
+
+11
+00:00:56,080 --> 00:00:57,320
+Pero no funcionó.
+
+12
+00:00:57,320 --> 00:01:00,280
+Entonces decidieron crear algo que no se podía copiar.
+
+13
+00:01:00,280 --> 00:01:08,080
+En 1979 Sony y Philips, dos empresas que eran competidoras en casi todo, se sentaron juntos a diseñar el futuro del audio.
+
+14
+00:01:08,080 --> 00:01:13,480
+Lo que salió de esas reuniones fue el disco compacto, un disco de 12 centímetros de plástico y aluminio,
+
+15
+00:01:13,480 --> 00:01:19,080
+que usaba un láser para leer información digital, sin agujas, sin desgaste, sin deterioro.
+
+16
+00:01:19,160 --> 00:01:25,679
+La calidad de sonido era perfecta, o eso decían, y lo más importante para la industria, no se podía copiar en casa.
+
+17
+00:01:25,679 --> 00:01:29,160
+Al menos no, en 1982 cuando salió el mercado.
+
+18
+00:01:29,160 --> 00:01:34,520
+El primer CD comercial de la historia fue lanzado el 17 de agosto de 1982 en Japón.
+
+19
+00:01:34,520 --> 00:01:37,720
+Era una grabación de los conciertos de Brandenburg o de Bache.
+
+20
+00:01:37,720 --> 00:01:40,120
+No exactamente lo que pondrías en una fiesta.
+
+21
+00:01:40,120 --> 00:01:41,680
+Pero el mensaje era claro.
+
+22
+00:01:41,680 --> 00:01:45,680
+Esto es serio, esto es sofisticado, esto es el futuro.
+
+23
+00:01:45,760 --> 00:01:48,640
+El primer reproductor de CD costaba mil dólares.
+
+24
+00:01:48,640 --> 00:01:54,000
+Un disco costaba entre 15 y 25 dólares cuando un cassette solo costaba 8 dólares.
+
+25
+00:01:54,000 --> 00:01:57,320
+Era caro, era exclusivo y la industria lo adoraba.
+
+26
+00:01:57,320 --> 00:02:02,800
+Porque por primera vez en décadas había encontrado una manera de hacer que la gente pagara más por la misma música.
+
+27
+00:02:02,800 --> 00:02:05,360
+Aquí viene algo que la mayoría de la gente no sabe.
+
+28
+00:02:05,360 --> 00:02:10,440
+La industria musical tenía sus bodegas, décadas de grabaciones maestras en vinilo y cassette.
+
+29
+00:02:10,440 --> 00:02:14,760
+Todo el catálogo de los Beatles, de Elvis, de Michael Jackson, de Led Zeppelin.
+
+30
+00:02:14,840 --> 00:02:17,239
+Música que había vendido millones de veces.
+
+31
+00:02:17,239 --> 00:02:19,480
+Y con el CD podían venderla otra vez.
+
+32
+00:02:19,480 --> 00:02:22,840
+A precio premium, sin invertir un solo oro a la nueva música.
+
+33
+00:02:22,840 --> 00:02:27,320
+Solo tenían que transferir las grabaciones al formato digital y lanzarlas de nuevo.
+
+34
+00:02:27,320 --> 00:02:31,920
+Fue el mayor negocio de relanzamiento en la historia de la música y funcionó perfectamente.
+
+35
+00:02:31,920 --> 00:02:41,480
+Entre 1983 y 1998, las ventas de música grabadas se dispararon de 4 mil millones de dólares al año a más de 14 mil millones.
+
+36
+00:02:41,560 --> 00:02:45,959
+La industria musical vivió su edad de oro, construida sobre música que ya habían hecho.
+
+37
+00:02:45,959 --> 00:02:51,679
+Pero mientras la discográfica contaba ambientes, algo estaba ocurriendo en los sótanos de la universidad de todo el mundo.
+
+38
+00:02:51,679 --> 00:02:58,959
+En 1987, un grupo de ingenieros alemanes del Instituto von Hofer desarrollaron un formato de compresión de audio.
+
+39
+00:02:58,959 --> 00:03:02,120
+Lo llamaron MPG1 Audio Liar 3.
+
+40
+00:03:02,120 --> 00:03:04,600
+El mundo lo conocería como MP3.
+
+41
+00:03:04,600 --> 00:03:09,280
+Un archivo MP3 podía comprimir una canción de CD a una fracción de su tamaño original,
+
+42
+00:03:09,360 --> 00:03:11,920
+sin que lo ídolo humano notara casi ninguna diferencia.
+
+43
+00:03:11,920 --> 00:03:17,360
+Una canción que ocupaba 40 MB en CD ahora ocupaba 3 o 4 MB solamente.
+
+44
+00:03:17,360 --> 00:03:24,280
+Y en 1991, cuando Front Hofer hizo el codec disponible públicamente, nadie en la industria musical le prestó atención.
+
+45
+00:03:24,280 --> 00:03:25,440
+Error Histórico
+
+46
+00:03:25,440 --> 00:03:31,160
+En 1993, el internet todavía era una red académica con conexiones lentas y difíciles de usar.
+
+47
+00:03:31,160 --> 00:03:38,680
+Compartir un archivo de música tardaba horas, pero los estudiantes universitarios tenían tiempo y tenían las conexiones más rápidas disponibles.
+
+48
+00:03:38,760 --> 00:03:47,400
+Para mediados de los 90, los archivos MP3 empezaban a circular en foros y grupos de internet lentamente, ilegalmente, imparablemente.
+
+49
+00:03:47,400 --> 00:03:52,360
+La industria seguía sin preocuparse porque sus cuentas de CD estaban en máximos históricos.
+
+50
+00:03:52,360 --> 00:03:56,200
+¿Para qué preocuparse por 4 Geeks intercambiar tu archivo de internet?
+
+51
+00:03:56,200 --> 00:04:04,320
+En 1997, Diamond Multimedia lanzó el río PMP300, el primer reproductor MP3 portátil del mercado.
+
+52
+00:04:04,359 --> 00:04:10,200
+Podía almacenar 30 minutos de música en su memoria, era pequeño, práctico y completamente legal.
+
+53
+00:04:10,200 --> 00:04:12,880
+La industria musical lo demandó inmediatamente.
+
+54
+00:04:12,880 --> 00:04:19,880
+La Recording Industry Association of America, la RIA, intentó lo que era su venta argumentando que facilitaba la piratería.
+
+55
+00:04:19,880 --> 00:04:23,039
+Un tribunal federal falló en contra de la RIA.
+
+56
+00:04:23,039 --> 00:04:25,880
+El río llegó al mercado y fue un éxito inmediato.
+
+57
+00:04:25,880 --> 00:04:29,480
+La industria había peleado, la batalla equivocaba y perdido.
+
+58
+00:04:29,560 --> 00:04:31,360
+Entonces llegó Sean Fannin.
+
+59
+00:04:31,360 --> 00:04:36,520
+En 1999, Fannin era un estudiante universitario de 19 años en Boston.
+
+60
+00:04:36,520 --> 00:04:40,360
+Pasó las noches de enero de ese año escribiendo un programa en su cuarto.
+
+61
+00:04:40,360 --> 00:04:42,040
+Lo llamó Napster.
+
+62
+00:04:42,040 --> 00:04:49,480
+La idea era simple conectar todos los usuarios de MP3 en una red donde podían compartir sus archivos entre sí directamente.
+
+63
+00:04:49,480 --> 00:04:53,320
+Sin servidor central, sin pago, sin permiso de nadie.
+
+64
+00:04:53,320 --> 00:04:57,440
+En junio de 1999, Napster se lanzó públicamente.
+
+65
+00:04:57,520 --> 00:05:00,680
+En 12 meses tenía 25 millones de usuarios.
+
+66
+00:05:00,680 --> 00:05:05,440
+En su punto máximo, 80 millones de personas usaban Napster en todo el mundo.
+
+67
+00:05:05,440 --> 00:05:09,760
+Era el software de más rápido crecimiento en la historia de internet hasta ese momento.
+
+68
+00:05:09,760 --> 00:05:14,360
+Y cada uno de esos usuarios estaba descargando música sin pagar un centavo.
+
+69
+00:05:14,360 --> 00:05:21,120
+La industria en Tronpánico, en diciembre de 1999, las discográficas más grandes del mundo demandaron a Napster.
+
+70
+00:05:21,120 --> 00:05:26,560
+Lars Ulrich, baterista de metálica, se convirtió en el rostro de la batalla contra la piratería.
+
+71
+00:05:26,640 --> 00:05:34,560
+Llegó físicamente a los tribunales los nombres de 335.000 usuarios de Napster que habían compartido canciones de metálica.
+
+72
+00:05:34,560 --> 00:05:36,800
+La internet lo estudió públicamente.
+
+73
+00:05:36,800 --> 00:05:39,920
+Los memes, las burlas, el odio generalizado.
+
+74
+00:05:39,920 --> 00:05:43,360
+Y aquí está lo irónico. Ulrich tenía razón legalmente.
+
+75
+00:05:43,360 --> 00:05:46,720
+Pero la industria había cometido un error mucho más profundo.
+
+76
+00:05:46,720 --> 00:05:50,320
+Habían pasado dos décadas vendiendo la misma música tres veces.
+
+77
+00:05:50,320 --> 00:05:52,880
+Vinilo, cassette y luego CD.
+
+78
+00:05:52,880 --> 00:05:54,880
+A precios cada vez más altos.
+
+79
+00:05:54,960 --> 00:05:59,120
+Y cuando los consumidores encontraron una salida, la tomaron masivamente.
+
+80
+00:05:59,120 --> 00:06:02,800
+Napster no era solo piratería. Era venganza del mercado.
+
+81
+00:06:02,800 --> 00:06:05,920
+En 2001, un tribunal ordenó a Napster cerrar.
+
+82
+00:06:05,920 --> 00:06:08,560
+Cumplió la orden en febrero de 2001.
+
+83
+00:06:08,560 --> 00:06:10,719
+Y no cambió absolutamente nada.
+
+84
+00:06:10,719 --> 00:06:14,560
+Para ese momento, decenas de servicios copiaban el modelo de Napster.
+
+85
+00:06:14,560 --> 00:06:17,840
+Casa, Lamb Guire, Morpheus, Bit Torrent.
+
+86
+00:06:17,840 --> 00:06:21,760
+Cerrar Napster fue como intentar detener el océano con las manos.
+
+87
+00:06:21,840 --> 00:06:25,520
+La industria había ganado la batalla legal y estaba perdiendo la guerra.
+
+88
+00:06:25,520 --> 00:06:28,800
+En octubre de 2001, Apple lanzó el iPod.
+
+89
+00:06:28,800 --> 00:06:32,080
+Steve Jobs presentó con una frase que quedó en la historia.
+
+90
+00:06:32,080 --> 00:06:34,240
+Mil canciones en Tu Volsillo.
+
+91
+00:06:34,240 --> 00:06:37,520
+El iPod podía almacenar hasta 5 GB de música.
+
+92
+00:06:37,520 --> 00:06:40,400
+Era elegante, era simple, era perfecto.
+
+93
+00:06:40,400 --> 00:06:43,280
+Pero lo que realmente cambió todo no fue el iPod.
+
+94
+00:06:43,280 --> 00:06:44,560
+Fue lo que vino después.
+
+95
+00:06:44,560 --> 00:06:48,560
+En abril de 2003, Apple lanzó iTunes Music Store.
+
+96
+00:06:48,720 --> 00:06:53,520
+Por primera vez en la historia, podías comprar música digital legalmente de manera simple
+
+97
+00:06:53,520 --> 00:06:55,840
+a 99 centavos por canción.
+
+98
+00:06:55,840 --> 00:06:58,880
+No el álbum completo, la canción que querías.
+
+99
+00:06:58,880 --> 00:07:04,560
+La industria odio la idea, las discográficas que querían seguir vendiendo álbumes completos a 15 dólares.
+
+100
+00:07:04,560 --> 00:07:07,360
+Pero Jobs los convenció con un argumento simple.
+
+101
+00:07:07,360 --> 00:07:11,840
+O me dan sus catálogos a 90 centavos o pierden todo frente a la piratería.
+
+102
+00:07:11,840 --> 00:07:13,680
+Las discográficas se dieron.
+
+103
+00:07:13,680 --> 00:07:17,440
+En su primer día, iTunes vendió 200 mil canciones.
+
+104
+00:07:17,520 --> 00:07:19,440
+En su primera semana, un millón.
+
+105
+00:07:19,440 --> 00:07:22,240
+Y aquí viene la parte que la industria no quiere que recuerdes.
+
+106
+00:07:22,240 --> 00:07:27,040
+Las discográficas se dieron ante iTunes, creyendo que era un mal menor temporal.
+
+107
+00:07:27,040 --> 00:07:30,880
+Pensaban que convencerían a Apple de subir los precios eventualmente.
+
+108
+00:07:30,880 --> 00:07:34,320
+Pensaban que el CD sobreviviría como formato premium
+
+109
+00:07:34,320 --> 00:07:36,560
+para los verdaderos fanáticos de la música.
+
+110
+00:07:36,560 --> 00:07:38,560
+Se equivocaron en ambas cosas.
+
+111
+00:07:38,560 --> 00:07:45,120
+Entre 2000 y 2010, las ventas del CD cayeron de 14 mil millones de dólares a menos de 4 mil millones.
+
+112
+00:07:45,200 --> 00:07:48,080
+Una caída del 70% en una década.
+
+113
+00:07:48,080 --> 00:07:54,560
+Estudios de grabaciones cerrados, sellos independientes quebrados, tiendas de música físicas desaparecidas.
+
+114
+00:07:54,560 --> 00:07:59,840
+Towel Records, la cadena de tiendas de música más grande del mundo, declaró Banca Rotan 2006.
+
+115
+00:07:59,840 --> 00:08:03,920
+500 tiendas, 3 mil empleados, 30 años de historia.
+
+116
+00:08:03,920 --> 00:08:05,920
+Cerradas en solo meses.
+
+117
+00:08:05,920 --> 00:08:09,040
+Pero espera, aquí viene la parte que nadie te cuenta completa.
+
+118
+00:08:09,040 --> 00:08:12,160
+La piratería no fue la única causa de la caída del CD.
+
+119
+00:08:12,160 --> 00:08:13,680
+Hubo algo más oscuro.
+
+120
+00:08:13,760 --> 00:08:17,920
+En 2005, Sony BMG, una de las discográficas marandes del mundo,
+
+121
+00:08:17,920 --> 00:08:21,360
+fue descubierta haciendo algo que escandalizó al mundo tecnológico.
+
+122
+00:08:21,360 --> 00:08:25,760
+Habían estado instalando software spy en los computadores de sus clientes.
+
+123
+00:08:25,760 --> 00:08:30,160
+Cuando alguien compraba un CD de Sony BMG y lo ponía en su computadora,
+
+124
+00:08:30,160 --> 00:08:33,919
+el disco instalaba automáticamente un programa oculto llamado Rootkit,
+
+125
+00:08:33,919 --> 00:08:36,480
+y el Rootkit se ocultaba en el sistema operativo,
+
+126
+00:08:36,480 --> 00:08:38,960
+monitoreaba qué música escuchaba el usuario,
+
+127
+00:08:38,960 --> 00:08:42,320
+y hacía el computador vulnerable a virus externos.
+
+128
+00:08:42,400 --> 00:08:45,760
+Sony lo hizo sin avisar a nadie, sin pedir permiso,
+
+129
+00:08:45,760 --> 00:08:50,160
+y lo hizo en más de 22 millones de CDs distribuidos en todo el mundo.
+
+130
+00:08:50,160 --> 00:08:53,600
+Cuando un investigador de seguridad lo descubrió y lo hizo público,
+
+131
+00:08:53,600 --> 00:08:57,600
+Sony primero lo negó, luego dijo que el software era inofensivo,
+
+132
+00:08:57,600 --> 00:09:00,080
+y luego, cuando la evidencia fue irrefutable,
+
+133
+00:09:00,080 --> 00:09:05,040
+ofreció un parche de desinstalación que creaba vulnerabilidades adicionales.
+
+134
+00:09:05,040 --> 00:09:07,840
+El escándalo fue total, demandas colectivas,
+
+135
+00:09:07,840 --> 00:09:11,760
+investigaciones en múltiples países y retiro de productos.
+
+136
+00:09:11,760 --> 00:09:14,720
+Sony pagó millones en acuerdos judiciales,
+
+137
+00:09:14,720 --> 00:09:18,800
+y la confianza del consumidor en el CD nunca se recuperó completamente.
+
+138
+00:09:19,360 --> 00:09:23,439
+Para 2007, el iPhone había llegado al mercado y no era solo un teléfono,
+
+139
+00:09:23,439 --> 00:09:25,360
+era un iPod con teléfono incluido.
+
+140
+00:09:25,920 --> 00:09:30,640
+De repente, la razón principal para tener un iPod separado desapareció,
+
+141
+00:09:30,640 --> 00:09:33,920
+y la razón para tener un CD, escuchar música con calidad,
+
+142
+00:09:33,920 --> 00:09:37,600
+también estaba desapareciendo, porque el streaming estaba llegando.
+
+143
+00:09:37,680 --> 00:09:42,080
+En 2006, un estudiante sueco llamado Daniel Eck tuvo una idea.
+
+144
+00:09:42,080 --> 00:09:46,160
+Si la gente quería escuchar música gratis y la piratería no se podía detener,
+
+145
+00:09:46,160 --> 00:09:48,640
+¿por qué no hacer legal escuchar música gratis?
+
+146
+00:09:48,640 --> 00:09:51,760
+Con anuncios publicitarios que financiaran el servicio.
+
+147
+00:09:51,760 --> 00:09:53,360
+Lo llamó Spotify.
+
+148
+00:09:53,360 --> 00:09:57,120
+Lanzado en Europa de 2008, llegó Estados Unidos en 2011.
+
+149
+00:09:57,120 --> 00:09:59,920
+La propuesta era simple, toda la música del mundo,
+
+150
+00:09:59,920 --> 00:10:05,360
+en cualquier dispositivo gratis, con anuncios o por 10 dólares al mes, sin anuncios.
+
+151
+00:10:05,440 --> 00:10:09,120
+Sin descargas, sin archivos, sin espacio de almacenamiento,
+
+152
+00:10:09,120 --> 00:10:12,880
+solo música instantánea en cualquier momento, en cualquier lugar.
+
+153
+00:10:12,880 --> 00:10:15,600
+Las discográficas firmaron con Spotify.
+
+154
+00:10:15,600 --> 00:10:21,280
+Aprevieron la lección de iTunes, mejor controlar la distribución digital que perderla completamente.
+
+155
+00:10:21,280 --> 00:10:23,760
+Pero lo que no calcularon fue la velocidad del cambio.
+
+156
+00:10:23,760 --> 00:10:28,640
+En 2012, los ingresos del streaming superaron por primera vez los ingresos de descarga digital.
+
+157
+00:10:28,640 --> 00:10:33,680
+En 2015, el streaming se convirtió en la fuente de ingresos número 1 de la industria musical.
+
+158
+00:10:33,760 --> 00:10:36,959
+El CD ya era irrelevante para la mayoría del mercado.
+
+159
+00:10:36,959 --> 00:10:40,079
+Entonces, ¿por qué desapareció el CD realmente?
+
+160
+00:10:40,079 --> 00:10:44,560
+No fue solo la tecnología, no fue solo un ápster, no fue solo el streaming.
+
+161
+00:10:44,560 --> 00:10:49,839
+El CD desapareció porque la industria musical pasó 20 años tratando a sus clientes como criminales.
+
+162
+00:10:49,839 --> 00:10:55,040
+Precios artificialmente altos, álbumes llenos de canciones malas para vender dos buenas,
+
+163
+00:10:55,040 --> 00:10:59,760
+software spy a los discos, demandas contra adolescentes que descargaban canciones.
+
+164
+00:10:59,840 --> 00:11:04,160
+Cuando llegó una alternativa, cualquier alternativa, la gente la tomó.
+
+165
+00:11:04,160 --> 00:11:07,920
+Primero en la piratería, luego iTunes, luego Spotify.
+
+166
+00:11:07,920 --> 00:11:13,120
+No porque fueran perfectas, sino porque cualquier cosa era mejor que seguir pagando las reglas de
+
+167
+00:11:13,120 --> 00:11:16,080
+una industria que los había estado estafando durante décadas.
+
+168
+00:11:16,080 --> 00:11:21,040
+El CD no fue asesinado por la tecnología, fue asesinado por la acudicia de las mismas personas
+
+169
+00:11:21,040 --> 00:11:24,640
+que lo crearon. Si esta historia te sorprendió, suscríbete.
+
+170
+00:11:24,640 --> 00:11:29,200
+Cada semana cubrimos las historias ocultas, detrás de las cosas que das por sentadas,
+
+171
+00:11:29,200 --> 00:11:33,440
+todos los días y te garantizo que lo que viene después es igual de impactante.
+

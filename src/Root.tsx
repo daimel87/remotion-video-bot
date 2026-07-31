@@ -23,10 +23,53 @@ import {Gacrux4Edit} from './Gacrux4Edit';
 import {Gacrux5Edit} from './Gacrux5Edit';
 import {GacruxFinalEdit} from './GacruxFinalEdit';
 import {TestudoDemo} from './TestudoDemo';
+import {ThenNowEdit} from './ThenNowEdit';
+import {HealthCookingEdit} from './HealthCookingEdit';
+import {DURATION_SECONDS as HEALTH_SECS} from './health/healthCues';
+import {CollageTest} from './CollageTest';
+import {CollageHourglass, CANVAS_W, CANVAS_H} from './CollageHourglass';
+import {MontagePreview, FPS as MP_FPS, DURATION as MP_DURATION} from './montage/MontagePreview';
+import {
+  OdiseaDocumentaryEdit,
+  FPS as ODISEA_FPS,
+  odiseaDurationInFrames,
+} from './odisea/OdiseaDocumentaryEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="OdiseaDocumentaryEdit"
+        component={OdiseaDocumentaryEdit}
+        durationInFrames={odiseaDurationInFrames()}
+        fps={ODISEA_FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="MontagePreview"
+        component={MontagePreview}
+        durationInFrames={MP_DURATION}
+        fps={MP_FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="CollageHourglass"
+        component={CollageHourglass}
+        durationInFrames={150}
+        fps={30}
+        width={CANVAS_W}
+        height={CANVAS_H}
+      />
+      <Composition
+        id="CollageTest"
+        component={CollageTest}
+        durationInFrames={180}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="VideoEdit"
         component={VideoEdit}
@@ -216,6 +259,22 @@ export const RemotionRoot: React.FC = () => {
         component={TestudoDemo}
         durationInFrames={125}
         fps={25}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="ThenNowEdit"
+        component={ThenNowEdit}
+        durationInFrames={9000}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="HealthCookingEdit"
+        component={HealthCookingEdit}
+        durationInFrames={Math.round(HEALTH_SECS * 30)}
+        fps={30}
         width={1920}
         height={1080}
       />
