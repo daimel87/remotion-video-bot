@@ -148,8 +148,27 @@ const PLAN = [
 ];
 
 // ---------------- helpers ----------------
+const sleepMs = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// fetch con reintento automatico si la API responde 429 (demasiadas
+// peticiones). Respeta el header Retry-After si viene; si no, espera con
+// backoff exponencial (3s, 8s, 20s). Sin esto, correr 20+ busquedas seguidas
+// contra Wikimedia/Pexels/Pixabay termina en una pared de errores 429.
+async function fetchRetry(url, opts = {}, maxRetries = 4) {
+  let attempt = 0;
+  for (;;) {
+    const res = await fetch(url, opts);
+    if (res.status !== 429 || attempt >= maxRetries) return res;
+    const ra = parseInt(res.headers.get('retry-after') || '', 10);
+    const wait = Number.isFinite(ra) ? ra * 1000 : 3000 * Math.pow(2.2, attempt);
+    console.log(`   ⏳ 429 (demasiadas peticiones), esperando ${(wait / 1000).toFixed(0)}s y reintentando...`);
+    await sleepMs(wait);
+    attempt++;
+  }
+}
+
 async function download(url, dest, headers = {}) {
-  const res = await fetch(url, {headers});
+  const res = await fetchRetry(url, {headers});
   if (!res.ok) throw new Error(`descarga ${res.status}`);
   const buf = Buffer.from(await res.arrayBuffer());
   fs.writeFileSync(dest, buf);
@@ -157,7 +176,7 @@ async function download(url, dest, headers = {}) {
 }
 async function remoteSize(url) {
   try {
-    const r = await fetch(url, {method: 'HEAD'});
+    const r = await fetchRetry(url, {method: 'HEAD'});
     const l = r.headers.get('content-length');
     return l ? parseInt(l, 10) : null;
   } catch {
@@ -168,7 +187,6 @@ const complete = (dir, prefix, per, ext) => {
   for (let i = 1; i <= per; i++) if (!fs.existsSync(path.join(dir, `${prefix}-${i}.${ext}`))) return false;
   return true;
 };
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // ---------------- fuentes ----------------
 async function fromPexels(item, prefix, per, credits) {
@@ -180,7 +198,7 @@ async function fromPexels(item, prefix, per, credits) {
   const url = isVid
     ? `https://api.pexels.com/videos/search?query=${encodeURIComponent(item.q)}&per_page=${per + 4}&orientation=landscape`
     : `https://api.pexels.com/v1/search?query=${encodeURIComponent(item.q)}&per_page=${per + 3}&orientation=landscape`;
-  const res = await fetch(url, {headers: {Authorization: PEXELS_KEY}});
+  const res = await fetchRetry(url, {headers: {Authorization: PEXELS_KEY}});
   if (!res.ok) throw new Error(`pexels ${res.status}`);
   const data = await res.json();
   let i = 0;
@@ -222,7 +240,7 @@ async function fromPixabay(item, prefix, per, credits) {
   const url = isVid
     ? `https://pixabay.com/api/videos/?key=${PIXABAY_KEY}&q=${encodeURIComponent(item.q)}&per_page=${per + 4}`
     : `https://pixabay.com/api/?key=${PIXABAY_KEY}&q=${encodeURIComponent(item.q)}&image_type=photo&orientation=horizontal&min_width=1600&per_page=${per + 4}`;
-  const res = await fetch(url);
+  const res = await fetchRetry(url);
   if (!res.ok) throw new Error(`pixabay ${res.status}`);
   const data = await res.json();
   let i = 0;
@@ -260,7 +278,7 @@ async function fromCommons(item, prefix, per, credits) {
     `https://commons.wikimedia.org/w/api.php?action=query&format=json&generator=search` +
     `&gsrsearch=${encodeURIComponent(item.q + ' filetype:bitmap')}&gsrnamespace=6&gsrlimit=${per + 6}` +
     `&prop=imageinfo&iiprop=url|extmetadata|mime&iiurlwidth=1920`;
-  const res = await fetch(api, {headers: {'User-Agent': 'OdiseaDoc/1.0 (educational)'}});
+  const res = await fetchRetry(api, {headers: {'User-Agent': 'OdiseaDoc/1.0 (educational)'}});
   if (!res.ok) throw new Error(`commons ${res.status}`);
   const data = await res.json();
   const pages = Object.values(data.query?.pages ?? {});
@@ -309,7 +327,8 @@ async function fromCommons(item, prefix, per, credits) {
       if (item.src === 'pexels') await fromPexels(item, prefix, per, credits);
       else if (item.src === 'pixabay') await fromPixabay(item, prefix, per, credits);
       else if (item.src === 'commons') await fromCommons(item, prefix, per, credits);
-      await sleep(300); // cortesia con las APIs
+      // Commons es la que mas rapido satura (limite mas estricto); pausa mayor.
+      await sleepMs(item.src === 'commons' ? 2500 : 1200);
     } catch (e) {
       console.log(`   ✗ ${e.message}`);
     }
