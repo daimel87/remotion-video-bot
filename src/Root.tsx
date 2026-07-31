@@ -29,7 +29,6 @@ import {DURATION_SECONDS as HEALTH_SECS} from './health/healthCues';
 import {CollageTest} from './CollageTest';
 import {CollageHourglass, CANVAS_W, CANVAS_H} from './CollageHourglass';
 import {MontagePreview, FPS as MP_FPS, DURATION as MP_DURATION} from './montage/MontagePreview';
-import {CardLabDemo, FPS as CL_FPS, DURATION as CL_DURATION} from './cardlab/CardLabDemo';
 import {
   OdiseaDocumentaryEdit,
   FPS as ODISEA_FPS,
@@ -44,14 +43,6 @@ export const RemotionRoot: React.FC = () => {
         component={OdiseaDocumentaryEdit}
         durationInFrames={odiseaDurationInFrames()}
         fps={ODISEA_FPS}
-        width={1920}
-        height={1080}
-      />
-      <Composition
-        id="CardLabDemo"
-        component={CardLabDemo}
-        durationInFrames={CL_DURATION}
-        fps={CL_FPS}
         width={1920}
         height={1080}
       />
