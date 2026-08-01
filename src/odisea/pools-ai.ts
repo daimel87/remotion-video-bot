@@ -22,6 +22,57 @@ export const POOLS_AI_B2: Record<string, PoolItem[]> = Object.fromEntries(
   Array.from({length: 38}, (_, i) => [`b2-${String(i + 1).padStart(2, '0')}`, [ai2(i + 1)]]),
 );
 
+// Bloque 3 (monstruos/ciencia + tradicion oral + ruta real, version condensada):
+// 37 imagenes al oleo, nombres originales tal como los exporta Nano Banana.
+// 4 de ellas (16, 18, 25, 29) tienen un marco decorativo pintado dentro de la
+// imagen -- se dejan fuera de los cues (quedan de margen sin usar) para que
+// no se vea un "cuadro colgado" en pantalla completa.
+const B3_FILES = [
+  '01_Classical_oil_painting,_Carava_202608010930.jpeg',
+  '02_Classical_oil_painting,_chiaro_202608010930.jpeg',
+  '03_Classical_oil_painting,_Turner_202608010930.jpeg',
+  '04_Classical_oil_painting,_Carava_202608010930.jpeg',
+  '05_Classical_oil_painting,_chiaro_202608010930.jpeg',
+  '06_Classical_oil_painting,_Turner_202608010930.jpeg',
+  '07_Classical_oil_painting,_chiaro_202608010930.jpeg',
+  '08_Classical_oil_painting,_Turner_202608010930.jpeg',
+  '09_Classical_oil_painting,_chiaro_202608010930.jpeg',
+  '10_Classical_oil_painting,_gold_b_202608010930.jpeg',
+  '11_Classical_oil_painting,_chiaro_202608010930.jpeg',
+  '12_Classical_oil_painting,_Turner_202608010930.jpeg',
+  '13_Classical_oil_painting,_chiaro_202608010930.jpeg',
+  '14_Classical_oil_painting,_gold_b_202608010930.jpeg',
+  '15_Classical_oil_painting,_Turner_202608010930.jpeg',
+  '16_Classical_oil_painting,_Turner_202608010930.jpeg',
+  '17_Classical_oil_painting,_gold_b_202608010930.jpeg',
+  '18_Classical_oil_painting,_chiaro_202608010930.jpeg',
+  '19_Classical_oil_painting,_chiaro_202608010930.jpeg',
+  '20_Classical_oil_painting,_gold_b_202608010930.jpeg',
+  '21_Classical_oil_painting,_chiaro_202608010930.jpeg',
+  '22_Classical_oil_painting,_gold_b_202608010930.jpeg',
+  '23_Classical_oil_painting,_chiaro_202608010930.jpeg',
+  '24_Classical_oil_painting,_Turner_202608010930.jpeg',
+  '25_Classical_oil_painting,_gold_b_202608010930.jpeg',
+  '26_Classical_oil_painting,_chiaro_202608010930.jpeg',
+  '27_Classical_oil_painting,_Turner_202608010930.jpeg',
+  '28_Classical_oil_painting,_gold_b_202608010930.jpeg',
+  '29_Classical_oil_painting,_chiaro_202608010930.jpeg',
+  '30_Classical_oil_painting,_Turner_202608010930.jpeg',
+  '31_Classical_oil_painting,_gold_b_202608010930.jpeg',
+  '32_Classical_oil_painting,_chiaro_202608010930.jpeg',
+  '33_Classical_oil_painting,_gold_b_202608010930.jpeg',
+  '34_Classical_oil_painting,_Turner_202608010930.jpeg',
+  '35_Classical_oil_painting,_chiaro_202608010930.jpeg',
+  '36_Classical_oil_painting,_gold_b_202608010930.jpeg',
+  '37_Classical_oil_painting,_Turner_202608010930.jpeg',
+];
+export const POOLS_AI_B3: Record<string, PoolItem[]> = Object.fromEntries(
+  B3_FILES.map((file, i) => [
+    `b3-${String(i + 1).padStart(2, '0')}`,
+    [{file: `stock-odisea/ai/${file}`, kind: 'photos', block: 'b3'} as PoolItem],
+  ]),
+);
+
 export const POOLS_AI: Record<string, PoolItem[]> = {
   // --- lote 1 (10 originales, solo se usan estas 4 en el Bloque 1) ---
   'b1-odiseo-1': [ai('01_Odysseus,_weathered_Greek_warr_202607310903.jpeg')],
