@@ -17,74 +17,74 @@
   button{margin-top:10px;width:100%;padding:12px;border:0;border-radius:10px;
          background:var(--tg-theme-button-color,#2ea6ff);color:var(--tg-theme-button-text-color,#fff);
          font-size:1rem;font-weight:600;}
-  #result{margin-top:20px;padding:14px;border-radius:10px;background:#1b1e24;display:none;}
-  #result.ok{border:1px solid #2ea6ff;}
-  #result a{color:#2ea6ff;font-weight:600;word-break:break-all;}
-  #result.empty{border:1px solid #555;color:#aaa;}
-  .brand{font-weight:700;font-size:1.05rem;margin-bottom:4px;}
-  .hint{font-size:.85rem;color:#9aa0a6;margin-top:6px;}
+  #result{margin-top:20px;display:flex;flex-direction:column;gap:10px;}
+  .card{padding:14px;border-radius:10px;background:#1b1e24;border:1px solid #2ea6ff;}
+  .card.empty{border:1px solid #555;color:#aaa;}
+  .card a{color:#2ea6ff;font-weight:600;word-break:break-all;}
+  .meta{font-size:.85rem;color:#9aa0a6;margin-top:6px;}
+  .count{font-size:.85rem;color:#9aa0a6;margin:14px 0 0;}
 </style>
 </head>
 <body>
 <h1>🔎 Buscador de herramienta USB</h1>
-<p class="sub">Escribe la marca, modelo o dato de "Herramienta utilizada" que viste con ChipGenius
-(ej. "AlcorMp 14.08.12", "Kingston DT101", o el VID-PID).</p>
+<p class="sub">Escribe la marca de tu USB (ej. Adata, Kingston, SanDisk...) o los datos de
+ChipGenius: controlador, chip code o flash ID.</p>
 
-<input id="q" type="text" placeholder="Ej: AlcorMp 14.08.12 / Chipsbank / SMI ..." autocomplete="off">
-<button id="btnSearch">Ver resultado (con anuncio)</button>
+<input id="q" type="text" placeholder="Ej: Adata / SMI 3268AB / Kingston..." autocomplete="off">
+<button id="btnSearch">Buscar (con anuncio)</button>
 
 <div id="result"></div>
 
 <script>
 const SITE_BASE = "https://dtechusb.pages.dev/";
-let DATA = null;
+const MAX_RESULTS = 20;
+let ROWS = null;
 
-fetch("dataset.json").then(r => r.json()).then(d => DATA = d);
+fetch("rows.json").then(r => r.json()).then(d => ROWS = d);
 
 const MONETAG_REWARDED_ZONE = "REEMPLAZAR_CON_TU_ZONE_ID"; // <-- pon aquí tu zone id rewarded de Monetag
 
-function showResult(html, cls){
+function haystack(row){
+  return [row.producto, row.controlador, row.chip_code, row.flash_id, row.memoria, row.herramienta, row.pack]
+    .join(' ').toLowerCase();
+}
+
+function render(rowsMatched, q){
   const el = document.getElementById("result");
-  el.className = cls;
-  el.style.display = "block";
+  if(!rowsMatched.length){
+    el.innerHTML = `<div class="card empty">
+      <p>❌ No encontramos "<strong>${q}</strong>" en la base de datos.</p>
+      <p>Verifica el VID/PID, controlador o marca con
+      <a href="${SITE_BASE}chipgenius.html" target="_blank" rel="noopener">ChipGenius</a>.</p>
+    </div>`;
+    return;
+  }
+  let html = `<p class="count">${rowsMatched.length} resultado(s) para "${q}"</p>`;
+  rowsMatched.slice(0, MAX_RESULTS).forEach(row => {
+    html += `<div class="card">
+      <p>Para <strong>${row.controlador || row.pack}</strong>
+      ${row.producto ? ' (' + row.producto + ')' : ''}
+      se usó la herramienta <strong>${row.herramienta || 'del pack ' + row.pack}</strong>.
+      La puedes obtener en el pack de <strong>${row.pack}</strong> en nuestra web:</p>
+      <a href="${SITE_BASE}${row.slug}.html" target="_blank" rel="noopener">
+        Abrir pack de ${row.pack} →</a>
+      <p class="meta">Chip code: ${row.chip_code || '—'} · Flash ID: ${row.flash_id || '—'}</p>
+    </div>`;
+  });
+  if(rowsMatched.length > MAX_RESULTS){
+    html += `<p class="meta">Mostrando ${MAX_RESULTS} de ${rowsMatched.length} resultados.</p>`;
+  }
   el.innerHTML = html;
 }
 
 function doSearch(){
   const q = document.getElementById("q").value.trim().toLowerCase();
+  const el = document.getElementById("result");
   if(!q){ return; }
-  if(!DATA){ showResult("Cargando datos, intenta de nuevo en un segundo…", "empty"); return; }
+  if(!ROWS){ el.innerHTML = `<div class="card empty">Cargando datos, intenta de nuevo…</div>`; return; }
 
-  let best = null;
-  for(const slug in DATA){
-    const entry = DATA[slug];
-    if(entry.text.toLowerCase().includes(q)){
-      best = { slug, brand: entry.brand };
-      break;
-    }
-  }
-
-  if(best){
-    showResult(
-      `<div class="brand">✅ Coincidencia: ${best.brand}</div>
-       <p>Tu resultado está dentro del <strong>pack de herramientas ${best.brand}</strong> de la web.
-       Descárgalo y busca la versión indicada dentro del paquete.</p>
-       <a href="${SITE_BASE}${best.slug}.html" target="_blank" rel="noopener">
-         Abrir pack de ${best.brand} →</a>
-       <p class="hint">Si no encuentras exactamente esa versión dentro del pack, prueba con la más
-       cercana del mismo fabricante — suelen ser compatibles entre revisiones.</p>`,
-      "ok"
-    );
-  }else{
-    showResult(
-      `<div class="brand">❌ Sin coincidencia exacta</div>
-       <p>No encontramos ese dato en la base. Verifica el VID/PID y el nombre de la herramienta
-       con <a href="${SITE_BASE}chipgenius.html" target="_blank" rel="noopener">ChipGenius</a>,
-       o revisa la <a href="${SITE_BASE}tabla-solucionadas.html" target="_blank" rel="noopener">
-       tabla completa</a> en la web.</p>`,
-      "empty"
-    );
-  }
+  const matched = ROWS.filter(row => haystack(row).includes(q));
+  render(matched, document.getElementById("q").value.trim());
 }
 
 function runRewardedThenSearch(){
