@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buscador de Herramienta USB</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root{color-scheme:dark light;}
+  *{box-sizing:border-box;}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;padding:16px;
+       background:var(--tg-theme-bg-color,#0f1115);color:var(--tg-theme-text-color,#eee);}
+  h1{font-size:1.2rem;margin:0 0 4px;}
+  p.sub{color:var(--tg-theme-hint-color,#9aa0a6);font-size:.9rem;margin:0 0 16px;}
+  input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid #333;
+        background:var(--tg-theme-secondary-bg-color,#1b1e24);color:inherit;font-size:1rem;}
+  button{margin-top:10px;width:100%;padding:12px;border:0;border-radius:10px;
+         background:var(--tg-theme-button-color,#2ea6ff);color:var(--tg-theme-button-text-color,#fff);
+         font-size:1rem;font-weight:600;}
+  #result{margin-top:20px;padding:14px;border-radius:10px;background:#1b1e24;display:none;}
+  #result.ok{border:1px solid #2ea6ff;}
+  #result a{color:#2ea6ff;font-weight:600;word-break:break-all;}
+  #result.empty{border:1px solid #555;color:#aaa;}
+  .brand{font-weight:700;font-size:1.05rem;margin-bottom:4px;}
+  .hint{font-size:.85rem;color:#9aa0a6;margin-top:6px;}
+</style>
+</head>
+<body>
+<h1>🔎 Buscador de herramienta USB</h1>
+<p class="sub">Escribe la marca, modelo o dato de "Herramienta utilizada" que viste con ChipGenius
+(ej. "AlcorMp 14.08.12", "Kingston DT101", o el VID-PID).</p>
+
+<input id="q" type="text" placeholder="Ej: AlcorMp 14.08.12 / Chipsbank / SMI ..." autocomplete="off">
+<button id="btnSearch">Ver resultado (con anuncio)</button>
+
+<div id="result"></div>
+
+<script>
+const SITE_BASE = "https://dtechusb.pages.dev/";
+let DATA = null;
+
+fetch("dataset.json").then(r => r.json()).then(d => DATA = d);
+
+const MONETAG_REWARDED_ZONE = "REEMPLAZAR_CON_TU_ZONE_ID"; // <-- pon aquí tu zone id rewarded de Monetag
+
+function showResult(html, cls){
+  const el = document.getElementById("result");
+  el.className = cls;
+  el.style.display = "block";
+  el.innerHTML = html;
+}
+
+function doSearch(){
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  if(!q){ return; }
+  if(!DATA){ showResult("Cargando datos, intenta de nuevo en un segundo…", "empty"); return; }
+
+  let best = null;
+  for(const slug in DATA){
+    const entry = DATA[slug];
+    if(entry.text.toLowerCase().includes(q)){
+      best = { slug, brand: entry.brand };
+      break;
+    }
+  }
+
+  if(best){
+    showResult(
+      `<div class="brand">✅ Coincidencia: ${best.brand}</div>
+       <p>Tu resultado está dentro del <strong>pack de herramientas ${best.brand}</strong> de la web.
+       Descárgalo y busca la versión indicada dentro del paquete.</p>
+       <a href="${SITE_BASE}${best.slug}.html" target="_blank" rel="noopener">
+         Abrir pack de ${best.brand} →</a>
+       <p class="hint">Si no encuentras exactamente esa versión dentro del pack, prueba con la más
+       cercana del mismo fabricante — suelen ser compatibles entre revisiones.</p>`,
+      "ok"
+    );
+  }else{
+    showResult(
+      `<div class="brand">❌ Sin coincidencia exacta</div>
+       <p>No encontramos ese dato en la base. Verifica el VID/PID y el nombre de la herramienta
+       con <a href="${SITE_BASE}chipgenius.html" target="_blank" rel="noopener">ChipGenius</a>,
+       o revisa la <a href="${SITE_BASE}tabla-solucionadas.html" target="_blank" rel="noopener">
+       tabla completa</a> en la web.</p>`,
+      "empty"
+    );
+  }
+}
+
+function runRewardedThenSearch(){
+  if(typeof window["show_" + MONETAG_REWARDED_ZONE] === "function" &&
+     MONETAG_REWARDED_ZONE !== "REEMPLAZAR_CON_TU_ZONE_ID"){
+    window["show_" + MONETAG_REWARDED_ZONE]().then(doSearch).catch(doSearch);
+  }else{
+    doSearch();
+  }
+}
+
+document.getElementById("btnSearch").addEventListener("click", runRewardedThenSearch);
+document.getElementById("q").addEventListener("keydown", e => {
+  if(e.key === "Enter") runRewardedThenSearch();
+});
+
+if(window.Telegram && window.Telegram.WebApp){
+  window.Telegram.WebApp.ready();
+  window.Telegram.WebApp.expand();
+}
+</script>
+</body>
+</html>
