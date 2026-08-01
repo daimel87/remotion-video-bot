@@ -1,0 +1,269 @@
+<style>
+  :root{
+    --ink:#1a1510; --paper:#f5efe2; --card:#ffffff; --line:#e4dccb;
+    --muted:#8a7f6c; --text:#241d14; --gold:#c98a1a; --gold-soft:#f0e2c2;
+    --good:#3f8a5c; --warn:#c98a1a; --crit:#b8402f; --en:#b5772a;
+    --bg:var(--paper); --fg:var(--text);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --card:#211a12; --line:#332a1e; --muted:#9a8d76; --text:#f3ead8;
+      --gold:#e8b04b; --gold-soft:#3a2c12; --good:#5aa86e; --warn:#e0a53a;
+      --crit:#d05a48; --en:#cf9a4d; --bg:#14110c; --fg:#f3ead8;
+    }
+  }
+  :root[data-theme="light"]{ --card:#ffffff; --line:#e4dccb; --muted:#8a7f6c; --text:#241d14; --gold:#c98a1a; --gold-soft:#f0e2c2; --good:#3f8a5c; --warn:#c98a1a; --crit:#b8402f; --en:#b5772a; --bg:#f5efe2; --fg:#241d14; }
+  :root[data-theme="dark"]{ --card:#211a12; --line:#332a1e; --muted:#9a8d76; --text:#f3ead8; --gold:#e8b04b; --gold-soft:#3a2c12; --good:#5aa86e; --warn:#e0a53a; --crit:#d05a48; --en:#cf9a4d; --bg:#14110c; --fg:#f3ead8; }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--fg);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5;-webkit-text-size-adjust:100%}
+  .wrap{max-width:1060px;margin:0 auto;padding:20px 16px 60px}
+  .tnum{font-variant-numeric:tabular-nums}
+
+  h1{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;font-size:26px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+  .sub{color:var(--muted);font-size:13px;margin:4px 0 18px}
+
+  .panel-controls{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
+  label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:block;margin-bottom:5px;font-weight:600}
+  input[type=password],input[type=text],select{width:100%;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:15px;font-family:inherit}
+  input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
+  .row{display:flex;gap:12px;flex-wrap:wrap}.row>div{flex:1;min-width:150px}
+  .opts{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+  .opts label{display:inline-flex;align-items:center;gap:6px;text-transform:none;letter-spacing:0;margin:0;font-size:13px;color:var(--fg);font-weight:400}
+  button.run{background:var(--gold);color:#1a1206;border:none;border-radius:10px;padding:14px 18px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit}
+  button.run:disabled{opacity:.55;cursor:not-allowed}
+  button.run:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+  .hint{font-size:12px;color:var(--muted)}.hint a{color:var(--gold)}
+
+  .status{font-size:13px;color:var(--muted);min-height:20px;margin-bottom:14px}
+  .status.err{color:var(--crit)}
+
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .tab{background:var(--card);color:var(--muted);border:1px solid var(--line);padding:9px 15px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;font-family:inherit}
+  .tab[aria-selected=true]{background:var(--gold);color:#1a1206;border-color:var(--gold)}
+  .panel{display:none}.panel.on{display:block}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+  .chead{display:flex;align-items:center;gap:10px}
+  .rank{background:var(--crit);color:#fff;font-weight:800;border-radius:8px;padding:3px 9px;font-size:13px}
+  .chead h3{flex:1;font-size:15px;font-weight:700}.arrow{color:var(--gold);font-weight:400}
+  .score{background:var(--gold);color:#1a1206;font-weight:800;border-radius:8px;padding:5px 11px;font-size:17px}
+  .pill{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:4px 11px;margin:10px 0}
+  .pill.oro{background:var(--gold-soft);color:var(--gold);border:1px solid var(--gold)}
+  .pill.good{background:transparent;color:var(--good);border:1px solid var(--good)}
+  .pill.crit{background:transparent;color:var(--crit);border:1px solid var(--crit)}
+  .meters{display:flex;gap:14px;flex-wrap:wrap;margin:6px 0 12px}
+  .meter{flex:1;min-width:220px;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px}
+  .bar{flex:1;height:8px;background:var(--line);border-radius:6px;overflow:hidden}
+  .bar i{display:block;height:100%}
+  .bar.en i{background:var(--en)}.bar.es i{background:var(--crit)}.bar.arb i{background:var(--gold)}
+  .meter b{color:var(--fg);min-width:26px;text-align:right}
+  .stats{font-size:12px;color:var(--muted);margin-bottom:10px}
+  .cols{display:flex;gap:18px;flex-wrap:wrap}.cols>div{flex:1;min-width:240px}
+  h4{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--gold);margin:8px 0 5px}
+  ul{list-style:none;font-size:13px}ul.a li{padding:4px 0;border-bottom:1px solid var(--line)}
+  ul.c li,ul.q li{padding:3px 0;color:var(--muted)}
+  li.open{color:var(--good);font-weight:600}
+  .empty{color:var(--muted);text-align:center;padding:40px 10px;font-size:14px}
+</style>
+
+<div class="wrap">
+  <h1>🎯 Cazador de Ideas</h1>
+  <div class="sub">Explota en inglés · casi nulo en español · ángulo virgen · tema masivo</div>
+
+  <div class="panel-controls">
+    <div>
+      <label for="key">YouTube Data API key</label>
+      <input id="key" type="password" placeholder="AIza…" autocomplete="off" spellcheck="false">
+      <div class="hint">Se guarda solo en este navegador (localStorage). Llama directo a YouTube — nunca sale de tu teléfono. <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener">Obtener key</a></div>
+    </div>
+    <div class="row">
+      <div>
+        <label for="niche">Nicho</label>
+        <select id="niche"></select>
+      </div>
+      <div>
+        <label for="depth">Profundidad</label>
+        <select id="depth">
+          <option value="8">Rápida (8 videos/idioma)</option>
+          <option value="12" selected>Normal (12)</option>
+          <option value="20">Profunda (20)</option>
+        </select>
+      </div>
+    </div>
+    <div class="opts">
+      <label><input type="checkbox" id="mine"> Minar comentarios (más lento, +cuota)</label>
+    </div>
+    <button class="run" id="run">Actualizar búsqueda</button>
+  </div>
+
+  <div class="status" id="status" role="status" aria-live="polite">Pon tu API key y toca “Actualizar”.</div>
+  <div class="tabs" id="tabs" role="tablist"></div>
+  <div id="app"><div class="empty">Aún no hay resultados. Configura arriba y ejecuta.</div></div>
+</div>
+
+<script>
+const CFG = {
+  market_es:{regionCode:"MX",relevanceLanguage:"es"},
+  market_en:{regionCode:"US",relevanceLanguage:"en"},
+  niches:[
+    {id:"cronicas",name:"Crónicas Ilustradas",emoji:"🏛️",
+     weights:{arbitrage:1.3,demand:1.0,gap:1.1},
+     seeds:[
+      {en:"history of",es:"historia de"},
+      {en:"why did it disappear",es:"por que desaparecio"},
+      {en:"lost civilizations",es:"civilizaciones perdidas"},
+      {en:"forgotten inventors",es:"inventores olvidados"},
+      {en:"greek mythology explained",es:"mitologia griega explicada"},
+      {en:"the empire that fell",es:"el imperio que cayo"}]},
+    {id:"infidelidades",name:"Psicología / Infidelidades",emoji:"💔",
+     weights:{arbitrage:1.3,demand:1.2,gap:1.0},
+     seeds:[
+      {en:"when a woman goes quiet",es:"cuando una mujer se queda callada"},
+      {en:"signs she is cheating",es:"senales de infidelidad"},
+      {en:"stoicism when she ignores you",es:"estoicismo cuando ella te ignora"},
+      {en:"female psychology explained",es:"psicologia femenina"},
+      {en:"why she comes back",es:"por que una mujer regresa"}]}
+  ]
+};
+const API="https://www.googleapis.com/youtube/v3";
+const $=s=>document.querySelector(s);
+const esc=s=>(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=n=>(n||0).toLocaleString("es-MX");
+let RESULTS=[], ACTIVE=0;
+
+// restore key + fill niche select
+$("#key").value = localStorage.getItem("yt_api_key")||"";
+CFG.niches.forEach((n,i)=>{const o=document.createElement("option");o.value=i;o.textContent=n.emoji+" "+n.name;$("#niche").appendChild(o);});
+{const o=document.createElement("option");o.value="all";o.textContent="🌐 Todos los nichos";$("#niche").appendChild(o);}
+
+async function ytGet(ep,params,key){
+  params.key=key;
+  const u=API+"/"+ep+"?"+new URLSearchParams(params);
+  const r=await fetch(u);
+  const j=await r.json();
+  if(j.error) throw new Error(j.error.message||("HTTP "+r.status));
+  return j;
+}
+const iso=d=>{try{return Math.max(1,(Date.now()-new Date(d))/864e5)}catch(e){return 9999}};
+const median=a=>{if(!a.length)return 0;a=[...a].sort((x,y)=>x-y);return a[a.length>>1];};
+
+async function searchMarket(q,mkt,n,key){
+  const s=await ytGet("search.list",{part:"snippet",q,type:"video",order:"viewCount",maxResults:n,regionCode:mkt.regionCode,relevanceLanguage:mkt.relevanceLanguage},key);
+  const ids=(s.items||[]).map(i=>i.id&&i.id.videoId).filter(Boolean);
+  if(!ids.length) return {rows:[]};
+  const v=await ytGet("videos.list",{part:"statistics,snippet",id:ids.join(",")},key);
+  const rows=(v.items||[]).map(it=>{const views=+((it.statistics||{}).viewCount||0);const age=iso((it.snippet||{}).publishedAt);return{id:it.id,title:(it.snippet||{}).title||"",views,age};});
+  rows.sort((a,b)=>b.views-a.views);
+  return {rows};
+}
+
+async function mineQuestions(ids,key){
+  const qm=/[?¿]/, st=/^(why|how|what if|is it true|does|por que|porque|como|cómo|alguien sabe|es verdad)/i;
+  const out=[],seen=new Set();
+  for(const vid of ids){
+    let cr; try{cr=await ytGet("commentThreads.list",{part:"snippet",videoId:vid,order:"relevance",maxResults:40,textFormat:"plainText"},key);}catch(e){continue;}
+    for(const it of (cr.items||[])){
+      const t=it.snippet.topLevelComment.snippet.textDisplay.trim();
+      if((qm.test(t)||st.test(t))&&t.length>12&&t.length<160){const k=t.toLowerCase().slice(0,50);if(!seen.has(k)){seen.add(k);out.push(t);}}
+    }
+    if(out.length>=6)break;
+  }
+  return out.slice(0,6);
+}
+
+async function analyzeSeed(seed,niche,depth,doMine,key){
+  const en=await searchMarket(seed.en,CFG.market_en,depth,key);
+  const es=await searchMarket(seed.es,CFG.market_es,depth,key);
+  if(!en.rows.length) return null;
+  const enMed=median(en.rows.map(r=>r.views));
+  const hot=en.rows.filter(r=>r.age<240&&r.views>3e5).length;
+  const esMed=es.rows.length?median(es.rows.map(r=>r.views)):0, esCount=es.rows.length;
+  const enDemand=Math.min(100,Math.log10(Math.max(10,enMed))/7*100);
+  const exploding=Math.min(100,hot/Math.max(1,en.rows.length/2)*100);
+  const enSignal=Math.round(.65*enDemand+.35*exploding);
+  let esSupply=0;
+  esSupply+= esCount>=8?55:esCount>=4?30:esCount>=1?10:0;
+  esSupply+= esMed>5e5?45:esMed>1e5?25:esMed>1e4?8:0;
+  esSupply=Math.min(100,esSupply);
+  const arbitrage=Math.round(enSignal*(1-esSupply/100));
+  const q = doMine ? await mineQuestions(en.rows.slice(0,3).map(r=>r.id),key) : [];
+  return {seed,enSignal,esSupply,esCount,enMed,esMed,arbitrage,
+    provenAngles:en.rows.slice(0,4).map(r=>r.title),
+    esExisting:es.rows.slice(0,3).map(r=>r.title),q};
+}
+
+function verdict(a,es){
+  if(a>=65)return{t:"🔥 ORO — explota en inglés, casi vacío en español. Sé el primero.",c:"oro"};
+  if(a>=45)return{t:"✅ Buena — demanda en inglés, oferta española floja.",c:"good"};
+  if(es>=70)return{t:"⚠️ Saturado en español — entra solo con ángulo superior.",c:"crit"};
+  return{t:"◽ Oportunidad media.",c:"good"};
+}
+
+async function runNiche(niche,depth,doMine,key,onProg){
+  const scored=[];
+  for(const seed of niche.seeds){
+    onProg(niche.name+": "+seed.en);
+    let r=null; try{r=await analyzeSeed(seed,niche,depth,doMine,key);}catch(e){if(/quota/i.test(e.message))throw e;}
+    if(r){const w=niche.weights;r.score=Math.round(r.arbitrage*w.arbitrage*.55+r.enSignal*w.demand*.25+(100-r.esSupply)*w.gap*.20);scored.push(r);}
+  }
+  scored.sort((a,b)=>b.score-a.score);
+  return scored.slice(0,5).map((s,i)=>({rank:i+1,...s,v:verdict(s.arbitrage,s.esSupply)}));
+}
+
+function render(){
+  const tabs=$("#tabs"), app=$("#app");
+  if(!RESULTS.length){tabs.innerHTML="";app.innerHTML='<div class="empty">Sin resultados todavía.</div>';return;}
+  tabs.innerHTML=RESULTS.map((r,i)=>`<button class="tab" role="tab" aria-selected="${i===ACTIVE}" onclick="setTab(${i})">${r.niche.emoji} ${esc(r.niche.name)}</button>`).join("");
+  app.innerHTML=RESULTS.map((r,i)=>{
+    const cards=r.ideas.length?r.ideas.map(it=>{
+      const angles=it.provenAngles.map(a=>`<li>${esc(a)}</li>`).join("");
+      const esx=it.esExisting.length?it.esExisting.map(a=>`<li>${esc(a)}</li>`).join(""):'<li class="open">🈳 casi nada en español — hueco abierto</li>';
+      const qs=it.q.length?it.q.map(q=>`<li>${esc(q)}</li>`).join(""):'<li class="c" style="opacity:.7">(activa “minar comentarios” para ver preguntas)</li>';
+      return `<div class="card">
+        <div class="chead"><span class="rank">#${it.rank}</span>
+          <h3>${esc(it.seed.en)} <span class="arrow">→</span> ${esc(it.seed.es)}</h3>
+          <span class="score tnum">${it.score}</span></div>
+        <span class="pill ${it.v.c}">${esc(it.v.t)}</span>
+        <div class="meters">
+          <div class="meter"><span>🔥 Señal EN</span><div class="bar en"><i style="width:${it.enSignal}%"></i></div><b class="tnum">${it.enSignal}</b></div>
+          <div class="meter"><span>🈳 Oferta ES</span><div class="bar es"><i style="width:${it.esSupply}%"></i></div><b class="tnum">${it.esSupply}</b></div>
+          <div class="meter"><span>⭐ Arbitraje</span><div class="bar arb"><i style="width:${it.arbitrage}%"></i></div><b class="tnum">${it.arbitrage}</b></div>
+        </div>
+        <div class="stats tnum">EN mediana: <b>${fmt(it.enMed)}</b> vistas · ES: <b>${it.esCount}</b> videos, mediana <b>${fmt(it.esMed)}</b></div>
+        <div class="cols">
+          <div><h4>🎯 Ángulos probados en inglés (róbalos)</h4><ul class="a">${angles}</ul></div>
+          <div><h4>🇪🇸 Lo que existe en español</h4><ul class="c">${esx}</ul></div>
+        </div>
+        <h4>💡 Preguntas sin responder</h4><ul class="q">${qs}</ul>
+      </div>`;
+    }).join(""):'<div class="empty">Sin datos para este nicho.</div>';
+    return `<div class="panel ${i===ACTIVE?'on':''}">${cards}</div>`;
+  }).join("");
+}
+window.setTab=i=>{ACTIVE=i;render();};
+
+$("#run").addEventListener("click",async()=>{
+  const key=$("#key").value.trim();
+  const st=$("#status");
+  if(!key){st.className="status err";st.textContent="Falta la API key.";return;}
+  localStorage.setItem("yt_api_key",key);
+  const depth=+$("#depth").value, doMine=$("#mine").checked;
+  const sel=$("#niche").value;
+  const niches= sel==="all"?CFG.niches:[CFG.niches[+sel]];
+  $("#run").disabled=true; st.className="status";
+  RESULTS=[]; ACTIVE=0; render();
+  try{
+    for(const n of niches){
+      const ideas=await runNiche(n,depth,doMine,key,msg=>{st.textContent="Buscando… "+msg;});
+      RESULTS.push({niche:n,ideas}); render();
+    }
+    st.textContent="✅ Listo — "+RESULTS.reduce((a,r)=>a+r.ideas.length,0)+" ideas. Toca una pestaña.";
+  }catch(e){
+    st.className="status err";
+    st.textContent= /quota/i.test(e.message)?"❌ Cuota de la API agotada por hoy (10.000/día). Prueba mañana o con profundidad Rápida.":
+                    /API key not valid|keyInvalid/i.test(e.message)?"❌ La API key no es válida. Revísala.":
+                    "❌ Error: "+e.message;
+  }finally{ $("#run").disabled=false; }
+});
+</script>
