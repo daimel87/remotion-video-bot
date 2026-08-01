@@ -25,7 +25,10 @@ const TRANSITION_FRAMES = 12; // ~0.4s de crossfade entre planos
 export const odiseaDurationInFrames = (cues = BLOQUE_1): number =>
   Math.round(planDurationSec(cues) * FPS);
 
-export const OdiseaDocumentaryEdit: React.FC<{cues?: typeof BLOQUE_1}> = ({cues = BLOQUE_1}) => {
+export const OdiseaDocumentaryEdit: React.FC<{
+  cues?: typeof BLOQUE_1;
+  audioSrc?: string;
+}> = ({cues = BLOQUE_1, audioSrc = 'audio/odisea/bloque1-vo.mp3'}) => {
   const plan = buildPlan(cues);
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
@@ -55,7 +58,7 @@ export const OdiseaDocumentaryEdit: React.FC<{cues?: typeof BLOQUE_1}> = ({cues 
           );
         })}
       </TransitionSeries>
-      <Audio src={staticFile('audio/odisea/bloque1-vo.mp3')} volume={1} />
+      <Audio src={staticFile(audioSrc)} volume={1} />
       {/* Musica de fondo desactivada a pedido del usuario: la agrega en su editor. */}
     </AbsoluteFill>
   );
