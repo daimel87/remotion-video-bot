@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Buscador de Herramienta USB</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src='//libtl.com/sdk.js' data-zone='11472928' data-sdk='show_11472928'></script>
 <style>
   :root{color-scheme:dark light;}
   *{box-sizing:border-box;}
@@ -54,12 +55,9 @@ let currentPage = 0;
 
 fetch("rows.json").then(r => r.json()).then(d => ROWS = d);
 
-const MONETAG_REWARDED_ZONE = "REEMPLAZAR_CON_TU_ZONE_ID"; // <-- pon aquí tu zone id rewarded de Monetag
-
 function showAd(){
-  if(typeof window["show_" + MONETAG_REWARDED_ZONE] === "function" &&
-     MONETAG_REWARDED_ZONE !== "REEMPLAZAR_CON_TU_ZONE_ID"){
-    return window["show_" + MONETAG_REWARDED_ZONE]().catch(()=>{});
+  if(typeof show_11472928 === "function"){
+    return show_11472928('pop').then(() => {}).catch(() => {});
   }
   return Promise.resolve();
 }
