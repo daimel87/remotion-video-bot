@@ -12,3 +12,7 @@ manim/concat.txt
 # (el lockfile skills-lock.json sí se versiona para reproducir la instalación)
 .agents/
 .claude/skills/
+
+# Cazador de ideas: nunca subir la key ni el output generado
+idea-hunter/.env
+idea-hunter/dashboard.html
