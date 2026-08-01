@@ -73,6 +73,48 @@ export const POOLS_AI_B3: Record<string, PoolItem[]> = Object.fromEntries(
   ]),
 );
 
+// Bloque 4 final (Itaca/Paliki + Odiseo hombre real + cierre, condensado
+// 6+7+8): 30 imagenes al oleo. 2 de ellas (02, 09) tienen marco decorativo
+// pintado dentro de la imagen -- se dejan fuera de los cues (margen).
+const B4_FILES = [
+  '01_Classical_oil_painting,_Turner_202608011037.jpeg',
+  '02_Classical_oil_painting,_gold_b_202608011037.jpeg',
+  '03_Classical_oil_painting,_chiaro_202608011037.jpeg',
+  '04_Classical_oil_painting,_Turner_202608011037.jpeg',
+  '05_Classical_oil_painting,_gold_b_202608011037.jpeg',
+  '06_Classical_oil_painting,_chiaro_202608011037.jpeg',
+  '07_Classical_oil_painting,_gold_b_202608011037.jpeg',
+  '08_Classical_oil_painting,_Turner_202608011037.jpeg',
+  '09_Classical_oil_painting,_gold_b_202608011037.jpeg',
+  '10_Classical_oil_painting,_Turner_202608011037.jpeg',
+  '11_Classical_oil_painting,_gold_b_202608011037.jpeg',
+  '12_Classical_oil_painting,_chiaro_202608011037.jpeg',
+  '13_Classical_oil_painting,_chiaro_202608011037.jpeg',
+  '14_Classical_oil_painting,_gold_b_202608011037.jpeg',
+  '15_Classical_oil_painting,_chiaro_202608011037.jpeg',
+  '16_Classical_oil_painting,_gold_b_202608011037.jpeg',
+  '17_Classical_oil_painting,_Turner_202608011037.jpeg',
+  '18_Classical_oil_painting,_chiaro_202608011037.jpeg',
+  '19_Classical_oil_painting,_Turner_202608011037.jpeg',
+  '20_Classical_oil_painting,_gold_b_202608011037.jpeg',
+  '21_Classical_oil_painting,_chiaro_202608011037.jpeg',
+  '22_Classical_oil_painting,_Turner_202608011037.jpeg',
+  '23_Classical_oil_painting,_gold_b_202608011037.jpeg',
+  '24_Classical_oil_painting,_chiaro_202608011037.jpeg',
+  '25_Classical_oil_painting,_Turner_202608011037.jpeg',
+  '26_Classical_oil_painting,_gold_b_202608011037.jpeg',
+  '27_Classical_oil_painting,_chiaro_202608011037.jpeg',
+  '28_Classical_oil_painting,_Turner_202608011037.jpeg',
+  '29_Classical_oil_painting,_gold_b_202608011037.jpeg',
+  '30_Classical_oil_painting,_chiaro_202608011037.jpeg',
+];
+export const POOLS_AI_B4: Record<string, PoolItem[]> = Object.fromEntries(
+  B4_FILES.map((file, i) => [
+    `b4-${String(i + 1).padStart(2, '0')}`,
+    [{file: `stock-odisea/ai/${file}`, kind: 'photos', block: 'b4'} as PoolItem],
+  ]),
+);
+
 export const POOLS_AI: Record<string, PoolItem[]> = {
   // --- lote 1 (10 originales, solo se usan estas 4 en el Bloque 1) ---
   'b1-odiseo-1': [ai('01_Odysseus,_weathered_Greek_warr_202607310903.jpeg')],
