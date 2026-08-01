@@ -10,6 +10,17 @@
 import type {PoolItem} from './pools.generated';
 
 const ai = (file: string): PoolItem => ({file: `stock-odisea/ai/${file}`, kind: 'photos', block: 'b1'});
+const ai2 = (n: number): PoolItem => ({
+  file: `stock-odisea/ai/b2-${String(n).padStart(2, '0')}.jpeg`,
+  kind: 'photos',
+  block: 'b2',
+});
+
+// Bloque 2 (Schliemann y Troya): 38 imagenes al oleo. Cada pool = 1 imagen
+// unica (cero repeticion). Se usan 27 en el bloque; el resto queda de margen.
+export const POOLS_AI_B2: Record<string, PoolItem[]> = Object.fromEntries(
+  Array.from({length: 38}, (_, i) => [`b2-${String(i + 1).padStart(2, '0')}`, [ai2(i + 1)]]),
+);
 
 export const POOLS_AI: Record<string, PoolItem[]> = {
   // --- lote 1 (10 originales, solo se usan estas 4 en el Bloque 1) ---
