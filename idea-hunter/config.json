@@ -1,25 +1,33 @@
 {
-  "market": { "regionCode": "MX", "relevanceLanguage": "es" },
-  "top_n_per_seed": 12,
+  "market_es": { "regionCode": "MX", "relevanceLanguage": "es" },
+  "market_en": { "regionCode": "US", "relevanceLanguage": "en" },
+  "top_n": 12,
   "niches": [
     {
       "id": "cronicas",
       "name": "Crónicas Ilustradas",
       "emoji": "🏛️",
-      "weights": { "demand": 1.0, "gap": 1.2, "evergreen": 1.3 },
+      "weights": { "arbitrage": 1.3, "demand": 1.0, "gap": 1.1 },
       "seeds": [
-        "historia de", "por que desaparecio", "el imperio que",
-        "inventos mexicanos", "mitologia griega", "civilizaciones perdidas"
+        { "en": "history of", "es": "historia de" },
+        { "en": "why did it disappear", "es": "por que desaparecio" },
+        { "en": "lost civilizations", "es": "civilizaciones perdidas" },
+        { "en": "forgotten inventors", "es": "inventores olvidados" },
+        { "en": "greek mythology explained", "es": "mitologia griega explicada" },
+        { "en": "the empire that fell", "es": "el imperio que cayo" }
       ]
     },
     {
       "id": "infidelidades",
       "name": "Psicología / Infidelidades",
       "emoji": "💔",
-      "weights": { "demand": 1.3, "gap": 1.0, "evergreen": 0.9 },
+      "weights": { "arbitrage": 1.3, "demand": 1.2, "gap": 1.0 },
       "seeds": [
-        "cuando una mujer", "señales de infidelidad", "psicologia femenina",
-        "estoicismo mujeres", "por que una mujer", "cuando ella no te"
+        { "en": "when a woman goes quiet", "es": "cuando una mujer se queda callada" },
+        { "en": "signs she is cheating", "es": "senales de infidelidad" },
+        { "en": "stoicism when she ignores you", "es": "estoicismo cuando ella te ignora" },
+        { "en": "female psychology explained", "es": "psicologia femenina" },
+        { "en": "why she comes back", "es": "por que una mujer regresa" }
       ]
     }
   ]
