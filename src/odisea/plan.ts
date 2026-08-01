@@ -3,7 +3,7 @@
 // descargado entre los cues del guion, en vez de reusar siempre los
 // primeros resultados de cada pool.
 import {POOLS as POOLS_STOCK} from './pools.generated';
-import {POOLS_AI, POOLS_AI_B2, POOLS_AI_B3} from './pools-ai';
+import {POOLS_AI, POOLS_AI_B2, POOLS_AI_B3, POOLS_AI_B4} from './pools-ai';
 import type {PoolItem} from './pools.generated';
 
 const POOLS: Record<string, PoolItem[]> = {
@@ -11,6 +11,7 @@ const POOLS: Record<string, PoolItem[]> = {
   ...POOLS_AI,
   ...POOLS_AI_B2,
   ...POOLS_AI_B3,
+  ...POOLS_AI_B4,
 };
 
 const MIN_SEP = 4; // minimo de tomas entre dos usos del mismo archivo

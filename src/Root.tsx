@@ -36,6 +36,7 @@ import {
 } from './odisea/OdiseaDocumentaryEdit';
 import {BLOQUE_2} from './odisea/cues-b2';
 import {BLOQUE_3} from './odisea/cues-b3';
+import {BLOQUE_4} from './odisea/cues-b4';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -62,6 +63,15 @@ export const RemotionRoot: React.FC = () => {
         component={OdiseaDocumentaryEdit}
         durationInFrames={odiseaDurationInFrames(BLOQUE_3)}
         defaultProps={{cues: BLOQUE_3, audioSrc: 'audio/odisea/bloque3-vo.mp3'}}
+        fps={ODISEA_FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="OdiseaBloque4"
+        component={OdiseaDocumentaryEdit}
+        durationInFrames={odiseaDurationInFrames(BLOQUE_4)}
+        defaultProps={{cues: BLOQUE_4, audioSrc: 'audio/odisea/bloque4-vo.mp3'}}
         fps={ODISEA_FPS}
         width={1920}
         height={1080}
