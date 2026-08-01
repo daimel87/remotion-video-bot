@@ -23,6 +23,10 @@
   .card a{color:#2ea6ff;font-weight:600;word-break:break-all;}
   .meta{font-size:.85rem;color:#9aa0a6;margin-top:6px;}
   .count{font-size:.85rem;color:#9aa0a6;margin:14px 0 0;}
+  .pager{display:flex;gap:10px;margin-top:14px;}
+  .pager button{margin-top:0;flex:1;}
+  .pager button:disabled{opacity:.4;}
+  .pageinfo{text-align:center;font-size:.85rem;color:#9aa0a6;margin-top:8px;}
 </style>
 </head>
 <body>
@@ -37,12 +41,23 @@ ChipGenius: controlador, chip code o flash ID.</p>
 
 <script>
 const SITE_BASE = "https://dtechusb.pages.dev/";
-const MAX_RESULTS = 20;
+const PAGE_SIZE = 5;
 let ROWS = null;
+let currentMatches = [];
+let currentQ = "";
+let currentPage = 0;
 
 fetch("rows.json").then(r => r.json()).then(d => ROWS = d);
 
 const MONETAG_REWARDED_ZONE = "REEMPLAZAR_CON_TU_ZONE_ID"; // <-- pon aquí tu zone id rewarded de Monetag
+
+function showAd(){
+  if(typeof window["show_" + MONETAG_REWARDED_ZONE] === "function" &&
+     MONETAG_REWARDED_ZONE !== "REEMPLAZAR_CON_TU_ZONE_ID"){
+    return window["show_" + MONETAG_REWARDED_ZONE]().catch(()=>{});
+  }
+  return Promise.resolve();
+}
 
 function haystack(row){
   // "memoria" (chip de flash interno) se excluye a propósito: su marca (ej. "SanDisk")
@@ -51,18 +66,22 @@ function haystack(row){
     .join(' ').toLowerCase();
 }
 
-function render(rowsMatched, q){
+function renderPage(){
   const el = document.getElementById("result");
-  if(!rowsMatched.length){
+  if(!currentMatches.length){
     el.innerHTML = `<div class="card empty">
-      <p>❌ No encontramos "<strong>${q}</strong>" en la base de datos.</p>
+      <p>❌ No encontramos "<strong>${currentQ}</strong>" en la base de datos.</p>
       <p>Verifica el VID/PID, controlador o marca con
       <a href="${SITE_BASE}chipgenius.html" target="_blank" rel="noopener">ChipGenius</a>.</p>
     </div>`;
     return;
   }
-  let html = `<p class="count">${rowsMatched.length} resultado(s) para "${q}"</p>`;
-  rowsMatched.slice(0, MAX_RESULTS).forEach(row => {
+  const totalPages = Math.ceil(currentMatches.length / PAGE_SIZE);
+  const start = currentPage * PAGE_SIZE;
+  const pageRows = currentMatches.slice(start, start + PAGE_SIZE);
+
+  let html = `<p class="count">${currentMatches.length} resultado(s) para "${currentQ}"</p>`;
+  pageRows.forEach(row => {
     html += `<div class="card">
       <p>Para <strong>${row.controlador || row.pack}</strong>
       ${row.producto ? ' (' + row.producto + ')' : ''}
@@ -73,29 +92,44 @@ function render(rowsMatched, q){
       <p class="meta">Chip code: ${row.chip_code || '—'} · Flash ID: ${row.flash_id || '—'}</p>
     </div>`;
   });
-  if(rowsMatched.length > MAX_RESULTS){
-    html += `<p class="meta">Mostrando ${MAX_RESULTS} de ${rowsMatched.length} resultados.</p>`;
+
+  if(totalPages > 1){
+    html += `<div class="pager">
+      <button id="btnPrev" ${currentPage === 0 ? 'disabled' : ''}>← Anterior</button>
+      <button id="btnNext" ${currentPage >= totalPages - 1 ? 'disabled' : ''}>Siguiente →</button>
+    </div>
+    <p class="pageinfo">Página ${currentPage + 1} de ${totalPages}</p>`;
   }
+
   el.innerHTML = html;
+
+  const prevBtn = document.getElementById("btnPrev");
+  const nextBtn = document.getElementById("btnNext");
+  if(prevBtn) prevBtn.addEventListener("click", () => changePage(currentPage - 1));
+  if(nextBtn) nextBtn.addEventListener("click", () => changePage(currentPage + 1));
+}
+
+function changePage(page){
+  showAd().then(() => {
+    currentPage = page;
+    renderPage();
+  });
 }
 
 function doSearch(){
-  const q = document.getElementById("q").value.trim().toLowerCase();
+  const q = document.getElementById("q").value.trim();
   const el = document.getElementById("result");
   if(!q){ return; }
   if(!ROWS){ el.innerHTML = `<div class="card empty">Cargando datos, intenta de nuevo…</div>`; return; }
 
-  const matched = ROWS.filter(row => haystack(row).includes(q));
-  render(matched, document.getElementById("q").value.trim());
+  currentQ = q;
+  currentPage = 0;
+  currentMatches = ROWS.filter(row => haystack(row).includes(q.toLowerCase()));
+  renderPage();
 }
 
 function runRewardedThenSearch(){
-  if(typeof window["show_" + MONETAG_REWARDED_ZONE] === "function" &&
-     MONETAG_REWARDED_ZONE !== "REEMPLAZAR_CON_TU_ZONE_ID"){
-    window["show_" + MONETAG_REWARDED_ZONE]().then(doSearch).catch(doSearch);
-  }else{
-    doSearch();
-  }
+  showAd().then(doSearch);
 }
 
 document.getElementById("btnSearch").addEventListener("click", runRewardedThenSearch);
