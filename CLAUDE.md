@@ -45,3 +45,7 @@ Los subtítulos SIEMPRE se arman a partir del **SRT real de la locución**:
 - Los textos centrados y los capítulos entran **con** la frase, nunca antes.
 - Entregar los links en una cajita con botón de copia (el usuario revisa desde
   el teléfono).
+- **Siempre dar el link directo (raw) al archivo entregado** (deliverable)
+  apenas quede fusionado a la rama principal — nunca solo "ya está en la
+  carpeta" o "ya se fusionó" sin el link. Formato:
+  `https://github.com/daimel87/remotion-video-bot/raw/<rama-principal>/deliverables/<archivo>`.
