@@ -27,6 +27,11 @@
   .pager button{margin-top:0;flex:1;}
   .pager button:disabled{opacity:.4;}
   .pageinfo{text-align:center;font-size:.85rem;color:#9aa0a6;margin-top:8px;}
+  .pagenums{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:12px;}
+  .pagenums button{margin-top:0;width:auto;flex:none;padding:8px 12px;background:#1b1e24;
+                    border:1px solid #333;font-weight:400;}
+  .pagenums button.active{background:var(--tg-theme-button-color,#2ea6ff);
+                           color:var(--tg-theme-button-text-color,#fff);font-weight:700;}
 </style>
 </head>
 <body>
@@ -98,7 +103,12 @@ function renderPage(){
       <button id="btnPrev" ${currentPage === 0 ? 'disabled' : ''}>← Anterior</button>
       <button id="btnNext" ${currentPage >= totalPages - 1 ? 'disabled' : ''}>Siguiente →</button>
     </div>
-    <p class="pageinfo">Página ${currentPage + 1} de ${totalPages}</p>`;
+    <div class="pagenums">`;
+    for(let i = 0; i < totalPages; i++){
+      html += `<button class="pagebtn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i + 1}</button>`;
+    }
+    html += `</div>
+    <p class="pageinfo">Página ${currentPage + 1} de ${totalPages} (${currentMatches.length} resultados)</p>`;
   }
 
   el.innerHTML = html;
@@ -107,6 +117,9 @@ function renderPage(){
   const nextBtn = document.getElementById("btnNext");
   if(prevBtn) prevBtn.addEventListener("click", () => changePage(currentPage - 1));
   if(nextBtn) nextBtn.addEventListener("click", () => changePage(currentPage + 1));
+  el.querySelectorAll(".pagebtn").forEach(btn => {
+    btn.addEventListener("click", () => changePage(parseInt(btn.dataset.page, 10)));
+  });
 }
 
 function changePage(page){
