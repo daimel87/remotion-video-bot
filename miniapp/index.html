@@ -45,7 +45,9 @@ fetch("rows.json").then(r => r.json()).then(d => ROWS = d);
 const MONETAG_REWARDED_ZONE = "REEMPLAZAR_CON_TU_ZONE_ID"; // <-- pon aquí tu zone id rewarded de Monetag
 
 function haystack(row){
-  return [row.producto, row.controlador, row.chip_code, row.flash_id, row.memoria, row.herramienta, row.pack]
+  // "memoria" (chip de flash interno) se excluye a propósito: su marca (ej. "SanDisk")
+  // suele ser distinta a la marca real del USB (row.producto) y genera falsos positivos.
+  return [row.producto, row.controlador, row.chip_code, row.flash_id, row.herramienta, row.pack]
     .join(' ').toLowerCase();
 }
 
