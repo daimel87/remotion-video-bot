@@ -27,6 +27,16 @@ producir hasta que TODO el guión esté cubierto con material único**:
   seguida y reparte todo el material. Mantenerlo y ampliarlo con el material
   extra que se descargue.
 
+## Regla de subtítulos — EL SRT ES LEY (obligatoria)
+
+Los subtítulos SIEMPRE se arman a partir del **SRT real de la locución**:
+- El **texto** de cada corte son las **palabras exactas del SRT** en su ventana
+  de tiempo (solo se corrige ortografía/puntuación). **Nunca** parafrasear,
+  resumir ni reordenar: eso desincroniza el subtítulo con la voz.
+- Los **tiempos** (durationSec de cada corte) salen del SRT; la suma total debe
+  coincidir con la duración real del audio.
+- Antes de renderizar, verificar corte por corte que texto+tiempo = SRT.
+
 ## Otras reglas fijas del estilo (ya aprobadas)
 - Cada frame ilustra lo que se está narrando; nada fuera de contexto.
 - HUD arriba-izquierda: texto genérico (p.ej. "El joven que creó la TV a color"),
