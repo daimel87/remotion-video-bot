@@ -251,8 +251,9 @@ const Note: React.FC<{
   icon?: string;
   accent?: string;
   align?: 'left' | 'right';
+  maxWidth?: number;
   durationInFrames: number;
-}> = ({x, y, title, body, icon, accent = theme.cyan, align = 'left', durationInFrames}) => {
+}> = ({x, y, title, body, icon, accent = theme.cyan, align = 'left', maxWidth = 580, durationInFrames}) => {
   const {vis} = useLife(durationInFrames, 12, 10);
   const dy = interpolate(vis, [0, 1], [22, 0]);
   return (
@@ -264,7 +265,7 @@ const Note: React.FC<{
         top: y,
         opacity: vis,
         transform: `translateY(${dy}px)`,
-        maxWidth: 580,
+        maxWidth,
       }}
     >
       <Panel accent={accent}>
@@ -356,121 +357,130 @@ export const KernelOsEsEdit: React.FC = () => {
         <Watermark />
       </Sequence>
 
-      {/* cue6-7 (0:22.96) script post-instalación / chequeo de integridad */}
+      {/* cue6-7 (0:22.96) script post-instalación / chequeo de integridad — zona vacía abajo-derecha (consola queda arriba-izq) */}
       <Sequence from={s(22.96)} durationInFrames={s(27.4) - s(22.96)}>
-        <StepCard step={1} total={5} title="Script de post-instalación" sub="Primero, el chequeo de integridad (opcional)" x={70} y={780} accent={theme.red} durationInFrames={s(27.4) - s(22.96)} />
+        <StepCard step={1} total={5} title="Script de post-instalación" sub="Primero, el chequeo de integridad (opcional)" x={1250} y={780} accent={theme.red} durationInFrames={s(27.4) - s(22.96)} />
       </Sequence>
       {/* cue7-9 (0:27.52) explorer patcher, plan de energía, 7-zip, directx */}
       <Sequence from={s(27.52)} durationInFrames={s(40.36) - s(27.52)}>
-        <Note x={70} y={150} icon="🛠️" title="Instala lo esencial" body="Explorer Patcher · Plan de energía KernelOS · 7-Zip · DirectX" accent={theme.cyan} durationInFrames={s(40.36) - s(27.52)} />
+        <Note x={1250} y={780} icon="🛠️" title="Instala lo esencial" body="Explorer Patcher · Plan de energía KernelOS · 7-Zip · DirectX" accent={theme.cyan} durationInFrames={s(40.36) - s(27.52)} />
       </Sequence>
       {/* cue10 (0:40.36) vc++ redistributables */}
       <Sequence from={s(40.36)} durationInFrames={s(44.32) - s(40.36)}>
-        <Note x={70} y={780} icon="🎮" title="Visual C++ Redistributables" body="Esenciales para tus juegos." accent={theme.cyan} durationInFrames={s(44.32) - s(40.36)} />
+        <Note x={1250} y={780} icon="🎮" title="Visual C++ Redistributables" body="Esenciales para tus juegos." accent={theme.cyan} durationInFrames={s(44.32) - s(40.36)} />
       </Sequence>
-      {/* cue11 (0:44.32) reinicio */}
+      {/* cue11 (0:44.32) reinicio — diálogo "sign out" centrado, tarjeta abajo-derecha lo evita */}
       <Sequence from={s(44.32)} durationInFrames={s(48.84) - s(44.32)}>
-        <Note x={70} y={150} icon="🔄" title="Reinicia para aplicar los cambios" accent={theme.amber} durationInFrames={s(48.84) - s(44.32)} />
+        <Note x={1250} y={780} icon="🔄" title="Reinicia para aplicar los cambios" accent={theme.amber} durationInFrames={s(48.84) - s(44.32)} />
       </Sequence>
-      {/* cue12 (0:48.84) dentro de KernelOS */}
+      {/* cue12 (0:48.84) dentro de KernelOS — pantalla "Welcome" centrada */}
       <Sequence from={s(48.84)} durationInFrames={s(53.36) - s(48.84)}>
-        <Note x={70} y={150} icon="✅" title="Ya estamos dentro de KernelOS 1125H2" accent={theme.green} durationInFrames={s(53.36) - s(48.84)} />
+        <Note x={1250} y={780} icon="✅" title="Ya estamos dentro de KernelOS 1125H2" accent={theme.green} durationInFrames={s(53.36) - s(48.84)} />
       </Sequence>
 
-      {/* cue13 (0:53.44) fondo de escritorio con el logo */}
+      {/* cue13 (0:53.44) fondo de escritorio con el logo — evita iconos (izq) y máscara (centro) */}
       <Sequence from={s(53.36)} durationInFrames={s(57.24) - s(53.36)}>
-        <StepCard step={2} total={5} title="Fondo con el logo de KernelOS" sub="Centrado en el escritorio" x={70} y={150} accent={theme.red} durationInFrames={s(57.24) - s(53.36)} />
+        <StepCard step={2} total={5} title="Fondo con el logo de KernelOS" sub="Centrado en el escritorio" x={1300} y={780} accent={theme.red} durationInFrames={s(57.24) - s(53.36)} />
       </Sequence>
-      {/* cue14-15 (0:57.24) accesos directos + redes */}
+      {/* cue14-15 (0:57.24) accesos directos + redes — debajo de los iconos, no los tapa */}
       <Sequence from={s(57.24)} durationInFrames={s(66.56) - s(57.24)}>
         <Note x={70} y={780} icon="🖥️" title="Accesos directos" body="Papelera, web oficial, YouTube, TikTok, Discord, X — y el toolbox de post-instalación." accent={theme.cyan} durationInFrames={s(66.56) - s(57.24)} />
       </Sequence>
 
-      {/* cue16 (1:06.56) toolbox de post-instalación */}
+      {/* cue16 (1:06.56) toolbox de post-instalación — todavía escritorio vacío, no se ha abierto */}
       <Sequence from={s(66.56)} durationInFrames={s(71.0) - s(66.56)}>
         <StepCard step={3} total={5} title="El toolbox de post-instalación" x={1180} y={150} accent={theme.red} durationInFrames={s(71.0) - s(66.56)} />
       </Sequence>
-      {/* cue17-18 (1:11.0) navegadores */}
+      {/* cue17-18 (1:11.0) navegadores — el toolbox llena la pantalla; hueco vacío del sidebar bajo el nav */}
       <Sequence from={s(71.0)} durationInFrames={s(77.52) - s(71.0)}>
-        <Note x={1180} y={720} icon="🌐" title="Instala cualquier navegador popular" body="KernelOS no trae ninguno por defecto." accent={theme.cyan} durationInFrames={s(77.52) - s(71.0)} />
+        <Note x={70} y={500} maxWidth={380} icon="🌐" title="Instala cualquier navegador popular" body="KernelOS no trae ninguno por defecto." accent={theme.cyan} durationInFrames={s(77.52) - s(71.0)} />
       </Sequence>
       {/* cue19-20 (1:17.52) tools y soluciones */}
       <Sequence from={s(77.52)} durationInFrames={s(86.76) - s(77.52)}>
-        <Note x={70} y={150} icon="🛠️" title="Sección de herramientas útiles" body="Vale la pena revisarla." accent={theme.cyan} durationInFrames={s(86.76) - s(77.52)} />
+        <Note x={70} y={500} maxWidth={380} icon="🛠️" title="Sección de herramientas útiles" body="Vale la pena revisarla." accent={theme.cyan} durationInFrames={s(86.76) - s(77.52)} />
       </Sequence>
       {/* cue21-22 (1:26.76) soluciones + tweaking */}
       <Sequence from={s(86.76)} durationInFrames={s(93.84) - s(86.76)}>
-        <Note x={70} y={780} icon="🩹" title="Soluciones y ajustes" body="Arreglos comunes y tweaking del registro." accent={theme.cyan} durationInFrames={s(93.84) - s(86.76)} />
+        <Note x={70} y={500} maxWidth={380} icon="🩹" title="Soluciones y ajustes" body="Arreglos comunes y tweaking del registro." accent={theme.cyan} durationInFrames={s(93.84) - s(86.76)} />
       </Sequence>
 
-      {/* cue23 (1:33.84) menú inicio */}
-      <Sequence from={s(93.84)} durationInFrames={s(97.36) - s(93.84)}>
-        <Note x={70} y={150} icon="🪟" title="Menú Inicio oficial de Windows 11" body="Alineado a la izquierda, sin tocar." accent={theme.green} durationInFrames={s(97.36) - s(93.84)} />
+      {/* cue23 (1:33.84) menú inicio — en pantalla real el menú no abre hasta ~97.3s; se extiende
+          la ventana para cubrir tanto la mención como la aparición real, en zona derecha vacía */}
+      <Sequence from={s(93.84)} durationInFrames={s(99.7) - s(93.84)}>
+        <Note x={1300} y={150} icon="🪟" title="Menú Inicio oficial de Windows 11" body="Alineado a la izquierda, sin tocar." accent={theme.green} durationInFrames={s(99.7) - s(93.84)} />
       </Sequence>
 
-      {/* cue24-25 (1:37.36) winver → build 26200.7462 */}
-      <Sequence from={s(97.36)} durationInFrames={s(111.08) - s(97.36)}>
-        <Note x={70} y={150} icon="🔎" title="winver → Windows 1125H2" body="Build 26200.7462 · Basado en Windows 11 IoT Enterprise LTSC." accent={theme.amber} durationInFrames={s(111.08) - s(97.36)} />
+      {/* cue24-25 (1:39.7) winver → build 26200.7462 — diálogo real abre ~100s y cubre x:30-1110;
+          tarjeta a la derecha del diálogo */}
+      <Sequence from={s(99.7)} durationInFrames={s(111) - s(99.7)}>
+        <Note x={1300} y={150} icon="🔎" title="winver → Windows 1125H2" body="Build 26200.7462 · Basado en Windows 11 IoT Enterprise LTSC." accent={theme.amber} durationInFrames={s(111) - s(99.7)} />
       </Sequence>
-      {/* cue26 (1:51.08) sin tienda ni apps */}
-      <Sequence from={s(111.08)} durationInFrames={s(114.56) - s(111.08)}>
-        <Note x={70} y={780} icon="🚫" title="Sin tienda de Microsoft ni apps" accent={theme.warn} durationInFrames={s(114.56) - s(111.08)} />
+      {/* cue26 (1:51) sin tienda ni apps */}
+      <Sequence from={s(111)} durationInFrames={s(114.56) - s(111)}>
+        <Note x={1300} y={150} icon="🚫" title="Sin tienda de Microsoft ni apps" accent={theme.warn} durationInFrames={s(114.56) - s(111)} />
       </Sequence>
 
-      {/* cue27-28 (1:54.56) administrador de tareas, 19 procesos */}
+      {/* cue27-28 (1:54.56) administrador de tareas, 19 procesos — panel llena la pantalla */}
       <Sequence from={s(114.56)} durationInFrames={s(123.96) - s(114.56)}>
-        <StepCard step={4} total={5} title="Rendimiento en reposo" sub="Administrador de tareas en un equipo gamer" x={1260} y={150} accent={theme.red} durationInFrames={s(123.96) - s(114.56)} />
+        <StepCard step={4} total={5} title="Rendimiento en reposo" sub="Administrador de tareas en un equipo gamer" x={1260} y={170} accent={theme.red} durationInFrames={s(123.96) - s(114.56)} />
       </Sequence>
-      {/* cue29 (2:03.96) CPU 3% */}
+      {/* cue29 (2:03.96) CPU 3% — hueco vacío bajo la lista de recursos, esquina inferior izquierda */}
       <Sequence from={s(123.96)} durationInFrames={s(129.52) - s(123.96)}>
-        <StatCard value="3%" label="CPU EN REPOSO" x={1300} y={360} accent={theme.amber} durationInFrames={s(129.52) - s(123.96)} />
+        <StatCard value="3%" label="CPU EN REPOSO" x={30} y={780} accent={theme.amber} durationInFrames={s(129.52) - s(123.96)} />
       </Sequence>
       {/* cue30 (2:09.52) RAM 1.2/4GB */}
       <Sequence from={s(129.52)} durationInFrames={s(134.24) - s(129.52)}>
-        <StatCard value="1.2 / 4 GB" label="RAM EN REPOSO" x={280} y={360} accent={theme.cyan} durationInFrames={s(134.24) - s(129.52)} />
+        <StatCard value="1.2 / 4 GB" label="RAM EN REPOSO" x={30} y={930} accent={theme.cyan} durationInFrames={s(134.24) - s(129.52)} />
       </Sequence>
 
-      {/* cue31 (2:14.24) explorador, iconografía oficial */}
+      {/* cue31 (2:14.24) explorador, iconografía oficial — ventana "Esta PC" empieza en x=410 */}
       <Sequence from={s(134.24)} durationInFrames={s(139.679) - s(134.24)}>
-        <Note x={70} y={150} icon="📁" title="Iconografía oficial de Windows 11" body="Sin cambios visuales en el Explorador." accent={theme.cyan} durationInFrames={s(139.679) - s(134.24)} />
+        <Note x={70} y={780} icon="📁" title="Iconografía oficial de Windows 11" body="Sin cambios visuales en el Explorador." accent={theme.cyan} durationInFrames={s(139.679) - s(134.24)} />
       </Sequence>
-      {/* cue32-33 (2:19.679) ISO 6.56GB inglés */}
+      {/* cue32-33 (2:19.679) ISO 6.56GB inglés — diálogo de propiedades del CD queda centro-derecha */}
       <Sequence from={s(139.679)} durationInFrames={s(147.56) - s(139.679)}>
-        <StatCard value="6.56 GB" label="ISO · IDIOMA INGLÉS" x={70} y={760} accent={theme.amber} durationInFrames={s(147.56) - s(139.679)} />
+        <StatCard value="6.56 GB" label="ISO · IDIOMA INGLÉS" x={70} y={150} accent={theme.amber} durationInFrames={s(147.56) - s(139.679)} />
       </Sequence>
 
-      {/* cue34 (2:27.56) propiedades disco C: → 13.6GB */}
+      {/* cue34 (2:27.56) propiedades disco C: → 13.6GB — menú contextual real x:175-525,y:150-575
+          y diálogo de propiedades centrado x:1205-1565,y:130-620; abajo queda libre */}
       <Sequence from={s(147.56)} durationInFrames={s(158.32) - s(147.56)}>
-        <StepCard step={5} total={5} title="Espacio en disco" sub="Clic derecho en C: → Propiedades" x={1180} y={150} accent={theme.red} durationInFrames={s(158.32) - s(147.56)} />
+        <StepCard step={5} total={5} title="Espacio en disco" sub="Clic derecho en C: → Propiedades" x={70} y={800} accent={theme.red} durationInFrames={s(158.32) - s(147.56)} />
       </Sequence>
       <Sequence from={s(152)} durationInFrames={s(158.32) - s(152)}>
-        <StatCard value="13.6 GB" label="OCUPADO EN DISCO" x={1400} y={393} accent={theme.amber} durationInFrames={s(158.32) - s(152)} />
+        <StatCard value="13.6 GB" label="OCUPADO EN DISCO" x={1300} y={800} accent={theme.amber} durationInFrames={s(158.32) - s(152)} />
       </Sequence>
 
-      {/* cue35-37 (2:35.04) panel de control, apps instaladas */}
-      <Sequence from={s(158.32)} durationInFrames={s(167.04) - s(158.32)}>
-        <Note x={70} y={150} icon="🗂️" title="Apps instaladas por defecto" body="7-Zip, Explorer Patcher, KernelOS Toolbox, VC++ Redistributables 2005–2022." accent={theme.cyan} durationInFrames={s(167.04) - s(158.32)} />
+      {/* cue35-37 (2:38.32) panel de control, apps instaladas — lista de "Programas y características"
+          llena toda la pantalla; zona vacía abajo-derecha tras la última fila visible */}
+      <Sequence from={s(160)} durationInFrames={s(167.04) - s(160)}>
+        <Note x={1250} y={900} icon="🗂️" title="Apps instaladas por defecto" body="7-Zip, Explorer Patcher, KernelOS Toolbox, VC++ Redistributables 2005–2022." accent={theme.cyan} durationInFrames={s(167.04) - s(160)} />
       </Sequence>
-      {/* cue38-40 (2:47.28) desktop runtime, paint, rdp + 2 updates */}
+      {/* cue38-40 (2:47.28) desktop runtime, paint, rdp + 2 updates — Historial de actualizaciones,
+          tarjetas terminan y=570, zona inferior libre */}
       <Sequence from={s(167.28)} durationInFrames={s(181.92) - s(167.28)}>
         <Note x={1180} y={780} icon="🧩" title="Dos actualizaciones ya integradas" body="El propio creador las incluyó de fábrica." accent={theme.amber} durationInFrames={s(181.92) - s(167.28)} />
       </Sequence>
-      {/* cue41-42 (3:01.92) .net, componentes heredados */}
+      {/* cue41-42 (3:01.92) .net, componentes heredados — diálogo "Windows Features" x:365-1255,y:5-800 */}
       <Sequence from={s(181.92)} durationInFrames={s(190.44) - s(181.92)}>
-        <Note x={70} y={780} icon="✔️" title="Funciones opcionales de Windows intactas" body=".NET 3.5 y 4.8, componentes heredados, multimedia y más." accent={theme.cyan} durationInFrames={s(190.44) - s(181.92)} />
+        <Note x={1300} y={850} icon="✔️" title="Funciones opcionales de Windows intactas" body=".NET 3.5 y 4.8, componentes heredados, multimedia y más." accent={theme.cyan} durationInFrames={s(190.44) - s(181.92)} />
       </Sequence>
 
-      {/* cue43-44 (3:10.44) activar Windows */}
+      {/* cue43 (3:10.44) activar Windows — app Configuración, contenido ocupa hasta x≈1610 */}
       <Sequence from={s(190.44)} durationInFrames={s(199.96) - s(190.44)}>
-        <Note x={70} y={150} icon="🔑" title="Hay que activar Windows" body="La app de Configuración lo pide de entrada." accent={theme.warn} durationInFrames={s(199.96) - s(190.44)} />
+        <Note x={1880} y={150} align="right" maxWidth={260} icon="🔑" title="Hay que activar Windows" body="La app de Configuración lo pide de entrada." accent={theme.warn} durationInFrames={s(199.96) - s(190.44)} />
+      </Sequence>
+      {/* cue44 (3:15.48) apps instaladas = panel de control */}
+      <Sequence from={s(199.96)} durationInFrames={s(204.6) - s(199.96)}>
+        <Note x={1880} y={150} align="right" maxWidth={260} icon="📦" title="Configuración = Panel de Control" accent={theme.cyan} durationInFrames={s(204.6) - s(199.96)} />
       </Sequence>
       {/* cue45-46 (3:19.96) sin defender */}
-      <Sequence from={s(199.96)} durationInFrames={s(207.24) - s(199.96)}>
-        <Note x={70} y={780} icon="🛡️" title="Sin Microsoft Defender" body="Instala un antivirus de terceros si lo necesitas." accent={theme.warn} durationInFrames={s(207.24) - s(199.96)} />
+      <Sequence from={s(204.6)} durationInFrames={s(211) - s(204.6)}>
+        <Note x={1880} y={150} align="right" maxWidth={260} icon="🛡️" title="Sin Microsoft Defender" body="Instala un antivirus de terceros si lo necesitas." accent={theme.warn} durationInFrames={s(211) - s(204.6)} />
       </Sequence>
       {/* cue47-48 (3:27.24) windows update deshabilitado */}
-      <Sequence from={s(207.24)} durationInFrames={s(216.32) - s(207.24)}>
-        <Note x={70} y={150} icon="🚫" title="Windows Update deshabilitado" body="KernelOS 1125H2 no se actualiza por esta vía." accent={theme.warn} durationInFrames={s(216.32) - s(207.24)} />
+      <Sequence from={s(211)} durationInFrames={s(216.32) - s(211)}>
+        <Note x={1880} y={150} align="right" maxWidth={260} icon="🚫" title="Windows Update deshabilitado" body="KernelOS 1125H2 no se actualiza por esta vía." accent={theme.warn} durationInFrames={s(216.32) - s(211)} />
       </Sequence>
       {/* cue49 (3:36.32) eso es kernelos */}
       <Sequence from={s(216.32)} durationInFrames={s(219.28) - s(216.32)}>
