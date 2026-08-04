@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Audio → Video</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    background: #0f1115; color: #e8e8e8;
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    padding: 24px;
+  }
+  .card {
+    width: 100%; max-width: 560px; background: #171a21; border: 1px solid #2a2f3a;
+    border-radius: 14px; padding: 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  h1 { margin: 0 0 6px; font-size: 22px; }
+  p.sub { margin: 0 0 28px; color: #9aa1ad; font-size: 14px; }
+
+  #dropzone {
+    border: 2px dashed #3a4150; border-radius: 12px; padding: 36px 20px;
+    text-align: center; cursor: pointer; transition: border-color .15s, background .15s;
+  }
+  #dropzone:hover, #dropzone.drag { border-color: #5b8def; background: #1a2030; }
+  #dropzone svg { opacity: .6; margin-bottom: 10px; }
+  #dropzone .hint { color: #9aa1ad; font-size: 13px; margin-top: 6px; }
+  #fileInput { display: none; }
+  #fileName { margin-top: 14px; font-size: 14px; color: #cfd4dc; word-break: break-all; }
+
+  button#generar {
+    width: 100%; margin-top: 20px; padding: 14px; font-size: 15px; font-weight: 600;
+    border: none; border-radius: 10px; background: #5b8def; color: #fff; cursor: pointer;
+    transition: background .15s, opacity .15s;
+  }
+  button#generar:disabled { opacity: .4; cursor: not-allowed; }
+  button#generar:not(:disabled):hover { background: #4576e0; }
+
+  #progreso { margin-top: 24px; display: none; }
+  .step { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 14px; color: #9aa1ad; }
+  .step.activo { color: #e8e8e8; font-weight: 600; }
+  .step.hecho { color: #5fd07a; }
+  .spinner {
+    width: 14px; height: 14px; border-radius: 50%; border: 2px solid #3a4150;
+    border-top-color: #5b8def; animation: spin 0.8s linear infinite; flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  #log {
+    margin-top: 12px; max-height: 160px; overflow-y: auto; background: #0d0f13;
+    border: 1px solid #2a2f3a; border-radius: 8px; padding: 10px 12px;
+    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 11px; color: #7c8494;
+    display: none;
+  }
+  #log div { padding: 2px 0; }
+
+  #resultado { margin-top: 20px; display: none; text-align: center; }
+  #resultado a {
+    display: inline-block; padding: 12px 28px; background: #5fd07a; color: #0f1115;
+    border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px;
+  }
+  #error { margin-top: 16px; display: none; color: #ff6b6b; font-size: 14px; background: #2a1418; border: 1px solid #4a2028; border-radius: 8px; padding: 12px 14px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Audio → Video</h1>
+    <p class="sub">Sube un audio narrado y recibe el video terminado.</p>
+
+    <div id="dropzone">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e8e8e8" stroke-width="1.6"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+      <div>Arrastra tu audio aqui o haz clic para elegirlo</div>
+      <div class="hint">mp3, wav, m4a…</div>
+      <div id="fileName"></div>
+    </div>
+    <input type="file" id="fileInput" accept="audio/*" />
+
+    <button id="generar" disabled>Generar video</button>
+
+    <div id="progreso"></div>
+    <div id="log"></div>
+    <div id="error"></div>
+    <div id="resultado">
+      <a id="descargarLink" href="#">⬇ Descargar video</a>
+    </div>
+  </div>
+
+<script>
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+  const fileNameEl = document.getElementById('fileName');
+  const generarBtn = document.getElementById('generar');
+  const progresoEl = document.getElementById('progreso');
+  const logEl = document.getElementById('log');
+  const errorEl = document.getElementById('error');
+  const resultadoEl = document.getElementById('resultado');
+  const descargarLink = document.getElementById('descargarLink');
+
+  const STEP_LABELS = [
+    ['transcribiendo', '🎙️ Transcribiendo audio'],
+    ['keywords', '🔎 Extrayendo keywords'],
+    ['descargando', '📥 Descargando video/fotos'],
+    ['preparando', '🧩 Preparando datos'],
+    ['renderizando', '🎬 Renderizando video'],
+  ];
+
+  let selectedFile = null;
+
+  function pickFile(file) {
+    if (!file) return;
+    selectedFile = file;
+    fileNameEl.textContent = file.name;
+    generarBtn.disabled = false;
+  }
+
+  dropzone.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', (e) => pickFile(e.target.files[0]));
+  dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('drag'); });
+  dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag'));
+  dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.classList.remove('drag');
+    pickFile(e.dataTransfer.files[0]);
+  });
+
+  function renderSteps(currentStep) {
+    progresoEl.innerHTML = '';
+    const currentIdx = STEP_LABELS.findIndex(([key]) => key === currentStep);
+    STEP_LABELS.forEach(([key, label], i) => {
+      const div = document.createElement('div');
+      const done = currentIdx > i || currentStep === 'listo';
+      const active = key === currentStep;
+      div.className = 'step' + (done ? ' hecho' : active ? ' activo' : '');
+      div.innerHTML = (active ? '<span class="spinner"></span>' : done ? '✓' : '○') + ' ' + label;
+      progresoEl.appendChild(div);
+    });
+  }
+
+  generarBtn.addEventListener('click', async () => {
+    if (!selectedFile) return;
+    generarBtn.disabled = true;
+    progresoEl.style.display = 'block';
+    logEl.style.display = 'block';
+    logEl.innerHTML = '';
+    errorEl.style.display = 'none';
+    resultadoEl.style.display = 'none';
+    renderSteps('transcribiendo');
+
+    const formData = new FormData();
+    formData.append('audio', selectedFile);
+
+    let jobId;
+    try {
+      const res = await fetch('/generar', {method: 'POST', body: formData});
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Error al iniciar la generacion.');
+      jobId = data.jobId;
+    } catch (err) {
+      errorEl.textContent = 'Error: ' + err.message.split('\n')[0];
+      errorEl.style.display = 'block';
+      generarBtn.disabled = false;
+      return;
+    }
+
+    const source = new EventSource(`/eventos/${jobId}`);
+    source.onmessage = (msg) => {
+      const event = JSON.parse(msg.data);
+      const line = document.createElement('div');
+      line.textContent = `[${event.step}] ${event.message}`;
+      logEl.appendChild(line);
+      logEl.scrollTop = logEl.scrollHeight;
+
+      if (event.step === 'error') {
+        // el detalle completo (traceback) ya se ve en el log de arriba; aca
+        // solo la primera linea, para que sea legible de un vistazo.
+        errorEl.textContent = 'Error: ' + event.message.split('\n')[0];
+        errorEl.style.display = 'block';
+        generarBtn.disabled = false;
+        source.close();
+        return;
+      }
+      renderSteps(event.step);
+      if (event.step === 'listo') {
+        descargarLink.href = event.downloadUrl;
+        resultadoEl.style.display = 'block';
+        generarBtn.disabled = false;
+        source.close();
+      }
+    };
+    source.onerror = () => {
+      // el navegador reintenta solo; si el job ya termino/murio no pasa nada.
+    };
+  });
+</script>
+</body>
+</html>
