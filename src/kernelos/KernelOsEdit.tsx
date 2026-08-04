@@ -16,9 +16,7 @@ import '../revios/fonts.css';
 import {backOut, easeOut, FONT_MONO, FONT_TITLE, panelShadow, textShadow, theme} from './theme';
 import {
   ChapterCard,
-  Chip,
   EndCard,
-  Highlight,
   Panel,
   StepCard,
   TitleIntro,
@@ -405,25 +403,13 @@ export const KernelOsEdit: React.FC = () => {
       </Sequence>
 
       {/* seg 29-30 (2:06) winver → build 26200.7462 */}
-      <Sequence from={s(126)} durationInFrames={s(137.76) - s(126)}>
-        <Chip text="winver" x={1500} y={150} accent durationInFrames={s(137.76) - s(126)} />
-      </Sequence>
-      <Sequence from={s(133.32)} durationInFrames={s(136.8) - s(133.32)}>
-        <Highlight x={150} y={352} w={420} h={32} color={theme.cyan} label="Windows 11 25H2 · Build 26200.7462" labelPos="bottom" durationInFrames={s(136.8) - s(133.32)} />
-      </Sequence>
 
       {/* seg 31-34 (2:17.76) task manager idle performance */}
       <Sequence from={s(137.76)} durationInFrames={s(147.96) - s(137.76)}>
         <StepCard step={4} total={5} title="Idle performance" sub="Task Manager on a gaming rig" x={1260} y={150} accent={theme.red} durationInFrames={s(147.96) - s(137.76)} />
       </Sequence>
-      <Sequence from={s(141.36)} durationInFrames={s(147.96) - s(141.36)}>
-        <Highlight x={537} y={422} w={192} h={22} color={theme.amber} label="19 background processes" durationInFrames={s(147.96) - s(141.36)} />
-      </Sequence>
       <Sequence from={s(147.96)} durationInFrames={s(153.28) - s(147.96)}>
         <StatCard value="3%" label="CPU IDLE" x={1300} y={360} accent={theme.amber} durationInFrames={s(153.28) - s(147.96)} />
-      </Sequence>
-      <Sequence from={s(153.28)} durationInFrames={s(158.44) - s(153.28)}>
-        <Highlight x={280} y={225} w={340} h={90} color={theme.cyan} label="RAM: 1.2 / 4 GB idle" labelPos="top" durationInFrames={s(158.44) - s(153.28)} />
       </Sequence>
 
       {/* seg 35-37 (2:38.44) file explorer, ISO size */}
@@ -438,10 +424,6 @@ export const KernelOsEdit: React.FC = () => {
       <Sequence from={s(173.04)} durationInFrames={s(184.399) - s(173.04)}>
         <StepCard step={5} total={5} title="Disk footprint" sub="Right-click C: → Properties" x={1180} y={150} accent={theme.red} durationInFrames={s(184.399) - s(173.04)} />
       </Sequence>
-      <Sequence from={s(179.88)} durationInFrames={s(184.399) - s(179.88)}>
-        <Highlight x={1548} y={393} w={140} h={40} color={theme.amber} label="13.6 GB installed" durationInFrames={s(184.399) - s(179.88)} />
-      </Sequence>
-
       {/* seg 40-44 (3:04.4) control panel installed apps */}
       <Sequence from={s(184.399)} durationInFrames={s(205.679) - s(184.399)}>
         <Note x={70} y={150} icon="🗂️" title="What's installed by default" body="7-Zip, Explorer Patcher, KernelOS Toolbox, VC++ redistributables 2005–2022, Desktop Runtime, Paint, Remote Desktop, Snipping Tool." accent={theme.cyan} durationInFrames={s(205.679) - s(184.399)} />
@@ -480,11 +462,6 @@ export const KernelOsEdit: React.FC = () => {
       <Sequence from={s(255.76)} durationInFrames={s(259.24) - s(255.76)}>
         <Stamp text="THAT'S KERNELOS" sub="1125H2" durationInFrames={s(259.24) - s(255.76)} />
       </Sequence>
-      {/* seg 57-58 (4:19.24) try it yourself, link pinned */}
-      <Sequence from={s(259.24)} durationInFrames={s(265.52) - s(259.24)}>
-        <Chip text="📌 Download link pinned" x={70} y={150} accent durationInFrames={s(265.52) - s(259.24)} />
-      </Sequence>
-
       {/* ============================== OUTRO ============================== */}
       <Sequence from={s(274)} durationInFrames={TOTAL - s(274)}>
         <EndCard durationInFrames={TOTAL - s(274)} />
