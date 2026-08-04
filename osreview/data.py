@@ -23,6 +23,56 @@ SITE = {
 # slug, title, cat, summary, yt (YouTube id), url (download link), body=[(subtitle,[paragraphs])]
 ARTICLES = [
     {
+        "slug": "kernelos-11-25h2-aio",
+        "title": "KernelOS 11 25H2 AIO v1.5.1 Review: Best Gaming Windows for GTA 6, Roblox and More",
+        "cat": "Gaming OS",
+        "yt": "fUBxSvXTw50",
+        "url": "https://pixeldrain.com/u/EJp47HDq",
+        "summary": "KernelOS 11 25H2 AIO v1.5.1 is a modified and optimized Windows 11 build for gaming — "
+                   "low idle resource usage, a built-in post-install toolbox, and support for titles "
+                   "like Roblox, Valorant and the upcoming GTA 6.",
+        "body": [
+            ("What is KernelOS 11 25H2",
+             ["KernelOS 11 25H2 AIO v1.5.1 is a modified and optimized Windows 11 operating system "
+              "built specifically for gaming — whether you play Roblox, Valorant, or are getting "
+              "ready for the upcoming GTA 6. It's based on Windows 11 25H2, build 26200.7462."]),
+            ("Post-install script",
+             ["Once installation finishes, KernelOS runs a post-install script. You'll be asked "
+              "whether to verify system integrity — optional, and can be skipped to continue setup "
+              "faster. The script then installs Explorer Patcher, disables unnecessary options and "
+              "temporary files, installs the KernelOS power plan, 7-Zip, the latest DirectX "
+              "components, and the Microsoft Visual C++ redistributables required by most modern "
+              "games. Once it's done, the PC restarts to apply all the changes."]),
+            ("Desktop and the KernelOS toolbox",
+             ["After the reboot you'll find desktop shortcuts to the Recycle Bin, the official "
+              "KernelOS website, its YouTube and TikTok channels, Discord server, X account, and the "
+              "KernelOS post-installation toolbox. That toolbox lets you install popular web browsers "
+              "(none is included by default), access a useful tools section, a solutions section with "
+              "fixes for common issues, and a tweaking section for Windows registry tweaks and other "
+              "optimizations. The Start Menu stays the official Windows 11 layout, aligned left."]),
+            ("Performance and footprint",
+             ["At idle, KernelOS 11 25H2 runs only 19 background processes, with CPU usage sitting "
+              "around 3% and memory usage at just 1.2GB out of 4GB available. File Explorer keeps the "
+              "stock Windows 11 icons with no visual changes. The ISO is 6.56GB and available in "
+              "English, and after installation the OS occupies only 13.6GB of disk space."]),
+            ("Default apps and two integrated updates",
+             ["Out of the box you'll find 7-Zip, Explorer Patcher, the KernelOS Toolbox, Microsoft "
+              "Visual C++ Redistributables from 2005 to 2022, Microsoft Desktop Runtime, Paint, Remote "
+              "Desktop Connection and Snipping Tool. This build also ships with two updates already "
+              "integrated by its creator. Under Windows Features you'll still find .NET Framework 3.5 "
+              "and 4.8, Legacy Components, Multimedia Features and other optional components."]),
+            ("What's missing: Defender and Windows Update",
+             ["Under Privacy & Security, Microsoft Defender is not included, so you'll need a "
+              "third-party antivirus if you want real-time protection. Windows Update is also "
+              "completely disabled — KernelOS 11 25H2 cannot be updated through Windows Update, so "
+              "plan on reinstalling a newer build when one is released instead of patching in place."]),
+            ("Install walkthrough",
+             ["Flash the ISO to a USB drive with Rufus, boot from it, and follow the setup — the full "
+              "step-by-step, including the post-install script and toolbox walkthrough, is in the "
+              "video above."]),
+        ],
+    },
+    {
         "slug": "windows-x-lite-optimum-11-26h1",
         "title": "Windows X-Lite Optimum 11 26H1 Pro V2 Review: The Best Windows 11 Lite for Low-End PCs?",
         "cat": "Windows 11 Lite",
