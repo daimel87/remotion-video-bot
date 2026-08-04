@@ -32,14 +32,42 @@ if (fs.existsSync(ENV_FILE)) {
 const OUTPUT_DIR = path.join(ROOT, 'output');
 const AUDIO_DIR = path.join(ROOT, 'public', 'audio-generic');
 
-// python3 en Linux/Mac, python en muchas instalaciones de Windows -- se
-// prueba primero el que exista.
-function pickPython() {
+// Detecta un Python REAL instalado, no solo un nombre que exista en el PATH.
+// En Windows, "python3"/"python" a veces resuelven a un stub de la Microsoft
+// Store (el "App execution alias") que "where" SI encuentra pero que al
+// ejecutarse solo abre la tienda y falla -- por eso no basta con `where`,
+// hay que correr `--version` de verdad y confirmar que la salida es un
+// numero de version de Python.
+function looksLikePython(output) {
+  return /Python \d+\.\d+/i.test(output);
+}
+
+function tryPythonCommand(cmd, extraArgs) {
   return new Promise((resolve) => {
-    const test = spawn(process.platform === 'win32' ? 'where' : 'which', ['python3']);
-    test.on('close', (code) => resolve(code === 0 ? 'python3' : 'python'));
-    test.on('error', () => resolve('python'));
+    const child = spawn(cmd, [...extraArgs, '--version'], {shell: process.platform === 'win32'});
+    let out = '';
+    child.stdout?.on('data', (d) => (out += d));
+    child.stderr?.on('data', (d) => (out += d));
+    child.on('error', () => resolve(false));
+    child.on('close', () => resolve(looksLikePython(out)));
   });
+}
+
+async function pickPython() {
+  // "py" es el lanzador oficial de python.org en Windows y es el mas
+  // confiable cuando existe; python3 es el estandar en Linux/Mac.
+  const candidates =
+    process.platform === 'win32'
+      ? [{cmd: 'py', args: ['-3']}, {cmd: 'python', args: []}, {cmd: 'python3', args: []}]
+      : [{cmd: 'python3', args: []}, {cmd: 'python', args: []}];
+  for (const c of candidates) {
+    if (await tryPythonCommand(c.cmd, c.args)) return c;
+  }
+  throw new Error(
+    'No se encontro una instalacion real de Python (solo el alias de la Microsoft Store, si acaso). ' +
+      'Instala Python desde https://python.org/downloads/ (NO desde la Microsoft Store) y marca ' +
+      'la casilla "Add python.exe to PATH" durante la instalacion. Luego vuelve a intentar.',
+  );
 }
 
 // Corre un comando y devuelve una promesa; cada linea de stdout/stderr se
@@ -103,7 +131,8 @@ export async function runPipeline(audioPath, opts = {}) {
   // 2) transcribir
   emit(STEPS[0].step, STEPS[0].message);
   const python = await pickPython();
-  await run(python, [
+  await run(python.cmd, [
+    ...python.args,
     path.join('scripts', 'transcribe.py'),
     absAudio,
     '--model', model,
