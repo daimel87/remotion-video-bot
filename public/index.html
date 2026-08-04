@@ -61,6 +61,14 @@
     border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px;
   }
   #error { margin-top: 16px; display: none; color: #ff6b6b; font-size: 14px; background: #2a1418; border: 1px solid #4a2028; border-radius: 8px; padding: 12px 14px; }
+
+  .campo-label { display: block; margin-top: 18px; margin-bottom: 6px; font-size: 13px; color: #9aa1ad; }
+  #tituloInput {
+    width: 100%; padding: 12px 14px; font-size: 14px; color: #e8e8e8;
+    background: #0d0f13; border: 1px solid #2a2f3a; border-radius: 8px;
+    font-family: inherit;
+  }
+  #tituloInput:focus { outline: none; border-color: #5b8def; }
 </style>
 </head>
 <body>
@@ -75,6 +83,9 @@
       <div id="fileName"></div>
     </div>
     <input type="file" id="fileInput" accept="audio/*" />
+
+    <label for="tituloInput" class="campo-label">Título del video (opcional)</label>
+    <input type="text" id="tituloInput" placeholder="Se muestra en la card de apertura" maxlength="80" />
 
     <button id="generar" disabled>Generar video</button>
 
@@ -149,6 +160,7 @@
 
     const formData = new FormData();
     formData.append('audio', selectedFile);
+    formData.append('titulo', document.getElementById('tituloInput').value);
 
     let jobId;
     try {

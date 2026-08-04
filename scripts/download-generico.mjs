@@ -198,7 +198,7 @@ function existingFileFor(i) {
     const already = existingFileFor(i);
     if (already) {
       console.log(`[${idx3(i)}] ya descargado -> ${already.file} (se omite)`);
-      clips.push({inicio: block.inicio, fin: block.fin, file: already.file, kind: already.kind});
+      clips.push({inicio: block.inicio, fin: block.fin, file: already.file, kind: already.kind, keyword: block.keywords[0]});
       continue;
     }
 
@@ -216,7 +216,7 @@ function existingFileFor(i) {
       const relFile = `stock-generic/${found.kind}/${filename}`;
       console.log(`   ✓ ${relFile} (${(bytes / 1024).toFixed(0)} KB) [${found.credit.split('/')[0]}] query="${found.query}"`);
       credits.push(`${filename}: ${found.credit}`);
-      clips.push({inicio: block.inicio, fin: block.fin, file: relFile, kind: found.kind});
+      clips.push({inicio: block.inicio, fin: block.fin, file: relFile, kind: found.kind, keyword: found.query});
     } catch (e) {
       console.log(`   ✗ fallo la descarga: ${e.message}`);
     }

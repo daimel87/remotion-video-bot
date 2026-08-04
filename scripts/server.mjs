@@ -76,8 +76,14 @@ app.post('/generar', upload.single('audio'), (req, res) => {
   const job = createJob();
   res.json({jobId: job.id});
 
+  // Titulo opcional del formulario; si no lo mandan, se usa el nombre
+  // original del archivo subido (NO el nombre temporal que le puso multer,
+  // que es solo un timestamp sin significado).
+  const title = (req.body?.titulo || '').trim() || path.basename(req.file.originalname, path.extname(req.file.originalname));
+
   runPipeline(req.file.path, {
     outFile: path.join(OUTPUT_DIR, `${job.id}.mp4`),
+    title,
     onProgress: (e) => pushEvent(job, e),
   })
     .then((videoPath) => {

@@ -16,6 +16,10 @@ const OUT = path.join(ROOT, 'src', 'generic', 'data.generated.ts');
 // "audio-generic/current.mp3". Se pasa como argumento porque la extension
 // depende del archivo que subio el usuario (mp3, wav, m4a...).
 const AUDIO_SRC = process.argv[2] || 'audio-generic/current.mp3';
+// Titulo para la card de apertura (ver TitleCard en components.tsx). Si no
+// se pasa, la card de titulo simplemente no se muestra (GenericPipelineEdit
+// la omite cuando title es undefined).
+const TITLE = process.argv[3] || '';
 
 if (!fs.existsSync(CLIPS_IN)) {
   console.error(`Error: falta ${path.relative(ROOT, CLIPS_IN)}. Corre antes download-generico.mjs.`);
@@ -44,6 +48,7 @@ const lines = [
   `export const SEGMENTS: Segment[] = ${JSON.stringify(segments, null, 2)};`,
   `export const DURATION_SEC = ${durationSec};`,
   `export const AUDIO_SRC = ${JSON.stringify(AUDIO_SRC)};`,
+  `export const TITLE = ${JSON.stringify(TITLE)};`,
   '',
 ];
 fs.mkdirSync(path.dirname(OUT), {recursive: true});

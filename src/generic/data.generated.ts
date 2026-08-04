@@ -6,3 +6,4 @@ export const CLIPS: Clip[] = [];
 export const SEGMENTS: Segment[] = [];
 export const DURATION_SEC = 1;
 export const AUDIO_SRC = '';
+export const TITLE = '';

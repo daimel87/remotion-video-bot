@@ -108,6 +108,7 @@ const STEPS = [
  * @param {(e: {step: string, message: string}) => void} [opts.onProgress]
  * @param {string} [opts.model] modelo de whisper (default "small")
  * @param {string} [opts.outFile] ruta del mp4 final (default output/video-final.mp4)
+ * @param {string} [opts.title] titulo para la card de apertura (default: nombre del archivo)
  * @returns {Promise<string>} ruta absoluta del video final
  */
 export async function runPipeline(audioPath, opts = {}) {
@@ -118,6 +119,18 @@ export async function runPipeline(audioPath, opts = {}) {
   if (!fs.existsSync(absAudio)) {
     throw new Error(`No existe el archivo de audio: ${absAudio}`);
   }
+
+  // Titulo para la card de apertura: el que se pase explicitamente (ej. desde
+  // el formulario web), o si no, el nombre del archivo prettificado
+  // ("mi-video_final" -> "Mi Video Final").
+  const title =
+    opts.title?.trim() ||
+    path
+      .basename(audioPath, path.extname(audioPath))
+      .replace(/[_-]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .replace(/\b\w/g, (c) => c.toUpperCase());
 
   fs.mkdirSync(OUTPUT_DIR, {recursive: true});
   fs.mkdirSync(AUDIO_DIR, {recursive: true});
@@ -159,7 +172,7 @@ export async function runPipeline(audioPath, opts = {}) {
 
   // 5) generar data.generated.ts para la composicion de Remotion
   emit(STEPS[3].step, STEPS[3].message);
-  await run('node', [path.join('scripts', 'gen-generic-data.mjs'), audioRelPath], {
+  await run('node', [path.join('scripts', 'gen-generic-data.mjs'), audioRelPath, title], {
     onLine: (l) => emit(STEPS[3].step, l),
   });
 
@@ -180,17 +193,20 @@ const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPat
 if (isMain) {
   const audioPath = process.argv[2];
   if (!audioPath) {
-    console.error('Uso: node scripts/run-all.mjs <ruta_audio> [--model small] [--out output/video-final.mp4]');
+    console.error('Uso: node scripts/run-all.mjs <ruta_audio> [--model small] [--out output/video-final.mp4] [--title "Mi titulo"]');
     process.exit(1);
   }
   const modelIdx = process.argv.indexOf('--model');
   const outIdx = process.argv.indexOf('--out');
+  const titleIdx = process.argv.indexOf('--title');
   const model = modelIdx !== -1 ? process.argv[modelIdx + 1] : undefined;
   const outFile = outIdx !== -1 ? process.argv[outIdx + 1] : undefined;
+  const title = titleIdx !== -1 ? process.argv[titleIdx + 1] : undefined;
 
   runPipeline(audioPath, {
     model,
     outFile,
+    title,
     onProgress: (e) => console.log(`[${e.step}] ${e.message}`),
   })
     .then((videoPath) => {
