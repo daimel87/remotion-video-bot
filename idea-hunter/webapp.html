@@ -201,12 +201,15 @@ function verdict(a,es){
 }
 
 async function runNiche(niche,depth,doMine,key,onProg){
-  const scored=[];
+  const scored=[]; let lastErr=null, okCount=0;
   for(const seed of niche.seeds){
     onProg(niche.name+": "+seed.en);
-    let r=null; try{r=await analyzeSeed(seed,niche,depth,doMine,key);}catch(e){if(/quota/i.test(e.message))throw e;}
+    let r=null;
+    try{r=await analyzeSeed(seed,niche,depth,doMine,key); okCount++;}
+    catch(e){lastErr=e; if(/quota/i.test(e.message))throw e;}
     if(r){const w=niche.weights;r.score=Math.round(r.arbitrage*w.arbitrage*.55+r.enSignal*w.demand*.25+(100-r.esSupply)*w.gap*.20);scored.push(r);}
   }
+  if(!okCount && lastErr) throw lastErr;
   scored.sort((a,b)=>b.score-a.score);
   return scored.slice(0,5).map((s,i)=>({rank:i+1,...s,v:verdict(s.arbitrage,s.esSupply)}));
 }
@@ -263,6 +266,8 @@ $("#run").addEventListener("click",async()=>{
     st.className="status err";
     st.textContent= /quota/i.test(e.message)?"❌ Cuota de la API agotada por hoy (10.000/día). Prueba mañana o con profundidad Rápida.":
                     /API key not valid|keyInvalid/i.test(e.message)?"❌ La API key no es válida. Revísala.":
+                    /referer|referrer/i.test(e.message)?"❌ Tu API key tiene restricción de referrer HTTP (solo permite tu propio sitio). Esta app corre en otro dominio y Google la bloquea. En Google Cloud Console → Credenciales → tu key → quita la restricción de referrer, o usa restricción por IP, o crea una key sin restricciones solo para esta app.":
+                    /disabled|has not been used|accessNotConfigured/i.test(e.message)?"❌ La YouTube Data API v3 no está habilitada en tu proyecto de Google Cloud. Actívala en console.cloud.google.com/apis/library/youtube.googleapis.com":
                     "❌ Error: "+e.message;
   }finally{ $("#run").disabled=false; }
 });
