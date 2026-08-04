@@ -12,6 +12,10 @@ const ROOT = process.cwd();
 const CLIPS_IN = path.join(ROOT, 'output', 'clips.json');
 const SEGMENTS_IN = path.join(ROOT, 'output', 'transcripcion.json');
 const OUT = path.join(ROOT, 'src', 'generic', 'data.generated.ts');
+// Ruta (relativa a public/) del audio ya copiado por run-all.mjs, ej.
+// "audio-generic/current.mp3". Se pasa como argumento porque la extension
+// depende del archivo que subio el usuario (mp3, wav, m4a...).
+const AUDIO_SRC = process.argv[2] || 'audio-generic/current.mp3';
 
 if (!fs.existsSync(CLIPS_IN)) {
   console.error(`Error: falta ${path.relative(ROOT, CLIPS_IN)}. Corre antes download-generico.mjs.`);
@@ -39,6 +43,7 @@ const lines = [
   `export const CLIPS: Clip[] = ${JSON.stringify(clips, null, 2)};`,
   `export const SEGMENTS: Segment[] = ${JSON.stringify(segments, null, 2)};`,
   `export const DURATION_SEC = ${durationSec};`,
+  `export const AUDIO_SRC = ${JSON.stringify(AUDIO_SRC)};`,
   '',
 ];
 fs.mkdirSync(path.dirname(OUT), {recursive: true});

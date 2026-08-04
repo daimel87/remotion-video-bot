@@ -14,7 +14,6 @@ import {AbsoluteFill, Audio, Sequence, staticFile} from 'remotion';
 import {GenericShot} from './components';
 
 export const FPS = 30;
-export const AUDIO_FILE = 'audio-generic/current.mp3';
 
 export type Clip = {inicio: number; fin: number; file: string; kind: 'photos' | 'videos'};
 export type Segment = {texto: string; inicio: number; fin: number};
@@ -33,9 +32,10 @@ function captionFor(segments: Segment[], fromSec: number, toSec: number): string
     .join(' ');
 }
 
-export const GenericPipelineEdit: React.FC<{clips: Clip[]; segments: Segment[]}> = ({
+export const GenericPipelineEdit: React.FC<{clips: Clip[]; segments: Segment[]; audioSrc: string}> = ({
   clips = [],
   segments = [],
+  audioSrc,
 }) => {
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
@@ -48,7 +48,7 @@ export const GenericPipelineEdit: React.FC<{clips: Clip[]; segments: Segment[]}>
           </Sequence>
         );
       })}
-      <Audio src={staticFile(AUDIO_FILE)} volume={1} />
+      {audioSrc && <Audio src={staticFile(audioSrc)} volume={1} />}
     </AbsoluteFill>
   );
 };

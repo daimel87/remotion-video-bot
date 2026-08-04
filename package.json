@@ -6,7 +6,8 @@
     "setup:browser": "npx @puppeteer/browsers install chrome-headless-shell@131.0.6778.204 --path .chrome",
     "dev": "remotion studio",
     "build": "remotion render",
-    "upgrade": "remotion upgrade"
+    "upgrade": "remotion upgrade",
+    "make-video": "node scripts/run-all.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^9.114.3",
