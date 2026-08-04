@@ -37,6 +37,8 @@ import {
 import {BLOQUE_2} from './odisea/cues-b2';
 import {BLOQUE_3} from './odisea/cues-b3';
 import {BLOQUE_4} from './odisea/cues-b4';
+import {GenericPipelineEdit, genericDurationInFrames} from './generic/GenericPipelineEdit';
+import {CLIPS, SEGMENTS, DURATION_SEC} from './generic/data.generated';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -73,6 +75,15 @@ export const RemotionRoot: React.FC = () => {
         durationInFrames={odiseaDurationInFrames(BLOQUE_4)}
         defaultProps={{cues: BLOQUE_4, audioSrc: 'audio/odisea/bloque4-vo.mp3'}}
         fps={ODISEA_FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="GenericPipelineEdit"
+        component={GenericPipelineEdit}
+        durationInFrames={genericDurationInFrames(DURATION_SEC)}
+        defaultProps={{clips: CLIPS, segments: SEGMENTS}}
+        fps={30}
         width={1920}
         height={1080}
       />

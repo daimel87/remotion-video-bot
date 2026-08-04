@@ -9,3 +9,7 @@ renders/
 public/audio/odisea/
 public/Windows 10 Ghost Spectre Superlite SE 2026_ The Best Lightweight Windows for Low-End PCs_ (transcribed on 10-Jul-2026 09-39-38).srt
 __pycache__
+output/
+public/stock-generic/
+public/audio-generic/
+audio/
