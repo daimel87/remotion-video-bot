@@ -5,20 +5,39 @@
 // audio distinto no requiere tocar codigo ni volver a compilar Composition
 // nuevas.
 //
-// Planos encadenados con crossfade (TransitionSeries), no cortes duros --
-// sigue el mismo "truco de padding" que src/odisea/OdiseaDocumentaryEdit.tsx
-// para que el crossfade no desincronice la locucion: cada plano (salvo el
-// ultimo) se extiende TRANSITION_FRAMES de mas, y la Transition entre cada
-// par consume exactamente esos frames.
+// Planos encadenados con una transicion distinta cada vez (slide izquierda/
+// derecha, zoom, wipe, fade -- se van rotando, ver TRANSITIONS abajo), no
+// cortes duros ni siempre el mismo crossfade. Sigue el mismo "truco de
+// padding" que src/odisea/OdiseaDocumentaryEdit.tsx para que la transicion
+// no desincronice la locucion: cada plano (salvo el ultimo) se extiende
+// TRANSITION_FRAMES de mas, y la Transition entre cada par consume
+// exactamente esos frames.
 import React from 'react';
 import {AbsoluteFill, Audio, Sequence, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
-import {TransitionSeries, linearTiming} from '@remotion/transitions';
+import {TransitionSeries, linearTiming, type TransitionPresentation} from '@remotion/transitions';
 import {fade} from '@remotion/transitions/fade';
+import {slide} from '@remotion/transitions/slide';
+import {wipe} from '@remotion/transitions/wipe';
 import {GenericShot, ProgressBar, TitleCard} from './components';
+import {zoomTransition} from './transitions';
 
 export const FPS = 30;
-const TRANSITION_FRAMES = 15; // ~0.5s de crossfade entre planos
+const TRANSITION_FRAMES = 18; // ~0.6s -- alcanza para que slide/wipe/zoom se noten sin sentirse lento
 const INTRO_FRAMES = 84; // ~2.8s -- card de titulo superpuesta sobre el primer plano
+
+// Rotacion de transiciones "dinamicas" entre planos: pull-left, pull-right,
+// zoom in/out, wipe, y fade de vez en cuando para variar el ritmo. Se van
+// turnando por indice de corte (nunca se repite la misma dos veces seguidas
+// mientras el ciclo no coincida con la cantidad de planos).
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const TRANSITIONS: (() => TransitionPresentation<any>)[] = [
+  () => slide({direction: 'from-right'}), // "pull left": lo nuevo entra por la derecha
+  () => zoomTransition(),
+  () => slide({direction: 'from-left'}), // "pull right": lo nuevo entra por la izquierda
+  () => wipe({direction: 'from-left'}),
+  () => fade(),
+  () => wipe({direction: 'from-right'}),
+];
 
 export type Clip = {inicio: number; fin: number; file: string; kind: 'photos' | 'videos'; keyword?: string};
 export type Segment = {texto: string; inicio: number; fin: number};
@@ -70,7 +89,7 @@ export const GenericPipelineEdit: React.FC<{
               </TransitionSeries.Sequence>
               {!isLast && (
                 <TransitionSeries.Transition
-                  presentation={fade()}
+                  presentation={TRANSITIONS[i % TRANSITIONS.length]()}
                   timing={linearTiming({durationInFrames: TRANSITION_FRAMES})}
                 />
               )}
