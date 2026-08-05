@@ -218,6 +218,9 @@ def main():
     os.makedirs(DIST)
     shutil.copy(os.path.join(HERE, "style.css"), os.path.join(DIST, "style.css"))
     shutil.copy(os.path.join(HERE, "sw.js"), os.path.join(DIST, "sw.js"))
+    verify_file = os.path.join(HERE, "google1fa65511afa56808.html")
+    if os.path.exists(verify_file):
+        shutil.copy(verify_file, os.path.join(DIST, "google1fa65511afa56808.html"))
     home(); legal(); seo_files()
     for a in ARTICLES:
         article_page(a)
