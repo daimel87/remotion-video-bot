@@ -7,7 +7,7 @@ SITE = {
     "tagline": "Reviews of modified Windows builds & lightweight OS for gaming and low-end PCs",
     "domain": "https://paginaingles.pages.dev",  # Cloudflare Pages production URL
     "youtube": "https://www.youtube.com/channel/UCsAZA8xdUfr41QsX8WoyOQA?sub_confirmation=1",  # channel subscribe link
-    "google_verify": "",  # paste Google Search Console verification code
+    "google_verify": "4t1k_fsPm-BsPZ6JQFLArsFhmg_LqMMaYAX1iqdFg4E",  # Google Search Console verification code
     "admaven_verify": "BqTY4rTaF",  # AdMaven site verification meta tag content
     "description": "Honest reviews and install guides for modified Windows builds (Ghost Spectre, "
                    "AtlasOS, KernelOS, ReviOS, X-Lite) and lightweight operating systems built for "
