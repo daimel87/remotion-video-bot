@@ -48,6 +48,7 @@ import {AnimalFactCreeper} from './AnimalFactCreeper';
 import {AnimalFactCymothoa} from './AnimalFactCymothoa';
 import {AnimalFactWhale} from './AnimalFactWhale';
 import {AnimalFactMantisShrimp} from './AnimalFactMantisShrimp';
+import {AnimalDeathsRanking} from './AnimalDeathsRanking';
 import {WorldCupAnimals} from './WorldCupAnimals';
 import {RankingDogs} from './RankingDogs';
 import {ChannelBanner} from './ChannelBanner';
@@ -398,6 +399,14 @@ export const RemotionRoot: React.FC = () => {
         fps={24}
         width={720}
         height={1280}
+      />
+      <Composition
+        id="AnimalDeathsRanking"
+        component={AnimalDeathsRanking}
+        durationInFrames={300}
+        fps={30}
+        width={1920}
+        height={1080}
       />
       <Composition
         id="AnimalFactMantisShrimp"
