@@ -149,6 +149,18 @@ const server = http.createServer(async (req, res) => {
       return serveFile(res, rel);
     }
 
+    // --- Subir un audio desde el navegador (body = bytes del fichero) ---
+    if (p === '/api/upload' && req.method === 'POST') {
+      const fname = (q.get('filename') || 'audio').replace(/[^a-z0-9._-]+/gi, '_');
+      const upDir = path.join(ROOT, 'uploads');
+      fs.mkdirSync(upDir, {recursive: true});
+      const dest = path.join(upDir, fname);
+      const ws = fs.createWriteStream(dest);
+      req.pipe(ws);
+      await new Promise((r) => ws.on('close', r));
+      return sendJson(res, 200, {ok: true, path: path.relative(ROOT, dest).split(path.sep).join('/')});
+    }
+
     // --- Paso 1: transcribir ---
     if (p === '/api/transcribe' && req.method === 'POST') {
       const b = await readBody(req);

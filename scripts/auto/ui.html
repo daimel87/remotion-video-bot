@@ -109,10 +109,15 @@
   <!-- Paso 1 -->
   <div class="panel">
     <h2><span class="step-n">1</span>Audio → SRT (Whisper local)</h2>
-    <div class="row">
+    <label>Subir un audio (o pega una ruta abajo)</label>
+    <div class="flex">
+      <input id="upload" type="file" accept="audio/*,video/*" class="grow" />
+      <span id="upStatus" class="hint"></span>
+    </div>
+    <div class="row" style="margin-top:6px">
       <div class="grow">
         <label>Ruta del audio en disco</label>
-        <input id="audio" placeholder="p.ej. public/Prueba Psicologia.mp4  o  /ruta/al/audio.mp3" />
+        <input id="audio" placeholder="p.ej. public/ajo_nopal.mp4  o  /ruta/al/audio.mp3" />
       </div>
       <div style="width:150px">
         <label>Nombre</label>
@@ -283,6 +288,19 @@ async function reloadAfter(name){ await refreshState(); $('#project').value = na
 
 // --- Wire buttons ---
 $('#project').addEventListener('change', e => loadProject(e.target.value));
+
+$('#upload').addEventListener('change', async (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  $('#upStatus').textContent = 'Subiendo ' + f.name + '…';
+  const r = await fetch('/api/upload?filename=' + encodeURIComponent(f.name), {method:'POST', body: f});
+  const j = await r.json();
+  if (j.ok) {
+    $('#audio').value = j.path;
+    if (!$('#name').value) $('#name').value = f.name.replace(/\.[^.]+$/, '').replace(/[^a-z0-9]+/gi,'-').toLowerCase();
+    $('#upStatus').textContent = '✔ ' + j.path;
+  } else $('#upStatus').textContent = 'Error al subir';
+});
 
 $('#btnTranscribe').addEventListener('click', async () => {
   const r = await post('/api/transcribe', {audio:$('#audio').value, name:$('#name').value, lang:$('#lang').value, srt:$('#srt').value||undefined});

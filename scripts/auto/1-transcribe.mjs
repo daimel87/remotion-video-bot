@@ -61,15 +61,21 @@ if (providedSrt) {
       return false;
     }
   };
-  // openai-whisper: escribe <audio>.srt en --output_dir
-  if (tryCli('whisper', [audio, '--model', 'small', '--language', lang, '--output_format', 'srt', '--output_dir', workDir])) {
+  const model = process.env.WHISPER_MODEL || 'small';
+  // 1) faster-whisper (via helper python) -- el recomendado.
+  const fwPy = path.join(__dirname, 'transcribe_fw.py');
+  if (tryCli('python3', [fwPy, audio, outSrt, lang, model])) {
+    done = fs.existsSync(outSrt);
+  }
+  // 2) fallback: openai-whisper CLI (escribe <audio>.srt en --output_dir)
+  if (!done && tryCli('whisper', [audio, '--model', model, '--language', lang, '--output_format', 'srt', '--output_dir', workDir])) {
     const gen = path.join(workDir, `${path.basename(audio, path.extname(audio))}.srt`);
     if (fs.existsSync(gen)) fs.renameSync(gen, outSrt);
     done = fs.existsSync(outSrt);
   }
   if (!done) {
-    console.error('\nNo se pudo ejecutar Whisper. Opciones:');
-    console.error('  pip install -U openai-whisper   (o faster-whisper)');
+    console.error('\nNo se pudo transcribir. Opciones:');
+    console.error('  pip install -U faster-whisper   (recomendado)');
     console.error('  o pasa un SRT que ya tengas:  --srt ruta/al.srt');
     process.exit(1);
   }

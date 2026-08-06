@@ -15,10 +15,26 @@ tu selector `pickFromPool` (sin repetir tomas) y tu render de Remotion.
 
 ## Requisitos
 
-- `PEXELS_KEY` y/o `PIXABAY_KEY` en el entorno (para el paso 3).
-- Whisper local para el paso 1 (`pip install -U openai-whisper`) — o pasar un
-  SRT que ya tengas con `--srt`.
+- `PEXELS_KEY` y/o `PIXABAY_KEY` (en el entorno, o pegadas en la UI paso 3).
+- Whisper local para el paso 1: `pip install -U faster-whisper` (recomendado)
+  — o pasar un SRT que ya tengas con `--srt`. La 1ª vez descarga el modelo
+  (`small` por defecto; cambia con `WHISPER_MODEL=base|medium`) desde
+  HuggingFace, así que necesita salida a `huggingface.co`.
 - ffmpeg (ya viene con el compositor de Remotion).
+
+## Interfaz web (recomendado)
+
+```bash
+node scripts/auto/server.mjs        # -> http://localhost:7788
+```
+
+Panel con los 4 pasos, **subida de audio** desde el navegador, editor de
+queries y el **selector visual de candidatos** (clic en el clip que ilustra
+cada frase). Las claves de Pexels/Pixabay se pueden pegar en el paso 3.
+
+> Nota: el pipeline necesita salida a `huggingface.co` (modelo Whisper),
+> `api.pexels.com` y `pixabay.com`. Correlo en una máquina/entorno con acceso
+> a esos hosts.
 
 ## Flujo
 
