@@ -31,10 +31,19 @@ import {DEATHS, DEATHS_FPS, SECONDS_PER_CARD} from './deathsData';
 import {QuizVideo} from './QuizVideo';
 import {QUIZ_FPS, totalQuizFrames} from './quizData';
 import {TRIBUTE_FPS, totalTributeFrames} from './tributeData';
+import {AutoStockEdit, FPS as AUTO_FPS, autoDurationInFrames} from './auto/AutoStockEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="AutoStockEdit"
+        component={AutoStockEdit}
+        durationInFrames={Math.max(1, autoDurationInFrames())}
+        fps={AUTO_FPS}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="VideoEdit"
         component={VideoEdit}

@@ -4,3 +4,7 @@ out
 .DS_Store
 *.log
 .env
+__pycache__
+work/
+public/stock-auto/
+public/audio/auto/
