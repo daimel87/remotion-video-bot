@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pipeline audio → video</title>
+<style>
+  :root {
+    --bg: #0e1420; --panel: #16203214; --card: #1a2436; --line: #243149;
+    --text: #e8eefb; --dim: #8fa3c4; --accent: #ffd24a; --red: #e23b3b;
+    --green: #37d67a; --blue: #4a9eff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #0e1420; color: var(--text);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-size: 15px; line-height: 1.5;
+  }
+  header {
+    padding: 18px 24px; border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 14px; position: sticky; top: 0;
+    background: #0e1420ee; backdrop-filter: blur(6px); z-index: 10;
+  }
+  header h1 { font-size: 18px; margin: 0; font-weight: 800; }
+  header .keys { margin-left: auto; font-size: 13px; color: var(--dim); }
+  .badge { padding: 2px 8px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+  .ok { background: #12351f; color: var(--green); }
+  .no { background: #3a1414; color: #ff8a8a; }
+  main { max-width: 1180px; margin: 0 auto; padding: 24px; }
+  .row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .panel {
+    background: #131c2c; border: 1px solid var(--line); border-radius: 14px;
+    padding: 18px; margin-bottom: 18px;
+  }
+  .panel h2 { margin: 0 0 12px; font-size: 15px; letter-spacing: .3px; }
+  .step-n {
+    display: inline-flex; width: 24px; height: 24px; border-radius: 50%;
+    background: var(--accent); color: #12203a; font-weight: 900; font-size: 13px;
+    align-items: center; justify-content: center; margin-right: 8px;
+  }
+  label { display: block; font-size: 13px; color: var(--dim); margin: 10px 0 4px; }
+  input, select, textarea {
+    width: 100%; background: #0d1522; border: 1px solid var(--line);
+    color: var(--text); border-radius: 9px; padding: 9px 11px; font-size: 14px;
+    font-family: inherit;
+  }
+  textarea { resize: vertical; min-height: 54px; }
+  button {
+    background: var(--accent); color: #12203a; border: 0; border-radius: 9px;
+    padding: 9px 16px; font-weight: 800; font-size: 14px; cursor: pointer;
+    margin-top: 12px;
+  }
+  button.ghost { background: #22304a; color: var(--text); }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  .hint { font-size: 12.5px; color: var(--dim); margin-top: 6px; }
+  .log {
+    white-space: pre-wrap; font-family: ui-monospace, Menlo, monospace;
+    font-size: 12.5px; background: #0a0f18; border: 1px solid var(--line);
+    border-radius: 9px; padding: 12px; max-height: 220px; overflow: auto;
+    color: #b9c8e4; margin-top: 12px; display: none;
+  }
+  .pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .pill { font-size: 12px; padding: 3px 9px; border-radius: 20px; background: #22304a; color: var(--dim); }
+  .pill.done { background: #12351f; color: var(--green); }
+  /* shots / queries */
+  .shot { border: 1px solid var(--line); border-radius: 11px; padding: 12px; margin-bottom: 10px; background: #131c2c; }
+  .shot .txt { font-weight: 600; margin-bottom: 8px; }
+  .shot .meta { font-size: 12px; color: var(--dim); }
+  .qgrid { display: grid; grid-template-columns: 120px 90px 1fr; gap: 8px; align-items: start; }
+  /* candidate picker */
+  .cand-shot { border-top: 1px solid var(--line); padding: 16px 0; }
+  .cand-shot .phrase { font-weight: 700; margin-bottom: 4px; }
+  .cand-grid { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+  .cand {
+    width: 190px; border: 3px solid transparent; border-radius: 10px;
+    overflow: hidden; cursor: pointer; background: #0a0f18; position: relative;
+  }
+  .cand img { width: 100%; height: 107px; object-fit: cover; display: block; }
+  .cand .cap { font-size: 11px; color: var(--dim); padding: 5px 7px; }
+  .cand.sel { border-color: var(--green); }
+  .cand.sel::after {
+    content: '✓'; position: absolute; top: 6px; right: 6px; background: var(--green);
+    color: #04120a; width: 22px; height: 22px; border-radius: 50%; font-weight: 900;
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+  }
+  .muted { color: var(--dim); }
+  .flex { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .grow { flex: 1; }
+  code { background: #0a0f18; padding: 2px 6px; border-radius: 5px; font-size: 13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🎬 Pipeline audio → video</h1>
+  <div class="keys" id="keys"></div>
+</header>
+<main>
+  <!-- Proyecto -->
+  <div class="panel">
+    <div class="flex">
+      <div class="grow">
+        <label>Proyecto</label>
+        <select id="project"><option value="">— nuevo —</option></select>
+      </div>
+      <div id="pills" class="pills"></div>
+    </div>
+  </div>
+
+  <!-- Paso 1 -->
+  <div class="panel">
+    <h2><span class="step-n">1</span>Audio → SRT (Whisper local)</h2>
+    <div class="row">
+      <div class="grow">
+        <label>Ruta del audio en disco</label>
+        <input id="audio" placeholder="p.ej. public/Prueba Psicologia.mp4  o  /ruta/al/audio.mp3" />
+      </div>
+      <div style="width:150px">
+        <label>Nombre</label>
+        <input id="name" placeholder="mivideo" />
+      </div>
+      <div style="width:90px">
+        <label>Idioma</label>
+        <input id="lang" value="es" />
+      </div>
+    </div>
+    <label>¿Ya tienes el SRT? (opcional, salta Whisper)</label>
+    <input id="srt" placeholder="ruta/al.srt (opcional)" />
+    <button id="btnTranscribe">Transcribir</button>
+    <div class="hint">Necesita <code>whisper</code> instalado, o pon un SRT en el campo de arriba.</div>
+    <div class="log" id="log1"></div>
+  </div>
+
+  <!-- Paso 2 -->
+  <div class="panel">
+    <h2><span class="step-n">2</span>SRT → tomas + queries</h2>
+    <div class="flex">
+      <div style="width:120px"><label>Target (s)</label><input id="target" value="4" /></div>
+      <div style="width:120px"><label>Min (s)</label><input id="min" value="2.5" /></div>
+      <div style="width:120px"><label>Max (s)</label><input id="max" value="6" /></div>
+      <button id="btnShots" class="ghost">Generar tomas</button>
+    </div>
+    <div class="log" id="log2"></div>
+    <div id="queriesBox" style="margin-top:14px"></div>
+    <div id="queriesActions" style="display:none">
+      <div class="flex">
+        <div style="width:160px"><label>kind por defecto</label>
+          <select id="defKind"><option value="videos">videos</option><option value="photos">photos</option></select>
+        </div>
+        <div style="width:160px"><label>candidatos/toma</label><input id="perShot" value="5" /></div>
+        <button id="btnSaveQueries">Guardar queries</button>
+      </div>
+      <div class="hint">Rellena por toma una <b>query visual concreta en inglés</b> (2-4, separadas por coma). Claude también puede rellenarlas por ti.</div>
+    </div>
+  </div>
+
+  <!-- Paso 3 -->
+  <div class="panel">
+    <h2><span class="step-n">3</span>Descargar candidatos (Pexels + Pixabay)</h2>
+    <div class="row">
+      <div class="grow"><label>PEXELS_KEY (opcional si ya está en el entorno)</label><input id="pexels" placeholder="pexels key" /></div>
+      <div class="grow"><label>PIXABAY_KEY</label><input id="pixabay" placeholder="pixabay key" /></div>
+    </div>
+    <button id="btnFetch" class="ghost">Buscar y descargar</button>
+    <div class="log" id="log3"></div>
+  </div>
+
+  <!-- Paso 3b: selector visual -->
+  <div class="panel">
+    <h2><span class="step-n">✓</span>Elegir el clip que ilustra cada frase</h2>
+    <div id="picker" class="muted">Corre el paso 3 para ver los candidatos aquí.</div>
+    <button id="btnSavePicks" style="display:none">Guardar selección</button>
+  </div>
+
+  <!-- Paso 4 -->
+  <div class="panel">
+    <h2><span class="step-n">4</span>Generar cues + render</h2>
+    <button id="btnEmit" class="ghost">Generar cues.generated.ts + pools</button>
+    <div class="log" id="log4"></div>
+    <div class="hint">Luego, en terminal: <code>npx remotion render AutoStockEdit renders/&lt;nombre&gt;.mp4</code></div>
+  </div>
+</main>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const api = async (path, opts) => (await fetch(path, opts)).json();
+const post = (path, body) => api(path, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+const showLog = (el, r) => { el.style.display='block'; el.textContent = (r.out||r.error||JSON.stringify(r)).trim(); };
+let picks = {}; // id -> {file, kind, pool}
+
+async function refreshState() {
+  const s = await api('/api/state');
+  $('#keys').innerHTML =
+    `Pexels <span class="badge ${s.hasPexels?'ok':'no'}">${s.hasPexels?'ok':'no'}</span> ` +
+    `Pixabay <span class="badge ${s.hasPixabay?'ok':'no'}">${s.hasPixabay?'ok':'no'}</span>`;
+  const cur = $('#project').value;
+  $('#project').innerHTML = '<option value="">— nuevo —</option>' +
+    s.projects.map(p => `<option value="${p.name}" ${p.name===cur?'selected':''}>${p.name}</option>`).join('');
+}
+
+function renderPills(pr) {
+  const step = (k, label) => `<span class="pill ${pr && pr[k] ? 'done':''}">${label}</span>`;
+  $('#pills').innerHTML = pr ? [
+    step('srt','SRT'), step('shots','tomas'), step('queries','queries'),
+    step('candidates','candidatos'), step('picks','picks'),
+  ].join('') : '';
+}
+
+async function loadProject(name) {
+  if (!name) { $('#queriesBox').innerHTML=''; $('#queriesActions').style.display='none'; $('#picker').innerHTML='Corre el paso 3 para ver los candidatos aquí.'; renderPills(null); return; }
+  const d = await api('/api/project?name=' + encodeURIComponent(name));
+  $('#name').value = name;
+  if (d.meta && d.meta.audioRel) $('#audio').value = 'public/' + d.meta.audioRel;
+  renderPillsFromDir(d);
+  renderQueries(d.queries);
+  renderPicker(d.candidates, d.picks);
+}
+function renderPillsFromDir(d) {
+  renderPills({srt:!!d.meta, shots:!!d.shots, queries:!!d.queries, candidates:!!d.candidates, picks:!!d.picks});
+}
+
+// --- Queries editor ---
+function renderQueries(queries) {
+  if (!queries) { $('#queriesBox').innerHTML=''; $('#queriesActions').style.display='none'; return; }
+  $('#defKind').value = queries.defaultKind || 'videos';
+  $('#perShot').value = queries.candidatesPerShot || 5;
+  $('#queriesActions').style.display = 'block';
+  $('#queriesBox').innerHTML = queries.shots.map((s, i) => `
+    <div class="shot">
+      <div class="txt">${i+1}. ${escapeHtml(s.text)}</div>
+      <div class="qgrid">
+        <input data-q="pool" data-i="${i}" placeholder="pool" value="${s.pool||''}" />
+        <select data-q="kind" data-i="${i}">
+          <option value=""${!s.kind?' selected':''}>(def)</option>
+          <option value="videos"${s.kind==='videos'?' selected':''}>videos</option>
+          <option value="photos"${s.kind==='photos'?' selected':''}>photos</option>
+        </select>
+        <input data-q="queries" data-i="${i}" placeholder="visual query en inglés, coma para varias" value="${(s.queries||[]).join(', ')}" />
+      </div>
+    </div>`).join('');
+}
+
+function collectQueries(base) {
+  const out = JSON.parse(JSON.stringify(base));
+  out.defaultKind = $('#defKind').value;
+  out.candidatesPerShot = Number($('#perShot').value) || 5;
+  document.querySelectorAll('[data-q]').forEach(el => {
+    const i = +el.dataset.i, k = el.dataset.q;
+    if (k === 'queries') out.shots[i].queries = el.value.split(',').map(x=>x.trim()).filter(Boolean);
+    else out.shots[i][k] = el.value;
+  });
+  return out;
+}
+
+// --- Candidate picker ---
+function renderPicker(candidates, existing) {
+  picks = {};
+  if (existing) (Array.isArray(existing)?existing:existing.picks||[]).forEach(p => picks[p.id]=p);
+  if (!candidates || !candidates.shots) { $('#picker').innerHTML='Corre el paso 3 para ver los candidatos aquí.'; $('#btnSavePicks').style.display='none'; return; }
+  $('#btnSavePicks').style.display='inline-block';
+  $('#picker').innerHTML = candidates.shots.map(s => `
+    <div class="cand-shot">
+      <div class="phrase">${escapeHtml(s.text)}</div>
+      <div class="meta muted">${s.candidates.length} candidatos · pool <code>${s.pool||s.id}</code></div>
+      <div class="cand-grid" data-shot="${s.id}">
+        ${s.candidates.map(c => `
+          <div class="cand ${picks[s.id] && picks[s.id].file===c.file ? 'sel':''}"
+               data-id="${s.id}" data-file="${encodeURIComponent(c.file)}" data-kind="${c.kind}" data-pool="${s.pool||s.id}">
+            ${c.frame ? `<img loading="lazy" src="/file?path=${encodeURIComponent(c.frame)}" />` : `<div class="cap">sin frame</div>`}
+            <div class="cap">${c.provider} · ${escapeHtml(c.query||'')}</div>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+  document.querySelectorAll('.cand').forEach(el => el.addEventListener('click', () => {
+    const id = el.dataset.id;
+    document.querySelectorAll(`.cand[data-id="${id}"]`).forEach(x=>x.classList.remove('sel'));
+    el.classList.add('sel');
+    picks[id] = {id, file: decodeURIComponent(el.dataset.file), kind: el.dataset.kind, pool: el.dataset.pool};
+  }));
+}
+
+function escapeHtml(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+async function reloadAfter(name){ await refreshState(); $('#project').value = name; await loadProject(name); }
+
+// --- Wire buttons ---
+$('#project').addEventListener('change', e => loadProject(e.target.value));
+
+$('#btnTranscribe').addEventListener('click', async () => {
+  const r = await post('/api/transcribe', {audio:$('#audio').value, name:$('#name').value, lang:$('#lang').value, srt:$('#srt').value||undefined});
+  showLog($('#log1'), r);
+  if (r.ok) reloadAfter($('#name').value || '');
+});
+
+$('#btnShots').addEventListener('click', async () => {
+  const name = $('#project').value || $('#name').value;
+  const r = await post('/api/shots', {name, target:$('#target').value, min:$('#min').value, max:$('#max').value});
+  showLog($('#log2'), r);
+  if (r.ok) reloadAfter(name);
+});
+
+$('#btnSaveQueries').addEventListener('click', async () => {
+  const name = $('#project').value || $('#name').value;
+  const d = await api('/api/project?name=' + encodeURIComponent(name));
+  const q = collectQueries(d.queries);
+  const r = await post('/api/queries', {name, queries:q});
+  alert(r.ok ? 'Queries guardadas ✔' : 'Error');
+});
+
+$('#btnFetch').addEventListener('click', async () => {
+  const name = $('#project').value || $('#name').value;
+  $('#log3').style.display='block'; $('#log3').textContent = 'Descargando… (puede tardar)';
+  const r = await post('/api/fetch', {name, pexels:$('#pexels').value||undefined, pixabay:$('#pixabay').value||undefined});
+  showLog($('#log3'), r);
+  if (r.ok) reloadAfter(name);
+});
+
+$('#btnSavePicks').addEventListener('click', async () => {
+  const name = $('#project').value || $('#name').value;
+  const r = await post('/api/picks', {name, picks: Object.values(picks)});
+  alert(r.ok ? 'Selección guardada ✔' : 'Error');
+  if (r.ok) refreshState();
+});
+
+$('#btnEmit').addEventListener('click', async () => {
+  const name = $('#project').value || $('#name').value;
+  const r = await post('/api/emit', {name});
+  showLog($('#log4'), r);
+});
+
+refreshState();
+</script>
+</body>
+</html>
