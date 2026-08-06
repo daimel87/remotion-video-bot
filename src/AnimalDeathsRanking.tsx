@@ -26,10 +26,10 @@ const ENTRIES: Entry[] = [
   {name: 'MOSQUITOES', emoji: '🦟', deaths: '1,000,000', cause: 'MALARIA & DISEASE', accent: '#5a7a4a'},
 ];
 
-const CARD_W = 360;
-const GAP = 44;
+const CARD_W = 420;
+const GAP = 40;
 const PITCH = CARD_W + GAP;
-const FRAMES_PER_CARD = 46; // ritmo del scroll
+const FRAMES_PER_CARD = 52; // ritmo del scroll
 
 const Card: React.FC<{entry: Entry}> = ({entry}) => (
   <div
@@ -41,34 +41,34 @@ const Card: React.FC<{entry: Entry}> = ({entry}) => (
       fontFamily: '"Arial Black", Helvetica, Arial, sans-serif',
     }}
   >
-    {/* Foto (placeholder emoji) + banderita/ícono */}
+    {/* Foto (placeholder emoji) + ícono */}
     <div
       style={{
         position: 'relative',
-        height: 300,
-        borderRadius: 8,
+        height: 560,
+        borderRadius: 10,
         overflow: 'hidden',
         background: `linear-gradient(160deg, ${entry.accent}, #1b2735)`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        boxShadow: '0 8px 22px rgba(0,0,0,0.45)',
+        boxShadow: '0 10px 26px rgba(0,0,0,0.5)',
       }}
     >
-      <span style={{fontSize: 190, lineHeight: 1}}>{entry.emoji}</span>
-      <div style={{position: 'absolute', top: 10, right: 10, fontSize: 34}}>💀</div>
+      <span style={{fontSize: 340, lineHeight: 1}}>{entry.emoji}</span>
+      <div style={{position: 'absolute', top: 14, right: 16, fontSize: 52}}>💀</div>
     </div>
 
     {/* Nombre */}
     <div
       style={{
-        marginTop: 10,
+        marginTop: 14,
         background: '#0e1622',
-        borderRadius: 6,
-        padding: '10px 8px',
+        borderRadius: 8,
+        padding: '16px 10px',
         textAlign: 'center',
         color: '#fff',
-        fontSize: entry.name.length > 12 ? 24 : 30,
+        fontSize: entry.name.length > 12 ? 32 : 40,
         fontWeight: 900,
         letterSpacing: '0.5px',
         whiteSpace: 'nowrap',
@@ -80,23 +80,23 @@ const Card: React.FC<{entry: Entry}> = ({entry}) => (
     {/* Stat principal (muertes/año) en barra azul */}
     <div
       style={{
-        marginTop: 10,
+        marginTop: 14,
         background: '#1a5fd0',
-        borderRadius: 6,
-        padding: '10px 8px 8px',
+        borderRadius: 8,
+        padding: '16px 10px 12px',
         textAlign: 'center',
         color: '#fff',
-        boxShadow: '0 4px 12px rgba(26,95,208,0.45)',
+        boxShadow: '0 6px 16px rgba(26,95,208,0.5)',
       }}
     >
-      <div style={{fontSize: 40, fontWeight: 900, lineHeight: 1}}>{entry.deaths}</div>
-      <div style={{fontSize: 15, fontWeight: 700, opacity: 0.9, marginTop: 4, letterSpacing: '1px'}}>DEATHS / YEAR</div>
+      <div style={{fontSize: 60, fontWeight: 900, lineHeight: 1}}>{entry.deaths}</div>
+      <div style={{fontSize: 20, fontWeight: 700, opacity: 0.9, marginTop: 6, letterSpacing: '1.5px'}}>DEATHS / YEAR</div>
     </div>
 
     {/* Ícono + stat secundaria */}
-    <div style={{marginTop: 12, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-      <div style={{fontSize: 46}}>💀</div>
-      <div style={{marginTop: 4, color: '#cdd6e0', fontSize: 20, fontWeight: 800, letterSpacing: '0.5px', whiteSpace: 'nowrap'}}>
+    <div style={{marginTop: 14, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <div style={{fontSize: 64}}>💀</div>
+      <div style={{marginTop: 6, color: '#cdd6e0', fontSize: 26, fontWeight: 800, letterSpacing: '0.5px', whiteSpace: 'nowrap'}}>
         {entry.cause}
       </div>
     </div>
@@ -108,31 +108,12 @@ export const AnimalDeathsRanking: React.FC = () => {
   const {width, height} = useVideoConfig();
 
   const scroll = frame * (PITCH / FRAMES_PER_CARD);
-  const rowTop = height / 2 - 330; // centra verticalmente el bloque de tarjetas
-  const startX = width - CARD_W - 120; // primera tarjeta entra por la derecha
+  const rowTop = height / 2 - 440; // tarjetas grandes, casi de arriba a abajo
+  const startX = width - CARD_W - 90; // primera tarjeta entra por la derecha
 
   return (
     <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 40%, #24354a 0%, #0c131d 70%)'}}>
-      {/* Título superior persistente */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 34,
-          left: 0,
-          right: 0,
-          textAlign: 'center',
-          fontFamily: '"Arial Black", Helvetica, Arial, sans-serif',
-          fontWeight: 900,
-          fontSize: 40,
-          color: '#fff',
-          letterSpacing: '1px',
-          textShadow: '0 3px 10px rgba(0,0,0,0.6)',
-        }}
-      >
-        MOST DEADLY ANIMALS <span style={{color: '#ff4d4d'}}>— DEATHS PER YEAR</span>
-      </div>
-
-      {/* Tira de tarjetas */}
+      {/* Tira de tarjetas (grandes, llenan la altura como el referente) */}
       {ENTRIES.map((entry, i) => {
         const x = startX + i * PITCH - scroll;
         // No renderizar las que están muy fuera de pantalla (optimización)
@@ -143,23 +124,6 @@ export const AnimalDeathsRanking: React.FC = () => {
           </div>
         );
       })}
-
-      {/* Contador de posición abajo (opcional, estilo del género) */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 26,
-          left: 0,
-          right: 0,
-          textAlign: 'center',
-          fontFamily: 'Helvetica, Arial, sans-serif',
-          fontSize: 18,
-          color: 'rgba(255,255,255,0.5)',
-          letterSpacing: '2px',
-        }}
-      >
-        WATCH UNTIL THE END 💀
-      </div>
     </AbsoluteFill>
   );
 };
