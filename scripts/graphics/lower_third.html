@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    background: transparent;
+    font-family: 'Arial Black', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  .stage {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+  }
+
+  /* Bottom gradient fade */
+  .gradient {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 220px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.72));
+    opacity: 0;
+  }
+
+  /* Key phrase bar */
+  .bar {
+    position: absolute;
+    bottom: 52px;
+    left: 80px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  .accent-line {
+    width: 5px;
+    height: 0;
+    background: #e63946;
+    border-radius: 3px;
+    box-shadow: 0 0 12px rgba(230,57,70,0.6);
+  }
+
+  .phrase {
+    font-size: 38px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.92);
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    max-width: 1400px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+  }
+
+  .phrase em {
+    font-style: normal;
+    color: #e63946;
+    font-weight: 900;
+  }
+
+  /* Animations */
+  @keyframes gradientIn {
+    to { opacity: 1; }
+  }
+  @keyframes barIn {
+    0%   { opacity: 0; transform: translateY(20px); }
+    60%  { opacity: 1; transform: translateY(-3px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes lineGrow {
+    to { height: 44px; }
+  }
+  @keyframes fadeOut {
+    to { opacity: 0; transform: translateY(8px); }
+  }
+
+  .animate .gradient   { animation: gradientIn 0.4s ease 0s   forwards; }
+  .animate .bar        { animation: barIn      0.5s cubic-bezier(.22,1,.36,1) 0.1s forwards; }
+  .animate .accent-line{ animation: lineGrow   0.4s cubic-bezier(.22,1,.36,1) 0.2s forwards; }
+
+  .outro .bar          { animation: fadeOut 0.35s ease forwards; }
+  .outro .gradient     { animation: fadeOut 0.4s  ease 0.1s forwards; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="gradient"></div>
+  <div class="bar">
+    <div class="accent-line"></div>
+    <p class="phrase" id="phrase">El problema no es la distracción. Es que <em>la buscas tú</em>.</p>
+  </div>
+</div>
+
+<script>
+  // ?text=...&highlight=...&duration=4
+  // Use \n for line breaks in text param
+  const params    = new URLSearchParams(location.search);
+  const text      = params.get('text')      || '';
+  const highlight = (params.get('highlight') || '').split(',').map(s => s.trim()).filter(Boolean);
+  const duration  = parseFloat(params.get('duration') || '4');
+
+  if (text) {
+    let html = text.replace(/\\n/g, '<br>');
+    for (const h of highlight) {
+      html = html.replace(
+        new RegExp(h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'),
+        `<em>${h}</em>`
+      );
+    }
+    document.getElementById('phrase').innerHTML = html;
+  }
+
+  window.__ready = false;
+  requestAnimationFrame(() => {
+    document.getElementById('stage').classList.add('animate');
+    window.__ready = true;
+
+    const outroDelay = Math.max(0, duration - 0.4) * 1000;
+    setTimeout(() => {
+      document.getElementById('stage').classList.remove('animate');
+      document.getElementById('stage').classList.add('outro');
+    }, outroDelay);
+  });
+</script>
+</body>
+</html>

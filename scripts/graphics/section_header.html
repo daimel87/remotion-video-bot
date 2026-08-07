@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    background: transparent;
+    font-family: 'Arial Black', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  .stage {
+    width: 1920px;
+    height: 1080px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.88);
+    position: relative;
+  }
+
+  /* Red accent lines top & bottom */
+  .accent-top, .accent-bottom {
+    position: absolute;
+    left: 0; right: 0;
+    height: 6px;
+    background: #e63946;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .accent-top    { top: 0; }
+  .accent-bottom { bottom: 0; transform-origin: right; }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  .habit-number {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 0.35em;
+    color: #e63946;
+    text-transform: uppercase;
+  }
+
+  .rule {
+    width: 0;
+    height: 3px;
+    background: #e63946;
+    box-shadow: 0 0 16px rgba(230,57,70,0.7);
+  }
+
+  .habit-title {
+    font-size: 88px;
+    font-weight: 900;
+    color: #ffffff;
+    text-align: center;
+    line-height: 1.1;
+    max-width: 1400px;
+    text-shadow: 0 4px 32px rgba(0,0,0,0.6);
+  }
+
+  .habit-subtitle {
+    font-size: 34px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.65);
+    text-align: center;
+    max-width: 900px;
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes lineExpand {
+    0%   { transform: scaleX(0); }
+    100% { transform: scaleX(1); }
+  }
+  @keyframes contentIn {
+    0%   { opacity: 0; transform: translateY(40px); }
+    60%  { opacity: 1; transform: translateY(-6px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes ruleExpand {
+    0%   { width: 0; }
+    100% { width: 80px; }
+  }
+  @keyframes fadeOut {
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  .animate .accent-top {
+    animation: lineExpand 0.5s cubic-bezier(.22,1,.36,1) 0.1s forwards;
+  }
+  .animate .accent-bottom {
+    animation: lineExpand 0.5s cubic-bezier(.22,1,.36,1) 0.2s forwards;
+  }
+  .animate .content {
+    animation: contentIn 0.7s cubic-bezier(.22,1,.36,1) 0.25s forwards;
+  }
+  .animate .rule {
+    animation: ruleExpand 0.5s cubic-bezier(.22,1,.36,1) 0.45s forwards;
+  }
+  .outro .content {
+    animation: fadeOut 0.4s ease 0s forwards;
+  }
+  .outro .accent-top, .outro .accent-bottom {
+    animation: lineExpand 0.4s ease 0s reverse forwards;
+  }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="accent-top"></div>
+  <div class="content" id="content">
+    <span class="habit-number" id="habitNumber">Hábito #1</span>
+    <div class="rule"></div>
+    <h1 class="habit-title" id="habitTitle">Consumes contenido sin cuestionarlo</h1>
+    <p class="habit-subtitle" id="habitSubtitle">El cerebro aprende que no necesita esforzarse para recibir estimulación.</p>
+  </div>
+  <div class="accent-bottom"></div>
+</div>
+
+<script>
+  // Driven by URL params: ?number=1&title=...&subtitle=...&duration=3
+  const params   = new URLSearchParams(location.search);
+  const number   = params.get('number')   || 'Hábito #1';
+  const title    = params.get('title')    || 'Título del hábito';
+  const subtitle = params.get('subtitle') || '';
+  const duration = parseFloat(params.get('duration') || '3');
+
+  document.getElementById('habitNumber').textContent  = number;
+  document.getElementById('habitTitle').textContent   = title;
+  const sub = document.getElementById('habitSubtitle');
+  if (subtitle) { sub.textContent = subtitle; } else { sub.remove(); }
+
+  // Signal to renderer that frame is ready
+  window.__ready = false;
+
+  requestAnimationFrame(() => {
+    document.getElementById('stage').classList.add('animate');
+    window.__ready = true;
+
+    // Outro
+    const outroDelay = Math.max(0, duration - 0.5) * 1000;
+    setTimeout(() => {
+      document.getElementById('stage').classList.remove('animate');
+      document.getElementById('stage').classList.add('outro');
+    }, outroDelay);
+  });
+</script>
+</body>
+</html>
