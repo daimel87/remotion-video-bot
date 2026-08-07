@@ -35,10 +35,11 @@ const GAP = 40;
 const PITCH = CARD_W + GAP;
 const FRAMES_PER_CARD = 52; // ritmo del scroll
 
-const Card: React.FC<{entry: Entry}> = ({entry}) => (
+const Card: React.FC<{entry: Entry; cardHeight: number}> = ({entry, cardHeight}) => (
   <div
     style={{
       width: CARD_W,
+      height: cardHeight,
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'stretch',
@@ -77,14 +78,14 @@ const Card: React.FC<{entry: Entry}> = ({entry}) => (
           position: 'absolute',
           top: 12,
           right: 12,
-          width: 54,
-          height: 54,
+          width: 64,
+          height: 64,
           borderRadius: 10,
           background: 'rgba(8,12,20,0.72)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: 30,
+          fontSize: 36,
         }}
       >
         💀
@@ -100,7 +101,7 @@ const Card: React.FC<{entry: Entry}> = ({entry}) => (
         padding: '16px 10px',
         textAlign: 'center',
         color: '#fff',
-        fontSize: entry.name.length > 12 ? 32 : 40,
+        fontSize: entry.name.length > 12 ? 38 : 48,
         fontWeight: 900,
         letterSpacing: '0.5px',
         whiteSpace: 'nowrap',
@@ -121,14 +122,14 @@ const Card: React.FC<{entry: Entry}> = ({entry}) => (
         boxShadow: '0 6px 16px rgba(26,95,208,0.5)',
       }}
     >
-      <div style={{fontSize: 60, fontWeight: 900, lineHeight: 1}}>{entry.deaths}</div>
-      <div style={{fontSize: 20, fontWeight: 700, opacity: 0.9, marginTop: 6, letterSpacing: '1.5px'}}>DEATHS / YEAR</div>
+      <div style={{fontSize: 68, fontWeight: 900, lineHeight: 1}}>{entry.deaths}</div>
+      <div style={{fontSize: 24, fontWeight: 700, opacity: 0.9, marginTop: 6, letterSpacing: '1.5px'}}>DEATHS / YEAR</div>
     </div>
 
-    {/* Ícono + stat secundaria */}
-    <div style={{marginTop: 12, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-      <div style={{fontSize: 52}}>💀</div>
-      <div style={{marginTop: 4, color: '#cdd6e0', fontSize: 24, fontWeight: 800, letterSpacing: '0.5px', whiteSpace: 'nowrap'}}>
+    {/* Ícono + stat secundaria — pegado al borde inferior de la tarjeta */}
+    <div style={{marginTop: 'auto', paddingTop: 12, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <div style={{fontSize: 64}}>💀</div>
+      <div style={{marginTop: 4, color: '#cdd6e0', fontSize: 30, fontWeight: 800, letterSpacing: '0.5px', whiteSpace: 'nowrap'}}>
         {entry.cause}
       </div>
     </div>
@@ -141,6 +142,7 @@ export const AnimalDeathsRanking: React.FC = () => {
 
   const scroll = frame * (PITCH / FRAMES_PER_CARD);
   const rowTop = 16; // tarjetas ocupan casi toda la altura, de arriba a abajo
+  const cardHeight = height - rowTop * 2; // el bloque inferior (calavera+causa) queda pegado al borde
   const startX = width - CARD_W - 90; // primera tarjeta entra por la derecha
   const fade = interpolate(frame, [0, 18], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
@@ -153,7 +155,7 @@ export const AnimalDeathsRanking: React.FC = () => {
         if (x < -CARD_W - 60 || x > width + 60) return null;
         return (
           <div key={entry.name} style={{position: 'absolute', left: x, top: rowTop}}>
-            <Card entry={entry} />
+            <Card entry={entry} cardHeight={cardHeight} />
           </div>
         );
       })}
