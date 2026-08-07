@@ -142,15 +142,27 @@ const REVEAL_STAGGER = 20; // frames entre la aparición de cada tarjeta revelad
 const REVEAL_DUR = 20; // frames que tarda cada tarjeta en aparecer (fade + scale)
 const REVEAL_PAUSE = 14; // pausa tras la última tarjeta revelada antes de arrancar el carrusel
 const SCROLL_START = (REVEAL_COUNT - 1) * REVEAL_STAGGER + REVEAL_DUR + REVEAL_PAUSE;
+const FINALE_HOLD = 150; // frames en pausa sobre la última tarjeta (mosquitos) al final, ~5s
 
 export const AnimalDeathsRanking: React.FC = () => {
   const frame = useCurrentFrame();
-  const {width, height} = useVideoConfig();
+  const {width, height, durationInFrames} = useVideoConfig();
 
   const rowTop = 16; // tarjetas ocupan casi toda la altura, de arriba a abajo
   const cardHeight = height - rowTop * 2; // el bloque inferior (calavera+causa) queda pegado al borde
-  // Antes de SCROLL_START las tarjetas reveladas quedan quietas en su sitio; el scroll solo corre después.
-  const scroll = frame < SCROLL_START ? 0 : (frame - SCROLL_START) * (PITCH / FRAMES_PER_CARD);
+
+  // El scroll avanza suave y constante desde SCROLL_START hasta casi el final del video,
+  // dejando la última tarjeta (#1, más letal) centrada y en pausa como gran final.
+  const scrollEnd = durationInFrames - FINALE_HOLD;
+  const centerX = width / 2 - CARD_W / 2;
+  const scrollFinal = LEFT_START + (ENTRIES.length - 1) * PITCH - centerX;
+  const scroll =
+    frame < SCROLL_START
+      ? 0
+      : interpolate(frame, [SCROLL_START, scrollEnd], [0, scrollFinal], {
+          extrapolateLeft: 'clamp',
+          extrapolateRight: 'clamp',
+        });
   const fade = interpolate(frame, [0, 18], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
   return (
