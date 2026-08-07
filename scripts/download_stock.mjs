@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 /**
  * Stock video downloader for Magrux - Forja Interior
- * Downloads UNIQUE high-quality clips that change every 5 seconds.
- * Each clip slot uses a different search query variation to guarantee diversity.
+ * Downloads MULTIPLE clips per segment across several keyword variations,
+ * and outputs a manifest.json with the same shape used by the other
+ * production pipeline: { id, texto, keywords, files }.
  *
  * Usage:
  *   node scripts/download_stock.mjs
  *   node scripts/download_stock.mjs segments.json
- *   node scripts/download_stock.mjs --segment "persona mirando telefono" --duration 10 --out ./clips
+ *   node scripts/download_stock.mjs --out ./stock-habitos
  */
 
 import fs   from 'fs';
@@ -17,12 +18,12 @@ import http  from 'http';
 import { URL } from 'url';
 
 // ── CONFIG ────────────────────────────────────────────────────────────────────
-const PEXELS_KEY    = 'Ae2sAZkgueMj3auCuLuZhpLBzz1mpITlEt165NnkDMSKBsVW8uy7v5sm';
-const PIXABAY_KEY   = '23419683-105869979e02b679473a4e9eb';
-const COVERR_KEY    = 'a1f778d2af7cade22655486615337bd0';
-const CLIP_INTERVAL = 5;    // seconds per clip
-const MIN_WIDTH     = 1280; // reject anything below 720p wide
-const MIN_CLIP_DUR  = 5;    // reject clips shorter than 5s
+const PEXELS_KEY   = 'Ae2sAZkgueMj3auCuLuZhpLBzz1mpITlEt165NnkDMSKBsVW8uy7v5sm';
+const PIXABAY_KEY  = '23419683-105869979e02b679473a4e9eb';
+const COVERR_KEY   = 'a1f778d2af7cade22655486615337bd0';
+const MIN_WIDTH    = 1280;
+const MIN_CLIP_DUR = 4;
+const PER_KEYWORD  = 3; // how many clips to try downloading per keyword
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
 
@@ -48,7 +49,7 @@ function get(url, headers = {}) {
 
 function download(url, filePath) {
   return new Promise((resolve, reject) => {
-    console.log(`  ↓ ${path.basename(filePath)}`);
+    console.log(`    ↓ ${path.basename(filePath)}`);
     const file = fs.createWriteStream(filePath);
     const doGet = (u) => {
       const parsed = new URL(u);
@@ -67,9 +68,8 @@ function download(url, filePath) {
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-// Pick the best file from a video's file list — prefer 1080p, reject low-res
-function bestFile(files, targetDur) {
-  const candidates = files
+function bestFiles(files) {
+  return files
     .filter(f => {
       const url = f.link || f.url || f.mp4_url || '';
       const w   = f.width || 0;
@@ -80,163 +80,109 @@ function bestFile(files, targetDur) {
       const url = f.link || f.url || f.mp4_url;
       const w   = f.width || 0;
       const dur = f.duration || f.length || 0;
-      // Prefer 1920 width; penalise clips much longer than needed (waste)
-      const resScore = Math.min(w, 1920) / 1920;
-      const durScore = dur >= targetDur ? 1 : dur / targetDur;
-      return { score: resScore * 0.5 + durScore * 0.5, url, dur, w };
-    });
-  candidates.sort((a, b) => b.score - a.score);
-  return candidates[0] || null;
+      return { url, w, dur, score: Math.min(w, 1920) / 1920 };
+    })
+    .sort((a, b) => b.score - a.score);
 }
 
 // ── SOURCES ───────────────────────────────────────────────────────────────────
 
-async function fromPexels(query, page = 1) {
+async function fromPexels(query) {
   try {
     const data = await get(
-      `https://api.pexels.com/videos/search?query=${encodeURIComponent(query)}&per_page=15&page=${page}&orientation=landscape`,
+      `https://api.pexels.com/videos/search?query=${encodeURIComponent(query)}&per_page=10&orientation=landscape`,
       { Authorization: PEXELS_KEY }
     );
     return (data.videos || []).flatMap(v => {
-      const files = (v.video_files || []).map(f => ({
-        link: f.link, width: f.width || 0, duration: v.duration || 0,
-      }));
-      const pick = bestFile(files, CLIP_INTERVAL);
-      return pick ? [{ source: 'pexels', ...pick }] : [];
+      const files = (v.video_files || []).map(f => ({ link: f.link, width: f.width || 0, duration: v.duration || 0 }));
+      return bestFiles(files).slice(0, 1).map(f => ({ source: 'pexels', ...f }));
     });
-  } catch (e) { console.log(`  [Pexels p${page}] ${e.message}`); return []; }
+  } catch (e) { console.log(`    [Pexels] ${e.message}`); return []; }
 }
 
-async function fromPixabay(query, page = 1) {
+async function fromPixabay(query) {
   try {
     const data = await get(
-      `https://pixabay.com/api/videos/?key=${PIXABAY_KEY}&q=${encodeURIComponent(query)}&per_page=15&page=${page}&video_type=film`
+      `https://pixabay.com/api/videos/?key=${PIXABAY_KEY}&q=${encodeURIComponent(query)}&per_page=10&video_type=film`
     );
     return (data.hits || []).flatMap(v => {
       const files = ['large', 'medium'].flatMap(q => {
         const h = v.videos?.[q] || {};
-        return h.url && (h.width || 0) >= MIN_WIDTH
-          ? [{ url: h.url, width: h.width || 0, duration: v.duration || 0 }]
-          : [];
+        return h.url ? [{ url: h.url, width: h.width || 0, duration: v.duration || 0 }] : [];
       });
-      const pick = bestFile(files, CLIP_INTERVAL);
-      return pick ? [{ source: 'pixabay', ...pick }] : [];
+      return bestFiles(files).slice(0, 1).map(f => ({ source: 'pixabay', ...f }));
     });
-  } catch (e) { console.log(`  [Pixabay p${page}] ${e.message}`); return []; }
+  } catch (e) { console.log(`    [Pixabay] ${e.message}`); return []; }
 }
 
 async function fromCoverr(query) {
   try {
     const data = await get(
-      `https://api.coverr.co/videos?query=${encodeURIComponent(query)}&per_page=15`,
+      `https://api.coverr.co/videos?query=${encodeURIComponent(query)}&per_page=10`,
       { Authorization: `Bearer ${COVERR_KEY}` }
     );
     return (data.hits || []).flatMap(v => {
       const url = v.urls?.mp4 || v.url || '';
       const dur = v.duration || 0;
       if (!url || dur < MIN_CLIP_DUR) return [];
-      return [{ source: 'coverr', score: 0.8, url, dur, w: 1920 }];
+      return [{ source: 'coverr', url, w: 1920, dur, score: 0.75 }];
     });
-  } catch (e) { console.log(`  [Coverr] ${e.message}`); return []; }
+  } catch (e) { console.log(`    [Coverr] ${e.message}`); return []; }
 }
 
-// Search all sources with a specific query, return sorted unique results
-async function search(query) {
-  const [p1, p2, p3, x1, x2, c] = await Promise.all([
-    fromPexels(query, 1),
-    fromPexels(query, 2),
-    fromPexels(query, 3),
-    fromPixabay(query, 1),
-    fromPixabay(query, 2),
-    fromCoverr(query),
-  ]);
-  const all = [...p1, ...p2, ...p3, ...x1, ...x2, ...c];
+async function searchKeyword(query) {
+  const [p, x, c] = await Promise.all([fromPexels(query), fromPixabay(query), fromCoverr(query)]);
+  const all = [...p, ...x, ...c];
   all.sort((a, b) => b.score - a.score);
-  const seen = new Set();
-  return all.filter(r => { if (seen.has(r.url)) return false; seen.add(r.url); return true; });
+  return all;
 }
 
 // ── SEGMENT ───────────────────────────────────────────────────────────────────
 
-async function processSegment(seg, outDir, index) {
-  const slug      = seg.id || `segment_${String(index).padStart(2, '0')}`;
-  const dur       = parseFloat(seg.duration || 10);
-  const clipCount = Math.ceil(dur / CLIP_INTERVAL);
-  const queries   = seg.queries || [seg.query || seg.query_es || ''];
-  const prefix    = path.join(outDir, `${String(index).padStart(2, '0')}_${slug}`);
+async function processSegment(seg, outDir, usedUrlsGlobal) {
+  const dir = path.join(outDir, 'videos');
+  fs.mkdirSync(dir, { recursive: true });
 
-  console.log(`\n[${String(index).padStart(2, '0')}] ${seg.label || slug} — ${dur}s → ${clipCount} clips distintos`);
+  console.log(`\n[${seg.id}] ${seg.texto.slice(0, 60)}...`);
 
-  // Download each clip slot using a DIFFERENT query variation
-  const downloadedFiles = [];
-  const usedUrls        = new Set();
+  const files = [];
+  let clipIndex = 1;
 
-  for (let i = 0; i < clipCount; i++) {
-    const letter   = String.fromCharCode(97 + i); // a, b, c…
-    const filePath = `${prefix}_${letter}.mp4`;
+  for (const keyword of seg.keywords) {
+    console.log(`  Buscando: "${keyword}"`);
+    const results = await searchKeyword(keyword);
 
-    if (fs.existsSync(filePath)) {
-      console.log(`  [${i+1}/${clipCount}] Ya existe: ${path.basename(filePath)}`);
-      downloadedFiles.push(filePath);
-      usedUrls.add(filePath); // treat as used
-      continue;
+    let downloaded = 0;
+    for (const r of results) {
+      if (downloaded >= PER_KEYWORD) break;
+      if (usedUrlsGlobal.has(r.url)) continue;
+
+      const filePath = path.join(dir, `${seg.id}-${clipIndex}.mp4`);
+      const relPath  = path.relative(outDir, filePath).replace(/\\/g, '/');
+
+      if (fs.existsSync(filePath)) {
+        console.log(`    → Ya existe: ${path.basename(filePath)}`);
+        files.push(`${path.basename(outDir)}/${relPath}`);
+        usedUrlsGlobal.add(r.url);
+        clipIndex++;
+        downloaded++;
+        continue;
+      }
+
+      console.log(`    ✓ ${r.source} ${r.w}px ${r.dur.toFixed(1)}s`);
+      await download(r.url, filePath);
+      await sleep(350);
+
+      files.push(`${path.basename(outDir)}/${relPath}`);
+      usedUrlsGlobal.add(r.url);
+      clipIndex++;
+      downloaded++;
     }
 
-    // Rotate through query variations per slot
-    const q       = queries[i % queries.length];
-    const results = await search(q);
-
-    // Pick first result whose URL wasn't already downloaded this segment
-    const pick = results.find(r => !usedUrls.has(r.url));
-
-    if (!pick) {
-      // Try simpler fallback query
-      const simple  = q.split(' ').slice(0, 2).join(' ');
-      const simple2 = q.split(' ').slice(2, 4).join(' ') || simple;
-      const fallback = await search(simple2);
-      const fp = fallback.find(r => !usedUrls.has(r.url));
-      if (!fp) { console.log(`  ✗ [${i+1}] Sin clip único`); continue; }
-      usedUrls.add(fp.url);
-      console.log(`  ✓ [${i+1}/${clipCount}] ${fp.source} ${fp.w}p ${fp.dur.toFixed(1)}s (fallback)`);
-      await download(fp.url, filePath);
-      downloadedFiles.push(filePath);
-    } else {
-      usedUrls.add(pick.url);
-      console.log(`  ✓ [${i+1}/${clipCount}] ${pick.source} ${pick.w}px ${pick.dur.toFixed(1)}s — "${q}"`);
-      await download(pick.url, filePath);
-      downloadedFiles.push(filePath);
-    }
-    await sleep(400);
+    if (!downloaded) console.log(`    ✗ Sin resultados nuevos para "${keyword}"`);
   }
 
-  if (!downloadedFiles.length) {
-    return { segment: seg.label || slug, files: [], ffmpegCmd: null };
-  }
-
-  // Write concat list — each clip trimmed to exactly CLIP_INTERVAL seconds
-  const concatPath = `${prefix}_concat.txt`;
-  const lines = downloadedFiles.map(f => `file '${f.replace(/\\/g, '/')}'`);
-  fs.writeFileSync(concatPath, lines.join('\n'));
-
-  const outMp4 = `${prefix}_combined.mp4`;
-
-  // FFmpeg: concat → scale/crop to 1920x1080 → trim to exact duration → no audio
-  // Each input is force-trimmed to CLIP_INTERVAL before concat via filter_complex
-  const inputs  = downloadedFiles.map((f, i) => `-ss 0.5 -t ${CLIP_INTERVAL} -i "${f.replace(/\\/g, '/')}"`).join(' ');
-  const vfilter = downloadedFiles.map((_, i) => `[${i}:v]scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,setsar=1[v${i}]`).join(';');
-  const concat  = downloadedFiles.map((_, i) => `[v${i}]`).join('') + `concat=n=${downloadedFiles.length}:v=1:a=0[vout]`;
-
-  const ffmpegCmd = [
-    'ffmpeg',
-    inputs,
-    `-filter_complex "${vfilter};${concat}"`,
-    `-map "[vout]"`,
-    `-t ${dur}`,
-    `-c:v libx264 -crf 17 -preset fast -an`,
-    `"${outMp4.replace(/\\/g, '/')}"`,
-  ].join(' ');
-
-  return { segment: seg.label || slug, files: downloadedFiles, ffmpegCmd, outMp4 };
+  return { id: seg.id, texto: seg.texto, keywords: seg.keywords, files };
 }
 
 // ── CLI ───────────────────────────────────────────────────────────────────────
@@ -244,107 +190,114 @@ async function processSegment(seg, outDir, index) {
 const cliArgs = process.argv.slice(2);
 const flags   = {};
 let posArgs   = [];
-
 for (let i = 0; i < cliArgs.length; i++) {
   if (cliArgs[i].startsWith('--')) { flags[cliArgs[i].slice(2)] = cliArgs[i + 1]; i++; }
   else posArgs.push(cliArgs[i]);
 }
 
-const outDir = flags.out || './clips';
-fs.mkdirSync(outDir, { recursive: true });
+const outDir = flags.out || './stock-habitos-cotidianos';
+fs.mkdirSync(path.join(outDir, 'videos'), { recursive: true });
 
 let segments;
 
-if (flags.segment) {
-  segments = [{ id: 'clip', queries: [flags.segment], duration: flags.duration || 10 }];
-} else if (posArgs[0]) {
+if (posArgs[0]) {
   segments = JSON.parse(fs.readFileSync(posArgs[0], 'utf8'));
 } else {
   // "Hábitos Cotidianos que son Señales de Baja Inteligencia"
-  // Each segment has MULTIPLE query variations — one per clip slot — for guaranteed diversity
   segments = [
     {
-      id: 'intro', duration: 10, label: 'INTRO — Gancho',
-      queries: [
+      id: '00-intro',
+      texto: '¿Te acuerdas de ese momento en que empezaste a notar que algo no encajaba? Hay hábitos que parecen normales, pero te hacen menos inteligente cada día.',
+      keywords: [
         'person staring phone dark bedroom night alone',
         'blue light screen face close up dark room',
+        'person lying bed scrolling phone night',
       ],
     },
     {
-      id: 'habito_1', duration: 10, label: 'Hábito #1 — Consumo Pasivo',
-      queries: [
+      id: '01-consumo-pasivo',
+      texto: 'Hábito uno: consumo pasivo de contenido. Scrollear no descansa la mente, la acostumbra a la recompensa instantánea.',
+      keywords: [
         'person scrolling social media phone addiction',
         'hand swiping smartphone screen close up',
+        'person watching short videos phone endless',
       ],
     },
     {
-      id: 'habito_2', duration: 10, label: 'Hábito #2 — Evitar el aburrimiento',
-      queries: [
+      id: '02-evitar-aburrimiento',
+      texto: 'Hábito dos: evitar el aburrimiento a toda costa. El aburrimiento es donde nace el pensamiento real.',
+      keywords: [
         'person sitting alone bored waiting restless',
         'empty room silence person thinking distracted',
+        'person staring window bored thoughtful',
       ],
     },
     {
-      id: 'habito_3', duration: 10, label: 'Hábito #3 — Hablar más que escuchar',
-      queries: [
+      id: '03-hablar-mas-escuchar',
+      texto: 'Hábito tres: hablar más de lo que escuchas. Mientras hablas no aprendes nada nuevo, mientras escuchas cambias.',
+      keywords: [
         'group people talking conversation office meeting',
         'person talking gesture explaining animated',
+        'two people conversation coffee shop',
       ],
     },
     {
-      id: 'habito_4', duration: 10, label: 'Hábito #4 — Sesgo de confirmación',
-      queries: [
+      id: '04-sesgo-confirmacion',
+      texto: 'Hábito cuatro: sesgo de confirmación. No buscas información, buscas confirmación de lo que ya piensas.',
+      keywords: [
         'person browsing internet laptop news search',
         'reading screen computer focused close up',
+        'person researching online frustrated laptop',
       ],
     },
     {
-      id: 'habito_5', duration: 10, label: 'Hábito #5 — Decisiones por impulso',
-      queries: [
+      id: '05-decisiones-impulso',
+      texto: 'Hábito cinco: decisiones por impulso. La emoción actúa primero, la razón llega tarde.',
+      keywords: [
         'person angry frustrated phone typing impulsive',
         'fast typing keyboard urgent stressed person',
+        'person slamming laptop frustrated angry',
       ],
     },
     {
-      id: 'habito_6', duration: 10, label: 'Hábito #6 — No terminar lo que empiezas',
-      queries: [
+      id: '06-no-terminar',
+      texto: 'Hábito seis: no terminar lo que empiezas. Cada abandono refuerza el siguiente.',
+      keywords: [
         'messy desk unfinished work abandoned books papers',
         'person giving up project frustrated quitting',
+        'pile of unread books desk dust',
       ],
     },
     {
-      id: 'cierre', duration: 8, label: 'CIERRE',
-      queries: [
+      id: '99-cierre',
+      texto: 'La inteligencia no es talento. Es el resultado de tus hábitos diarios. Cambia el hábito, cambia el cerebro.',
+      keywords: [
         'person looking horizon city thoughtful reflection',
         'sunrise city skyline calm contemplation',
+        'person walking away calm determined',
       ],
     },
   ];
 }
 
-console.log(`\nDescargando ${segments.length} segmentos → ${outDir}`);
-console.log(`Clip diferente cada ${CLIP_INTERVAL}s | Mínimo ${MIN_WIDTH}px de ancho\n`);
+console.log(`\nDescargando stock para ${segments.length} segmentos → ${outDir}`);
+console.log(`Hasta ${PER_KEYWORD} clips únicos por keyword\n`);
 
-const results = [];
-for (let i = 0; i < segments.length; i++) {
-  const result = await processSegment(segments[i], outDir, i + 1);
-  results.push(result);
+const usedUrlsGlobal = new Set();
+const manifest = [];
+
+for (const seg of segments) {
+  const result = await processSegment(seg, outDir, usedUrlsGlobal);
+  manifest.push(result);
 }
 
 console.log('\n── Resumen ──────────────────────────────────');
-for (const r of results) {
-  console.log(`  ${r.files.length > 0 ? '✓' : '✗'} ${r.segment}: ${r.files.length} clip(s)`);
+for (const r of manifest) {
+  console.log(`  ${r.files.length > 0 ? '✓' : '✗'} ${r.id}: ${r.files.length} clip(s)`);
 }
 
 const manifestPath = path.join(outDir, 'manifest.json');
-fs.writeFileSync(manifestPath, JSON.stringify(results, null, 2));
+fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
 
-// Write combine script (bash + bat)
-const sh  = results.filter(r => r.ffmpegCmd).map(r => `# ${r.segment}\n${r.ffmpegCmd}`).join('\n\n');
-const bat = results.filter(r => r.ffmpegCmd).map(r => `rem ${r.segment}\n${r.ffmpegCmd}`).join('\n\n');
-fs.writeFileSync(path.join(outDir, 'combine.sh'),  '#!/bin/bash\n\n' + sh  + '\n');
-fs.writeFileSync(path.join(outDir, 'combine.bat'), '@echo off\n\n'   + bat + '\n');
-
-console.log(`\n→ Manifest:  ${manifestPath}`);
-console.log(`→ Mac/Linux: bash ${path.join(outDir, 'combine.sh')}`);
-console.log(`→ Windows:   ${path.join(outDir, 'combine.bat')}`);
+console.log(`\n→ Manifest: ${manifestPath}`);
+console.log(`\nAhora dale el manifest.json + audio + transcripción a tu otra sesión para armar el video.`);
