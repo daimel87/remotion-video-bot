@@ -49,7 +49,7 @@ const Card: React.FC<{entry: Entry}> = ({entry}) => (
     <div
       style={{
         position: 'relative',
-        height: 560,
+        height: 660,
         borderRadius: 10,
         overflow: 'hidden',
         background: `linear-gradient(160deg, ${entry.accent}, #1b2735)`,
@@ -126,9 +126,9 @@ const Card: React.FC<{entry: Entry}> = ({entry}) => (
     </div>
 
     {/* Ícono + stat secundaria */}
-    <div style={{marginTop: 14, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-      <div style={{fontSize: 64}}>💀</div>
-      <div style={{marginTop: 6, color: '#cdd6e0', fontSize: 26, fontWeight: 800, letterSpacing: '0.5px', whiteSpace: 'nowrap'}}>
+    <div style={{marginTop: 12, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <div style={{fontSize: 52}}>💀</div>
+      <div style={{marginTop: 4, color: '#cdd6e0', fontSize: 24, fontWeight: 800, letterSpacing: '0.5px', whiteSpace: 'nowrap'}}>
         {entry.cause}
       </div>
     </div>
@@ -140,7 +140,7 @@ export const AnimalDeathsRanking: React.FC = () => {
   const {width, height} = useVideoConfig();
 
   const scroll = frame * (PITCH / FRAMES_PER_CARD);
-  const rowTop = height / 2 - 440; // tarjetas grandes, casi de arriba a abajo
+  const rowTop = 16; // tarjetas ocupan casi toda la altura, de arriba a abajo
   const startX = width - CARD_W - 90; // primera tarjeta entra por la derecha
   const fade = interpolate(frame, [0, 18], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
