@@ -136,25 +136,57 @@ const Card: React.FC<{entry: Entry; cardHeight: number}> = ({entry, cardHeight})
   </div>
 );
 
+const LEFT_START = 90; // el tiburón (primera tarjeta) arranca ya colocado aquí, sin fondo vacío
+const REVEAL_COUNT = 4; // cuántas tarjetas iniciales se revelan una por una antes del scroll
+const REVEAL_STAGGER = 20; // frames entre la aparición de cada tarjeta revelada
+const REVEAL_DUR = 20; // frames que tarda cada tarjeta en aparecer (fade + scale)
+const REVEAL_PAUSE = 14; // pausa tras la última tarjeta revelada antes de arrancar el carrusel
+const SCROLL_START = (REVEAL_COUNT - 1) * REVEAL_STAGGER + REVEAL_DUR + REVEAL_PAUSE;
+
 export const AnimalDeathsRanking: React.FC = () => {
   const frame = useCurrentFrame();
   const {width, height} = useVideoConfig();
 
-  const scroll = frame * (PITCH / FRAMES_PER_CARD);
   const rowTop = 16; // tarjetas ocupan casi toda la altura, de arriba a abajo
   const cardHeight = height - rowTop * 2; // el bloque inferior (calavera+causa) queda pegado al borde
-  const startX = width - CARD_W - 90; // primera tarjeta entra por la derecha
+  // Antes de SCROLL_START las tarjetas reveladas quedan quietas en su sitio; el scroll solo corre después.
+  const scroll = frame < SCROLL_START ? 0 : (frame - SCROLL_START) * (PITCH / FRAMES_PER_CARD);
   const fade = interpolate(frame, [0, 18], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
   return (
     <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 40%, #24354a 0%, #0c131d 70%)', opacity: fade}}>
       {/* Tira de tarjetas (grandes, llenan la altura como el referente) */}
       {ENTRIES.map((entry, i) => {
-        const x = startX + i * PITCH - scroll;
+        const x = LEFT_START + i * PITCH - scroll;
         // No renderizar las que están muy fuera de pantalla (optimización)
         if (x < -CARD_W - 60 || x > width + 60) return null;
+
+        let cardOpacity = 1;
+        let cardScale = 1;
+        if (i < REVEAL_COUNT) {
+          const revealStart = i * REVEAL_STAGGER;
+          cardOpacity = interpolate(frame, [revealStart, revealStart + REVEAL_DUR], [0, 1], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+          });
+          cardScale = interpolate(frame, [revealStart, revealStart + REVEAL_DUR], [0.85, 1], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+          });
+        }
+
         return (
-          <div key={entry.name} style={{position: 'absolute', left: x, top: rowTop}}>
+          <div
+            key={entry.name}
+            style={{
+              position: 'absolute',
+              left: x,
+              top: rowTop,
+              opacity: cardOpacity,
+              transform: `scale(${cardScale})`,
+              transformOrigin: 'center bottom',
+            }}
+          >
             <Card entry={entry} cardHeight={cardHeight} />
           </div>
         );
