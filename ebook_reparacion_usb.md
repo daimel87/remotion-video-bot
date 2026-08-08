@@ -341,7 +341,7 @@ Cuando el problema es específicamente formato RAW y quieres recuperar antes de 
 
 ### Otra alternativa de recuperación general
 
-Existen también herramientas de recuperación con interfaz completa en español, livianas (de menos de 2 MB de descarga), que permiten escoger el dispositivo, la partición y ejecutar un "escaneo total". Tras el escaneo, se agrupan los resultados por volúmenes recuperables, y desde ahí puedes explorar carpeta por carpeta y recuperar archivo por archivo con clic derecho → "Recuperar", eligiendo la ubicación de destino. El flujo es esencialmente el mismo que con las herramientas anteriores: escanear todo el dispositivo, no solo una parte, para maximizar lo que se puede rescatar.
+Existe también **DMDE**, una herramienta de recuperación con interfaz completa en español, liviana (de menos de 2 MB de descarga), que permite escoger el dispositivo, la partición y ejecutar un "escaneo total". Tras el escaneo, se agrupan los resultados por volúmenes recuperables, y desde ahí puedes explorar carpeta por carpeta y recuperar archivo por archivo con clic derecho → "Recuperar", eligiendo la ubicación de destino. El flujo es esencialmente el mismo que con las herramientas anteriores: escanear todo el dispositivo, no solo una parte, para maximizar lo que se puede rescatar.
 
 ### El flujo recomendado, siempre
 
