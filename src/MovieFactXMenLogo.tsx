@@ -24,7 +24,7 @@ const renderBold = (text: string, baseWeight = 400, boldWeight = 800) => {
 
 export const MovieFactXMenLogo: React.FC<{src?: string; showFox?: boolean}> = ({
   src = 'xmen-logo-fact.mp4',
-  showFox = true,
+  showFox = false,
 }) => {
   const frame = useCurrentFrame();
 
@@ -49,25 +49,33 @@ export const MovieFactXMenLogo: React.FC<{src?: string; showFox?: boolean}> = ({
         }}
       />
 
-      {/* Fact arriba, flotando sobre el fondo */}
-      <div style={{position: 'absolute', top: 46, left: 24, right: 24, opacity: headlineOpacity, textAlign: 'center'}}>
-        <span
+      {/* Fact arriba, en su caja oscura redondeada (sin post de X, sin usuario) */}
+      <div style={{position: 'absolute', top: 40, left: 22, right: 22, opacity: headlineOpacity}}>
+        <div
           style={{
-            fontFamily: 'Helvetica, Arial, sans-serif',
-            fontSize: 23,
-            fontWeight: 800,
-            lineHeight: 1.32,
-            letterSpacing: '-0.01em',
-            color: '#fff',
-            textShadow: '0 2px 10px rgba(0,0,0,0.8)',
+            background: 'rgba(0,0,0,0.5)',
+            borderRadius: 20,
+            padding: '20px 22px',
+            textAlign: 'center',
           }}
         >
-          {renderBold(HEADLINE, 700, 900)}
-        </span>
+          <span
+            style={{
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontSize: 29,
+              fontWeight: 800,
+              lineHeight: 1.28,
+              letterSpacing: '-0.01em',
+              color: '#fff',
+            }}
+          >
+            {renderBold(HEADLINE, 800, 900)}
+          </span>
+        </div>
       </div>
 
       {/* Escena, de borde a borde, sin recortar el logo (centrado) */}
-      <div style={{position: 'absolute', top: 372, left: 0, right: 0}}>
+      <div style={{position: 'absolute', top: 400, left: 0, right: 0}}>
         <OffthreadVideo
           src={staticFile(src)}
           muted
