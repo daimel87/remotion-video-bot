@@ -564,9 +564,7 @@ Ejecuta la herramienta como administrador, espera el reconocimiento automático,
 
 ### Dónde conseguir las herramientas
 
-Todo lo mencionado en esta guía —ChipGenius, la tabla de solucionadas, y los paquetes de herramientas organizados por marca de controlador (Alcor Micro, Phison, Chipsbank, SMI, Innostor, FirstChip, ITE/USBest, Solid State System, Appotech, Asolid, Skymedi, Silicon Go, entre otros)— está disponible de forma organizada en:
-
-**dtechusb.pages.dev**
+Todo lo mencionado en esta guía —ChipGenius, la tabla de solucionadas, y los paquetes de herramientas organizados por marca de controlador (Alcor Micro, Phison, Chipsbank, SMI, Innostor, FirstChip, ITE/USBest, Solid State System, Appotech, Asolid, Skymedi, Silicon Go, entre otros)— está disponible de forma organizada en: [dtechusb.pages.dev](https://dtechusb.pages.dev)
 
 Ahí vas a encontrar, además de las descargas por controlador, dos secciones adicionales muy útiles con tutoriales en video: cómo quitar la protección contra escritura, y cómo formatear de exFAT a FAT32.
 
@@ -580,11 +578,7 @@ Si llegaste hasta aquí, ya tienes en tu cabeza exactamente el mismo proceso men
 
 Con esto ya no dependes de encontrar "el video exacto" con tu mismo problema cada vez que se te dañe una memoria. Tienes el método completo. Practícalo, repítelo, y en poco tiempo vas a poder diagnosticar y resolver la gran mayoría de los casos que te lleguen, sin importar la marca ni el modelo.
 
-Si esta guía te resultó útil, considera suscribirte al canal de YouTube **D-Tech USB (@dtechusb2510)**, donde subimos reparaciones nuevas cada semana cubriendo controladores y casos que no entraron en esta edición. Y si quieres seguir ampliando tu kit de herramientas y acceso a nuevos casos documentados, aquí tienes el siguiente paso:
-
-**[LINK DE COMPRA]**
-
-**[PRECIO]**
+Si esta guía te resultó útil, considera suscribirte al canal de YouTube **D-Tech USB (@dtechusb2510)**, donde subimos reparaciones nuevas cada semana cubriendo controladores y casos que no entraron en esta edición.
 
 Nos vemos en la próxima reparación.
 
