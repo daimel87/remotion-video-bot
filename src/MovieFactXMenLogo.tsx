@@ -1,9 +1,13 @@
 import {AbsoluteFill, OffthreadVideo, staticFile} from 'remotion';
 import {ChromaFox} from './ChromaFox';
 
-// Loop de 6s: fact arriba, escena (sin llegar al fundido a negro final para
-// que corte limpio en loop), y el zorro reaccionando abajo. Sin post de X
-// (sin usuario/handle/perfil).
+// Loop de 6s: fact arriba, escena (usa los ÚLTIMOS 6s del clip original de 12s,
+// justo donde ocurre el fundido a negro y queda la X fantasma — el "fact" en sí),
+// y el zorro reaccionando abajo. Sin post de X (sin usuario/handle/perfil).
+
+// startFrom se mide en frames de la composición (24fps); 6s de offset = 6*24 = 144 frames.
+const COMP_FPS = 24;
+const START_FROM = 6 * COMP_FPS;
 
 const HEADLINE =
   "After the **20th Century Fox** logo fades to black at the start of **X-Men (2000)**, **the X** stays visible for **less than a second** before it disappears. It happens again in **X-Men 2 (2003)** and **X-Men: The Last Stand (2006)**.";
@@ -33,6 +37,7 @@ export const MovieFactXMenLogo: React.FC<{src?: string; showFox?: boolean}> = ({
       <OffthreadVideo
         src={staticFile(src)}
         muted
+        startFrom={START_FROM}
         style={{
           position: 'absolute',
           inset: 0,
@@ -74,6 +79,7 @@ export const MovieFactXMenLogo: React.FC<{src?: string; showFox?: boolean}> = ({
         <OffthreadVideo
           src={staticFile(src)}
           muted
+          startFrom={START_FROM}
           style={{width: '100%', height: 460, objectFit: 'cover', objectPosition: '50% 48%', display: 'block'}}
         />
       </div>
