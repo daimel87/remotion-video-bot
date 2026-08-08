@@ -75,7 +75,7 @@ export const MovieFactXMenLogo: React.FC<{src?: string; showFox?: boolean}> = ({
       </div>
 
       {/* Escena, de borde a borde, sin recortar el logo (centrado) */}
-      <div style={{position: 'absolute', top: 460, left: 0, right: 0}}>
+      <div style={{position: 'absolute', top: 316, left: 0, right: 0}}>
         <OffthreadVideo
           src={staticFile(src)}
           muted
