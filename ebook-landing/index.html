@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía Completa: Repara Cualquier Memoria USB Dañada — eBook</title>
+<meta name="description" content="Curso práctico en PDF para reparar memorias USB, microSD y discos duros a nivel de firmware. Por D-Tech USB.">
+<style>
+  :root{
+    --bg:#0f1115; --card:#171a21; --border:#262b36; --text:#eef0f3; --muted:#9aa3b2;
+    --accent:#2ea6ff; --accent-2:#22c55e;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+       background:var(--bg);color:var(--text);line-height:1.6;}
+  .wrap{max-width:760px;margin:0 auto;padding:32px 20px 80px;}
+  .badge{display:inline-block;background:rgba(46,166,255,.12);color:var(--accent);
+         padding:5px 12px;border-radius:999px;font-size:.8rem;font-weight:600;margin-bottom:16px;}
+  h1{font-size:1.9rem;line-height:1.25;margin:0 0 12px;}
+  .subtitle{color:var(--muted);font-size:1.05rem;margin:0 0 28px;}
+  .hero-price{display:flex;align-items:baseline;gap:10px;margin:20px 0 28px;}
+  .price{font-size:2.4rem;font-weight:800;color:var(--accent-2);}
+  .price-note{color:var(--muted);font-size:.9rem;}
+  .btn{display:block;width:100%;text-align:center;padding:16px;border-radius:12px;border:0;
+       background:var(--accent);color:#fff;font-size:1.05rem;font-weight:700;text-decoration:none;
+       cursor:pointer;}
+  .btn:hover{opacity:.92;}
+  .btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text);margin-top:12px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin:24px 0;}
+  .card h2{font-size:1.15rem;margin:0 0 14px;}
+  ul.check{list-style:none;padding:0;margin:0;}
+  ul.check li{padding:8px 0 8px 28px;position:relative;color:var(--text);}
+  ul.check li::before{content:"✓";position:absolute;left:0;color:var(--accent-2);font-weight:800;}
+  .steps{counter-reset:step;padding:0;margin:0;list-style:none;}
+  .steps li{counter-increment:step;padding:14px 0 14px 44px;position:relative;border-bottom:1px solid var(--border);}
+  .steps li:last-child{border-bottom:none;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:12px;width:28px;height:28px;
+    border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:.85rem;
+    display:flex;align-items:center;justify-content:center;}
+  .steps strong{display:block;margin-bottom:4px;}
+  .steps span{color:var(--muted);font-size:.92rem;}
+  code.copy{background:#0b0d11;border:1px solid var(--border);border-radius:8px;padding:10px 12px;
+       display:block;word-break:break-all;font-size:.95rem;margin-top:6px;}
+  .toc{color:var(--muted);font-size:.92rem;}
+  .toc li{margin-bottom:4px;}
+  footer{color:var(--muted);font-size:.82rem;text-align:center;margin-top:40px;}
+  footer a{color:var(--muted);}
+  .faq h3{font-size:1rem;margin:0 0 4px;}
+  .faq p{margin:0 0 18px;color:var(--muted);font-size:.92rem;}
+  .toast{display:none;background:rgba(34,197,94,.12);color:var(--accent-2);border:1px solid rgba(34,197,94,.3);
+         padding:8px 12px;border-radius:8px;font-size:.85rem;margin-top:8px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <span class="badge">📘 eBook / Mini-curso en PDF</span>
+  <h1>Guía Completa: Repara Cualquier Memoria USB Dañada</h1>
+  <p class="subtitle">Curso práctico paso a paso para reparar USB, microSD y discos duros a nivel de
+  firmware — el mismo método que uso yo en cada video del canal, ahora todo junto y organizado.</p>
+
+  <div class="hero-price">
+    <span class="price">$4.99 USD</span>
+    <span class="price-note">Pago único · PDF · Acceso inmediato tras confirmar el pago</span>
+  </div>
+
+  <a href="https://www.paypal.com/paypalme/karybogalop88" target="_blank" rel="noopener" class="btn">
+    Pagar $4.99 con PayPal →</a>
+  <a href="#como-comprar" class="btn btn-secondary">Ver cómo funciona el proceso</a>
+
+  <div class="card">
+    <h2>Qué incluye la guía</h2>
+    <ul class="check">
+      <li>Cómo usar ChipGenius para diagnosticar cualquier controlador en segundos</li>
+      <li>Las familias de herramientas de reparación por marca (Phison, Alcor, SMI, Chipsbank y más)</li>
+      <li>Soluciones paso a paso por síntoma: RAW, protegida contra escritura, "inserte un disco",
+          no reconocida, no completa el formato</li>
+      <li>Cómo recuperar tus archivos ANTES de reparar, sin perder nada</li>
+      <li>Reparación de discos duros con sectores dañados y de microSD (proceso distinto al de USB)</li>
+      <li>Cómo detectar memorias y discos falsificados antes (o después) de comprarlos</li>
+      <li>Un flujo de decisión completo: ante cualquier síntoma, sabrás exactamente qué hacer</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Contenido del curso</h2>
+    <ol class="toc">
+      <li>Introducción — por qué fallan las USB y qué significa reparar a nivel de controlador</li>
+      <li>Diagnóstico con ChipGenius</li>
+      <li>Las familias de herramientas de reparación</li>
+      <li>Soluciones por síntoma</li>
+      <li>Recuperación de datos antes de reparar</li>
+      <li>Discos duros y microSD</li>
+      <li>Cómo detectar falsificaciones (buyer beware)</li>
+      <li>Cierre: flujo de decisión + dónde conseguir cada herramienta</li>
+    </ol>
+    <p style="color:var(--muted);font-size:.85rem;margin-top:10px;">
+      ~9,000 palabras · Basado en +40 reparaciones reales documentadas en el canal D-Tech USB.</p>
+  </div>
+
+  <div class="card" id="como-comprar">
+    <h2>Cómo funciona el proceso</h2>
+    <ol class="steps">
+      <li>
+        <strong>Paga $4.99 con PayPal</strong>
+        <span>Usa el botón de arriba o ve directo a nuestro PayPal:</span>
+        <code class="copy" id="paypalCode">karybogalop88@gmail.com</code>
+        <button type="button" class="btn btn-secondary" style="margin-top:8px;padding:8px;font-size:.85rem;"
+                onclick="copyText('paypalCode', this)">Copiar correo de PayPal</button>
+        <div class="toast" id="toastPaypal">Copiado ✓</div>
+      </li>
+      <li>
+        <strong>Envía tu comprobante de pago por correo</strong>
+        <span>Manda la captura o comprobante del pago a:</span>
+        <code class="copy" id="emailCode">daimel.rivera@outlook.es</code>
+        <button type="button" class="btn btn-secondary" style="margin-top:8px;padding:8px;font-size:.85rem;"
+                onclick="copyText('emailCode', this)">Copiar correo de contacto</button>
+        <div class="toast" id="toastEmail">Copiado ✓</div>
+        <span style="display:block;margin-top:6px;">Incluye el correo o nombre con el que hiciste el pago,
+          para poder verificarlo más rápido.</span>
+      </li>
+      <li>
+        <strong>Recibe tu PDF</strong>
+        <span>Te enviamos la guía completa en PDF a ese mismo correo, normalmente en menos de 24 horas.</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="card faq">
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Es un pago único?</h3>
+    <p>Sí, pagas una sola vez y el PDF es tuyo para siempre — puedes releerlo cuantas veces necesites.</p>
+    <h3>¿En qué formato llega?</h3>
+    <p>Recibirás un archivo PDF descargable directo en tu correo.</p>
+    <h3>¿Cuánto tarda la entrega?</h3>
+    <p>La verificamos manualmente, normalmente en menos de 24 horas tras recibir tu comprobante.</p>
+    <h3>¿Puedo pagar por transferencia bancaria?</h3>
+    <p>Por ahora el método disponible es PayPal. Si necesitas otra opción, escríbenos al correo de
+       contacto antes de pagar y lo vemos.</p>
+  </div>
+
+  <a href="https://www.paypal.com/paypalme/karybogalop88" target="_blank" rel="noopener" class="btn">
+    Pagar $4.99 con PayPal →</a>
+
+  <footer>
+    D-Tech USB — Guía Completa: Repara Cualquier Memoria USB Dañada.<br>
+    Dudas antes de comprar: <a href="mailto:daimel.rivera@outlook.es">daimel.rivera@outlook.es</a>
+  </footer>
+</div>
+
+<script>
+function copyText(id, btn){
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const toastId = id === 'paypalCode' ? 'toastPaypal' : 'toastEmail';
+    const toast = document.getElementById(toastId);
+    toast.style.display = 'block';
+    setTimeout(() => { toast.style.display = 'none'; }, 1800);
+  });
+}
+</script>
+</body>
+</html>
