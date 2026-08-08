@@ -52,6 +52,7 @@ import {AnimalDeathsRanking} from './AnimalDeathsRanking';
 import {WorldCupAnimals} from './WorldCupAnimals';
 import {RankingDogs} from './RankingDogs';
 import {ChannelBanner} from './ChannelBanner';
+import {MovieFactXMenLogo} from './MovieFactXMenLogo';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -469,6 +470,14 @@ export const RemotionRoot: React.FC = () => {
         component={RankingDogs}
         durationInFrames={1492}
         fps={30}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="MovieFactXMenLogo"
+        component={MovieFactXMenLogo}
+        durationInFrames={144}
+        fps={24}
         width={720}
         height={1280}
       />
