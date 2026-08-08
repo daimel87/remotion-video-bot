@@ -406,6 +406,10 @@ Este es un método más agresivo, recomendado **solo** para discos con muy poca 
 5. Da "Start Test". Verás el mismo sistema de cuadrícula de colores: verde (sectores buenos), amarillo (sectores dañados) y rojo (sectores críticos).
 6. **Nota importante**: si detienes o el proceso termina, el disco puede aparecer sin volumen ni partición, como si fuera nuevo. Tendrás que ir al Administrador de discos y volver a inicializarlo.
 
+**DRevitalize — otra alternativa similar**
+
+Otro programa del mismo tipo, pensado para reparar sectores dañados en discos duros y unidades externas sin destruir los datos existentes. El flujo es parecido al de las herramientas anteriores: seleccionas la unidad de origen desde el listado de discos detectados, eliges el modo de acceso (WinAPI es la opción por defecto y funciona bien en la mayoría de los casos) y das inicio al proceso desde el botón "Start". Es una buena opción de respaldo si Victoria o HDD Regenerator no reconocen bien tu disco.
+
 ### MicroSD: un caso aparte
 
 Las tarjetas microSD comparten cierta lógica con las USB, pero **no puedes tratarlas con las herramientas de controlador de USB** — usan chips y protocolos distintos. Además, hay una limitación importante que debes conocer desde el principio: **los métodos de este capítulo solo sirven para problemas de formato** (la SD no se deja formatear, pide formato, etc.). **Si la SD está protegida contra escritura o simplemente no aparece en la PC, estos métodos no van a funcionar.**
