@@ -80,7 +80,7 @@ export const MovieFactXMenLogo: React.FC<{src?: string; showFox?: boolean}> = ({
           src={staticFile(src)}
           muted
           startFrom={START_FROM}
-          style={{width: '100%', height: 460, objectFit: 'cover', objectPosition: '50% 48%', display: 'block'}}
+          style={{width: '100%', height: 300, objectFit: 'cover', objectPosition: '50% 48%', display: 'block'}}
         />
       </div>
 
