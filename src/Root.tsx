@@ -53,6 +53,7 @@ import {WorldCupAnimals} from './WorldCupAnimals';
 import {RankingDogs} from './RankingDogs';
 import {ChannelBanner} from './ChannelBanner';
 import {MovieFactXMenLogo} from './MovieFactXMenLogo';
+import {MovieFactSpiderMan} from './MovieFactSpiderMan';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -476,6 +477,14 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="MovieFactXMenLogo"
         component={MovieFactXMenLogo}
+        durationInFrames={144}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="MovieFactSpiderMan"
+        component={MovieFactSpiderMan}
         durationInFrames={144}
         fps={24}
         width={720}
