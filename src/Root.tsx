@@ -54,6 +54,7 @@ import {RankingDogs} from './RankingDogs';
 import {ChannelBanner} from './ChannelBanner';
 import {MovieFactXMenLogo} from './MovieFactXMenLogo';
 import {MovieFactSpiderMan} from './MovieFactSpiderMan';
+import {MovieFactCars} from './MovieFactCars';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -485,6 +486,14 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="MovieFactSpiderMan"
         component={MovieFactSpiderMan}
+        durationInFrames={144}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="MovieFactCars"
+        component={MovieFactCars}
         durationInFrames={144}
         fps={24}
         width={720}
