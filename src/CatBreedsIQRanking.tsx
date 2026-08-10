@@ -1,15 +1,19 @@
 import {AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig, interpolate} from 'remotion';
 import {loadFont} from '@remotion/fonts';
+import {ARCHIVO_BLACK_DATA_URI} from './archivoBlackFont';
 
 // "Arial Black" no existe en el servidor de render (Linux headless): sin ella instalada,
 // el navegador cae a una fuente de reemplazo distinta en cada proceso, dando tarjetas con
-// tipografías inconsistentes entre sí. Se empaqueta Archivo Black localmente (public/fonts)
-// en vez de cargarla de Google Fonts, porque el proxy de red bloquea TLS para el navegador.
+// tipografías inconsistentes entre sí. Se usa Archivo Black embebida como data URI (no vía
+// staticFile) porque en renders largos, cada pestaña nueva del navegador vuelve a cargar el
+// bundle y a pedir la fuente al servidor estático local, lo que causaba timeouts intermitentes
+// de delayRender a mitad del render.
 const fontFamily = 'ArchivoBlackLocal';
 loadFont({
   family: fontFamily,
-  url: staticFile('fonts/ArchivoBlack-Regular.woff2'),
+  url: ARCHIVO_BLACK_DATA_URI,
   weight: '400',
+  format: 'woff2',
 });
 
 // Mismo formato "Comparison / ranking horizontal" que AnimalDeathsRanking,
