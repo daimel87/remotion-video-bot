@@ -1,4 +1,16 @@
 import {AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig, interpolate} from 'remotion';
+import {loadFont} from '@remotion/fonts';
+
+// "Arial Black" no existe en el servidor de render (Linux headless): sin ella instalada,
+// el navegador cae a una fuente de reemplazo distinta en cada proceso, dando tarjetas con
+// tipografías inconsistentes entre sí. Se empaqueta Archivo Black localmente (public/fonts)
+// en vez de cargarla de Google Fonts, porque el proxy de red bloquea TLS para el navegador.
+const fontFamily = 'ArchivoBlackLocal';
+loadFont({
+  family: fontFamily,
+  url: staticFile('fonts/ArchivoBlack-Regular.woff2'),
+  weight: '400',
+});
 
 // Mismo formato "Comparison / ranking horizontal" que AnimalDeathsRanking,
 // adaptado a "Cat Breeds Ranked by IQ": icono de cerebro en vez de calavera,
@@ -41,7 +53,7 @@ const Card: React.FC<{entry: Entry; cardHeight: number}> = ({entry, cardHeight})
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'stretch',
-      fontFamily: '"Arial Black", Helvetica, Arial, sans-serif',
+      fontFamily,
     }}
   >
     {/* Foto real + ícono de cerebro en la esquina */}
