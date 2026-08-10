@@ -56,6 +56,7 @@ import {MovieFactXMenLogo} from './MovieFactXMenLogo';
 import {MovieFactSpiderMan} from './MovieFactSpiderMan';
 import {MovieFactCars} from './MovieFactCars';
 import {MovieFactWarOfWorlds} from './MovieFactWarOfWorlds';
+import {CatBreedsIQRanking} from './CatBreedsIQRanking';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -407,6 +408,14 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="AnimalDeathsRanking"
         component={AnimalDeathsRanking}
+        durationInFrames={5400}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="CatBreedsIQRanking"
+        component={CatBreedsIQRanking}
         durationInFrames={5400}
         fps={30}
         width={1920}
