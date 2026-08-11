@@ -103,7 +103,7 @@ FOOT = f'''</main>
 <footer class="site-footer">
   <p>{SITE['name']} — {SITE['tagline']}.</p>
   <p><a href="{SITE['youtube']}" target="_blank" rel="noopener">Canal de YouTube</a> ·
-     <a href="/privacidad.html">Privacidad</a> · <a href="/aviso.html">Aviso legal</a></p>
+     <a href="/privacidad">Privacidad</a> · <a href="/aviso">Aviso legal</a></p>
   <p class="disclaimer">Las herramientas enlazadas pertenecen a sus respectivos fabricantes.
      Úsalas bajo tu responsabilidad; una reparación de bajo nivel borra todos los datos de la USB.</p>
 </footer>
@@ -119,7 +119,7 @@ def write(path, content):
 
 # ---------- Página de cada herramienta ----------
 def tool_page(t):
-    canonical = f"{SITE['domain']}/{t['slug']}.html"
+    canonical = f"{SITE['domain']}/{t['slug']}"
     key_html = ""
     if t.get("key"):
         key_html = f'<p class="note">🔑 Contraseña del archivo: <code>{t["key"]}</code></p>'
@@ -138,7 +138,7 @@ def tool_page(t):
       <details><summary>¿Necesito conocimientos técnicos?</summary>
         <p>No. Los tutoriales están explicados paso a paso para cualquier usuario.</p></details>
       <details><summary>¿Y si sigo con problemas?</summary>
-        <p>Identifica el controlador de tu USB con <a href="/chipgenius.html">ChipGenius</a> y usa la
+        <p>Identifica el controlador de tu USB con <a href="/chipgenius">ChipGenius</a> y usa la
            herramienta de reparación correspondiente de esta web.</p></details>
     </section>'''
     else:
@@ -175,11 +175,11 @@ def tool_page(t):
         <p>Sí. Una reparación de bajo nivel ({t['brand']}) reformatea el controlador y elimina
            todos los datos de la memoria. Haz copia de seguridad si aún puedes leerla.</p></details>
       <details><summary>¿Cómo sé si mi USB usa el controlador {t['brand']}?</summary>
-        <p>Usa <a href="/chipgenius.html">ChipGenius</a> para leer el VID/PID y el fabricante del
+        <p>Usa <a href="/chipgenius">ChipGenius</a> para leer el VID/PID y el fabricante del
            chip. Si coincide con {t['brand']}, esta es tu herramienta.</p></details>
       <details><summary>La herramienta no detecta mi memoria, ¿qué hago?</summary>
         <p>Prueba otro puerto USB (mejor traseros 2.0), ejecútala como administrador y evita hubs
-           o alargadores. Revisa también la <a href="/tabla-solucionadas.html">tabla de solucionadas</a>.</p></details>
+           o alargadores. Revisa también la <a href="/tabla-solucionadas">tabla de solucionadas</a>.</p></details>
     </section>'''
 
     body = f'''
@@ -202,7 +202,7 @@ def tool_page(t):
 def home():
     cards = ""
     for t in TOOLS:
-        cards += f'''<a class="card" href="/{t['slug']}.html">
+        cards += f'''<a class="card" href="/{t['slug']}">
           <h3>{html.escape(t['brand'])}</h3>
           <p>{html.escape(t['intro'][:90])}…</p>
           <span class="go">Ver y descargar →</span></a>\n'''
@@ -211,7 +211,7 @@ def home():
     <h1>Herramientas gratis para reparar memorias USB</h1>
     <p class="lead">{SITE['description']}</p>
     <a class="btn" href="#herramientas">Ver herramientas</a>
-    <a class="btn ghost" href="/chipgenius.html">¿No sabes tu controlador? Empieza aquí</a>
+    <a class="btn ghost" href="/chipgenius">¿No sabes tu controlador? Empieza aquí</a>
   </section>
   {video("🎥 Videotutoriales: repara tu USB paso a paso")}
   <section class="guide">
@@ -221,8 +221,8 @@ def home():
        gobierna la memoria). La solución es reprogramarlo con su herramienta de fábrica (MPTool).
        El proceso es siempre el mismo:</p>
     <ol class="steps">
-      <li><a href="/chipgenius.html">Identifica el controlador</a> con ChipGenius (VID/PID + fabricante).</li>
-      <li>Busca en la <a href="/tabla-solucionadas.html">tabla de solucionadas</a> si tu modelo ya está documentado.</li>
+      <li><a href="/chipgenius">Identifica el controlador</a> con ChipGenius (VID/PID + fabricante).</li>
+      <li>Busca en la <a href="/tabla-solucionadas">tabla de solucionadas</a> si tu modelo ya está documentado.</li>
       <li>Descarga la herramienta de tu controlador de la lista de abajo.</li>
       <li>Ejecútala, deja que detecte la USB y pulsa Start hasta que termine en verde.</li>
     </ol>
@@ -247,14 +247,14 @@ def legal():
       cualquier herramienta de reparación de bajo nivel es responsabilidad del usuario y puede
       provocar la pérdida total de los datos de la memoria.</p></article>'''
     write("privacidad.html", head("Política de privacidad — " + SITE['name'],
-          "Política de privacidad y uso de cookies publicitarias.", SITE['domain']+"/privacidad.html") + priv + FOOT)
+          "Política de privacidad y uso de cookies publicitarias.", SITE['domain']+"/privacidad") + priv + FOOT)
     write("aviso.html", head("Aviso legal — " + SITE['name'],
-          "Aviso legal sobre las herramientas de reparación USB.", SITE['domain']+"/aviso.html") + aviso + FOOT)
+          "Aviso legal sobre las herramientas de reparación USB.", SITE['domain']+"/aviso") + aviso + FOOT)
 
 # ---------- sitemap + robots ----------
 def seo_files():
-    urls = [SITE['domain'] + "/", SITE['domain'] + "/privacidad.html", SITE['domain'] + "/aviso.html"]
-    urls += [f"{SITE['domain']}/{t['slug']}.html" for t in TOOLS]
+    urls = [SITE['domain'] + "/", SITE['domain'] + "/privacidad", SITE['domain'] + "/aviso"]
+    urls += [f"{SITE['domain']}/{t['slug']}" for t in TOOLS]
     items = "\n".join(f"  <url><loc>{u}</loc><changefreq>monthly</changefreq></url>" for u in urls)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n'
           f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{items}\n</urlset>')

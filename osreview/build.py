@@ -85,7 +85,7 @@ FOOT = f'''</main>
 <footer class="site-footer">
   <p>{SITE['name']} — {SITE['tagline']}.</p>
   <p><a href="{SITE['youtube']}" target="_blank" rel="noopener">Subscribe on YouTube</a> ·
-     <a href="/privacy.html">Privacy</a> · <a href="/disclaimer.html">Disclaimer</a></p>
+     <a href="/privacy">Privacy</a> · <a href="/disclaimer">Disclaimer</a></p>
   <p class="disclaimer">Educational/review content about modified operating systems. Always keep a
      valid license for the OS you install and back up your data before reinstalling.</p>
 </footer>
@@ -105,7 +105,7 @@ def related(current):
     for a in ARTICLES:
         if a["slug"] == current["slug"]:
             continue
-        out += f'<a class="rel-card" href="/{a["slug"]}.html"><h4>{html.escape(a["title"])}</h4></a>\n'
+        out += f'<a class="rel-card" href="/{a["slug"]}"><h4>{html.escape(a["title"])}</h4></a>\n'
         count += 1
         if count == 4:
             break
@@ -140,7 +140,7 @@ def download_block(a):
 
 # ---------- Article page ----------
 def article_page(a):
-    canonical = f"{SITE['domain']}/{a['slug']}.html"
+    canonical = f"{SITE['domain']}/{a['slug']}"
     sections = ""
     for i, (sub, paras) in enumerate(a["body"]):
         sections += f"<h2>{html.escape(sub)}</h2>\n"
@@ -170,7 +170,7 @@ def article_page(a):
 def home():
     cards = ""
     for a in ARTICLES:
-        cards += f'''<a class="card" href="/{a['slug']}.html">
+        cards += f'''<a class="card" href="/{a['slug']}">
           <span class="tag">{html.escape(a['cat'])}</span>
           <h3>{html.escape(a['title'])}</h3>
           <p>{html.escape(a['summary'][:100])}…</p></a>\n'''
@@ -200,13 +200,13 @@ def legal():
       file-hosting links shared publicly by them. You are responsible for holding a valid license
       for any Windows installation. Always back up your data before reinstalling an OS.</p></article>'''
     write("privacy.html", head("Privacy Policy — " + SITE['name'],
-          "Privacy policy and cookies.", SITE['domain']+"/privacy.html") + priv + FOOT)
+          "Privacy policy and cookies.", SITE['domain']+"/privacy") + priv + FOOT)
     write("disclaimer.html", head("Disclaimer — " + SITE['name'],
-          "Disclaimer.", SITE['domain']+"/disclaimer.html") + disc + FOOT)
+          "Disclaimer.", SITE['domain']+"/disclaimer") + disc + FOOT)
 
 def seo_files():
-    urls = [SITE['domain'] + "/", SITE['domain'] + "/privacy.html", SITE['domain'] + "/disclaimer.html"]
-    urls += [f"{SITE['domain']}/{a['slug']}.html" for a in ARTICLES]
+    urls = [SITE['domain'] + "/", SITE['domain'] + "/privacy", SITE['domain'] + "/disclaimer"]
+    urls += [f"{SITE['domain']}/{a['slug']}" for a in ARTICLES]
     items = "\n".join(f"  <url><loc>{u}</loc><changefreq>weekly</changefreq></url>" for u in urls)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n'
           f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{items}\n</urlset>')
