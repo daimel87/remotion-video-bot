@@ -1,20 +1,14 @@
 import {AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig, interpolate} from 'remotion';
-import {loadFont} from '@remotion/fonts';
-import {ARCHIVO_BLACK_DATA_URI} from './archivoBlackFont';
 
-// "Arial Black" no existe en el servidor de render (Linux headless): sin ella instalada,
-// el navegador cae a una fuente de reemplazo distinta en cada proceso, dando tarjetas con
-// tipografías inconsistentes entre sí. Se usa Archivo Black embebida como data URI (no vía
-// staticFile) porque en renders largos, cada pestaña nueva del navegador vuelve a cargar el
-// bundle y a pedir la fuente al servidor estático local, lo que causaba timeouts intermitentes
-// de delayRender a mitad del render.
-const fontFamily = 'ArchivoBlackLocal';
-loadFont({
-  family: fontFamily,
-  url: ARCHIVO_BLACK_DATA_URI,
-  weight: '400',
-  format: 'woff2',
-});
+// "Arial Black"/Helvetica/Arial no existen en el servidor de render (Linux headless): sin
+// ellas instaladas, el navegador cae a una fuente de reemplazo distinta en cada proceso,
+// dando tarjetas con tipografías inconsistentes entre sí. Se probó cargar Archivo Black vía
+// @remotion/fonts (staticFile y luego data URI embebida), pero loadFont()/delayRender se
+// cuelga de forma intermitente en renders largos porque Remotion recicla la pestaña del
+// navegador y el módulo se re-ejecuta, volviendo a disparar la carga de fuente. Se usa en
+// cambio Liberation Sans, que sí está instalada en el servidor y es métricamente compatible
+// con Arial, evitando cualquier carga asíncrona de fuente.
+const fontFamily = '"Liberation Sans", "DejaVu Sans", sans-serif';
 
 // Mismo formato "Comparison / ranking horizontal" que AnimalDeathsRanking,
 // adaptado a "Cat Breeds Ranked by IQ": icono de cerebro en vez de calavera,
