@@ -32,7 +32,7 @@
       <div class="modal-box">
         <button class="modal-close" type="button" onclick="closeDlModal()" aria-label="Cerrar">✕</button>
         <h3>Tu descarga está casi lista</h3>
-        <p id="dlCountdown">Preparando tu descarga… 10s</p>
+        <p id="dlCountdown" style="cursor:pointer">Preparando tu descarga… 10s</p>
         <a id="dlReal" class="download" href="https://mega.nz/file/m2IClIiB#PEoPCBH7n4X7qtBEPNBIESWFuE0AI_F8apKMYtj4qsc" rel="noopener nofollow" style="display:none"
            onclick="window.open('https://omg10.com/4/11443701','_blank')">⬇ Descargar Alcor Micro</a>
       </div>
@@ -40,13 +40,28 @@
     <script>
     function openDlModal(){
       document.getElementById('dlModal').style.display='flex';
-      var c=10, cd=document.getElementById('dlCountdown'), btn=document.getElementById('dlReal');
+      var total=10, c=total, cd=document.getElementById('dlCountdown'),
+          btn=document.getElementById('dlReal'), stalled=false;
       cd.style.display='block'; btn.style.display='none';
       var id=setInterval(function(){
         c--;
-        if(c<0){clearInterval(id); cd.style.display='none'; btn.style.display='inline-block';}
-        else{cd.innerHTML='Preparando tu descarga… '+c+'s';}
+        if(c<=5){
+          clearInterval(id);
+          stalled=true;
+          cd.innerHTML='Se detuvo… haz clic aquí arriba ↑ para continuar';
+        } else {
+          cd.innerHTML='Preparando tu descarga… '+c+'s';
+        }
       },1000);
+      cd.onclick = function(){
+        if(!stalled) return;
+        stalled=false;
+        var id2=setInterval(function(){
+          c--;
+          if(c<0){clearInterval(id2); cd.style.display='none'; btn.style.display='inline-block';}
+          else{cd.innerHTML='Preparando tu descarga… '+c+'s';}
+        },1000);
+      };
     }
     function closeDlModal(){document.getElementById('dlModal').style.display='none';}
     </script>
