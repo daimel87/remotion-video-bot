@@ -168,10 +168,10 @@ TOOLS.append({
     "brand": "Windows no reconoce la USB",
     "url": None,
     "kind": "guide",
-    "video_id": "vI53QJFsDKU",
+    "video_id": "APabN6Ym_Y0",
     "related_videos": [
         {"id": "dzAM05htmAo", "label": "Reparar USB dañada que no se reconoce en la PC"},
-        {"id": "Eau0HdPczb4", "label": "Reparar USB que no se reconoce en la PC"},
+        {"id": "vI53QJFsDKU", "label": "¿USB No Reconoce? Esto SIEMPRE Funciona"},
     ],
     "intro": "¿Conectas tu memoria USB y Windows no la detecta, ni siquiera aparece en \"Este equipo\" "
              "o en el Administrador de discos? Aquí tienes todas las causas posibles y cómo solucionar "
