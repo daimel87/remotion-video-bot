@@ -144,56 +144,10 @@ def external_gate_page(link):
     <p class="lead">{html.escape(link['lead'])}</p>
     {video("🎥 Te lo explico en este vídeo", None, "o4vzo1fpsTA")}
     <div class="dlgate-box">
-      <div class="dlgate-ring" id="dlRing" style="cursor:pointer">
-        <svg viewBox="0 0 100 100">
-          <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
-          <circle class="ring-fg" id="ringFg" cx="50" cy="50" r="45"></circle>
-        </svg>
-        <span id="dlCountdown">10</span>
-      </div>
-      <p id="dlWaitLabel">Preparando tu enlace…</p>
-      <a id="dlReal" class="download" href="{link['target_url']}" rel="noopener" style="display:none"
-         onclick="window.open('{SITE['monetag_directlink']}','_blank')" target="_blank">⬇ {html.escape(link['cta_label'])}</a>
+      <a class="download" href="{link['target_url']}" rel="noopener" target="_blank"
+         onclick="window.open('{SITE['monetag_directlink']}','_blank')">⬇ {html.escape(link['cta_label'])}</a>
     </div>
-  </article>
-  <script>
-  (function(){{
-    var total=10, half=Math.ceil(total/2), c=total, stalled=false,
-        cd=document.getElementById('dlCountdown'), ring=document.getElementById('ringFg'),
-        label=document.getElementById('dlWaitLabel'), wrap=document.getElementById('dlRing'),
-        btn=document.getElementById('dlReal');
-    var circumference = 2 * Math.PI * 45;
-    ring.style.strokeDasharray = circumference;
-    var id=null;
-    function tick(){{
-      c--;
-      if(c<=half){{
-        clearInterval(id);
-        stalled=true;
-        label.textContent='Se detuvo… haz clic en el círculo para continuar';
-      }} else {{
-        cd.textContent=c;
-        ring.style.strokeDashoffset = circumference * (1 - c/total);
-      }}
-    }}
-    id=setInterval(tick,1000);
-    wrap.addEventListener('click', function(){{
-      if(!stalled) return;
-      stalled=false;
-      label.textContent='Preparando tu enlace…';
-      var id2=setInterval(function(){{
-        c--;
-        if(c<=0){{
-          clearInterval(id2);
-          wrap.style.display='none'; label.style.display='none'; btn.style.display='inline-block';
-        }} else {{
-          cd.textContent=c;
-          ring.style.strokeDashoffset = circumference * (1 - c/total);
-        }}
-      }},1000);
-    }});
-  }})();
-  </script>'''
+  </article>'''
     write(f"ir/{link['slug']}.html", head(link['title'], link['lead'], canonical)
           .replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex,follow">')
           + body + FOOT)
