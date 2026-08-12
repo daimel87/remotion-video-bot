@@ -37,7 +37,7 @@ def testimonials_marquee():
     cards = ""
     for tst in TESTIMONIALS * 2:  # duplicado para el loop sin cortes
         cards += f'''<div class="tst-card">
-          <div class="tst-head">@usuario de YouTube</div>
+          <div class="tst-head">{html.escape(tst['author'])}</div>
           <div class="tst-body">
             <p>"{html.escape(tst['text'])}"</p>
             <a href="https://www.youtube.com/watch?v={tst['video_id']}" target="_blank" rel="noopener">
