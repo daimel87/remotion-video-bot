@@ -2,7 +2,7 @@
 """Genera la web estática a partir de data.py -> carpeta dist/.
 Uso: python3 site/build.py"""
 import os, html, shutil
-from data import SITE, TOOLS, EXTERNAL_LINKS, PROBLEMS
+from data import SITE, TOOLS, EXTERNAL_LINKS, PROBLEMS, TESTIMONIALS
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
@@ -31,6 +31,19 @@ def video(titulo="🎥 Tutoriales en vídeo", pid=None, vid=None, cta="default")
       <div class="video-cta-row">
         {cta_row}
       </div>
+    </section>'''
+
+def testimonials_marquee():
+    cards = ""
+    for tst in TESTIMONIALS * 2:  # duplicado para el loop sin cortes
+        cards += f'''<div class="tst-card">
+          <p>"{html.escape(tst['text'])}"</p>
+          <a href="https://www.youtube.com/watch?v={tst['video_id']}" target="_blank" rel="noopener">
+            ▶ {html.escape(tst['video_title'])}</a>
+        </div>\n'''
+    return f'''<section class="tst-wrap">
+      <h2>Lo que dicen quienes ya repararon su USB</h2>
+      <div class="tst-track">{cards}</div>
     </section>'''
 
 def related_videos_block(t):
@@ -353,7 +366,8 @@ def home():
   <section class="grid-wrap">
     <h2>Todas las herramientas ({len(TOOLS)})</h2>
     <a class="btn" href="/herramientas">Ver todas las herramientas →</a>
-  </section>'''
+  </section>
+  {testimonials_marquee()}'''
     write("index.html", head(f"{SITE['name']} — {SITE['tagline']}", SITE['description'],
                              SITE['domain'] + "/") + body + FOOT)
 
