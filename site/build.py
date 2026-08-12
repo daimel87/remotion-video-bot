@@ -73,7 +73,7 @@ def head(title, desc, canonical):
 <div class="blob b3"></div>
 <header class="site-header glass">
   <a class="logo" href="/">🔧 {SITE['name']}</a>
-  <nav><a href="/">Inicio</a> <a href="/#herramientas">Herramientas</a>
+  <nav><a href="/">Inicio</a> <a href="/herramientas">Herramientas</a>
   <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a></nav>
 </header>
 <main>'''
@@ -144,8 +144,7 @@ def external_gate_page(link):
     <p class="lead">{html.escape(link['lead'])}</p>
     {video("🎥 Te lo explico en este vídeo", None, "o4vzo1fpsTA")}
     <div class="dlgate-box">
-      <a class="download" href="{link['target_url']}" rel="noopener" target="_blank"
-         onclick="window.open('{SITE['monetag_directlink']}','_blank')">⬇ {html.escape(link['cta_label'])}</a>
+      <a class="download" href="{link['target_url']}" rel="noopener">⬇ {html.escape(link['cta_label'])}</a>
     </div>
   </article>'''
     write(f"ir/{link['slug']}.html", head(link['title'], link['lead'], canonical)
@@ -261,7 +260,7 @@ def home():
   <section class="hero">
     <h1>Herramientas gratis para reparar <span class="grad">memorias USB</span></h1>
     <p class="lead">{SITE['description']}</p>
-    <a class="btn" href="#herramientas">Ver herramientas</a>
+    <a class="btn" href="/herramientas">Ver herramientas</a>
     <a class="btn ghost" href="/chipgenius">¿No sabes tu controlador? Empieza aquí</a>
   </section>
   <section class="cta-band">
@@ -282,12 +281,34 @@ def home():
       <li>Ejecútala, deja que detecte la USB y pulsa Start hasta que termine en verde.</li>
     </ol>
   </section>
-  <section id="herramientas" class="grid-wrap">
+  <section class="grid-wrap">
     <h2>Todas las herramientas ({len(TOOLS)})</h2>
-    <div class="grid">{cards}</div>
+    <a class="btn" href="/herramientas">Ver todas las herramientas →</a>
   </section>'''
     write("index.html", head(f"{SITE['name']} — {SITE['tagline']}", SITE['description'],
                              SITE['domain'] + "/") + body + FOOT)
+
+# ---------- Página de herramientas (separada, carga anuncios propios) ----------
+def herramientas_page():
+    cards = ""
+    for t in TOOLS:
+        cards += f'''<a class="card" href="/{t['slug']}">
+          <h3>{html.escape(t['brand'])}</h3>
+          <p>{html.escape(t['intro'][:90])}…</p>
+          <span class="go">Ver y descargar →</span></a>\n'''
+    body = f'''
+  <article class="tool">
+    <nav class="crumbs"><a href="/">Inicio</a> › <span>Herramientas</span></nav>
+    <h1>Todas las herramientas de reparación USB ({len(TOOLS)})</h1>
+    <p class="lead">Elige el controlador de tu memoria USB para descargar su herramienta de
+       reparación. ¿No sabes cuál es? Usa <a href="/chipgenius">ChipGenius</a> primero.</p>
+  </article>
+  <section id="herramientas" class="grid-wrap">
+    <div class="grid">{cards}</div>
+  </section>'''
+    write("herramientas.html", head(f"Todas las herramientas — {SITE['name']}",
+          "Descarga la herramienta de reparación (MPTool) exacta para tu controlador USB.",
+          SITE['domain'] + "/herramientas") + body + FOOT)
 
 # ---------- Páginas legales (requeridas por AdSense/Adsterra) ----------
 def legal():
@@ -308,7 +329,7 @@ def legal():
 
 # ---------- sitemap + robots ----------
 def seo_files():
-    urls = [SITE['domain'] + "/", SITE['domain'] + "/privacidad", SITE['domain'] + "/aviso"]
+    urls = [SITE['domain'] + "/", SITE['domain'] + "/herramientas", SITE['domain'] + "/privacidad", SITE['domain'] + "/aviso"]
     urls += [f"{SITE['domain']}/{t['slug']}" for t in TOOLS]
     items = "\n".join(f"  <url><loc>{u}</loc><changefreq>monthly</changefreq></url>" for u in urls)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -321,7 +342,7 @@ def main():
     os.makedirs(DIST)
     shutil.copy(os.path.join(HERE, "style.css"), os.path.join(DIST, "style.css"))
     shutil.copy(os.path.join(HERE, "sw.js"), os.path.join(DIST, "sw.js"))
-    home(); legal(); seo_files()
+    home(); herramientas_page(); legal(); seo_files()
     for t in TOOLS:
         tool_page(t)
     for link in EXTERNAL_LINKS:
