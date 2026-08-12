@@ -8,9 +8,17 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
 
 # ---- Reproductor de la lista de reproducción de YouTube ----
-def video(titulo="🎥 Tutoriales en vídeo", pid=None, vid=None):
+def video(titulo="🎥 Tutoriales en vídeo", pid=None, vid=None, cta="default"):
     src = f"https://www.youtube.com/embed/{vid}" if vid else \
           f"https://www.youtube.com/embed/videoseries?list={pid or SITE['playlist_id']}"
+    if cta == "nav":
+        cta_row = f'''<a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Suscribirse al canal</a>
+        <a class="btn cta-ebook" href="/herramientas">🛠 Ver herramientas</a>
+        <a class="btn cta-miniapp" href="/problemas">❓ ¿Cuál es el problema de tu USB?</a>'''
+    else:
+        cta_row = f'''<a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Suscribirse al canal</a>
+        <a class="btn cta-ebook" href="/ir/ebook">🔥 Comprar el curso</a>
+        <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App</a>'''
     return f'''<section class="video-tut">
       <h2>{titulo}</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
@@ -21,9 +29,7 @@ def video(titulo="🎥 Tutoriales en vídeo", pid=None, vid=None):
           allowfullscreen></iframe>
       </div>
       <div class="video-cta-row">
-        <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Suscribirse al canal</a>
-        <a class="btn cta-ebook" href="/ir/ebook">🔥 Comprar el curso</a>
-        <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App</a>
+        {cta_row}
       </div>
     </section>'''
 
@@ -147,7 +153,7 @@ def external_gate_page(link):
     <nav class="crumbs"><a href="/">Inicio</a> › <span>Redirigiendo</span></nav>
     <h1>{html.escape(link['title'])}</h1>
     <p class="lead">{html.escape(link['lead'])}</p>
-    {video("🎥 Te lo explico en este vídeo", None, "o4vzo1fpsTA")}
+    {video("🎥 Te lo explico en este vídeo", None, "o4vzo1fpsTA", cta="nav")}
     <div class="dlgate-box">
       <a class="download" href="{link['target_url']}" rel="noopener">⬇ {html.escape(link['cta_label'])}</a>
     </div>
