@@ -247,7 +247,7 @@ def article_page(a):
     <h2>More reviews</h2>
     <div class="rel-grid">{related(a)}</div>
   </article>'''
-    write(f"{a['slug']}.html", head(a['title'], a['summary'], canonical) + body + FOOT)
+    write(f"{a['slug']}.html", head(a['title'], a['summary'][:155], canonical) + body + FOOT)
 
 # ---------- Home ----------
 def home():

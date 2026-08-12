@@ -18,7 +18,7 @@ body{
 }
 a{color:var(--brand);text-decoration:none}
 a:hover{text-decoration:underline}
-main{max-width:780px;margin:0 auto;padding:24px 18px 60px;position:relative;z-index:2}
+main{max-width:960px;margin:0 auto;padding:24px 18px 60px;position:relative;z-index:2}
 h1{font-size:2rem;line-height:1.18;margin:.1em 0 .4em}
 h2{font-size:1.35rem;margin:1.5em 0 .4em}
 .lead{color:var(--muted);font-size:1.1rem}
