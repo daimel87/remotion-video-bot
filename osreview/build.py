@@ -112,31 +112,38 @@ def related(current):
     return out
 
 def download_block(a):
+    return f'''<a class="download" href="/get/{a['slug']}">⬇ Get download link</a>'''
+
+# ---------- Intermediate download-gate page ----------
+def download_page(a):
     directlink_click = f"window.open('{SITE['monetag_directlink']}','_blank')" if SITE.get("monetag_directlink") else ""
-    return f'''<button class="download" type="button" onclick="openDlModal()">
-       ⬇ Get download link</button>
-    <div class="modal-overlay" id="dlModal">
-      <div class="modal-box">
-        <button class="modal-close" type="button" onclick="closeDlModal()" aria-label="Close">✕</button>
-        <h3>Your download link is almost ready</h3>
-        <p id="dlCountdown">Preparing your link… 10s</p>
-        <a id="dlReal" class="download" href="{a['url']}" rel="noopener nofollow" style="display:none"
-           onclick="{directlink_click}">⬇ Download {html.escape(a['cat'])}</a>
-      </div>
+    canonical = f"{SITE['domain']}/get/{a['slug']}"
+    body = f'''
+  <article class="post dlgate">
+    <nav class="crumbs"><a href="/">Home</a> › <a href="/{a['slug']}">{html.escape(a['title'])}</a> › <span>Download</span></nav>
+    <h1>Your download is being prepared</h1>
+    <p class="lead">{html.escape(a['cat'])} — {html.escape(a['title'])}</p>
+    <div class="dlgate-box">
+      <p id="dlCountdown">Please wait… <strong>15s</strong></p>
+      <a id="dlReal" class="download" href="{a['url']}" rel="noopener nofollow" style="display:none"
+         onclick="{directlink_click}">⬇ Get Link</a>
     </div>
-    <script>
-    function openDlModal(){{
-      document.getElementById('dlModal').style.display='flex';
-      var c=10, cd=document.getElementById('dlCountdown'), btn=document.getElementById('dlReal');
-      cd.style.display='block'; btn.style.display='none';
-      var id=setInterval(function(){{
-        c--;
-        if(c<0){{clearInterval(id); cd.style.display='none'; btn.style.display='inline-block';}}
-        else{{cd.innerHTML='Preparing your link… '+c+'s';}}
-      }},1000);
-    }}
-    function closeDlModal(){{document.getElementById('dlModal').style.display='none';}}
-    </script>'''
+    <p class="note">⚠️ Always back up your files before reinstalling any operating system. Make sure
+       you have a valid license for Windows before using a modified build.</p>
+  </article>
+  <script>
+  (function(){{
+    var c=15, cd=document.getElementById('dlCountdown'), btn=document.getElementById('dlReal');
+    var id=setInterval(function(){{
+      c--;
+      if(c<=0){{clearInterval(id); cd.style.display='none'; btn.style.display='inline-block';}}
+      else{{cd.innerHTML='Please wait… <strong>'+c+'s</strong>';}}
+    }},1000);
+  }})();
+  </script>'''
+    write(f"get/{a['slug']}.html", head(f"Download — {a['title']}", a['summary'], canonical)
+          .replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex,follow">')
+          + body + FOOT)
 
 # ---------- Article page ----------
 def article_page(a):
@@ -224,6 +231,7 @@ def main():
     home(); legal(); seo_files()
     for a in ARTICLES:
         article_page(a)
+        download_page(a)
     print(f"OK -> {len(ARTICLES)} reviews + home + legal + sitemap in {DIST}")
 
 if __name__ == "__main__":
