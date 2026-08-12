@@ -114,7 +114,8 @@ code{background:var(--line);padding:2px 7px;border-radius:6px;font-size:.95em}
 .advisor-q{display:flex;flex-direction:column;gap:6px}
 .advisor-q label{font-weight:700;font-size:.9rem}
 .advisor-q select{padding:11px 14px;border-radius:10px;border:1px solid var(--line);
-  background:var(--card2);color:var(--ink);font-family:inherit;font-size:.95rem}
+  background:#e8f1ff;color:#0f1f3a;font-family:inherit;font-size:.95rem;color-scheme:light}
+.advisor-q select option{background:#e8f1ff;color:#0f1f3a}
 .advisor-results{margin-top:20px}
 
 /* ads */
