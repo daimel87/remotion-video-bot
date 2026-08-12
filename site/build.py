@@ -267,7 +267,26 @@ def home():
     <a class="btn cta-ebook" href="/ir/ebook">🔥 Curso de Reparación USB — Oferta por tiempo limitado</a>
     <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App de Telegram</a>
   </section>
-  {video("🎥 Videotutoriales: repara tu USB paso a paso")}
+  {video("🎥 Curso de Reparación USB", None, "jcl3Q1ijD5o")}
+  <section class="guide">
+    <p>¿Tu memoria USB tiene formato RAW? ¿Windows no pudo completar el formato? ¿Tu PC no reconoce
+       tu USB o aparece "Inserte un disco en la unidad"? Aquí encontrarás la solución.</p>
+    <p>Soy Daimel, y esta página web está dedicada 100% a la reparación de memorias USB, pendrives,
+       tarjetas micro SD y discos duros externos. Aprenderás paso a paso cómo recuperar tus
+       dispositivos de almacenamiento con herramientas como CMD, ChipGenius, y software
+       especializado — de forma fácil, rápida y segura.</p>
+    <ul class="check-list">
+      <li>✅ Errores de formato RAW</li>
+      <li>✅ USB dañada que no reconoce la PC</li>
+      <li>✅ "No hay medios" / "Inserte un disco"</li>
+      <li>✅ Windows no pudo completar el formato</li>
+      <li>✅ Recuperación de archivos perdidos</li>
+      <li>✅ Tutoriales claros y prácticos</li>
+      <li>✅ Soluciones rápidas y efectivas</li>
+      <li>✅ Tecnología, reparación y recuperación de datos</li>
+      <li>✅ Contenido útil para estudiantes, técnicos y usuarios comunes</li>
+    </ul>
+  </section>
   <section class="guide">
     <h2>¿Cómo reparar una memoria USB dañada?</h2>
     <p>Cuando una USB no da formato, aparece con 0 bytes, pide formatear una y otra vez o Windows no

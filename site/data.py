@@ -47,6 +47,7 @@ TOOLS = [
         "url": "https://www.mediafire.com/file/v58c3jvkisf1ok7/ChipGenius-con-lanzador+4.21.0701.rar/file",
         "key": "repusb",
         "kind": "detector",
+        "video_id": "1BKymQQoDs8",
         "intro": "ChipGenius es el primer paso para reparar cualquier memoria USB. Detecta el "
                  "VID, PID y el fabricante del controlador (chip) de tu pendrive. Con ese dato "
                  "sabrás exactamente qué herramienta MPTool necesitas descargar para repararla.",
