@@ -144,34 +144,34 @@ PROBLEMS = [
 # ---- Comentarios reales de YouTube (testimonios) ----
 TESTIMONIALS = [
     {
-        "author": "@Ugxmt6OlKdhQiIa52Q54AaABAg",
+        "author": "@nroc1976",
         "text": "Gracias a toda la información de Daimel, llegué a reparar mi USB otra vez, gracias "
                 "y espero que sirvan mis comentarios, saludos desde Monterrey México.",
         "video_title": "Cómo QUITAR la Protección contra Escritura de tu USB Kingston Exodia",
         "video_id": "wFTdO_DniuQ",
     },
     {
-        "author": "@UgyFxmWRGyCNp2kYOsR4AaABAg",
+        "author": "@gransayaman96",
         "text": "Muchas gracias! me funcionó, logré rescatar un pendrive de 64gb y eso que al "
                 "principio me salió Unknown en rojo pero ya luego conectó.",
         "video_title": "Como Reparar USB dañada con First Chip CHIPYC2019 (SIN ERRORES)",
         "video_id": "yF9gxwEIOTQ",
     },
     {
-        "author": "@Ugzy-AQF4FsEHNGuPjt4AaABAg",
+        "author": "@AhmedCM-n4y",
         "text": "A ti mi bro, que pude reparar muchas USB y aún sigo 💪🏻",
         "video_title": "¿Tu PC no reconoce tu USB? El 90% de los Casos tiene Solución",
         "video_id": "iYnODhTenz8",
     },
     {
-        "author": "@UgxKthq3-Z8S5mEfHx54AaABAg",
+        "author": "@franclinguirola99",
         "text": "Bueno yo no sé mucho de esto pero a prueba y error recuperé mi usb jajajaj😅😅 "
                 "gracias por las herramientas.",
         "video_title": "Como Reparar USB dañada Alcor Micro",
         "video_id": "3hJHW9UeRM8",
     },
     {
-        "author": "@UgyGiVJAO4kAvXx39KJ4AaABAg",
+        "author": "@marisolrodriguez-p9k",
         "text": "USB protegido contra escritura de 4 gigas se ha transformado en usb de 16 gigas... "
                 "reparado con High Level Format y Capacity Optimize.",
         "video_title": "La Herramienta GRATIS para Quitar la Protección Contra Escritura USB",
