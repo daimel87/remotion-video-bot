@@ -20,6 +20,24 @@ SITE = {
     "google_verify": "4t1k_fsPm-BsPZ6JQFLArsFhmg_LqMMaYAX1iqdFg4E",  # Google Search Console
 }
 
+# ---- Enlaces externos con página intermedia de anuncios (/ir/<slug>) ----
+EXTERNAL_LINKS = [
+    {
+        "slug": "ebook",
+        "title": "Comprar el eBook completo de reparación de USB",
+        "cta_label": "Comprar eBook en Ko-fi",
+        "lead": "Vas a salir a Ko-fi para comprar la \"Guía Completa: Repara Cualquier Memoria USB Dañada\".",
+        "target_url": "https://ko-fi.com/s/8fe2c66b5a",
+    },
+    {
+        "slug": "miniapp",
+        "title": "Abrir la Mini App de Telegram",
+        "cta_label": "Abrir Mini App en Telegram",
+        "lead": "Vas a salir a Telegram para abrir la mini app de búsqueda de reparaciones D-Tech USB.",
+        "target_url": "https://t.me/dtechusb_repair_bot/ReparatuUSB",
+    },
+]
+
 # slug, título, marca, enlace de descarga, clave (opcional), intro SEO, pasos
 TOOLS = [
     {

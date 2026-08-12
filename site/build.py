@@ -2,7 +2,7 @@
 """Genera la web estática a partir de data.py -> carpeta dist/.
 Uso: python3 site/build.py"""
 import os, html, shutil
-from data import SITE, TOOLS
+from data import SITE, TOOLS, EXTERNAL_LINKS
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
@@ -131,6 +131,69 @@ def write(path, content):
     with open(full, "w", encoding="utf-8") as f:
         f.write(content)
 
+# ---------- Página intermedia de anuncios para enlaces externos (/ir/<slug>) ----------
+def external_gate_page(link):
+    canonical = f"{SITE['domain']}/ir/{link['slug']}"
+    body = f'''
+  <article class="tool dlgate">
+    <nav class="crumbs"><a href="/">Inicio</a> › <span>Redirigiendo</span></nav>
+    <h1>{html.escape(link['title'])}</h1>
+    <p class="lead">{html.escape(link['lead'])}</p>
+    <div class="dlgate-box">
+      <div class="dlgate-ring" id="dlRing" style="cursor:pointer">
+        <svg viewBox="0 0 100 100">
+          <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
+          <circle class="ring-fg" id="ringFg" cx="50" cy="50" r="45"></circle>
+        </svg>
+        <span id="dlCountdown">10</span>
+      </div>
+      <p id="dlWaitLabel">Preparando tu enlace…</p>
+      <a id="dlReal" class="download" href="{link['target_url']}" rel="noopener" style="display:none"
+         onclick="window.open('{SITE['monetag_directlink']}','_blank')" target="_blank">⬇ {html.escape(link['cta_label'])}</a>
+    </div>
+  </article>
+  <script>
+  (function(){{
+    var total=10, half=Math.ceil(total/2), c=total, stalled=false,
+        cd=document.getElementById('dlCountdown'), ring=document.getElementById('ringFg'),
+        label=document.getElementById('dlWaitLabel'), wrap=document.getElementById('dlRing'),
+        btn=document.getElementById('dlReal');
+    var circumference = 2 * Math.PI * 45;
+    ring.style.strokeDasharray = circumference;
+    var id=null;
+    function tick(){{
+      c--;
+      if(c<=half){{
+        clearInterval(id);
+        stalled=true;
+        label.textContent='Se detuvo… haz clic en el círculo para continuar';
+      }} else {{
+        cd.textContent=c;
+        ring.style.strokeDashoffset = circumference * (1 - c/total);
+      }}
+    }}
+    id=setInterval(tick,1000);
+    wrap.addEventListener('click', function(){{
+      if(!stalled) return;
+      stalled=false;
+      label.textContent='Preparando tu enlace…';
+      var id2=setInterval(function(){{
+        c--;
+        if(c<=0){{
+          clearInterval(id2);
+          wrap.style.display='none'; label.style.display='none'; btn.style.display='inline-block';
+        }} else {{
+          cd.textContent=c;
+          ring.style.strokeDashoffset = circumference * (1 - c/total);
+        }}
+      }},1000);
+    }});
+  }})();
+  </script>'''
+    write(f"ir/{link['slug']}.html", head(link['title'], link['lead'], canonical)
+          .replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex,follow">')
+          + body + FOOT)
+
 # ---------- Página de cada herramienta ----------
 def tool_page(t):
     canonical = f"{SITE['domain']}/{t['slug']}"
@@ -243,6 +306,10 @@ def home():
     <a class="btn" href="#herramientas">Ver herramientas</a>
     <a class="btn ghost" href="/chipgenius">¿No sabes tu controlador? Empieza aquí</a>
   </section>
+  <section class="cta-band">
+    <a class="btn cta-ebook" href="/ir/ebook">📘 Comprar eBook completo</a>
+    <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App de Telegram</a>
+  </section>
   {video("🎥 Videotutoriales: repara tu USB paso a paso")}
   <section class="guide">
     <h2>¿Cómo reparar una memoria USB dañada?</h2>
@@ -299,6 +366,8 @@ def main():
     home(); legal(); seo_files()
     for t in TOOLS:
         tool_page(t)
+    for link in EXTERNAL_LINKS:
+        external_gate_page(link)
     print(f"OK -> {len(TOOLS)} herramientas + home + legales + sitemap generados en {DIST}")
 
 if __name__ == "__main__":

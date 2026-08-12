@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Abrir la Mini App de Telegram</title>
+<meta name="description" content="Vas a salir a Telegram para abrir la mini app de búsqueda de reparaciones D-Tech USB.">
+<link rel="canonical" href="https://dtechusb.pages.dev/ir/miniapp">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Abrir la Mini App de Telegram">
+<meta property="og:description" content="Vas a salir a Telegram para abrir la mini app de búsqueda de reparaciones D-Tech USB.">
+<meta property="og:site_name" content="D-TECH USB">
+<meta name="robots" content="noindex,follow">
+<meta name="google-site-verification" content="4t1k_fsPm-BsPZ6JQFLArsFhmg_LqMMaYAX1iqdFg4E">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="logo" href="/">🔧 D-TECH USB</a>
+  <nav><a href="/">Inicio</a> <a href="/#herramientas">Herramientas</a>
+  <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">YouTube</a></nav>
+</header>
+<main>
+  <article class="tool dlgate">
+    <nav class="crumbs"><a href="/">Inicio</a> › <span>Redirigiendo</span></nav>
+    <h1>Abrir la Mini App de Telegram</h1>
+    <p class="lead">Vas a salir a Telegram para abrir la mini app de búsqueda de reparaciones D-Tech USB.</p>
+    <div class="dlgate-box">
+      <div class="dlgate-ring" id="dlRing" style="cursor:pointer">
+        <svg viewBox="0 0 100 100">
+          <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
+          <circle class="ring-fg" id="ringFg" cx="50" cy="50" r="45"></circle>
+        </svg>
+        <span id="dlCountdown">10</span>
+      </div>
+      <p id="dlWaitLabel">Preparando tu enlace…</p>
+      <a id="dlReal" class="download" href="https://t.me/dtechusb_repair_bot/ReparatuUSB" rel="noopener" style="display:none"
+         onclick="window.open('https://omg10.com/4/11443701','_blank')" target="_blank">⬇ Abrir Mini App en Telegram</a>
+    </div>
+  </article>
+  <script>
+  (function(){
+    var total=10, half=Math.ceil(total/2), c=total, stalled=false,
+        cd=document.getElementById('dlCountdown'), ring=document.getElementById('ringFg'),
+        label=document.getElementById('dlWaitLabel'), wrap=document.getElementById('dlRing'),
+        btn=document.getElementById('dlReal');
+    var circumference = 2 * Math.PI * 45;
+    ring.style.strokeDasharray = circumference;
+    var id=null;
+    function tick(){
+      c--;
+      if(c<=half){
+        clearInterval(id);
+        stalled=true;
+        label.textContent='Se detuvo… haz clic en el círculo para continuar';
+      } else {
+        cd.textContent=c;
+        ring.style.strokeDashoffset = circumference * (1 - c/total);
+      }
+    }
+    id=setInterval(tick,1000);
+    wrap.addEventListener('click', function(){
+      if(!stalled) return;
+      stalled=false;
+      label.textContent='Preparando tu enlace…';
+      var id2=setInterval(function(){
+        c--;
+        if(c<=0){
+          clearInterval(id2);
+          wrap.style.display='none'; label.style.display='none'; btn.style.display='inline-block';
+        } else {
+          cd.textContent=c;
+          ring.style.strokeDashoffset = circumference * (1 - c/total);
+        }
+      },1000);
+    });
+  })();
+  </script></main>
+<footer class="site-footer">
+  <p>D-TECH USB — Herramientas y guías para reparar memorias USB.</p>
+  <p><a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">Canal de YouTube</a> ·
+     <a href="/privacidad">Privacidad</a> · <a href="/aviso">Aviso legal</a></p>
+  <p class="disclaimer">Las herramientas enlazadas pertenecen a sus respectivos fabricantes.
+     Úsalas bajo tu responsabilidad; una reparación de bajo nivel borra todos los datos de la USB.</p>
+</footer>
+
+<div class="ab-overlay" id="abOverlay">
+  <div class="ab-box">
+    <h2>🚫 Bloqueador de anuncios detectado</h2>
+    <p>Esta web es gratuita gracias a la publicidad. Para seguir viendo el contenido y las
+       herramientas, desactiva tu bloqueador de anuncios (AdBlock, uBlock, Brave Shields, etc.)
+       para este sitio y vuelve a cargar la página.</p>
+    <button class="btn" type="button" onclick="location.reload()">Ya lo desactivé, recargar</button>
+  </div>
+</div>
+<div class="ab-bait ad-banner ads adsbox adsbygoogle textads banner_ad" style="position:absolute;left:-9999px;top:-9999px;width:300px;height:250px;"></div>
+<script>
+(function(){
+  var shown = false;
+  function showBlock(){
+    if(shown) return; shown = true;
+    document.getElementById('abOverlay').style.display='flex';
+  }
+  function checkBait(){
+    var bait = document.querySelector('.ab-bait');
+    if(!bait) return true;
+    var cs = window.getComputedStyle(bait);
+    return bait.offsetParent===null || bait.offsetHeight===0 || cs.display==='none' || cs.visibility==='hidden';
+  }
+  function checkNetwork(cb){
+    fetch('https://www3.doubleclick.net/pagead/adview.js?a=1', {mode:'no-cors', cache:'no-store'})
+      .then(function(){ cb(false); })
+      .catch(function(){ cb(true); });
+  }
+  window.addEventListener('load', function(){
+    setTimeout(function(){
+      if(checkBait()){ showBlock(); return; }
+      checkNetwork(function(blocked){ if(blocked){ showBlock(); } });
+    }, 800);
+  });
+})();
+</script>
+<!-- Monetag Push -->
+<script src="https://5gvci.com/act/files/tag.min.js?z=11426112" data-cfasync="false" async></script>
+<!-- Monetag In-Page Push -->
+<script>(function(s){s.dataset.zone='11443690',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+<!-- Monetag Popunder -->
+<script>(function(s){s.dataset.zone='11434447',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+<!-- Monetag Vignette Banner -->
+<script>(function(s){s.dataset.zone='11443698',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(function(){});
+}
+</script>
+</body></html>

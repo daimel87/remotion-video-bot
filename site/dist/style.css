@@ -36,6 +36,24 @@ code{background:var(--line);padding:2px 7px;border-radius:6px;font-size:.95em}
 .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
 .btn:hover{text-decoration:none;opacity:.92}
 
+/* banda de CTAs (eBook / Mini App) */
+.cta-band{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;padding:0 10px 30px}
+.cta-band .btn{margin:0;font-size:1rem}
+.cta-ebook{background:var(--brand2)}
+.cta-miniapp{background:#229ed9}
+
+/* página intermedia de anuncios (/ir/<slug>) */
+.dlgate-box{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:30px 20px;text-align:center;max-width:420px;margin:24px auto}
+.dlgate-ring{position:relative;width:120px;height:120px;margin:0 auto 14px}
+.dlgate-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.dlgate-ring .ring-bg{fill:none;stroke:var(--line);stroke-width:8}
+.dlgate-ring .ring-fg{fill:none;stroke:var(--brand);stroke-width:8;stroke-linecap:round;
+  transition:stroke-dashoffset 1s linear}
+.dlgate-ring #dlCountdown{position:absolute;top:0;left:0;width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800}
+#dlWaitLabel{color:var(--muted);font-size:.95rem;margin:0}
+
 /* Anti-adblock overlay */
 .ab-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,14,22,.94);
   align-items:center;justify-content:center;padding:20px}
