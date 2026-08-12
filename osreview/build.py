@@ -132,6 +132,7 @@ def download_page(a):
         <span id="dlCountdown">15</span>
       </div>
       <p id="dlWaitLabel">Please wait, your link is being prepared…</p>
+      <button id="dlContinue" class="download" type="button" style="display:none">Click to continue ▶</button>
       <a id="dlReal" class="download" href="{a['url']}" rel="noopener nofollow" style="display:none"
          onclick="{directlink_click}">⬇ Get Link</a>
     </div>
@@ -140,21 +141,38 @@ def download_page(a):
   </article>
   <script>
   (function(){{
-    var total=15, c=total, cd=document.getElementById('dlCountdown'),
-        ring=document.getElementById('ringFg'), label=document.getElementById('dlWaitLabel'),
-        wrap=document.getElementById('dlRing'), btn=document.getElementById('dlReal');
+    var total=15, half=Math.ceil(total/2), c=total,
+        cd=document.getElementById('dlCountdown'), ring=document.getElementById('ringFg'),
+        label=document.getElementById('dlWaitLabel'), wrap=document.getElementById('dlRing'),
+        contBtn=document.getElementById('dlContinue'), btn=document.getElementById('dlReal');
     var circumference = 2 * Math.PI * 45;
     ring.style.strokeDasharray = circumference;
-    var id=setInterval(function(){{
+    var id=null;
+    function tick(){{
       c--;
-      if(c<=0){{
+      if(c<=half){{
         clearInterval(id);
-        wrap.style.display='none'; label.style.display='none'; btn.style.display='inline-block';
+        label.textContent='Almost there — click to continue';
+        contBtn.style.display='inline-block';
       }} else {{
         cd.textContent=c;
         ring.style.strokeDashoffset = circumference * (1 - c/total);
       }}
-    }},1000);
+    }}
+    id=setInterval(tick,1000);
+    contBtn.addEventListener('click', function(){{
+      contBtn.style.display='none';
+      var id2=setInterval(function(){{
+        c--;
+        if(c<=0){{
+          clearInterval(id2);
+          wrap.style.display='none'; label.style.display='none'; btn.style.display='inline-block';
+        }} else {{
+          cd.textContent=c;
+          ring.style.strokeDashoffset = circumference * (1 - c/total);
+        }}
+      }},1000);
+    }});
   }})();
   </script>'''
     write(f"get/{a['slug']}.html", head(f"Download — {a['title']}", a['summary'], canonical)
