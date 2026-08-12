@@ -83,7 +83,7 @@ def head(title, desc, canonical):
 <div class="blob b2"></div>
 <div class="blob b3"></div>
 <header class="site-header glass">
-  <a class="logo" href="/">🔧 {SITE['name']}</a>
+  <a class="logo" href="/"><img src="{SITE['logo']}" alt="{SITE['name']}" width="36" height="36" loading="eager"> {SITE['name']}</a>
   <nav><a href="/">Inicio</a> <a href="/problemas">Problemas</a> <a href="/herramientas">Herramientas</a>
   <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a></nav>
 </header>
@@ -129,9 +129,25 @@ ADBLOCK_DETECT = '''
 
 FOOT = f'''</main>
 <footer class="site-footer">
-  <p>{SITE['name']} — {SITE['tagline']}.</p>
-  <p><a href="{SITE['youtube']}" target="_blank" rel="noopener">Canal de YouTube</a> ·
-     <a href="/privacidad">Privacidad</a> · <a href="/aviso">Aviso legal</a></p>
+  <img class="footer-logo" src="{SITE['logo']}" alt="{SITE['name']}" width="64" height="64" loading="lazy">
+  <p class="footer-name">{SITE['name']} — {SITE['tagline']}.</p>
+  <a class="btn ghost footer-yt" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Canal de YouTube</a>
+  <div class="footer-cols">
+    <div>
+      <h4>Recursos</h4>
+      <a href="/chipgenius">ChipGenius</a>
+      <a href="/tabla-solucionadas">Tabla de solucionadas</a>
+      <a href="/herramientas">Todas las herramientas</a>
+      <a href="/problemas">¿Cuál es el problema de tu USB?</a>
+    </div>
+    <div>
+      <h4>Más</h4>
+      <a href="/ir/ebook">Curso de reparación USB</a>
+      <a href="/ir/miniapp">Mini App de Telegram</a>
+      <a href="/privacidad">Privacidad</a>
+      <a href="/aviso">Aviso legal</a>
+    </div>
+  </div>
   <p class="disclaimer">Las herramientas enlazadas pertenecen a sus respectivos fabricantes.
      Úsalas bajo tu responsabilidad; una reparación de bajo nivel borra todos los datos de la USB.</p>
 </footer>
