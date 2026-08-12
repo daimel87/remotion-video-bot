@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Windows no reconoce la USB: cómo solucionarlo (todos los casos)</title>
-<meta name="description" content="¿Conectas tu memoria USB y Windows no la detecta, ni siquiera aparece en &quot;Este equipo&quot; o en el Administrador de discos? Aquí tienes todas las causas posibl">
-<link rel="canonical" href="https://dtechusb.pages.dev/windows-no-reconoce-usb">
+<title>Cómo saber si tu USB tiene capacidad falsa y cómo repararla</title>
+<meta name="description" content="Una memoria USB &quot;falsa&quot; es aquella cuyo chip fue reprogramado para reportar una capacidad mayor a la que realmente tiene físicamente (por ejemplo, se anunc">
+<link rel="canonical" href="https://dtechusb.pages.dev/problemas/usb-capacidad-falsa">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Windows no reconoce la USB: cómo solucionarlo (todos los casos)">
-<meta property="og:description" content="¿Conectas tu memoria USB y Windows no la detecta, ni siquiera aparece en &quot;Este equipo&quot; o en el Administrador de discos? Aquí tienes todas las causas posibl">
+<meta property="og:title" content="Cómo saber si tu USB tiene capacidad falsa y cómo repararla">
+<meta property="og:description" content="Una memoria USB &quot;falsa&quot; es aquella cuyo chip fue reprogramado para reportar una capacidad mayor a la que realmente tiene físicamente (por ejemplo, se anunc">
 <meta property="og:site_name" content="D-TECH USB">
 <meta name="robots" content="index,follow">
 <meta name="google-site-verification" content="4t1k_fsPm-BsPZ6JQFLArsFhmg_LqMMaYAX1iqdFg4E">
@@ -25,44 +25,26 @@
 </header>
 <main>
   <article class="tool">
-    <nav class="crumbs"><a href="/">Inicio</a> › Windows no reconoce la USB</nav>
-    <h1>Windows no reconoce la USB: cómo solucionarlo (todos los casos)</h1>
-    <p class="lead">¿Conectas tu memoria USB y Windows no la detecta, ni siquiera aparece en "Este equipo" o en el Administrador de discos? Aquí tienes todas las causas posibles y cómo solucionar cada una, desde el puerto hasta un controlador dañado.</p>
-    
-    <h2>Pasos a seguir</h2>
-    <ol class="steps"><li>Prueba primero en <strong>otro puerto USB</strong> (mejor uno trasero 2.0) y en otra PC si puedes; descarta cable/hub defectuoso.</li>
-<li>Abre el <strong>Administrador de dispositivos</strong> de Windows: si aparece con una señal de alerta amarilla, el driver o el controlador está fallando.</li>
-<li>Si aparece en "Administrador de discos" pero no en el explorador, puede que le falte una <strong>letra de unidad</strong>: clic derecho → Cambiar letra y rutas de acceso.</li>
-<li>Si no aparece en ningún lado (ni en Administrador de discos), identifica el chip con <a href="/chipgenius.html">ChipGenius</a> y usa la herramienta de reparación de esta web para tu controlador.</li>
-<li>Mira el vídeo de abajo para ver el proceso completo paso a paso.</li></ol>
+    <nav class="crumbs"><a href="/">Inicio</a> › <a href="/problemas">Problemas</a> › <span>USB con capacidad falsa</span></nav>
+    <h1>Cómo saber si tu USB tiene capacidad falsa y cómo repararla</h1>
+    <p class="lead">Una memoria USB "falsa" es aquella cuyo chip fue reprogramado para reportar una capacidad mayor a la que realmente tiene físicamente (por ejemplo, se anuncia como 128GB pero solo tiene 8GB reales de memoria NAND). Windows la muestra con el tamaño falso, pero al llenarla empieza a corromper y perder archivos silenciosamente.</p>
     <section class="video-tut">
-      <h2>🎥 Vídeotutoriales</h2>
+      <h2>🎥 Solución en vídeo</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
       <div class="video-frame">
-        <iframe src="https://www.youtube.com/embed/APabN6Ym_Y0"
+        <iframe src="https://www.youtube.com/embed/iHXxmonALo4"
           title="Tutoriales de reparación USB" loading="lazy"
           frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen></iframe>
       </div>
     </section>
-    <section class="related-videos">
-      <h2>Más vídeos sobre este tema</h2>
-      <ul class="steps"><li><a href="https://www.youtube.com/watch?v=dzAM05htmAo" target="_blank" rel="noopener">▶ Reparar USB dañada que no se reconoce en la PC</a></li>
-<li><a href="https://www.youtube.com/watch?v=vI53QJFsDKU" target="_blank" rel="noopener">▶ ¿USB No Reconoce? Esto SIEMPRE Funciona</a></li></ul>
-    </section>
-    
-    <section class="faq">
-      <h2>Preguntas frecuentes</h2>
-      <details><summary>¿Es gratis?</summary>
-        <p>Sí, totalmente gratis. Sigue los pasos y mira los vídeos de esta página.</p></details>
-      <details><summary>¿Necesito conocimientos técnicos?</summary>
-        <p>No. Los tutoriales están explicados paso a paso para cualquier usuario.</p></details>
-      <details><summary>¿Y si sigo con problemas?</summary>
-        <p>Identifica el controlador de tu USB con <a href="/chipgenius">ChipGenius</a> y usa la
-           herramienta de reparación correspondiente de esta web.</p></details>
-    </section>
-    <p class="cta">📺 Más tutoriales en
-       <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
+    <h2>Cómo solucionarlo</h2>
+    <ol class="steps"><li>Descarga <strong>H2testW</strong> y ejecútalo sobre la unidad completa: escribe datos de prueba y verifica si se pueden leer de vuelta.</li>
+<li>Si H2testW reporta errores o menos capacidad de la anunciada, tu USB es falsa.</li>
+<li>Usa <strong>RMPrepUSB</strong> para ajustar la partición al tamaño REAL detectado (esto la hace usable de forma confiable, aunque con menor capacidad).</li>
+<li>Alternativa por CMD: <code>diskpart</code> → <code>clean</code> → <code>create partition primary size=N</code> (N = capacidad real en MB) → <code>format fs=fat32 quick</code>.</li></ol>
+    <p class="cta">🔎 ¿No sabes qué controlador tiene tu USB?
+       <a href="/chipgenius">Identifícalo con ChipGenius</a>.</p>
   </article></main>
 <footer class="site-footer">
   <p>D-TECH USB — Herramientas y guías para reparar memorias USB.</p>

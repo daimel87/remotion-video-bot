@@ -38,6 +38,75 @@ EXTERNAL_LINKS = [
     },
 ]
 
+# ---- Módulo "¿Cuál es el problema de tu USB?" (páginas por síntoma, título = pregunta real de Google) ----
+PROBLEMS = [
+    {
+        "slug": "usb-no-hay-medios",
+        "label": "USB dice \"No hay medios\"",
+        "title": "¿Qué significa \"No hay medios\" en una USB y cómo solucionarlo?",
+        "video_id": "GypEuIFjmIY",
+        "explanation": "El mensaje \"No hay medios\" en el Administrador de discos de Windows aparece "
+            "cuando el PC no puede comunicarse con el chip controlador de la memoria, casi siempre "
+            "porque el controlador está corrupto o dañado (no porque la memoria física esté rota). "
+            "También puede deberse a un puerto USB defectuoso, un cable/hub en mal estado o falta de "
+            "energía suficiente en el puerto.",
+        "steps": [
+            "Prueba la USB en otro puerto (mejor uno trasero 2.0) y en otra PC si puedes.",
+            "Abre el Administrador de discos de Windows para confirmar que aparece como \"Sin medios\".",
+            "Identifica el chip con <a href=\"/chipgenius\">ChipGenius</a> — si no lo detecta ahí tampoco, es un problema de controlador.",
+            "Descarga la herramienta de reparación (MPTool) de tu controlador desde esta web.",
+        ],
+    },
+    {
+        "slug": "usb-inserte-un-disco",
+        "label": "USB pide \"Inserte un disco\"",
+        "title": "¿Qué hacer cuando aparece \"Inserte un disco en la unidad\" en tu USB?",
+        "video_id": "WwM6DBLY1r8",
+        "explanation": "El error \"Por favor, inserte un disco en la unidad\" ocurre cuando Windows detecta "
+            "físicamente el dispositivo pero no puede leer su sistema de archivos ni su tabla de "
+            "particiones. Es una de las señales más claras de que el controlador de la memoria se "
+            "corrompió y necesita reprogramarse con su herramienta de fábrica.",
+        "steps": [
+            "No intentes formatear todavía — normalmente falla con el mismo error.",
+            "Conecta la USB directamente a un puerto trasero del PC, sin hubs ni alargadores.",
+            "Identifica el chip con <a href=\"/chipgenius\">ChipGenius</a>.",
+            "Descarga la herramienta MPTool de tu controlador desde esta web y repárala a bajo nivel.",
+        ],
+    },
+    {
+        "slug": "usb-formato-raw",
+        "label": "USB en formato RAW",
+        "title": "USB en formato RAW: qué significa y cómo repararla",
+        "video_id": "Cb6s2cqwFjg",
+        "explanation": "Que una USB aparezca en formato \"RAW\" significa que Windows ya no reconoce su "
+            "sistema de archivos (FAT32/exFAT/NTFS) porque la tabla de particiones o el sistema de "
+            "archivos se corrompió. Es distinto a un formateo normal: intentar formatearla directamente "
+            "suele fallar o borra datos que a veces todavía se pueden recuperar antes de reparar.",
+        "steps": [
+            "Si tienes datos importantes, intenta recuperarlos primero con un programa como TestDisk/PhotoRec antes de tocar nada más.",
+            "Prueba el comando <code>chkdsk X: /f</code> en CMD como administrador (cambia X por tu unidad).",
+            "Si sigue en RAW, identifica el controlador con <a href=\"/chipgenius\">ChipGenius</a>.",
+            "Repara a bajo nivel con la MPTool de tu controlador desde esta web.",
+        ],
+    },
+    {
+        "slug": "usb-capacidad-falsa",
+        "label": "USB con capacidad falsa",
+        "title": "Cómo saber si tu USB tiene capacidad falsa y cómo repararla",
+        "video_id": "iHXxmonALo4",
+        "explanation": "Una memoria USB \"falsa\" es aquella cuyo chip fue reprogramado para reportar una "
+            "capacidad mayor a la que realmente tiene físicamente (por ejemplo, se anuncia como 128GB "
+            "pero solo tiene 8GB reales de memoria NAND). Windows la muestra con el tamaño falso, pero "
+            "al llenarla empieza a corromper y perder archivos silenciosamente.",
+        "steps": [
+            "Descarga <strong>H2testW</strong> y ejecútalo sobre la unidad completa: escribe datos de prueba y verifica si se pueden leer de vuelta.",
+            "Si H2testW reporta errores o menos capacidad de la anunciada, tu USB es falsa.",
+            "Usa <strong>RMPrepUSB</strong> para ajustar la partición al tamaño REAL detectado (esto la hace usable de forma confiable, aunque con menor capacidad).",
+            "Alternativa por CMD: <code>diskpart</code> → <code>clean</code> → <code>create partition primary size=N</code> (N = capacidad real en MB) → <code>format fs=fat32 quick</code>.",
+        ],
+    },
+]
+
 # slug, título, marca, enlace de descarga, clave (opcional), intro SEO, pasos
 TOOLS = [
     {

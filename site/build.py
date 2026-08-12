@@ -2,7 +2,7 @@
 """Genera la web estática a partir de data.py -> carpeta dist/.
 Uso: python3 site/build.py"""
 import os, html, shutil
-from data import SITE, TOOLS, EXTERNAL_LINKS
+from data import SITE, TOOLS, EXTERNAL_LINKS, PROBLEMS
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
@@ -73,7 +73,7 @@ def head(title, desc, canonical):
 <div class="blob b3"></div>
 <header class="site-header glass">
   <a class="logo" href="/">🔧 {SITE['name']}</a>
-  <nav><a href="/">Inicio</a> <a href="/herramientas">Herramientas</a>
+  <nav><a href="/">Inicio</a> <a href="/problemas">Problemas</a> <a href="/herramientas">Herramientas</a>
   <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a></nav>
 </header>
 <main>'''
@@ -260,7 +260,7 @@ def home():
   <section class="hero">
     <h1>Herramientas gratis para reparar <span class="grad">memorias USB</span></h1>
     <p class="lead">{SITE['description']}</p>
-    <a class="btn" href="/herramientas">Ver herramientas</a>
+    <a class="btn" href="/problemas">¿Cuál es el problema de tu USB?</a>
     <a class="btn ghost" href="/chipgenius">¿No sabes tu controlador? Empieza aquí</a>
   </section>
   <section class="cta-band">
@@ -329,6 +329,48 @@ def herramientas_page():
           "Descarga la herramienta de reparación (MPTool) exacta para tu controlador USB.",
           SITE['domain'] + "/herramientas") + body + FOOT)
 
+# ---------- Módulo "¿Cuál es el problema de tu USB?" ----------
+def problems_hub_page():
+    cards = ""
+    for p in PROBLEMS:
+        cards += f'''<a class="card" href="/problemas/{p['slug']}">
+          <h3>{html.escape(p['label'])}</h3>
+          <span class="go">Ver solución →</span></a>\n'''
+    cards += f'''<a class="card" href="/quitar-proteccion-escritura-usb">
+      <h3>USB protegida contra escritura</h3>
+      <span class="go">Ver solución →</span></a>\n'''
+    body = f'''
+  <article class="tool">
+    <nav class="crumbs"><a href="/">Inicio</a> › <span>Problemas</span></nav>
+    <h1>¿Cuál es el problema de tu USB?</h1>
+    <p class="lead">Elige el mensaje de error o síntoma exacto que ves en tu memoria USB para ver
+       la explicación y la solución en vídeo.</p>
+  </article>
+  <section class="grid-wrap">
+    <div class="grid">{cards}</div>
+  </section>'''
+    write("problemas.html", head(f"¿Cuál es el problema de tu USB? — {SITE['name']}",
+          "Identifica el error exacto de tu memoria USB (no hay medios, inserte un disco, formato "
+          "RAW, capacidad falsa) y mira la solución paso a paso.",
+          SITE['domain'] + "/problemas") + body + FOOT)
+
+def problem_page(p):
+    canonical = f"{SITE['domain']}/problemas/{p['slug']}"
+    steps = "\n".join(f"<li>{s}</li>" for s in p["steps"])
+    video_block = video("🎥 Solución en vídeo", None, p["video_id"]) if p.get("video_id") else ""
+    body = f'''
+  <article class="tool">
+    <nav class="crumbs"><a href="/">Inicio</a> › <a href="/problemas">Problemas</a> › <span>{html.escape(p['label'])}</span></nav>
+    <h1>{html.escape(p['title'])}</h1>
+    <p class="lead">{p['explanation']}</p>
+    {video_block}
+    <h2>Cómo solucionarlo</h2>
+    <ol class="steps">{steps}</ol>
+    <p class="cta">🔎 ¿No sabes qué controlador tiene tu USB?
+       <a href="/chipgenius">Identifícalo con ChipGenius</a>.</p>
+  </article>'''
+    write(f"problemas/{p['slug']}.html", head(p['title'], p['explanation'][:155], canonical) + body + FOOT)
+
 # ---------- Páginas legales (requeridas por AdSense/Adsterra) ----------
 def legal():
     priv = '''<article class="tool"><h1>Política de privacidad</h1>
@@ -348,8 +390,10 @@ def legal():
 
 # ---------- sitemap + robots ----------
 def seo_files():
-    urls = [SITE['domain'] + "/", SITE['domain'] + "/herramientas", SITE['domain'] + "/privacidad", SITE['domain'] + "/aviso"]
+    urls = [SITE['domain'] + "/", SITE['domain'] + "/herramientas", SITE['domain'] + "/problemas",
+            SITE['domain'] + "/privacidad", SITE['domain'] + "/aviso"]
     urls += [f"{SITE['domain']}/{t['slug']}" for t in TOOLS]
+    urls += [f"{SITE['domain']}/problemas/{p['slug']}" for p in PROBLEMS]
     items = "\n".join(f"  <url><loc>{u}</loc><changefreq>monthly</changefreq></url>" for u in urls)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n'
           f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{items}\n</urlset>')
@@ -362,6 +406,9 @@ def main():
     shutil.copy(os.path.join(HERE, "style.css"), os.path.join(DIST, "style.css"))
     shutil.copy(os.path.join(HERE, "sw.js"), os.path.join(DIST, "sw.js"))
     home(); herramientas_page(); legal(); seo_files()
+    problems_hub_page()
+    for p in PROBLEMS:
+        problem_page(p)
     for t in TOOLS:
         tool_page(t)
     for link in EXTERNAL_LINKS:

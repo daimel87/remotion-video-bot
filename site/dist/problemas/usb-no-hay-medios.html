@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Windows no reconoce la USB: cómo solucionarlo (todos los casos)</title>
-<meta name="description" content="¿Conectas tu memoria USB y Windows no la detecta, ni siquiera aparece en &quot;Este equipo&quot; o en el Administrador de discos? Aquí tienes todas las causas posibl">
-<link rel="canonical" href="https://dtechusb.pages.dev/windows-no-reconoce-usb">
+<title>¿Qué significa &quot;No hay medios&quot; en una USB y cómo solucionarlo?</title>
+<meta name="description" content="El mensaje &quot;No hay medios&quot; en el Administrador de discos de Windows aparece cuando el PC no puede comunicarse con el chip controlador de la memoria, casi s">
+<link rel="canonical" href="https://dtechusb.pages.dev/problemas/usb-no-hay-medios">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Windows no reconoce la USB: cómo solucionarlo (todos los casos)">
-<meta property="og:description" content="¿Conectas tu memoria USB y Windows no la detecta, ni siquiera aparece en &quot;Este equipo&quot; o en el Administrador de discos? Aquí tienes todas las causas posibl">
+<meta property="og:title" content="¿Qué significa &quot;No hay medios&quot; en una USB y cómo solucionarlo?">
+<meta property="og:description" content="El mensaje &quot;No hay medios&quot; en el Administrador de discos de Windows aparece cuando el PC no puede comunicarse con el chip controlador de la memoria, casi s">
 <meta property="og:site_name" content="D-TECH USB">
 <meta name="robots" content="index,follow">
 <meta name="google-site-verification" content="4t1k_fsPm-BsPZ6JQFLArsFhmg_LqMMaYAX1iqdFg4E">
@@ -25,44 +25,26 @@
 </header>
 <main>
   <article class="tool">
-    <nav class="crumbs"><a href="/">Inicio</a> › Windows no reconoce la USB</nav>
-    <h1>Windows no reconoce la USB: cómo solucionarlo (todos los casos)</h1>
-    <p class="lead">¿Conectas tu memoria USB y Windows no la detecta, ni siquiera aparece en "Este equipo" o en el Administrador de discos? Aquí tienes todas las causas posibles y cómo solucionar cada una, desde el puerto hasta un controlador dañado.</p>
-    
-    <h2>Pasos a seguir</h2>
-    <ol class="steps"><li>Prueba primero en <strong>otro puerto USB</strong> (mejor uno trasero 2.0) y en otra PC si puedes; descarta cable/hub defectuoso.</li>
-<li>Abre el <strong>Administrador de dispositivos</strong> de Windows: si aparece con una señal de alerta amarilla, el driver o el controlador está fallando.</li>
-<li>Si aparece en "Administrador de discos" pero no en el explorador, puede que le falte una <strong>letra de unidad</strong>: clic derecho → Cambiar letra y rutas de acceso.</li>
-<li>Si no aparece en ningún lado (ni en Administrador de discos), identifica el chip con <a href="/chipgenius.html">ChipGenius</a> y usa la herramienta de reparación de esta web para tu controlador.</li>
-<li>Mira el vídeo de abajo para ver el proceso completo paso a paso.</li></ol>
+    <nav class="crumbs"><a href="/">Inicio</a> › <a href="/problemas">Problemas</a> › <span>USB dice &quot;No hay medios&quot;</span></nav>
+    <h1>¿Qué significa &quot;No hay medios&quot; en una USB y cómo solucionarlo?</h1>
+    <p class="lead">El mensaje "No hay medios" en el Administrador de discos de Windows aparece cuando el PC no puede comunicarse con el chip controlador de la memoria, casi siempre porque el controlador está corrupto o dañado (no porque la memoria física esté rota). También puede deberse a un puerto USB defectuoso, un cable/hub en mal estado o falta de energía suficiente en el puerto.</p>
     <section class="video-tut">
-      <h2>🎥 Vídeotutoriales</h2>
+      <h2>🎥 Solución en vídeo</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
       <div class="video-frame">
-        <iframe src="https://www.youtube.com/embed/APabN6Ym_Y0"
+        <iframe src="https://www.youtube.com/embed/GypEuIFjmIY"
           title="Tutoriales de reparación USB" loading="lazy"
           frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen></iframe>
       </div>
     </section>
-    <section class="related-videos">
-      <h2>Más vídeos sobre este tema</h2>
-      <ul class="steps"><li><a href="https://www.youtube.com/watch?v=dzAM05htmAo" target="_blank" rel="noopener">▶ Reparar USB dañada que no se reconoce en la PC</a></li>
-<li><a href="https://www.youtube.com/watch?v=vI53QJFsDKU" target="_blank" rel="noopener">▶ ¿USB No Reconoce? Esto SIEMPRE Funciona</a></li></ul>
-    </section>
-    
-    <section class="faq">
-      <h2>Preguntas frecuentes</h2>
-      <details><summary>¿Es gratis?</summary>
-        <p>Sí, totalmente gratis. Sigue los pasos y mira los vídeos de esta página.</p></details>
-      <details><summary>¿Necesito conocimientos técnicos?</summary>
-        <p>No. Los tutoriales están explicados paso a paso para cualquier usuario.</p></details>
-      <details><summary>¿Y si sigo con problemas?</summary>
-        <p>Identifica el controlador de tu USB con <a href="/chipgenius">ChipGenius</a> y usa la
-           herramienta de reparación correspondiente de esta web.</p></details>
-    </section>
-    <p class="cta">📺 Más tutoriales en
-       <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
+    <h2>Cómo solucionarlo</h2>
+    <ol class="steps"><li>Prueba la USB en otro puerto (mejor uno trasero 2.0) y en otra PC si puedes.</li>
+<li>Abre el Administrador de discos de Windows para confirmar que aparece como "Sin medios".</li>
+<li>Identifica el chip con <a href="/chipgenius">ChipGenius</a> — si no lo detecta ahí tampoco, es un problema de controlador.</li>
+<li>Descarga la herramienta de reparación (MPTool) de tu controlador desde esta web.</li></ol>
+    <p class="cta">🔎 ¿No sabes qué controlador tiene tu USB?
+       <a href="/chipgenius">Identifícalo con ChipGenius</a>.</p>
   </article></main>
 <footer class="site-footer">
   <p>D-TECH USB — Herramientas y guías para reparar memorias USB.</p>
