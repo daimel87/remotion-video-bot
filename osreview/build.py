@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Builds the Lite OS Reviews site -> dist/.
 Usage: python3 osreview/build.py"""
-import os, html, shutil
+import os, html, shutil, json
 from data import SITE, ARTICLES
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -27,14 +27,24 @@ def head(title, desc, canonical):
 <meta property="og:title" content="{html.escape(title)}">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:site_name" content="{SITE['name']}">
+<meta property="og:image" content="{SITE['logo']}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{html.escape(title)}">
+<meta name="twitter:description" content="{html.escape(desc)}">
+<meta name="twitter:image" content="{SITE['logo']}">
 <meta name="robots" content="index,follow">
 {verify}
+<link rel="icon" href="{SITE['logo']}">
+<link rel="apple-touch-icon" href="{SITE['logo']}">
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<header class="site-header">
-  <a class="logo" href="/">💻 {SITE['name']}</a>
-  <nav><a href="/">Home</a> <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a></nav>
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
+<header class="site-header glass">
+  <a class="logo" href="/"><img src="{SITE['logo']}" alt="{SITE['name']}" width="36" height="36" loading="eager"> {SITE['name']}</a>
+  <nav><a href="/">Home</a> <a href="/advisor">PC Advisor</a> <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a></nav>
 </header>
 <main>'''
 
@@ -50,6 +60,18 @@ MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 if ('serviceWorker' in navigator) {{
   navigator.serviceWorker.register('/sw.js').catch(function(){{}});
 }}
+</script>'''
+
+COOKIE_BANNER = '''
+<div class="cookie-banner" id="cookieBanner" style="display:none">
+  <p>We use first-party and third-party (advertising) cookies to keep this site free.
+     By continuing to browse you accept their use. <a href="/privacy">Learn more</a>.</p>
+  <button class="btn" type="button" onclick="document.getElementById('cookieBanner').style.display='none';localStorage.setItem('cookieOk','1')">Got it</button>
+</div>
+<script>
+if (!localStorage.getItem('cookieOk')) {
+  document.getElementById('cookieBanner').style.display = 'flex';
+}
 </script>'''
 
 ADBLOCK_DETECT = '''
@@ -83,13 +105,28 @@ ADBLOCK_DETECT = '''
 
 FOOT = f'''</main>
 <footer class="site-footer">
-  <p>{SITE['name']} — {SITE['tagline']}.</p>
-  <p><a href="{SITE['youtube']}" target="_blank" rel="noopener">Subscribe on YouTube</a> ·
-     <a href="/privacy">Privacy</a> · <a href="/disclaimer">Disclaimer</a></p>
+  <img class="footer-logo" src="{SITE['logo']}" alt="{SITE['name']}" width="64" height="64" loading="lazy">
+  <p class="footer-name">{SITE['name']} — {SITE['tagline']}.</p>
+  <a class="btn ghost footer-yt" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Subscribe on YouTube</a>
+  <div class="footer-cols">
+    <div>
+      <h4>Explore</h4>
+      <a href="/advisor">PC Advisor</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <a href="/privacy">Privacy</a>
+      <a href="/disclaimer">Disclaimer</a>
+      <a href="/terms">Terms of Service</a>
+    </div>
+  </div>
   <p class="disclaimer">Educational/review content about modified operating systems. Always keep a
      valid license for the OS you install and back up your data before reinstalling.</p>
 </footer>
 {ADBLOCK_DETECT}
+{COOKIE_BANNER}
 {MONETAG_SITEWIDE}
 </body></html>'''
 
@@ -218,9 +255,10 @@ def home():
           <p>{html.escape(a['summary'][:100])}…</p></a>\n'''
     body = f'''
   <section class="hero">
-    <h1>Modified Windows & lightweight OS reviews</h1>
+    <h1>Modified Windows & <span class="grad">lightweight OS</span> reviews</h1>
     <p class="lead">{SITE['description']}</p>
-    <a class="btn" href="{SITE['youtube']}" target="_blank" rel="noopener">📺 Subscribe on YouTube</a>
+    <a class="btn" href="/advisor">🧭 Find my perfect Windows build</a>
+    <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">📺 Subscribe on YouTube</a>
   </section>
   <section class="grid-wrap">
     <h2>Reviews</h2>
@@ -228,6 +266,89 @@ def home():
   </section>'''
     write("index.html", head(f"{SITE['name']} — {SITE['tagline']}", SITE['description'],
                              SITE['domain'] + "/") + body + FOOT)
+
+# ---------- PC Advisor ----------
+def advisor_page():
+    catalog = [
+        {"slug": a["slug"], "title": a["title"], "cat": a["cat"], "yt": a["yt"], **a["advisor"]}
+        for a in ARTICLES if a.get("advisor")
+    ]
+    catalog_json = json.dumps(catalog)
+    body = f'''
+  <article class="post">
+    <nav class="crumbs"><a href="/">Home</a> › <span>PC Advisor</span></nav>
+    <h1>Which Windows build fits your PC?</h1>
+    <p class="lead">Answer 3 quick questions and we'll match you with the best build from our
+       reviewed catalog — no guesswork.</p>
+
+    <form id="advisorForm" class="advisor-form">
+      <div class="advisor-q">
+        <label>How much RAM does your PC have?</label>
+        <select id="qRam">
+          <option value="1.5">1–2 GB (very old PC)</option>
+          <option value="4" selected>4 GB</option>
+          <option value="8">8 GB</option>
+          <option value="16">16 GB or more</option>
+        </select>
+      </div>
+      <div class="advisor-q">
+        <label>What will you mainly use it for?</label>
+        <select id="qPurpose">
+          <option value="gaming">Gaming</option>
+          <option value="everyday" selected>Everyday use / office / browsing</option>
+          <option value="revive">Reviving a very old / slow PC</option>
+        </select>
+      </div>
+      <div class="advisor-q">
+        <label>Windows version preference</label>
+        <select id="qOs">
+          <option value="any" selected>No preference — show the best match</option>
+          <option value="11">Windows 11 only</option>
+          <option value="10">Windows 10 only</option>
+          <option value="linux">I'm open to Linux too</option>
+        </select>
+      </div>
+      <button class="btn" type="button" onclick="runAdvisor()">Find my build →</button>
+    </form>
+
+    <div id="advisorResults" class="advisor-results"></div>
+  </article>
+  <script>
+  var ADVISOR_CATALOG = {catalog_json};
+  function runAdvisor(){{
+    var ram = parseFloat(document.getElementById('qRam').value);
+    var purpose = document.getElementById('qPurpose').value;
+    var osPref = document.getElementById('qOs').value;
+    var pool = ADVISOR_CATALOG.filter(function(a){{
+      if (a.ram_min > ram) return false;
+      if (osPref !== 'any' && String(a.os) !== osPref) return false;
+      return true;
+    }});
+    pool.forEach(function(a){{
+      a.score = (a.purpose.indexOf(purpose) !== -1 ? 3 : 0) + (ram - a.ram_min < 4 ? 1 : 0);
+    }});
+    pool.sort(function(x,y){{ return y.score - x.score || (y.ram_min - x.ram_min); }});
+    var top = pool.slice(0,3);
+    var box = document.getElementById('advisorResults');
+    if (!top.length){{
+      box.innerHTML = '<p class="lead">No exact match — try lowering the RAM requirement or picking "No preference".</p>';
+      return;
+    }}
+    var html = '<h2>Best matches for you</h2><div class="grid">';
+    top.forEach(function(a, i){{
+      html += '<a class="card" href="/' + a.slug + '">' +
+        (i===0 ? '<span class="tag" style="background:var(--brand2)">TOP PICK</span>' : '<span class="tag">' + a.cat + '</span>') +
+        '<h3>' + a.title + '</h3>' +
+        '<p>Needs ' + a.ram_min + 'GB+ RAM · Windows ' + a.os + '</p></a>';
+    }});
+    html += '</div>';
+    box.innerHTML = html;
+    box.scrollIntoView({{behavior:'smooth', block:'start'}});
+  }}
+  </script>'''
+    write("advisor.html", head("PC Advisor — Which Windows build fits your PC? — " + SITE['name'],
+          "Answer 3 quick questions and get matched with the best lightweight Windows build for "
+          "your PC's specs and use case.", SITE['domain'] + "/advisor") + body + FOOT)
 
 # ---------- Legal ----------
 def legal():
@@ -246,8 +367,65 @@ def legal():
     write("disclaimer.html", head("Disclaimer — " + SITE['name'],
           "Disclaimer.", SITE['domain']+"/disclaimer") + disc + FOOT)
 
+    terms = f'''<article class="post simple-page"><h1>Terms of Service</h1>
+      <p>By using this site you agree to the following:</p>
+      <ul>
+        <li>All reviewed OS builds are created by third-party communities; this site only reviews
+            and links to them for educational purposes.</li>
+        <li>We do not guarantee any build will work perfectly on every hardware configuration —
+            always test on a spare drive or backup your data first.</li>
+        <li>Reinstalling or replacing your OS erases your existing data. Back up anything important
+            before following any guide on this site.</li>
+        <li>Use of any linked build or tool is at your own risk. We are not responsible for data
+            loss, hardware issues, or software conflicts.</li>
+        <li>Site content (reviews, guides, the PC Advisor tool) belongs to {SITE['name']} / Daimel
+            and may not be redistributed commercially without permission.</li>
+      </ul>
+      <p>Questions about these terms? Email <a href="mailto:{SITE['contact_email']}">{SITE['contact_email']}</a>.</p></article>'''
+    write("terms.html", head("Terms of Service — " + SITE['name'],
+          "Terms of use for this site, its reviews and the PC Advisor tool.",
+          SITE['domain']+"/terms") + terms + FOOT)
+
+    contact = f'''<article class="post simple-page"><h1>Contact</h1>
+      <p class="lead">Questions about a build, the PC Advisor tool, or anything else? Reach out
+         directly:</p>
+      <a class="btn" href="mailto:{SITE['contact_email']}">✉ {SITE['contact_email']}</a>
+      <p style="margin-top:22px">You can also drop a comment on any video on the
+         <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube channel</a> — I read
+         and reply there too.</p></article>'''
+    write("contact.html", head("Contact — " + SITE['name'],
+          "Get in touch with questions about any reviewed Windows build.",
+          SITE['domain']+"/contact") + contact + FOOT)
+
+    about = f'''<article class="post simple-page"><h1>About</h1>
+      <p class="lead">This site is run by Daimel, the creator behind the {SITE['name']} YouTube
+         channel.</p>
+      <p>I test, review and document modified/debloated Windows builds and lightweight OS
+         alternatives — Ghost Spectre, KernelOS, AtlasOS, ReviOS, X-Lite and more — so you don't
+         have to guess which one actually fits your hardware and use case.</p>
+      <p>Every review here is based on a real install and hands-on testing, documented step by
+         step so anyone, regardless of technical background, can follow along safely.</p>
+      <p>Not sure which build fits your PC? Try the
+         <a href="/advisor">PC Advisor</a> — answer 3 quick questions and get matched instantly.</p>
+      <a class="btn" href="/contact">✉ Contact me</a></article>'''
+    write("about.html", head("About — " + SITE['name'],
+          "About the creator behind Lite OS Reviews and the modified Windows builds covered here.",
+          SITE['domain']+"/about") + about + FOOT)
+
+def not_found_page():
+    body = '''<article class="post simple-page" style="text-align:center">
+      <h1>404 — This page doesn't exist</h1>
+      <p class="lead">The link you followed isn't here, but your next favorite Windows build
+         probably is.</p>
+      <a class="btn" href="/advisor">Find my perfect Windows build</a>
+      <a class="btn ghost" href="/">Back to home</a></article>'''
+    write("404.html", head("Page not found — " + SITE['name'],
+          "The page you're looking for doesn't exist.", SITE['domain']+"/404") + body + FOOT)
+
 def seo_files():
-    urls = [SITE['domain'] + "/", SITE['domain'] + "/privacy", SITE['domain'] + "/disclaimer"]
+    urls = [SITE['domain'] + "/", SITE['domain'] + "/privacy", SITE['domain'] + "/disclaimer",
+            SITE['domain'] + "/advisor", SITE['domain'] + "/terms", SITE['domain'] + "/contact",
+            SITE['domain'] + "/about"]
     urls += [f"{SITE['domain']}/{a['slug']}" for a in ARTICLES]
     items = "\n".join(f"  <url><loc>{u}</loc><changefreq>weekly</changefreq></url>" for u in urls)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -263,10 +441,11 @@ def main():
     verify_file = os.path.join(HERE, "google1fa65511afa56808.html")
     if os.path.exists(verify_file):
         shutil.copy(verify_file, os.path.join(DIST, "google1fa65511afa56808.html"))
-    home(); legal(); seo_files()
+    home(); legal(); seo_files(); advisor_page()
     for a in ARTICLES:
         article_page(a)
         download_page(a)
+    not_found_page()
     print(f"OK -> {len(ARTICLES)} reviews + home + legal + sitemap in {DIST}")
 
 if __name__ == "__main__":

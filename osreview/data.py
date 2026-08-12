@@ -9,6 +9,8 @@ SITE = {
     "youtube": "https://www.youtube.com/channel/UCsAZA8xdUfr41QsX8WoyOQA?sub_confirmation=1",  # channel subscribe link
     "google_verify": "4t1k_fsPm-BsPZ6JQFLArsFhmg_LqMMaYAX1iqdFg4E",  # Google Search Console verification code
     "admaven_verify": "BqTY4rTaF",  # AdMaven site verification meta tag content
+    "logo": "https://yt3.ggpht.com/8nKq6n-K3Z8wIknQ_7GIrJ1blA0ryPpefDu7ID-7m200y5fAUQY-zijhAZ4xKFOZUzUUJxWhRw=s160-c-k-c0x00ffffff-no-rj",
+    "contact_email": "daimel.rivera@outlook.es",
     "description": "Honest reviews and install guides for modified Windows builds (Ghost Spectre, "
                    "AtlasOS, KernelOS, ReviOS, X-Lite) and lightweight operating systems built for "
                    "gaming and low-end PCs.",
@@ -26,6 +28,7 @@ ARTICLES = [
         "slug": "kernelos-11-25h2-aio",
         "title": "KernelOS 11 25H2 AIO v1.5.1 Review: Best Gaming Windows for GTA 6, Roblox and More",
         "cat": "Gaming OS",
+        "advisor": {"os": 11, "ram_min": 8, "purpose": ["gaming"]},
         "yt": "fUBxSvXTw50",
         "url": "https://pixeldrain.com/u/EJp47HDq",
         "summary": "KernelOS 11 25H2 AIO v1.5.1 is a modified and optimized Windows 11 build for gaming — "
@@ -76,6 +79,7 @@ ARTICLES = [
         "slug": "windows-x-lite-optimum-11-26h1",
         "title": "Windows X-Lite Optimum 11 26H1 Pro V2 Review: The Best Windows 11 Lite for Low-End PCs?",
         "cat": "Windows 11 Lite",
+        "advisor": {"os": 11, "ram_min": 4, "purpose": ["everyday", "gaming", "revive"]},
         "yt": "gxZ62u0h5sE",
         "url": "https://pixeldrain.com/u/FTatEzd7",
         "summary": "A stripped-down, debloated build of Windows 11 26H1 Pro aimed at squeezing more "
@@ -111,6 +115,7 @@ ARTICLES = [
         "slug": "ghost-spectre-windows-11",
         "title": "Ghost Spectre Windows 11 Review: Pure Performance, No Bloat!",
         "cat": "Windows 11 Lite",
+        "advisor": {"os": 11, "ram_min": 4, "purpose": ["everyday", "gaming"]},
         "yt": "quhv2vD6LoU",
         "url": "https://mega.nz/file/XSomDR7R#CDA_IrTFBeo55-WkVj7fDSzJ-gua1jvgmY5LHXd_Das",
         "summary": "Ghost Spectre is one of the most popular modified Windows 11 builds for gamers. "
@@ -141,6 +146,7 @@ ARTICLES = [
         "slug": "ghost-spectre-windows-10-superlite-se",
         "title": "Windows 10 Ghost Spectre Superlite SE Review: Should You Install It in 2026?",
         "cat": "Windows 10 Lite",
+        "advisor": {"os": 10, "ram_min": 2, "purpose": ["revive", "everyday"]},
         "yt": "PcxGzfQk-RI",
         "url": "https://pixeldrain.com/u/Sh1xEfbB",
         "summary": "Ghost Spectre's Superlite SE edition for Windows 10 goes even further than the "
@@ -169,6 +175,7 @@ ARTICLES = [
         "slug": "ghost-spectre-windows-10-superlite-2025",
         "title": "Windows 10 Ghost Spectre Superlite (2025) Review: The Ultimate Performance Boost",
         "cat": "Windows 10 Lite",
+        "advisor": {"os": 10, "ram_min": 2, "purpose": ["revive", "everyday"]},
         "yt": "c_9IIgFvSFA",
         "url": "https://www.mediafire.com/file/n6xi6ea9looevlp/WIN10.PRO.AIO.U25.X64.iso/file",
         "summary": "The 2025 refresh of Ghost Spectre's Windows 10 Superlite build, packaged as an "
@@ -196,6 +203,7 @@ ARTICLES = [
         "slug": "kernelos-atlasos-gaming",
         "title": "KernelOS + AtlasOS Review: Transform Your PC Into a Gaming Beast",
         "cat": "Gaming OS",
+        "advisor": {"os": 11, "ram_min": 8, "purpose": ["gaming"]},
         "yt": "SbLxCxGe2Zg",
         "url": "https://atlasos.dev/",
         "summary": "AtlasOS takes a different approach from a modified ISO: it's a set of tools (Ame "
@@ -224,6 +232,7 @@ ARTICLES = [
         "slug": "kernelos-11-23h2-aio",
         "title": "KernelOS 11 23H2 AIO Review: The Best Windows Build for Gamers?",
         "cat": "Gaming OS",
+        "advisor": {"os": 11, "ram_min": 6, "purpose": ["gaming"]},
         "yt": "BeTOlW3rzO4",
         "url": "https://www.mediafire.com/file/bxmmumuq17124v9/KernelOS11_23H2_AiO_Public.iso/file",
         "summary": "KernelOS is a purpose-built Windows 11 distribution aimed squarely at gaming "
@@ -251,6 +260,7 @@ ARTICLES = [
         "slug": "revios-2026",
         "title": "How to Install ReviOS in 2026: The Best Gaming OS This Year?",
         "cat": "Gaming OS",
+        "advisor": {"os": 11, "ram_min": 4, "purpose": ["everyday", "gaming"]},
         "yt": "DEK7N_Av8hY",
         "url": "https://www.revi.cc/download",
         "summary": "ReviOS keeps climbing in popularity as a gaming-focused Windows build. We break "
@@ -278,6 +288,7 @@ ARTICLES = [
         "slug": "atomos-11",
         "title": "Is AtomOS 11 Worth Installing in 2026?",
         "cat": "Windows 11 Lite",
+        "advisor": {"os": 11, "ram_min": 4, "purpose": ["everyday"]},
         "yt": "FM8vlh5YeBU",
         "url": "https://www.atom-os.com/",
         "summary": "AtomOS 11 is a lesser-known but growing modified Windows 11 build. We look at what "
@@ -304,6 +315,7 @@ ARTICLES = [
         "slug": "deepin-os-25",
         "title": "Deepin OS 25.1 Review: This Chinese Linux Distro Runs on 1.5GB RAM",
         "cat": "Linux",
+        "advisor": {"os": "linux", "ram_min": 1.5, "purpose": ["revive", "everyday"]},
         "yt": "uLh_0cbcL7c",
         "url": "https://www.deepin.org/en/download/",
         "summary": "Forget Windows entirely — Deepin is a polished Linux distribution out of China "
