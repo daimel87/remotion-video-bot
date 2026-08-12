@@ -122,6 +122,11 @@ _PLAYLISTS = {
     "chipsbank": "PLBfPLvLvAgahLZkPvVydZOPsUvIk0RCl_",
 }
 
+# Video único específico por controlador (cuando no hay playlist propia)
+_VIDEOS = {
+    "innostor": "R-w49XRIQRU",
+}
+
 for slug, brand, url in _CONTROLLERS:
     TOOLS.append({
         "slug": slug,
@@ -130,6 +135,7 @@ for slug, brand, url in _CONTROLLERS:
         "url": url,
         "kind": "mptool",
         "playlist": _PLAYLISTS.get(slug),
+        "video_id": _VIDEOS.get(slug),
         "intro": f"Herramienta de bajo nivel (MPTool) para reparar memorias USB con controlador "
                  f"{brand}. Permite reformatear el chip NAND, borrar bloques dañados y devolver la "
                  f"capacidad real al pendrive cuando Windows ya no lo reconoce o no da formato.",
