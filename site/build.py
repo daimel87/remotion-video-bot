@@ -194,7 +194,14 @@ def tool_page(t):
       <div class="modal-box">
         <button class="modal-close" type="button" onclick="closeDlModal()" aria-label="Cerrar">✕</button>
         <h3>Tu descarga está casi lista</h3>
-        <p id="dlCountdown" style="cursor:pointer">Preparando tu descarga… 10s</p>
+        <div class="dlgate-ring" id="dlRing" style="cursor:pointer">
+          <svg viewBox="0 0 100 100">
+            <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
+            <circle class="ring-fg" id="ringFg" cx="50" cy="50" r="45"></circle>
+          </svg>
+          <span id="dlCountdown">10</span>
+        </div>
+        <p id="dlWaitLabel">Preparando tu descarga…</p>
         <a id="dlReal" class="download" href="{t['url']}" rel="noopener nofollow" style="display:none"
            onclick="window.open('{SITE['monetag_directlink']}','_blank')">⬇ Descargar {html.escape(t['brand'])}</a>
       </div>
@@ -202,26 +209,40 @@ def tool_page(t):
     <script>
     function openDlModal(){{
       document.getElementById('dlModal').style.display='flex';
-      var total=10, c=total, cd=document.getElementById('dlCountdown'),
-          btn=document.getElementById('dlReal'), stalled=false;
-      cd.style.display='block'; btn.style.display='none';
-      var id=setInterval(function(){{
+      var total=10, half=Math.ceil(total/2), c=total, stalled=false,
+          cd=document.getElementById('dlCountdown'), ring=document.getElementById('ringFg'),
+          label=document.getElementById('dlWaitLabel'), wrap=document.getElementById('dlRing'),
+          btn=document.getElementById('dlReal');
+      var circumference = 2 * Math.PI * 45;
+      ring.style.strokeDasharray = circumference;
+      wrap.style.display='block'; label.style.display='block'; btn.style.display='none';
+      cd.textContent = total; ring.style.strokeDashoffset = 0;
+      var id=null;
+      function tick(){{
         c--;
-        if(c<=5){{
+        if(c<=half){{
           clearInterval(id);
           stalled=true;
-          cd.innerHTML='Se detuvo… haz clic aquí arriba ↑ para continuar';
+          label.textContent='SI EL CONTADOR SE DETIENE DA CLICK ENCIMA';
         }} else {{
-          cd.innerHTML='Preparando tu descarga… '+c+'s';
+          cd.textContent=c;
+          ring.style.strokeDashoffset = circumference * (1 - c/total);
         }}
-      }},1000);
-      cd.onclick = function(){{
+      }}
+      id=setInterval(tick,1000);
+      wrap.onclick = function(){{
         if(!stalled) return;
         stalled=false;
+        label.textContent='Preparando tu descarga…';
         var id2=setInterval(function(){{
           c--;
-          if(c<0){{clearInterval(id2); cd.style.display='none'; btn.style.display='inline-block';}}
-          else{{cd.innerHTML='Preparando tu descarga… '+c+'s';}}
+          if(c<=0){{
+            clearInterval(id2);
+            wrap.style.display='none'; label.style.display='none'; btn.style.display='inline-block';
+          }} else {{
+            cd.textContent=c;
+            ring.style.strokeDashoffset = circumference * (1 - c/total);
+          }}
         }},1000);
       }};
     }}
