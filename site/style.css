@@ -179,10 +179,15 @@ button.download{border:0;cursor:pointer;font-family:inherit;font-size:1.1rem}
 .tst-wrap h2{text-align:center;padding:0 18px}
 .tst-track{display:flex;gap:16px;width:max-content;animation:tst-scroll 40s linear infinite}
 .tst-wrap:hover .tst-track{animation-play-state:paused}
-.tst-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
-  padding:16px 18px;width:300px;flex:0 0 auto;
-  backdrop-filter:blur(var(--glass-blur)) saturate(140%);-webkit-backdrop-filter:blur(var(--glass-blur)) saturate(140%)}
-.tst-card p{margin:0 0 10px;font-size:.92rem;color:var(--ink);line-height:1.55}
-.tst-card a{font-size:.78rem;color:var(--muted)}
-@keyframes tst-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tst-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;width:300px;flex:0 0 auto}
+.tst-head{background:#0d2f6b;color:#dce8ff;font-weight:800;font-size:.82rem;
+  padding:10px 16px;letter-spacing:.02em}
+.tst-body{background:#e5f0ff;padding:14px 16px}
+.tst-body p{margin:0 0 10px;font-size:.92rem;color:#0f1f3a;line-height:1.55}
+.tst-body a{font-size:.78rem;color:#2f5fa8}
+@media (prefers-color-scheme: light){
+  .tst-head{background:#153f8c}
+  .tst-body{background:#eef4ff}
+}
+@keyframes tst-scroll{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 @media(prefers-reduced-motion:reduce){.tst-track{animation:none;overflow-x:auto}}
