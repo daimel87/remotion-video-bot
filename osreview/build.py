@@ -124,7 +124,14 @@ def download_page(a):
     <h1>Your download is being prepared</h1>
     <p class="lead">{html.escape(a['cat'])} — {html.escape(a['title'])}</p>
     <div class="dlgate-box">
-      <p id="dlCountdown">Please wait… <strong>15s</strong></p>
+      <div class="dlgate-ring" id="dlRing">
+        <svg viewBox="0 0 100 100">
+          <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
+          <circle class="ring-fg" id="ringFg" cx="50" cy="50" r="45"></circle>
+        </svg>
+        <span id="dlCountdown">15</span>
+      </div>
+      <p id="dlWaitLabel">Please wait, your link is being prepared…</p>
       <a id="dlReal" class="download" href="{a['url']}" rel="noopener nofollow" style="display:none"
          onclick="{directlink_click}">⬇ Get Link</a>
     </div>
@@ -133,11 +140,20 @@ def download_page(a):
   </article>
   <script>
   (function(){{
-    var c=15, cd=document.getElementById('dlCountdown'), btn=document.getElementById('dlReal');
+    var total=15, c=total, cd=document.getElementById('dlCountdown'),
+        ring=document.getElementById('ringFg'), label=document.getElementById('dlWaitLabel'),
+        wrap=document.getElementById('dlRing'), btn=document.getElementById('dlReal');
+    var circumference = 2 * Math.PI * 45;
+    ring.style.strokeDasharray = circumference;
     var id=setInterval(function(){{
       c--;
-      if(c<=0){{clearInterval(id); cd.style.display='none'; btn.style.display='inline-block';}}
-      else{{cd.innerHTML='Please wait… <strong>'+c+'s</strong>';}}
+      if(c<=0){{
+        clearInterval(id);
+        wrap.style.display='none'; label.style.display='none'; btn.style.display='inline-block';
+      }} else {{
+        cd.textContent=c;
+        ring.style.strokeDashoffset = circumference * (1 - c/total);
+      }}
     }},1000);
   }})();
   </script>'''
