@@ -258,6 +258,7 @@ def home():
     cards = ""
     for a in ARTICLES:
         cards += f'''<a class="card" href="/{a['slug']}">
+          <img class="card-thumb" src="https://i.ytimg.com/vi/{a['yt']}/hqdefault.jpg" alt="{html.escape(a['title'])}" loading="lazy" width="480" height="270">
           <span class="tag">{html.escape(a['cat'])}</span>
           <h3>{html.escape(a['title'])}</h3>
           <p>{html.escape(a['summary'][:100])}…</p></a>\n'''
