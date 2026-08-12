@@ -3,6 +3,7 @@
 Usage: python3 osreview/build.py"""
 import os, html, shutil, json
 from data import SITE, ARTICLES
+from data_pl import SITE_PL, ARTICLES_PL, UI_PL
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
@@ -13,10 +14,16 @@ def video(yt):
         frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen></iframe></div>'''
 
-def head(title, desc, canonical):
+def head(title, desc, canonical, lang="en", en_url=None, pl_url=None, nav=None):
     verify = f'<meta name="google-site-verification" content="{SITE["google_verify"]}">' if SITE.get("google_verify") else ""
+    hreflang = ""
+    if en_url and pl_url:
+        hreflang = f'''<link rel="alternate" hreflang="en" href="{en_url}">
+<link rel="alternate" hreflang="pl" href="{pl_url}">
+<link rel="alternate" hreflang="x-default" href="{en_url}">
+'''
     return f'''<!DOCTYPE html>
-<html lang="en">
+<html lang="{lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,7 +41,7 @@ def head(title, desc, canonical):
 <meta name="twitter:image" content="{SITE['logo']}">
 <meta name="robots" content="index,follow">
 {verify}
-<link rel="icon" href="{SITE['logo']}">
+{hreflang}<link rel="icon" href="{SITE['logo']}">
 <link rel="apple-touch-icon" href="{SITE['logo']}">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -43,8 +50,8 @@ def head(title, desc, canonical):
 <div class="blob b2"></div>
 <div class="blob b3"></div>
 <header class="site-header glass">
-  <a class="logo" href="/"><img src="{SITE['logo']}" alt="{SITE['name']}" width="36" height="36" loading="eager"> {SITE['name']}</a>
-  <nav><a href="/">Home</a> <a href="/advisor">PC Advisor</a> <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a></nav>
+  <a class="logo" href="{'/pl/' if lang == 'pl' else '/'}"><img src="{SITE['logo']}" alt="{SITE['name']}" width="36" height="36" loading="eager"> {SITE['name']}</a>
+  <nav>{nav or f'<a href="/">Home</a> <a href="/advisor">PC Advisor</a> <a href="{SITE["youtube"]}" target="_blank" rel="noopener">YouTube</a>'}</nav>
 </header>
 <main>'''
 
@@ -62,29 +69,41 @@ if ('serviceWorker' in navigator) {{
 }}
 </script>'''
 
-COOKIE_BANNER = '''
+def COOKIE_BANNER_HTML(lang="en"):
+    if lang == "pl":
+        text = f'{UI_PL["cookie_text"]} <a href="/pl/privacy">{UI_PL["cookie_more"]}</a>.'
+        btn = UI_PL["cookie_ok"]
+    else:
+        text = 'We use first-party and third-party (advertising) cookies to keep this site free. By continuing to browse you accept their use. <a href="/privacy">Learn more</a>.'
+        btn = "Got it"
+    return f'''
 <div class="cookie-banner" id="cookieBanner" style="display:none">
-  <p>We use first-party and third-party (advertising) cookies to keep this site free.
-     By continuing to browse you accept their use. <a href="/privacy">Learn more</a>.</p>
-  <button class="btn" type="button" onclick="document.getElementById('cookieBanner').style.display='none';localStorage.setItem('cookieOk','1')">Got it</button>
+  <p>{text}</p>
+  <button class="btn" type="button" onclick="document.getElementById('cookieBanner').style.display='none';localStorage.setItem('cookieOk','1')">{btn}</button>
 </div>
 <script>
-if (!localStorage.getItem('cookieOk')) {
+if (!localStorage.getItem('cookieOk')) {{
   document.getElementById('cookieBanner').style.display = 'flex';
-}
+}}
 </script>'''
 
-ADBLOCK_DETECT = '''
+def ADBLOCK_DETECT_HTML(lang="en"):
+    if lang == "pl":
+        title, text, btn = UI_PL["adblock_title"], UI_PL["adblock_text"], UI_PL["adblock_btn"]
+    else:
+        title = "🚫 Ad blocker detected"
+        text = "This site is free thanks to advertising. Please disable your ad blocker (AdBlock, uBlock, Brave Shields, etc.) for this site and reload the page to keep reading and downloading."
+        btn = "I disabled it, reload"
+    return f'''
 <div class="ab-overlay" id="abOverlay">
   <div class="ab-box">
-    <h2>🚫 Ad blocker detected</h2>
-    <p>This site is free thanks to advertising. Please disable your ad blocker (AdBlock, uBlock,
-       Brave Shields, etc.) for this site and reload the page to keep reading and downloading.</p>
-    <button class="btn" type="button" onclick="location.reload()">I disabled it, reload</button>
+    <h2>{title}</h2>
+    <p>{text}</p>
+    <button class="btn" type="button" onclick="location.reload()">{btn}</button>
   </div>
 </div>
 <div class="ab-bait ad-banner ads adsbox adsbygoogle textads banner_ad" style="position:absolute;left:-9999px;top:-9999px;width:300px;height:250px;"></div>
-<script>
+<script>''' + '''
 (function(){
   var shown = false;
   function showBlock(){
@@ -103,7 +122,40 @@ ADBLOCK_DETECT = '''
 })();
 </script>'''
 
-FOOT = f'''</main>
+def FOOT_HTML(lang="en"):
+    if lang == "pl":
+        footer = f'''</main>
+<footer class="site-footer">
+  <img class="footer-logo" src="{SITE['logo']}" alt="{SITE['name']}" width="64" height="64" loading="lazy">
+  <p class="footer-name">{SITE['name']} — {SITE_PL['tagline']}.</p>
+  <a class="btn ghost footer-yt" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Subskrybuj na YouTube</a>
+  <div class="footer-cols">
+    <div>
+      <h4>{UI_PL['footer_explore']}</h4>
+      <a href="/pl/advisor">{UI_PL['nav_advisor']}</a>
+      <a href="/pl/about">{UI_PL['footer_about']}</a>
+      <a href="/pl/contact">{UI_PL['footer_contact']}</a>
+    </div>
+    <div>
+      <h4>{UI_PL['footer_legal']}</h4>
+      <a href="/pl/privacy">{UI_PL['footer_privacy']}</a>
+      <a href="/pl/disclaimer">{UI_PL['footer_disclaimer']}</a>
+      <a href="/pl/terms">{UI_PL['footer_terms']}</a>
+    </div>
+    <div>
+      <h4>{UI_PL['footer_other_sites']}</h4>
+      <a href="https://dtechusb.pages.dev/" target="_blank" rel="noopener">{UI_PL['footer_other_site_label']}</a>
+      <a href="/">{UI_PL['footer_en_label']}</a>
+    </div>
+  </div>
+  <p class="disclaimer">{UI_PL['footer_disclaimer_text']}</p>
+</footer>
+{ADBLOCK_DETECT_HTML('pl')}
+{COOKIE_BANNER_HTML('pl')}
+{MONETAG_SITEWIDE}
+</body></html>'''
+        return footer
+    return f'''</main>
 <footer class="site-footer">
   <img class="footer-logo" src="{SITE['logo']}" alt="{SITE['name']}" width="64" height="64" loading="lazy">
   <p class="footer-name">{SITE['name']} — {SITE['tagline']}.</p>
@@ -124,15 +176,18 @@ FOOT = f'''</main>
     <div>
       <h4>Other sites</h4>
       <a href="https://dtechusb.pages.dev/" target="_blank" rel="noopener">D-Tech USB (ES) — USB repair tools</a>
+      <a href="/pl/">Polska wersja / Polish version</a>
     </div>
   </div>
   <p class="disclaimer">Educational/review content about modified operating systems. Always keep a
      valid license for the OS you install and back up your data before reinstalling.</p>
 </footer>
-{ADBLOCK_DETECT}
-{COOKIE_BANNER}
+{ADBLOCK_DETECT_HTML('en')}
+{COOKIE_BANNER_HTML('en')}
 {MONETAG_SITEWIDE}
 </body></html>'''
+
+FOOT = FOOT_HTML("en")
 
 def write(path, content):
     full = os.path.join(DIST, path)
@@ -152,18 +207,29 @@ def related(current):
             break
     return out
 
-def download_block(a):
+def download_block(a, lang="en"):
+    if lang == "pl":
+        return f'''<a class="download" href="/pl/get/{a['slug']}">⬇ Pobierz link do pobrania</a>'''
     return f'''<a class="download" href="/get/{a['slug']}">⬇ Get download link</a>'''
 
 # ---------- Intermediate download-gate page ----------
-def download_page(a):
+def download_page(a, lang="en", a_pl=None):
     directlink_click = f"window.open('{SITE['monetag_directlink']}','_blank')" if SITE.get("monetag_directlink") else ""
-    canonical = f"{SITE['domain']}/get/{a['slug']}"
+    prefix = "/pl" if lang == "pl" else ""
+    canonical = f"{SITE['domain']}{prefix}/get/{a['slug']}"
+    title = a_pl['title'] if a_pl else a['title']
+    cat = a_pl['cat'] if a_pl else a['cat']
+    home_label = UI_PL['nav_home'] if lang == "pl" else "Home"
+    heading = "Twoje pobieranie jest przygotowywane" if lang == "pl" else "Your download is being prepared"
+    wait_label = "Proszę czekać, link jest przygotowywany…" if lang == "pl" else "Please wait, your link is being prepared…"
+    stalled_label = "Zatrzymano — kliknij koło powyżej, aby kontynuować" if lang == "pl" else "Stalled — click the circle above to continue"
+    get_link = "⬇ Pobierz link" if lang == "pl" else "⬇ Get Link"
+    note = UI_PL['backup_note'] if lang == "pl" else "⚠️ Always back up your files before reinstalling any operating system. Make sure you have a valid license for Windows before using a modified build."
     body = f'''
   <article class="post dlgate">
-    <nav class="crumbs"><a href="/">Home</a> › <a href="/{a['slug']}">{html.escape(a['title'])}</a> › <span>Download</span></nav>
-    <h1>Your download is being prepared</h1>
-    <p class="lead">{html.escape(a['cat'])} — {html.escape(a['title'])}</p>
+    <nav class="crumbs"><a href="{prefix}/">{home_label}</a> › <a href="{prefix}/{a['slug']}">{html.escape(title)}</a> › <span>Download</span></nav>
+    <h1>{heading}</h1>
+    <p class="lead">{html.escape(cat)} — {html.escape(title)}</p>
     <div class="dlgate-box">
       <div class="dlgate-ring" id="dlRing" style="cursor:pointer">
         <svg viewBox="0 0 100 100">
@@ -172,12 +238,11 @@ def download_page(a):
         </svg>
         <span id="dlCountdown">15</span>
       </div>
-      <p id="dlWaitLabel">Please wait, your link is being prepared…</p>
+      <p id="dlWaitLabel">{wait_label}</p>
       <a id="dlReal" class="download" href="{a['url']}" rel="noopener nofollow" style="display:none"
-         onclick="{directlink_click}">⬇ Get Link</a>
+         onclick="{directlink_click}">{get_link}</a>
     </div>
-    <p class="note">⚠️ Always back up your files before reinstalling any operating system. Make sure
-       you have a valid license for Windows before using a modified build.</p>
+    <p class="note">{note}</p>
   </article>
   <script>
   (function(){{
@@ -193,7 +258,7 @@ def download_page(a):
       if(c<=half){{
         clearInterval(id);
         stalled=true;
-        label.textContent='Stalled — click the circle above to continue';
+        label.textContent={stalled_label!r};
       }} else {{
         cd.textContent=c;
         ring.style.strokeDashoffset = circumference * (1 - c/total);
@@ -203,7 +268,7 @@ def download_page(a):
     wrap.addEventListener('click', function(){{
       if(!stalled) return;
       stalled=false;
-      label.textContent='Please wait, your link is being prepared…';
+      label.textContent={wait_label!r};
       var id2=setInterval(function(){{
         c--;
         if(c<=0){{
@@ -217,9 +282,14 @@ def download_page(a):
     }});
   }})();
   </script>'''
-    write(f"get/{a['slug']}.html", head(f"Download — {a['title']}", a['summary'], canonical)
+    dl_prefix = "Download" if lang == "en" else "Pobierz"
+    fname = f"get/{a['slug']}.html" if lang == "en" else f"pl/get/{a['slug']}.html"
+    summary = a_pl['summary'] if a_pl else a['summary']
+    nav_html = f'<a href="/">Home</a> <a href="/advisor">PC Advisor</a> <a href="{SITE["youtube"]}" target="_blank" rel="noopener">YouTube</a>' if lang == "en" else \
+               f'<a href="/pl/">{UI_PL["nav_home"]}</a> <a href="/pl/advisor">{UI_PL["nav_advisor"]}</a> <a href="{SITE["youtube"]}" target="_blank" rel="noopener">YouTube</a>'
+    write(fname, head(f"{dl_prefix} — {title}", summary, canonical, lang=lang, nav=nav_html)
           .replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex,follow">')
-          + body + FOOT)
+          + body + FOOT_HTML(lang))
 
 # ---------- Article page ----------
 def article_page(a):
@@ -251,7 +321,54 @@ def article_page(a):
     <h2>More reviews</h2>
     <div class="rel-grid">{related(a)}</div>
   </article>'''
-    write(f"{a['slug']}.html", head(a['title'], a['summary'][:155], canonical) + body + FOOT)
+    en_url = canonical
+    pl_url = f"{SITE['domain']}/pl/{a['slug']}"
+    write(f"{a['slug']}.html", head(a['title'], a['summary'][:155], canonical, lang="en", en_url=en_url, pl_url=pl_url) + body + FOOT)
+
+def related_pl(current):
+    out = ""
+    count = 0
+    for a in ARTICLES_PL:
+        if a["slug"] == current["slug"]:
+            continue
+        out += f'<a class="rel-card" href="/pl/{a["slug"]}"><h4>{html.escape(a["title"])}</h4></a>\n'
+        count += 1
+        if count == 4:
+            break
+    return out
+
+def article_page_pl(a_pl):
+    a = next(x for x in ARTICLES if x["slug"] == a_pl["slug"])
+    en_url = f"{SITE['domain']}/{a['slug']}"
+    pl_url = f"{SITE['domain']}/pl/{a['slug']}"
+    sections = ""
+    for sub, paras in a_pl["body"]:
+        sections += f"<h2>{html.escape(sub)}</h2>\n"
+        for p in paras:
+            sections += f"<p>{p}</p>\n"
+    nav_html = f'<a href="/pl/">{UI_PL["nav_home"]}</a> <a href="/pl/advisor">{UI_PL["nav_advisor"]}</a> <a href="{SITE["youtube"]}" target="_blank" rel="noopener">{UI_PL["nav_youtube"]}</a>'
+    body = f'''
+  <article class="post">
+    <nav class="crumbs"><a href="/pl/">{UI_PL['crumbs_home']}</a> › <span>{html.escape(a_pl['cat'])}</span></nav>
+    <span class="tag">{html.escape(a_pl['cat'])}</span>
+    <h1>{html.escape(a_pl['title'])}</h1>
+    <p class="lead">{html.escape(a_pl['summary'])}</p>
+    {video(a['yt'])}
+    {download_block(a, lang="pl")}
+    <div class="video-cta-row">
+      <a class="btn ghost" href="/pl/advisor">{UI_PL['advisor_not_sure']}</a>
+      <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">{UI_PL['subscribe_yt']}</a>
+    </div>
+    <p class="note">{UI_PL['backup_note']}</p>
+    {sections}
+    <div class="fb-cta">
+      <p>{UI_PL['liked_review']} <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a>
+         {UI_PL['liked_review_suffix']}</p>
+    </div>
+    <h2>{UI_PL['more_reviews']}</h2>
+    <div class="rel-grid">{related_pl(a_pl)}</div>
+  </article>'''
+    write(f"pl/{a['slug']}.html", head(a_pl['title'], a_pl['summary'][:155], pl_url, lang="pl", en_url=en_url, pl_url=pl_url, nav=nav_html) + body + FOOT_HTML("pl"))
 
 # ---------- Home ----------
 def home():
@@ -274,7 +391,32 @@ def home():
     <div class="grid">{cards}</div>
   </section>'''
     write("index.html", head(f"{SITE['name']} — {SITE['tagline']}", SITE['description'],
-                             SITE['domain'] + "/") + body + FOOT)
+                             SITE['domain'] + "/", lang="en", en_url=SITE['domain']+"/", pl_url=SITE['domain']+"/pl/") + body + FOOT)
+
+def home_pl():
+    cards = ""
+    for a_pl in ARTICLES_PL:
+        a = next(x for x in ARTICLES if x["slug"] == a_pl["slug"])
+        cards += f'''<a class="card" href="/pl/{a_pl['slug']}">
+          <img class="card-thumb" src="https://i.ytimg.com/vi/{a['yt']}/hqdefault.jpg" alt="{html.escape(a_pl['title'])}" loading="lazy" width="480" height="270">
+          <span class="tag">{html.escape(a_pl['cat'])}</span>
+          <h3>{html.escape(a_pl['title'])}</h3>
+          <p>{html.escape(a_pl['summary'][:100])}…</p></a>\n'''
+    nav_html = f'<a href="/pl/">{UI_PL["nav_home"]}</a> <a href="/pl/advisor">{UI_PL["nav_advisor"]}</a> <a href="{SITE["youtube"]}" target="_blank" rel="noopener">{UI_PL["nav_youtube"]}</a>'
+    body = f'''
+  <section class="hero">
+    <h1>{UI_PL['hero_title_pre']} <span class="grad">{UI_PL['hero_title_grad']}</span> {UI_PL['hero_title_post']}</h1>
+    <p class="lead">{SITE_PL['description']}</p>
+    <a class="btn" href="/pl/advisor">{UI_PL['hero_cta_advisor']}</a>
+    <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">{UI_PL['hero_cta_youtube']}</a>
+  </section>
+  <section class="grid-wrap">
+    <h2>{UI_PL['reviews_heading']}</h2>
+    <div class="grid">{cards}</div>
+  </section>'''
+    write("pl/index.html", head(f"{SITE['name']} — {SITE_PL['tagline']}", SITE_PL['description'],
+          SITE['domain'] + "/pl/", lang="pl", en_url=SITE['domain']+"/", pl_url=SITE['domain']+"/pl/", nav=nav_html)
+          + body + FOOT_HTML("pl"))
 
 # ---------- PC Advisor ----------
 def advisor_page():
@@ -357,7 +499,92 @@ def advisor_page():
   </script>'''
     write("advisor.html", head("PC Advisor — Which Windows build fits your PC? — " + SITE['name'],
           "Answer 3 quick questions and get matched with the best lightweight Windows build for "
-          "your PC's specs and use case.", SITE['domain'] + "/advisor") + body + FOOT)
+          "your PC's specs and use case.", SITE['domain'] + "/advisor",
+          lang="en", en_url=SITE['domain']+"/advisor", pl_url=SITE['domain']+"/pl/advisor") + body + FOOT)
+
+def advisor_page_pl():
+    catalog = [
+        {"slug": a["slug"], "title": next(p for p in ARTICLES_PL if p["slug"] == a["slug"])["title"],
+         "cat": next(p for p in ARTICLES_PL if p["slug"] == a["slug"])["cat"], "yt": a["yt"], **a["advisor"]}
+        for a in ARTICLES if a.get("advisor")
+    ]
+    catalog_json = json.dumps(catalog)
+    nav_html = f'<a href="/pl/">{UI_PL["nav_home"]}</a> <a href="/pl/advisor">{UI_PL["nav_advisor"]}</a> <a href="{SITE["youtube"]}" target="_blank" rel="noopener">{UI_PL["nav_youtube"]}</a>'
+    body = f'''
+  <article class="post">
+    <nav class="crumbs"><a href="/pl/">{UI_PL['crumbs_home']}</a> › <span>{UI_PL['crumbs_advisor']}</span></nav>
+    <h1>{UI_PL['advisor_title']}</h1>
+    <p class="lead">{UI_PL['advisor_lead']}</p>
+
+    <form id="advisorForm" class="advisor-form">
+      <div class="advisor-q">
+        <label>{UI_PL['advisor_q_ram']}</label>
+        <select id="qRam">
+          <option value="1.5">{UI_PL['advisor_ram_low']}</option>
+          <option value="4" selected>{UI_PL['advisor_ram_4']}</option>
+          <option value="8">{UI_PL['advisor_ram_8']}</option>
+          <option value="16">{UI_PL['advisor_ram_16']}</option>
+        </select>
+      </div>
+      <div class="advisor-q">
+        <label>{UI_PL['advisor_q_purpose']}</label>
+        <select id="qPurpose">
+          <option value="gaming">{UI_PL['advisor_purpose_gaming']}</option>
+          <option value="everyday" selected>{UI_PL['advisor_purpose_everyday']}</option>
+          <option value="revive">{UI_PL['advisor_purpose_revive']}</option>
+        </select>
+      </div>
+      <div class="advisor-q">
+        <label>{UI_PL['advisor_q_os']}</label>
+        <select id="qOs">
+          <option value="any" selected>{UI_PL['advisor_os_any']}</option>
+          <option value="11">{UI_PL['advisor_os_11']}</option>
+          <option value="10">{UI_PL['advisor_os_10']}</option>
+          <option value="linux">{UI_PL['advisor_os_linux']}</option>
+        </select>
+      </div>
+      <button class="btn" type="button" onclick="runAdvisor()">{UI_PL['advisor_btn']}</button>
+    </form>
+
+    <div id="advisorResults" class="advisor-results"></div>
+  </article>
+  <script>
+  var ADVISOR_CATALOG = {catalog_json};
+  function runAdvisor(){{
+    var ram = parseFloat(document.getElementById('qRam').value);
+    var purpose = document.getElementById('qPurpose').value;
+    var osPref = document.getElementById('qOs').value;
+    var pool = ADVISOR_CATALOG.filter(function(a){{
+      if (a.ram_min > ram) return false;
+      if (osPref !== 'any' && String(a.os) !== osPref) return false;
+      return true;
+    }});
+    pool.forEach(function(a){{
+      a.score = (a.purpose.indexOf(purpose) !== -1 ? 3 : 0) + (ram - a.ram_min < 4 ? 1 : 0);
+    }});
+    pool.sort(function(x,y){{ return y.score - x.score || (y.ram_min - x.ram_min); }});
+    var top = pool.slice(0,3);
+    var box = document.getElementById('advisorResults');
+    if (!top.length){{
+      box.innerHTML = '<p class="lead">{UI_PL['advisor_no_match']}</p>';
+      return;
+    }}
+    var html = '<h2>{UI_PL['advisor_top_matches']}</h2><div class="grid">';
+    top.forEach(function(a, i){{
+      html += '<a class="card" href="/pl/' + a.slug + '">' +
+        (i===0 ? '<span class="tag" style="background:var(--brand2)">{UI_PL['advisor_top_pick']}</span>' : '<span class="tag">' + a.cat + '</span>') +
+        '<h3>' + a.title + '</h3>' +
+        '<p>{UI_PL['advisor_needs']} ' + a.ram_min + 'GB+ RAM · Windows ' + a.os + '</p></a>';
+    }});
+    html += '</div>';
+    box.innerHTML = html;
+    box.scrollIntoView({{behavior:'smooth', block:'start'}});
+  }}
+  </script>'''
+    write("pl/advisor.html", head("Doradca PC — który system Windows pasuje do Twojego PC? — " + SITE['name'],
+          UI_PL['advisor_lead'], SITE['domain'] + "/pl/advisor",
+          lang="pl", en_url=SITE['domain']+"/advisor", pl_url=SITE['domain']+"/pl/advisor", nav=nav_html)
+          + body + FOOT_HTML("pl"))
 
 # ---------- Legal ----------
 def legal():
@@ -431,11 +658,69 @@ def not_found_page():
     write("404.html", head("Page not found — " + SITE['name'],
           "The page you're looking for doesn't exist.", SITE['domain']+"/404") + body + FOOT)
 
+def legal_pl():
+    nav_html = f'<a href="/pl/">{UI_PL["nav_home"]}</a> <a href="/pl/advisor">{UI_PL["nav_advisor"]}</a> <a href="{SITE["youtube"]}" target="_blank" rel="noopener">{UI_PL["nav_youtube"]}</a>'
+    priv = f'''<article class="post"><h1>{UI_PL['privacy_title']}</h1>
+      <p>{UI_PL['privacy_body']}</p></article>'''
+    disc = f'''<article class="post"><h1>{UI_PL['disclaimer_title']}</h1>
+      <p>{UI_PL['disclaimer_body']}</p></article>'''
+    write("pl/privacy.html", head(f"{UI_PL['privacy_title']} — " + SITE['name'],
+          UI_PL['privacy_body'][:155], SITE['domain']+"/pl/privacy", lang="pl",
+          en_url=SITE['domain']+"/privacy", pl_url=SITE['domain']+"/pl/privacy", nav=nav_html) + priv + FOOT_HTML("pl"))
+    write("pl/disclaimer.html", head(f"{UI_PL['disclaimer_title']} — " + SITE['name'],
+          UI_PL['disclaimer_body'][:155], SITE['domain']+"/pl/disclaimer", lang="pl",
+          en_url=SITE['domain']+"/disclaimer", pl_url=SITE['domain']+"/pl/disclaimer", nav=nav_html) + disc + FOOT_HTML("pl"))
+
+    items_html = "\n".join(f"<li>{it}</li>" for it in UI_PL['terms_items'])
+    terms = f'''<article class="post simple-page"><h1>{UI_PL['terms_title']}</h1>
+      <p>{UI_PL['terms_intro']}</p>
+      <ul>{items_html}</ul>
+      <p>{UI_PL['terms_contact']} <a href="mailto:{SITE['contact_email']}">{SITE['contact_email']}</a>.</p></article>'''
+    write("pl/terms.html", head(f"{UI_PL['terms_title']} — " + SITE['name'],
+          UI_PL['terms_intro'], SITE['domain']+"/pl/terms", lang="pl",
+          en_url=SITE['domain']+"/terms", pl_url=SITE['domain']+"/pl/terms", nav=nav_html) + terms + FOOT_HTML("pl"))
+
+    contact = f'''<article class="post simple-page"><h1>{UI_PL['contact_title']}</h1>
+      <p class="lead">{UI_PL['contact_lead']}</p>
+      <a class="btn" href="mailto:{SITE['contact_email']}">✉ {SITE['contact_email']}</a>
+      <p style="margin-top:22px">{UI_PL['contact_alt']}
+         <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a>
+         {UI_PL['contact_alt_suffix']}</p></article>'''
+    write("pl/contact.html", head(f"{UI_PL['contact_title']} — " + SITE['name'],
+          UI_PL['contact_lead'][:155], SITE['domain']+"/pl/contact", lang="pl",
+          en_url=SITE['domain']+"/contact", pl_url=SITE['domain']+"/pl/contact", nav=nav_html) + contact + FOOT_HTML("pl"))
+
+    about = f'''<article class="post simple-page"><h1>{UI_PL['about_title']}</h1>
+      <p class="lead">{UI_PL['about_lead']}</p>
+      <p>{UI_PL['about_p1']}</p>
+      <p>{UI_PL['about_p2']}</p>
+      <p>{UI_PL['about_p3']} <a href="/pl/advisor">{UI_PL['nav_advisor']}</a>
+         {UI_PL['about_p3_suffix']}</p>
+      <a class="btn" href="/pl/contact">{UI_PL['about_contact_btn']}</a></article>'''
+    write("pl/about.html", head(f"{UI_PL['about_title']} — " + SITE['name'],
+          UI_PL['about_lead'][:155], SITE['domain']+"/pl/about", lang="pl",
+          en_url=SITE['domain']+"/about", pl_url=SITE['domain']+"/pl/about", nav=nav_html) + about + FOOT_HTML("pl"))
+
+def not_found_pl():
+    nav_html = f'<a href="/pl/">{UI_PL["nav_home"]}</a> <a href="/pl/advisor">{UI_PL["nav_advisor"]}</a> <a href="{SITE["youtube"]}" target="_blank" rel="noopener">{UI_PL["nav_youtube"]}</a>'
+    body = f'''<article class="post simple-page" style="text-align:center">
+      <h1>{UI_PL['notfound_title']}</h1>
+      <p class="lead">{UI_PL['notfound_lead']}</p>
+      <a class="btn" href="/pl/advisor">{UI_PL['notfound_btn']}</a>
+      <a class="btn ghost" href="/pl/">{UI_PL['notfound_home']}</a></article>'''
+    write("pl/404.html", head(f"{UI_PL['notfound_title']} — " + SITE['name'],
+          UI_PL['notfound_lead'][:155], SITE['domain']+"/pl/404", lang="pl",
+          en_url=SITE['domain']+"/404", pl_url=SITE['domain']+"/pl/404", nav=nav_html) + body + FOOT_HTML("pl"))
+
 def seo_files():
     urls = [SITE['domain'] + "/", SITE['domain'] + "/privacy", SITE['domain'] + "/disclaimer",
             SITE['domain'] + "/advisor", SITE['domain'] + "/terms", SITE['domain'] + "/contact",
             SITE['domain'] + "/about"]
     urls += [f"{SITE['domain']}/{a['slug']}" for a in ARTICLES]
+    urls += [SITE['domain'] + "/pl/", SITE['domain'] + "/pl/privacy", SITE['domain'] + "/pl/disclaimer",
+             SITE['domain'] + "/pl/advisor", SITE['domain'] + "/pl/terms", SITE['domain'] + "/pl/contact",
+             SITE['domain'] + "/pl/about"]
+    urls += [f"{SITE['domain']}/pl/{a['slug']}" for a in ARTICLES_PL]
     items = "\n".join(f"  <url><loc>{u}</loc><changefreq>weekly</changefreq></url>" for u in urls)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n'
           f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{items}\n</urlset>')
@@ -445,17 +730,27 @@ def main():
     if os.path.exists(DIST):
         shutil.rmtree(DIST)
     os.makedirs(DIST)
+    os.makedirs(os.path.join(DIST, "pl", "get"))
     shutil.copy(os.path.join(HERE, "style.css"), os.path.join(DIST, "style.css"))
     shutil.copy(os.path.join(HERE, "sw.js"), os.path.join(DIST, "sw.js"))
     verify_file = os.path.join(HERE, "google1fa65511afa56808.html")
     if os.path.exists(verify_file):
         shutil.copy(verify_file, os.path.join(DIST, "google1fa65511afa56808.html"))
-    home(); legal(); seo_files(); advisor_page()
+    home(); legal(); advisor_page()
     for a in ARTICLES:
         article_page(a)
         download_page(a)
     not_found_page()
-    print(f"OK -> {len(ARTICLES)} reviews + home + legal + sitemap in {DIST}")
+
+    home_pl(); legal_pl(); advisor_page_pl()
+    for a_pl in ARTICLES_PL:
+        a = next(x for x in ARTICLES if x["slug"] == a_pl["slug"])
+        article_page_pl(a_pl)
+        download_page(a, lang="pl", a_pl=a_pl)
+    not_found_pl()
+
+    seo_files()
+    print(f"OK -> {len(ARTICLES)} reviews + home + legal + sitemap + PL localization in {DIST}")
 
 if __name__ == "__main__":
     main()
