@@ -142,6 +142,7 @@ def external_gate_page(link):
     <nav class="crumbs"><a href="/">Inicio</a> › <span>Redirigiendo</span></nav>
     <h1>{html.escape(link['title'])}</h1>
     <p class="lead">{html.escape(link['lead'])}</p>
+    {video("🎥 Te lo explico en este vídeo", None, "o4vzo1fpsTA")}
     <div class="dlgate-box">
       <div class="dlgate-ring" id="dlRing" style="cursor:pointer">
         <svg viewBox="0 0 100 100">
@@ -310,8 +311,8 @@ def home():
     <a class="btn ghost" href="/chipgenius">¿No sabes tu controlador? Empieza aquí</a>
   </section>
   <section class="cta-band">
-    <a class="btn cta-ebook" href="{EXTERNAL_LINKS[0]['target_url']}" target="_blank" rel="noopener">🔥 Curso de Reparación USB — Oferta por tiempo limitado</a>
-    <a class="btn cta-miniapp" href="{EXTERNAL_LINKS[1]['target_url']}" target="_blank" rel="noopener">🤖 Abrir Mini App de Telegram</a>
+    <a class="btn cta-ebook" href="/ir/ebook">🔥 Curso de Reparación USB — Oferta por tiempo limitado</a>
+    <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App de Telegram</a>
   </section>
   {video("🎥 Videotutoriales: repara tu USB paso a paso")}
   <section class="guide">
@@ -369,6 +370,8 @@ def main():
     home(); legal(); seo_files()
     for t in TOOLS:
         tool_page(t)
+    for link in EXTERNAL_LINKS:
+        external_gate_page(link)
     print(f"OK -> {len(TOOLS)} herramientas + home + legales + sitemap generados en {DIST}")
 
 if __name__ == "__main__":
