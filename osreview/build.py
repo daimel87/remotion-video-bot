@@ -22,6 +22,53 @@ def head(title, desc, canonical, lang="en", en_url=None, pl_url=None, nav=None):
 <link rel="alternate" hreflang="pl" href="{pl_url}">
 <link rel="alternate" hreflang="x-default" href="{en_url}">
 '''
+    lang_banner = ""
+    if lang == "en" and pl_url:
+        lang_banner = f'''<div class="lang-banner" id="langBanner" style="display:none">
+  <p>{UI_PL['lang_banner_text']}</p>
+  <a class="btn" href="{pl_url}">{UI_PL['lang_banner_btn']}</a>
+  <button type="button" class="btn ghost" onclick="dismissLangBanner()">{UI_PL['lang_banner_dismiss']}</button>
+</div>
+<script>
+(function(){{
+  try{{
+    if(localStorage.getItem('langBannerDismissed')) return;
+    if(/^pl/i.test(navigator.language||'')){{
+      document.addEventListener('DOMContentLoaded', function(){{
+        var b = document.getElementById('langBanner');
+        if(b) b.style.display='flex';
+      }});
+    }}
+  }}catch(e){{}}
+}})();
+function dismissLangBanner(){{
+  try{{localStorage.setItem('langBannerDismissed','1');}}catch(e){{}}
+  var b=document.getElementById('langBanner'); if(b) b.style.display='none';
+}}
+</script>'''
+    elif lang == "pl" and en_url:
+        lang_banner = f'''<div class="lang-banner" id="langBanner" style="display:none">
+  <p>{UI_PL['lang_switch_to_en']}</p>
+  <a class="btn" href="{en_url}">{UI_PL['lang_switch_to_en']}</a>
+  <button type="button" class="btn ghost" onclick="dismissLangBanner()">{UI_PL['lang_banner_dismiss']}</button>
+</div>
+<script>
+(function(){{
+  try{{
+    if(localStorage.getItem('langBannerDismissed')) return;
+    if(!/^pl/i.test(navigator.language||'')){{
+      document.addEventListener('DOMContentLoaded', function(){{
+        var b = document.getElementById('langBanner');
+        if(b) b.style.display='flex';
+      }});
+    }}
+  }}catch(e){{}}
+}})();
+function dismissLangBanner(){{
+  try{{localStorage.setItem('langBannerDismissed','1');}}catch(e){{}}
+  var b=document.getElementById('langBanner'); if(b) b.style.display='none';
+}}
+</script>'''
     return f'''<!DOCTYPE html>
 <html lang="{lang}">
 <head>
@@ -53,6 +100,7 @@ def head(title, desc, canonical, lang="en", en_url=None, pl_url=None, nav=None):
   <a class="logo" href="{'/pl/' if lang == 'pl' else '/'}"><img src="{SITE['logo']}" alt="{SITE['name']}" width="36" height="36" loading="eager"> {SITE['name']}</a>
   <nav>{nav or f'<a href="/">Home</a> <a href="/advisor">PC Advisor</a> <a href="{SITE["youtube"]}" target="_blank" rel="noopener">YouTube</a>'}</nav>
 </header>
+{lang_banner}
 <main>'''
 
 MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
