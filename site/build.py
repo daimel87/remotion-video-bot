@@ -68,7 +68,10 @@ def head(title, desc, canonical):
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<header class="site-header">
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
+<header class="site-header glass">
   <a class="logo" href="/">🔧 {SITE['name']}</a>
   <nav><a href="/">Inicio</a> <a href="/#herramientas">Herramientas</a>
   <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a></nav>
@@ -301,7 +304,7 @@ def home():
           <span class="go">Ver y descargar →</span></a>\n'''
     body = f'''
   <section class="hero">
-    <h1>Herramientas gratis para reparar memorias USB</h1>
+    <h1>Herramientas gratis para reparar <span class="grad">memorias USB</span></h1>
     <p class="lead">{SITE['description']}</p>
     <a class="btn" href="#herramientas">Ver herramientas</a>
     <a class="btn ghost" href="/chipgenius">¿No sabes tu controlador? Empieza aquí</a>
