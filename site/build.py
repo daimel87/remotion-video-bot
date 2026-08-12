@@ -150,6 +150,7 @@ def tool_page(t):
         <button class="modal-close" type="button" onclick="closeDlModal()" aria-label="Cerrar">✕</button>
         <h3>Tu descarga está casi lista</h3>
         <p id="dlCountdown">Preparando tu descarga… 10s</p>
+        <button id="dlContinue" class="download" type="button" style="display:none">Continuar ▶</button>
         <a id="dlReal" class="download" href="{t['url']}" rel="noopener nofollow" style="display:none"
            onclick="window.open('{SITE['monetag_directlink']}','_blank')">⬇ Descargar {html.escape(t['brand'])}</a>
       </div>
@@ -157,13 +158,27 @@ def tool_page(t):
     <script>
     function openDlModal(){{
       document.getElementById('dlModal').style.display='flex';
-      var c=10, cd=document.getElementById('dlCountdown'), btn=document.getElementById('dlReal');
-      cd.style.display='block'; btn.style.display='none';
+      var total=10, c=total, cd=document.getElementById('dlCountdown'),
+          contBtn=document.getElementById('dlContinue'), btn=document.getElementById('dlReal');
+      cd.style.display='block'; btn.style.display='none'; contBtn.style.display='none';
       var id=setInterval(function(){{
         c--;
-        if(c<0){{clearInterval(id); cd.style.display='none'; btn.style.display='inline-block';}}
-        else{{cd.innerHTML='Preparando tu descarga… '+c+'s';}}
+        if(c<=5){{
+          clearInterval(id);
+          cd.innerHTML='Casi listo, haz clic para continuar';
+          contBtn.style.display='inline-block';
+        }} else {{
+          cd.innerHTML='Preparando tu descarga… '+c+'s';
+        }}
       }},1000);
+      contBtn.onclick = function(){{
+        contBtn.style.display='none';
+        var id2=setInterval(function(){{
+          c--;
+          if(c<0){{clearInterval(id2); cd.style.display='none'; btn.style.display='inline-block';}}
+          else{{cd.innerHTML='Preparando tu descarga… '+c+'s';}}
+        }},1000);
+      }};
     }}
     function closeDlModal(){{document.getElementById('dlModal').style.display='none';}}
     </script>'''
