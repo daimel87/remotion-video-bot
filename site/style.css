@@ -53,7 +53,10 @@ code{background:var(--line);padding:2px 7px;border-radius:6px;font-size:.95em}
   border-top:1px solid var(--line);font-size:.9rem;text-align:center;position:relative;z-index:2}
 .footer-logo{border-radius:50%;margin:0 auto 12px;display:block}
 .footer-name{margin:0 0 14px}
-.footer-yt{display:inline-block;margin:0 0 26px}
+.footer-yt{display:inline-block;margin:0 0 16px}
+.footer-social{display:flex;justify-content:center;gap:18px;margin:0 0 26px}
+.footer-social a{color:var(--muted);font-weight:700;font-size:.85rem}
+.footer-social a:hover{color:var(--ink);text-decoration:none}
 .footer-cols{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;text-align:left;margin-bottom:22px}
 .footer-cols h4{color:var(--ink);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;margin:0 0 10px}
 .footer-cols a{display:block;color:var(--muted);margin:6px 0;font-size:.88rem}
@@ -191,3 +194,17 @@ button.download{border:0;cursor:pointer;font-family:inherit;font-size:1.1rem}
 }
 @keyframes tst-scroll{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 @media(prefers-reduced-motion:reduce){.tst-track{animation:none;overflow-x:auto}}
+
+/* banner de cookies */
+.cookie-banner{position:fixed;left:14px;right:14px;bottom:14px;z-index:9998;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;
+  display:none;align-items:center;gap:16px;flex-wrap:wrap;max-width:640px;margin:0 auto;
+  box-shadow:0 20px 50px -20px rgba(0,0,0,.5);
+  backdrop-filter:blur(var(--glass-blur)) saturate(140%);-webkit-backdrop-filter:blur(var(--glass-blur)) saturate(140%)}
+.cookie-banner p{margin:0;font-size:.85rem;color:var(--muted);flex:1;min-width:200px}
+.cookie-banner .btn{margin:0;padding:9px 18px;font-size:.88rem}
+
+/* páginas de contenido simple (contacto, sobre mí, términos, 404) */
+.simple-page{max-width:640px;margin:0 auto}
+.simple-page h1{margin-top:0}
+.simple-page .btn{margin-top:12px}

@@ -1,8 +1,24 @@
 # -*- coding: utf-8 -*-
 """Genera la web estática a partir de data.py -> carpeta dist/.
 Uso: python3 site/build.py"""
-import os, html, shutil
+import os, html, shutil, re, json
 from data import SITE, TOOLS, EXTERNAL_LINKS, PROBLEMS, TESTIMONIALS
+
+# ---- Datos estructurados (Schema.org) ----
+def _strip_tags(s):
+    return re.sub(r"<[^<]+?>", "", s)
+
+def howto_schema(name, steps):
+    step_list = [{"@type": "HowToStep", "position": i + 1, "text": _strip_tags(s)}
+                 for i, s in enumerate(steps)]
+    data = {"@context": "https://schema.org", "@type": "HowTo", "name": name, "step": step_list}
+    return f'<script type="application/ld+json">{json.dumps(data, ensure_ascii=False)}</script>'
+
+def faq_schema(pairs):
+    items = [{"@type": "Question", "name": q,
+              "acceptedAnswer": {"@type": "Answer", "text": _strip_tags(a)}} for q, a in pairs]
+    data = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": items}
+    return f'<script type="application/ld+json">{json.dumps(data, ensure_ascii=False)}</script>'
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
@@ -90,8 +106,15 @@ def head(title, desc, canonical):
 <meta property="og:title" content="{html.escape(title)}">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:site_name" content="{SITE['name']}">
+<meta property="og:image" content="{SITE['logo']}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{html.escape(title)}">
+<meta name="twitter:description" content="{html.escape(desc)}">
+<meta name="twitter:image" content="{SITE['logo']}">
 <meta name="robots" content="index,follow">
 <meta name="google-site-verification" content="{SITE['google_verify']}">
+<link rel="icon" href="{SITE['logo']}">
+<link rel="apple-touch-icon" href="{SITE['logo']}">
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -104,6 +127,18 @@ def head(title, desc, canonical):
   <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a></nav>
 </header>
 <main>'''
+
+COOKIE_BANNER = '''
+<div class="cookie-banner" id="cookieBanner" style="display:none">
+  <p>Usamos cookies propias y de terceros (anuncios) para mantener esta web gratuita.
+     Al seguir navegando aceptas su uso. <a href="/privacidad">Más información</a>.</p>
+  <button class="btn" type="button" onclick="document.getElementById('cookieBanner').style.display='none';localStorage.setItem('cookieOk','1')">Entendido</button>
+</div>
+<script>
+if (!localStorage.getItem('cookieOk')) {
+  document.getElementById('cookieBanner').style.display = 'flex';
+}
+</script>'''
 
 ADBLOCK_DETECT = '''
 <div class="ab-overlay" id="abOverlay">
@@ -148,6 +183,10 @@ FOOT = f'''</main>
   <img class="footer-logo" src="{SITE['logo']}" alt="{SITE['name']}" width="64" height="64" loading="lazy">
   <p class="footer-name">{SITE['name']} — {SITE['tagline']}.</p>
   <a class="btn ghost footer-yt" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Canal de YouTube</a>
+  <div class="footer-social">
+    <a href="{SITE['facebook']}" target="_blank" rel="noopener" aria-label="Facebook">Facebook</a>
+    <a href="{SITE['instagram']}" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
+  </div>
   <div class="footer-cols">
     <div>
       <h4>Recursos</h4>
@@ -160,14 +199,21 @@ FOOT = f'''</main>
       <h4>Más</h4>
       <a href="/ir/ebook">Curso de reparación USB</a>
       <a href="/ir/miniapp">Mini App de Telegram</a>
+      <a href="/sobre-mi">Sobre mí</a>
+      <a href="/contacto">Contacto</a>
+    </div>
+    <div>
+      <h4>Legal</h4>
       <a href="/privacidad">Privacidad</a>
       <a href="/aviso">Aviso legal</a>
+      <a href="/terminos">Términos de servicio</a>
     </div>
   </div>
   <p class="disclaimer">Las herramientas enlazadas pertenecen a sus respectivos fabricantes.
      Úsalas bajo tu responsabilidad; una reparación de bajo nivel borra todos los datos de la USB.</p>
 </footer>
 {ADBLOCK_DETECT}
+{COOKIE_BANNER}
 {MONETAG_SITEWIDE}
 </body></html>'''
 
@@ -218,6 +264,11 @@ def tool_page(t):
         <p>Identifica el controlador de tu USB con <a href="/chipgenius">ChipGenius</a> y usa la
            herramienta de reparación correspondiente de esta web.</p></details>
     </section>'''
+        faq_pairs = [
+            ("¿Es gratis?", "Sí, totalmente gratis. Sigue los pasos y mira los vídeos de esta página."),
+            ("¿Necesito conocimientos técnicos?", "No. Los tutoriales están explicados paso a paso para cualquier usuario."),
+            ("¿Y si sigo con problemas?", "Identifica el controlador de tu USB con ChipGenius y usa la herramienta de reparación correspondiente de esta web."),
+        ]
     else:
         download = f'''<button class="download" type="button" onclick="openDlModal()">
        ⬇ Descargar {html.escape(t['brand'])}</button>
@@ -294,7 +345,13 @@ def tool_page(t):
         <p>Prueba otro puerto USB (mejor traseros 2.0), ejecútala como administrador y evita hubs
            o alargadores. Revisa también la <a href="/tabla-solucionadas">tabla de solucionadas</a>.</p></details>
     </section>'''
+        faq_pairs = [
+            (f"¿Esta herramienta borra mis archivos?", f"Sí. Una reparación de bajo nivel ({t['brand']}) reformatea el controlador y elimina todos los datos de la memoria. Haz copia de seguridad si aún puedes leerla."),
+            (f"¿Cómo sé si mi USB usa el controlador {t['brand']}?", f"Usa ChipGenius para leer el VID/PID y el fabricante del chip. Si coincide con {t['brand']}, esta es tu herramienta."),
+            ("La herramienta no detecta mi memoria, ¿qué hago?", "Prueba otro puerto USB (mejor traseros 2.0), ejecútala como administrador y evita hubs o alargadores. Revisa también la tabla de solucionadas."),
+        ]
 
+    schema = howto_schema(t['title'], t['steps']) + faq_schema(faq_pairs)
     body = f'''
   <article class="tool">
     <nav class="crumbs"><a href="/">Inicio</a> › {html.escape(t['brand'])}</nav>
@@ -308,7 +365,8 @@ def tool_page(t):
     {faq}
     <p class="cta">📺 Más tutoriales en
        <a href="{SITE['youtube']}" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
-  </article>'''
+  </article>
+  {schema}'''
     desc = t['intro'][:155]
     write(f"{t['slug']}.html", head(t['title'], desc, canonical) + body + FOOT)
 
@@ -461,10 +519,74 @@ def legal():
     write("aviso.html", head("Aviso legal — " + SITE['name'],
           "Aviso legal sobre las herramientas de reparación USB.", SITE['domain']+"/aviso") + aviso + FOOT)
 
+    terminos = '''<article class="tool simple-page"><h1>Términos de servicio</h1>
+      <p>Al usar este sitio aceptas estos términos:</p>
+      <ul class="steps">
+        <li>Las herramientas de reparación (MPTool) enlazadas son gratuitas y pertenecen a sus
+            respectivos fabricantes; este sitio solo enlaza a ellas con fines educativos.</li>
+        <li>No garantizamos que una reparación funcione al 100% en todos los casos — depende del
+            estado físico real del chip controlador de tu memoria.</li>
+        <li>Una reparación de bajo nivel borra permanentemente todos los datos de la USB. Haz
+            copia de seguridad antes de intentar cualquier herramienta si aún puedes leer tus archivos.</li>
+        <li>El uso de cualquier herramienta descargada desde esta web es bajo tu propia
+            responsabilidad. No nos hacemos responsables por daños al dispositivo o pérdida de datos.</li>
+        <li>El contenido (guías, vídeos, eBook, mini app) es propiedad de D-Tech USB / Daimel y no
+            puede redistribuirse comercialmente sin permiso.</li>
+      </ul>
+      <p>Si tienes dudas sobre estos términos, escríbenos a
+         <a href="mailto:{email}">{email}</a>.</p></article>'''.format(email=SITE['contact_email'])
+    write("terminos.html", head("Términos de servicio — " + SITE['name'],
+          "Términos de uso del sitio, las herramientas y el contenido de D-Tech USB.",
+          SITE['domain']+"/terminos") + terminos + FOOT)
+
+    contacto = f'''<article class="tool simple-page"><h1>Contacto</h1>
+      <p class="lead">¿Tienes dudas sobre tu reparación, el eBook o la mini app? Escríbeme
+         directamente:</p>
+      <a class="btn" href="mailto:{SITE['contact_email']}">✉ {SITE['contact_email']}</a>
+      <p style="margin-top:22px">También puedes dejar tu pregunta en los comentarios de cualquier
+         vídeo del <a href="{SITE['youtube']}" target="_blank" rel="noopener">canal de YouTube</a>,
+         suelo responder ahí también.</p></article>'''
+    write("contacto.html", head("Contacto — " + SITE['name'],
+          "Escríbeme directamente si tienes dudas sobre la reparación de tu memoria USB.",
+          SITE['domain']+"/contacto") + contacto + FOOT)
+
+    sobre_mi = f'''<article class="tool simple-page"><h1>Sobre mí</h1>
+      <p class="lead">Soy Daimel, reparador profesional de memorias USB con más de una década de
+         experiencia.</p>
+      <p>Empecé reparando pendrives por curiosidad, entendiendo cómo funcionan los chips
+         controladores por dentro — hasta convertirlo en mi especialidad. Desde entonces he
+         reparado más de 100,000 memorias USB y he ayudado a más de 50,000 personas de todo el
+         mundo, a través de mis vídeos de YouTube y de esta misma web, a recuperar sus pendrives
+         dañados sin tener que comprar uno nuevo.</p>
+      <p>Todo lo que enseño aquí — desde identificar el controlador con ChipGenius hasta usar la
+         herramienta MPTool exacta de cada chip — es el mismo método que uso yo en cada reparación
+         real, documentado paso a paso para que cualquier persona, sin conocimientos técnicos,
+         pueda seguirlo.</p>
+      <p>Si quieres el proceso completo explicado desde cero, tengo un
+         <a href="/ir/ebook">curso completo de reparación de USB</a>. Y si prefieres buscar tu
+         reparación específica al instante, prueba la
+         <a href="/ir/miniapp">mini app de Telegram</a>.</p>
+      <a class="btn" href="/contacto">✉ Contáctame</a></article>'''
+    write("sobre-mi.html", head("Sobre mí — " + SITE['name'],
+          "Conoce a Daimel, reparador profesional de memorias USB con más de una década de experiencia.",
+          SITE['domain']+"/sobre-mi") + sobre_mi + FOOT)
+
+# ---------- Página 404 personalizada ----------
+def not_found_page():
+    body = '''<article class="tool simple-page" style="text-align:center">
+      <h1>404 — Esta página no existe</h1>
+      <p class="lead">El enlace que buscas no está aquí, pero seguro tu solución sí está en el
+         sitio.</p>
+      <a class="btn" href="/problemas">¿Cuál es el problema de tu USB?</a>
+      <a class="btn ghost" href="/herramientas">Ver todas las herramientas</a></article>'''
+    write("404.html", head("Página no encontrada — " + SITE['name'],
+          "La página que buscas no existe.", SITE['domain']+"/404") + body + FOOT)
+
 # ---------- sitemap + robots ----------
 def seo_files():
     urls = [SITE['domain'] + "/", SITE['domain'] + "/herramientas", SITE['domain'] + "/problemas",
-            SITE['domain'] + "/privacidad", SITE['domain'] + "/aviso"]
+            SITE['domain'] + "/privacidad", SITE['domain'] + "/aviso", SITE['domain'] + "/terminos",
+            SITE['domain'] + "/contacto", SITE['domain'] + "/sobre-mi"]
     urls += [f"{SITE['domain']}/{t['slug']}" for t in TOOLS]
     urls += [f"{SITE['domain']}/problemas/{p['slug']}" for p in PROBLEMS]
     items = "\n".join(f"  <url><loc>{u}</loc><changefreq>monthly</changefreq></url>" for u in urls)
@@ -486,6 +608,7 @@ def main():
         tool_page(t)
     for link in EXTERNAL_LINKS:
         external_gate_page(link)
+    not_found_page()
     print(f"OK -> {len(TOOLS)} herramientas + home + legales + sitemap generados en {DIST}")
 
 if __name__ == "__main__":
