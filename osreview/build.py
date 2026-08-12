@@ -233,6 +233,10 @@ def article_page(a):
     <p class="lead">{html.escape(a['summary'])}</p>
     {video(a['yt'])}
     {download_block(a)}
+    <div class="video-cta-row">
+      <a class="btn ghost" href="/advisor">🧭 Not sure? Find your build</a>
+      <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Subscribe on YouTube</a>
+    </div>
     <p class="note">⚠️ Always back up your files before reinstalling any operating system. Make sure
        you have a valid license for Windows before using a modified build.</p>
     {sections}
