@@ -8,17 +8,31 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
 
 # ---- Reproductor de la lista de reproducción de YouTube ----
-def video(titulo="🎥 Tutoriales en vídeo", pid=None):
-    pid = pid or SITE["playlist_id"]
+def video(titulo="🎥 Tutoriales en vídeo", pid=None, vid=None):
+    src = f"https://www.youtube.com/embed/{vid}" if vid else \
+          f"https://www.youtube.com/embed/videoseries?list={pid or SITE['playlist_id']}"
     return f'''<section class="video-tut">
       <h2>{titulo}</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
       <div class="video-frame">
-        <iframe src="https://www.youtube.com/embed/videoseries?list={pid}"
+        <iframe src="{src}"
           title="Tutoriales de reparación USB" loading="lazy"
           frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen></iframe>
       </div>
+    </section>'''
+
+def related_videos_block(t):
+    rv = t.get("related_videos")
+    if not rv:
+        return ""
+    items = "\n".join(
+        f'<li><a href="https://www.youtube.com/watch?v={r["id"]}" target="_blank" rel="noopener">▶ {html.escape(r["label"])}</a></li>'
+        for r in rv
+    )
+    return f'''<section class="related-videos">
+      <h2>Más vídeos sobre este tema</h2>
+      <ul class="steps">{items}</ul>
     </section>'''
 
 # ---- Push, In-Page Push, Popunder y Vignette Monetag (todas las páginas) ----
@@ -205,7 +219,8 @@ def tool_page(t):
     {download}
     <h2>{steps_title}</h2>
     <ol class="steps">{steps}</ol>
-    {video("🎥 Vídeotutoriales", t.get("playlist"))}
+    {video("🎥 Vídeotutoriales", t.get("playlist"), t.get("video_id"))}
+    {related_videos_block(t)}
     {faq}
     <p class="cta">📺 Más tutoriales en
        <a href="{SITE['youtube']}" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>

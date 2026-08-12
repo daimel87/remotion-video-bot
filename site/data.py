@@ -162,3 +162,48 @@ TOOLS.append({
         "Mira los vídeos de abajo para el método exacto según el tamaño de tu memoria.",
     ],
 })
+TOOLS.append({
+    "slug": "windows-no-reconoce-usb",
+    "title": "Windows no reconoce la USB: cómo solucionarlo (todos los casos)",
+    "brand": "Windows no reconoce la USB",
+    "url": None,
+    "kind": "guide",
+    "video_id": "vI53QJFsDKU",
+    "related_videos": [
+        {"id": "dzAM05htmAo", "label": "Reparar USB dañada que no se reconoce en la PC"},
+        {"id": "Eau0HdPczb4", "label": "Reparar USB que no se reconoce en la PC"},
+    ],
+    "intro": "¿Conectas tu memoria USB y Windows no la detecta, ni siquiera aparece en \"Este equipo\" "
+             "o en el Administrador de discos? Aquí tienes todas las causas posibles y cómo solucionar "
+             "cada una, desde el puerto hasta un controlador dañado.",
+    "steps": [
+        "Prueba primero en <strong>otro puerto USB</strong> (mejor uno trasero 2.0) y en otra PC si puedes; descarta cable/hub defectuoso.",
+        "Abre el <strong>Administrador de dispositivos</strong> de Windows: si aparece con una señal de alerta amarilla, el driver o el controlador está fallando.",
+        "Si aparece en \"Administrador de discos\" pero no en el explorador, puede que le falte una <strong>letra de unidad</strong>: clic derecho → Cambiar letra y rutas de acceso.",
+        "Si no aparece en ningún lado (ni en Administrador de discos), identifica el chip con <a href=\"/chipgenius.html\">ChipGenius</a> y usa la herramienta de reparación de esta web para tu controlador.",
+        "Mira el vídeo de abajo para ver el proceso completo paso a paso.",
+    ],
+})
+TOOLS.append({
+    "slug": "windows-no-pudo-completar-formato",
+    "title": "\"Windows no pudo completar el formato\": solución (USB y microSD)",
+    "brand": "Windows no pudo completar el formato",
+    "url": None,
+    "kind": "guide",
+    "video_id": "aGaTI4Vksc0",
+    "related_videos": [
+        {"id": "eN0A-n_9Poo", "label": "Windows Could Not Complete Formatting — reparación paso a paso"},
+        {"id": "4JHW586eSaM", "label": "¡Sí tiene solución! Reparar USB que Windows no puede formatear"},
+        {"id": "Cb6s2cqwFjg", "label": "Reparar pendrive en formato RAW que Windows no puede formatear"},
+    ],
+    "intro": "El error \"Windows no pudo completar el formato\" casi siempre significa que el "
+             "controlador de la memoria (el chip que la gobierna) está dañado o corrupto, no la "
+             "memoria física en sí. Aquí tienes la solución real, no solo trucos de CMD que no funcionan.",
+    "steps": [
+        "Prueba primero con <strong>Diskpart</strong>: CMD como administrador → <code>diskpart</code> → <code>list disk</code> → <code>select disk N</code> → <code>clean</code> → <code>create partition primary</code> → <code>format fs=fat32 quick</code>.",
+        "Si Diskpart también falla o se queda trabado, el problema es de <strong>bajo nivel</strong> (el controlador), no del sistema de archivos.",
+        "Identifica el chip exacto con <a href=\"/chipgenius.html\">ChipGenius</a>: marca, VID/PID y fabricante del flash.",
+        "Descarga la <strong>MPTool</strong> de tu controlador específico en esta web y ejecútala como administrador hasta que termine en verde.",
+        "Vuelve a formatear en Windows una vez reparada — ahora sí debería completarse sin errores.",
+    ],
+})
