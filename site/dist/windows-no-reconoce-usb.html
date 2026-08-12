@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ChipGenius 4.21 – Identificar el controlador de tu USB</title>
-<meta name="description" content="ChipGenius es el primer paso para reparar cualquier memoria USB. Detecta el VID, PID y el fabricante del controlador (chip) de tu pendrive. Con ese dato sa">
-<link rel="canonical" href="https://dtechusb.pages.dev/chipgenius">
+<title>Windows no reconoce la USB: cómo solucionarlo (todos los casos)</title>
+<meta name="description" content="¿Conectas tu memoria USB y Windows no la detecta, ni siquiera aparece en &quot;Este equipo&quot; o en el Administrador de discos? Aquí tienes todas las causas posibl">
+<link rel="canonical" href="https://dtechusb.pages.dev/windows-no-reconoce-usb">
 <meta property="og:type" content="website">
-<meta property="og:title" content="ChipGenius 4.21 – Identificar el controlador de tu USB">
-<meta property="og:description" content="ChipGenius es el primer paso para reparar cualquier memoria USB. Detecta el VID, PID y el fabricante del controlador (chip) de tu pendrive. Con ese dato sa">
+<meta property="og:title" content="Windows no reconoce la USB: cómo solucionarlo (todos los casos)">
+<meta property="og:description" content="¿Conectas tu memoria USB y Windows no la detecta, ni siquiera aparece en &quot;Este equipo&quot; o en el Administrador de discos? Aquí tienes todas las causas posibl">
 <meta property="og:site_name" content="D-TECH USB">
 <meta name="robots" content="index,follow">
 <meta name="google-site-verification" content="4t1k_fsPm-BsPZ6JQFLArsFhmg_LqMMaYAX1iqdFg4E">
@@ -22,78 +22,41 @@
 </header>
 <main>
   <article class="tool">
-    <nav class="crumbs"><a href="/">Inicio</a> › ChipGenius</nav>
-    <h1>ChipGenius 4.21 – Identificar el controlador de tu USB</h1>
-    <p class="lead">ChipGenius es el primer paso para reparar cualquier memoria USB. Detecta el VID, PID y el fabricante del controlador (chip) de tu pendrive. Con ese dato sabrás exactamente qué herramienta MPTool necesitas descargar para repararla.</p>
-    <button class="download" type="button" onclick="openDlModal()">
-       ⬇ Descargar ChipGenius</button>
-    <p class="note">🔑 Contraseña del archivo: <code>repusb</code></p>
-    <div class="modal-overlay" id="dlModal">
-      <div class="modal-box">
-        <button class="modal-close" type="button" onclick="closeDlModal()" aria-label="Cerrar">✕</button>
-        <h3>Tu descarga está casi lista</h3>
-        <p id="dlCountdown" style="cursor:pointer">Preparando tu descarga… 10s</p>
-        <a id="dlReal" class="download" href="https://www.mediafire.com/file/v58c3jvkisf1ok7/ChipGenius-con-lanzador+4.21.0701.rar/file" rel="noopener nofollow" style="display:none"
-           onclick="window.open('https://omg10.com/4/11443701','_blank')">⬇ Descargar ChipGenius</a>
-      </div>
-    </div>
-    <script>
-    function openDlModal(){
-      document.getElementById('dlModal').style.display='flex';
-      var total=10, c=total, cd=document.getElementById('dlCountdown'),
-          btn=document.getElementById('dlReal'), stalled=false;
-      cd.style.display='block'; btn.style.display='none';
-      var id=setInterval(function(){
-        c--;
-        if(c<=5){
-          clearInterval(id);
-          stalled=true;
-          cd.innerHTML='Se detuvo… haz clic aquí arriba ↑ para continuar';
-        } else {
-          cd.innerHTML='Preparando tu descarga… '+c+'s';
-        }
-      },1000);
-      cd.onclick = function(){
-        if(!stalled) return;
-        stalled=false;
-        var id2=setInterval(function(){
-          c--;
-          if(c<0){clearInterval(id2); cd.style.display='none'; btn.style.display='inline-block';}
-          else{cd.innerHTML='Preparando tu descarga… '+c+'s';}
-        },1000);
-      };
-    }
-    function closeDlModal(){document.getElementById('dlModal').style.display='none';}
-    </script>
-    <h2>Cómo usar esta herramienta paso a paso</h2>
-    <ol class="steps"><li>Descarga y descomprime ChipGenius (contraseña del RAR: repusb).</li>
-<li>Conecta la memoria USB dañada al puerto directamente (evita hubs).</li>
-<li>Abre ChipGenius y selecciona tu unidad en la lista superior.</li>
-<li>Anota el <strong>VID</strong>, <strong>PID</strong> y sobre todo el <strong>Controller (Chip Vendor)</strong>: Phison, SMI, Chipsbank, etc.</li>
-<li>Con el nombre del controlador, descarga desde esta web la herramienta que le corresponde.</li></ol>
+    <nav class="crumbs"><a href="/">Inicio</a> › Windows no reconoce la USB</nav>
+    <h1>Windows no reconoce la USB: cómo solucionarlo (todos los casos)</h1>
+    <p class="lead">¿Conectas tu memoria USB y Windows no la detecta, ni siquiera aparece en "Este equipo" o en el Administrador de discos? Aquí tienes todas las causas posibles y cómo solucionar cada una, desde el puerto hasta un controlador dañado.</p>
+    
+    <h2>Pasos a seguir</h2>
+    <ol class="steps"><li>Prueba primero en <strong>otro puerto USB</strong> (mejor uno trasero 2.0) y en otra PC si puedes; descarta cable/hub defectuoso.</li>
+<li>Abre el <strong>Administrador de dispositivos</strong> de Windows: si aparece con una señal de alerta amarilla, el driver o el controlador está fallando.</li>
+<li>Si aparece en "Administrador de discos" pero no en el explorador, puede que le falte una <strong>letra de unidad</strong>: clic derecho → Cambiar letra y rutas de acceso.</li>
+<li>Si no aparece en ningún lado (ni en Administrador de discos), identifica el chip con <a href="/chipgenius.html">ChipGenius</a> y usa la herramienta de reparación de esta web para tu controlador.</li>
+<li>Mira el vídeo de abajo para ver el proceso completo paso a paso.</li></ol>
     <section class="video-tut">
       <h2>🎥 Vídeotutoriales</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
       <div class="video-frame">
-        <iframe src="https://www.youtube.com/embed/videoseries?list=PLBfPLvLvAgajMalhkQ8ru4RnB9s4Fp1_N"
+        <iframe src="https://www.youtube.com/embed/APabN6Ym_Y0"
           title="Tutoriales de reparación USB" loading="lazy"
           frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen></iframe>
       </div>
     </section>
-    
+    <section class="related-videos">
+      <h2>Más vídeos sobre este tema</h2>
+      <ul class="steps"><li><a href="https://www.youtube.com/watch?v=dzAM05htmAo" target="_blank" rel="noopener">▶ Reparar USB dañada que no se reconoce en la PC</a></li>
+<li><a href="https://www.youtube.com/watch?v=vI53QJFsDKU" target="_blank" rel="noopener">▶ ¿USB No Reconoce? Esto SIEMPRE Funciona</a></li></ul>
+    </section>
     
     <section class="faq">
       <h2>Preguntas frecuentes</h2>
-      <details><summary>¿Esta herramienta borra mis archivos?</summary>
-        <p>Sí. Una reparación de bajo nivel (ChipGenius) reformatea el controlador y elimina
-           todos los datos de la memoria. Haz copia de seguridad si aún puedes leerla.</p></details>
-      <details><summary>¿Cómo sé si mi USB usa el controlador ChipGenius?</summary>
-        <p>Usa <a href="/chipgenius">ChipGenius</a> para leer el VID/PID y el fabricante del
-           chip. Si coincide con ChipGenius, esta es tu herramienta.</p></details>
-      <details><summary>La herramienta no detecta mi memoria, ¿qué hago?</summary>
-        <p>Prueba otro puerto USB (mejor traseros 2.0), ejecútala como administrador y evita hubs
-           o alargadores. Revisa también la <a href="/tabla-solucionadas">tabla de solucionadas</a>.</p></details>
+      <details><summary>¿Es gratis?</summary>
+        <p>Sí, totalmente gratis. Sigue los pasos y mira los vídeos de esta página.</p></details>
+      <details><summary>¿Necesito conocimientos técnicos?</summary>
+        <p>No. Los tutoriales están explicados paso a paso para cualquier usuario.</p></details>
+      <details><summary>¿Y si sigo con problemas?</summary>
+        <p>Identifica el controlador de tu USB con <a href="/chipgenius">ChipGenius</a> y usa la
+           herramienta de reparación correspondiente de esta web.</p></details>
     </section>
     <p class="cta">📺 Más tutoriales en
        <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
