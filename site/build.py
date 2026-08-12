@@ -310,7 +310,7 @@ def home():
     <a class="btn ghost" href="/chipgenius">¿No sabes tu controlador? Empieza aquí</a>
   </section>
   <section class="cta-band">
-    <a class="btn cta-ebook" href="{EXTERNAL_LINKS[0]['target_url']}" target="_blank" rel="noopener">📘 Comprar eBook completo</a>
+    <a class="btn cta-ebook" href="{EXTERNAL_LINKS[0]['target_url']}" target="_blank" rel="noopener">🔥 Curso de Reparación USB — Oferta por tiempo limitado</a>
     <a class="btn cta-miniapp" href="{EXTERNAL_LINKS[1]['target_url']}" target="_blank" rel="noopener">🤖 Abrir Mini App de Telegram</a>
   </section>
   {video("🎥 Videotutoriales: repara tu USB paso a paso")}
