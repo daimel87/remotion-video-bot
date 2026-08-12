@@ -167,6 +167,7 @@ TOOLS = [
         "brand": "Tabla de referencia",
         "url": "https://mega.nz/file/i6IwhCiB#tzYmDfMiZ3Ycfo7Rh_si3M5UE8rgpl7LOOBxVPk9fH0",
         "kind": "detector",
+        "video_id": "LqdzdO3BBGo",
         "intro": "Base de datos con memorias USB ya reparadas: modelo, VID/PID, controlador y la "
                  "herramienta exacta que funcionó. Búscala por tu chip para ahorrar tiempo y saber "
                  "de antemano qué MPTool usar.",
