@@ -121,6 +121,10 @@ FOOT = f'''</main>
       <a href="/disclaimer">Disclaimer</a>
       <a href="/terms">Terms of Service</a>
     </div>
+    <div>
+      <h4>Other sites</h4>
+      <a href="https://dtechusb.pages.dev/" target="_blank" rel="noopener">D-Tech USB (ES) — USB repair tools</a>
+    </div>
   </div>
   <p class="disclaimer">Educational/review content about modified operating systems. Always keep a
      valid license for the OS you install and back up your data before reinstalling.</p>
