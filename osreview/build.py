@@ -124,7 +124,7 @@ def download_page(a):
     <h1>Your download is being prepared</h1>
     <p class="lead">{html.escape(a['cat'])} — {html.escape(a['title'])}</p>
     <div class="dlgate-box">
-      <div class="dlgate-ring" id="dlRing">
+      <div class="dlgate-ring" id="dlRing" style="cursor:pointer">
         <svg viewBox="0 0 100 100">
           <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
           <circle class="ring-fg" id="ringFg" cx="50" cy="50" r="45"></circle>
@@ -132,7 +132,6 @@ def download_page(a):
         <span id="dlCountdown">15</span>
       </div>
       <p id="dlWaitLabel">Please wait, your link is being prepared…</p>
-      <button id="dlContinue" class="download" type="button" style="display:none">Click to continue ▶</button>
       <a id="dlReal" class="download" href="{a['url']}" rel="noopener nofollow" style="display:none"
          onclick="{directlink_click}">⬇ Get Link</a>
     </div>
@@ -141,10 +140,10 @@ def download_page(a):
   </article>
   <script>
   (function(){{
-    var total=15, half=Math.ceil(total/2), c=total,
+    var total=15, half=Math.ceil(total/2), c=total, stalled=false,
         cd=document.getElementById('dlCountdown'), ring=document.getElementById('ringFg'),
         label=document.getElementById('dlWaitLabel'), wrap=document.getElementById('dlRing'),
-        contBtn=document.getElementById('dlContinue'), btn=document.getElementById('dlReal');
+        btn=document.getElementById('dlReal');
     var circumference = 2 * Math.PI * 45;
     ring.style.strokeDasharray = circumference;
     var id=null;
@@ -152,16 +151,18 @@ def download_page(a):
       c--;
       if(c<=half){{
         clearInterval(id);
-        label.textContent='Almost there — click to continue';
-        contBtn.style.display='inline-block';
+        stalled=true;
+        label.textContent='Stalled — click the circle above to continue';
       }} else {{
         cd.textContent=c;
         ring.style.strokeDashoffset = circumference * (1 - c/total);
       }}
     }}
     id=setInterval(tick,1000);
-    contBtn.addEventListener('click', function(){{
-      contBtn.style.display='none';
+    wrap.addEventListener('click', function(){{
+      if(!stalled) return;
+      stalled=false;
+      label.textContent='Please wait, your link is being prepared…';
       var id2=setInterval(function(){{
         c--;
         if(c<=0){{
