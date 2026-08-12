@@ -20,6 +20,11 @@ def video(titulo="🎥 Tutoriales en vídeo", pid=None, vid=None):
           frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen></iframe>
       </div>
+      <div class="video-cta-row">
+        <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Suscribirse al canal</a>
+        <a class="btn cta-ebook" href="/ir/ebook">🔥 Comprar el curso</a>
+        <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App</a>
+      </div>
     </section>'''
 
 def related_videos_block(t):
@@ -338,6 +343,12 @@ def problems_hub_page():
           <span class="go">Ver solución →</span></a>\n'''
     cards += f'''<a class="card" href="/quitar-proteccion-escritura-usb">
       <h3>USB protegida contra escritura</h3>
+      <span class="go">Ver solución →</span></a>\n'''
+    cards += f'''<a class="card" href="/windows-no-pudo-completar-formato">
+      <h3>Windows no pudo completar el formato</h3>
+      <span class="go">Ver solución →</span></a>\n'''
+    cards += f'''<a class="card" href="/windows-no-reconoce-usb">
+      <h3>USB no se reconoce</h3>
       <span class="go">Ver solución →</span></a>\n'''
     body = f'''
   <article class="tool">

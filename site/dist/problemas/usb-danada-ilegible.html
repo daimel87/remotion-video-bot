@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Herramienta Innostor – Reparar y formatear USB Innostor</title>
-<meta name="description" content="Herramienta de bajo nivel (MPTool) para reparar memorias USB con controlador Innostor. Permite reformatear el chip NAND, borrar bloques dañados y devolver ">
-<link rel="canonical" href="https://dtechusb.pages.dev/innostor">
+<title>&quot;El archivo o directorio está dañado y es ilegible&quot;: qué significa y cómo repararlo</title>
+<meta name="description" content="Este mensaje aparece cuando intentas abrir o copiar un archivo/carpeta de tu USB y el sistema de archivos ya no puede leer esa sección del disco correctame">
+<link rel="canonical" href="https://dtechusb.pages.dev/problemas/usb-danada-ilegible">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Herramienta Innostor – Reparar y formatear USB Innostor">
-<meta property="og:description" content="Herramienta de bajo nivel (MPTool) para reparar memorias USB con controlador Innostor. Permite reformatear el chip NAND, borrar bloques dañados y devolver ">
+<meta property="og:title" content="&quot;El archivo o directorio está dañado y es ilegible&quot;: qué significa y cómo repararlo">
+<meta property="og:description" content="Este mensaje aparece cuando intentas abrir o copiar un archivo/carpeta de tu USB y el sistema de archivos ya no puede leer esa sección del disco correctame">
 <meta property="og:site_name" content="D-TECH USB">
 <meta name="robots" content="index,follow">
 <meta name="google-site-verification" content="4t1k_fsPm-BsPZ6JQFLArsFhmg_LqMMaYAX1iqdFg4E">
@@ -25,61 +25,14 @@
 </header>
 <main>
   <article class="tool">
-    <nav class="crumbs"><a href="/">Inicio</a> › Innostor</nav>
-    <h1>Herramienta Innostor – Reparar y formatear USB Innostor</h1>
-    <p class="lead">Herramienta de bajo nivel (MPTool) para reparar memorias USB con controlador Innostor. Permite reformatear el chip NAND, borrar bloques dañados y devolver la capacidad real al pendrive cuando Windows ya no lo reconoce o no da formato.</p>
-    <button class="download" type="button" onclick="openDlModal()">
-       ⬇ Descargar Innostor</button>
-    
-    <div class="modal-overlay" id="dlModal">
-      <div class="modal-box">
-        <button class="modal-close" type="button" onclick="closeDlModal()" aria-label="Cerrar">✕</button>
-        <h3>Tu descarga está casi lista</h3>
-        <p id="dlCountdown" style="cursor:pointer">Preparando tu descarga… 10s</p>
-        <a id="dlReal" class="download" href="https://mega.nz/file/juohTQJD#tz5I34qLA8JNbthkySmu2xnFrnSz5iBj6nYMreuuq1c" rel="noopener nofollow" style="display:none"
-           onclick="window.open('https://omg10.com/4/11443701','_blank')">⬇ Descargar Innostor</a>
-      </div>
-    </div>
-    <script>
-    function openDlModal(){
-      document.getElementById('dlModal').style.display='flex';
-      var total=10, c=total, cd=document.getElementById('dlCountdown'),
-          btn=document.getElementById('dlReal'), stalled=false;
-      cd.style.display='block'; btn.style.display='none';
-      var id=setInterval(function(){
-        c--;
-        if(c<=5){
-          clearInterval(id);
-          stalled=true;
-          cd.innerHTML='Se detuvo… haz clic aquí arriba ↑ para continuar';
-        } else {
-          cd.innerHTML='Preparando tu descarga… '+c+'s';
-        }
-      },1000);
-      cd.onclick = function(){
-        if(!stalled) return;
-        stalled=false;
-        var id2=setInterval(function(){
-          c--;
-          if(c<0){clearInterval(id2); cd.style.display='none'; btn.style.display='inline-block';}
-          else{cd.innerHTML='Preparando tu descarga… '+c+'s';}
-        },1000);
-      };
-    }
-    function closeDlModal(){document.getElementById('dlModal').style.display='none';}
-    </script>
-    <h2>Cómo usar esta herramienta paso a paso</h2>
-    <ol class="steps"><li>Confirma con ChipGenius que tu controlador es <strong>Innostor</strong>.</li>
-<li>Descarga y descomprime la herramienta Innostor.</li>
-<li>Conecta la memoria USB directamente a un puerto trasero del PC.</li>
-<li>Ejecuta el MPTool como administrador; debe detectar tu unidad.</li>
-<li>Pulsa Start / Iniciar y espera SIN desconectar hasta que termine en verde (OK/Pass).</li>
-<li>Extrae la USB, vuelve a conectarla y formatéala en Windows si hace falta.</li></ol>
+    <nav class="crumbs"><a href="/">Inicio</a> › <a href="/problemas">Problemas</a> › <span>&quot;El archivo o directorio está dañado y es ilegible&quot;</span></nav>
+    <h1>&quot;El archivo o directorio está dañado y es ilegible&quot;: qué significa y cómo repararlo</h1>
+    <p class="lead">Este mensaje aparece cuando intentas abrir o copiar un archivo/carpeta de tu USB y el sistema de archivos ya no puede leer esa sección del disco correctamente. Es una señal de corrupción del sistema de archivos (a veces del controlador), y copiar/formatear directamente suele fallar hasta que se repara la causa real.</p>
     <section class="video-tut">
-      <h2>🎥 Vídeotutoriales</h2>
+      <h2>🎥 Solución en vídeo</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
       <div class="video-frame">
-        <iframe src="https://www.youtube.com/embed/R-w49XRIQRU"
+        <iframe src="https://www.youtube.com/embed/YVnfWtKIONs"
           title="Tutoriales de reparación USB" loading="lazy"
           frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen></iframe>
@@ -90,22 +43,13 @@
         <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App</a>
       </div>
     </section>
-    
-    
-    <section class="faq">
-      <h2>Preguntas frecuentes</h2>
-      <details><summary>¿Esta herramienta borra mis archivos?</summary>
-        <p>Sí. Una reparación de bajo nivel (Innostor) reformatea el controlador y elimina
-           todos los datos de la memoria. Haz copia de seguridad si aún puedes leerla.</p></details>
-      <details><summary>¿Cómo sé si mi USB usa el controlador Innostor?</summary>
-        <p>Usa <a href="/chipgenius">ChipGenius</a> para leer el VID/PID y el fabricante del
-           chip. Si coincide con Innostor, esta es tu herramienta.</p></details>
-      <details><summary>La herramienta no detecta mi memoria, ¿qué hago?</summary>
-        <p>Prueba otro puerto USB (mejor traseros 2.0), ejecútala como administrador y evita hubs
-           o alargadores. Revisa también la <a href="/tabla-solucionadas">tabla de solucionadas</a>.</p></details>
-    </section>
-    <p class="cta">📺 Más tutoriales en
-       <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
+    <h2>Cómo solucionarlo</h2>
+    <ol class="steps"><li>No sigas copiando archivos de esa carpeta — puede empeorar la pérdida de datos.</li>
+<li>Ejecuta <code>chkdsk X: /f</code> en CMD como administrador (cambia X por tu unidad).</li>
+<li>Si el error persiste, identifica el controlador con <a href="/chipgenius">ChipGenius</a>.</li>
+<li>Repara a bajo nivel con la MPTool de tu controlador desde esta web.</li></ol>
+    <p class="cta">🔎 ¿No sabes qué controlador tiene tu USB?
+       <a href="/chipgenius">Identifícalo con ChipGenius</a>.</p>
   </article></main>
 <footer class="site-footer">
   <p>D-TECH USB — Herramientas y guías para reparar memorias USB.</p>

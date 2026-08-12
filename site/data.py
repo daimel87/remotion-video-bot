@@ -105,6 +105,38 @@ PROBLEMS = [
             "Alternativa por CMD: <code>diskpart</code> → <code>clean</code> → <code>create partition primary size=N</code> (N = capacidad real en MB) → <code>format fs=fat32 quick</code>.",
         ],
     },
+    {
+        "slug": "usb-corrupta",
+        "label": "USB corrupta",
+        "title": "¿Qué es una memoria USB corrupta y cómo repararla?",
+        "video_id": "Sx_2l_m-sXM",
+        "explanation": "Una USB \"corrupta\" es aquella que Windows sigue detectando (aparece en el "
+            "Administrador de discos con su capacidad correcta) pero se comporta de forma extraña: no "
+            "abre, da errores al copiar archivos o se congela al acceder. Casi siempre es corrupción "
+            "lógica del sistema de archivos o del firmware del controlador, no daño físico real.",
+        "steps": [
+            "Si tienes archivos importantes, intenta copiarlos antes de seguir (pueden fallar a mitad de camino, es normal).",
+            "Ejecuta <code>chkdsk X: /f /r</code> en CMD como administrador para reparar errores lógicos.",
+            "Si sigue corrupta, identifica el controlador con <a href=\"/chipgenius\">ChipGenius</a>.",
+            "Repara a bajo nivel con la MPTool específica de tu controlador desde esta web.",
+        ],
+    },
+    {
+        "slug": "usb-danada-ilegible",
+        "label": "\"El archivo o directorio está dañado y es ilegible\"",
+        "title": "\"El archivo o directorio está dañado y es ilegible\": qué significa y cómo repararlo",
+        "video_id": "YVnfWtKIONs",
+        "explanation": "Este mensaje aparece cuando intentas abrir o copiar un archivo/carpeta de tu USB "
+            "y el sistema de archivos ya no puede leer esa sección del disco correctamente. Es una señal "
+            "de corrupción del sistema de archivos (a veces del controlador), y copiar/formatear "
+            "directamente suele fallar hasta que se repara la causa real.",
+        "steps": [
+            "No sigas copiando archivos de esa carpeta — puede empeorar la pérdida de datos.",
+            "Ejecuta <code>chkdsk X: /f</code> en CMD como administrador (cambia X por tu unidad).",
+            "Si el error persiste, identifica el controlador con <a href=\"/chipgenius\">ChipGenius</a>.",
+            "Repara a bajo nivel con la MPTool de tu controlador desde esta web.",
+        ],
+    },
 ]
 
 # slug, título, marca, enlace de descarga, clave (opcional), intro SEO, pasos
