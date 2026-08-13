@@ -308,7 +308,7 @@ TOOLS.append({
         "Comprueba si tu USB tiene un <strong>interruptor físico</strong> de bloqueo en el lateral; muévelo a la posición de desbloqueo.",
         "Prueba con <strong>Diskpart</strong>: abre CMD como administrador → <code>diskpart</code> → <code>list disk</code> → <code>select disk N</code> → <code>attributes disk clear readonly</code>.",
         "Edita el <strong>registro de Windows</strong> en <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\StorageDevicePolicies</code> y pon <code>WriteProtect = 0</code>.",
-        "Si nada funciona, el problema es del controlador: identifica tu chip con <a href=\"/chipgenius.html\">ChipGenius</a> y usa su herramienta de reparación de esta web.",
+        "Si nada funciona, el problema es del controlador: identifica tu chip con <a href=\"/chipgenius\">ChipGenius</a> y usa su herramienta de reparación de esta web.",
         "Mira los vídeos de abajo para verlo en detalle según tu caso.",
     ],
 })
@@ -349,7 +349,7 @@ TOOLS.append({
         "Prueba primero en <strong>otro puerto USB</strong> (mejor uno trasero 2.0) y en otra PC si puedes; descarta cable/hub defectuoso.",
         "Abre el <strong>Administrador de dispositivos</strong> de Windows: si aparece con una señal de alerta amarilla, el driver o el controlador está fallando.",
         "Si aparece en \"Administrador de discos\" pero no en el explorador, puede que le falte una <strong>letra de unidad</strong>: clic derecho → Cambiar letra y rutas de acceso.",
-        "Si no aparece en ningún lado (ni en Administrador de discos), identifica el chip con <a href=\"/chipgenius.html\">ChipGenius</a> y usa la herramienta de reparación de esta web para tu controlador.",
+        "Si no aparece en ningún lado (ni en Administrador de discos), identifica el chip con <a href=\"/chipgenius\">ChipGenius</a> y usa la herramienta de reparación de esta web para tu controlador.",
         "Mira el vídeo de abajo para ver el proceso completo paso a paso.",
     ],
 })
@@ -371,7 +371,7 @@ TOOLS.append({
     "steps": [
         "Prueba primero con <strong>Diskpart</strong>: CMD como administrador → <code>diskpart</code> → <code>list disk</code> → <code>select disk N</code> → <code>clean</code> → <code>create partition primary</code> → <code>format fs=fat32 quick</code>.",
         "Si Diskpart también falla o se queda trabado, el problema es de <strong>bajo nivel</strong> (el controlador), no del sistema de archivos.",
-        "Identifica el chip exacto con <a href=\"/chipgenius.html\">ChipGenius</a>: marca, VID/PID y fabricante del flash.",
+        "Identifica el chip exacto con <a href=\"/chipgenius\">ChipGenius</a>: marca, VID/PID y fabricante del flash.",
         "Descarga la <strong>MPTool</strong> de tu controlador específico en esta web y ejecútala como administrador hasta que termine en verde.",
         "Vuelve a formatear en Windows una vez reparada — ahora sí debería completarse sin errores.",
     ],

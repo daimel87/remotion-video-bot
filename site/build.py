@@ -93,6 +93,21 @@ if ('serviceWorker' in navigator) {{
 }}
 </script>'''
 
+SITE_JSONLD = f'''<script type="application/ld+json">{json.dumps({
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": SITE["name"],
+    "url": SITE["domain"] + "/",
+    "logo": SITE["logo"],
+    "sameAs": [SITE["youtube"], SITE["facebook"], SITE["instagram"]],
+}, ensure_ascii=False)}</script>
+<script type="application/ld+json">{json.dumps({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": SITE["name"],
+    "url": SITE["domain"] + "/",
+}, ensure_ascii=False)}</script>'''
+
 def head(title, desc, canonical):
     return f'''<!DOCTYPE html>
 <html lang="es">
@@ -116,6 +131,7 @@ def head(title, desc, canonical):
 <link rel="icon" href="{SITE['logo']}">
 <link rel="apple-touch-icon" href="{SITE['logo']}">
 <link rel="stylesheet" href="/style.css">
+{SITE_JSONLD}
 </head>
 <body>
 <div class="blob b1"></div>
@@ -499,6 +515,7 @@ def problem_page(p):
     canonical = f"{SITE['domain']}/problemas/{p['slug']}"
     steps = "\n".join(f"<li>{s}</li>" for s in p["steps"])
     video_block = video("🎥 Solución en vídeo", None, p["video_id"]) if p.get("video_id") else ""
+    schema = howto_schema(p['title'], p['steps'])
     body = f'''
   <article class="tool">
     <nav class="crumbs"><a href="/">Inicio</a> › <a href="/problemas">Problemas</a> › <span>{html.escape(p['label'])}</span></nav>
@@ -509,7 +526,8 @@ def problem_page(p):
     <ol class="steps">{steps}</ol>
     <p class="cta">🔎 ¿No sabes qué controlador tiene tu USB?
        <a href="/chipgenius">Identifícalo con ChipGenius</a>.</p>
-  </article>'''
+  </article>
+  {schema}'''
     write(f"problemas/{p['slug']}.html", head(p['title'], p['explanation'][:155], canonical) + body + FOOT)
 
 # ---------- Páginas legales (requeridas por AdSense/Adsterra) ----------
