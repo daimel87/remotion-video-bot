@@ -2,11 +2,32 @@
 """Builds the Lite OS Reviews site -> dist/.
 Usage: python3 osreview/build.py"""
 import os, html, shutil, re, json
-from data import SITE, ARTICLES, BEST_BUILDS_PAGE, VIDEO_HUBS
+from data import SITE, ARTICLES, BEST_BUILDS_PAGE, VIDEO_HUBS, TESTIMONIALS
 from data_pl import SITE_PL, ARTICLES_PL, UI_PL, BEST_BUILDS_PAGE_PL
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
+
+def testimonials_marquee():
+    cards = ""
+    for tst in TESTIMONIALS * 2:  # duplicated for the seamless scroll loop
+        if tst.get("video_id"):
+            link = (f'<a href="https://www.youtube.com/watch?v={tst["video_id"]}" target="_blank" rel="noopener">'
+                    f'▶ {html.escape(tst["video_title"])}</a>')
+        else:
+            link = (f'<a href="{SITE["youtube"]}" target="_blank" rel="noopener">'
+                    f'▶ Watch our reviews</a>')
+        cards += f'''<div class="tst-card">
+          <div class="tst-head">{html.escape(tst['author'])}</div>
+          <div class="tst-body">
+            <p>"{html.escape(tst['text'])}"</p>
+            {link}
+          </div>
+        </div>\n'''
+    return f'''<section class="tst-wrap">
+      <h2>What viewers say after installing a build we reviewed</h2>
+      <div class="tst-track">{cards}</div>
+    </section>'''
 
 def video(yt):
     return f'''<div class="video-frame">
@@ -706,6 +727,7 @@ def home():
        <a href="/advisor">PC Advisor</a> to go straight to the right build for your case.</p>
     {video_links}
   </section>
+  {testimonials_marquee()}
   {faq_visible}
   <section class="grid-wrap">
     <p><a href="/reviews">📄 See all {len(ARTICLES)} written reviews →</a>

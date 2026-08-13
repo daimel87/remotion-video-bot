@@ -107,6 +107,24 @@ code{background:var(--line);padding:2px 7px;border-radius:6px;font-size:.95em}
 .rel-card:hover{border-color:var(--brand);text-decoration:none}
 .rel-card h4{margin:0;font-size:.95rem;line-height:1.35;color:var(--ink)}
 
+/* testimonials marquee */
+.tst-wrap{margin:36px -18px 0;overflow:hidden}
+.tst-wrap h2{text-align:center;padding:0 18px}
+.tst-track{display:flex;gap:16px;width:max-content;animation:tst-scroll 40s linear infinite}
+.tst-wrap:hover .tst-track{animation-play-state:paused}
+.tst-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;width:300px;flex:0 0 auto}
+.tst-head{background:#0d2f6b;color:#dce8ff;font-weight:700;font-size:.68rem;
+  padding:10px 16px;letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tst-body{background:#e5f0ff;padding:14px 16px}
+.tst-body p{margin:0 0 10px;font-size:.92rem;color:#0f1f3a;line-height:1.55}
+.tst-body a{font-size:.78rem;color:#2f5fa8}
+@media (prefers-color-scheme: light){
+  .tst-head{background:#153f8c}
+  .tst-body{background:#eef4ff}
+}
+@keyframes tst-scroll{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@media(prefers-reduced-motion:reduce){.tst-track{animation:none;overflow-x:auto}}
+
 /* FAQ */
 .faq-list{display:flex;flex-direction:column;gap:12px;margin:16px 0}
 .faq-item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;

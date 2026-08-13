@@ -497,6 +497,63 @@ ARTICLES = [
     },
 ]
 
+# Verified YouTube comments, shown in the homepage testimonials marquee. video_id/video_title
+# are only set when the commenter explicitly named a build we have a matching review video for —
+# otherwise the card links to the channel instead of guessing which video it was posted on.
+TESTIMONIALS = [
+    {
+        "author": "Ariel S",
+        "text": "I use this version and your tweaks are unbelievable. I was using Windows 10 "
+                "Enterprise IoT LTSC and the battery life is considerably better. Performance is "
+                "blazing too even on better battery profile 😊",
+    },
+    {
+        "author": "The Gaming Zone",
+        "text": "is the best windows ever, ghost spectre is a super windows, official windows is a "
+                "big s**t, nice video and help for beginers",
+        "video_id": "quhv2vD6LoU",
+        "video_title": "Ghost Spectre Windows 11 Review",
+    },
+    {
+        "author": "Haziq Is Here",
+        "text": "Awesome Review. I've been using Xlite OS for 3 years. and my laptop is only 3 "
+                "years old. It works very well. I wont go back to the normal Win OS again.",
+        "video_id": "gxZ62u0h5sE",
+        "video_title": "Windows X-Lite Optimum 11 Review",
+    },
+    {
+        "author": "Ammar",
+        "text": "I recently discovered this version of w11 and loved it. Although I don't use "
+                "Low-End PCs and there are not 120,000 background actions like in classic w11, but "
+                "4-5 times less.",
+    },
+    {
+        "author": "Pankaj Kumar",
+        "text": "I install on my Chromebook dell 3189 4gb ram 32gb rom working fine only 8gb use "
+                "now 19gb free on my Chromebook. Thanks",
+    },
+    {
+        "author": "Geraldo",
+        "text": "I've used SEPTOR for years .. I love it.",
+    },
+    {
+        "author": "Tyson d",
+        "text": "Howdy crap it used 1gb ram only 7GB+ space for windows.. imma gonna try this.",
+    },
+    {
+        "author": "Moe",
+        "text": "Thank You My Proooo ♥",
+    },
+    {
+        "author": "Imthiyaz Ahmed",
+        "text": "Thanks for your work -------- just found your channel ---------- Subscribed.",
+    },
+    {
+        "author": "Zaylen",
+        "text": "Thx. Good job 🙏🙏🙏",
+    },
+]
+
 # Comparison hub page targeting broad "best lightweight Windows 11 builds" searches
 BEST_BUILDS_PAGE = {
     "slug": "best-lightweight-windows-11-builds",
