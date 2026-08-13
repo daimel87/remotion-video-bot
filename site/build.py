@@ -76,6 +76,24 @@ def testimonials_marquee():
       <div class="tst-track">{cards}</div>
     </section>'''
 
+def related_tools(current):
+    others = [t for t in TOOLS if t["slug"] != current["slug"]]
+    offset = sum(ord(c) for c in current["slug"]) % max(len(others), 1)
+    picks = (others[offset:] + others[:offset])[:4]
+    if not picks:
+        return ""
+    cards = "\n".join(
+        f'''<a class="card" href="/{t['slug']}">
+          <h3>{html.escape(t['brand'])}</h3>
+          <p>{html.escape(t['intro'][:90])}…</p>
+          <span class="go">Ver y descargar →</span></a>'''
+        for t in picks
+    )
+    return f'''<section class="grid-wrap">
+      <h2>Otras herramientas populares</h2>
+      <div class="grid">{cards}</div>
+    </section>'''
+
 def related_videos_block(t):
     rv = t.get("related_videos")
     if not rv:
@@ -425,6 +443,7 @@ def tool_page(t):
     <p class="cta">📺 Más tutoriales en
        <a href="{SITE['youtube']}" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
   </article>
+  {related_tools(t)}
   {schema}'''
     desc = t['intro'][:155]
     write(f"{t['slug']}.html", head(t['title'], desc, canonical) + body + FOOT)

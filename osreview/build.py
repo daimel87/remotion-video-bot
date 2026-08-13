@@ -289,16 +289,24 @@ def review_jsonld(a, canonical):
     }
     return f'<script type="application/ld+json">{json.dumps(ld)}</script>'
 
+def _rotated(items, current_slug, n):
+    """Deterministic per-article rotation so every article isn't always shown the same
+    first-N related picks — spreads internal-link clicks (and pageviews) across the catalog."""
+    if not items:
+        return items
+    offset = sum(ord(c) for c in current_slug) % len(items)
+    rotated = items[offset:] + items[:offset]
+    return rotated[:n]
+
 def related(current):
+    same_cat = [a for a in ARTICLES if a["slug"] != current["slug"] and a["cat"] == current["cat"]]
+    other = [a for a in ARTICLES if a["slug"] != current["slug"] and a["cat"] != current["cat"]]
+    picks = (same_cat + _rotated(other, current["slug"], 4))[:4]
+    if len(picks) < 4:
+        picks = (picks + other)[:4]
     out = ""
-    count = 0
-    for a in ARTICLES:
-        if a["slug"] == current["slug"]:
-            continue
+    for a in picks:
         out += f'<a class="rel-card" href="/{a["slug"]}"><h4>{html.escape(a["title"])}</h4></a>\n'
-        count += 1
-        if count == 4:
-            break
     return out
 
 def download_block(a, lang="en"):
@@ -425,15 +433,14 @@ def article_page(a):
     write(f"{a['slug']}.html", head(a['title'], a['summary'][:155], canonical, lang="en", en_url=en_url, pl_url=pl_url) + body + FOOT)
 
 def related_pl(current):
+    same_cat = [a for a in ARTICLES_PL if a["slug"] != current["slug"] and a["cat"] == current["cat"]]
+    other = [a for a in ARTICLES_PL if a["slug"] != current["slug"] and a["cat"] != current["cat"]]
+    picks = (same_cat + _rotated(other, current["slug"], 4))[:4]
+    if len(picks) < 4:
+        picks = (picks + other)[:4]
     out = ""
-    count = 0
-    for a in ARTICLES_PL:
-        if a["slug"] == current["slug"]:
-            continue
+    for a in picks:
         out += f'<a class="rel-card" href="/pl/{a["slug"]}"><h4>{html.escape(a["title"])}</h4></a>\n'
-        count += 1
-        if count == 4:
-            break
     return out
 
 def article_page_pl(a_pl):
