@@ -57,6 +57,7 @@ import {MovieFactSpiderMan} from './MovieFactSpiderMan';
 import {MovieFactCars} from './MovieFactCars';
 import {MovieFactWarOfWorlds} from './MovieFactWarOfWorlds';
 import {MovieFactKongSquid} from './MovieFactKongSquid';
+import {MovieFactXMenSpiderMan} from './MovieFactXMenSpiderMan';
 import {CatBreedsIQRanking} from './CatBreedsIQRanking';
 
 export const RemotionRoot: React.FC = () => {
@@ -521,6 +522,14 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="MovieFactKongSquid"
         component={MovieFactKongSquid}
+        durationInFrames={144}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="MovieFactXMenSpiderMan"
+        component={MovieFactXMenSpiderMan}
         durationInFrames={144}
         fps={24}
         width={720}
