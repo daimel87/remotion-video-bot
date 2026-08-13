@@ -613,10 +613,7 @@ def home():
     <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:14px">
       <img src="{SITE['logo']}" alt="{SITE['name']} YouTube channel" width="72" height="72" loading="lazy"
            style="border-radius:50%;flex-shrink:0">
-      <div>
-        <h2 style="margin:0 0 4px">What is {SITE['name']}?</h2>
-        <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener" style="margin:0">🔔 Subscribe on YouTube</a>
-      </div>
+      <h2 style="margin:0">What is {SITE['name']}?</h2>
     </div>
     <p>{SITE['name']} tests and reviews modified, debloated and gaming-optimized Windows builds —
        Ghost Spectre, KernelOS, ReviOS, AtlasOS, X-Lite and more — plus a handful of lightweight
