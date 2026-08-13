@@ -4,16 +4,16 @@ Edit here, then run build.py"""
 
 SITE = {
     "name": "Lite OS Reviews",
-    "tagline": "Reviews of modified Windows builds & lightweight OS for gaming and low-end PCs",
+    "tagline": "Best Debloated Windows 11 & 10 Builds for Gaming (2026 Reviews)",
     "domain": "https://paginaingles.pages.dev",  # Cloudflare Pages production URL
     "youtube": "https://www.youtube.com/channel/UCsAZA8xdUfr41QsX8WoyOQA?sub_confirmation=1",  # channel subscribe link
     "google_verify": "4t1k_fsPm-BsPZ6JQFLArsFhmg_LqMMaYAX1iqdFg4E",  # Google Search Console verification code
     "admaven_verify": "BqTY4rTaF",  # AdMaven site verification meta tag content
     "logo": "https://yt3.ggpht.com/8nKq6n-K3Z8wIknQ_7GIrJ1blA0ryPpefDu7ID-7m200y5fAUQY-zijhAZ4xKFOZUzUUJxWhRw=s160-c-k-c0x00ffffff-no-rj",
     "contact_email": "daimel.rivera@outlook.es",
-    "description": "Honest reviews and install guides for modified Windows builds (Ghost Spectre, "
-                   "AtlasOS, KernelOS, ReviOS, X-Lite) and lightweight operating systems built for "
-                   "gaming and low-end PCs.",
+    "description": "Hands-on reviews and install guides for the best debloated, lightweight Windows "
+                   "11 and Windows 10 builds for gaming and low-end PCs — Ghost Spectre, KernelOS, "
+                   "ReviOS, AtlasOS and X-Lite, tested and compared so you don't have to guess.",
     # ==== MONETAG (all zones for this site) ====
     "monetag_push": '<script src="https://5gvci.com/act/files/tag.min.js?z=11425169" data-cfasync="false" async></script>',
     "monetag_inpage_push": "<script>(function(s){s.dataset.zone='11443747',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",

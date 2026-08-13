@@ -591,7 +591,7 @@ def home():
           <p>{html.escape(v['intro'][:100])}…</p></a>\n'''
     body = f'''
   <section class="hero">
-    <h1>Modified Windows & <span class="grad">lightweight OS</span> reviews</h1>
+    <h1>Best Debloated <span class="grad">Windows 11 & 10</span> Builds for Gaming</h1>
     <p class="lead">{SITE['description']}</p>
     <a class="btn" href="/advisor">🧭 Find my perfect Windows build</a>
     <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">📺 Subscribe on YouTube</a>
