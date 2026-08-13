@@ -2,7 +2,7 @@
 """Builds the Lite OS Reviews site -> dist/.
 Usage: python3 osreview/build.py"""
 import os, html, shutil, json
-from data import SITE, ARTICLES
+from data import SITE, ARTICLES, BEST_BUILDS_PAGE
 from data_pl import SITE_PL, ARTICLES_PL, UI_PL
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -243,6 +243,45 @@ def write(path, content):
     with open(full, "w", encoding="utf-8") as f:
         f.write(content)
 
+def faq_block(faqs, heading="Frequently asked questions"):
+    if not faqs:
+        return "", ""
+    items_html = "\n".join(
+        f'<div class="faq-item"><h3>{html.escape(q)}</h3><p>{html.escape(a)}</p></div>'
+        for q, a in faqs
+    )
+    visible = f'<h2>{heading}</h2>\n<div class="faq-list">{items_html}</div>'
+    ld = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": q,
+                "acceptedAnswer": {"@type": "Answer", "text": a},
+            }
+            for q, a in faqs
+        ],
+    }
+    jsonld = f'<script type="application/ld+json">{json.dumps(ld)}</script>'
+    return visible, jsonld
+
+def review_jsonld(a, canonical):
+    ld = {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        "itemReviewed": {
+            "@type": "SoftwareApplication",
+            "name": a["title"].split(" Review")[0],
+            "applicationCategory": "OperatingSystem",
+            "operatingSystem": "Windows",
+        },
+        "reviewBody": a["summary"],
+        "author": {"@type": "Organization", "name": SITE["name"]},
+        "url": canonical,
+    }
+    return f'<script type="application/ld+json">{json.dumps(ld)}</script>'
+
 def related(current):
     out = ""
     count = 0
@@ -347,6 +386,7 @@ def article_page(a):
         sections += f"<h2>{html.escape(sub)}</h2>\n"
         for p in paras:
             sections += f"<p>{p}</p>\n"
+    faq_visible, faq_ld = faq_block(a.get("faq"))
     body = f'''
   <article class="post">
     <nav class="crumbs"><a href="/">Home</a> › <span>{html.escape(a['cat'])}</span></nav>
@@ -362,13 +402,17 @@ def article_page(a):
     <p class="note">⚠️ Always back up your files before reinstalling any operating system. Make sure
        you have a valid license for Windows before using a modified build.</p>
     {sections}
+    {faq_visible}
     <div class="fb-cta">
       <p>📺 Liked this review? Subscribe on <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a>
          for more lightweight OS builds and install guides.</p>
     </div>
     <h2>More reviews</h2>
     <div class="rel-grid">{related(a)}</div>
-  </article>'''
+    <p><a href="/best-lightweight-windows-11-builds">See how {html.escape(a['title'].split(' Review')[0])} compares to every other build we've tested →</a></p>
+  </article>
+  {faq_ld}
+  {review_jsonld(a, canonical)}'''
     en_url = canonical
     pl_url = f"{SITE['domain']}/pl/{a['slug']}"
     write(f"{a['slug']}.html", head(a['title'], a['summary'][:155], canonical, lang="en", en_url=en_url, pl_url=pl_url) + body + FOOT)
@@ -418,6 +462,39 @@ def article_page_pl(a_pl):
   </article>'''
     write(f"pl/{a['slug']}.html", head(a_pl['title'], a_pl['summary'][:155], pl_url, lang="pl", en_url=en_url, pl_url=pl_url, nav=nav_html) + body + FOOT_HTML("pl"))
 
+# ---------- Best builds comparison hub ----------
+def best_builds_page():
+    p = BEST_BUILDS_PAGE
+    canonical = f"{SITE['domain']}/{p['slug']}"
+    intro = "\n".join(f"<p>{para}</p>" for para in p["intro"])
+    rows = ""
+    for a in ARTICLES:
+        adv = a.get("advisor", {})
+        os_label = f"Windows {adv['os']}" if adv.get("os") not in (None, "linux") else "Linux"
+        ram = f"{adv.get('ram_min', '—')}GB+" if adv else "—"
+        purpose = ", ".join(adv.get("purpose", [])) if adv else "—"
+        rows += (f'<tr><td><a href="/{a["slug"]}">{html.escape(a["title"].split(" Review")[0])}</a></td>'
+                 f'<td>{html.escape(a["cat"])}</td><td>{os_label}</td><td>{ram}</td>'
+                 f'<td>{html.escape(purpose)}</td></tr>\n')
+    faq_visible, faq_ld = faq_block(p["faq"])
+    body = f'''
+  <article class="post">
+    <nav class="crumbs"><a href="/">Home</a> › <span>Best builds</span></nav>
+    <h1>{html.escape(p['title'])}</h1>
+    {intro}
+    <div class="table-wrap" style="overflow-x:auto">
+      <table class="compare-table">
+        <thead><tr><th>Build</th><th>Category</th><th>Windows</th><th>Min RAM</th><th>Best for</th></tr></thead>
+        <tbody>{rows}</tbody>
+      </table>
+    </div>
+    <a class="btn" href="/advisor">🧭 Not sure? Find your build in 30 seconds</a>
+    {faq_visible}
+  </article>
+  {faq_ld}'''
+    write(f"{p['slug']}.html", head(p["title"], p["meta_desc"], canonical, lang="en",
+          en_url=canonical, pl_url=SITE['domain']+"/pl/") + body + FOOT)
+
 # ---------- Home ----------
 def home():
     cards = ""
@@ -435,6 +512,7 @@ def home():
     <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">📺 Subscribe on YouTube</a>
   </section>
   <section class="grid-wrap">
+    <p><a href="/best-lightweight-windows-11-builds">📊 See the full comparison: best lightweight & debloated Windows 11 builds for 2026 →</a></p>
     <h2>Reviews</h2>
     <div class="grid">{cards}</div>
   </section>'''
@@ -763,7 +841,7 @@ def not_found_pl():
 def seo_files():
     urls = [SITE['domain'] + "/", SITE['domain'] + "/privacy", SITE['domain'] + "/disclaimer",
             SITE['domain'] + "/advisor", SITE['domain'] + "/terms", SITE['domain'] + "/contact",
-            SITE['domain'] + "/about"]
+            SITE['domain'] + "/about", SITE['domain'] + "/" + BEST_BUILDS_PAGE['slug']]
     urls += [f"{SITE['domain']}/{a['slug']}" for a in ARTICLES]
     urls += [SITE['domain'] + "/pl/", SITE['domain'] + "/pl/privacy", SITE['domain'] + "/pl/disclaimer",
              SITE['domain'] + "/pl/advisor", SITE['domain'] + "/pl/terms", SITE['domain'] + "/pl/contact",
@@ -784,7 +862,7 @@ def main():
     verify_file = os.path.join(HERE, "google1fa65511afa56808.html")
     if os.path.exists(verify_file):
         shutil.copy(verify_file, os.path.join(DIST, "google1fa65511afa56808.html"))
-    home(); legal(); advisor_page()
+    home(); legal(); advisor_page(); best_builds_page()
     for a in ARTICLES:
         article_page(a)
         download_page(a)

@@ -74,6 +74,19 @@ ARTICLES = [
               "step-by-step, including the post-install script and toolbox walkthrough, is in the "
               "video above."]),
         ],
+        "faq": [
+            ("Is KernelOS 11 25H2 safe to install?",
+             "It's based on genuine Windows 11 25H2 sources with community-applied tweaks, not a "
+             "third-party fork. As with any modified ISO, download it only from the link on this page "
+             "and back up your data before installing."),
+            ("Does KernelOS support Windows Update?",
+             "No — Windows Update is disabled in this build, so you can't patch it in place. You'll "
+             "need to reinstall a newer KernelOS release when one comes out instead."),
+            ("Can I play GTA 6 and Roblox on KernelOS 11 25H2?",
+             "Yes. The build keeps driver and game compatibility intact while trimming background "
+             "processes, and it's specifically tuned by its creator with upcoming titles like GTA 6 in "
+             "mind."),
+        ],
     },
     {
         "slug": "windows-x-lite-optimum-11-26h1",
@@ -110,6 +123,19 @@ ARTICLES = [
               "TPM 2.0 recommended but usually bypassable). Always back up your files before "
               "reinstalling Windows, and grab a fresh download link if the one below ever expires."]),
         ],
+        "faq": [
+            ("Is Windows X-Lite Optimum safe to use?",
+             "It's a debloated Windows 11 Pro build, not a separate OS — the same core system, with "
+             "bloatware and telemetry stripped before you install. Always download from a trusted link "
+             "and keep a backup of your files."),
+            ("Will my games and apps still work after installing it?",
+             "Yes. Because it stays core Windows 11 underneath, regular software, drivers and games "
+             "install and run the same as on a stock installation — only the background overhead is "
+             "reduced."),
+            ("How much RAM do I need for Windows X-Lite Optimum 11?",
+             "4GB is the practical minimum, but it performs best on machines with 4-8GB of RAM, which "
+             "is exactly the range where a lite build makes the biggest difference."),
+        ],
     },
     {
         "slug": "ghost-spectre-windows-11",
@@ -141,6 +167,19 @@ ARTICLES = [
               "Ghost Spectre Windows 11 is one of the safest, most established options out there. "
               "Watch the full walkthrough above before installing."]),
         ],
+        "faq": [
+            ("Is Ghost Spectre Windows 11 legal to use?",
+             "Ghost Spectre modifies a genuine Windows 11 installation rather than distributing "
+             "cracked software — you still need a valid Windows license. It's built by a long-running, "
+             "community-trusted project."),
+            ("Does Ghost Spectre Windows 11 still receive updates?",
+             "Yes, because it's based on genuine Windows sources with tweaks applied at install time, "
+             "not a static fork, so normal Windows update mechanics stay closer to intact than fully "
+             "de-integrated builds."),
+            ("Is Ghost Spectre good for gaming in 2026?",
+             "Yes — it's one of the most established lite Windows 11 builds specifically aimed at "
+             "reducing background CPU/disk usage so more resources are available for games."),
+        ],
     },
     {
         "slug": "ghost-spectre-windows-10-superlite-se",
@@ -170,6 +209,17 @@ ARTICLES = [
              ["As with any lite build, do a clean install rather than an upgrade, and keep a backup "
               "of your files. Check the video above for the full step-by-step walkthrough."]),
         ],
+        "faq": [
+            ("Is Windows 10 still safe to use in 2026?",
+             "Mostly for offline machines, gaming-only rigs, or hardware that can't run Windows 11 — "
+             "weigh the security trade-offs if your PC connects to the internet daily."),
+            ("What PCs is Ghost Spectre Superlite SE best for?",
+             "Genuinely low-spec hardware: old laptops, 4GB RAM machines, spinning hard drives, and "
+             "secondary or retro-gaming PCs you want to keep snappy without upgrading parts."),
+            ("Is Superlite SE good for gaming on old hardware?",
+             "Yes — it's the most aggressively trimmed Ghost Spectre release, aiming at the smallest "
+             "possible footprint while staying stable for daily use and gaming on older CPUs."),
+        ],
     },
     {
         "slug": "ghost-spectre-windows-10-superlite-2025",
@@ -197,6 +247,17 @@ ARTICLES = [
             ("Download & install notes",
              ["It's a full AIO ISO, so flash it to a USB drive with Rufus (or similar) and boot from "
               "it to install. Watch the video above for the exact steps."]),
+        ],
+        "faq": [
+            ("What's included in this Ghost Spectre AIO ISO?",
+             "Several Windows 10 editions (Home/Pro) packaged into a single ISO, so you choose your "
+             "edition during setup instead of downloading separate installers."),
+            ("Is it faster than a stock Windows 10 install?",
+             "Users report noticeably lower idle RAM usage and quicker cold boots, especially on "
+             "mechanical drives and older quad-core CPUs."),
+            ("Will games and drivers still work normally?",
+             "Yes — the build stays close to vanilla Windows 10 under the hood, so games, drivers and "
+             "regular software install and run as expected."),
         ],
     },
     {
@@ -227,6 +288,17 @@ ARTICLES = [
              ["Download the Ame Wizard and Playbook from the official AtlasOS site linked below, and "
               "follow the walkthrough in the video above for the safest configuration for gaming."]),
         ],
+        "faq": [
+            ("Do I need to reinstall Windows to use AtlasOS?",
+             "No — AtlasOS runs on top of your existing genuine Windows installation, so you keep your "
+             "current license and just apply the Ame Wizard tweaks on demand."),
+            ("Is combining KernelOS with AtlasOS safe?",
+             "Yes, it's a common combo in the lite-gaming-OS community: KernelOS provides the "
+             "optimized base build, and AtlasOS's Playbook adds another layer of tweaks on top."),
+            ("Will AtlasOS improve FPS on a high-end PC?",
+             "The gains are more noticeable on mid-range hardware — on already high-end rigs, the "
+             "bottleneck usually isn't the OS, so expect a smaller improvement."),
+        ],
     },
     {
         "slug": "kernelos-11-23h2-aio",
@@ -254,6 +326,18 @@ ARTICLES = [
              ["Flash the ISO to a USB drive with Rufus, boot from it and follow the setup — the full "
               "step-by-step is in the video above, including a dedicated companion guide if you want "
               "extra detail on the install process."]),
+        ],
+        "faq": [
+            ("Is KernelOS free to download?",
+             "Yes, the AIO ISO is distributed free through the download link on this page and the "
+             "creator's own channels."),
+            ("What's the difference between the 23H2 and 25H2 KernelOS AIO?",
+             "The 25H2 AIO is the newer release, based on a more recent Windows 11 build with an "
+             "updated post-install script and toolbox — 23H2 remains the most downloaded legacy "
+             "version."),
+            ("Is KernelOS good for low-end PCs too?",
+             "It's tuned primarily for gaming performance rather than raw minimum specs — pair it with "
+             "at least 6-8GB RAM for the best experience."),
         ],
     },
     {
@@ -283,6 +367,17 @@ ARTICLES = [
               "installer (rather than a static ISO you flash once), ReviOS is one of the strongest "
               "options in 2026."]),
         ],
+        "faq": [
+            ("Is ReviOS free to use?",
+             "Yes, ReviOS is free and installed through its own dedicated installer rather than a "
+             "static ISO you flash once."),
+            ("What's new in the 2026 ReviOS build?",
+             "Refined driver bundling and post-install tweaks that cut down on the installation errors "
+             "earlier versions were known for."),
+            ("What causes most ReviOS install errors?",
+             "An outdated USB flashing tool or skipping a required BIOS setting like disabling Secure "
+             "Boot — both covered step-by-step in the video above."),
+        ],
     },
     {
         "slug": "atomos-11",
@@ -309,6 +404,15 @@ ARTICLES = [
             ("Should you try it",
              ["Worth testing if you've already tried Ghost Spectre or X-Lite and want to compare. "
               "Full install walkthrough and first impressions are in the video above."]),
+        ],
+        "faq": [
+            ("Is AtomOS 11 as good as Ghost Spectre or ReviOS?",
+             "It doesn't have the size of community behind Ghost Spectre or ReviOS yet, but the core "
+             "debloating approach is similar and boot/idle resource usage is in line with other lite "
+             "Windows 11 builds."),
+            ("Does AtomOS 11 stay compatible with drivers and games?",
+             "Yes, it aims to keep the update mechanism and driver compatibility intact while cutting "
+             "telemetry and bloat."),
         ],
     },
     {
@@ -338,5 +442,45 @@ ARTICLES = [
               "and boot from USB. The video above covers the full install and first-look at the "
               "desktop environment."]),
         ],
+        "faq": [
+            ("Can Deepin OS run Windows games?",
+             "Not natively — there's no native Windows software support, though Steam Proton covers a "
+             "good chunk of the library. It's best suited for browsing, office work and general "
+             "productivity rather than as a gaming rig."),
+            ("How much RAM does Deepin OS need?",
+             "As little as 1.5GB, making it one of the best options for old hardware that can no "
+             "longer handle Windows 10 or 11 at all."),
+        ],
     },
 ]
+
+# Comparison hub page targeting broad "best lightweight Windows 11 builds" searches
+BEST_BUILDS_PAGE = {
+    "slug": "best-lightweight-windows-11-builds",
+    "title": "Best Lightweight & Debloated Windows 11 Builds for Gaming and Low-End PCs (2026)",
+    "meta_desc": "We compare the best lightweight, debloated Windows 11 and Windows 10 builds for "
+                 "gaming and low-end PCs in 2026 — KernelOS, Ghost Spectre, ReviOS, AtlasOS, X-Lite "
+                 "and more, with RAM requirements and who each build is for.",
+    "intro": ["Modified and debloated Windows builds strip out telemetry, bloatware and background "
+              "services to squeeze more performance out of your PC — whether that's more FPS in a "
+              "game or just a snappier old laptop. Below is a side-by-side comparison of every "
+              "lightweight Windows 11 and Windows 10 build we've tested, so you can pick the right "
+              "one for your hardware instead of guessing."],
+    "faq": [
+        ("Are lightweight Windows 11 builds safe?",
+         "The builds covered on this site are based on genuine Windows sources with community-applied "
+         "tweaks, not pirated software. You still need a valid Windows license, and you should always "
+         "back up your data and download only from the links provided on each review."),
+        ("Which Windows 11 build is best for gaming in 2026?",
+         "KernelOS and Ghost Spectre are the two most established options specifically tuned for "
+         "gaming performance — see the comparison table above for RAM requirements and which fits "
+         "your PC."),
+        ("What's the best lightweight Windows build for a low-end PC?",
+         "Windows X-Lite Optimum and Ghost Spectre Superlite SE are built for low-RAM, older hardware, "
+         "running comfortably on 2-4GB of RAM."),
+        ("Do debloated Windows builds still get security updates?",
+         "It varies by build — some disable Windows Update entirely and require reinstalling a newer "
+         "release, others keep update mechanics closer to stock. Check the individual review for each "
+         "build before deciding."),
+    ],
+}

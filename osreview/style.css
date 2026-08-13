@@ -107,6 +107,19 @@ code{background:var(--line);padding:2px 7px;border-radius:6px;font-size:.95em}
 .rel-card:hover{border-color:var(--brand);text-decoration:none}
 .rel-card h4{margin:0;font-size:.95rem;line-height:1.35;color:var(--ink)}
 
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;gap:12px;margin:16px 0}
+.faq-item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;
+  backdrop-filter:blur(var(--glass-blur)) saturate(140%);-webkit-backdrop-filter:blur(var(--glass-blur)) saturate(140%)}
+.faq-item h3{margin:0 0 6px;font-size:1rem}
+.faq-item p{margin:0;color:var(--muted);font-size:.92rem}
+
+/* Comparison table */
+.compare-table{width:100%;border-collapse:collapse;margin:18px 0;min-width:560px}
+.compare-table th,.compare-table td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);font-size:.9rem}
+.compare-table th{font-size:.78rem;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
+.compare-table td a{font-weight:700}
+
 /* PC Advisor */
 .advisor-form{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;
   margin:20px 0;display:flex;flex-direction:column;gap:16px;max-width:460px;
