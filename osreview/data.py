@@ -11,9 +11,10 @@ SITE = {
     "admaven_verify": "BqTY4rTaF",  # AdMaven site verification meta tag content
     "logo": "https://yt3.ggpht.com/8nKq6n-K3Z8wIknQ_7GIrJ1blA0ryPpefDu7ID-7m200y5fAUQY-zijhAZ4xKFOZUzUUJxWhRw=s160-c-k-c0x00ffffff-no-rj",
     "contact_email": "daimel.rivera@outlook.es",
-    "description": "Hands-on reviews and install guides for the best debloated, lightweight Windows "
-                   "11 and Windows 10 builds for gaming and low-end PCs — Ghost Spectre, KernelOS, "
-                   "ReviOS, AtlasOS and X-Lite, tested and compared so you don't have to guess.",
+    "description": "Hands-on video reviews and install guides for the best debloated, lightweight "
+                   "Windows 11 and Windows 10 builds for gaming and low-end PCs — Ghost Spectre, "
+                   "KernelOS, ReviOS, AtlasOS and X-Lite, tested and compared on video so you don't "
+                   "have to guess which one to install.",
     # ==== MONETAG (all zones for this site) ====
     "monetag_push": '<script src="https://5gvci.com/act/files/tag.min.js?z=11425169" data-cfasync="false" async></script>',
     "monetag_inpage_push": "<script>(function(s){s.dataset.zone='11443747',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",

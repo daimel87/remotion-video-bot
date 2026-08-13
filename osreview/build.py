@@ -601,12 +601,7 @@ def home():
           <span class="tag">{html.escape(a['cat'])}</span>
           <h3>{html.escape(a['title'])}</h3>
           <p>{html.escape(a['summary'][:100])}…</p></a>\n'''
-    video_cards = ""
-    for v in VIDEO_HUBS:
-        video_cards += f'''<a class="card" href="/{v['slug']}">
-          <img class="card-thumb" src="https://i.ytimg.com/vi/{v['first_video']}/hqdefault.jpg" alt="{html.escape(v['title'])}" loading="lazy" width="480" height="270">
-          <h3>{html.escape(v['title'].split(' — ')[0])}</h3>
-          <p>{html.escape(v['intro'][:100])}…</p></a>\n'''
+    video_links = video_hub_links_block(VIDEO_HUBS, heading="🎥 Watch the full video series")
     body = f'''
   <section class="hero">
     <h1>Best Debloated <span class="grad">Windows 11 & 10</span> Builds for Gaming</h1>
@@ -615,21 +610,26 @@ def home():
     <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">📺 Subscribe on YouTube</a>
   </section>
   <section class="guide">
-    <h2>What is {SITE['name']}?</h2>
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:14px">
+      <img src="{SITE['logo']}" alt="{SITE['name']} YouTube channel" width="72" height="72" loading="lazy"
+           style="border-radius:50%;flex-shrink:0">
+      <div>
+        <h2 style="margin:0 0 4px">What is {SITE['name']}?</h2>
+        <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener" style="margin:0">🔔 Subscribe on YouTube</a>
+      </div>
+    </div>
     <p>{SITE['name']} tests and reviews modified, debloated and gaming-optimized Windows builds —
        Ghost Spectre, KernelOS, ReviOS, AtlasOS, X-Lite and more — plus a handful of lightweight
-       Linux alternatives. Every build here is installed and used hands-on before we publish a
-       review, so you know what's actually removed, what still works, and whether the performance
-       gains are real before you flash a USB drive.</p>
+       Linux alternatives. Every build here is installed and used hands-on, and documented on video
+       on our YouTube channel, before we publish a written review — so you know what's actually
+       removed, what still works, and whether the performance gains are real before you flash a
+       USB drive.</p>
     <p>Not sure where to start? Answer three quick questions in the
        <a href="/advisor">PC Advisor</a> and we'll match you with the best build for your RAM and
        use case, or browse the full
        <a href="/best-lightweight-windows-11-builds">build comparison table</a> to see everything
        side by side.</p>
-  </section>
-  <section class="grid-wrap">
-    <h2>🎥 Video guide playlists</h2>
-    <div class="grid">{video_cards}</div>
+    {video_links}
   </section>
   <section class="grid-wrap">
     <p><a href="/best-lightweight-windows-11-builds">📊 See the full comparison: best lightweight & debloated Windows 11 builds for 2026 →</a></p>
