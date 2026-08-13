@@ -62,11 +62,10 @@ export const MovieFactXMenSpiderMan: React.FC<{src?: string}> = ({src = 'xmen-sp
         </div>
       </div>
 
-      {/* Escena, de borde a borde, mismo hueco que el resto de la serie */}
+      {/* Escena, de borde a borde, mismo hueco que el resto de la serie — con audio */}
       <div style={{position: 'absolute', top: 392, left: 0, right: 0}}>
         <OffthreadVideo
           src={staticFile(src)}
-          muted
           style={{width: '100%', height: 452, objectFit: 'cover', objectPosition: '50% 40%', display: 'block'}}
         />
       </div>
