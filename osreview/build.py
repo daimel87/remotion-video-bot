@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Builds the Lite OS Reviews site -> dist/.
 Usage: python3 osreview/build.py"""
-import os, html, shutil, json
+import os, html, shutil, re, json
 from data import SITE, ARTICLES, BEST_BUILDS_PAGE
 from data_pl import SITE_PL, ARTICLES_PL, UI_PL, BEST_BUILDS_PAGE_PL
 
@@ -103,15 +103,22 @@ function dismissLangBanner(){{
 {lang_banner}
 <main>'''
 
+def _inline_js(script_tag):
+    """Strips the outer <script ...>...</script> wrapper, leaving just the JS body."""
+    return re.sub(r'^\s*<script[^>]*>|</script>\s*$', '', script_tag.strip())
+
 MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 {SITE['monetag_push']}
-<!-- Monetag In-Page Push -->
-{SITE['monetag_inpage_push']}
-<!-- Monetag Popunder -->
-{SITE['monetag_popunder']}
-<!-- Monetag Vignette Banner -->
-{SITE['monetag_vignette']}
+<!-- Monetag In-Page Push / Popunder / Vignette: deferred until after load so they never
+     compete with the initial video/content render -->
 <script>
+window.addEventListener('load', function(){{
+  setTimeout(function(){{
+    {_inline_js(SITE['monetag_inpage_push'])};
+    {_inline_js(SITE['monetag_popunder'])};
+    {_inline_js(SITE['monetag_vignette'])};
+  }}, 1200);
+}});
 if ('serviceWorker' in navigator) {{
   navigator.serviceWorker.register('/sw.js').catch(function(){{}});
 }}

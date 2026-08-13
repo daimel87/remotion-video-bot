@@ -90,15 +90,22 @@ def related_videos_block(t):
     </section>'''
 
 # ---- Push, In-Page Push, Popunder y Vignette Monetag (todas las páginas) ----
+def _inline_js(script_tag):
+    """Quita el envoltorio <script ...>...</script>, dejando solo el JS interno."""
+    return re.sub(r'^\s*<script[^>]*>|</script>\s*$', '', script_tag.strip())
+
 MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 {SITE['monetag_push']}
-<!-- Monetag In-Page Push -->
-{SITE['monetag_inpage_push']}
-<!-- Monetag Popunder -->
-{SITE['monetag_popunder']}
-<!-- Monetag Vignette Banner -->
-{SITE['monetag_vignette']}
+<!-- In-Page Push / Popunder / Vignette: diferidos hasta después del load para que nunca
+     compitan con la carga inicial del contenido/vídeo -->
 <script>
+window.addEventListener('load', function(){{
+  setTimeout(function(){{
+    {_inline_js(SITE['monetag_inpage_push'])};
+    {_inline_js(SITE['monetag_popunder'])};
+    {_inline_js(SITE['monetag_vignette'])};
+  }}, 1200);
+}});
 if ('serviceWorker' in navigator) {{
   navigator.serviceWorker.register('/sw.js').catch(function(){{}});
 }}
