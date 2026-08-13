@@ -2,7 +2,7 @@
 """Builds the Lite OS Reviews site -> dist/.
 Usage: python3 osreview/build.py"""
 import os, html, shutil, re, json
-from data import SITE, ARTICLES, BEST_BUILDS_PAGE
+from data import SITE, ARTICLES, BEST_BUILDS_PAGE, VIDEO_HUBS
 from data_pl import SITE_PL, ARTICLES_PL, UI_PL, BEST_BUILDS_PAGE_PL
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -545,6 +545,35 @@ def best_builds_page_pl():
     write(f"pl/{p['slug']}.html", head(p["title"], p["meta_desc"], canonical, lang="pl",
           en_url=en_url, pl_url=canonical, nav=nav_html) + body + FOOT_HTML("pl"))
 
+# ---------- Video hub pages (one per YouTube playlist) ----------
+def video_hub_page(v):
+    canonical = f"{SITE['domain']}/{v['slug']}"
+    related = [a for a in ARTICLES if a["cat"] in v["related_cats"]][:6]
+    rel_html = "\n".join(
+        f'<a class="rel-card" href="/{a["slug"]}"><h4>{html.escape(a["title"])}</h4></a>'
+        for a in related
+    )
+    body = f'''
+  <article class="post">
+    <nav class="crumbs"><a href="/">Home</a> › <span>Videos</span></nav>
+    <h1>{html.escape(v['title'])}</h1>
+    <p class="lead">{html.escape(v['intro'])}</p>
+    <div class="video-frame">
+      <iframe src="https://www.youtube.com/embed/videoseries?list={v['playlist_id']}" title="{html.escape(v['title'])}"
+        loading="lazy" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+    <div class="video-cta-row">
+      <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Subscribe on YouTube</a>
+      <a class="btn ghost" href="/advisor">🧭 Find my perfect Windows build</a>
+    </div>
+    <h2>Related reviews</h2>
+    <div class="rel-grid">{rel_html}</div>
+  </article>'''
+    write(f"{v['slug']}.html", head(v["title"], v["meta_desc"], canonical, lang="en",
+          en_url=canonical, pl_url=SITE['domain']+"/pl/") + body + FOOT)
+
 # ---------- Home ----------
 def home():
     cards = ""
@@ -554,12 +583,35 @@ def home():
           <span class="tag">{html.escape(a['cat'])}</span>
           <h3>{html.escape(a['title'])}</h3>
           <p>{html.escape(a['summary'][:100])}…</p></a>\n'''
+    video_cards = ""
+    for v in VIDEO_HUBS:
+        video_cards += f'''<a class="card" href="/{v['slug']}">
+          <img class="card-thumb" src="https://i.ytimg.com/vi/{v['first_video']}/hqdefault.jpg" alt="{html.escape(v['title'])}" loading="lazy" width="480" height="270">
+          <h3>{html.escape(v['title'].split(' — ')[0])}</h3>
+          <p>{html.escape(v['intro'][:100])}…</p></a>\n'''
     body = f'''
   <section class="hero">
     <h1>Modified Windows & <span class="grad">lightweight OS</span> reviews</h1>
     <p class="lead">{SITE['description']}</p>
     <a class="btn" href="/advisor">🧭 Find my perfect Windows build</a>
     <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">📺 Subscribe on YouTube</a>
+  </section>
+  <section class="guide">
+    <h2>What is {SITE['name']}?</h2>
+    <p>{SITE['name']} tests and reviews modified, debloated and gaming-optimized Windows builds —
+       Ghost Spectre, KernelOS, ReviOS, AtlasOS, X-Lite and more — plus a handful of lightweight
+       Linux alternatives. Every build here is installed and used hands-on before we publish a
+       review, so you know what's actually removed, what still works, and whether the performance
+       gains are real before you flash a USB drive.</p>
+    <p>Not sure where to start? Answer three quick questions in the
+       <a href="/advisor">PC Advisor</a> and we'll match you with the best build for your RAM and
+       use case, or browse the full
+       <a href="/best-lightweight-windows-11-builds">build comparison table</a> to see everything
+       side by side.</p>
+  </section>
+  <section class="grid-wrap">
+    <h2>🎥 Video guide playlists</h2>
+    <div class="grid">{video_cards}</div>
   </section>
   <section class="grid-wrap">
     <p><a href="/best-lightweight-windows-11-builds">📊 See the full comparison: best lightweight & debloated Windows 11 builds for 2026 →</a></p>
@@ -893,6 +945,7 @@ def seo_files():
     urls = [SITE['domain'] + "/", SITE['domain'] + "/privacy", SITE['domain'] + "/disclaimer",
             SITE['domain'] + "/advisor", SITE['domain'] + "/terms", SITE['domain'] + "/contact",
             SITE['domain'] + "/about", SITE['domain'] + "/" + BEST_BUILDS_PAGE['slug']]
+    urls += [f"{SITE['domain']}/{v['slug']}" for v in VIDEO_HUBS]
     urls += [f"{SITE['domain']}/{a['slug']}" for a in ARTICLES]
     urls += [SITE['domain'] + "/pl/", SITE['domain'] + "/pl/privacy", SITE['domain'] + "/pl/disclaimer",
              SITE['domain'] + "/pl/advisor", SITE['domain'] + "/pl/terms", SITE['domain'] + "/pl/contact",
@@ -914,6 +967,8 @@ def main():
     if os.path.exists(verify_file):
         shutil.copy(verify_file, os.path.join(DIST, "google1fa65511afa56808.html"))
     home(); legal(); advisor_page(); best_builds_page()
+    for v in VIDEO_HUBS:
+        video_hub_page(v)
     for a in ARTICLES:
         article_page(a)
         download_page(a)

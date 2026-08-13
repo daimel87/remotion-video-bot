@@ -22,6 +22,48 @@ SITE = {
     "monetag_directlink": "https://omg10.com/4/11443749",  # Direct Link (opened on download button click)
 }
 
+# Dedicated video-hub pages, one per YouTube playlist (each is its own pageview = its own set
+# of ad impressions, and drives watch-time back to the channel).
+VIDEO_HUBS = [
+    {
+        "slug": "windows-11-lite-gaming-builds-videos",
+        "title": "Windows 11 Lite & Debloated Gaming Builds — Full Video Guide Playlist",
+        "meta_desc": "Every Windows 11 lite, debloated and gaming-optimized build we've covered on "
+                     "video — KernelOS, Ghost Spectre, X-Lite and more, install walkthroughs and "
+                     "performance reviews in one playlist.",
+        "intro": "Every install walkthrough and hands-on review of a lightweight, debloated or "
+                  "gaming-optimized Windows 11 build we've published — watch the full series below "
+                  "or jump to a written review for any specific build.",
+        "playlist_id": "PLpObcBZxYdSft4zInfWoQv_kOBmCYvbLk",
+        "first_video": "Em7-kO5fB_0",
+        "related_cats": ["Windows 11 Lite", "Gaming OS"],
+    },
+    {
+        "slug": "windows-10-lite-debloated-builds-videos",
+        "title": "Windows 10 Lite & Debloated Builds — Full Video Guide Playlist",
+        "meta_desc": "Every Windows 10 lite and debloated build we've covered on video — Ghost "
+                     "Spectre Superlite and more, install walkthroughs and performance reviews in "
+                     "one playlist.",
+        "intro": "Every install walkthrough and hands-on review of a lightweight, debloated Windows "
+                  "10 build we've published — watch the full series below or jump to a written "
+                  "review for any specific build.",
+        "playlist_id": "PLpObcBZxYdScApjNNYFRegI8HiR_tJMJT",
+        "first_video": "7_f7Ylsl_l8",
+        "related_cats": ["Windows 10 Lite"],
+    },
+    {
+        "slug": "windows-x-lite-optimum-install-guide-videos",
+        "title": "Windows X-Lite Optimum — Full Install & Review Video Series",
+        "meta_desc": "The complete Windows X-Lite Optimum video series: install walkthroughs, "
+                     "performance reviews and updates for every release, all in one playlist.",
+        "intro": "The full Windows X-Lite Optimum video series — every release we've installed and "
+                  "reviewed, step by step. Watch the complete playlist below.",
+        "playlist_id": "PLpObcBZxYdSf2kUQ93BS3KfVLOq4AUEwd",
+        "first_video": "gxZ62u0h5sE",
+        "related_cats": ["Windows 11 Lite"],
+    },
+]
+
 # slug, title, cat, summary, yt (YouTube id), url (download link), body=[(subtitle,[paragraphs])]
 ARTICLES = [
     {
