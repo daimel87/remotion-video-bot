@@ -3,7 +3,7 @@
 Usage: python3 osreview/build.py"""
 import os, html, shutil, json
 from data import SITE, ARTICLES, BEST_BUILDS_PAGE
-from data_pl import SITE_PL, ARTICLES_PL, UI_PL
+from data_pl import SITE_PL, ARTICLES_PL, UI_PL, BEST_BUILDS_PAGE_PL
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
@@ -495,6 +495,42 @@ def best_builds_page():
     write(f"{p['slug']}.html", head(p["title"], p["meta_desc"], canonical, lang="en",
           en_url=canonical, pl_url=SITE['domain']+"/pl/") + body + FOOT)
 
+def best_builds_page_pl():
+    p = BEST_BUILDS_PAGE_PL
+    canonical = f"{SITE['domain']}/pl/{p['slug']}"
+    en_url = f"{SITE['domain']}/{BEST_BUILDS_PAGE['slug']}"
+    intro = "\n".join(f"<p>{para}</p>" for para in p["intro"])
+    rows = ""
+    for a_pl in ARTICLES_PL:
+        a = next(x for x in ARTICLES if x["slug"] == a_pl["slug"])
+        adv = a.get("advisor", {})
+        os_label = f"Windows {adv['os']}" if adv.get("os") not in (None, "linux") else "Linux"
+        ram = f"{adv.get('ram_min', '—')}GB+" if adv else "—"
+        purpose_map = {"gaming": "granie", "everyday": "codzienne użycie", "revive": "ożywienie starego PC"}
+        purpose = ", ".join(purpose_map.get(x, x) for x in adv.get("purpose", [])) if adv else "—"
+        rows += (f'<tr><td><a href="/pl/{a_pl["slug"]}">{html.escape(a_pl["title"].split(" —")[0])}</a></td>'
+                 f'<td>{html.escape(a_pl["cat"])}</td><td>{os_label}</td><td>{ram}</td>'
+                 f'<td>{html.escape(purpose)}</td></tr>\n')
+    faq_visible, faq_ld = faq_block(p["faq"], heading="Najczęściej zadawane pytania")
+    nav_html = f'<a href="/pl/">{UI_PL["nav_home"]}</a> <a href="/pl/advisor">{UI_PL["nav_advisor"]}</a> <a href="{SITE["youtube"]}" target="_blank" rel="noopener">{UI_PL["nav_youtube"]}</a>'
+    body = f'''
+  <article class="post">
+    <nav class="crumbs"><a href="/pl/">{UI_PL['crumbs_home']}</a> › <span>Porównanie</span></nav>
+    <h1>{html.escape(p['title'])}</h1>
+    {intro}
+    <div class="table-wrap" style="overflow-x:auto">
+      <table class="compare-table">
+        <thead><tr><th>Wersja</th><th>Kategoria</th><th>Windows</th><th>Min. RAM</th><th>Dla kogo</th></tr></thead>
+        <tbody>{rows}</tbody>
+      </table>
+    </div>
+    <a class="btn" href="/pl/advisor">{UI_PL['advisor_not_sure']}</a>
+    {faq_visible}
+  </article>
+  {faq_ld}'''
+    write(f"pl/{p['slug']}.html", head(p["title"], p["meta_desc"], canonical, lang="pl",
+          en_url=en_url, pl_url=canonical, nav=nav_html) + body + FOOT_HTML("pl"))
+
 # ---------- Home ----------
 def home():
     cards = ""
@@ -537,6 +573,7 @@ def home_pl():
     <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">{UI_PL['hero_cta_youtube']}</a>
   </section>
   <section class="grid-wrap">
+    <p><a href="/pl/{BEST_BUILDS_PAGE_PL['slug']}">📊 Zobacz pełne porównanie: jak zoptymalizować Windows 11 pod gry (2026) →</a></p>
     <h2>{UI_PL['reviews_heading']}</h2>
     <div class="grid">{cards}</div>
   </section>'''
@@ -845,7 +882,7 @@ def seo_files():
     urls += [f"{SITE['domain']}/{a['slug']}" for a in ARTICLES]
     urls += [SITE['domain'] + "/pl/", SITE['domain'] + "/pl/privacy", SITE['domain'] + "/pl/disclaimer",
              SITE['domain'] + "/pl/advisor", SITE['domain'] + "/pl/terms", SITE['domain'] + "/pl/contact",
-             SITE['domain'] + "/pl/about"]
+             SITE['domain'] + "/pl/about", SITE['domain'] + "/pl/" + BEST_BUILDS_PAGE_PL['slug']]
     urls += [f"{SITE['domain']}/pl/{a['slug']}" for a in ARTICLES_PL]
     items = "\n".join(f"  <url><loc>{u}</loc><changefreq>weekly</changefreq></url>" for u in urls)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -868,7 +905,7 @@ def main():
         download_page(a)
     not_found_page()
 
-    home_pl(); legal_pl(); advisor_page_pl()
+    home_pl(); legal_pl(); advisor_page_pl(); best_builds_page_pl()
     for a_pl in ARTICLES_PL:
         a = next(x for x in ARTICLES if x["slug"] == a_pl["slug"])
         article_page_pl(a_pl)

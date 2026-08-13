@@ -431,3 +431,34 @@ ARTICLES_PL = [
         ],
     },
 ]
+
+# Strona hub kierowana na ogólne wyszukiwania "optymalizacja Windows 11 pod gry" w Polsce
+BEST_BUILDS_PAGE_PL = {
+    "slug": "best-lightweight-windows-11-builds",
+    "title": "Jak zoptymalizować Windows 11 pod gry — porównanie najlepszych zoptymalizowanych wersji (2026)",
+    "meta_desc": "Porównanie najlepszych zoptymalizowanych i odchudzonych wersji Windows 11 oraz "
+                 "Windows 10 do gier i słabszych komputerów w 2026 — KernelOS, Ghost Spectre, ReviOS, "
+                 "AtlasOS, X-Lite i inne, z wymaganiami RAM i dla kogo są przeznaczone.",
+    "intro": ["Zoptymalizowane wersje Windows usuwają telemetrię, zbędne aplikacje i usługi w tle, "
+              "aby wycisnąć więcej wydajności z komputera — czy to więcej FPS w grach, czy po "
+              "prostu szybszy stary laptop. Poniżej znajdziesz porównanie każdej odchudzonej wersji "
+              "Windows 11 i Windows 10, którą przetestowaliśmy, żebyś mógł wybrać tę pasującą do "
+              "Twojego sprzętu zamiast zgadywać."],
+    "faq": [
+        ("Czy zoptymalizowane wersje Windows 11 są bezpieczne?",
+         "Wersje opisane na tej stronie bazują na oryginalnych plikach Windows z modyfikacjami "
+         "wprowadzonymi przez społeczność, a nie na pirackim oprogramowaniu. Nadal potrzebujesz "
+         "ważnej licencji Windows i zawsze warto zrobić kopię zapasową danych przed instalacją."),
+        ("Która wersja Windows 11 jest najlepsza do gier w 2026?",
+         "KernelOS i Ghost Spectre to dwie najbardziej uznane opcje stworzone specjalnie pod kątem "
+         "wydajności w grach — sprawdź tabelę porównawczą powyżej, aby zobaczyć wymagania RAM i "
+         "dopasować do swojego komputera."),
+        ("Jaka jest najlepsza odchudzona wersja Windows dla słabego komputera?",
+         "Windows X-Lite Optimum oraz Ghost Spectre Superlite SE są stworzone dla starszego sprzętu "
+         "z małą ilością RAM-u i działają płynnie już przy 2-4 GB."),
+        ("Czy zoptymalizowane wersje Windows nadal otrzymują aktualizacje bezpieczeństwa?",
+         "To zależy od wersji — niektóre całkowicie wyłączają Windows Update i wymagają "
+         "przeinstalowania nowszej wersji, inne zachowują mechanizm aktualizacji bliższy "
+         "standardowemu. Sprawdź szczegóły w recenzji konkretnej wersji przed decyzją."),
+    ],
+}
