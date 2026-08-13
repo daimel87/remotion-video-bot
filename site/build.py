@@ -20,6 +20,17 @@ def faq_schema(pairs):
     data = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": items}
     return f'<script type="application/ld+json">{json.dumps(data, ensure_ascii=False)}</script>'
 
+def video_jsonld(t):
+    data = {
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        "name": t.get("video_title") or t["title"],
+        "description": _strip_tags(t["intro"]),
+        "thumbnailUrl": f"https://i.ytimg.com/vi/{t['video_id']}/hqdefault.jpg",
+        "embedUrl": f"https://www.youtube.com/embed/{t['video_id']}",
+    }
+    return f'<script type="application/ld+json">{json.dumps(data, ensure_ascii=False)}</script>'
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
 
@@ -352,7 +363,27 @@ def tool_page(t):
     function closeDlModal(){{document.getElementById('dlModal').style.display='none';}}
     </script>'''
         steps_title = "Cómo usar esta herramienta paso a paso"
-        faq = f'''
+        is_detector = t.get("kind") == "detector"
+        if is_detector:
+            faq = f'''
+    <section class="faq">
+      <h2>Preguntas frecuentes</h2>
+      <details><summary>¿Esto borra mis archivos?</summary>
+        <p>No. {html.escape(t['brand'])} solo lee información de tu memoria USB (VID, PID y
+           fabricante del controlador); no modifica ni borra ningún dato. Es 100% seguro de usar.</p></details>
+      <details><summary>¿Es gratis?</summary>
+        <p>Sí, totalmente gratis y en español.</p></details>
+      <details><summary>Ya tengo el VID/PID, ¿ahora qué hago?</summary>
+        <p>Con el nombre del controlador (Phison, SMI, Chipsbank, etc.) descarga desde esta web
+           la herramienta MPTool exacta para tu chip y sigue su guía paso a paso.</p></details>
+    </section>'''
+            faq_pairs = [
+                ("¿Esto borra mis archivos?", f"No. {t['brand']} solo lee información de tu memoria USB (VID, PID y fabricante del controlador); no modifica ni borra ningún dato. Es 100% seguro de usar."),
+                ("¿Es gratis?", "Sí, totalmente gratis y en español."),
+                ("Ya tengo el VID/PID, ¿ahora qué hago?", "Con el nombre del controlador (Phison, SMI, Chipsbank, etc.) descarga desde esta web la herramienta MPTool exacta para tu chip y sigue su guía paso a paso."),
+            ]
+        else:
+            faq = f'''
     <section class="faq">
       <h2>Preguntas frecuentes</h2>
       <details><summary>¿Esta herramienta borra mis archivos?</summary>
@@ -365,13 +396,14 @@ def tool_page(t):
         <p>Prueba otro puerto USB (mejor traseros 2.0), ejecútala como administrador y evita hubs
            o alargadores. Revisa también la <a href="/tabla-solucionadas">tabla de solucionadas</a>.</p></details>
     </section>'''
-        faq_pairs = [
-            (f"¿Esta herramienta borra mis archivos?", f"Sí. Una reparación de bajo nivel ({t['brand']}) reformatea el controlador y elimina todos los datos de la memoria. Haz copia de seguridad si aún puedes leerla."),
-            (f"¿Cómo sé si mi USB usa el controlador {t['brand']}?", f"Usa ChipGenius para leer el VID/PID y el fabricante del chip. Si coincide con {t['brand']}, esta es tu herramienta."),
-            ("La herramienta no detecta mi memoria, ¿qué hago?", "Prueba otro puerto USB (mejor traseros 2.0), ejecútala como administrador y evita hubs o alargadores. Revisa también la tabla de solucionadas."),
-        ]
+            faq_pairs = [
+                (f"¿Esta herramienta borra mis archivos?", f"Sí. Una reparación de bajo nivel ({t['brand']}) reformatea el controlador y elimina todos los datos de la memoria. Haz copia de seguridad si aún puedes leerla."),
+                (f"¿Cómo sé si mi USB usa el controlador {t['brand']}?", f"Usa ChipGenius para leer el VID/PID y el fabricante del chip. Si coincide con {t['brand']}, esta es tu herramienta."),
+                ("La herramienta no detecta mi memoria, ¿qué hago?", "Prueba otro puerto USB (mejor traseros 2.0), ejecútala como administrador y evita hubs o alargadores. Revisa también la tabla de solucionadas."),
+            ]
 
-    schema = howto_schema(t['title'], t['steps']) + faq_schema(faq_pairs)
+    video_ld = video_jsonld(t) if t.get("video_id") else ""
+    schema = howto_schema(t['title'], t['steps']) + faq_schema(faq_pairs) + video_ld
     body = f'''
   <article class="tool">
     <nav class="crumbs"><a href="/">Inicio</a> › {html.escape(t['brand'])}</nav>
