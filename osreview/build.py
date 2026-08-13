@@ -394,6 +394,22 @@ def download_page(a, lang="en", a_pl=None):
           + body + FOOT_HTML(lang))
 
 # ---------- Article page ----------
+def hubs_for_article(a):
+    """Match an article to its relevant video-hub page(s): the X-Lite build gets its own
+    dedicated hub, everything else matches by category."""
+    if "x-lite" in a["slug"]:
+        return [v for v in VIDEO_HUBS if "x-lite" in v["slug"]]
+    return [v for v in VIDEO_HUBS if a["cat"] in v["related_cats"] and "x-lite" not in v["slug"]]
+
+def video_hub_links_block(hubs, heading="🎥 More video guides"):
+    if not hubs:
+        return ""
+    links = "\n".join(
+        f'<a class="btn ghost" href="/{v["slug"]}">🎥 {html.escape(v["title"].split(" — ")[0])}</a>'
+        for v in hubs
+    )
+    return f'<div class="video-cta-row"><span style="width:100%;font-weight:700">{heading}</span>{links}</div>'
+
 def article_page(a):
     canonical = f"{SITE['domain']}/{a['slug']}"
     sections = ""
@@ -422,6 +438,7 @@ def article_page(a):
       <p>📺 Liked this review? Subscribe on <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a>
          for more lightweight OS builds and install guides.</p>
     </div>
+    {video_hub_links_block(hubs_for_article(a))}
     <h2>More reviews</h2>
     <div class="rel-grid">{related(a)}</div>
     <p><a href="/best-lightweight-windows-11-builds">See how {html.escape(a['title'].split(' Review')[0])} compares to every other build we've tested →</a></p>
@@ -568,6 +585,7 @@ def video_hub_page(v):
       <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Subscribe on YouTube</a>
       <a class="btn ghost" href="/advisor">🧭 Find my perfect Windows build</a>
     </div>
+    {video_hub_links_block([o for o in VIDEO_HUBS if o["slug"] != v["slug"]], heading="🎥 Other video guide playlists")}
     <h2>Related reviews</h2>
     <div class="rel-grid">{rel_html}</div>
   </article>'''
@@ -817,16 +835,22 @@ def advisor_page_pl():
 
 # ---------- Legal ----------
 def legal():
-    priv = '''<article class="post"><h1>Privacy Policy</h1>
+    footer_ctas = f'''<div class="video-cta-row">
+      <a class="btn ghost" href="/advisor">🧭 Find my perfect Windows build</a>
+      <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Subscribe on YouTube</a>
+    </div>'''
+    priv = f'''<article class="post"><h1>Privacy Policy</h1>
       <p>This site shows third-party advertising that may use cookies to display relevant ads. You
       can disable personalization cookies in your browser settings. We do not collect personally
-      identifiable data; traffic is measured anonymously.</p></article>'''
-    disc = '''<article class="post"><h1>Disclaimer</h1>
+      identifiable data; traffic is measured anonymously.</p>
+      {footer_ctas}</article>'''
+    disc = f'''<article class="post"><h1>Disclaimer</h1>
       <p>This site publishes reviews and install guides for modified/debloated operating system
       builds created by third-party communities. We do not host or distribute any activators,
       cracks or pirated license keys. Download links point to the creators' own official pages or
       file-hosting links shared publicly by them. You are responsible for holding a valid license
-      for any Windows installation. Always back up your data before reinstalling an OS.</p></article>'''
+      for any Windows installation. Always back up your data before reinstalling an OS.</p>
+      {footer_ctas}</article>'''
     write("privacy.html", head("Privacy Policy — " + SITE['name'],
           "Privacy policy and cookies.", SITE['domain']+"/privacy") + priv + FOOT)
     write("disclaimer.html", head("Disclaimer — " + SITE['name'],
@@ -846,7 +870,8 @@ def legal():
         <li>Site content (reviews, guides, the PC Advisor tool) belongs to {SITE['name']} / Daimel
             and may not be redistributed commercially without permission.</li>
       </ul>
-      <p>Questions about these terms? Email <a href="mailto:{SITE['contact_email']}">{SITE['contact_email']}</a>.</p></article>'''
+      <p>Questions about these terms? Email <a href="mailto:{SITE['contact_email']}">{SITE['contact_email']}</a>.</p>
+      {footer_ctas}</article>'''
     write("terms.html", head("Terms of Service — " + SITE['name'],
           "Terms of use for this site, its reviews and the PC Advisor tool.",
           SITE['domain']+"/terms") + terms + FOOT)
@@ -857,7 +882,8 @@ def legal():
       <a class="btn" href="mailto:{SITE['contact_email']}">✉ {SITE['contact_email']}</a>
       <p style="margin-top:22px">You can also drop a comment on any video on the
          <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube channel</a> — I read
-         and reply there too.</p></article>'''
+         and reply there too.</p>
+      {footer_ctas}</article>'''
     write("contact.html", head("Contact — " + SITE['name'],
           "Get in touch with questions about any reviewed Windows build.",
           SITE['domain']+"/contact") + contact + FOOT)
@@ -872,7 +898,8 @@ def legal():
          step so anyone, regardless of technical background, can follow along safely.</p>
       <p>Not sure which build fits your PC? Try the
          <a href="/advisor">PC Advisor</a> — answer 3 quick questions and get matched instantly.</p>
-      <a class="btn" href="/contact">✉ Contact me</a></article>'''
+      <a class="btn" href="/contact">✉ Contact me</a>
+      {footer_ctas}</article>'''
     write("about.html", head("About — " + SITE['name'],
           "About the creator behind Lite OS Reviews and the modified Windows builds covered here.",
           SITE['domain']+"/about") + about + FOOT)
