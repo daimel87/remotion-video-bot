@@ -476,13 +476,46 @@ def home():
       <li>Ejecútala, deja que detecte la USB y pulsa Start hasta que termine en verde.</li>
     </ol>
   </section>
+  <section class="guide">
+    <h2>¿Cómo saber si tu memoria USB está dañada?</h2>
+    <p>Antes de intentar cualquier reparación, confirma qué tipo de daño tiene tu USB:</p>
+    <ul class="check-list">
+      <li>✅ Windows no la reconoce en absoluto o dice "No hay medios"</li>
+      <li>✅ Pide formatear cada vez que la conectas ("Inserte un disco en la unidad")</li>
+      <li>✅ Aparece en formato RAW en vez de FAT32/exFAT/NTFS</li>
+      <li>✅ Muestra 0 bytes o una capacidad distinta a la real</li>
+      <li>✅ Windows dice "no pudo completar el formato"</li>
+    </ul>
+    <p>Si tu USB tiene alguno de estos síntomas, el problema casi siempre está en el
+       <strong>controlador</strong> (chip), no en la memoria física — y sí se puede reparar sin
+       comprar una nueva. Usa <a href="/problemas">¿Cuál es el problema de tu USB?</a> para ir
+       directo a la solución de tu caso exacto.</p>
+  </section>
   <section class="grid-wrap">
     <h2>Todas las herramientas ({len(TOOLS)})</h2>
     <a class="btn" href="/herramientas">Ver todas las herramientas →</a>
   </section>
   {testimonials_marquee()}'''
-    write("index.html", head(f"{SITE['name']} — {SITE['tagline']}", SITE['description'],
-                             SITE['domain'] + "/") + body + FOOT)
+    faq_pairs = [
+        ("¿Cómo sé si mi memoria USB está dañada?",
+         "Si Windows no la reconoce, pide formatear cada vez, aparece en formato RAW, muestra 0 "
+         "bytes o una capacidad falsa, o Windows dice que no pudo completar el formato, tu USB "
+         "tiene un problema de controlador — no de la memoria física."),
+        ("¿Se puede reparar una memoria USB dañada?",
+         "Sí, en la gran mayoría de los casos. El chip controlador se reprograma con su herramienta "
+         "de fábrica (MPTool) gratuita, identificándolo primero con ChipGenius."),
+        ("¿Cómo reparo una USB dañada sin perder mis datos?",
+         "Si aún puedes leer algunos archivos, cópialos primero o usa un programa de recuperación "
+         "como TestDisk/PhotoRec antes de reparar — una reparación de bajo nivel borra todo lo que "
+         "quede en la memoria."),
+        ("¿Qué hago si Windows no reconoce mi USB?",
+         "Prueba otro puerto USB (mejor trasero 2.0) y otra PC. Si sigue sin aparecer, identifica el "
+         "controlador con ChipGenius y descarga la herramienta MPTool correspondiente desde esta web."),
+    ]
+    schema = faq_schema(faq_pairs)
+    write("index.html", head("Cómo Reparar una Memoria USB Dañada (Gratis) — " + SITE['name'],
+                             SITE['description'],
+                             SITE['domain'] + "/") + body + schema + FOOT)
 
 # ---------- Página de herramientas (separada, carga anuncios propios) ----------
 def herramientas_page():

@@ -12,9 +12,9 @@ SITE = {
     "facebook": "https://www.facebook.com/dtechusb",
     "instagram": "https://www.instagram.com/como_reparar_usb_y_sistemas/",
     "playlist_id": "PLBfPLvLvAgajMalhkQ8ru4RnB9s4Fp1_N",  # lista general de reparaciones USB (87 videos)
-    "description": "Repositorio gratuito de herramientas de reparación de memorias USB (MPTool) "
-                   "para todos los controladores: Phison, SMI, Chipsbank, FirstChip y más. "
-                   "Guías paso a paso para formatear y reparar pendrives dañados.",
+    "description": "Aprende cómo reparar una memoria USB dañada gratis: identifica si tu USB está "
+                   "dañada, descarga la herramienta MPTool exacta para tu controlador (Phison, SMI, "
+                   "Chipsbank, FirstChip y más) y sigue la guía paso a paso sin perder tus datos.",
     # ==== MONETAG (todas las zonas de este sitio) ====
     "monetag_push": '<script src="https://5gvci.com/act/files/tag.min.js?z=11426112" data-cfasync="false" async></script>',
     "monetag_inpage_push": "<script>(function(s){s.dataset.zone='11443690',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
