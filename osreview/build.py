@@ -98,7 +98,7 @@ function dismissLangBanner(){{
 <div class="blob b3"></div>
 <header class="site-header glass">
   <a class="logo" href="{'/pl/' if lang == 'pl' else '/'}"><img src="{SITE['logo']}" alt="{SITE['name']}" width="36" height="36" loading="eager"> {SITE['name']}</a>
-  <nav>{nav or f'<a href="/">Home</a> <a href="/advisor">PC Advisor</a> <a href="{SITE["youtube"]}" target="_blank" rel="noopener">YouTube</a>'}</nav>
+  <nav>{nav or f'<a href="/">Home</a> <a href="/reviews">Reviews</a> <a href="/advisor">PC Advisor</a> <a href="{SITE["youtube"]}" target="_blank" rel="noopener">YouTube</a>'}</nav>
 </header>
 {lang_banner}
 <main>'''
@@ -592,8 +592,8 @@ def video_hub_page(v):
     write(f"{v['slug']}.html", head(v["title"], v["meta_desc"], canonical, lang="en",
           en_url=canonical, pl_url=SITE['domain']+"/pl/") + body + FOOT)
 
-# ---------- Home ----------
-def home():
+# ---------- Reviews index (separate page, like the Advisor/video hubs) ----------
+def reviews_page():
     cards = ""
     for a in ARTICLES:
         cards += f'''<a class="card" href="/{a['slug']}">
@@ -601,7 +601,46 @@ def home():
           <span class="tag">{html.escape(a['cat'])}</span>
           <h3>{html.escape(a['title'])}</h3>
           <p>{html.escape(a['summary'][:100])}…</p></a>\n'''
+    body = f'''
+  <article class="post">
+    <nav class="crumbs"><a href="/">Home</a> › <span>Reviews</span></nav>
+    <h1>All Windows &amp; Lightweight OS Reviews ({len(ARTICLES)})</h1>
+    <p class="lead">Every modified, debloated and gaming-optimized Windows build we've installed
+       and reviewed hands-on, plus a few lightweight Linux alternatives. Not sure which one fits
+       your PC? Try the <a href="/advisor">PC Advisor</a> or see the full
+       <a href="/best-lightweight-windows-11-builds">comparison table</a>.</p>
+  </article>
+  <section class="grid-wrap">
+    <div class="grid">{cards}</div>
+  </section>'''
+    write("reviews.html", head(f"All Reviews — {SITE['name']}",
+          "Every debloated and lightweight Windows 11, Windows 10 and Linux build we've reviewed "
+          "hands-on, with install guides and performance breakdowns.",
+          SITE['domain'] + "/reviews", lang="en", en_url=SITE['domain']+"/reviews",
+          pl_url=SITE['domain']+"/pl/") + body + FOOT)
+
+# ---------- Home ----------
+def home():
     video_links = video_hub_links_block(VIDEO_HUBS, heading="🎥 Watch the full video series")
+    faq_pairs = [
+        ("How do I fix a slow Windows 11 PC or improve gaming performance?",
+         "In most cases it's not a hardware problem — background services, telemetry and forced "
+         "updates are competing for resources. Switching to a debloated build removes that overhead "
+         "while keeping full driver and game compatibility."),
+        ("How do I know if I need a lightweight Windows build?",
+         "If Windows 11 takes over a minute to boot, Task Manager shows 20+ background processes at "
+         "idle, you're getting lower FPS than your hardware should deliver, or Windows Update keeps "
+         "interrupting gaming sessions, a debloated build will almost always help."),
+        ("Are debloated Windows builds safe to install?",
+         "The builds covered on this site are based on genuine Windows sources with community-"
+         "applied tweaks, not pirated software. You still need a valid Windows license, and you "
+         "should always back up your data before reinstalling."),
+        ("Which Windows build is best for gaming on low-end hardware?",
+         "It depends on your RAM and use case — use the PC Advisor to get matched instantly, or "
+         "check the full build comparison table to see every option's minimum requirements side by "
+         "side."),
+    ]
+    faq_visible, faq_ld = faq_block(faq_pairs, heading="Frequently asked questions")
     body = f'''
   <section class="hero">
     <h1>Best Debloated <span class="grad">Windows 11 & 10</span> Builds for Gaming</h1>
@@ -615,26 +654,67 @@ def home():
            style="border-radius:50%;flex-shrink:0">
       <h2 style="margin:0">What is {SITE['name']}?</h2>
     </div>
-    <p>{SITE['name']} tests and reviews modified, debloated and gaming-optimized Windows builds —
-       Ghost Spectre, KernelOS, ReviOS, AtlasOS, X-Lite and more — plus a handful of lightweight
-       Linux alternatives. Every build here is installed and used hands-on, and documented on video
-       on our YouTube channel, before we publish a written review — so you know what's actually
-       removed, what still works, and whether the performance gains are real before you flash a
-       USB drive.</p>
-    <p>Not sure where to start? Answer three quick questions in the
-       <a href="/advisor">PC Advisor</a> and we'll match you with the best build for your RAM and
-       use case, or browse the full
-       <a href="/best-lightweight-windows-11-builds">build comparison table</a> to see everything
-       side by side.</p>
+    <p>Is Windows 11 running slow on your PC? Getting lower FPS in games than your hardware should
+       deliver? Tired of background processes, telemetry and forced updates interrupting your
+       sessions? You're in the right place.</p>
+    <p>I'm Daimel, the creator behind {SITE['name']}. I've installed and hands-on tested dozens of
+       debloated and lightweight Windows builds — Ghost Spectre, KernelOS, ReviOS, AtlasOS, X-Lite —
+       plus lightweight Linux alternatives, documenting every install on video before publishing a
+       written review. This site is dedicated 100% to helping you find and install the right
+       lightweight Windows build for your exact PC and use case — gaming, reviving an old laptop, or
+       just cutting bloat — explained step by step so anyone can follow along safely.</p>
+    <ul class="check-list">
+      <li>✅ Low FPS or stuttering in games on Windows 11</li>
+      <li>✅ Windows 11 feels slow with 4-8GB of RAM</li>
+      <li>✅ Too much bloatware, telemetry and background processes</li>
+      <li>✅ Old laptop or PC struggling to run Windows 10/11</li>
+      <li>✅ Forced updates interrupting gaming sessions</li>
+      <li>✅ Step-by-step, beginner-friendly install guides</li>
+      <li>✅ Real hands-on testing before every review</li>
+      <li>✅ Gaming, low-end PC and Linux alternatives all covered</li>
+      <li>✅ Useful for gamers, students and everyday users</li>
+    </ul>
+  </section>
+  <section class="guide">
+    <h2>How do I fix a slow Windows 11 PC or improve gaming performance?</h2>
+    <p>When Windows 11 lags, stutters in games, or eats RAM at idle, it's usually background
+       services, telemetry and forced updates competing for resources — not a hardware problem. The
+       fix is switching to a debloated build that strips that overhead while keeping full driver and
+       game compatibility. The process is always the same:</p>
+    <ol class="steps">
+      <li>Answer three quick questions in the <a href="/advisor">PC Advisor</a> to match your RAM
+          and use case with the right build.</li>
+      <li>Browse the full <a href="/best-lightweight-windows-11-builds">build comparison table</a>
+          to see every option side by side.</li>
+      <li>Read the written review for your matched build — what's removed, what stays, and real
+          performance numbers.</li>
+      <li>Flash the ISO with Rufus and follow the install walkthrough in the video.</li>
+    </ol>
+  </section>
+  <section class="guide">
+    <h2>How do I know if I need a lightweight Windows build?</h2>
+    <p>Before you reinstall anything, check whether these describe your PC:</p>
+    <ul class="check-list">
+      <li>✅ Windows 11 takes over a minute to boot</li>
+      <li>✅ You're getting lower FPS than your GPU/CPU should deliver</li>
+      <li>✅ Task Manager shows 20+ background processes at idle</li>
+      <li>✅ Your PC has 4-8GB RAM and feels sluggish for everyday use</li>
+      <li>✅ Windows Update keeps interrupting your gaming sessions</li>
+    </ul>
+    <p>If any of these sound familiar, the problem is almost always software overhead, not your
+       hardware — and it can be fixed for free without buying new parts. Use the
+       <a href="/advisor">PC Advisor</a> to go straight to the right build for your case.</p>
     {video_links}
   </section>
+  {faq_visible}
   <section class="grid-wrap">
-    <p><a href="/best-lightweight-windows-11-builds">📊 See the full comparison: best lightweight & debloated Windows 11 builds for 2026 →</a></p>
-    <h2>Reviews</h2>
-    <div class="grid">{cards}</div>
+    <p><a href="/reviews">📄 See all {len(ARTICLES)} written reviews →</a>
+       &nbsp;·&nbsp;
+       <a href="/best-lightweight-windows-11-builds">📊 Full build comparison table →</a></p>
   </section>'''
     write("index.html", head(f"{SITE['name']} — {SITE['tagline']}", SITE['description'],
-                             SITE['domain'] + "/", lang="en", en_url=SITE['domain']+"/", pl_url=SITE['domain']+"/pl/") + body + FOOT)
+                             SITE['domain'] + "/", lang="en", en_url=SITE['domain']+"/", pl_url=SITE['domain']+"/pl/")
+          + body + faq_ld + FOOT)
 
 def home_pl():
     cards = ""
@@ -968,7 +1048,8 @@ def not_found_pl():
 def seo_files():
     urls = [SITE['domain'] + "/", SITE['domain'] + "/privacy", SITE['domain'] + "/disclaimer",
             SITE['domain'] + "/advisor", SITE['domain'] + "/terms", SITE['domain'] + "/contact",
-            SITE['domain'] + "/about", SITE['domain'] + "/" + BEST_BUILDS_PAGE['slug']]
+            SITE['domain'] + "/about", SITE['domain'] + "/reviews",
+            SITE['domain'] + "/" + BEST_BUILDS_PAGE['slug']]
     urls += [f"{SITE['domain']}/{v['slug']}" for v in VIDEO_HUBS]
     urls += [f"{SITE['domain']}/{a['slug']}" for a in ARTICLES]
     urls += [SITE['domain'] + "/pl/", SITE['domain'] + "/pl/privacy", SITE['domain'] + "/pl/disclaimer",
@@ -990,7 +1071,7 @@ def main():
     verify_file = os.path.join(HERE, "google1fa65511afa56808.html")
     if os.path.exists(verify_file):
         shutil.copy(verify_file, os.path.join(DIST, "google1fa65511afa56808.html"))
-    home(); legal(); advisor_page(); best_builds_page()
+    home(); legal(); advisor_page(); best_builds_page(); reviews_page()
     for v in VIDEO_HUBS:
         video_hub_page(v)
     for a in ARTICLES:
