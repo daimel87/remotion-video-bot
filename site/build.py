@@ -230,6 +230,8 @@ ADBLOCK_DETECT = '''
 })();
 </script>'''
 
+CF_WEB_ANALYTICS = '''<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "80a51d4b6d5649ea819a644cada2e937"}'></script><!-- End Cloudflare Web Analytics -->'''
+
 FOOT = f'''</main>
 <footer class="site-footer">
   <img class="footer-logo" src="{SITE['logo']}" alt="{SITE['name']}" width="64" height="64" loading="lazy">
@@ -271,6 +273,7 @@ FOOT = f'''</main>
 {ADBLOCK_DETECT}
 {COOKIE_BANNER}
 {MONETAG_SITEWIDE}
+{CF_WEB_ANALYTICS}
 </body></html>'''
 
 def write(path, content):
