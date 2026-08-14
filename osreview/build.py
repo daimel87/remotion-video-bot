@@ -128,6 +128,8 @@ def _inline_js(script_tag):
     """Strips the outer <script ...>...</script> wrapper, leaving just the JS body."""
     return re.sub(r'^\s*<script[^>]*>|</script>\s*$', '', script_tag.strip())
 
+CF_WEB_ANALYTICS = '''<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "781aeda9a8b9465997afb0cf1e23a103"}'></script><!-- End Cloudflare Web Analytics -->'''
+
 MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 {SITE['monetag_push']}
 <!-- Monetag In-Page Push / Popunder / Vignette: deferred until after load so they never
@@ -229,6 +231,7 @@ def FOOT_HTML(lang="en"):
 {ADBLOCK_DETECT_HTML('pl')}
 {COOKIE_BANNER_HTML('pl')}
 {MONETAG_SITEWIDE}
+{CF_WEB_ANALYTICS}
 </body></html>'''
         return footer
     return f'''</main>
@@ -261,6 +264,7 @@ def FOOT_HTML(lang="en"):
 {ADBLOCK_DETECT_HTML('en')}
 {COOKIE_BANNER_HTML('en')}
 {MONETAG_SITEWIDE}
+{CF_WEB_ANALYTICS}
 </body></html>'''
 
 FOOT = FOOT_HTML("en")
