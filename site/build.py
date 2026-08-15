@@ -114,14 +114,13 @@ def _inline_js(script_tag):
 
 MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 {SITE['monetag_push']}
-<!-- PopAds Popunder -->
-{SITE['popads_popunder']}
-<!-- In-Page Push / Vignette: diferidos hasta después del load para que nunca
+<!-- In-Page Push / Popunder / Vignette: diferidos hasta después del load para que nunca
      compitan con la carga inicial del contenido/vídeo -->
 <script>
 window.addEventListener('load', function(){{
   setTimeout(function(){{
     {_inline_js(SITE['monetag_inpage_push'])};
+    {_inline_js(SITE['monetag_popunder'])};
     {_inline_js(SITE['monetag_vignette'])};
   }}, 1200);
 }});
