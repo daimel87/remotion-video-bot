@@ -329,67 +329,9 @@ def tool_page(t):
             ("¿Y si sigo con problemas?", "Identifica el controlador de tu USB con ChipGenius y usa la herramienta de reparación correspondiente de esta web."),
         ]
     else:
-        download = f'''<button class="download" type="button" onclick="openDlModal()">
-       ⬇ Descargar {html.escape(t['brand'])}</button>
-    {key_html}
-    <div class="modal-overlay" id="dlModal">
-      <div class="modal-box">
-        <button class="modal-close" type="button" onclick="closeDlModal()" aria-label="Cerrar">✕</button>
-        <h3>Tu descarga está casi lista</h3>
-        <div class="dlgate-ring" id="dlRing" style="cursor:pointer">
-          <svg viewBox="0 0 100 100">
-            <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
-            <circle class="ring-fg" id="ringFg" cx="50" cy="50" r="45"></circle>
-          </svg>
-          <span id="dlCountdown">10</span>
-        </div>
-        <p id="dlWaitLabel">Preparando tu descarga…</p>
-        <a id="dlReal" class="download" href="{t['url']}" rel="noopener nofollow" style="display:none"
-           onclick="window.open('{SITE['monetag_directlink']}','_blank')">⬇ Descargar {html.escape(t['brand'])}</a>
-      </div>
-    </div>
-    <script>
-    function openDlModal(){{
-      document.getElementById('dlModal').style.display='flex';
-      var total=10, half=Math.ceil(total/2), c=total, stalled=false,
-          cd=document.getElementById('dlCountdown'), ring=document.getElementById('ringFg'),
-          label=document.getElementById('dlWaitLabel'), wrap=document.getElementById('dlRing'),
-          btn=document.getElementById('dlReal');
-      var circumference = 2 * Math.PI * 45;
-      ring.style.strokeDasharray = circumference;
-      wrap.style.display='block'; label.style.display='block'; btn.style.display='none';
-      cd.textContent = total; ring.style.strokeDashoffset = 0;
-      var id=null;
-      function tick(){{
-        c--;
-        if(c<=half){{
-          clearInterval(id);
-          stalled=true;
-          label.textContent='SI EL CONTADOR SE DETIENE DA CLICK ENCIMA';
-        }} else {{
-          cd.textContent=c;
-          ring.style.strokeDashoffset = circumference * (1 - c/total);
-        }}
-      }}
-      id=setInterval(tick,1000);
-      wrap.onclick = function(){{
-        if(!stalled) return;
-        stalled=false;
-        label.textContent='Preparando tu descarga…';
-        var id2=setInterval(function(){{
-          c--;
-          if(c<=0){{
-            clearInterval(id2);
-            wrap.style.display='none'; label.style.display='none'; btn.style.display='inline-block';
-          }} else {{
-            cd.textContent=c;
-            ring.style.strokeDashoffset = circumference * (1 - c/total);
-          }}
-        }},1000);
-      }};
-    }}
-    function closeDlModal(){{document.getElementById('dlModal').style.display='none';}}
-    </script>'''
+        download = f'''<a class="download" href="{t['url']}" target="_blank" rel="noopener nofollow">
+       ⬇ Descargar {html.escape(t['brand'])}</a>
+    {key_html}'''
         steps_title = "Cómo usar esta herramienta paso a paso"
         is_detector = t.get("kind") == "detector"
         if is_detector:

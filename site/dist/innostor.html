@@ -37,67 +37,9 @@
     <nav class="crumbs"><a href="/">Inicio</a> › Innostor</nav>
     <h1>Herramienta Innostor – Reparar y formatear USB Innostor</h1>
     <p class="lead">Herramienta de bajo nivel (MPTool) para reparar memorias USB con controlador Innostor. Permite reformatear el chip NAND, borrar bloques dañados y devolver la capacidad real al pendrive cuando Windows ya no lo reconoce o no da formato.</p>
-    <button class="download" type="button" onclick="openDlModal()">
-       ⬇ Descargar Innostor</button>
+    <a class="download" href="https://mega.nz/file/juohTQJD#tz5I34qLA8JNbthkySmu2xnFrnSz5iBj6nYMreuuq1c" target="_blank" rel="noopener nofollow">
+       ⬇ Descargar Innostor</a>
     
-    <div class="modal-overlay" id="dlModal">
-      <div class="modal-box">
-        <button class="modal-close" type="button" onclick="closeDlModal()" aria-label="Cerrar">✕</button>
-        <h3>Tu descarga está casi lista</h3>
-        <div class="dlgate-ring" id="dlRing" style="cursor:pointer">
-          <svg viewBox="0 0 100 100">
-            <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
-            <circle class="ring-fg" id="ringFg" cx="50" cy="50" r="45"></circle>
-          </svg>
-          <span id="dlCountdown">10</span>
-        </div>
-        <p id="dlWaitLabel">Preparando tu descarga…</p>
-        <a id="dlReal" class="download" href="https://mega.nz/file/juohTQJD#tz5I34qLA8JNbthkySmu2xnFrnSz5iBj6nYMreuuq1c" rel="noopener nofollow" style="display:none"
-           onclick="window.open('https://omg10.com/4/11443701','_blank')">⬇ Descargar Innostor</a>
-      </div>
-    </div>
-    <script>
-    function openDlModal(){
-      document.getElementById('dlModal').style.display='flex';
-      var total=10, half=Math.ceil(total/2), c=total, stalled=false,
-          cd=document.getElementById('dlCountdown'), ring=document.getElementById('ringFg'),
-          label=document.getElementById('dlWaitLabel'), wrap=document.getElementById('dlRing'),
-          btn=document.getElementById('dlReal');
-      var circumference = 2 * Math.PI * 45;
-      ring.style.strokeDasharray = circumference;
-      wrap.style.display='block'; label.style.display='block'; btn.style.display='none';
-      cd.textContent = total; ring.style.strokeDashoffset = 0;
-      var id=null;
-      function tick(){
-        c--;
-        if(c<=half){
-          clearInterval(id);
-          stalled=true;
-          label.textContent='SI EL CONTADOR SE DETIENE DA CLICK ENCIMA';
-        } else {
-          cd.textContent=c;
-          ring.style.strokeDashoffset = circumference * (1 - c/total);
-        }
-      }
-      id=setInterval(tick,1000);
-      wrap.onclick = function(){
-        if(!stalled) return;
-        stalled=false;
-        label.textContent='Preparando tu descarga…';
-        var id2=setInterval(function(){
-          c--;
-          if(c<=0){
-            clearInterval(id2);
-            wrap.style.display='none'; label.style.display='none'; btn.style.display='inline-block';
-          } else {
-            cd.textContent=c;
-            ring.style.strokeDashoffset = circumference * (1 - c/total);
-          }
-        },1000);
-      };
-    }
-    function closeDlModal(){document.getElementById('dlModal').style.display='none';}
-    </script>
     <h2>Cómo usar esta herramienta paso a paso</h2>
     <ol class="steps"><li>Confirma con ChipGenius que tu controlador es <strong>Innostor</strong>.</li>
 <li>Descarga y descomprime la herramienta Innostor.</li>
