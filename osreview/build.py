@@ -336,87 +336,9 @@ def related(current):
 
 def download_block(a, lang="en"):
     if lang == "pl":
-        return f'''<a class="download" href="/pl/get/{a['slug']}">⬇ Pobierz link do pobrania</a>'''
-    return f'''<a class="download" href="/get/{a['slug']}">⬇ Get download link</a>'''
+        return f'''<a class="download" href="{a['url']}" target="_blank" rel="noopener nofollow">⬇ Pobierz</a>'''
+    return f'''<a class="download" href="{a['url']}" target="_blank" rel="noopener nofollow">⬇ Download</a>'''
 
-# ---------- Intermediate download-gate page ----------
-def download_page(a, lang="en", a_pl=None):
-    directlink_click = f"window.open('{SITE['monetag_directlink']}','_blank')" if SITE.get("monetag_directlink") else ""
-    prefix = "/pl" if lang == "pl" else ""
-    canonical = f"{SITE['domain']}{prefix}/get/{a['slug']}"
-    title = a_pl['title'] if a_pl else a['title']
-    cat = a_pl['cat'] if a_pl else a['cat']
-    home_label = UI_PL['nav_home'] if lang == "pl" else "Home"
-    heading = "Twoje pobieranie jest przygotowywane" if lang == "pl" else "Your download is being prepared"
-    wait_label = "Proszę czekać, link jest przygotowywany…" if lang == "pl" else "Please wait, your link is being prepared…"
-    stalled_label = "Zatrzymano — kliknij koło powyżej, aby kontynuować" if lang == "pl" else "Stalled — click the circle above to continue"
-    get_link = "⬇ Pobierz link" if lang == "pl" else "⬇ Get Link"
-    note = UI_PL['backup_note'] if lang == "pl" else "⚠️ Always back up your files before reinstalling any operating system. Make sure you have a valid license for Windows before using a modified build."
-    body = f'''
-  <article class="post dlgate">
-    <nav class="crumbs"><a href="{prefix}/">{home_label}</a> › <a href="{prefix}/{a['slug']}">{html.escape(title)}</a> › <span>Download</span></nav>
-    <h1>{heading}</h1>
-    <p class="lead">{html.escape(cat)} — {html.escape(title)}</p>
-    <div class="dlgate-box">
-      <div class="dlgate-ring" id="dlRing" style="cursor:pointer">
-        <svg viewBox="0 0 100 100">
-          <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
-          <circle class="ring-fg" id="ringFg" cx="50" cy="50" r="45"></circle>
-        </svg>
-        <span id="dlCountdown">15</span>
-      </div>
-      <p id="dlWaitLabel">{wait_label}</p>
-      <a id="dlReal" class="download" href="{a['url']}" rel="noopener nofollow" style="display:none"
-         onclick="{directlink_click}">{get_link}</a>
-    </div>
-    <p class="note">{note}</p>
-  </article>
-  <script>
-  (function(){{
-    var total=15, half=Math.ceil(total/2), c=total, stalled=false,
-        cd=document.getElementById('dlCountdown'), ring=document.getElementById('ringFg'),
-        label=document.getElementById('dlWaitLabel'), wrap=document.getElementById('dlRing'),
-        btn=document.getElementById('dlReal');
-    var circumference = 2 * Math.PI * 45;
-    ring.style.strokeDasharray = circumference;
-    var id=null;
-    function tick(){{
-      c--;
-      if(c<=half){{
-        clearInterval(id);
-        stalled=true;
-        label.textContent={stalled_label!r};
-      }} else {{
-        cd.textContent=c;
-        ring.style.strokeDashoffset = circumference * (1 - c/total);
-      }}
-    }}
-    id=setInterval(tick,1000);
-    wrap.addEventListener('click', function(){{
-      if(!stalled) return;
-      stalled=false;
-      label.textContent={wait_label!r};
-      var id2=setInterval(function(){{
-        c--;
-        if(c<=0){{
-          clearInterval(id2);
-          wrap.style.display='none'; label.style.display='none'; btn.style.display='inline-block';
-        }} else {{
-          cd.textContent=c;
-          ring.style.strokeDashoffset = circumference * (1 - c/total);
-        }}
-      }},1000);
-    }});
-  }})();
-  </script>'''
-    dl_prefix = "Download" if lang == "en" else "Pobierz"
-    fname = f"get/{a['slug']}.html" if lang == "en" else f"pl/get/{a['slug']}.html"
-    summary = a_pl['summary'] if a_pl else a['summary']
-    nav_html = f'<a href="/">Home</a> <a href="/advisor">PC Advisor</a> <a href="{SITE["youtube"]}" target="_blank" rel="noopener">YouTube</a>' if lang == "en" else \
-               f'<a href="/pl/">{UI_PL["nav_home"]}</a> <a href="/pl/advisor">{UI_PL["nav_advisor"]}</a> <a href="{SITE["youtube"]}" target="_blank" rel="noopener">YouTube</a>'
-    write(fname, head(f"{dl_prefix} — {title}", summary, canonical, lang=lang, nav=nav_html)
-          .replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex,follow">')
-          + body + FOOT_HTML(lang))
 
 # ---------- Article page ----------
 def hubs_for_article(a):
@@ -1102,14 +1024,12 @@ def main():
         video_hub_page(v)
     for a in ARTICLES:
         article_page(a)
-        download_page(a)
     not_found_page()
 
     home_pl(); legal_pl(); advisor_page_pl(); best_builds_page_pl()
     for a_pl in ARTICLES_PL:
         a = next(x for x in ARTICLES if x["slug"] == a_pl["slug"])
         article_page_pl(a_pl)
-        download_page(a, lang="pl", a_pl=a_pl)
     not_found_pl()
 
     seo_files()
