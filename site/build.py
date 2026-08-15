@@ -120,7 +120,9 @@ MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 window.addEventListener('load', function(){{
   setTimeout(function(){{
     {_inline_js(SITE['monetag_inpage_push'])};
+    /*<![CDATA[/* */
     {SITE['popads_popunder']}
+    /*]]>/* */
     {_inline_js(SITE['monetag_vignette'])};
   }}, 1200);
 }});
