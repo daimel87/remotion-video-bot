@@ -132,16 +132,13 @@ CF_WEB_ANALYTICS = '''<!-- Cloudflare Web Analytics --><script type='module' src
 
 MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 {SITE['monetag_push']}
-<!-- Monetag In-Page Push / Popunder / Vignette: deferred until after load so they never
-     compete with the initial video/content render -->
+<!-- Monetag In-Page Push -->
+{SITE['monetag_inpage_push']}
+<!-- Monetag Popunder -->
+{SITE['monetag_popunder']}
+<!-- Monetag Vignette -->
+{SITE['monetag_vignette']}
 <script>
-window.addEventListener('load', function(){{
-  setTimeout(function(){{
-    {_inline_js(SITE['monetag_inpage_push'])};
-    {_inline_js(SITE['monetag_popunder'])};
-    {_inline_js(SITE['monetag_vignette'])};
-  }}, 1200);
-}});
 if ('serviceWorker' in navigator) {{
   navigator.serviceWorker.register('/sw.js').catch(function(){{}});
 }}
