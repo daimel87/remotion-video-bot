@@ -21,6 +21,8 @@ SITE = {
     "monetag_vignette": "<script>(function(s){s.dataset.zone='11443748',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
     "monetag_popunder": "<script>(function(s){s.dataset.zone='11424953',s.src='https://zovidree.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
     "monetag_directlink": "https://omg10.com/4/11443749",  # Direct Link (opened on download button click)
+    # ==== MONETAG MultiTag (test: replaces the 4 individual zones above on this site) ====
+    "monetag_multitag": '<script src="https://quge5.com/88/tag.min.js" data-zone="270670" async data-cfasync="false"></script>',
 }
 
 # Dedicated video-hub pages, one per YouTube playlist (each is its own pageview = its own set

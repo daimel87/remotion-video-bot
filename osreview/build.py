@@ -130,14 +130,8 @@ def _inline_js(script_tag):
 
 CF_WEB_ANALYTICS = '''<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "781aeda9a8b9465997afb0cf1e23a103"}'></script><!-- End Cloudflare Web Analytics -->'''
 
-MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
-{SITE['monetag_push']}
-<!-- Monetag In-Page Push -->
-{SITE['monetag_inpage_push']}
-<!-- Monetag Popunder -->
-{SITE['monetag_popunder']}
-<!-- Monetag Vignette -->
-{SITE['monetag_vignette']}
+MONETAG_SITEWIDE = f'''<!-- Monetag MultiTag (test: replaces the 4 individual zones) -->
+{SITE['monetag_multitag']}
 <script>
 if ('serviceWorker' in navigator) {{
   navigator.serviceWorker.register('/sw.js').catch(function(){{}});
