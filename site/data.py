@@ -283,12 +283,13 @@ _VIDEOS = {
     "innostor": "R-w49XRIQRU",
 }
 
-# Captura real (del eBook) específica por controlador, cuando existe
+# Captura real (del eBook) específica por controlador, cuando existe y tiene
+# resolución suficiente para verse bien en grande (ite-usbest.png es 239x198, se
+# ve pixelada ampliada, así que se deja sin imagen en vez de forzarla)
 _IMAGES = {
     "chipsbank": "/images/tools/chipsbank.png",
     "firstchip": "/images/tools/firstchip.png",
     "phison": "/images/tools/phison.png",
-    "ite-usbest": "/images/tools/ite-usbest.png",
     "innostor": "/images/tools/innostor.png",
 }
 
