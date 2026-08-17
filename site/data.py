@@ -200,6 +200,7 @@ TOOLS = [
         "kind": "detector",
         "video_id": "1BKymQQoDs8",
         "video_title": "ChipGenius: la ÚNICA herramienta que necesitas para identificar tu USB",
+        "img": "/images/tools/chipgenius.png",
         "intro": "ChipGenius es el primer paso para reparar cualquier memoria USB. Detecta el "
                  "VID, PID y el fabricante del controlador (chip) de tu pendrive. Con ese dato "
                  "sabrás exactamente qué herramienta MPTool necesitas descargar para repararla.",
@@ -215,10 +216,11 @@ TOOLS = [
     {
         "slug": "tabla-solucionadas",
         "title": "Tabla de USB solucionadas – Base de datos de reparaciones",
-        "brand": "Tabla de referencia",
+        "brand": "Tabla de solucionadas",
         "url": "https://mega.nz/file/i6IwhCiB#tzYmDfMiZ3Ycfo7Rh_si3M5UE8rgpl7LOOBxVPk9fH0",
         "kind": "detector",
         "video_id": "LqdzdO3BBGo",
+        "img": "/images/tools/tabla-solucionadas.png",
         "intro": "Base de datos con memorias USB ya reparadas: modelo, VID/PID, controlador y la "
                  "herramienta exacta que funcionó. Búscala por tu chip para ahorrar tiempo y saber "
                  "de antemano qué MPTool usar.",
@@ -236,6 +238,7 @@ TOOLS = [
         "url": "https://mega.nz/file/m2IClIiB#PEoPCBH7n4X7qtBEPNBIESWFuE0AI_F8apKMYtj4qsc",
         "kind": "mptool",
         "playlist": "PLBfPLvLvAgajTrTQS-ylyjDlgsvou8RWi",
+        "img": "/images/tools/alcor-micro.png",
         "intro": "Herramienta de bajo nivel (MPTool) para reparar memorias USB con controlador "
                  "Alcor Micro. Permite reformatear el chip NAND, borrar bloques dañados y devolver "
                  "la capacidad real al pendrive cuando Windows ya no lo reconoce o no da formato.",
@@ -280,6 +283,15 @@ _VIDEOS = {
     "innostor": "R-w49XRIQRU",
 }
 
+# Captura real (del eBook) específica por controlador, cuando existe
+_IMAGES = {
+    "chipsbank": "/images/tools/chipsbank.png",
+    "firstchip": "/images/tools/firstchip.png",
+    "phison": "/images/tools/phison.png",
+    "ite-usbest": "/images/tools/ite-usbest.png",
+    "innostor": "/images/tools/innostor.png",
+}
+
 for slug, brand, url in _CONTROLLERS:
     TOOLS.append({
         "slug": slug,
@@ -289,6 +301,7 @@ for slug, brand, url in _CONTROLLERS:
         "kind": "mptool",
         "playlist": _PLAYLISTS.get(slug),
         "video_id": _VIDEOS.get(slug),
+        "img": _IMAGES.get(slug),
         "intro": f"Herramienta de bajo nivel (MPTool) para reparar memorias USB con controlador "
                  f"{brand}. Permite reformatear el chip NAND, borrar bloques dañados y devolver la "
                  f"capacidad real al pendrive cuando Windows ya no lo reconoce o no da formato.",
@@ -310,6 +323,7 @@ TOOLS.append({
     "url": None,
     "kind": "guide",
     "playlist": "PLBfPLvLvAgago9OauNwERklrDwRVMEIl4",
+    "img": "/images/tools/quitar-proteccion-escritura-usb.png",
     "intro": "¿Tu memoria USB dice \"el disco está protegido contra escritura\" y no te deja "
              "formatear ni borrar? Aquí tienes todas las formas de quitar la protección contra "
              "escritura de un pendrive o tarjeta SD, paso a paso y en vídeo.",
@@ -328,6 +342,7 @@ TOOLS.append({
     "url": None,
     "kind": "guide",
     "playlist": "PLBfPLvLvAgagMCh6WjAzsLokj1qkfIMhB",
+    "img": "/images/tools/formatear-usb-exfat-a-fat32.png",
     "intro": "¿Necesitas pasar tu memoria USB de exFAT a FAT32 (por ejemplo para una consola, "
              "TV o coche que no lee exFAT)? Windows a veces no da la opción de FAT32 en unidades "
              "grandes. Aquí te explico cómo hacerlo paso a paso, gratis.",
@@ -347,6 +362,7 @@ TOOLS.append({
     "url": None,
     "kind": "guide",
     "video_id": "APabN6Ym_Y0",
+    "img": "/images/tools/windows-no-reconoce-usb.png",
     "related_videos": [
         {"id": "dzAM05htmAo", "label": "Reparar USB dañada que no se reconoce en la PC"},
         {"id": "vI53QJFsDKU", "label": "¿USB No Reconoce? Esto SIEMPRE Funciona"},
@@ -369,6 +385,7 @@ TOOLS.append({
     "url": None,
     "kind": "guide",
     "video_id": "aGaTI4Vksc0",
+    "img": "/images/tools/windows-no-pudo-completar-formato.png",
     "related_videos": [
         {"id": "eN0A-n_9Poo", "label": "Windows Could Not Complete Formatting — reparación paso a paso"},
         {"id": "4JHW586eSaM", "label": "¡Sí tiene solución! Reparar USB que Windows no puede formatear"},

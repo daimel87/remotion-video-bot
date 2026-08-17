@@ -38,6 +38,7 @@
     <nav class="crumbs"><a href="/">Inicio</a> › Windows no pudo completar el formato</nav>
     <h1>&quot;Windows no pudo completar el formato&quot;: solución (USB y microSD)</h1>
     <p class="lead">El error "Windows no pudo completar el formato" casi siempre significa que el controlador de la memoria (el chip que la gobierna) está dañado o corrupto, no la memoria física en sí. Aquí tienes la solución real, no solo trucos de CMD que no funcionan.</p>
+    <div class="feature-screen reveal"><img src="/images/tools/windows-no-pudo-completar-formato.png" alt="Captura real de Windows no pudo completar el formato en uso" loading="lazy"></div>
     <h2>Pasos a seguir</h2>
     <ol class="steps"><li>Prueba primero con <strong>Diskpart</strong>: CMD como administrador → <code>diskpart</code> → <code>list disk</code> → <code>select disk N</code> → <code>clean</code> → <code>create partition primary</code> → <code>format fs=fat32 quick</code>.</li>
 <li>Si Diskpart también falla o se queda trabado, el problema es de <strong>bajo nivel</strong> (el controlador), no del sistema de archivos.</li>
@@ -83,18 +84,22 @@
   <section class="grid-wrap reveal">
       <h2>Otras herramientas populares</h2>
       <div class="grid"><a class="card" href="/chipsbank">
+          <img class="card-thumb" src="/images/tools/chipsbank.png" alt="" loading="lazy">
           <h3>Chipsbank</h3>
           <p>Herramienta de bajo nivel (MPTool) para reparar memorias USB con controlador Chipsbank. Pe…</p>
           <span class="go">Ver y descargar →</span></a>
 <a class="card" href="/firstchip">
+          <img class="card-thumb" src="/images/tools/firstchip.png" alt="" loading="lazy">
           <h3>FirstChip</h3>
           <p>Herramienta de bajo nivel (MPTool) para reparar memorias USB con controlador FirstChip. Pe…</p>
           <span class="go">Ver y descargar →</span></a>
 <a class="card" href="/phison">
+          <img class="card-thumb" src="/images/tools/phison.png" alt="" loading="lazy">
           <h3>Phison</h3>
           <p>Herramienta de bajo nivel (MPTool) para reparar memorias USB con controlador Phison. Permi…</p>
           <span class="go">Ver y descargar →</span></a>
 <a class="card" href="/ite-usbest">
+          <img class="card-thumb" src="/images/tools/ite-usbest.png" alt="" loading="lazy">
           <h3>ITE USBest</h3>
           <p>Herramienta de bajo nivel (MPTool) para reparar memorias USB con controlador ITE USBest. P…</p>
           <span class="go">Ver y descargar →</span></a></div>

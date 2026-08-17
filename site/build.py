@@ -76,6 +76,12 @@ def testimonials_marquee():
       <div class="tst-track">{cards}</div>
     </section>'''
 
+def _tool_thumb(t):
+    if t.get("img"):
+        return f'<img class="card-thumb" src="{t["img"]}" alt="" loading="lazy">'
+    vid = t.get("video_id")
+    return f'<img class="card-thumb" src="https://i.ytimg.com/vi/{vid}/hqdefault.jpg" alt="" loading="lazy" width="480" height="270">' if vid else ""
+
 def related_tools(current):
     others = [t for t in TOOLS if t["slug"] != current["slug"]]
     offset = sum(ord(c) for c in current["slug"]) % max(len(others), 1)
@@ -84,6 +90,7 @@ def related_tools(current):
         return ""
     cards = "\n".join(
         f'''<a class="card" href="/{t['slug']}">
+          {_tool_thumb(t)}
           <h3>{html.escape(t['brand'])}</h3>
           <p>{html.escape(t['intro'][:90])}…</p>
           <span class="go">Ver y descargar →</span></a>'''
@@ -411,6 +418,7 @@ def tool_page(t):
     <nav class="crumbs"><a href="/">Inicio</a> › {html.escape(t['brand'])}</nav>
     <h1>{html.escape(t['title'])}</h1>
     <p class="lead">{t['intro']}</p>
+    {f'<div class="feature-screen reveal"><img src="{t["img"]}" alt="Captura real de {html.escape(t["brand"])} en uso" loading="lazy"></div>' if t.get("img") else ""}
     <h2>{steps_title}</h2>
     <ol class="steps">{steps}</ol>
     {video("🎥 Vídeotutoriales", t.get("playlist"), t.get("video_id"))}
@@ -430,6 +438,7 @@ def home():
     cards = ""
     for t in TOOLS:
         cards += f'''<a class="card" href="/{t['slug']}">
+          {_tool_thumb(t)}
           <h3>{html.escape(t['brand'])}</h3>
           <p>{html.escape(t['intro'][:90])}…</p>
           <span class="go">Ver y descargar →</span></a>\n'''
@@ -552,6 +561,7 @@ def herramientas_page():
     cards = ""
     for t in TOOLS:
         cards += f'''<a class="card" href="/{t['slug']}">
+          {_tool_thumb(t)}
           <h3>{html.escape(t['brand'])}</h3>
           <p>{html.escape(t['intro'][:90])}…</p>
           <span class="go">Ver y descargar →</span></a>\n'''
