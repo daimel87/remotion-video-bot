@@ -465,6 +465,7 @@ def home():
   <section class="hero">
     <div class="hero-layout">
       <div class="hero-copy reveal">
+        <p class="eyebrow"><span></span>Reparación de memorias USB</p>
         <h1>Herramientas gratis para reparar <span class="grad">memorias USB</span></h1>
         <p class="lead">{SITE['description']}</p>
         <div class="button-row">
