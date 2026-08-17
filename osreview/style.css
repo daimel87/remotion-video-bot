@@ -63,6 +63,14 @@ code{background:var(--line);padding:2px 7px;border-radius:6px;font-size:.95em}
 
 .hero{text-align:center;padding:44px 8px 6px}
 .hero h1{font-size:2.2rem;text-wrap:balance}
+.hero-layout{display:grid;grid-template-columns:1fr;gap:32px;align-items:center;text-align:left}
+.hero-visual{width:100%}
+.hero-visual .video-frame{box-shadow:0 30px 80px -24px rgba(0,0,0,.7)}
+.hero .button-row{margin-top:14px}
+@media(min-width:901px){
+  .hero{text-align:left;padding:56px 8px 12px}
+  .hero-layout{grid-template-columns:1.05fr .95fr;gap:48px}
+}
 .hero h1 .grad{
   background:linear-gradient(90deg,var(--brand),var(--brand2));
   -webkit-background-clip:text;background-clip:text;color:transparent;

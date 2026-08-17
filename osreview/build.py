@@ -128,6 +128,21 @@ def _inline_js(script_tag):
     """Strips the outer <script ...>...</script> wrapper, leaving just the JS body."""
     return re.sub(r'^\s*<script[^>]*>|</script>\s*$', '', script_tag.strip())
 
+DL_SCRIPT = f'''<script>window.__DL_URL={json.dumps(SITE['monetag_directlink'])};</script>
+<script>
+/* Direct Link when a card/thumbnail/hero video is clicked — once per visitor */
+(function(){{
+  var DL = window.__DL_URL;
+  if (!DL) return;
+  var KEY = 'dl_img_shown';
+  document.addEventListener('click', function(e){{
+    if (!e.target.closest('.card, .card-thumb, .hero-visual, .video-frame')) return;
+    try {{ if (localStorage.getItem(KEY)) return; localStorage.setItem(KEY, '1'); }} catch(err){{}}
+    window.open(DL, '_blank', 'noopener');
+  }}, true);
+}})();
+</script>'''
+
 CF_WEB_ANALYTICS = '''<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "781aeda9a8b9465997afb0cf1e23a103"}'></script><!-- End Cloudflare Web Analytics -->'''
 
 MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
@@ -227,6 +242,7 @@ def FOOT_HTML(lang="en"):
 </footer>
 {ADBLOCK_DETECT_HTML('pl')}
 {COOKIE_BANNER_HTML('pl')}
+{DL_SCRIPT}
 {MONETAG_SITEWIDE}
 {CF_WEB_ANALYTICS}
 </body></html>'''
@@ -260,6 +276,7 @@ def FOOT_HTML(lang="en"):
 </footer>
 {ADBLOCK_DETECT_HTML('en')}
 {COOKIE_BANNER_HTML('en')}
+{DL_SCRIPT}
 {MONETAG_SITEWIDE}
 {CF_WEB_ANALYTICS}
 </body></html>'''
@@ -587,10 +604,24 @@ def home():
     faq_visible, faq_ld = faq_block(faq_pairs, heading="Frequently asked questions")
     body = f'''
   <section class="hero">
-    <h1>Best Debloated <span class="grad">Windows 11 & 10</span> Builds for Gaming</h1>
-    <p class="lead">{SITE['description']}</p>
-    <a class="btn" href="/advisor">🧭 Find my perfect Windows build</a>
-    <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">📺 Subscribe on YouTube</a>
+    <div class="hero-layout">
+      <div class="hero-copy">
+        <h1>Best Debloated <span class="grad">Windows 11 & 10</span> Builds for Gaming</h1>
+        <p class="lead">{SITE['description']}</p>
+        <div class="button-row">
+          <a class="btn" href="/advisor">🧭 Find my perfect Windows build</a>
+          <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">📺 Subscribe on YouTube</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="video-frame">
+          <iframe src="https://www.youtube.com/embed/QvLfwf4fGTc" title="Best debloated Windows builds for gaming"
+            loading="lazy" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
   </section>
   <section class="guide">
     <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:14px">
