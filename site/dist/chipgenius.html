@@ -33,7 +33,7 @@
   <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">YouTube</a></nav>
 </header>
 <main>
-  <article class="tool">
+  <article class="tool reveal">
     <nav class="crumbs"><a href="/">Inicio</a> › ChipGenius</nav>
     <h1>ChipGenius v4.21 en Español – Descargar Gratis para Identificar el Controlador de tu USB (2026)</h1>
     <p class="lead">ChipGenius es el primer paso para reparar cualquier memoria USB. Detecta el VID, PID y el fabricante del controlador (chip) de tu pendrive. Con ese dato sabrás exactamente qué herramienta MPTool necesitas descargar para repararla.</p>
@@ -46,7 +46,7 @@
 <li>Abre ChipGenius y selecciona tu unidad en la lista superior.</li>
 <li>Anota el <strong>VID</strong>, <strong>PID</strong> y sobre todo el <strong>Controller (Chip Vendor)</strong>: Phison, SMI, Chipsbank, etc.</li>
 <li>Con el nombre del controlador, descarga desde esta web la herramienta que le corresponde.</li></ol>
-    <section class="video-tut">
+    <section class="video-tut reveal">
       <h2>🎥 Vídeotutoriales</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
       <div class="video-frame">
@@ -63,7 +63,7 @@
     </section>
     
     
-    <section class="faq">
+    <section class="faq reveal">
       <h2>Preguntas frecuentes</h2>
       <details><summary>¿Esto borra mis archivos?</summary>
         <p>No. ChipGenius solo lee información de tu memoria USB (VID, PID y
@@ -77,7 +77,7 @@
     <p class="cta">📺 Más tutoriales en
        <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
   </article>
-  <section class="grid-wrap">
+  <section class="grid-wrap reveal">
       <h2>Otras herramientas populares</h2>
       <div class="grid"><a class="card" href="/innostor">
           <h3>Innostor</h3>
@@ -181,6 +181,24 @@
 if (!localStorage.getItem('cookieOk')) {
   document.getElementById('cookieBanner').style.display = 'flex';
 }
+</script>
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){ io.observe(el); });
+})();
 </script>
 <!-- Monetag Push -->
 <script src="https://5gvci.com/act/files/tag.min.js?z=11426112" data-cfasync="false" async></script>

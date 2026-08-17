@@ -33,11 +33,11 @@
   <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">YouTube</a></nav>
 </header>
 <main>
-  <article class="tool">
+  <article class="tool reveal">
     <nav class="crumbs"><a href="/">Inicio</a> › <a href="/problemas">Problemas</a> › <span>USB dice &quot;No hay medios&quot;</span></nav>
     <h1>¿Qué significa &quot;No hay medios&quot; en una USB y cómo solucionarlo?</h1>
     <p class="lead">El mensaje "No hay medios" en el Administrador de discos de Windows aparece cuando el PC no puede comunicarse con el chip controlador de la memoria, casi siempre porque el controlador está corrupto o dañado (no porque la memoria física esté rota). También puede deberse a un puerto USB defectuoso, un cable/hub en mal estado o falta de energía suficiente en el puerto.</p>
-    <section class="video-tut">
+    <section class="video-tut reveal">
       <h2>🎥 Solución en vídeo</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
       <div class="video-frame">
@@ -145,6 +145,24 @@
 if (!localStorage.getItem('cookieOk')) {
   document.getElementById('cookieBanner').style.display = 'flex';
 }
+</script>
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){ io.observe(el); });
+})();
 </script>
 <!-- Monetag Push -->
 <script src="https://5gvci.com/act/files/tag.min.js?z=11426112" data-cfasync="false" async></script>

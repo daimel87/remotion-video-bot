@@ -33,7 +33,7 @@
   <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">YouTube</a></nav>
 </header>
 <main>
-  <article class="tool">
+  <article class="tool reveal">
     <nav class="crumbs"><a href="/">Inicio</a> › Windows no pudo completar el formato</nav>
     <h1>&quot;Windows no pudo completar el formato&quot;: solución (USB y microSD)</h1>
     <p class="lead">El error "Windows no pudo completar el formato" casi siempre significa que el controlador de la memoria (el chip que la gobierna) está dañado o corrupto, no la memoria física en sí. Aquí tienes la solución real, no solo trucos de CMD que no funcionan.</p>
@@ -44,7 +44,7 @@
 <li>Identifica el chip exacto con <a href="/chipgenius">ChipGenius</a>: marca, VID/PID y fabricante del flash.</li>
 <li>Descarga la <strong>MPTool</strong> de tu controlador específico en esta web y ejecútala como administrador hasta que termine en verde.</li>
 <li>Vuelve a formatear en Windows una vez reparada — ahora sí debería completarse sin errores.</li></ol>
-    <section class="video-tut">
+    <section class="video-tut reveal">
       <h2>🎥 Vídeotutoriales</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
       <div class="video-frame">
@@ -59,14 +59,14 @@
         <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App</a>
       </div>
     </section>
-    <section class="related-videos">
+    <section class="related-videos reveal">
       <h2>Más vídeos sobre este tema</h2>
       <ul class="steps"><li><a href="https://www.youtube.com/watch?v=eN0A-n_9Poo" target="_blank" rel="noopener">▶ Windows Could Not Complete Formatting — reparación paso a paso</a></li>
 <li><a href="https://www.youtube.com/watch?v=4JHW586eSaM" target="_blank" rel="noopener">▶ ¡Sí tiene solución! Reparar USB que Windows no puede formatear</a></li>
 <li><a href="https://www.youtube.com/watch?v=Cb6s2cqwFjg" target="_blank" rel="noopener">▶ Reparar pendrive en formato RAW que Windows no puede formatear</a></li></ul>
     </section>
     
-    <section class="faq">
+    <section class="faq reveal">
       <h2>Preguntas frecuentes</h2>
       <details><summary>¿Es gratis?</summary>
         <p>Sí, totalmente gratis. Sigue los pasos y mira los vídeos de esta página.</p></details>
@@ -79,7 +79,7 @@
     <p class="cta">📺 Más tutoriales en
        <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
   </article>
-  <section class="grid-wrap">
+  <section class="grid-wrap reveal">
       <h2>Otras herramientas populares</h2>
       <div class="grid"><a class="card" href="/chipsbank">
           <h3>Chipsbank</h3>
@@ -183,6 +183,24 @@
 if (!localStorage.getItem('cookieOk')) {
   document.getElementById('cookieBanner').style.display = 'flex';
 }
+</script>
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){ io.observe(el); });
+})();
 </script>
 <!-- Monetag Push -->
 <script src="https://5gvci.com/act/files/tag.min.js?z=11426112" data-cfasync="false" async></script>

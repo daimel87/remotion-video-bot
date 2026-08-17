@@ -39,11 +39,11 @@
     <a class="btn" href="/problemas">¿Cuál es el problema de tu USB?</a>
     <a class="btn ghost" href="/chipgenius">¿No sabes tu controlador? Empieza aquí</a>
   </section>
-  <section class="cta-band">
+  <section class="cta-band reveal">
     <a class="btn cta-ebook" href="/ir/ebook">🔥 Curso de Reparación USB — Oferta por tiempo limitado</a>
     <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App de Telegram</a>
   </section>
-  <section class="video-tut">
+  <section class="video-tut reveal">
       <h2>🎥 Curso de Reparación USB</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
       <div class="video-frame">
@@ -58,7 +58,7 @@
         <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App</a>
       </div>
     </section>
-  <section class="guide">
+  <section class="guide reveal">
     <p>¿Tu memoria USB tiene formato RAW? ¿Windows no pudo completar el formato? ¿Tu PC no reconoce
        tu USB o aparece "Inserte un disco en la unidad"? Aquí encontrarás la solución.</p>
     <p>Soy Daimel, reparador profesional de memorias USB con más de una década reparando más de
@@ -79,7 +79,7 @@
       <li>✅ Contenido útil para estudiantes, técnicos y usuarios comunes</li>
     </ul>
   </section>
-  <section class="guide">
+  <section class="guide reveal">
     <h2>¿Cómo reparar una memoria USB dañada?</h2>
     <p>Cuando una USB no da formato, aparece con 0 bytes, pide formatear una y otra vez o Windows no
        la reconoce, casi siempre el problema está en el <strong>controlador</strong> (el chip que
@@ -92,7 +92,7 @@
       <li>Ejecútala, deja que detecte la USB y pulsa Start hasta que termine en verde.</li>
     </ol>
   </section>
-  <section class="guide">
+  <section class="guide reveal">
     <h2>¿Cómo saber si tu memoria USB está dañada?</h2>
     <p>Antes de intentar cualquier reparación, confirma qué tipo de daño tiene tu USB:</p>
     <ul class="check-list">
@@ -107,11 +107,11 @@
        comprar una nueva. Usa <a href="/problemas">¿Cuál es el problema de tu USB?</a> para ir
        directo a la solución de tu caso exacto.</p>
   </section>
-  <section class="grid-wrap">
+  <section class="grid-wrap reveal">
     <h2>Todas las herramientas (20)</h2>
     <a class="btn" href="/herramientas">Ver todas las herramientas →</a>
   </section>
-  <section class="tst-wrap">
+  <section class="tst-wrap reveal">
       <h2>Lo que dicen quienes ya repararon su USB</h2>
       <div class="tst-track"><div class="tst-card">
           <div class="tst-head">@nroc1976</div>
@@ -279,6 +279,24 @@
 if (!localStorage.getItem('cookieOk')) {
   document.getElementById('cookieBanner').style.display = 'flex';
 }
+</script>
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){ io.observe(el); });
+})();
 </script>
 <!-- Monetag Push -->
 <script src="https://5gvci.com/act/files/tag.min.js?z=11426112" data-cfasync="false" async></script>

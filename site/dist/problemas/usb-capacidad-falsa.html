@@ -33,11 +33,11 @@
   <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">YouTube</a></nav>
 </header>
 <main>
-  <article class="tool">
+  <article class="tool reveal">
     <nav class="crumbs"><a href="/">Inicio</a> › <a href="/problemas">Problemas</a> › <span>USB con capacidad falsa</span></nav>
     <h1>Cómo saber si tu USB tiene capacidad falsa y cómo repararla</h1>
     <p class="lead">Una memoria USB "falsa" es aquella cuyo chip fue reprogramado para reportar una capacidad mayor a la que realmente tiene físicamente (por ejemplo, se anuncia como 128GB pero solo tiene 8GB reales de memoria NAND). Windows la muestra con el tamaño falso, pero al llenarla empieza a corromper y perder archivos silenciosamente.</p>
-    <section class="video-tut">
+    <section class="video-tut reveal">
       <h2>🎥 Solución en vídeo</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
       <div class="video-frame">
@@ -145,6 +145,24 @@
 if (!localStorage.getItem('cookieOk')) {
   document.getElementById('cookieBanner').style.display = 'flex';
 }
+</script>
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){ io.observe(el); });
+})();
 </script>
 <!-- Monetag Push -->
 <script src="https://5gvci.com/act/files/tag.min.js?z=11426112" data-cfasync="false" async></script>

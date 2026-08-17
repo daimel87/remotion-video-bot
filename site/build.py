@@ -46,7 +46,7 @@ def video(titulo="🎥 Tutoriales en vídeo", pid=None, vid=None, cta="default")
         cta_row = f'''<a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Suscribirse al canal</a>
         <a class="btn cta-ebook" href="/ir/ebook">🔥 Comprar el curso</a>
         <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App</a>'''
-    return f'''<section class="video-tut">
+    return f'''<section class="video-tut reveal">
       <h2>{titulo}</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
       <div class="video-frame">
@@ -71,7 +71,7 @@ def testimonials_marquee():
               ▶ {html.escape(tst['video_title'])}</a>
           </div>
         </div>\n'''
-    return f'''<section class="tst-wrap">
+    return f'''<section class="tst-wrap reveal">
       <h2>Lo que dicen quienes ya repararon su USB</h2>
       <div class="tst-track">{cards}</div>
     </section>'''
@@ -89,7 +89,7 @@ def related_tools(current):
           <span class="go">Ver y descargar →</span></a>'''
         for t in picks
     )
-    return f'''<section class="grid-wrap">
+    return f'''<section class="grid-wrap reveal">
       <h2>Otras herramientas populares</h2>
       <div class="grid">{cards}</div>
     </section>'''
@@ -102,7 +102,7 @@ def related_videos_block(t):
         f'<li><a href="https://www.youtube.com/watch?v={r["id"]}" target="_blank" rel="noopener">▶ {html.escape(r["label"])}</a></li>'
         for r in rv
     )
-    return f'''<section class="related-videos">
+    return f'''<section class="related-videos reveal">
       <h2>Más vídeos sobre este tema</h2>
       <ul class="steps">{items}</ul>
     </section>'''
@@ -124,6 +124,25 @@ MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 if ('serviceWorker' in navigator) {{
   navigator.serviceWorker.register('/sw.js').catch(function(){{}});
 }}
+</script>'''
+
+REVEAL_SCRIPT = '''<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){ io.observe(el); });
+})();
 </script>'''
 
 SITE_JSONLD = f'''<script type="application/ld+json">{json.dumps({
@@ -269,6 +288,7 @@ FOOT = f'''</main>
 </footer>
 {ADBLOCK_DETECT}
 {COOKIE_BANNER}
+{REVEAL_SCRIPT}
 {MONETAG_SITEWIDE}
 {CF_WEB_ANALYTICS}
 </body></html>'''
@@ -310,7 +330,7 @@ def tool_page(t):
         download = ""
         steps_title = "Pasos a seguir"
         faq = f'''
-    <section class="faq">
+    <section class="faq reveal">
       <h2>Preguntas frecuentes</h2>
       <details><summary>¿Es gratis?</summary>
         <p>Sí, totalmente gratis. Sigue los pasos y mira los vídeos de esta página.</p></details>
@@ -333,7 +353,7 @@ def tool_page(t):
         is_detector = t.get("kind") == "detector"
         if is_detector:
             faq = f'''
-    <section class="faq">
+    <section class="faq reveal">
       <h2>Preguntas frecuentes</h2>
       <details><summary>¿Esto borra mis archivos?</summary>
         <p>No. {html.escape(t['brand'])} solo lee información de tu memoria USB (VID, PID y
@@ -351,7 +371,7 @@ def tool_page(t):
             ]
         else:
             faq = f'''
-    <section class="faq">
+    <section class="faq reveal">
       <h2>Preguntas frecuentes</h2>
       <details><summary>¿Esta herramienta borra mis archivos?</summary>
         <p>Sí. Una reparación de bajo nivel ({t['brand']}) reformatea el controlador y elimina
@@ -372,7 +392,7 @@ def tool_page(t):
     video_ld = video_jsonld(t) if t.get("video_id") else ""
     schema = howto_schema(t['title'], t['steps']) + faq_schema(faq_pairs) + video_ld
     body = f'''
-  <article class="tool">
+  <article class="tool reveal">
     <nav class="crumbs"><a href="/">Inicio</a> › {html.escape(t['brand'])}</nav>
     <h1>{html.escape(t['title'])}</h1>
     <p class="lead">{t['intro']}</p>
@@ -405,12 +425,12 @@ def home():
     <a class="btn" href="/problemas">¿Cuál es el problema de tu USB?</a>
     <a class="btn ghost" href="/chipgenius">¿No sabes tu controlador? Empieza aquí</a>
   </section>
-  <section class="cta-band">
+  <section class="cta-band reveal">
     <a class="btn cta-ebook" href="/ir/ebook">🔥 Curso de Reparación USB — Oferta por tiempo limitado</a>
     <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App de Telegram</a>
   </section>
   {video("🎥 Curso de Reparación USB", None, "jcl3Q1ijD5o")}
-  <section class="guide">
+  <section class="guide reveal">
     <p>¿Tu memoria USB tiene formato RAW? ¿Windows no pudo completar el formato? ¿Tu PC no reconoce
        tu USB o aparece "Inserte un disco en la unidad"? Aquí encontrarás la solución.</p>
     <p>Soy Daimel, reparador profesional de memorias USB con más de una década reparando más de
@@ -431,7 +451,7 @@ def home():
       <li>✅ Contenido útil para estudiantes, técnicos y usuarios comunes</li>
     </ul>
   </section>
-  <section class="guide">
+  <section class="guide reveal">
     <h2>¿Cómo reparar una memoria USB dañada?</h2>
     <p>Cuando una USB no da formato, aparece con 0 bytes, pide formatear una y otra vez o Windows no
        la reconoce, casi siempre el problema está en el <strong>controlador</strong> (el chip que
@@ -444,7 +464,7 @@ def home():
       <li>Ejecútala, deja que detecte la USB y pulsa Start hasta que termine en verde.</li>
     </ol>
   </section>
-  <section class="guide">
+  <section class="guide reveal">
     <h2>¿Cómo saber si tu memoria USB está dañada?</h2>
     <p>Antes de intentar cualquier reparación, confirma qué tipo de daño tiene tu USB:</p>
     <ul class="check-list">
@@ -459,7 +479,7 @@ def home():
        comprar una nueva. Usa <a href="/problemas">¿Cuál es el problema de tu USB?</a> para ir
        directo a la solución de tu caso exacto.</p>
   </section>
-  <section class="grid-wrap">
+  <section class="grid-wrap reveal">
     <h2>Todas las herramientas ({len(TOOLS)})</h2>
     <a class="btn" href="/herramientas">Ver todas las herramientas →</a>
   </section>
@@ -494,13 +514,13 @@ def herramientas_page():
           <p>{html.escape(t['intro'][:90])}…</p>
           <span class="go">Ver y descargar →</span></a>\n'''
     body = f'''
-  <article class="tool">
+  <article class="tool reveal">
     <nav class="crumbs"><a href="/">Inicio</a> › <span>Herramientas</span></nav>
     <h1>Todas las herramientas de reparación USB ({len(TOOLS)})</h1>
     <p class="lead">Elige el controlador de tu memoria USB para descargar su herramienta de
        reparación. ¿No sabes cuál es? Usa <a href="/chipgenius">ChipGenius</a> primero.</p>
   </article>
-  <section id="herramientas" class="grid-wrap">
+  <section id="herramientas" class="grid-wrap reveal">
     <div class="grid">{cards}</div>
   </section>'''
     write("herramientas.html", head(f"Todas las herramientas — {SITE['name']}",
@@ -530,13 +550,13 @@ def problems_hub_page():
       <h3>USB no se reconoce</h3>
       <span class="go">Ver solución →</span></a>\n'''
     body = f'''
-  <article class="tool">
+  <article class="tool reveal">
     <nav class="crumbs"><a href="/">Inicio</a> › <span>Problemas</span></nav>
     <h1>¿Cuál es el problema de tu USB?</h1>
     <p class="lead">Elige el mensaje de error o síntoma exacto que ves en tu memoria USB para ver
        la explicación y la solución en vídeo.</p>
   </article>
-  <section class="grid-wrap">
+  <section class="grid-wrap reveal">
     <div class="grid">{cards}</div>
   </section>'''
     write("problemas.html", head(f"¿Cuál es el problema de tu USB? — {SITE['name']}",
@@ -550,7 +570,7 @@ def problem_page(p):
     video_block = video("🎥 Solución en vídeo", None, p["video_id"]) if p.get("video_id") else ""
     schema = howto_schema(p['title'], p['steps'])
     body = f'''
-  <article class="tool">
+  <article class="tool reveal">
     <nav class="crumbs"><a href="/">Inicio</a> › <a href="/problemas">Problemas</a> › <span>{html.escape(p['label'])}</span></nav>
     <h1>{html.escape(p['title'])}</h1>
     <p class="lead">{p['explanation']}</p>

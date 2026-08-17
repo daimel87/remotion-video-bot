@@ -33,13 +33,13 @@
   <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">YouTube</a></nav>
 </header>
 <main>
-  <article class="tool">
+  <article class="tool reveal">
     <nav class="crumbs"><a href="/">Inicio</a> › <span>Problemas</span></nav>
     <h1>¿Cuál es el problema de tu USB?</h1>
     <p class="lead">Elige el mensaje de error o síntoma exacto que ves en tu memoria USB para ver
        la explicación y la solución en vídeo.</p>
   </article>
-  <section class="grid-wrap">
+  <section class="grid-wrap reveal">
     <div class="grid"><a class="card" href="/problemas/usb-no-hay-medios">
           <img class="card-thumb" src="https://i.ytimg.com/vi/GypEuIFjmIY/hqdefault.jpg" alt="" loading="lazy" width="480" height="270">
           <h3>USB dice &quot;No hay medios&quot;</h3>
@@ -162,6 +162,24 @@
 if (!localStorage.getItem('cookieOk')) {
   document.getElementById('cookieBanner').style.display = 'flex';
 }
+</script>
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){ io.observe(el); });
+})();
 </script>
 <!-- Monetag Push -->
 <script src="https://5gvci.com/act/files/tag.min.js?z=11426112" data-cfasync="false" async></script>

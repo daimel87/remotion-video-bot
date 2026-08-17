@@ -33,7 +33,7 @@
   <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">YouTube</a></nav>
 </header>
 <main>
-  <article class="tool">
+  <article class="tool reveal">
     <nav class="crumbs"><a href="/">Inicio</a> › Windows no reconoce la USB</nav>
     <h1>Windows no reconoce la USB: cómo solucionarlo (todos los casos)</h1>
     <p class="lead">¿Conectas tu memoria USB y Windows no la detecta, ni siquiera aparece en "Este equipo" o en el Administrador de discos? Aquí tienes todas las causas posibles y cómo solucionar cada una, desde el puerto hasta un controlador dañado.</p>
@@ -44,7 +44,7 @@
 <li>Si aparece en "Administrador de discos" pero no en el explorador, puede que le falte una <strong>letra de unidad</strong>: clic derecho → Cambiar letra y rutas de acceso.</li>
 <li>Si no aparece en ningún lado (ni en Administrador de discos), identifica el chip con <a href="/chipgenius">ChipGenius</a> y usa la herramienta de reparación de esta web para tu controlador.</li>
 <li>Mira el vídeo de abajo para ver el proceso completo paso a paso.</li></ol>
-    <section class="video-tut">
+    <section class="video-tut reveal">
       <h2>🎥 Vídeotutoriales</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
       <div class="video-frame">
@@ -59,13 +59,13 @@
         <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App</a>
       </div>
     </section>
-    <section class="related-videos">
+    <section class="related-videos reveal">
       <h2>Más vídeos sobre este tema</h2>
       <ul class="steps"><li><a href="https://www.youtube.com/watch?v=dzAM05htmAo" target="_blank" rel="noopener">▶ Reparar USB dañada que no se reconoce en la PC</a></li>
 <li><a href="https://www.youtube.com/watch?v=vI53QJFsDKU" target="_blank" rel="noopener">▶ ¿USB No Reconoce? Esto SIEMPRE Funciona</a></li></ul>
     </section>
     
-    <section class="faq">
+    <section class="faq reveal">
       <h2>Preguntas frecuentes</h2>
       <details><summary>¿Es gratis?</summary>
         <p>Sí, totalmente gratis. Sigue los pasos y mira los vídeos de esta página.</p></details>
@@ -78,7 +78,7 @@
     <p class="cta">📺 Más tutoriales en
        <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
   </article>
-  <section class="grid-wrap">
+  <section class="grid-wrap reveal">
       <h2>Otras herramientas populares</h2>
       <div class="grid"><a class="card" href="/skymedi">
           <h3>Skymedi</h3>
@@ -182,6 +182,24 @@
 if (!localStorage.getItem('cookieOk')) {
   document.getElementById('cookieBanner').style.display = 'flex';
 }
+</script>
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){ io.observe(el); });
+})();
 </script>
 <!-- Monetag Push -->
 <script src="https://5gvci.com/act/files/tag.min.js?z=11426112" data-cfasync="false" async></script>

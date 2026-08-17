@@ -33,7 +33,7 @@
   <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">YouTube</a></nav>
 </header>
 <main>
-  <article class="tool">
+  <article class="tool reveal">
     <nav class="crumbs"><a href="/">Inicio</a> › Tabla de referencia</nav>
     <h1>Tabla de USB solucionadas – Base de datos de reparaciones</h1>
     <p class="lead">Base de datos con memorias USB ya reparadas: modelo, VID/PID, controlador y la herramienta exacta que funcionó. Búscala por tu chip para ahorrar tiempo y saber de antemano qué MPTool usar.</p>
@@ -45,7 +45,7 @@
 <li>Busca tu VID/PID (obtenido con ChipGenius) dentro de la tabla.</li>
 <li>Localiza el controlador y la herramienta que se usó para repararla.</li>
 <li>Descarga esa herramienta desde esta web y sigue su guía.</li></ol>
-    <section class="video-tut">
+    <section class="video-tut reveal">
       <h2>🎥 Vídeotutoriales</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
       <div class="video-frame">
@@ -62,7 +62,7 @@
     </section>
     
     
-    <section class="faq">
+    <section class="faq reveal">
       <h2>Preguntas frecuentes</h2>
       <details><summary>¿Esto borra mis archivos?</summary>
         <p>No. Tabla de referencia solo lee información de tu memoria USB (VID, PID y
@@ -76,7 +76,7 @@
     <p class="cta">📺 Más tutoriales en
        <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
   </article>
-  <section class="grid-wrap">
+  <section class="grid-wrap reveal">
       <h2>Otras herramientas populares</h2>
       <div class="grid"><a class="card" href="/firstchip">
           <h3>FirstChip</h3>
@@ -180,6 +180,24 @@
 if (!localStorage.getItem('cookieOk')) {
   document.getElementById('cookieBanner').style.display = 'flex';
 }
+</script>
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){ io.observe(el); });
+})();
 </script>
 <!-- Monetag Push -->
 <script src="https://5gvci.com/act/files/tag.min.js?z=11426112" data-cfasync="false" async></script>

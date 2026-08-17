@@ -33,11 +33,11 @@
   <a href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">YouTube</a></nav>
 </header>
 <main>
-  <article class="tool">
+  <article class="tool reveal">
     <nav class="crumbs"><a href="/">Inicio</a> › <a href="/problemas">Problemas</a> › <span>USB en formato RAW</span></nav>
     <h1>USB en formato RAW: qué significa y cómo repararla</h1>
     <p class="lead">Que una USB aparezca en formato "RAW" significa que Windows ya no reconoce su sistema de archivos (FAT32/exFAT/NTFS) porque la tabla de particiones o el sistema de archivos se corrompió. Es distinto a un formateo normal: intentar formatearla directamente suele fallar o borra datos que a veces todavía se pueden recuperar antes de reparar.</p>
-    <section class="video-tut">
+    <section class="video-tut reveal">
       <h2>🎥 Solución en vídeo</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
       <div class="video-frame">
@@ -145,6 +145,24 @@
 if (!localStorage.getItem('cookieOk')) {
   document.getElementById('cookieBanner').style.display = 'flex';
 }
+</script>
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){ io.observe(el); });
+})();
 </script>
 <!-- Monetag Push -->
 <script src="https://5gvci.com/act/files/tag.min.js?z=11426112" data-cfasync="false" async></script>

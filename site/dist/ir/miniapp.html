@@ -37,7 +37,7 @@
     <nav class="crumbs"><a href="/">Inicio</a> › <span>Redirigiendo</span></nav>
     <h1>Abrir la Mini App de Telegram</h1>
     <p class="lead">Vas a salir a Telegram para abrir la mini app de búsqueda de reparaciones D-Tech USB.</p>
-    <section class="video-tut">
+    <section class="video-tut reveal">
       <h2>🎥 Te lo explico en este vídeo</h2>
       <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
       <div class="video-frame">
@@ -140,6 +140,24 @@
 if (!localStorage.getItem('cookieOk')) {
   document.getElementById('cookieBanner').style.display = 'flex';
 }
+</script>
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){ io.observe(el); });
+})();
 </script>
 <!-- Monetag Push -->
 <script src="https://5gvci.com/act/files/tag.min.js?z=11426112" data-cfasync="false" async></script>
