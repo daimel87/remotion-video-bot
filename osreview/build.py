@@ -661,40 +661,36 @@ def home():
     </div>
     <a class="scroll-cue reveal" href="#what-is">Explore <span>↓</span></a>
   </section>
-  <section id="what-is" class="guide reveal">
-    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:14px">
-      <img src="{SITE['logo']}" alt="{SITE['name']} YouTube channel" width="72" height="72" loading="lazy"
-           style="border-radius:50%;flex-shrink:0">
-      <h2 style="margin:0">What is {SITE['name']}?</h2>
+  <section id="what-is" class="feature-row reverse home-screen reveal">
+    <div class="feature-screen"><img src="https://i.ytimg.com/vi/quhv2vD6LoU/maxresdefault.jpg" alt="Ghost Spectre Windows 11 review by {SITE['name']}" loading="lazy"></div>
+    <div class="feature-copy">
+      <small>About the channel</small>
+      <h3>What is {SITE['name']}?</h3>
+      <p>Is Windows 11 running slow on your PC? Getting lower FPS in games than your hardware should
+         deliver? Tired of background processes, telemetry and forced updates interrupting your
+         sessions? You're in the right place.</p>
+      <p>I'm Daimel, the creator behind {SITE['name']}. I've installed and hands-on tested dozens of
+         debloated and lightweight Windows builds — Ghost Spectre, KernelOS, ReviOS, AtlasOS, X-Lite —
+         documenting every install on video before publishing a written review, so you can find the
+         right build for your exact PC without guessing.</p>
+      <ul class="check-list">
+        <li>✅ Low FPS or stuttering in games on Windows 11</li>
+        <li>✅ Windows 11 feels slow with 4-8GB of RAM</li>
+        <li>✅ Too much bloatware, telemetry and background processes</li>
+        <li>✅ Real hands-on testing before every review</li>
+      </ul>
     </div>
-    <p>Is Windows 11 running slow on your PC? Getting lower FPS in games than your hardware should
-       deliver? Tired of background processes, telemetry and forced updates interrupting your
-       sessions? You're in the right place.</p>
-    <p>I'm Daimel, the creator behind {SITE['name']}. I've installed and hands-on tested dozens of
-       debloated and lightweight Windows builds — Ghost Spectre, KernelOS, ReviOS, AtlasOS, X-Lite —
-       plus lightweight Linux alternatives, documenting every install on video before publishing a
-       written review. This site is dedicated 100% to helping you find and install the right
-       lightweight Windows build for your exact PC and use case — gaming, reviving an old laptop, or
-       just cutting bloat — explained step by step so anyone can follow along safely.</p>
-    <ul class="check-list">
-      <li>✅ Low FPS or stuttering in games on Windows 11</li>
-      <li>✅ Windows 11 feels slow with 4-8GB of RAM</li>
-      <li>✅ Too much bloatware, telemetry and background processes</li>
-      <li>✅ Old laptop or PC struggling to run Windows 10/11</li>
-      <li>✅ Forced updates interrupting gaming sessions</li>
-      <li>✅ Step-by-step, beginner-friendly install guides</li>
-      <li>✅ Real hands-on testing before every review</li>
-      <li>✅ Gaming, low-end PC and Linux alternatives all covered</li>
-      <li>✅ Useful for gamers, students and everyday users</li>
-    </ul>
   </section>
-  <section class="guide reveal">
-    <h2>How do I fix a slow Windows 11 PC or improve gaming performance?</h2>
-    <p>When Windows 11 lags, stutters in games, or eats RAM at idle, it's usually background
-       services, telemetry and forced updates competing for resources — not a hardware problem. The
-       fix is switching to a debloated build that strips that overhead while keeping full driver and
-       game compatibility. The process is always the same:</p>
-    <ol class="steps">
+  <section class="feature-row home-screen reveal">
+    <div class="feature-screen"><img src="https://i.ytimg.com/vi/SbLxCxGe2Zg/maxresdefault.jpg" alt="KernelOS + AtlasOS gaming build review by {SITE['name']}" loading="lazy"></div>
+    <div class="feature-copy">
+      <small>Performance</small>
+      <h3>How do I fix a slow Windows 11 PC or improve gaming performance?</h3>
+      <p>When Windows 11 lags, stutters in games, or eats RAM at idle, it's usually background
+         services, telemetry and forced updates competing for resources — not a hardware problem. The
+         fix is switching to a debloated build that strips that overhead while keeping full driver and
+         game compatibility. The process is always the same:</p>
+      <ol class="steps">
       <li>Answer three quick questions in the <a href="/advisor">PC Advisor</a> to match your RAM
           and use case with the right build.</li>
       <li>Browse the full <a href="/best-lightweight-windows-11-builds">build comparison table</a>
@@ -702,23 +698,27 @@ def home():
       <li>Read the written review for your matched build — what's removed, what stays, and real
           performance numbers.</li>
       <li>Flash the ISO with Rufus and follow the install walkthrough in the video.</li>
-    </ol>
+      </ol>
+    </div>
   </section>
-  <section class="guide reveal">
-    <h2>How do I know if I need a lightweight Windows build?</h2>
-    <p>Before you reinstall anything, check whether these describe your PC:</p>
-    <ul class="check-list">
-      <li>✅ Windows 11 takes over a minute to boot</li>
-      <li>✅ You're getting lower FPS than your GPU/CPU should deliver</li>
-      <li>✅ Task Manager shows 20+ background processes at idle</li>
-      <li>✅ Your PC has 4-8GB RAM and feels sluggish for everyday use</li>
-      <li>✅ Windows Update keeps interrupting your gaming sessions</li>
-    </ul>
-    <p>If any of these sound familiar, the problem is almost always software overhead, not your
-       hardware — and it can be fixed for free without buying new parts. Use the
-       <a href="/advisor">PC Advisor</a> to go straight to the right build for your case.</p>
-    {video_links}
+  <section class="feature-row reverse home-screen reveal">
+    <div class="feature-screen"><img src="https://i.ytimg.com/vi/gxZ62u0h5sE/maxresdefault.jpg" alt="Windows X-Lite lightweight build review by {SITE['name']}" loading="lazy"></div>
+    <div class="feature-copy">
+      <small>Diagnosis</small>
+      <h3>How do I know if I need a lightweight Windows build?</h3>
+      <p>Before you reinstall anything, check whether these describe your PC:</p>
+      <ul class="check-list">
+        <li>✅ Windows 11 takes over a minute to boot</li>
+        <li>✅ You're getting lower FPS than your GPU/CPU should deliver</li>
+        <li>✅ Task Manager shows 20+ background processes at idle</li>
+        <li>✅ Your PC has 4-8GB RAM and feels sluggish for everyday use</li>
+      </ul>
+      <p>If any of these sound familiar, the problem is almost always software overhead — and it can
+         be fixed for free. Use the <a href="/advisor">PC Advisor</a> to go straight to the right
+         build for your case.</p>
+    </div>
   </section>
+  {video_links}
   {testimonials_marquee()}
   {faq_visible}
   <section class="grid-wrap">
