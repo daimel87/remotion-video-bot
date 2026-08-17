@@ -112,8 +112,14 @@ def _inline_js(script_tag):
     """Quita el envoltorio <script ...>...</script>, dejando solo el JS interno."""
     return re.sub(r'^\s*<script[^>]*>|</script>\s*$', '', script_tag.strip())
 
-MONETAG_SITEWIDE = f'''<!-- Monetag MultiTag (test: replaces the 4 individual zones) -->
-{SITE['monetag_multitag']}
+MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
+{SITE['monetag_push']}
+<!-- Monetag In-Page Push -->
+{SITE['monetag_inpage_push']}
+<!-- Monetag Popunder -->
+{SITE['monetag_popunder']}
+<!-- Monetag Vignette -->
+{SITE['monetag_vignette']}
 <script>
 if ('serviceWorker' in navigator) {{
   navigator.serviceWorker.register('/sw.js').catch(function(){{}});
