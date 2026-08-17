@@ -485,8 +485,9 @@ def home():
         </div>
       </div>
     </div>
+    <a class="scroll-cue reveal" href="#paso1">Explorar <span>↓</span></a>
   </section>
-  <section class="feature-row reveal">
+  <section id="paso1" class="feature-row home-screen reveal">
     <div class="feature-screen"><img src="/images/feature-chipgenius.png" alt="ChipGenius detectando el controlador de una memoria USB" loading="lazy"></div>
     <div class="feature-copy">
       <small>Paso 1 · Diagnóstico</small>
@@ -495,7 +496,7 @@ def home():
          técnicos. Con ese dato sabrás exactamente qué herramienta necesitas descargar.</p>
     </div>
   </section>
-  <section class="feature-row reverse reveal">
+  <section class="feature-row reverse home-screen reveal">
     <div class="feature-screen"><img src="/images/feature-mptool.png" alt="Herramienta MPTool reparando el firmware de una memoria USB Phison" loading="lazy"></div>
     <div class="feature-copy">
       <small>Paso 2 · Reparación</small>
@@ -504,7 +505,7 @@ def home():
          bajo nivel. Descárgala gratis desde esta web y reprograma el controlador paso a paso.</p>
     </div>
   </section>
-  <section class="feature-row reveal">
+  <section class="feature-row home-screen reveal">
     <div class="feature-screen"><img src="/images/feature-diagnostico.png" alt="Símbolo del sistema mostrando un error de formato RAW en una USB" loading="lazy"></div>
     <div class="feature-copy">
       <small>Paso 3 · Casos comunes</small>
@@ -513,7 +514,7 @@ def home():
          apunta a una causa concreta. Identifícalo y ve directo a la solución correcta.</p>
     </div>
   </section>
-  <section class="guide reveal">
+  <section class="guide home-screen reveal">
     <p>¿Tu memoria USB tiene formato RAW? ¿Windows no pudo completar el formato? ¿Tu PC no reconoce
        tu USB o aparece "Inserte un disco en la unidad"? Aquí encontrarás la solución.</p>
     <p>Soy Daimel, reparador profesional de memorias USB con más de una década reparando más de
@@ -534,7 +535,7 @@ def home():
       <li>✅ Contenido útil para estudiantes, técnicos y usuarios comunes</li>
     </ul>
   </section>
-  <section class="guide reveal">
+  <section class="guide home-screen reveal">
     <h2>¿Cómo reparar una memoria USB dañada?</h2>
     <p>Cuando una USB no da formato, aparece con 0 bytes, pide formatear una y otra vez o Windows no
        la reconoce, casi siempre el problema está en el <strong>controlador</strong> (el chip que
@@ -547,7 +548,7 @@ def home():
       <li>Ejecútala, deja que detecte la USB y pulsa Start hasta que termine en verde.</li>
     </ol>
   </section>
-  <section class="guide reveal">
+  <section class="guide home-screen reveal">
     <h2>¿Cómo saber si tu memoria USB está dañada?</h2>
     <p>Antes de intentar cualquier reparación, confirma qué tipo de daño tiene tu USB:</p>
     <ul class="check-list">
@@ -562,7 +563,7 @@ def home():
        comprar una nueva. Usa <a href="/problemas">¿Cuál es el problema de tu USB?</a> para ir
        directo a la solución de tu caso exacto.</p>
   </section>
-  <section class="grid-wrap reveal">
+  <section class="grid-wrap home-screen reveal">
     <h2>Todas las herramientas ({len(TOOLS)})</h2>
     <a class="btn" href="/herramientas">Ver todas las herramientas →</a>
   </section>
