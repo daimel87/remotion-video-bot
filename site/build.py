@@ -411,10 +411,10 @@ def tool_page(t):
     <nav class="crumbs"><a href="/">Inicio</a> › {html.escape(t['brand'])}</nav>
     <h1>{html.escape(t['title'])}</h1>
     <p class="lead">{t['intro']}</p>
-    {download}
     <h2>{steps_title}</h2>
     <ol class="steps">{steps}</ol>
     {video("🎥 Vídeotutoriales", t.get("playlist"), t.get("video_id"))}
+    {download}
     {related_videos_block(t)}
     {faq}
     <p class="cta">📺 Más tutoriales en
