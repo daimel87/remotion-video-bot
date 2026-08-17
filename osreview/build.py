@@ -117,9 +117,10 @@ function dismissLangBanner(){{
 <div class="blob b1"></div>
 <div class="blob b2"></div>
 <div class="blob b3"></div>
-<header class="site-header glass">
+<header class="site-header glass" data-header>
   <a class="logo" href="{'/pl/' if lang == 'pl' else '/'}"><img src="{SITE['logo']}" alt="{SITE['name']}" width="36" height="36" loading="eager"> {SITE['name']}</a>
-  <nav>{nav or f'<a href="/">Home</a> <a href="/reviews">Reviews</a> <a href="/advisor">PC Advisor</a> <a href="{SITE["youtube"]}" target="_blank" rel="noopener">YouTube</a>'}</nav>
+  <button class="menu-button" data-menu-button aria-expanded="false" aria-controls="main-nav"><span></span><span></span><span></span><span class="sr-only">Menu</span></button>
+  <nav id="main-nav" data-nav>{nav or f'<a href="/">Home</a> <a href="/reviews">Reviews</a> <a href="/advisor">PC Advisor</a> <a href="{SITE["youtube"]}" target="_blank" rel="noopener">YouTube</a>'}</nav>
 </header>
 {lang_banner}
 <main>'''
@@ -141,6 +142,39 @@ DL_SCRIPT = f'''<script>window.__DL_URL={json.dumps(SITE['monetag_directlink'])}
     window.open(DL, '_blank', 'noopener');
   }}, true);
 }})();
+</script>'''
+
+REVEAL_SCRIPT = '''<script>
+var header = document.querySelector('[data-header]');
+if (header) addEventListener('scroll', function(){ header.classList.toggle('scrolled', scrollY > 20); }, {passive:true});
+
+var menuButton = document.querySelector('[data-menu-button]'), nav = document.querySelector('[data-nav]');
+if (menuButton && nav) {
+  menuButton.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    menuButton.setAttribute('aria-expanded', String(open));
+  });
+}
+
+if (!document.querySelector('[data-back-to-top]')) {
+  document.body.insertAdjacentHTML('beforeend', '<button class="back-to-top" type="button" data-back-to-top aria-label="Back to top"><span>\\u2191</span></button>');
+  var topButton = document.querySelector('[data-back-to-top]');
+  var updateTopButton = function(){ topButton.classList.toggle('visible', scrollY > 650); };
+  addEventListener('scroll', updateTopButton, {passive:true});
+  topButton.addEventListener('click', function(){ scrollTo({top:0, behavior:'smooth'}); });
+  updateTopButton();
+}
+
+if ('IntersectionObserver' in window) {
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+    });
+  }, {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ observer.observe(el); });
+} else {
+  document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('visible'); });
+}
 </script>'''
 
 CF_WEB_ANALYTICS = '''<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "781aeda9a8b9465997afb0cf1e23a103"}'></script><!-- End Cloudflare Web Analytics -->'''
@@ -242,6 +276,7 @@ def FOOT_HTML(lang="en"):
 </footer>
 {ADBLOCK_DETECT_HTML('pl')}
 {COOKIE_BANNER_HTML('pl')}
+{REVEAL_SCRIPT}
 {DL_SCRIPT}
 {MONETAG_SITEWIDE}
 {CF_WEB_ANALYTICS}
@@ -276,6 +311,7 @@ def FOOT_HTML(lang="en"):
 </footer>
 {ADBLOCK_DETECT_HTML('en')}
 {COOKIE_BANNER_HTML('en')}
+{REVEAL_SCRIPT}
 {DL_SCRIPT}
 {MONETAG_SITEWIDE}
 {CF_WEB_ANALYTICS}
@@ -605,7 +641,8 @@ def home():
     body = f'''
   <section class="hero">
     <div class="hero-layout">
-      <div class="hero-copy">
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><span></span>Debloated Windows builds</p>
         <h1>Best Debloated <span class="grad">Windows 11 & 10</span> Builds for Gaming</h1>
         <p class="lead">{SITE['description']}</p>
         <div class="button-row">
@@ -613,7 +650,7 @@ def home():
           <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">📺 Subscribe on YouTube</a>
         </div>
       </div>
-      <div class="hero-visual">
+      <div class="hero-visual reveal">
         <div class="video-frame">
           <iframe src="https://www.youtube.com/embed/QvLfwf4fGTc" title="Best debloated Windows builds for gaming"
             loading="lazy" frameborder="0"
@@ -622,8 +659,9 @@ def home():
         </div>
       </div>
     </div>
+    <a class="scroll-cue reveal" href="#what-is">Explore <span>↓</span></a>
   </section>
-  <section class="guide">
+  <section id="what-is" class="guide reveal">
     <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:14px">
       <img src="{SITE['logo']}" alt="{SITE['name']} YouTube channel" width="72" height="72" loading="lazy"
            style="border-radius:50%;flex-shrink:0">
@@ -650,7 +688,7 @@ def home():
       <li>✅ Useful for gamers, students and everyday users</li>
     </ul>
   </section>
-  <section class="guide">
+  <section class="guide reveal">
     <h2>How do I fix a slow Windows 11 PC or improve gaming performance?</h2>
     <p>When Windows 11 lags, stutters in games, or eats RAM at idle, it's usually background
        services, telemetry and forced updates competing for resources — not a hardware problem. The
@@ -666,7 +704,7 @@ def home():
       <li>Flash the ISO with Rufus and follow the install walkthrough in the video.</li>
     </ol>
   </section>
-  <section class="guide">
+  <section class="guide reveal">
     <h2>How do I know if I need a lightweight Windows build?</h2>
     <p>Before you reinstall anything, check whether these describe your PC:</p>
     <ul class="check-list">
