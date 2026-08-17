@@ -515,7 +515,11 @@ def home():
          apunta a una causa concreta. Identifícalo y ve directo a la solución correcta.</p>
     </div>
   </section>
-  <section class="guide home-screen reveal">
+  <section class="feature-row reverse home-screen reveal">
+    <div class="feature-screen"><img src="/images/panel-quien-soy.webp" alt="Daimel, reparador profesional de memorias USB" loading="lazy"></div>
+    <div class="feature-copy">
+    <small>Sobre mí</small>
+    <h3>Quién soy y por qué me deberías escuchar.</h3>
     <p>¿Tu memoria USB tiene formato RAW? ¿Windows no pudo completar el formato? ¿Tu PC no reconoce
        tu USB o aparece "Inserte un disco en la unidad"? Aquí encontrarás la solución.</p>
     <p>Soy Daimel, reparador profesional de memorias USB con más de una década reparando más de
@@ -535,9 +539,13 @@ def home():
       <li>✅ Tecnología, reparación y recuperación de datos</li>
       <li>✅ Contenido útil para estudiantes, técnicos y usuarios comunes</li>
     </ul>
+    </div>
   </section>
-  <section class="guide home-screen reveal">
-    <h2>¿Cómo reparar una memoria USB dañada?</h2>
+  <section class="feature-row home-screen reveal">
+    <div class="feature-screen"><img src="/images/panel-como-reparar.jpg" alt="ChipGenius mostrando una memoria USB dañada" loading="lazy"></div>
+    <div class="feature-copy">
+    <small>Guía</small>
+    <h3>¿Cómo reparar una memoria USB dañada?</h3>
     <p>Cuando una USB no da formato, aparece con 0 bytes, pide formatear una y otra vez o Windows no
        la reconoce, casi siempre el problema está en el <strong>controlador</strong> (el chip que
        gobierna la memoria). La solución es reprogramarlo con su herramienta de fábrica (MPTool).
@@ -548,9 +556,13 @@ def home():
       <li>Descarga la herramienta de tu controlador de la lista de abajo.</li>
       <li>Ejecútala, deja que detecte la USB y pulsa Start hasta que termine en verde.</li>
     </ol>
+    </div>
   </section>
-  <section class="guide home-screen reveal">
-    <h2>¿Cómo saber si tu memoria USB está dañada?</h2>
+  <section class="feature-row reverse home-screen reveal">
+    <div class="feature-screen"><img src="/images/panel-saber-danada.webp" alt="Herramienta de reparación mostrando una USB reparada" loading="lazy"></div>
+    <div class="feature-copy">
+    <small>Diagnóstico</small>
+    <h3>¿Cómo saber si tu memoria USB está dañada?</h3>
     <p>Antes de intentar cualquier reparación, confirma qué tipo de daño tiene tu USB:</p>
     <ul class="check-list">
       <li>✅ Windows no la reconoce en absoluto o dice "No hay medios"</li>
@@ -564,6 +576,7 @@ def home():
        comprar una nueva. Usa <a href="/problemas">¿Cuál es el problema de tu USB?</a> para ir
        directo a la solución de tu caso exacto.</p>
     <p class="cta" style="margin-top:22px"><a class="btn" href="/herramientas">Ver todas las herramientas ({len(TOOLS)}) →</a></p>
+    </div>
   </section>
   {testimonials_marquee()}'''
     faq_pairs = [
