@@ -210,6 +210,24 @@ button.download{border:0;cursor:pointer;font-family:var(--font-display);font-siz
 .cookie-banner p{margin:0;font-size:.85rem;color:var(--muted);flex:1;min-width:200px}
 .cookie-banner .btn{margin:0;padding:10px 18px;font-size:.85rem}
 
+/* bloques alternados con captura real + explicación */
+.feature-row{display:grid;grid-template-columns:1.15fr .85fr;gap:34px;align-items:center;
+  padding:34px 0;border-top:1px solid var(--line)}
+.feature-row.reverse{grid-template-columns:.85fr 1.15fr}
+.feature-row.reverse .feature-screen{order:2}
+.feature-screen{position:relative;padding:6px;background:var(--surface);
+  border:1px solid transparent;border-image:linear-gradient(90deg,#ed1c24,#ff8c20,#2389ff) 1;
+  box-shadow:0 25px 60px -20px #000}
+.feature-screen img{display:block;width:100%;height:auto}
+.feature-copy small{color:var(--red);font-family:var(--font-display);font-weight:700;
+  font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase}
+.feature-copy h3{margin:10px 0 12px;font-size:1.5rem;line-height:1.1}
+.feature-copy p{color:var(--muted);font-size:.95rem;margin:0}
+@media(max-width:760px){
+  .feature-row,.feature-row.reverse{grid-template-columns:1fr;gap:18px;padding:24px 0}
+  .feature-row.reverse .feature-screen{order:0}
+}
+
 /* botón volver arriba */
 .back-to-top{position:fixed;right:18px;bottom:18px;z-index:60;width:46px;height:46px;
   display:grid;place-items:center;border:1px solid transparent;
