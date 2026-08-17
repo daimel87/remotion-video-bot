@@ -520,24 +520,15 @@ def home():
     <div class="feature-copy">
     <small>Sobre mí</small>
     <h3>Quién soy y por qué me deberías escuchar.</h3>
-    <p>¿Tu memoria USB tiene formato RAW? ¿Windows no pudo completar el formato? ¿Tu PC no reconoce
-       tu USB o aparece "Inserte un disco en la unidad"? Aquí encontrarás la solución.</p>
     <p>Soy Daimel, reparador profesional de memorias USB con más de una década reparando más de
-       100,000 USB y ayudando a más de 50,000 personas de todo el mundo a reparar sus pendrives
-       dañados. Esta página web está dedicada 100% a la reparación de memorias USB, pendrives,
-       tarjetas micro SD y discos duros externos. Aprenderás paso a paso cómo recuperar tus
-       dispositivos de almacenamiento con herramientas como CMD, ChipGenius, y software
-       especializado — de forma fácil, rápida y segura.</p>
+       100,000 USB y ayudando a más de 50,000 personas de todo el mundo. Esta web está dedicada
+       100% a reparar memorias USB, pendrives, tarjetas micro SD y discos duros externos, paso a
+       paso y con herramientas gratuitas como CMD, ChipGenius y software especializado.</p>
     <ul class="check-list">
-      <li>✅ Errores de formato RAW</li>
-      <li>✅ USB dañada que no reconoce la PC</li>
-      <li>✅ "No hay medios" / "Inserte un disco"</li>
+      <li>✅ Errores de formato RAW y USB que no reconoce la PC</li>
+      <li>✅ "No hay medios" / "Inserte un disco en la unidad"</li>
       <li>✅ Windows no pudo completar el formato</li>
       <li>✅ Recuperación de archivos perdidos</li>
-      <li>✅ Tutoriales claros y prácticos</li>
-      <li>✅ Soluciones rápidas y efectivas</li>
-      <li>✅ Tecnología, reparación y recuperación de datos</li>
-      <li>✅ Contenido útil para estudiantes, técnicos y usuarios comunes</li>
     </ul>
     </div>
   </section>
