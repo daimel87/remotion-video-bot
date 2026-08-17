@@ -28,6 +28,8 @@ SITE = {
 /*]]>/* */
 </script>''',
     "google_verify": "4t1k_fsPm-BsPZ6JQFLArsFhmg_LqMMaYAX1iqdFg4E",  # Google Search Console
+    # ==== MONETAG MultiTag (test: replaces the 4 individual zones above on this site) ====
+    "monetag_multitag": '<script src="https://quge5.com/88/tag.min.js" data-zone="270716" async data-cfasync="false"></script>',
 }
 
 # ---- Enlaces externos con página intermedia de anuncios (/ir/<slug>) ----
