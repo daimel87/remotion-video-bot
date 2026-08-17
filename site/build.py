@@ -413,15 +413,34 @@ def tool_page(t):
 
     video_ld = video_jsonld(t) if t.get("video_id") else ""
     schema = howto_schema(t['title'], t['steps']) + faq_schema(faq_pairs) + video_ld
+    has_img = bool(t.get("img"))
+    has_video = bool(t.get("playlist") or t.get("video_id"))
+    if has_img:
+        hero_visual = f'<img src="{t["img"]}" alt="Captura real de {html.escape(t["brand"])} en uso" loading="lazy">'
+    elif has_video:
+        src = f"https://www.youtube.com/embed/{t['video_id']}" if t.get("video_id") else \
+              f"https://www.youtube.com/embed/videoseries?list={t['playlist']}"
+        hero_visual = f'''<div class="video-frame"><iframe src="{src}" title="{html.escape(t['brand'])}" loading="lazy"
+          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe></div>'''
+    else:
+        hero_visual = ""
+    lower_video = "" if (has_video and not has_img) else video("🎥 Vídeotutoriales", t.get("playlist"), t.get("video_id"))
     body = f'''
   <article class="tool reveal">
-    <nav class="crumbs"><a href="/">Inicio</a> › {html.escape(t['brand'])}</nav>
-    <h1>{html.escape(t['title'])}</h1>
-    <p class="lead">{t['intro']}</p>
-    {f'<div class="feature-screen reveal"><img src="{t["img"]}" alt="Captura real de {html.escape(t["brand"])} en uso" loading="lazy"></div>' if t.get("img") else ""}
+    <section class="hero" style="padding:0 0 30px">
+      <div class="hero-layout{' no-visual' if not hero_visual else ''}">
+        <div class="hero-copy reveal">
+          <nav class="crumbs"><a href="/">Inicio</a> › {html.escape(t['brand'])}</nav>
+          <h1>{html.escape(t['title'])}</h1>
+          <p class="lead">{t['intro']}</p>
+        </div>
+        {f'<div class="hero-visual reveal">{hero_visual}</div>' if hero_visual else ''}
+      </div>
+    </section>
     <h2>{steps_title}</h2>
     <ol class="steps">{steps}</ol>
-    {video("🎥 Vídeotutoriales", t.get("playlist"), t.get("video_id"))}
+    {lower_video}
     {download}
     {related_videos_block(t)}
     {faq}
@@ -444,16 +463,29 @@ def home():
           <span class="go">Ver y descargar →</span></a>\n'''
     body = f'''
   <section class="hero">
-    <h1>Herramientas gratis para reparar <span class="grad">memorias USB</span></h1>
-    <p class="lead">{SITE['description']}</p>
-    <a class="btn" href="/problemas">¿Cuál es el problema de tu USB?</a>
-    <a class="btn ghost" href="/chipgenius">¿No sabes tu controlador? Empieza aquí</a>
+    <div class="hero-layout">
+      <div class="hero-copy reveal">
+        <h1>Herramientas gratis para reparar <span class="grad">memorias USB</span></h1>
+        <p class="lead">{SITE['description']}</p>
+        <div class="button-row">
+          <a class="btn" href="/problemas">¿Cuál es el problema de tu USB?</a>
+          <a class="btn ghost" href="/chipgenius">¿No sabes tu controlador? Empieza aquí</a>
+        </div>
+        <div class="cta-band reveal" style="justify-content:flex-start;padding:0;margin-top:14px">
+          <a class="btn cta-ebook" href="/ir/ebook">🔥 Curso de Reparación USB — Oferta por tiempo limitado</a>
+          <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App de Telegram</a>
+        </div>
+      </div>
+      <div class="hero-visual reveal">
+        <div class="video-frame">
+          <iframe src="https://www.youtube.com/embed/jcl3Q1ijD5o"
+            title="Curso de Reparación USB" loading="lazy"
+            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
   </section>
-  <section class="cta-band reveal">
-    <a class="btn cta-ebook" href="/ir/ebook">🔥 Curso de Reparación USB — Oferta por tiempo limitado</a>
-    <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App de Telegram</a>
-  </section>
-  {video("🎥 Curso de Reparación USB", None, "jcl3Q1ijD5o")}
   <section class="feature-row reveal">
     <div class="feature-screen"><img src="/images/feature-chipgenius.png" alt="ChipGenius detectando el controlador de una memoria USB" loading="lazy"></div>
     <div class="feature-copy">

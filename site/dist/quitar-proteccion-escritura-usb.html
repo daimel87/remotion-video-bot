@@ -35,10 +35,16 @@
 </header>
 <main>
   <article class="tool reveal">
-    <nav class="crumbs"><a href="/">Inicio</a> › Quitar protección contra escritura</nav>
-    <h1>Cómo quitar la protección contra escritura de una USB</h1>
-    <p class="lead">¿Tu memoria USB dice "el disco está protegido contra escritura" y no te deja formatear ni borrar? Aquí tienes todas las formas de quitar la protección contra escritura de un pendrive o tarjeta SD, paso a paso y en vídeo.</p>
-    <div class="feature-screen reveal"><img src="/images/tools/quitar-proteccion-escritura-usb.png" alt="Captura real de Quitar protección contra escritura en uso" loading="lazy"></div>
+    <section class="hero" style="padding:0 0 30px">
+      <div class="hero-layout">
+        <div class="hero-copy reveal">
+          <nav class="crumbs"><a href="/">Inicio</a> › Quitar protección contra escritura</nav>
+          <h1>Cómo quitar la protección contra escritura de una USB</h1>
+          <p class="lead">¿Tu memoria USB dice "el disco está protegido contra escritura" y no te deja formatear ni borrar? Aquí tienes todas las formas de quitar la protección contra escritura de un pendrive o tarjeta SD, paso a paso y en vídeo.</p>
+        </div>
+        <div class="hero-visual reveal"><img src="/images/tools/quitar-proteccion-escritura-usb.png" alt="Captura real de Quitar protección contra escritura en uso" loading="lazy"></div>
+      </div>
+    </section>
     <h2>Pasos a seguir</h2>
     <ol class="steps"><li>Comprueba si tu USB tiene un <strong>interruptor físico</strong> de bloqueo en el lateral; muévelo a la posición de desbloqueo.</li>
 <li>Prueba con <strong>Diskpart</strong>: abre CMD como administrador → <code>diskpart</code> → <code>list disk</code> → <code>select disk N</code> → <code>attributes disk clear readonly</code>.</li>
