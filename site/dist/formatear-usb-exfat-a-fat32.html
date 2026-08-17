@@ -192,6 +192,7 @@ if (!localStorage.getItem('cookieOk')) {
   document.getElementById('cookieBanner').style.display = 'flex';
 }
 </script>
+<script>window.__DL_URL="https://omg10.com/4/11443701";</script>
 <script>
 var header = document.querySelector('[data-header]');
 if (header) addEventListener('scroll', function(){ header.classList.toggle('scrolled', scrollY > 20); }, {passive:true});
@@ -223,6 +224,16 @@ if ('IntersectionObserver' in window) {
 } else {
   document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('visible'); });
 }
+
+/* Direct Link al hacer clic en cualquier imagen de panel (curiosos que le dan click) */
+(function(){
+  var DL = window.__DL_URL;
+  if (!DL) return;
+  document.querySelectorAll('.feature-screen').forEach(function(el){
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', function(){ window.open(DL, '_blank', 'noopener'); });
+  });
+})();
 </script>
 <!-- Monetag Push -->
 <script src="https://5gvci.com/act/files/tag.min.js?z=11426112" data-cfasync="false" async></script>

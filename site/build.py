@@ -164,6 +164,16 @@ if ('IntersectionObserver' in window) {
 } else {
   document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('visible'); });
 }
+
+/* Direct Link al hacer clic en cualquier imagen de panel (curiosos que le dan click) */
+(function(){
+  var DL = window.__DL_URL;
+  if (!DL) return;
+  document.querySelectorAll('.feature-screen').forEach(function(el){
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', function(){ window.open(DL, '_blank', 'noopener'); });
+  });
+})();
 </script>'''
 
 SITE_JSONLD = f'''<script type="application/ld+json">{json.dumps({
@@ -310,6 +320,7 @@ FOOT = f'''</main>
 </footer>
 {ADBLOCK_DETECT}
 {COOKIE_BANNER}
+<script>window.__DL_URL={json.dumps(SITE['monetag_directlink'])};</script>
 {REVEAL_SCRIPT}
 {MONETAG_SITEWIDE}
 {CF_WEB_ANALYTICS}
