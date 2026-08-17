@@ -662,7 +662,7 @@ def home():
     <a class="scroll-cue reveal" href="#what-is">Explore <span>↓</span></a>
   </section>
   <section id="what-is" class="feature-row reverse home-screen reveal">
-    <div class="feature-screen"><img src="https://i.ytimg.com/vi/quhv2vD6LoU/maxresdefault.jpg" alt="Ghost Spectre Windows 11 review by {SITE['name']}" loading="lazy"></div>
+    <div class="feature-screen"><img class="yt-thumb" src="https://i.ytimg.com/vi/quhv2vD6LoU/hqdefault.jpg" alt="Ghost Spectre Windows 11 review by {SITE['name']}" loading="lazy"></div>
     <div class="feature-copy">
       <small>About the channel</small>
       <h3>What is {SITE['name']}?</h3>
@@ -682,7 +682,7 @@ def home():
     </div>
   </section>
   <section class="feature-row home-screen reveal">
-    <div class="feature-screen"><img src="https://i.ytimg.com/vi/SbLxCxGe2Zg/maxresdefault.jpg" alt="KernelOS + AtlasOS gaming build review by {SITE['name']}" loading="lazy"></div>
+    <div class="feature-screen"><img class="yt-thumb" src="https://i.ytimg.com/vi/SbLxCxGe2Zg/hqdefault.jpg" alt="KernelOS + AtlasOS gaming build review by {SITE['name']}" loading="lazy"></div>
     <div class="feature-copy">
       <small>Performance</small>
       <h3>How do I fix a slow Windows 11 PC or improve gaming performance?</h3>
@@ -702,7 +702,7 @@ def home():
     </div>
   </section>
   <section class="feature-row reverse home-screen reveal">
-    <div class="feature-screen"><img src="https://i.ytimg.com/vi/gxZ62u0h5sE/maxresdefault.jpg" alt="Windows X-Lite lightweight build review by {SITE['name']}" loading="lazy"></div>
+    <div class="feature-screen"><img class="yt-thumb" src="https://i.ytimg.com/vi/gxZ62u0h5sE/hqdefault.jpg" alt="Windows X-Lite lightweight build review by {SITE['name']}" loading="lazy"></div>
     <div class="feature-copy">
       <small>Diagnosis</small>
       <h3>How do I know if I need a lightweight Windows build?</h3>

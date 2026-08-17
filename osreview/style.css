@@ -279,6 +279,8 @@ button.download{border:0;cursor:pointer;font-family:var(--font-display);font-siz
   border:1px solid transparent;border-image:linear-gradient(90deg,#ed1c24,#ff8c20,#2389ff) 1;
   box-shadow:0 40px 100px -20px #000,0 0 60px -20px #ed1c2430}
 .feature-screen img{display:block;width:100%;height:auto}
+/* miniaturas de YouTube (hqdefault 4:3): recortar a 16:9 para eliminar barras negras */
+.feature-screen img.yt-thumb{aspect-ratio:16/9;height:auto;object-fit:cover}
 .feature-copy small{color:var(--red);font-family:var(--font-display);font-weight:700;
   font-size:.85rem;letter-spacing:1.6px;text-transform:uppercase}
 .feature-copy h3{margin:14px 0 22px;font-family:var(--font-display);font-weight:700;
