@@ -116,8 +116,8 @@ MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 {SITE['monetag_push']}
 <!-- Monetag In-Page Push -->
 {SITE['monetag_inpage_push']}
-<!-- PopAds Popunder (prueba de 1 semana, reemplaza al popunder de Monetag) -->
-{SITE['popads_popunder']}
+<!-- Monetag Popunder -->
+{SITE['monetag_popunder']}
 <!-- Monetag Vignette -->
 {SITE['monetag_vignette']}
 <script>
