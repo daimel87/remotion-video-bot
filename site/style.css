@@ -44,11 +44,22 @@ code{background:var(--surface-2);border:1px solid var(--line);padding:2px 7px;bo
 .site-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;
   gap:10px;padding:16px 18px;position:sticky;top:0;z-index:20;margin:0;
   border-bottom:1px solid transparent;border-image:linear-gradient(90deg,#ed1c24,#302b33 45%,#18c8ff) 1;
-  background:rgba(3,4,6,.92)}
+  background:rgba(3,4,6,.8);transition:.3s}
+.site-header.scrolled{background:rgba(3,4,6,.94);backdrop-filter:blur(18px) saturate(140%)}
 .logo{font-family:var(--font-display);font-weight:700;font-size:1.1rem;letter-spacing:.2px;color:var(--ink);display:flex;align-items:center;gap:10px;text-transform:uppercase}
 .logo img{border-radius:50%;display:block;filter:drop-shadow(0 0 10px #ed1c2455)}
 .site-header nav a{margin-left:18px;color:#b7bdc8;font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.3px;transition:.2s}
 .site-header nav a:hover{color:var(--ink);text-decoration:none}
+.menu-button{display:none;background:0;border:0;padding:8px;cursor:pointer;order:3}
+.menu-button span:not(.sr-only){display:block;width:22px;height:2px;background:#fff;margin:5px 0}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+@media(max-width:760px){
+  .menu-button{display:block}
+  .site-header nav{display:none;position:absolute;inset:100% 0 auto;background:#050608f5;
+    border-bottom:1px solid var(--line);padding:16px 18px;flex-direction:column;align-items:flex-start}
+  .site-header nav.open{display:flex}
+  .site-header nav a{margin:8px 0}
+}
 .site-footer{max-width:700px;margin:30px auto 0;padding:46px 18px 30px;color:var(--muted);
   border-top:1px solid var(--line);font-size:.9rem;text-align:center;position:relative;z-index:2}
 .footer-logo{border-radius:50%;margin:0 auto 12px;display:block;filter:drop-shadow(0 0 12px #ed1c2440)}
@@ -198,6 +209,16 @@ button.download{border:0;cursor:pointer;font-family:var(--font-display);font-siz
   box-shadow:0 20px 50px -20px rgba(0,0,0,.6)}
 .cookie-banner p{margin:0;font-size:.85rem;color:var(--muted);flex:1;min-width:200px}
 .cookie-banner .btn{margin:0;padding:10px 18px;font-size:.85rem}
+
+/* botón volver arriba */
+.back-to-top{position:fixed;right:18px;bottom:18px;z-index:60;width:46px;height:46px;
+  display:grid;place-items:center;border:1px solid transparent;
+  border-image:linear-gradient(135deg,#ed1c24,#ff8b20,#18c8ff,#168cf2) 1;
+  background:#070a0eee;color:#fff;box-shadow:0 14px 38px #000;cursor:pointer;
+  opacity:0;visibility:hidden;transform:translateY(14px);transition:.25s}
+.back-to-top.visible{opacity:1;visibility:visible;transform:none}
+.back-to-top:hover{background:#10151d;transform:translateY(-3px)}
+.back-to-top span{font-size:20px;line-height:1}
 
 /* animación de aparición al hacer scroll */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}

@@ -127,22 +127,36 @@ if ('serviceWorker' in navigator) {{
 </script>'''
 
 REVEAL_SCRIPT = '''<script>
-(function(){
-  var els = document.querySelectorAll('.reveal');
-  if (!('IntersectionObserver' in window) || !els.length) {
-    els.forEach(function(el){ el.classList.add('visible'); });
-    return;
-  }
-  var io = new IntersectionObserver(function(entries){
+var header = document.querySelector('[data-header]');
+if (header) addEventListener('scroll', function(){ header.classList.toggle('scrolled', scrollY > 20); }, {passive:true});
+
+var menuButton = document.querySelector('[data-menu-button]'), nav = document.querySelector('[data-nav]');
+if (menuButton && nav) {
+  menuButton.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    menuButton.setAttribute('aria-expanded', String(open));
+  });
+}
+
+if (!document.querySelector('[data-back-to-top]')) {
+  document.body.insertAdjacentHTML('beforeend', '<button class="back-to-top" type="button" data-back-to-top aria-label="Volver al inicio"><span>↑</span></button>');
+  var topButton = document.querySelector('[data-back-to-top]');
+  var updateTopButton = function(){ topButton.classList.toggle('visible', scrollY > 650); };
+  addEventListener('scroll', updateTopButton, {passive:true});
+  topButton.addEventListener('click', function(){ scrollTo({top:0, behavior:'smooth'}); });
+  updateTopButton();
+}
+
+if ('IntersectionObserver' in window) {
+  var observer = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        io.unobserve(entry.target);
-      }
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
     });
-  }, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
-  els.forEach(function(el){ io.observe(el); });
-})();
+  }, {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ observer.observe(el); });
+} else {
+  document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('visible'); });
+}
 </script>'''
 
 SITE_JSONLD = f'''<script type="application/ld+json">{json.dumps({
@@ -189,9 +203,10 @@ def head(title, desc, canonical):
 <div class="blob b1"></div>
 <div class="blob b2"></div>
 <div class="blob b3"></div>
-<header class="site-header glass">
+<header class="site-header glass" data-header>
   <a class="logo" href="/"><img src="{SITE['logo']}" alt="{SITE['name']}" width="36" height="36" loading="eager"> {SITE['name']}</a>
-  <nav><a href="/">Inicio</a> <a href="/problemas">Problemas</a> <a href="/herramientas">Herramientas</a>
+  <button class="menu-button" data-menu-button aria-expanded="false" aria-controls="main-nav"><span></span><span></span><span></span><span class="sr-only">Abrir menú</span></button>
+  <nav id="main-nav" data-nav><a href="/">Inicio</a> <a href="/problemas">Problemas</a> <a href="/herramientas">Herramientas</a>
   <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a></nav>
 </header>
 <main>'''
