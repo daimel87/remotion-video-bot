@@ -178,11 +178,11 @@ code{background:var(--surface-2);border:1px solid var(--line);padding:2px 7px;bo
   padding:18px 22px;margin:12px 0;font-size:1.05rem}
 .faq summary{cursor:pointer;font-weight:700;font-size:1.1rem}
 .faq p{color:var(--muted);font-size:1rem;margin-top:10px}
-.cta{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--blue);padding:20px 24px;font-size:1.05rem}
-.guide{background:var(--surface);border:1px solid var(--line);padding:32px 34px;margin-top:18px;font-size:1.08rem}
+.cta{font-size:1.05rem;padding:0}
+.guide{padding:70px 0;font-size:1.08rem;border-top:1px solid var(--line)}
 .guide h2{margin-top:0}
 .check-list{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:10px;font-size:1.05rem}
-.related-videos{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--red);padding:28px 30px;margin-top:20px}
+.related-videos{padding:0;margin-top:40px;border-top:1px solid var(--line);padding-top:40px}
 
 /* anuncios */
 .ad{min-height:90px;display:flex;align-items:center;justify-content:center;
@@ -241,7 +241,7 @@ button.download{border:0;cursor:pointer;font-family:var(--font-display);font-siz
 
 /* los bloques de texto (guide/grid-wrap) toman solo el alto de su contenido,
    con aire generoso — nunca se estiran a pantalla completa artificialmente */
-.guide.home-screen,.grid-wrap.home-screen{padding:80px 0}
+.grid-wrap.home-screen{padding:80px 0}
 
 /* botón "Explorar" con flecha, al pie del hero */
 .scroll-cue{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);
