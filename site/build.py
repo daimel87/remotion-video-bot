@@ -506,7 +506,7 @@ def home():
     </div>
   </section>
   <section class="feature-row home-screen reveal">
-    <div class="feature-screen"><img src="/images/feature-diagnostico.png" alt="Símbolo del sistema mostrando un error de formato RAW en una USB" loading="lazy"></div>
+    <div class="feature-screen"><img src="/images/feature-diagnostico.png" alt="Windows pidiendo insertar un disco en la unidad USB" loading="lazy"></div>
     <div class="feature-copy">
       <small>Paso 3 · Casos comunes</small>
       <h3>Reconoce el error exacto que tiene tu USB.</h3>
@@ -562,10 +562,7 @@ def home():
        <strong>controlador</strong> (chip), no en la memoria física — y sí se puede reparar sin
        comprar una nueva. Usa <a href="/problemas">¿Cuál es el problema de tu USB?</a> para ir
        directo a la solución de tu caso exacto.</p>
-  </section>
-  <section class="grid-wrap home-screen reveal">
-    <h2>Todas las herramientas ({len(TOOLS)})</h2>
-    <a class="btn" href="/herramientas">Ver todas las herramientas →</a>
+    <p class="cta" style="margin-top:22px"><a class="btn" href="/herramientas">Ver todas las herramientas ({len(TOOLS)}) →</a></p>
   </section>
   {testimonials_marquee()}'''
     faq_pairs = [
