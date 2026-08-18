@@ -711,24 +711,4 @@ AUDIO_TOOLS = [
             "Ajusta el perfil (Música, Película, Juego, Comunicación) según el uso que le des al equipo.",
         ],
     },
-    {
-        "slug": "driver-harman-kardon-windows-actualizado",
-        "download_url": "https://www.mediafire.com/file/9rvbntg4n38ao71/H.K._Audio_D-TECH.rar/file",
-        "title": "Driver de Sonido Harman Kardon para Windows: Instalación Actualizada",
-        "brand": "Harman Kardon (guía actualizada)",
-        "kind": "audio",
-        "video_id": "OOPqiiFCn7M",
-        "intro": "Guía actualizada para instalar el driver de audio Harman Kardon en Windows, útil si "
-                 "la versión anterior del driver dejó de funcionar tras una actualización de Windows "
-                 "o si tu modelo de portátil no aparecía cubierto antes.",
-        "why": "Las actualizaciones de Windows a veces sobrescriben el driver de audio con la versión "
-               "genérica de Microsoft, desactivando el perfil de sonido de Harman Kardon. Reinstalar "
-               "el driver correcto restaura el perfil de audio original del fabricante.",
-        "steps": [
-            "Pulsa el botón de descarga de abajo (o mira el vídeo para el paso a paso completo).",
-            "Desinstala el driver de audio genérico actual desde el Administrador de dispositivos.",
-            "Instala el driver de Harman Kardon siguiendo el paso a paso del vídeo.",
-            "Reinicia el PC y confirma que el perfil de sonido Harman Kardon está activo.",
-        ],
-    },
 ]
