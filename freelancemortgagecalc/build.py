@@ -43,6 +43,7 @@ def head(title, desc, canonical):
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:site_name" content="{SITE['name']}">
 <meta name="robots" content="index,follow">
+<meta name="66f5af64e590b74125198ccb430e341a30d6cc3a" content="66f5af64e590b74125198ccb430e341a30d6cc3a" />
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -551,6 +552,7 @@ def main():
         shutil.rmtree(DIST)
     os.makedirs(DIST)
     shutil.copy(os.path.join(HERE, "style.css"), os.path.join(DIST, "style.css"))
+    shutil.copy(os.path.join(HERE, "66f5af64e590b7412519.txt"), os.path.join(DIST, "66f5af64e590b7412519.txt"))
     home()
     for t in TOOLS:
         PAGE_FN[t["slug"]](t)
