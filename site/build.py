@@ -84,8 +84,17 @@ def _tool_thumb(t):
 
 def related_tools(current):
     others = [t for t in TOOLS if t["slug"] != current["slug"]]
+    same_kind = [t for t in others if t.get("kind") == current.get("kind")]
+    rest = [t for t in others if t.get("kind") != current.get("kind")]
     offset = sum(ord(c) for c in current["slug"]) % max(len(others), 1)
-    picks = (others[offset:] + others[:offset])[:4]
+
+    def rotate(lst, n):
+        if not lst:
+            return []
+        n = n % len(lst)
+        return lst[n:] + lst[:n]
+
+    picks = (rotate(same_kind, offset) + rotate(rest, offset))[:6]
     if not picks:
         return ""
     cards = "\n".join(
@@ -99,6 +108,22 @@ def related_tools(current):
     return f'''<section class="grid-wrap reveal">
       <h2>Otras herramientas populares</h2>
       <div class="grid">{cards}</div>
+    </section>'''
+
+def next_steps_box(current):
+    """Enlaces contextuales de 'siguiente paso' — misma idea que un sitio con buen
+    enlazado interno: si esto no resolvió el problema, a dónde ir después."""
+    links = []
+    if current.get("slug") != "chipgenius":
+        links.append(("/chipgenius", "🔍 Identifica el controlador exacto de tu USB con ChipGenius"))
+    if current.get("slug") != "tabla-solucionadas":
+        links.append(("/tabla-solucionadas", "📋 Consulta la tabla de solucionadas por modelo"))
+    links.append(("/problemas", "🧭 ¿Cuál es el problema exacto de tu USB?"))
+    links.append(("/herramientas", "🛠️ Ver todas las herramientas de reparación"))
+    items = "\n".join(f'<li><a href="{href}">{label}</a></li>' for href, label in links)
+    return f'''<section class="guide reveal" style="padding-top:0">
+      <h2>¿No se resolvió tu problema?</h2>
+      <ul class="check-list">{items}</ul>
     </section>'''
 
 def related_videos_block(t):
@@ -462,6 +487,7 @@ def tool_page(t):
     <p class="cta">📺 Más tutoriales en
        <a href="{SITE['youtube']}" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
   </article>
+  {next_steps_box(t)}
   {related_tools(t)}
   {schema}'''
     desc = t['intro'][:155]
