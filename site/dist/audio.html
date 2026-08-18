@@ -202,12 +202,12 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('visible'); });
 }
 
-/* Direct Link al hacer clic en una imagen de panel — una sola vez por visitante */
+/* Direct Link al hacer clic en una imagen de panel o en un botón de descarga de audio — una sola vez por visitante */
 (function(){
   var DL = window.__DL_URL;
   if (!DL) return;
   var KEY = 'dl_img_shown';
-  document.querySelectorAll('.feature-screen').forEach(function(el){
+  document.querySelectorAll('.feature-screen, .audio-download').forEach(function(el){
     el.style.cursor = 'pointer';
     el.addEventListener('click', function(){
       try { if (localStorage.getItem(KEY)) return; localStorage.setItem(KEY, '1'); } catch(e){}

@@ -214,12 +214,12 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('visible'); });
 }
 
-/* Direct Link al hacer clic en una imagen de panel — una sola vez por visitante */
+/* Direct Link al hacer clic en una imagen de panel o en un botón de descarga de audio — una sola vez por visitante */
 (function(){
   var DL = window.__DL_URL;
   if (!DL) return;
   var KEY = 'dl_img_shown';
-  document.querySelectorAll('.feature-screen').forEach(function(el){
+  document.querySelectorAll('.feature-screen, .audio-download').forEach(function(el){
     el.style.cursor = 'pointer';
     el.addEventListener('click', function(){
       try { if (localStorage.getItem(KEY)) return; localStorage.setItem(KEY, '1'); } catch(e){}
@@ -883,8 +883,12 @@ def audio_page(a):
       <h2>Más vídeos sobre este tema</h2>
       <ul class="steps">{items}</ul>
     </section>'''
+    has_dl = bool(a.get("download_url"))
+    dl_faq_answer = ("Sí, el driver/paquete es gratuito. Puedes descargarlo directamente desde el botón de esta página."
+                      if has_dl else
+                      "Sí, el driver/paquete es gratuito. El link de descarga está en el comentario fijado del vídeo de YouTube.")
     faq_pairs = [
-        ("¿Es gratis?", "Sí, el driver/paquete es gratuito. El link de descarga está en el comentario fijado del vídeo de YouTube."),
+        ("¿Es gratis?", dl_faq_answer),
         ("¿Funciona en mi PC?", "Funciona en la mayoría de equipos con hardware de audio compatible, aunque el resultado puede variar según el modelo. Míralo en el vídeo antes de instalar."),
         ("¿Es seguro instalarlo?", "Sí, son drivers/paquetes de audio estándar. Aun así, siempre es buena práctica crear un punto de restauración de Windows antes de instalar cualquier driver."),
     ]
@@ -892,7 +896,7 @@ def audio_page(a):
     <section class="faq reveal">
       <h2>Preguntas frecuentes</h2>
       <details><summary>¿Es gratis?</summary>
-        <p>Sí, el driver/paquete es gratuito. El link de descarga está en el comentario fijado del vídeo de YouTube.</p></details>
+        <p>{dl_faq_answer}</p></details>
       <details><summary>¿Funciona en mi PC?</summary>
         <p>Funciona en la mayoría de equipos con hardware de audio compatible, aunque el resultado puede variar según el modelo. Míralo en el vídeo antes de instalar.</p></details>
       <details><summary>¿Es seguro instalarlo?</summary>
@@ -914,8 +918,8 @@ def audio_page(a):
     <p>{a['why']}</p>
     <h2>Cómo activarlo</h2>
     <ol class="steps">{steps}</ol>
-    <p class="note">⬇ El link de descarga está en el <strong>comentario fijado</strong> del vídeo de abajo, no en esta web.</p>
-    {video("🎥 Vídeotutorial", None, a['video_id'], cta="audio", sub=f"Guía en vídeo para activar {a['brand']} en Windows. El link de descarga está en el comentario fijado.")}
+    {f'<a class="download audio-download" href="{a["download_url"]}" target="_blank" rel="noopener nofollow">⬇ Descargar {html.escape(a["brand"])}</a>' if has_dl else ''}
+    {video("🎥 Vídeotutorial", None, a['video_id'], cta="audio", sub=f"Guía en vídeo para activar {a['brand']} en Windows, con el paso a paso completo.")}
     <p class="cta"><a class="btn" href="{watch_url}" target="_blank" rel="noopener">▶ Ver vídeo en YouTube</a></p>
     {related}
     {faq}

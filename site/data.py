@@ -569,6 +569,7 @@ TOOLS.append({
 AUDIO_TOOLS = [
     {
         "slug": "activar-dolby-audio-windows",
+        "download_url": "https://www.mediafire.com/file/sj56j1rbrdrodcs/Dolby_Audio_D-Tech.rar/file",
         "title": "Cómo Activar Dolby Audio en Windows 10/11 (Driver Gratis)",
         "brand": "Dolby Audio",
         "kind": "audio",
@@ -581,7 +582,7 @@ AUDIO_TOOLS = [
                "fabricante lo omite para abaratar costos de licencia. Instalando el driver correcto "
                "se activa el ecualizador y la virtualización de sonido envolvente sin hardware extra.",
         "steps": [
-            "Mira el vídeo de abajo: el link de descarga del driver está en el <strong>comentario fijado</strong> del video.",
+            "Pulsa el botón de descarga de abajo (o mira el vídeo para el paso a paso completo).",
             "Descarga e instala el driver de Dolby Audio siguiendo el paso a paso del vídeo.",
             "Reinicia el PC y abre la app de Dolby Access / Dolby Audio para activar el perfil de ecualización.",
             "Ajusta el perfil (Película, Música, Juego) según el uso que le des al equipo.",
@@ -589,6 +590,7 @@ AUDIO_TOOLS = [
     },
     {
         "slug": "activar-dolby-atmos-windows",
+        "download_url": "https://mega.nz/file/arhTwQaa#F3B7AF84pGl1dSzH0af6RAE0KziitxmqiBu1IXtoSGc",
         "title": "Cómo Activar Dolby Atmos Gratis en Windows 10/11",
         "brand": "Dolby Atmos",
         "kind": "audio",
@@ -601,7 +603,7 @@ AUDIO_TOOLS = [
                "paquete correcto se puede activar la virtualización de sonido envolvente sin pagar "
                "la licencia de la Store.",
         "steps": [
-            "Mira el vídeo de abajo: el link de descarga está en el <strong>comentario fijado</strong> del video.",
+            "Pulsa el botón de descarga de abajo (o mira el vídeo para el paso a paso completo).",
             "Descarga e instala el paquete siguiendo el paso a paso del vídeo.",
             "Reinicia el PC y selecciona Dolby Atmos como formato de sonido espacial en la configuración de audio de Windows.",
             "Prueba con un vídeo o juego compatible con audio envolvente para notar la diferencia.",
@@ -609,6 +611,7 @@ AUDIO_TOOLS = [
     },
     {
         "slug": "instalar-harman-kardon-audio-windows",
+        "download_url": "https://www.mediafire.com/file/9rvbntg4n38ao71/H.K._Audio_D-TECH.rar/file",
         "title": "Cómo Instalar el Driver de Audio Harman Kardon en Windows",
         "brand": "Harman Kardon",
         "kind": "audio",
@@ -620,7 +623,7 @@ AUDIO_TOOLS = [
                "perfil de ecualización ni la virtualización de graves que sí trae el software "
                "propietario de Harman Kardon, pensado específicamente para esos altavoces.",
         "steps": [
-            "Mira el vídeo de abajo: el link de descarga está en el <strong>comentario fijado</strong> del video.",
+            "Pulsa el botón de descarga de abajo (o mira el vídeo para el paso a paso completo).",
             "Desinstala (opcional) el driver de audio genérico actual desde el Administrador de dispositivos.",
             "Instala el driver/software de Harman Kardon siguiendo el paso a paso del vídeo.",
             "Reinicia el PC y abre la app de Harman Kardon para ajustar el perfil de sonido.",
@@ -628,6 +631,7 @@ AUDIO_TOOLS = [
     },
     {
         "slug": "instalar-dts-audio-windows",
+        "download_url": "https://www.mediafire.com/file/upe51h619kvy1yp/DTS_D-TECH_USB.rar/file",
         "title": "Cómo Instalar DTS Audio en Windows 10/11 (Guía Completa)",
         "brand": "DTS Audio",
         "kind": "audio",
@@ -638,7 +642,7 @@ AUDIO_TOOLS = [
                "software/driver no viene preinstalado de fábrica. Instalando el paquete correcto se "
                "habilita el procesamiento de audio envolvente DTS sin hardware adicional.",
         "steps": [
-            "Mira el vídeo de abajo: el link de descarga está en el <strong>comentario fijado</strong> del video.",
+            "Pulsa el botón de descarga de abajo (o mira el vídeo para el paso a paso completo).",
             "Descarga e instala el paquete de DTS Audio siguiendo el paso a paso del vídeo.",
             "Reinicia el PC y abre la app de DTS para seleccionar el perfil de sonido.",
             "Ajusta el perfil según tu uso (música, película, juegos).",
@@ -646,6 +650,7 @@ AUDIO_TOOLS = [
     },
     {
         "slug": "sonido-cine-dolby-windows",
+        "download_url": "https://www.mediafire.com/file/sj56j1rbrdrodcs/Dolby_Audio_D-Tech.rar/file",
         "title": "Cómo Tener Sonido de Cine (Dolby) en tu PC con Windows 10/11",
         "brand": "Sonido de Cine Dolby",
         "kind": "audio",
@@ -658,7 +663,7 @@ AUDIO_TOOLS = [
                "Object) de Dolby correcto, el sistema procesa el sonido de forma similar a como lo "
                "hace un cine o un home theater, sin necesidad de bocinas adicionales.",
         "steps": [
-            "Mira el vídeo de abajo: el link de descarga está en el <strong>comentario fijado</strong> del video.",
+            "Pulsa el botón de descarga de abajo (o mira el vídeo para el paso a paso completo).",
             "Descarga e instala el paquete siguiendo el paso a paso del vídeo.",
             "Reinicia el PC y activa el perfil \"Película\" o \"Cine\" en la app de audio.",
             "Prueba con una película o serie para notar la diferencia de profundidad y graves.",
@@ -666,6 +671,7 @@ AUDIO_TOOLS = [
     },
     {
         "slug": "desbloquear-dolby-atmos-windows-gratis",
+        "download_url": "https://mega.nz/file/arhTwQaa#F3B7AF84pGl1dSzH0af6RAE0KziitxmqiBu1IXtoSGc",
         "title": "Windows Bloquea Dolby Atmos: Cómo Desbloquearlo Gratis (Sin Pagar la Store)",
         "brand": "Desbloquear Dolby Atmos",
         "kind": "audio",
@@ -678,7 +684,7 @@ AUDIO_TOOLS = [
                "de procesar. Con el paquete correcto se habilita esa misma virtualización de sonido "
                "envolvente de forma gratuita.",
         "steps": [
-            "Mira el vídeo de abajo: el link de descarga está en el <strong>comentario fijado</strong> del video.",
+            "Pulsa el botón de descarga de abajo (o mira el vídeo para el paso a paso completo).",
             "Descarga e instala el paquete siguiendo el paso a paso del vídeo (sin pasar por la Microsoft Store).",
             "Reinicia el PC y selecciona Dolby Atmos como formato de sonido espacial en la configuración de audio.",
             "Prueba con contenido compatible con audio envolvente para confirmar que quedó activo.",
@@ -686,6 +692,7 @@ AUDIO_TOOLS = [
     },
     {
         "slug": "mejor-alternativa-dolby-atmos-gratis",
+        "download_url": "https://mega.nz/file/arhTwQaa#F3B7AF84pGl1dSzH0af6RAE0KziitxmqiBu1IXtoSGc",
         "title": "La Mejor Alternativa Gratis a Dolby Atmos para tu PC",
         "brand": "Alternativa a Dolby Atmos",
         "kind": "audio",
@@ -698,7 +705,7 @@ AUDIO_TOOLS = [
                "gaming, que aplican ecualización y espacialidad de nivel similar o superior sin "
                "coste ni suscripción.",
         "steps": [
-            "Mira el vídeo de abajo: el link de descarga está en el <strong>comentario fijado</strong> del video.",
+            "Pulsa el botón de descarga de abajo (o mira el vídeo para el paso a paso completo).",
             "Descarga e instala el paquete de audio siguiendo el paso a paso del vídeo.",
             "Reinicia el PC y configura el perfil de sonido recomendado en el vídeo.",
             "Compara el resultado con el audio por defecto de Windows para notar la diferencia.",
@@ -706,6 +713,7 @@ AUDIO_TOOLS = [
     },
     {
         "slug": "driver-harman-kardon-windows-actualizado",
+        "download_url": "https://www.mediafire.com/file/9rvbntg4n38ao71/H.K._Audio_D-TECH.rar/file",
         "title": "Driver de Sonido Harman Kardon para Windows: Instalación Actualizada",
         "brand": "Harman Kardon (guía actualizada)",
         "kind": "audio",
@@ -717,7 +725,7 @@ AUDIO_TOOLS = [
                "genérica de Microsoft, desactivando el perfil de sonido de Harman Kardon. Reinstalar "
                "el driver correcto restaura el perfil de audio original del fabricante.",
         "steps": [
-            "Mira el vídeo de abajo: el link de descarga está en el <strong>comentario fijado</strong> del video.",
+            "Pulsa el botón de descarga de abajo (o mira el vídeo para el paso a paso completo).",
             "Desinstala el driver de audio genérico actual desde el Administrador de dispositivos.",
             "Instala el driver de Harman Kardon siguiendo el paso a paso del vídeo.",
             "Reinicia el PC y confirma que el perfil de sonido Harman Kardon está activo.",
