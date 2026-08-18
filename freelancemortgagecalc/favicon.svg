@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <circle cx="64" cy="64" r="64" fill="#0a1a33"/>
+  <path d="M62 62c30 20 34 42 8 54-30-6-46-26-40-50 6-18 20-14 32-4z" fill="#1e88ff" opacity="0"/>
+  <path d="M18 100a48 48 0 0 0 92-6 46 46 0 0 1-92 6z" fill="#1e88ff"/>
+  <path d="M20 58 64 22l44 36-6 8-6-5v34H32V61l-6 5-6-8z" fill="#fff"/>
+  <rect x="90" y="30" width="12" height="26" fill="#fff"/>
+  <rect x="52" y="48" width="14" height="12" fill="#0a1a33"/>
+  <rect x="70" y="48" width="14" height="12" fill="#0a1a33"/>
+  <rect x="40" y="66" width="48" height="42" rx="6" fill="#fff"/>
+  <rect x="46" y="72" width="36" height="14" rx="2" fill="#0a1a33"/>
+  <rect x="46" y="90" width="10" height="10" rx="2" fill="#0a1a33"/>
+  <rect x="60" y="90" width="10" height="10" rx="2" fill="#0a1a33"/>
+  <rect x="74" y="90" width="8" height="16" rx="2" fill="#1e88ff"/>
+  <rect x="46" y="102" width="10" height="6" rx="1" fill="#0a1a33"/>
+  <rect x="60" y="102" width="10" height="6" rx="1" fill="#0a1a33"/>
+  <text x="50" y="80" font-family="Arial" font-size="9" fill="#fff" font-weight="bold">+</text>
+  <text x="64" y="80" font-family="Arial" font-size="9" fill="#fff" font-weight="bold">-</text>
+  <text x="76" y="98" font-family="Arial" font-size="8" fill="#fff" font-weight="bold">=</text>
+</svg>
