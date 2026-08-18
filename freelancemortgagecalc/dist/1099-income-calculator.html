@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1099 Income Calculator for Mortgage Qualification (Free)</title>
+<meta name="description" content="Lenders average your last two years of 1099/Schedule C net profit to figure out your qualifying income. Enter your numbers below to estimate your qualifyin">
+<link rel="canonical" href="https://freelancemortgagecalc.pages.dev/1099-income-calculator">
+<meta property="og:type" content="website">
+<meta property="og:title" content="1099 Income Calculator for Mortgage Qualification (Free)">
+<meta property="og:description" content="Lenders average your last two years of 1099/Schedule C net profit to figure out your qualifying income. Enter your numbers below to estimate your qualifyin">
+<meta property="og:site_name" content="FreelanceMortgageCalc">
+<meta name="robots" content="index,follow">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="logo" href="/">Freelance<span>Mortgage</span>Calc</a>
+  <button class="menu-button" data-menu-button aria-expanded="false" aria-controls="main-nav"><span></span><span></span><span></span></button>
+  <nav id="main-nav" data-nav><a href="/">Home</a><a href="/1099-income-calculator">1099 Income Calculator</a><a href="/bank-statement-loan-calculator">Bank Statement Loan Calculator</a><a href="/freelance-affordability-calculator">Freelance Affordability Calculator</a><a href="/password-generator">Password Generator</a><a href="/age-calculator">Age Calculator</a></nav>
+</header>
+<main>
+  <article>
+    <section class="hero">
+      <p class="crumbs"><a href="/">Home</a> › 1099 Income Calculator</p>
+      <h1>1099 Income Calculator for a Mortgage</h1>
+      <p class="lead">Lenders average your last two years of 1099/Schedule C net profit to figure out your qualifying income. Enter your numbers below to estimate your qualifying monthly income and the mortgage payment you could realistically afford.</p>
+    </section>
+    <div class="tool-card">
+      <div class="tool-grid">
+        <div class="field">
+      <label for="y1">Year 1 net profit (Schedule C, line 31)</label>
+      <input type="number" id="y1" placeholder="60000">
+      
+    </div>
+        <div class="field">
+      <label for="y2">Year 2 net profit (Schedule C, line 31)</label>
+      <input type="number" id="y2" placeholder="72000">
+      
+    </div>
+        <div class="field">
+      <label for="debts">Other monthly debt payments</label>
+      <input type="number" id="debts" placeholder="400">
+      <span class="hint">Car loans, credit cards, student loans, etc.</span>
+    </div>
+        <div class="field">
+      <label for="rate">Interest rate (%)</label>
+      <input type="number" id="rate" placeholder="6.75" step="0.01">
+      
+    </div>
+        <div class="field">
+      <label for="term">Loan term (years)</label>
+      <input type="number" id="term" placeholder="30">
+      
+    </div>
+        <div class="field">
+      <label for="dti">Max debt-to-income ratio (%)</label>
+      <input type="number" id="dti" placeholder="43">
+      <span class="hint">43% is a common conservative lender max.</span>
+    </div>
+      </div>
+      <button class="btn-calc" id="calcBtn" type="button">Calculate qualifying income</button>
+      <div class="result-box" id="result">
+        <p class="hint">Estimated qualifying monthly income</p>
+        <div class="big" id="rIncome">$0</div>
+        <div class="row"><span>Max monthly mortgage payment</span><b id="rPayment">$0</b></div>
+        <div class="row"><span>Estimated max loan amount</span><b id="rLoan">$0</b></div>
+      </div>
+      <p class="privacy-badge">🔒 100% private — everything is calculated in your browser, nothing is sent to a server.</p>
+    </div>
+    <div class="disclaimer-box">⚠️ This is an educational estimate, not a loan offer or
+  financial advice. Actual qualification depends on your full financial profile, credit score, assets
+  and the specific lender's guidelines. Talk to a licensed mortgage professional before deciding.</div>
+    <div class="ad-slot">Advertisement</div>
+    <section class="guide">
+      <h2>Why lenders calculate 1099 income differently</h2>
+      <p>Unlike a W-2 employee, a 1099 contractor's income isn't a fixed number a lender can just read off a paystub. Most conventional lenders average the net profit from the last two years of tax returns (Schedule C, line 31) and divide by 24 to get a stable monthly qualifying income — even if your income varies a lot month to month.</p>
+      <ul class="check-list">
+        <li>✅ Two years of net profit (not gross revenue) are averaged</li>
+        <li>✅ The average is divided by 24 to get a monthly qualifying figure</li>
+        <li>✅ Standard debt-to-income limits then apply, same as any borrower</li>
+        <li>✅ A declining trend between year 1 and year 2 can trigger extra scrutiny</li>
+      </ul>
+    </section>
+    <section class="faq">
+      <h2>Frequently asked questions</h2>
+      <details><summary>Is this financial advice?</summary><p>No. This tool gives a rough, educational estimate only. Actual mortgage qualification depends on your full financial picture, credit score, assets, the specific lender's guidelines, and current rates. Always talk to a licensed mortgage professional before making a decision.</p></details>
+<details><summary>Is my data saved or sent anywhere?</summary><p>No. Every calculation runs locally in your browser with plain JavaScript. Nothing you type is sent to a server, stored, or shared.</p></details>
+<details><summary>Why do self-employed borrowers need a different calculator?</summary><p>Because lenders don't use your gross revenue — they use net qualifying income after specific averaging and expense-factor rules that only apply to 1099/self-employed income, which a generic mortgage calculator doesn't account for.</p></details>
+<details><summary>Do lenders use gross revenue or net profit?</summary><p>Net profit — what's left after business expenses and deductions on Schedule C. This is usually much lower than gross revenue, which is why many self-employed borrowers qualify for less than they expect.</p></details>
+<details><summary>What if my income went up a lot in year 2?</summary><p>Most lenders still average both years rather than using only the most recent one, though some allow an exception with strong documentation of the trend. Ask your lender directly.</p></details>
+    </section>
+    <section>
+      <h2>More free tools</h2>
+      <div class="grid"><a class="card" href="/bank-statement-loan-calculator">
+          <h3>Bank Statement Loan Calculator</h3>
+          <p>Bank statement (Non-QM) loans qualify you using your average monthly deposits in…</p>
+          <span class="go">Open tool →</span></a>
+<a class="card" href="/freelance-affordability-calculator">
+          <h3>Freelance Affordability Calculator</h3>
+          <p>If you bill by the day or by the project, this calculator turns your day rate an…</p>
+          <span class="go">Open tool →</span></a>
+<a class="card" href="/password-generator">
+          <h3>Password Generator</h3>
+          <p>Generate a strong, random password with custom length and character sets. Nothin…</p>
+          <span class="go">Open tool →</span></a>
+<a class="card" href="/age-calculator">
+          <h3>Age Calculator</h3>
+          <p>Find your exact age in years, months and days, or count the days between any two…</p>
+          <span class="go">Open tool →</span></a></div>
+    </section>
+  </article>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "1099 Income Calculator for Mortgage Qualification (Free)", "description": "Lenders average your last two years of 1099/Schedule C net profit to figure out your qualifying income. Enter your numbers below to estimate your qualifying monthly income and the mortgage payment you could realistically afford.", "applicationCategory": "FinanceApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is this financial advice?", "acceptedAnswer": {"@type": "Answer", "text": "No. This tool gives a rough, educational estimate only. Actual mortgage qualification depends on your full financial picture, credit score, assets, the specific lender's guidelines, and current rates. Always talk to a licensed mortgage professional before making a decision."}}, {"@type": "Question", "name": "Is my data saved or sent anywhere?", "acceptedAnswer": {"@type": "Answer", "text": "No. Every calculation runs locally in your browser with plain JavaScript. Nothing you type is sent to a server, stored, or shared."}}, {"@type": "Question", "name": "Why do self-employed borrowers need a different calculator?", "acceptedAnswer": {"@type": "Answer", "text": "Because lenders don't use your gross revenue — they use net qualifying income after specific averaging and expense-factor rules that only apply to 1099/self-employed income, which a generic mortgage calculator doesn't account for."}}]}</script>
+  <script>
+  
+function monthlyPayment(principal, annualRatePct, years){
+  var r = (annualRatePct/100)/12, n = years*12;
+  if (r === 0) return principal/n;
+  return principal * r / (1 - Math.pow(1+r, -n));
+}
+function maxLoanFromPayment(maxMonthlyPayment, annualRatePct, years){
+  var r = (annualRatePct/100)/12, n = years*12;
+  if (maxMonthlyPayment <= 0) return 0;
+  if (r === 0) return maxMonthlyPayment*n;
+  return maxMonthlyPayment * (1 - Math.pow(1+r, -n)) / r;
+}
+function fmt(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+
+  document.getElementById('calcBtn').addEventListener('click', function(){
+    var y1 = parseFloat(document.getElementById('y1').value) || 0;
+    var y2 = parseFloat(document.getElementById('y2').value) || 0;
+    var debts = parseFloat(document.getElementById('debts').value) || 0;
+    var rate = parseFloat(document.getElementById('rate').value) || 6.75;
+    var term = parseFloat(document.getElementById('term').value) || 30;
+    var dti = parseFloat(document.getElementById('dti').value) || 43;
+    var monthlyIncome = (y1 + y2) / 24;
+    var maxMonthlyDebt = monthlyIncome * (dti/100);
+    var maxPayment = Math.max(0, maxMonthlyDebt - debts);
+    var maxLoan = maxLoanFromPayment(maxPayment, rate, term);
+    document.getElementById('rIncome').textContent = fmt(monthlyIncome);
+    document.getElementById('rPayment').textContent = fmt(maxPayment);
+    document.getElementById('rLoan').textContent = fmt(maxLoan);
+    document.getElementById('result').classList.add('visible');
+  });
+  </script></main>
+<footer class="site-footer">
+  <p>FreelanceMortgageCalc — Mortgage calculators built for the self-employed.</p>
+  <div class="footer-cols">
+    <div>
+      <h4>Calculators</h4>
+      <a href="/1099-income-calculator">1099 Income Calculator</a><a href="/bank-statement-loan-calculator">Bank Statement Loan Calculator</a><a href="/freelance-affordability-calculator">Freelance Affordability Calculator</a><a href="/password-generator">Password Generator</a><a href="/age-calculator">Age Calculator</a>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Use</a>
+    </div>
+  </div>
+  <p class="disclaimer">Educational estimates only, not financial or lending advice. Always confirm
+     numbers with a licensed mortgage professional before making a decision.</p>
+</footer>
+<script>
+var menuButton = document.querySelector('[data-menu-button]'), nav = document.querySelector('[data-nav]');
+if (menuButton && nav) {
+  menuButton.addEventListener('click', function(){
+    nav.classList.toggle('open');
+  });
+}
+</script>
+</body></html>

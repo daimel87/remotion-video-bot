@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bank Statement Loan Calculator — Non-QM Mortgage Estimate</title>
+<meta name="description" content="Bank statement (Non-QM) loans qualify you using your average monthly deposits instead of tax returns. Enter your average deposits and an expense factor to ">
+<link rel="canonical" href="https://freelancemortgagecalc.pages.dev/bank-statement-loan-calculator">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bank Statement Loan Calculator — Non-QM Mortgage Estimate">
+<meta property="og:description" content="Bank statement (Non-QM) loans qualify you using your average monthly deposits instead of tax returns. Enter your average deposits and an expense factor to ">
+<meta property="og:site_name" content="FreelanceMortgageCalc">
+<meta name="robots" content="index,follow">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="logo" href="/">Freelance<span>Mortgage</span>Calc</a>
+  <button class="menu-button" data-menu-button aria-expanded="false" aria-controls="main-nav"><span></span><span></span><span></span></button>
+  <nav id="main-nav" data-nav><a href="/">Home</a><a href="/1099-income-calculator">1099 Income Calculator</a><a href="/bank-statement-loan-calculator">Bank Statement Loan Calculator</a><a href="/freelance-affordability-calculator">Freelance Affordability Calculator</a><a href="/password-generator">Password Generator</a><a href="/age-calculator">Age Calculator</a></nav>
+</header>
+<main>
+  <article>
+    <section class="hero">
+      <p class="crumbs"><a href="/">Home</a> › Bank Statement Loan Calculator</p>
+      <h1>Bank Statement Loan Calculator</h1>
+      <p class="lead">Bank statement (Non-QM) loans qualify you using your average monthly deposits instead of tax returns. Enter your average deposits and an expense factor to estimate your qualifying income and mortgage payment.</p>
+    </section>
+    <div class="tool-card">
+      <div class="tool-grid">
+        <div class="field">
+      <label for="deposits">Average monthly deposits</label>
+      <input type="number" id="deposits" placeholder="9000">
+      
+    </div>
+        <div class="field">
+      <label for="expense">Expense factor (%)</label>
+      <input type="number" id="expense" placeholder="50">
+      <span class="hint">Portion of deposits treated as business expense. 50% is a common default; some lenders use 25–65% depending on industry.</span>
+    </div>
+        <div class="field">
+      <label for="debts">Other monthly debt payments</label>
+      <input type="number" id="debts" placeholder="500">
+      
+    </div>
+        <div class="field">
+      <label for="rate">Interest rate (%)</label>
+      <input type="number" id="rate" placeholder="7.25" step="0.01">
+      
+    </div>
+        <div class="field">
+      <label for="term">Loan term (years)</label>
+      <input type="number" id="term" placeholder="30">
+      
+    </div>
+        <div class="field">
+      <label for="dti">Max debt-to-income ratio (%)</label>
+      <input type="number" id="dti" placeholder="45">
+      
+    </div>
+      </div>
+      <button class="btn-calc" id="calcBtn" type="button">Calculate qualifying income</button>
+      <div class="result-box" id="result">
+        <p class="hint">Estimated qualifying monthly income</p>
+        <div class="big" id="rIncome">$0</div>
+        <div class="row"><span>Max monthly mortgage payment</span><b id="rPayment">$0</b></div>
+        <div class="row"><span>Estimated max loan amount</span><b id="rLoan">$0</b></div>
+      </div>
+      <p class="privacy-badge">🔒 100% private — everything is calculated in your browser, nothing is sent to a server.</p>
+    </div>
+    <div class="disclaimer-box">⚠️ This is an educational estimate, not a loan offer or
+  financial advice. Actual qualification depends on your full financial profile, credit score, assets
+  and the specific lender's guidelines. Talk to a licensed mortgage professional before deciding.</div>
+    <div class="ad-slot">Advertisement</div>
+    <section class="guide">
+      <h2>How bank statement (Non-QM) loans work</h2>
+      <p>Bank statement loans exist because tax deductions make a self-employed borrower's net income look much lower than their real cash flow. Instead of tax returns, the lender averages 12–24 months of bank deposits and applies an "expense factor" (commonly 50%, though it varies by lender and industry) to estimate real qualifying income from gross deposits.</p>
+      <ul class="check-list">
+        <li>✅ No tax returns required — 12 or 24 months of bank statements instead</li>
+        <li>✅ An expense factor discounts deposits to estimate real income</li>
+        <li>✅ Rates are usually higher than a conventional loan (more risk for the lender)</li>
+        <li>✅ Popular with business owners whose tax returns show heavy deductions</li>
+      </ul>
+    </section>
+    <section class="faq">
+      <h2>Frequently asked questions</h2>
+      <details><summary>Is this financial advice?</summary><p>No. This tool gives a rough, educational estimate only. Actual mortgage qualification depends on your full financial picture, credit score, assets, the specific lender's guidelines, and current rates. Always talk to a licensed mortgage professional before making a decision.</p></details>
+<details><summary>Is my data saved or sent anywhere?</summary><p>No. Every calculation runs locally in your browser with plain JavaScript. Nothing you type is sent to a server, stored, or shared.</p></details>
+<details><summary>Why do self-employed borrowers need a different calculator?</summary><p>Because lenders don't use your gross revenue — they use net qualifying income after specific averaging and expense-factor rules that only apply to 1099/self-employed income, which a generic mortgage calculator doesn't account for.</p></details>
+<details><summary>What expense factor should I use?</summary><p>50% is a common default many lenders start from, but it varies by industry and lender — service businesses with low overhead sometimes get a lower factor (meaning higher qualifying income), while businesses with heavy expenses get a higher one.</p></details>
+<details><summary>12 months or 24 months of statements?</summary><p>Both exist. 24-month programs usually require a slightly lower rate than 12-month programs since they show more history — try both in this calculator to compare.</p></details>
+    </section>
+    <section>
+      <h2>More free tools</h2>
+      <div class="grid"><a class="card" href="/1099-income-calculator">
+          <h3>1099 Income Calculator</h3>
+          <p>Lenders average your last two years of 1099/Schedule C net profit to figure out …</p>
+          <span class="go">Open tool →</span></a>
+<a class="card" href="/freelance-affordability-calculator">
+          <h3>Freelance Affordability Calculator</h3>
+          <p>If you bill by the day or by the project, this calculator turns your day rate an…</p>
+          <span class="go">Open tool →</span></a>
+<a class="card" href="/password-generator">
+          <h3>Password Generator</h3>
+          <p>Generate a strong, random password with custom length and character sets. Nothin…</p>
+          <span class="go">Open tool →</span></a>
+<a class="card" href="/age-calculator">
+          <h3>Age Calculator</h3>
+          <p>Find your exact age in years, months and days, or count the days between any two…</p>
+          <span class="go">Open tool →</span></a></div>
+    </section>
+  </article>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Bank Statement Loan Calculator — Non-QM Mortgage Estimate", "description": "Bank statement (Non-QM) loans qualify you using your average monthly deposits instead of tax returns. Enter your average deposits and an expense factor to estimate your qualifying income and mortgage payment.", "applicationCategory": "FinanceApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is this financial advice?", "acceptedAnswer": {"@type": "Answer", "text": "No. This tool gives a rough, educational estimate only. Actual mortgage qualification depends on your full financial picture, credit score, assets, the specific lender's guidelines, and current rates. Always talk to a licensed mortgage professional before making a decision."}}, {"@type": "Question", "name": "Is my data saved or sent anywhere?", "acceptedAnswer": {"@type": "Answer", "text": "No. Every calculation runs locally in your browser with plain JavaScript. Nothing you type is sent to a server, stored, or shared."}}, {"@type": "Question", "name": "Why do self-employed borrowers need a different calculator?", "acceptedAnswer": {"@type": "Answer", "text": "Because lenders don't use your gross revenue — they use net qualifying income after specific averaging and expense-factor rules that only apply to 1099/self-employed income, which a generic mortgage calculator doesn't account for."}}]}</script>
+  <script>
+  
+function monthlyPayment(principal, annualRatePct, years){
+  var r = (annualRatePct/100)/12, n = years*12;
+  if (r === 0) return principal/n;
+  return principal * r / (1 - Math.pow(1+r, -n));
+}
+function maxLoanFromPayment(maxMonthlyPayment, annualRatePct, years){
+  var r = (annualRatePct/100)/12, n = years*12;
+  if (maxMonthlyPayment <= 0) return 0;
+  if (r === 0) return maxMonthlyPayment*n;
+  return maxMonthlyPayment * (1 - Math.pow(1+r, -n)) / r;
+}
+function fmt(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+
+  document.getElementById('calcBtn').addEventListener('click', function(){
+    var deposits = parseFloat(document.getElementById('deposits').value) || 0;
+    var expense = parseFloat(document.getElementById('expense').value) || 50;
+    var debts = parseFloat(document.getElementById('debts').value) || 0;
+    var rate = parseFloat(document.getElementById('rate').value) || 7.25;
+    var term = parseFloat(document.getElementById('term').value) || 30;
+    var dti = parseFloat(document.getElementById('dti').value) || 45;
+    var monthlyIncome = deposits * (1 - expense/100);
+    var maxMonthlyDebt = monthlyIncome * (dti/100);
+    var maxPayment = Math.max(0, maxMonthlyDebt - debts);
+    var maxLoan = maxLoanFromPayment(maxPayment, rate, term);
+    document.getElementById('rIncome').textContent = fmt(monthlyIncome);
+    document.getElementById('rPayment').textContent = fmt(maxPayment);
+    document.getElementById('rLoan').textContent = fmt(maxLoan);
+    document.getElementById('result').classList.add('visible');
+  });
+  </script></main>
+<footer class="site-footer">
+  <p>FreelanceMortgageCalc — Mortgage calculators built for the self-employed.</p>
+  <div class="footer-cols">
+    <div>
+      <h4>Calculators</h4>
+      <a href="/1099-income-calculator">1099 Income Calculator</a><a href="/bank-statement-loan-calculator">Bank Statement Loan Calculator</a><a href="/freelance-affordability-calculator">Freelance Affordability Calculator</a><a href="/password-generator">Password Generator</a><a href="/age-calculator">Age Calculator</a>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Use</a>
+    </div>
+  </div>
+  <p class="disclaimer">Educational estimates only, not financial or lending advice. Always confirm
+     numbers with a licensed mortgage professional before making a decision.</p>
+</footer>
+<script>
+var menuButton = document.querySelector('[data-menu-button]'), nav = document.querySelector('[data-nav]');
+if (menuButton && nav) {
+  menuButton.addEventListener('click', function(){
+    nav.classList.toggle('open');
+  });
+}
+</script>
+</body></html>

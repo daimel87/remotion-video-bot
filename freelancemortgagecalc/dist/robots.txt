@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://freelancemortgagecalc.pages.dev/sitemap.xml
