@@ -180,6 +180,21 @@ if ('IntersectionObserver' in window) {
 
 CF_WEB_ANALYTICS = '''<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "781aeda9a8b9465997afb0cf1e23a103"}'></script><!-- End Cloudflare Web Analytics -->'''
 
+HILLTOP_BANNER = '''<script>
+(function(ppu){
+var d = document,
+    s = d.createElement('script'),
+    l = d.scripts[d.scripts.length - 1];
+s.settings = ppu || {};
+s.src = "//untimely-hello.com/bMX.V/sXdCGylb0nYCWBcF/OeTmL9kusZ_Ual/krP_TYcJzoMEzEM-3ENvDvkcttNazmMTzFMCz/cz1sM/wB";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>'''
+
+AD_SLOT = f'<div class="ad-slot" style="min-height:250px;border:0;padding:0">{HILLTOP_BANNER}</div>'
+
 MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 {SITE['monetag_push']}
 <!-- Monetag In-Page Push -->
@@ -430,6 +445,7 @@ def article_page(a):
     </div>
     <p class="note">⚠️ Always back up your files before reinstalling any operating system. Make sure
        you have a valid license for Windows before using a modified build.</p>
+    {AD_SLOT}
     {sections}
     {faq_visible}
     <div class="fb-cta">
@@ -482,6 +498,7 @@ def article_page_pl(a_pl):
       <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">{UI_PL['subscribe_yt']}</a>
     </div>
     <p class="note">{UI_PL['backup_note']}</p>
+    {AD_SLOT}
     {sections}
     <div class="fb-cta">
       <p>{UI_PL['liked_review']} <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a>
