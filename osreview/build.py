@@ -195,6 +195,20 @@ l.parentNode.insertBefore(s, l);
 
 AD_SLOT = f'<div class="ad-slot" style="min-height:250px;border:0;padding:0">{HILLTOP_BANNER}</div>'
 
+HILLTOP_INPAGE_PUSH = '''<!-- HilltopAds In-Page Push -->
+<script>
+(function(nowqa){
+var d = document,
+    s = d.createElement('script'),
+    l = d.scripts[d.scripts.length - 1];
+s.settings = nowqa || {};
+s.src = "//untimely-hello.com/bgX.Visxd/GKlD0/Y/WIcN/heTm/9duHZdUFlYkyP/Tqc/zsMgzuM/3PN/jFUztuN_z/MozjMaznc/2mO/Qe";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>'''
+
 MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 {SITE['monetag_push']}
 <!-- Monetag In-Page Push -->
@@ -295,6 +309,7 @@ def FOOT_HTML(lang="en"):
 {REVEAL_SCRIPT}
 {DL_SCRIPT}
 {MONETAG_SITEWIDE}
+{HILLTOP_INPAGE_PUSH}
 {CF_WEB_ANALYTICS}
 </body></html>'''
         return footer
@@ -330,6 +345,7 @@ def FOOT_HTML(lang="en"):
 {REVEAL_SCRIPT}
 {DL_SCRIPT}
 {MONETAG_SITEWIDE}
+{HILLTOP_INPAGE_PUSH}
 {CF_WEB_ANALYTICS}
 </body></html>'''
 
