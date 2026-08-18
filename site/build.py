@@ -722,7 +722,8 @@ def home():
     <p class="lead">Activa el sonido envolvente que tu PC ya trae de fábrica pero Windows no enciende por defecto:</p>
     <div class="grid">{audio_cards()}</div>
   </section>
-  {testimonials_marquee()}'''
+  {testimonials_marquee()}
+  {AD_SLOT}'''
     faq_pairs = [
         ("¿Cómo sé si mi memoria USB está dañada?",
          "Si Windows no la reconoce, pide formatear cada vez, aparece en formato RAW, muestra 0 "
