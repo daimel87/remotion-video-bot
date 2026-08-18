@@ -290,6 +290,7 @@ def head(title, desc, canonical):
 <meta name="twitter:image" content="{SITE['logo']}">
 <meta name="robots" content="index,follow">
 <meta name="google-site-verification" content="{SITE['google_verify']}">
+<meta name="ca24f8a547c40171c9178dcd5f3c41eaeb796288" content="ca24f8a547c40171c9178dcd5f3c41eaeb796288" />
 <link rel="icon" href="{SITE['logo']}">
 <link rel="apple-touch-icon" href="{SITE['logo']}">
 <link rel="stylesheet" href="/style.css">
@@ -1007,6 +1008,7 @@ def main():
     os.makedirs(DIST)
     shutil.copy(os.path.join(HERE, "style.css"), os.path.join(DIST, "style.css"))
     shutil.copy(os.path.join(HERE, "sw.js"), os.path.join(DIST, "sw.js"))
+    shutil.copy(os.path.join(HERE, "ca24f8a547c40171c917.txt"), os.path.join(DIST, "ca24f8a547c40171c917.txt"))
     shutil.copytree(os.path.join(HERE, "images"), os.path.join(DIST, "images"))
     home(); herramientas_page(); legal(); seo_files()
     problems_hub_page()
