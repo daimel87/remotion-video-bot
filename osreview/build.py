@@ -552,6 +552,7 @@ def best_builds_page():
       </table>
     </div>
     <a class="btn" href="/advisor">🧭 Not sure? Find your build in 30 seconds</a>
+    {AD_SLOT}
     {faq_visible}
   </article>
   {faq_ld}'''
@@ -588,6 +589,7 @@ def best_builds_page_pl():
       </table>
     </div>
     <a class="btn" href="/pl/advisor">{UI_PL['advisor_not_sure']}</a>
+    {AD_SLOT}
     {faq_visible}
   </article>
   {faq_ld}'''
@@ -618,6 +620,7 @@ def video_hub_page(v):
       <a class="btn ghost" href="/advisor">🧭 Find my perfect Windows build</a>
     </div>
     {video_hub_links_block([o for o in VIDEO_HUBS if o["slug"] != v["slug"]], heading="🎥 Other video guide playlists")}
+    {AD_SLOT}
     <h2>Related reviews</h2>
     <div class="rel-grid">{rel_html}</div>
   </article>'''
@@ -641,6 +644,7 @@ def reviews_page():
        and reviewed hands-on, plus a few lightweight Linux alternatives. Not sure which one fits
        your PC? Try the <a href="/advisor">PC Advisor</a> or see the full
        <a href="/best-lightweight-windows-11-builds">comparison table</a>.</p>
+    {AD_SLOT}
   </article>
   <section class="grid-wrap">
     <div class="grid">{cards}</div>
@@ -754,6 +758,7 @@ def home():
     </div>
   </section>
   {video_links}
+  {AD_SLOT}
   {testimonials_marquee()}
   {faq_visible}
   <section class="grid-wrap">
@@ -784,6 +789,7 @@ def home_pl():
   </section>
   <section class="grid-wrap">
     <p><a href="/pl/{BEST_BUILDS_PAGE_PL['slug']}">📊 Zobacz pełne porównanie: jak zoptymalizować Windows 11 pod gry (2026) →</a></p>
+    {AD_SLOT}
     <h2>{UI_PL['reviews_heading']}</h2>
     <div class="grid">{cards}</div>
   </section>'''
@@ -836,6 +842,7 @@ def advisor_page():
     </form>
 
     <div id="advisorResults" class="advisor-results"></div>
+    {AD_SLOT}
   </article>
   <script>
   var ADVISOR_CATALOG = {catalog_json};
@@ -920,6 +927,7 @@ def advisor_page_pl():
     </form>
 
     <div id="advisorResults" class="advisor-results"></div>
+    {AD_SLOT}
   </article>
   <script>
   var ADVISOR_CATALOG = {catalog_json};
