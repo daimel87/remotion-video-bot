@@ -37,6 +37,7 @@ def video(yt):
 
 def head(title, desc, canonical, lang="en", en_url=None, pl_url=None, nav=None):
     verify = f'<meta name="google-site-verification" content="{SITE["google_verify"]}">' if SITE.get("google_verify") else ""
+    verify += '\n<meta name="a0d9e3bc8e313f4840584cc3ac41318120070eb1" content="a0d9e3bc8e313f4840584cc3ac41318120070eb1" />'
     hreflang = ""
     if en_url and pl_url:
         hreflang = f'''<link rel="alternate" hreflang="en" href="{en_url}">
