@@ -202,6 +202,21 @@ if ('serviceWorker' in navigator) {{
 }}
 </script>'''
 
+HILLTOP_BANNER = '''<script>
+(function(zjrsgk){
+var d = document,
+    s = d.createElement('script'),
+    l = d.scripts[d.scripts.length - 1];
+s.settings = zjrsgk || {};
+s.src = "//untimely-hello.com/b.XDVKsjdfG/l/0kYOWAc-/OeAm/9dumZAUglTkgPFTQc_zKMRzIM/3aOBD/EUtJN/zoM/zAM/zcck4fNRQz";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>'''
+
+AD_SLOT = f'<div class="ad-slot" style="min-height:250px;border:0;padding:0">{HILLTOP_BANNER}</div>'
+
 HILLTOPADS_TEST = f'''
 <!-- ===================================================== -->
 <!-- HilltopAds Popunder — prueba A/B aislada (reemplaza el popunder de Monetag, temporal 5-7 días) -->
@@ -565,6 +580,7 @@ def tool_page(t):
     {variants_block}
     <h2>{steps_title}</h2>
     <ol class="steps">{steps}</ol>
+    {AD_SLOT}
     {"" if has_answer else lower_video}
     {download}
     {fallback_video}
