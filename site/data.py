@@ -21,6 +21,19 @@ SITE = {
     "monetag_vignette": "<script>(function(s){s.dataset.zone='11443698',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
     "monetag_popunder": "<script>(function(s){s.dataset.zone='11434447',s.src='https://zovidree.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
     "monetag_directlink": "https://omg10.com/4/11443701",  # Direct Link (se abre al pulsar el botón de descarga)
+    # ==== HILLTOPADS (prueba A/B: reemplaza temporalmente solo el popunder de Monetag) ====
+    "hilltopads_popunder": '''<script>
+(function(pqfql){
+var d = document,
+    s = d.createElement('script'),
+    l = d.scripts[d.scripts.length - 1];
+s.settings = pqfql || {};
+s.src = "\\/\\/nautical-hand.com\\/c.DL9v6ZbN2i5ElrSZW\\/QP9sNazFMJzmMMzwQ\\/2MNsSl0m3sMcz\\/M-z\\/NRDzY-5E";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>''',
     # ==== POPADS (reemplaza al popunder de Monetag en este sitio) ====
     "popads_popunder": '''<script type="text/javascript" data-cfasync="false">
 /*<![CDATA[/* */
