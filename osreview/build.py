@@ -665,7 +665,7 @@ def home():
     <div class="feature-screen"><img class="yt-thumb" src="https://i.ytimg.com/vi/quhv2vD6LoU/hqdefault.jpg" alt="Ghost Spectre Windows 11 review by {SITE['name']}" loading="lazy"></div>
     <div class="feature-copy">
       <small>About the channel</small>
-      <h3>What is {SITE['name']}?</h3>
+      <h2>What is {SITE['name']}?</h2>
       <p>Is Windows 11 running slow on your PC? Getting lower FPS in games than your hardware should
          deliver? Tired of background processes, telemetry and forced updates interrupting your
          sessions? You're in the right place.</p>
@@ -685,7 +685,7 @@ def home():
     <div class="feature-screen"><img class="yt-thumb" src="https://i.ytimg.com/vi/SbLxCxGe2Zg/hqdefault.jpg" alt="KernelOS + AtlasOS gaming build review by {SITE['name']}" loading="lazy"></div>
     <div class="feature-copy">
       <small>Performance</small>
-      <h3>How do I fix a slow Windows 11 PC or improve gaming performance?</h3>
+      <h2>How do I fix a slow Windows 11 PC or improve gaming performance?</h2>
       <p>When Windows 11 lags, stutters in games, or eats RAM at idle, it's usually background
          services, telemetry and forced updates competing for resources — not a hardware problem. The
          fix is switching to a debloated build that strips that overhead while keeping full driver and
@@ -705,7 +705,7 @@ def home():
     <div class="feature-screen"><img class="yt-thumb" src="https://i.ytimg.com/vi/gxZ62u0h5sE/hqdefault.jpg" alt="Windows X-Lite lightweight build review by {SITE['name']}" loading="lazy"></div>
     <div class="feature-copy">
       <small>Diagnosis</small>
-      <h3>How do I know if I need a lightweight Windows build?</h3>
+      <h2>How do I know if I need a lightweight Windows build?</h2>
       <p>Before you reinstall anything, check whether these describe your PC:</p>
       <ul class="check-list">
         <li>✅ Windows 11 takes over a minute to boot</li>
