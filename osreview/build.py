@@ -438,7 +438,8 @@ def article_page(a):
     {video_hub_links_block(hubs_for_article(a))}
     <h2>More reviews</h2>
     <div class="rel-grid">{related(a)}</div>
-    <p><a href="/best-lightweight-windows-11-builds">See how {html.escape(a['title'].split(' Review')[0])} compares to every other build we've tested →</a></p>
+    <p><a href="/best-lightweight-windows-11-builds">See how {html.escape(a['title'].split(' Review')[0])} compares to every other build we've tested →</a>
+       — or browse <a href="/reviews">all {len(ARTICLES)} written reviews</a>.</p>
   </article>
   {faq_ld}
   {review_jsonld(a, canonical)}'''
