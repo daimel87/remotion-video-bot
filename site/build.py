@@ -2,7 +2,7 @@
 """Genera la web estática a partir de data.py -> carpeta dist/.
 Uso: python3 site/build.py"""
 import os, html, shutil, re, json
-from data import SITE, TOOLS, EXTERNAL_LINKS, PROBLEMS, TESTIMONIALS
+from data import SITE, TOOLS, EXTERNAL_LINKS, PROBLEMS, TESTIMONIALS, AUDIO_TOOLS
 
 # ---- Datos estructurados (Schema.org) ----
 def _strip_tags(s):
@@ -35,20 +35,25 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
 
 # ---- Reproductor de la lista de reproducción de YouTube ----
-def video(titulo="🎥 Tutoriales en vídeo", pid=None, vid=None, cta="default"):
+def video(titulo="🎥 Tutoriales en vídeo", pid=None, vid=None, cta="default", sub=None):
     src = f"https://www.youtube.com/embed/{vid}" if vid else \
           f"https://www.youtube.com/embed/videoseries?list={pid or SITE['playlist_id']}"
     if cta == "nav":
         cta_row = f'''<a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Suscribirse al canal</a>
         <a class="btn cta-ebook" href="/herramientas">🛠 Ver herramientas</a>
         <a class="btn cta-miniapp" href="/problemas">❓ ¿Cuál es el problema de tu USB?</a>'''
+    elif cta == "audio":
+        cta_row = f'''<a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Suscribirse al canal</a>
+        <a class="btn cta-ebook" href="/audio">🎧 Más herramientas de audio</a>
+        <a class="btn cta-miniapp" href="/herramientas">🛠 Reparar una USB</a>'''
     else:
         cta_row = f'''<a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Suscribirse al canal</a>
         <a class="btn cta-ebook" href="/ir/ebook">🔥 Comprar el curso</a>
         <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App</a>'''
+    subtitle = sub or "Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales."
     return f'''<section class="video-tut reveal">
       <h2>{titulo}</h2>
-      <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
+      <p class="lead">{subtitle}</p>
       <div class="video-frame">
         <iframe src="{src}"
           title="Tutoriales de reparación USB" loading="lazy"
@@ -272,6 +277,7 @@ def head(title, desc, canonical):
   <a class="logo" href="/"><img src="{SITE['logo']}" alt="{SITE['name']}" width="36" height="36" loading="eager"> {SITE['name']}</a>
   <button class="menu-button" data-menu-button aria-expanded="false" aria-controls="main-nav"><span></span><span></span><span></span><span class="sr-only">Abrir menú</span></button>
   <nav id="main-nav" data-nav><a href="/">Inicio</a> <a href="/problemas">Problemas</a> <a href="/herramientas">Herramientas</a>
+  <a href="/audio">Audio</a>
   <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a></nav>
 </header>
 <main>'''
@@ -662,6 +668,11 @@ def home():
     <p class="lead">Cada fabricante tiene sus propios problemas típicos y su propia solución. Elige tu marca:</p>
     <div class="grid">{brand_cards()}</div>
   </section>
+  <section class="grid-wrap reveal">
+    <h2>Herramientas de audio para Windows</h2>
+    <p class="lead">Activa el sonido envolvente que tu PC ya trae de fábrica pero Windows no enciende por defecto:</p>
+    <div class="grid">{audio_cards()}</div>
+  </section>
   {testimonials_marquee()}'''
     faq_pairs = [
         ("¿Cómo sé si mi memoria USB está dañada?",
@@ -832,6 +843,101 @@ def legal():
           "Conoce a Daimel, reparador profesional de memorias USB con más de una década de experiencia.",
           SITE['domain']+"/sobre-mi") + sobre_mi + FOOT)
 
+# ---------- Módulo "Herramientas de audio" (Dolby, Harman Kardon, DTS) ----------
+def _audio_thumb(a):
+    return f'<img class="card-thumb" src="https://i.ytimg.com/vi/{a["video_id"]}/hqdefault.jpg" alt="" loading="lazy" width="480" height="270">'
+
+def audio_hub_page():
+    cards = ""
+    for a in AUDIO_TOOLS:
+        cards += f'''<a class="card" href="/{a['slug']}">
+          {_audio_thumb(a)}
+          <h3>{html.escape(a['brand'])}</h3>
+          <p>{html.escape(a['intro'][:90])}…</p>
+          <span class="go">Ver cómo activarlo →</span></a>\n'''
+    body = f'''
+  <article class="tool reveal">
+    <nav class="crumbs"><a href="/">Inicio</a> › <span>Audio</span></nav>
+    <h1>Herramientas de audio para Windows (Dolby, Harman Kardon, DTS)</h1>
+    <p class="lead">Activa el sonido envolvente y los drivers de audio premium que tu PC trae
+       de fábrica pero Windows no activa por defecto.</p>
+  </article>
+  <section class="grid-wrap reveal">
+    <div class="grid">{cards}</div>
+  </section>'''
+    write("audio.html", head("Herramientas de audio para Windows — " + SITE['name'],
+          "Activa Dolby Atmos, Dolby Audio, Harman Kardon y DTS Audio gratis en Windows 10/11.",
+          SITE['domain'] + "/audio") + body + FOOT)
+
+def audio_page(a):
+    canonical = f"{SITE['domain']}/{a['slug']}"
+    steps = "\n".join(f"<li>{s}</li>" for s in a["steps"])
+    watch_url = f"https://www.youtube.com/watch?v={a['video_id']}"
+    related = ""
+    if a.get("related_videos"):
+        items = "\n".join(
+            f'<li><a href="https://www.youtube.com/watch?v={r["id"]}" target="_blank" rel="noopener">▶ {html.escape(r["label"])}</a></li>'
+            for r in a["related_videos"]
+        )
+        related = f'''<section class="related-videos reveal">
+      <h2>Más vídeos sobre este tema</h2>
+      <ul class="steps">{items}</ul>
+    </section>'''
+    faq_pairs = [
+        ("¿Es gratis?", "Sí, el driver/paquete es gratuito. El link de descarga está en el comentario fijado del vídeo de YouTube."),
+        ("¿Funciona en mi PC?", "Funciona en la mayoría de equipos con hardware de audio compatible, aunque el resultado puede variar según el modelo. Míralo en el vídeo antes de instalar."),
+        ("¿Es seguro instalarlo?", "Sí, son drivers/paquetes de audio estándar. Aun así, siempre es buena práctica crear un punto de restauración de Windows antes de instalar cualquier driver."),
+    ]
+    faq = f'''
+    <section class="faq reveal">
+      <h2>Preguntas frecuentes</h2>
+      <details><summary>¿Es gratis?</summary>
+        <p>Sí, el driver/paquete es gratuito. El link de descarga está en el comentario fijado del vídeo de YouTube.</p></details>
+      <details><summary>¿Funciona en mi PC?</summary>
+        <p>Funciona en la mayoría de equipos con hardware de audio compatible, aunque el resultado puede variar según el modelo. Míralo en el vídeo antes de instalar.</p></details>
+      <details><summary>¿Es seguro instalarlo?</summary>
+        <p>Sí, son drivers/paquetes de audio estándar. Aun así, siempre es buena práctica crear un punto de restauración de Windows antes de instalar cualquier driver.</p></details>
+    </section>'''
+    schema = howto_schema(a['title'], a['steps']) + faq_schema(faq_pairs) + video_jsonld(a)
+    body = f'''
+  <article class="tool reveal">
+    <section class="hero article-hero no-visual" style="padding:0 0 30px">
+      <div class="hero-layout no-visual">
+        <div class="hero-copy reveal">
+          <nav class="crumbs"><a href="/">Inicio</a> › <a href="/audio">Audio</a> › {html.escape(a['brand'])}</nav>
+          <h1>{html.escape(a['title'])}</h1>
+          <p class="lead">{a['intro']}</p>
+        </div>
+      </div>
+    </section>
+    <h2>¿Por qué Windows no lo trae activado?</h2>
+    <p>{a['why']}</p>
+    <h2>Cómo activarlo</h2>
+    <ol class="steps">{steps}</ol>
+    <p class="note">⬇ El link de descarga está en el <strong>comentario fijado</strong> del vídeo de abajo, no en esta web.</p>
+    {video("🎥 Vídeotutorial", None, a['video_id'], cta="audio", sub=f"Guía en vídeo para activar {a['brand']} en Windows. El link de descarga está en el comentario fijado.")}
+    <p class="cta"><a class="btn" href="{watch_url}" target="_blank" rel="noopener">▶ Ver vídeo en YouTube</a></p>
+    {related}
+    {faq}
+  </article>
+  <section class="grid-wrap reveal">
+    <h2>Otras herramientas de audio</h2>
+    <div class="grid">{"".join(f'<a class="card" href="/{o["slug"]}">{_audio_thumb(o)}<h3>{html.escape(o["brand"])}</h3><p>{html.escape(o["intro"][:90])}…</p><span class="go">Ver cómo activarlo →</span></a>' for o in AUDIO_TOOLS if o["slug"] != a["slug"])}</div>
+  </section>
+  {schema}'''
+    desc = a['intro'][:155]
+    write(f"{a['slug']}.html", head(a['title'], desc, canonical) + body + FOOT)
+
+def audio_cards():
+    cards = ""
+    for a in AUDIO_TOOLS:
+        cards += f'''<a class="card" href="/{a['slug']}">
+          {_audio_thumb(a)}
+          <h3>{html.escape(a['brand'])}</h3>
+          <p>{html.escape(a['intro'][:90])}…</p>
+          <span class="go">Ver cómo activarlo →</span></a>\n'''
+    return cards
+
 # ---------- Página 404 personalizada ----------
 def not_found_page():
     body = '''<article class="tool simple-page" style="text-align:center">
@@ -850,6 +956,8 @@ def seo_files():
             SITE['domain'] + "/contacto", SITE['domain'] + "/sobre-mi"]
     urls += [f"{SITE['domain']}/{t['slug']}" for t in TOOLS]
     urls += [f"{SITE['domain']}/problemas/{p['slug']}" for p in PROBLEMS]
+    urls += [SITE['domain'] + "/audio"]
+    urls += [f"{SITE['domain']}/{a['slug']}" for a in AUDIO_TOOLS]
     items = "\n".join(f"  <url><loc>{u}</loc><changefreq>monthly</changefreq></url>" for u in urls)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n'
           f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{items}\n</urlset>')
@@ -868,10 +976,13 @@ def main():
         problem_page(p)
     for t in TOOLS:
         tool_page(t)
+    audio_hub_page()
+    for a in AUDIO_TOOLS:
+        audio_page(a)
     for link in EXTERNAL_LINKS:
         external_gate_page(link)
     not_found_page()
-    print(f"OK -> {len(TOOLS)} herramientas + home + legales + sitemap generados en {DIST}")
+    print(f"OK -> {len(TOOLS)} herramientas + {len(AUDIO_TOOLS)} audio + home + legales + sitemap generados en {DIST}")
 
 if __name__ == "__main__":
     main()
