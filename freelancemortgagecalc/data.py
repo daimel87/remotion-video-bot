@@ -2,7 +2,7 @@
 SITE = {
     "name": "FreelanceMortgageCalc",
     "tagline": "Mortgage calculators built for the self-employed",
-    "domain": "https://freelancemortgagecalc.pages.dev",
+    "domain": "https://mortagecalculator.pages.dev",
     "description": "Free mortgage affordability calculators for 1099 contractors, "
                    "freelancers and self-employed borrowers — no login, no signup, "
                    "runs entirely in your browser.",
