@@ -144,10 +144,32 @@ def next_steps_box(current):
         links.append(("/tabla-solucionadas", "📋 Consulta la tabla de solucionadas por modelo"))
     links.append(("/problemas", "🧭 ¿Cuál es el problema exacto de tu USB?"))
     links.append(("/herramientas", "🛠️ Ver todas las herramientas de reparación"))
+    if current.get("answer"):  # páginas de marca: además, mini app y curso
+        links.append(("/ir/miniapp", "🤖 Buscar tu reparación en la Mini App de Telegram"))
+        links.append(("/ir/ebook", "🔥 Guía completa en el eBook de reparación de USB"))
     items = "\n".join(f'<li><a href="{href}">{label}</a></li>' for href, label in links)
     return f'''<section class="guide reveal" style="padding-top:0">
       <h2>¿No se resolvió tu problema?</h2>
       <ul class="check-list">{items}</ul>
+    </section>'''
+
+def brand_grid(current):
+    """Solo para páginas de marca: tarjetas cruzadas hacia las OTRAS marcas."""
+    by_slug = {t["slug"]: t for t in TOOLS}
+    others = [by_slug[s] for s in BRAND_SLUGS if s in by_slug and s != current.get("slug")]
+    if not others:
+        return ""
+    cards = "\n".join(
+        f'''<a class="card" href="/{o['slug']}">
+          {_tool_thumb(o)}
+          <h3>{html.escape(o['brand'])}</h3>
+          <p>{html.escape(o['intro'][:90])}…</p>
+          <span class="go">Ver solución →</span></a>'''
+        for o in others
+    )
+    return f'''<section class="grid-wrap reveal">
+      <h2>Más marcas de USB dañadas</h2>
+      <div class="grid">{cards}</div>
     </section>'''
 
 def related_videos_block(t):
@@ -541,7 +563,7 @@ def tool_page(t):
        <a href="{SITE['youtube']}" target="_blank" rel="noopener">nuestro canal de YouTube</a>.</p>
   </article>
   {next_steps_box(t)}
-  {related_tools(t)}
+  {brand_grid(t) if t.get("answer") else related_tools(t)}
   {schema}'''
     desc = t['intro'][:155]
     write(f"{t['slug']}.html", head(t['title'], desc, canonical) + body + FOOT)
@@ -918,12 +940,20 @@ def audio_page(a):
     <p>{a['why']}</p>
     <h2>Cómo activarlo</h2>
     <ol class="steps">{steps}</ol>
-    {f'<a class="download audio-download" href="{a["download_url"]}" target="_blank" rel="noopener nofollow">⬇ Descargar {html.escape(a["brand"])}</a>' if has_dl else ''}
     {video("🎥 Vídeotutorial", None, a['video_id'], cta="audio", sub=f"Guía en vídeo para activar {a['brand']} en Windows, con el paso a paso completo.")}
+    {f'<a class="download audio-download" href="{a["download_url"]}" target="_blank" rel="noopener nofollow">⬇ Descargar {html.escape(a["brand"])}</a>' if has_dl else ''}
     <p class="cta"><a class="btn" href="{watch_url}" target="_blank" rel="noopener">▶ Ver vídeo en YouTube</a></p>
     {related}
     {faq}
   </article>
+  <section class="guide reveal">
+    <h2>¿Buscas más?</h2>
+    <ul class="check-list">
+      <li>🎧 <a href="/audio">Ver todas las herramientas de audio</a></li>
+      <li>🔔 <a href="{SITE['youtube']}" target="_blank" rel="noopener">Suscribirte al canal de YouTube</a></li>
+      <li>🛠️ <a href="/herramientas">¿Necesitas reparar una USB? Ver herramientas</a></li>
+    </ul>
+  </section>
   <section class="grid-wrap reveal">
     <h2>Otras herramientas de audio</h2>
     <div class="grid">{"".join(f'<a class="card" href="/{o["slug"]}">{_audio_thumb(o)}<h3>{html.escape(o["brand"])}</h3><p>{html.escape(o["intro"][:90])}…</p><span class="go">Ver cómo activarlo →</span></a>' for o in AUDIO_TOOLS if o["slug"] != a["slug"])}</div>

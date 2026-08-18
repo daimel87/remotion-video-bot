@@ -691,24 +691,24 @@ AUDIO_TOOLS = [
         ],
     },
     {
-        "slug": "mejor-alternativa-dolby-atmos-gratis",
-        "download_url": "https://mega.nz/file/arhTwQaa#F3B7AF84pGl1dSzH0af6RAE0KziitxmqiBu1IXtoSGc",
-        "title": "La Mejor Alternativa Gratis a Dolby Atmos para tu PC",
-        "brand": "Alternativa a Dolby Atmos",
+        "slug": "instalar-nahimic-3-windows",
+        "download_url": "https://drive.google.com/file/d/1Z81kF9Gbx9oSjDHx_Bhpa927j3cNOsK7/view",
+        "title": "Cómo Instalar Nahimic 3 en Windows 10/11 (Audio Envolvente Gratis)",
+        "brand": "Nahimic 3",
         "kind": "audio",
         "video_id": "TuiOX1jFLyA",
-        "intro": "Si no quieres depender de Dolby Atmos o tu equipo no es compatible, existen "
-                 "paquetes de audio profesional gratuitos que igualan o mejoran la experiencia de "
-                 "sonido envolvente sin pagar ninguna licencia.",
-        "why": "Dolby Atmos no es la única tecnología de virtualización de audio disponible: hay "
-               "paquetes de audio profesional gratuitos, pensados originalmente para estudios o "
-               "gaming, que aplican ecualización y espacialidad de nivel similar o superior sin "
-               "coste ni suscripción.",
+        "intro": "Nahimic 3 es un software de audio profesional (originalmente de equipos gaming) "
+                 "que mejora el sonido envolvente, la nitidez de voces y el nivel de graves de tu PC "
+                 "sin necesidad de hardware adicional, y es gratis instalarlo en cualquier equipo.",
+        "why": "Nahimic 3 viene preinstalado de fábrica solo en algunos portátiles gaming, pero el "
+               "software en sí no depende de un chip especial — se puede instalar en cualquier "
+               "PC con Windows para obtener ecualización, virtualización de sonido envolvente y "
+               "mejora de micrófono, sin pagar ninguna licencia.",
         "steps": [
             "Pulsa el botón de descarga de abajo (o mira el vídeo para el paso a paso completo).",
-            "Descarga e instala el paquete de audio siguiendo el paso a paso del vídeo.",
-            "Reinicia el PC y configura el perfil de sonido recomendado en el vídeo.",
-            "Compara el resultado con el audio por defecto de Windows para notar la diferencia.",
+            "Instala Nahimic 3 siguiendo el paso a paso del vídeo.",
+            "Reinicia el PC y abre la app de Nahimic para activar los perfiles de sonido y micrófono.",
+            "Ajusta el perfil (Música, Película, Juego, Comunicación) según el uso que le des al equipo.",
         ],
     },
     {
