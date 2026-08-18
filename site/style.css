@@ -94,6 +94,8 @@ code{background:var(--surface-2);border:1px solid var(--line);padding:2px 7px;bo
   box-shadow:0 40px 100px -20px #000}
 .hero-visual .video-frame{margin-top:0;box-shadow:0 40px 100px -20px #000,0 0 60px -20px #ed1c2440}
 .hero h1{font-size:clamp(52px,7vw,96px);line-height:.9;text-wrap:balance;text-transform:uppercase;font-style:normal;letter-spacing:-4px}
+/* páginas de artículo (herramientas/guías): títulos SEO largos, letra más razonable que el hero de home */
+.article-hero h1{font-size:clamp(30px,3.6vw,52px);line-height:1.05;letter-spacing:-1.5px;text-transform:none}
 .eyebrow{text-transform:uppercase;color:#c8ccd3;font-size:11px;font-weight:700;letter-spacing:2px;margin:0 0 4px;font-family:var(--font-display)}
 .eyebrow span{display:inline-block;width:22px;height:2px;background:var(--red);vertical-align:middle;margin-right:8px}
 .hero .lead{font-size:clamp(1.1rem,1.7vw,1.35rem);max-width:600px;margin:16px 0 26px}

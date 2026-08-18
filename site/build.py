@@ -110,6 +110,25 @@ def related_tools(current):
       <div class="grid">{cards}</div>
     </section>'''
 
+BRAND_SLUGS = [
+    "usb-kingston-100g3-danada", "usb-kingston-101g2-danada", "usb-kingston-exodia-danada",
+    "usb-adata-danada", "usb-verbatim-danada",
+]
+
+def brand_cards():
+    by_slug = {t["slug"]: t for t in TOOLS}
+    cards = ""
+    for slug in BRAND_SLUGS:
+        t = by_slug.get(slug)
+        if not t:
+            continue
+        cards += f'''<a class="card" href="/{t['slug']}">
+          {_tool_thumb(t)}
+          <h3>{html.escape(t['brand'])}</h3>
+          <p>{html.escape(t['intro'][:90])}…</p>
+          <span class="go">Ver solución →</span></a>\n'''
+    return cards
+
 def next_steps_box(current):
     """Enlaces contextuales de 'siguiente paso' — misma idea que un sitio con buen
     enlazado interno: si esto no resolvió el problema, a dónde ir después."""
@@ -468,7 +487,7 @@ def tool_page(t):
     lower_video = "" if (has_video and not has_img) else video("🎥 Vídeotutoriales", t.get("playlist"), t.get("video_id"))
     body = f'''
   <article class="tool reveal">
-    <section class="hero" style="padding:0 0 30px">
+    <section class="hero article-hero" style="padding:0 0 30px">
       <div class="hero-layout{' no-visual' if not hero_visual else ''}">
         <div class="hero-copy reveal">
           <nav class="crumbs"><a href="/">Inicio</a> › {html.escape(t['brand'])}</nav>
@@ -609,6 +628,11 @@ def home():
        directo a la solución de tu caso exacto.</p>
     <p class="cta" style="margin-top:22px"><a class="btn" href="/herramientas">Ver todas las herramientas ({len(TOOLS)}) →</a></p>
     </div>
+  </section>
+  <section class="grid-wrap reveal">
+    <h2>¿Qué marca es tu USB dañada?</h2>
+    <p class="lead">Cada fabricante tiene sus propios problemas típicos y su propia solución. Elige tu marca:</p>
+    <div class="grid">{brand_cards()}</div>
   </section>
   {testimonials_marquee()}'''
     faq_pairs = [

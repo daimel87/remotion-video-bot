@@ -403,3 +403,98 @@ TOOLS.append({
         "Vuelve a formatear en Windows una vez reparada — ahora sí debería completarse sin errores.",
     ],
 })
+
+# ---- Páginas por marca ("¿Qué marca es tu USB dañada?") ----
+TOOLS.append({
+    "slug": "usb-kingston-100g3-danada",
+    "title": "USB Kingston DataTraveler 100 G3 dañada: cómo repararla (protección contra escritura)",
+    "brand": "Kingston DataTraveler 100 G3",
+    "url": None,
+    "kind": "guide",
+    "video_id": "jqBkMD_LIu4",
+    "intro": "¿Tu memoria Kingston DataTraveler 100 G3 aparece protegida contra escritura o dañada y "
+             "no te deja copiar ni borrar archivos? Aquí tienes la solución específica para este "
+             "modelo, paso a paso y en vídeo.",
+    "steps": [
+        "Prueba primero quitar la protección con <strong>Diskpart</strong>: CMD como administrador → <code>diskpart</code> → <code>list disk</code> → <code>select disk N</code> → <code>attributes disk clear readonly</code>.",
+        "Si Diskpart no soluciona nada, el problema está en el <strong>controlador</strong> de la 100 G3, no en el sistema de archivos.",
+        "Identifica el chip exacto con <a href=\"/chipgenius\">ChipGenius</a> antes de descargar cualquier herramienta.",
+        "Descarga la MPTool de tu controlador específico desde esta web y ejecútala como administrador.",
+        "Mira el vídeo de abajo para verlo aplicado exactamente a la Kingston 100 G3.",
+    ],
+})
+TOOLS.append({
+    "slug": "usb-kingston-101g2-danada",
+    "title": "USB Kingston DataTraveler 101 G2 dañada: cómo repararla en 1 minuto",
+    "brand": "Kingston DataTraveler 101 G2",
+    "url": None,
+    "kind": "guide",
+    "video_id": "czdWJrfrimQ",
+    "intro": "¿Tu Kingston DataTraveler 101 G2 aparece protegida contra escritura o dejó de "
+             "reconocerse bien en Windows? Esta guía muestra el método rápido (en 1 minuto) para "
+             "este modelo específico.",
+    "steps": [
+        "Comprueba primero que no tenga un <strong>bloqueo físico</strong> lateral (algunos modelos lo traen).",
+        "Prueba <strong>Diskpart</strong>: CMD como administrador → <code>diskpart</code> → <code>list disk</code> → <code>select disk N</code> → <code>attributes disk clear readonly</code>.",
+        "Si sigue igual, identifica el controlador exacto con <a href=\"/chipgenius\">ChipGenius</a>.",
+        "Descarga la herramienta de reparación de tu controlador desde esta web y ejecútala como administrador.",
+        "Mira el vídeo de abajo: es el método de 1 minuto aplicado a la 101 G2.",
+    ],
+})
+TOOLS.append({
+    "slug": "usb-kingston-exodia-danada",
+    "title": "USB Kingston Exodia dañada: cómo repararla (protección contra escritura y no detecta)",
+    "brand": "Kingston Exodia",
+    "url": None,
+    "kind": "guide",
+    "video_id": "H_3OJrLHLKI",
+    "related_videos": [
+        {"id": "hM03q4oWwyA", "label": "Arregla Tu USB Kingston Exodia Dañada ¡Fácil y Rápido!"},
+    ],
+    "intro": "¿Tu Kingston Exodia (3.2 o cualquier versión) está protegida contra escritura, no se "
+             "deja formatear o Windows no la reconoce bien? Aquí tienes la solución específica para "
+             "este modelo, con dos vídeos distintos según tu caso.",
+    "steps": [
+        "Prueba primero <strong>Diskpart</strong>: CMD como administrador → <code>diskpart</code> → <code>list disk</code> → <code>select disk N</code> → <code>attributes disk clear readonly</code>.",
+        "Si la Exodia sigue sin dejarte escribir o directamente no la reconoce, el problema es del <strong>controlador</strong>.",
+        "Identifica el chip exacto con <a href=\"/chipgenius\">ChipGenius</a> antes de descargar nada.",
+        "Descarga la MPTool de tu controlador desde esta web y ejecútala como administrador hasta que termine en verde.",
+        "Mira los dos vídeos de abajo: el principal y una segunda solución alternativa si la primera no funciona.",
+    ],
+})
+TOOLS.append({
+    "slug": "usb-adata-danada",
+    "title": "USB Adata dañada: cómo repararla con ChipGenius (UV210 y otros modelos)",
+    "brand": "Adata",
+    "url": None,
+    "kind": "guide",
+    "video_id": "Da8VvbAqqhc",
+    "intro": "¿Tu memoria Adata (UV210 u otro modelo) está dañada, no se formatea o Windows no la "
+             "reconoce? Aquí tienes el proceso completo con ChipGenius para identificar el "
+             "controlador y repararla gratis.",
+    "steps": [
+        "Conecta la Adata directamente a un puerto trasero del PC, sin hubs ni alargadores.",
+        "Identifica el controlador exacto con <a href=\"/chipgenius\">ChipGenius</a> (VID, PID y fabricante del chip).",
+        "Descarga la MPTool correspondiente a tu controlador desde esta web.",
+        "Ejecuta la herramienta como administrador y espera a que termine en verde (OK/Pass) sin desconectar la USB.",
+        "Mira el vídeo tutorial de abajo para verlo paso a paso con una Adata real.",
+    ],
+})
+TOOLS.append({
+    "slug": "usb-verbatim-danada",
+    "title": "USB Verbatim dañada o protegida contra escritura: cómo repararla",
+    "brand": "Verbatim",
+    "url": None,
+    "kind": "guide",
+    "video_id": "Lm9Z8c-r2AA",
+    "intro": "¿Tu memoria Verbatim aparece protegida contra escritura y no te deja copiar ni borrar "
+             "archivos? Muchas Verbatim usan controlador Alcor Micro — aquí tienes la solución "
+             "específica paso a paso.",
+    "steps": [
+        "Comprueba si tu Verbatim tiene un <strong>interruptor físico</strong> de bloqueo lateral.",
+        "Prueba <strong>Diskpart</strong>: CMD como administrador → <code>diskpart</code> → <code>list disk</code> → <code>select disk N</code> → <code>attributes disk clear readonly</code>.",
+        "Si sigue protegida, identifica el controlador con <a href=\"/chipgenius\">ChipGenius</a> — muchas Verbatim usan chip <strong>Alcor Micro</strong>.",
+        "Descarga la herramienta de tu controlador desde esta web y ejecútala como administrador.",
+        "Mira el vídeo de abajo para el proceso completo aplicado a una Verbatim real.",
+    ],
+})
