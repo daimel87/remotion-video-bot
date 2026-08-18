@@ -194,8 +194,6 @@ MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 {SITE['monetag_push']}
 <!-- Monetag In-Page Push -->
 {SITE['monetag_inpage_push']}
-<!-- Popunder: prueba A/B — HilltopAds en vez de Monetag (temporal, 5-7 días) -->
-{SITE['hilltopads_popunder']}
 <!-- Monetag Vignette -->
 {SITE['monetag_vignette']}
 <script>
@@ -203,6 +201,13 @@ if ('serviceWorker' in navigator) {{
   navigator.serviceWorker.register('/sw.js').catch(function(){{}});
 }}
 </script>'''
+
+HILLTOPADS_TEST = f'''
+<!-- ===================================================== -->
+<!-- HilltopAds Popunder — prueba A/B aislada (reemplaza el popunder de Monetag, temporal 5-7 días) -->
+<!-- ===================================================== -->
+{SITE['hilltopads_popunder']}
+<!-- ===================== fin HilltopAds ==================== -->'''
 
 REVEAL_SCRIPT = '''<script>
 var header = document.querySelector('[data-header]');
@@ -404,6 +409,7 @@ FOOT = f'''</main>
 <script>window.__DL_URL={json.dumps(SITE['monetag_directlink'])};</script>
 {REVEAL_SCRIPT}
 {MONETAG_SITEWIDE}
+{HILLTOPADS_TEST}
 {CF_WEB_ANALYTICS}
 </body></html>'''
 
