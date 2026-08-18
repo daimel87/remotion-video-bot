@@ -412,6 +412,21 @@ TOOLS.append({
     "url": None,
     "kind": "guide",
     "video_id": "jqBkMD_LIu4",
+    "answer": "Si tu Kingston DataTraveler 100 G3 aparece protegida contra escritura o dañada, primero "
+              "intenta quitar el bloqueo con Diskpart desde CMD. Si sigue igual, el problema está en "
+              "el controlador (chip) de la memoria, no en el sistema de archivos: identifícalo con "
+              "ChipGenius y repáralo con su herramienta de fábrica (MPTool) — gratis y sin perder la garantía.",
+    "why": "Cuando la 100 G3 entra en \"modo protegido\" o deja de reconocerse bien, casi siempre es "
+           "porque el chip controlador detectó un error interno (sector dañado, corrupción de "
+           "firmware o un corte de energía durante una escritura) y se bloqueó a sí mismo en modo "
+           "solo lectura como medida de seguridad para no perder más datos. No es un problema de la "
+           "carcasa ni de la memoria flash en sí, sino del pequeño chip que la controla.",
+    "variants": [
+        "Protegida contra escritura (\"the disk is write protected\")",
+        "0 bytes o muestra una capacidad distinta a la real",
+        "Windows no la reconoce en absoluto",
+        "Pide formatear cada vez que la conectas",
+    ],
     "intro": "¿Tu memoria Kingston DataTraveler 100 G3 aparece protegida contra escritura o dañada y "
              "no te deja copiar ni borrar archivos? Aquí tienes la solución específica para este "
              "modelo, paso a paso y en vídeo.",
@@ -420,7 +435,6 @@ TOOLS.append({
         "Si Diskpart no soluciona nada, el problema está en el <strong>controlador</strong> de la 100 G3, no en el sistema de archivos.",
         "Identifica el chip exacto con <a href=\"/chipgenius\">ChipGenius</a> antes de descargar cualquier herramienta.",
         "Descarga la MPTool de tu controlador específico desde esta web y ejecútala como administrador.",
-        "Mira el vídeo de abajo para verlo aplicado exactamente a la Kingston 100 G3.",
     ],
 })
 TOOLS.append({
@@ -430,6 +444,20 @@ TOOLS.append({
     "url": None,
     "kind": "guide",
     "video_id": "czdWJrfrimQ",
+    "answer": "Para reparar una Kingston DataTraveler 101 G2 protegida contra escritura, primero prueba "
+              "quitar el bloqueo con Diskpart. Si no funciona, identifica el controlador con "
+              "ChipGenius y usa su herramienta de reparación de fábrica (MPTool) — normalmente se "
+              "resuelve en pocos minutos sin perder la carcasa ni comprar una nueva.",
+    "why": "La 101 G2 suele mostrar este error cuando el controlador detecta una inconsistencia en la "
+           "tabla de particiones o el firmware interno tras una desconexión brusca o un sector "
+           "dañado, y se pone en modo de solo lectura para proteger lo que queda de los datos. "
+           "También puede deberse a un interruptor físico de bloqueo en algunos modelos.",
+    "variants": [
+        "Protegida contra escritura",
+        "No se deja formatear",
+        "Windows la reconoce pero no puedes copiar nada",
+        "Capacidad mostrada distinta a la real",
+    ],
     "intro": "¿Tu Kingston DataTraveler 101 G2 aparece protegida contra escritura o dejó de "
              "reconocerse bien en Windows? Esta guía muestra el método rápido (en 1 minuto) para "
              "este modelo específico.",
@@ -438,7 +466,6 @@ TOOLS.append({
         "Prueba <strong>Diskpart</strong>: CMD como administrador → <code>diskpart</code> → <code>list disk</code> → <code>select disk N</code> → <code>attributes disk clear readonly</code>.",
         "Si sigue igual, identifica el controlador exacto con <a href=\"/chipgenius\">ChipGenius</a>.",
         "Descarga la herramienta de reparación de tu controlador desde esta web y ejecútala como administrador.",
-        "Mira el vídeo de abajo: es el método de 1 minuto aplicado a la 101 G2.",
     ],
 })
 TOOLS.append({
@@ -451,6 +478,20 @@ TOOLS.append({
     "related_videos": [
         {"id": "hM03q4oWwyA", "label": "Arregla Tu USB Kingston Exodia Dañada ¡Fácil y Rápido!"},
     ],
+    "answer": "Una Kingston Exodia protegida contra escritura o que Windows no reconoce bien se "
+              "soluciona primero con Diskpart (quitar el atributo de solo lectura) y, si persiste, "
+              "identificando el controlador con ChipGenius y reparándolo con su MPTool "
+              "correspondiente. Es gratis y no necesitas comprar una USB nueva.",
+    "why": "La Exodia (3.2 y otras versiones) suele bloquearse en modo de solo lectura cuando el "
+           "controlador detecta un error de escritura, un corte de energía a mitad de una "
+           "transferencia, o memoria flash con sectores empezando a fallar. El chip se protege a sí "
+           "mismo automáticamente para evitar corromper más datos de los que ya están en riesgo.",
+    "variants": [
+        "Protegida contra escritura",
+        "No se detecta / no aparece en \"Este equipo\"",
+        "Pide formatear cada vez que la conectas",
+        "Se desconecta sola durante transferencias grandes",
+    ],
     "intro": "¿Tu Kingston Exodia (3.2 o cualquier versión) está protegida contra escritura, no se "
              "deja formatear o Windows no la reconoce bien? Aquí tienes la solución específica para "
              "este modelo, con dos vídeos distintos según tu caso.",
@@ -459,7 +500,6 @@ TOOLS.append({
         "Si la Exodia sigue sin dejarte escribir o directamente no la reconoce, el problema es del <strong>controlador</strong>.",
         "Identifica el chip exacto con <a href=\"/chipgenius\">ChipGenius</a> antes de descargar nada.",
         "Descarga la MPTool de tu controlador desde esta web y ejecútala como administrador hasta que termine en verde.",
-        "Mira los dos vídeos de abajo: el principal y una segunda solución alternativa si la primera no funciona.",
     ],
 })
 TOOLS.append({
@@ -469,6 +509,20 @@ TOOLS.append({
     "url": None,
     "kind": "guide",
     "video_id": "Da8VvbAqqhc",
+    "answer": "Una Adata dañada (UV210 u otro modelo) que no se formatea o no aparece en Windows se "
+              "repara identificando primero el controlador con ChipGenius y descargando después la "
+              "herramienta de fábrica (MPTool) exacta para ese chip. Es un proceso gratuito de 10-15 "
+              "minutos que no requiere conocimientos técnicos.",
+    "why": "En las Adata este problema aparece normalmente cuando el chip controlador pierde la "
+           "referencia a la tabla de asignación de archivos (FAT) o entra en un estado de error tras "
+           "una desconexión sin \"expulsar\" la unidad. El resultado es que Windows la detecta como "
+           "hardware pero no puede leer ni escribir en ella correctamente.",
+    "variants": [
+        "No se formatea / \"Windows no pudo completar el formato\"",
+        "Aparece en formato RAW",
+        "0 bytes o capacidad falsa",
+        "Se desconecta y reconecta sola",
+    ],
     "intro": "¿Tu memoria Adata (UV210 u otro modelo) está dañada, no se formatea o Windows no la "
              "reconoce? Aquí tienes el proceso completo con ChipGenius para identificar el "
              "controlador y repararla gratis.",
@@ -477,7 +531,6 @@ TOOLS.append({
         "Identifica el controlador exacto con <a href=\"/chipgenius\">ChipGenius</a> (VID, PID y fabricante del chip).",
         "Descarga la MPTool correspondiente a tu controlador desde esta web.",
         "Ejecuta la herramienta como administrador y espera a que termine en verde (OK/Pass) sin desconectar la USB.",
-        "Mira el vídeo tutorial de abajo para verlo paso a paso con una Adata real.",
     ],
 })
 TOOLS.append({
@@ -487,6 +540,20 @@ TOOLS.append({
     "url": None,
     "kind": "guide",
     "video_id": "Lm9Z8c-r2AA",
+    "answer": "Para quitar la protección contra escritura de una Verbatim, primero revisa si tiene un "
+              "interruptor físico de bloqueo y prueba Diskpart desde CMD. Si sigue protegida, "
+              "identifica el controlador con ChipGenius — muchas Verbatim usan chip Alcor Micro — y "
+              "repáralo con su herramienta de fábrica correspondiente.",
+    "why": "Muchas memorias Verbatim usan controladores Alcor Micro, que activan un bloqueo de "
+           "solo lectura cuando detectan errores de escritura repetidos o un fallo de energía "
+           "durante una transferencia. Es un mecanismo de protección del propio chip, no un defecto "
+           "de fábrica ni un problema físico de la carcasa.",
+    "variants": [
+        "Protegida contra escritura",
+        "No deja copiar ni borrar archivos",
+        "Pide formatear y falla",
+        "Windows no la reconoce en absoluto",
+    ],
     "intro": "¿Tu memoria Verbatim aparece protegida contra escritura y no te deja copiar ni borrar "
              "archivos? Muchas Verbatim usan controlador Alcor Micro — aquí tienes la solución "
              "específica paso a paso.",
@@ -495,6 +562,5 @@ TOOLS.append({
         "Prueba <strong>Diskpart</strong>: CMD como administrador → <code>diskpart</code> → <code>list disk</code> → <code>select disk N</code> → <code>attributes disk clear readonly</code>.",
         "Si sigue protegida, identifica el controlador con <a href=\"/chipgenius\">ChipGenius</a> — muchas Verbatim usan chip <strong>Alcor Micro</strong>.",
         "Descarga la herramienta de tu controlador desde esta web y ejecútala como administrador.",
-        "Mira el vídeo de abajo para el proceso completo aplicado a una Verbatim real.",
     ],
 })

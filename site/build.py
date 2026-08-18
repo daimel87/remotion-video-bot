@@ -474,7 +474,12 @@ def tool_page(t):
     schema = howto_schema(t['title'], t['steps']) + faq_schema(faq_pairs) + video_ld
     has_img = bool(t.get("img"))
     has_video = bool(t.get("playlist") or t.get("video_id"))
-    if has_img:
+    has_answer = bool(t.get("answer"))  # páginas "¿qué marca es tu USB?": respuesta directa + video como último recurso
+
+    if has_answer:
+        # SEO answer-first: sin imagen/video en el hero, respuesta directa arriba para featured snippet.
+        hero_visual = ""
+    elif has_img:
         hero_visual = f'<img src="{t["img"]}" alt="Captura real de {html.escape(t["brand"])} en uso" loading="lazy">'
     elif has_video:
         src = f"https://www.youtube.com/embed/{t['video_id']}" if t.get("video_id") else \
@@ -484,7 +489,27 @@ def tool_page(t):
           allowfullscreen></iframe></div>'''
     else:
         hero_visual = ""
-    lower_video = "" if (has_video and not has_img) else video("🎥 Vídeotutoriales", t.get("playlist"), t.get("video_id"))
+    lower_video = "" if (has_video and not has_img and not has_answer) else video("🎥 Vídeotutoriales", t.get("playlist"), t.get("video_id"))
+
+    why_block = ""
+    if t.get("why"):
+        why_block = f'''<h2>¿Por qué sucede esto?</h2>
+    <p>{t["why"]}</p>'''
+
+    variants_block = ""
+    if t.get("variants"):
+        items = "\n".join(f"<li>✅ {html.escape(v)}</li>" for v in t["variants"])
+        variants_block = f'''<h2>Variantes de este problema</h2>
+    <p>Este error puede presentarse de varias formas — si ves cualquiera de estas, la causa y la solución son las mismas:</p>
+    <ul class="check-list">{items}</ul>'''
+
+    fallback_video = ""
+    if has_answer and has_video:
+        fallback_video = f'''<h2>¿Nada de esto funcionó? Mira el vídeo paso a paso</h2>
+    <p>Si los pasos de texto no resolvieron tu caso, este vídeo muestra el proceso completo en tiempo real, útil para ver detalles que en texto pueden pasar desapercibidos.</p>
+    {video("🎥 Vídeotutoriales", t.get("playlist"), t.get("video_id"))}'''
+
+    lead_text = t["answer"] if has_answer else t['intro']
     body = f'''
   <article class="tool reveal">
     <section class="hero article-hero" style="padding:0 0 30px">
@@ -492,15 +517,18 @@ def tool_page(t):
         <div class="hero-copy reveal">
           <nav class="crumbs"><a href="/">Inicio</a> › {html.escape(t['brand'])}</nav>
           <h1>{html.escape(t['title'])}</h1>
-          <p class="lead">{t['intro']}</p>
+          <p class="lead">{lead_text}</p>
         </div>
         {f'<div class="hero-visual reveal">{hero_visual}</div>' if hero_visual else ''}
       </div>
     </section>
+    {why_block}
+    {variants_block}
     <h2>{steps_title}</h2>
     <ol class="steps">{steps}</ol>
-    {lower_video}
+    {"" if has_answer else lower_video}
     {download}
+    {fallback_video}
     {related_videos_block(t)}
     {faq}
     <p class="cta">📺 Más tutoriales en

@@ -36,25 +36,47 @@
 <main>
   <article class="tool reveal">
     <section class="hero article-hero" style="padding:0 0 30px">
-      <div class="hero-layout">
+      <div class="hero-layout no-visual">
         <div class="hero-copy reveal">
           <nav class="crumbs"><a href="/">Inicio</a> › Kingston DataTraveler 101 G2</nav>
           <h1>USB Kingston DataTraveler 101 G2 dañada: cómo repararla en 1 minuto</h1>
-          <p class="lead">¿Tu Kingston DataTraveler 101 G2 aparece protegida contra escritura o dejó de reconocerse bien en Windows? Esta guía muestra el método rápido (en 1 minuto) para este modelo específico.</p>
+          <p class="lead">Para reparar una Kingston DataTraveler 101 G2 protegida contra escritura, primero prueba quitar el bloqueo con Diskpart. Si no funciona, identifica el controlador con ChipGenius y usa su herramienta de reparación de fábrica (MPTool) — normalmente se resuelve en pocos minutos sin perder la carcasa ni comprar una nueva.</p>
         </div>
-        <div class="hero-visual reveal"><div class="video-frame"><iframe src="https://www.youtube.com/embed/czdWJrfrimQ" title="Kingston DataTraveler 101 G2" loading="lazy"
-          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe></div></div>
+        
       </div>
     </section>
+    <h2>¿Por qué sucede esto?</h2>
+    <p>La 101 G2 suele mostrar este error cuando el controlador detecta una inconsistencia en la tabla de particiones o el firmware interno tras una desconexión brusca o un sector dañado, y se pone en modo de solo lectura para proteger lo que queda de los datos. También puede deberse a un interruptor físico de bloqueo en algunos modelos.</p>
+    <h2>Variantes de este problema</h2>
+    <p>Este error puede presentarse de varias formas — si ves cualquiera de estas, la causa y la solución son las mismas:</p>
+    <ul class="check-list"><li>✅ Protegida contra escritura</li>
+<li>✅ No se deja formatear</li>
+<li>✅ Windows la reconoce pero no puedes copiar nada</li>
+<li>✅ Capacidad mostrada distinta a la real</li></ul>
     <h2>Pasos a seguir</h2>
     <ol class="steps"><li>Comprueba primero que no tenga un <strong>bloqueo físico</strong> lateral (algunos modelos lo traen).</li>
 <li>Prueba <strong>Diskpart</strong>: CMD como administrador → <code>diskpart</code> → <code>list disk</code> → <code>select disk N</code> → <code>attributes disk clear readonly</code>.</li>
 <li>Si sigue igual, identifica el controlador exacto con <a href="/chipgenius">ChipGenius</a>.</li>
-<li>Descarga la herramienta de reparación de tu controlador desde esta web y ejecútala como administrador.</li>
-<li>Mira el vídeo de abajo: es el método de 1 minuto aplicado a la 101 G2.</li></ol>
+<li>Descarga la herramienta de reparación de tu controlador desde esta web y ejecútala como administrador.</li></ol>
     
     
+    <h2>¿Nada de esto funcionó? Mira el vídeo paso a paso</h2>
+    <p>Si los pasos de texto no resolvieron tu caso, este vídeo muestra el proceso completo en tiempo real, útil para ver detalles que en texto pueden pasar desapercibidos.</p>
+    <section class="video-tut reveal">
+      <h2>🎥 Vídeotutoriales</h2>
+      <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
+      <div class="video-frame">
+        <iframe src="https://www.youtube.com/embed/czdWJrfrimQ"
+          title="Tutoriales de reparación USB" loading="lazy"
+          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <div class="video-cta-row">
+        <a class="btn ghost" href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">🔔 Suscribirse al canal</a>
+        <a class="btn cta-ebook" href="/ir/ebook">🔥 Comprar el curso</a>
+        <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App</a>
+      </div>
+    </section>
     
     
     <section class="faq reveal">
@@ -110,7 +132,7 @@
           <p>¿Tu memoria Verbatim aparece protegida contra escritura y no te deja copiar ni borrar arch…</p>
           <span class="go">Ver y descargar →</span></a></div>
     </section>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "HowTo", "name": "USB Kingston DataTraveler 101 G2 dañada: cómo repararla en 1 minuto", "step": [{"@type": "HowToStep", "position": 1, "text": "Comprueba primero que no tenga un bloqueo físico lateral (algunos modelos lo traen)."}, {"@type": "HowToStep", "position": 2, "text": "Prueba Diskpart: CMD como administrador → diskpart → list disk → select disk N → attributes disk clear readonly."}, {"@type": "HowToStep", "position": 3, "text": "Si sigue igual, identifica el controlador exacto con ChipGenius."}, {"@type": "HowToStep", "position": 4, "text": "Descarga la herramienta de reparación de tu controlador desde esta web y ejecútala como administrador."}, {"@type": "HowToStep", "position": 5, "text": "Mira el vídeo de abajo: es el método de 1 minuto aplicado a la 101 G2."}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Es gratis?", "acceptedAnswer": {"@type": "Answer", "text": "Sí, totalmente gratis. Sigue los pasos y mira los vídeos de esta página."}}, {"@type": "Question", "name": "¿Necesito conocimientos técnicos?", "acceptedAnswer": {"@type": "Answer", "text": "No. Los tutoriales están explicados paso a paso para cualquier usuario."}}, {"@type": "Question", "name": "¿Y si sigo con problemas?", "acceptedAnswer": {"@type": "Answer", "text": "Identifica el controlador de tu USB con ChipGenius y usa la herramienta de reparación correspondiente de esta web."}}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoObject", "name": "USB Kingston DataTraveler 101 G2 dañada: cómo repararla en 1 minuto", "description": "¿Tu Kingston DataTraveler 101 G2 aparece protegida contra escritura o dejó de reconocerse bien en Windows? Esta guía muestra el método rápido (en 1 minuto) para este modelo específico.", "thumbnailUrl": "https://i.ytimg.com/vi/czdWJrfrimQ/hqdefault.jpg", "embedUrl": "https://www.youtube.com/embed/czdWJrfrimQ"}</script></main>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "HowTo", "name": "USB Kingston DataTraveler 101 G2 dañada: cómo repararla en 1 minuto", "step": [{"@type": "HowToStep", "position": 1, "text": "Comprueba primero que no tenga un bloqueo físico lateral (algunos modelos lo traen)."}, {"@type": "HowToStep", "position": 2, "text": "Prueba Diskpart: CMD como administrador → diskpart → list disk → select disk N → attributes disk clear readonly."}, {"@type": "HowToStep", "position": 3, "text": "Si sigue igual, identifica el controlador exacto con ChipGenius."}, {"@type": "HowToStep", "position": 4, "text": "Descarga la herramienta de reparación de tu controlador desde esta web y ejecútala como administrador."}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Es gratis?", "acceptedAnswer": {"@type": "Answer", "text": "Sí, totalmente gratis. Sigue los pasos y mira los vídeos de esta página."}}, {"@type": "Question", "name": "¿Necesito conocimientos técnicos?", "acceptedAnswer": {"@type": "Answer", "text": "No. Los tutoriales están explicados paso a paso para cualquier usuario."}}, {"@type": "Question", "name": "¿Y si sigo con problemas?", "acceptedAnswer": {"@type": "Answer", "text": "Identifica el controlador de tu USB con ChipGenius y usa la herramienta de reparación correspondiente de esta web."}}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoObject", "name": "USB Kingston DataTraveler 101 G2 dañada: cómo repararla en 1 minuto", "description": "¿Tu Kingston DataTraveler 101 G2 aparece protegida contra escritura o dejó de reconocerse bien en Windows? Esta guía muestra el método rápido (en 1 minuto) para este modelo específico.", "thumbnailUrl": "https://i.ytimg.com/vi/czdWJrfrimQ/hqdefault.jpg", "embedUrl": "https://www.youtube.com/embed/czdWJrfrimQ"}</script></main>
 <footer class="site-footer">
   <img class="footer-logo" src="https://yt3.googleusercontent.com/bWvxTf1d19FL1Fai23FfCnKHbYKDCEsc3Gdk4NxjxxrCmdV9OXVgLI-jD1XL3DWr4lFOtGGT7w=s160-c-k-c0x00ffffff-no-rj" alt="D-TECH USB" width="64" height="64" loading="lazy">
   <p class="footer-name">D-TECH USB — Herramientas y guías para reparar memorias USB.</p>

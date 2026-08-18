@@ -36,25 +36,47 @@
 <main>
   <article class="tool reveal">
     <section class="hero article-hero" style="padding:0 0 30px">
-      <div class="hero-layout">
+      <div class="hero-layout no-visual">
         <div class="hero-copy reveal">
           <nav class="crumbs"><a href="/">Inicio</a> › Kingston Exodia</nav>
           <h1>USB Kingston Exodia dañada: cómo repararla (protección contra escritura y no detecta)</h1>
-          <p class="lead">¿Tu Kingston Exodia (3.2 o cualquier versión) está protegida contra escritura, no se deja formatear o Windows no la reconoce bien? Aquí tienes la solución específica para este modelo, con dos vídeos distintos según tu caso.</p>
+          <p class="lead">Una Kingston Exodia protegida contra escritura o que Windows no reconoce bien se soluciona primero con Diskpart (quitar el atributo de solo lectura) y, si persiste, identificando el controlador con ChipGenius y reparándolo con su MPTool correspondiente. Es gratis y no necesitas comprar una USB nueva.</p>
         </div>
-        <div class="hero-visual reveal"><div class="video-frame"><iframe src="https://www.youtube.com/embed/H_3OJrLHLKI" title="Kingston Exodia" loading="lazy"
-          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe></div></div>
+        
       </div>
     </section>
+    <h2>¿Por qué sucede esto?</h2>
+    <p>La Exodia (3.2 y otras versiones) suele bloquearse en modo de solo lectura cuando el controlador detecta un error de escritura, un corte de energía a mitad de una transferencia, o memoria flash con sectores empezando a fallar. El chip se protege a sí mismo automáticamente para evitar corromper más datos de los que ya están en riesgo.</p>
+    <h2>Variantes de este problema</h2>
+    <p>Este error puede presentarse de varias formas — si ves cualquiera de estas, la causa y la solución son las mismas:</p>
+    <ul class="check-list"><li>✅ Protegida contra escritura</li>
+<li>✅ No se detecta / no aparece en &quot;Este equipo&quot;</li>
+<li>✅ Pide formatear cada vez que la conectas</li>
+<li>✅ Se desconecta sola durante transferencias grandes</li></ul>
     <h2>Pasos a seguir</h2>
     <ol class="steps"><li>Prueba primero <strong>Diskpart</strong>: CMD como administrador → <code>diskpart</code> → <code>list disk</code> → <code>select disk N</code> → <code>attributes disk clear readonly</code>.</li>
 <li>Si la Exodia sigue sin dejarte escribir o directamente no la reconoce, el problema es del <strong>controlador</strong>.</li>
 <li>Identifica el chip exacto con <a href="/chipgenius">ChipGenius</a> antes de descargar nada.</li>
-<li>Descarga la MPTool de tu controlador desde esta web y ejecútala como administrador hasta que termine en verde.</li>
-<li>Mira los dos vídeos de abajo: el principal y una segunda solución alternativa si la primera no funciona.</li></ol>
+<li>Descarga la MPTool de tu controlador desde esta web y ejecútala como administrador hasta que termine en verde.</li></ol>
     
     
+    <h2>¿Nada de esto funcionó? Mira el vídeo paso a paso</h2>
+    <p>Si los pasos de texto no resolvieron tu caso, este vídeo muestra el proceso completo en tiempo real, útil para ver detalles que en texto pueden pasar desapercibidos.</p>
+    <section class="video-tut reveal">
+      <h2>🎥 Vídeotutoriales</h2>
+      <p class="lead">Aprende a reparar tu memoria USB paso a paso con nuestros tutoriales.</p>
+      <div class="video-frame">
+        <iframe src="https://www.youtube.com/embed/H_3OJrLHLKI"
+          title="Tutoriales de reparación USB" loading="lazy"
+          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <div class="video-cta-row">
+        <a class="btn ghost" href="https://www.youtube.com/channel/UCLppVn9LXrHWGTsnQr2ov1g?sub_confirmation=1" target="_blank" rel="noopener">🔔 Suscribirse al canal</a>
+        <a class="btn cta-ebook" href="/ir/ebook">🔥 Comprar el curso</a>
+        <a class="btn cta-miniapp" href="/ir/miniapp">🤖 Abrir Mini App</a>
+      </div>
+    </section>
     <section class="related-videos reveal">
       <h2>Más vídeos sobre este tema</h2>
       <ul class="steps"><li><a href="https://www.youtube.com/watch?v=hM03q4oWwyA" target="_blank" rel="noopener">▶ Arregla Tu USB Kingston Exodia Dañada ¡Fácil y Rápido!</a></li></ul>
@@ -113,7 +135,7 @@
           <p>¿Tu memoria Adata (UV210 u otro modelo) está dañada, no se formatea o Windows no la recono…</p>
           <span class="go">Ver y descargar →</span></a></div>
     </section>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "HowTo", "name": "USB Kingston Exodia dañada: cómo repararla (protección contra escritura y no detecta)", "step": [{"@type": "HowToStep", "position": 1, "text": "Prueba primero Diskpart: CMD como administrador → diskpart → list disk → select disk N → attributes disk clear readonly."}, {"@type": "HowToStep", "position": 2, "text": "Si la Exodia sigue sin dejarte escribir o directamente no la reconoce, el problema es del controlador."}, {"@type": "HowToStep", "position": 3, "text": "Identifica el chip exacto con ChipGenius antes de descargar nada."}, {"@type": "HowToStep", "position": 4, "text": "Descarga la MPTool de tu controlador desde esta web y ejecútala como administrador hasta que termine en verde."}, {"@type": "HowToStep", "position": 5, "text": "Mira los dos vídeos de abajo: el principal y una segunda solución alternativa si la primera no funciona."}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Es gratis?", "acceptedAnswer": {"@type": "Answer", "text": "Sí, totalmente gratis. Sigue los pasos y mira los vídeos de esta página."}}, {"@type": "Question", "name": "¿Necesito conocimientos técnicos?", "acceptedAnswer": {"@type": "Answer", "text": "No. Los tutoriales están explicados paso a paso para cualquier usuario."}}, {"@type": "Question", "name": "¿Y si sigo con problemas?", "acceptedAnswer": {"@type": "Answer", "text": "Identifica el controlador de tu USB con ChipGenius y usa la herramienta de reparación correspondiente de esta web."}}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoObject", "name": "USB Kingston Exodia dañada: cómo repararla (protección contra escritura y no detecta)", "description": "¿Tu Kingston Exodia (3.2 o cualquier versión) está protegida contra escritura, no se deja formatear o Windows no la reconoce bien? Aquí tienes la solución específica para este modelo, con dos vídeos distintos según tu caso.", "thumbnailUrl": "https://i.ytimg.com/vi/H_3OJrLHLKI/hqdefault.jpg", "embedUrl": "https://www.youtube.com/embed/H_3OJrLHLKI"}</script></main>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "HowTo", "name": "USB Kingston Exodia dañada: cómo repararla (protección contra escritura y no detecta)", "step": [{"@type": "HowToStep", "position": 1, "text": "Prueba primero Diskpart: CMD como administrador → diskpart → list disk → select disk N → attributes disk clear readonly."}, {"@type": "HowToStep", "position": 2, "text": "Si la Exodia sigue sin dejarte escribir o directamente no la reconoce, el problema es del controlador."}, {"@type": "HowToStep", "position": 3, "text": "Identifica el chip exacto con ChipGenius antes de descargar nada."}, {"@type": "HowToStep", "position": 4, "text": "Descarga la MPTool de tu controlador desde esta web y ejecútala como administrador hasta que termine en verde."}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Es gratis?", "acceptedAnswer": {"@type": "Answer", "text": "Sí, totalmente gratis. Sigue los pasos y mira los vídeos de esta página."}}, {"@type": "Question", "name": "¿Necesito conocimientos técnicos?", "acceptedAnswer": {"@type": "Answer", "text": "No. Los tutoriales están explicados paso a paso para cualquier usuario."}}, {"@type": "Question", "name": "¿Y si sigo con problemas?", "acceptedAnswer": {"@type": "Answer", "text": "Identifica el controlador de tu USB con ChipGenius y usa la herramienta de reparación correspondiente de esta web."}}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoObject", "name": "USB Kingston Exodia dañada: cómo repararla (protección contra escritura y no detecta)", "description": "¿Tu Kingston Exodia (3.2 o cualquier versión) está protegida contra escritura, no se deja formatear o Windows no la reconoce bien? Aquí tienes la solución específica para este modelo, con dos vídeos distintos según tu caso.", "thumbnailUrl": "https://i.ytimg.com/vi/H_3OJrLHLKI/hqdefault.jpg", "embedUrl": "https://www.youtube.com/embed/H_3OJrLHLKI"}</script></main>
 <footer class="site-footer">
   <img class="footer-logo" src="https://yt3.googleusercontent.com/bWvxTf1d19FL1Fai23FfCnKHbYKDCEsc3Gdk4NxjxxrCmdV9OXVgLI-jD1XL3DWr4lFOtGGT7w=s160-c-k-c0x00ffffff-no-rj" alt="D-TECH USB" width="64" height="64" loading="lazy">
   <p class="footer-name">D-TECH USB — Herramientas y guías para reparar memorias USB.</p>
