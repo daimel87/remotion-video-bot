@@ -7,18 +7,7 @@ from data import SITE, TOOLS, FAQ_GENERIC
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
 
-HILLTOP_INPAGE_PUSH = '''<script>
-(function(acon){
-var d = document,
-    s = d.createElement('script'),
-    l = d.scripts[d.scripts.length - 1];
-s.settings = acon || {};
-s.src = "//untimely-hello.com/bJXoV.s/dsGClb0HYMWkcx/WenmH9Au-ZiUSlDkRPrTdcmzfM/zSMV2ZNHzTchtMN/zWMpzMMTzkYg4/M/Qk";
-s.async = true;
-s.referrerPolicy = 'no-referrer-when-downgrade';
-l.parentNode.insertBefore(s, l);
-})({})
-</script>'''
+HILLTOP_INPAGE_PUSH = ''  # HilltopAds desactivado (pendiente: pasar zonas de Monetag para este sitio)
 
 def write(path, content):
     full = os.path.join(DIST, path)
@@ -112,20 +101,7 @@ def field(label, id_, type_="number", placeholder="", hint="", step=None, value=
       {f'<span class="hint">{hint}</span>' if hint else ''}
     </div>'''
 
-HILLTOP_BANNER = '''<script>
-(function(oohae){
-var d = document,
-    s = d.createElement('script'),
-    l = d.scripts[d.scripts.length - 1];
-s.settings = oohae || {};
-s.src = "//untimely-hello.com/bqXcVHs.dCGDlG0rYaWmcx/_eFme9FuQZ/U/l/kUP/TCcczsMdz/Mw2/Ntj-EztVNmzoM/z/MLzDYY2gNGQb";
-s.async = true;
-s.referrerPolicy = 'no-referrer-when-downgrade';
-l.parentNode.insertBefore(s, l);
-})({})
-</script>'''
-
-AD_SLOT = f'<div class="ad-slot" style="min-height:250px;border:0;padding:0">{HILLTOP_BANNER}</div>'
+AD_SLOT = ''  # HilltopAds banner desactivado (pendiente: pasar zonas de Monetag para este sitio)
 
 DISCLAIMER = '''<div class="disclaimer-box">⚠️ This is an educational estimate, not a loan offer or
   financial advice. Actual qualification depends on your full financial profile, credit score, assets

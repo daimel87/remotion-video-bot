@@ -180,34 +180,8 @@ if ('IntersectionObserver' in window) {
 
 CF_WEB_ANALYTICS = '''<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "781aeda9a8b9465997afb0cf1e23a103"}'></script><!-- End Cloudflare Web Analytics -->'''
 
-HILLTOP_BANNER = '''<script>
-(function(ppu){
-var d = document,
-    s = d.createElement('script'),
-    l = d.scripts[d.scripts.length - 1];
-s.settings = ppu || {};
-s.src = "//untimely-hello.com/bMX.V/sXdCGylb0nYCWBcF/OeTmL9kusZ_Ual/krP_TYcJzoMEzEM-3ENvDvkcttNazmMTzFMCz/cz1sM/wB";
-s.async = true;
-s.referrerPolicy = 'no-referrer-when-downgrade';
-l.parentNode.insertBefore(s, l);
-})({})
-</script>'''
-
-AD_SLOT = f'<div class="ad-slot" style="min-height:250px;border:0;padding:0">{HILLTOP_BANNER}</div>'
-
-HILLTOP_INPAGE_PUSH = '''<!-- HilltopAds In-Page Push -->
-<script>
-(function(nowqa){
-var d = document,
-    s = d.createElement('script'),
-    l = d.scripts[d.scripts.length - 1];
-s.settings = nowqa || {};
-s.src = "//untimely-hello.com/bgX.Visxd/GKlD0/Y/WIcN/heTm/9duHZdUFlYkyP/Tqc/zsMgzuM/3PN/jFUztuN_z/MozjMaznc/2mO/Qe";
-s.async = true;
-s.referrerPolicy = 'no-referrer-when-downgrade';
-l.parentNode.insertBefore(s, l);
-})({})
-</script>'''
+AD_SLOT = ''  # HilltopAds banner desactivado (revertido a solo Monetag)
+HILLTOP_INPAGE_PUSH = ''  # HilltopAds In-Page Push desactivado (revertido a solo Monetag)
 
 MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 {SITE['monetag_push']}

@@ -196,33 +196,16 @@ MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 {SITE['monetag_inpage_push']}
 <!-- Monetag Vignette -->
 {SITE['monetag_vignette']}
+<!-- Monetag Popunder -->
+{SITE['monetag_popunder']}
 <script>
 if ('serviceWorker' in navigator) {{
   navigator.serviceWorker.register('/sw.js').catch(function(){{}});
 }}
 </script>'''
 
-HILLTOP_BANNER = '''<script>
-(function(zjrsgk){
-var d = document,
-    s = d.createElement('script'),
-    l = d.scripts[d.scripts.length - 1];
-s.settings = zjrsgk || {};
-s.src = "//untimely-hello.com/b.XDVKsjdfG/l/0kYOWAc-/OeAm/9dumZAUglTkgPFTQc_zKMRzIM/3aOBD/EUtJN/zoM/zAM/zcck4fNRQz";
-s.async = true;
-s.referrerPolicy = 'no-referrer-when-downgrade';
-l.parentNode.insertBefore(s, l);
-})({})
-</script>'''
-
-AD_SLOT = f'<div class="ad-slot" style="min-height:250px;border:0;padding:0">{HILLTOP_BANNER}</div>'
-
-HILLTOPADS_TEST = f'''
-<!-- ===================================================== -->
-<!-- HilltopAds Popunder — prueba A/B aislada (reemplaza el popunder de Monetag, temporal 5-7 días) -->
-<!-- ===================================================== -->
-{SITE['hilltopads_popunder']}
-<!-- ===================== fin HilltopAds ==================== -->'''
+AD_SLOT = ''  # HilltopAds banner desactivado (revertido a solo Monetag)
+HILLTOPADS_TEST = ''  # HilltopAds popunder A/B desactivado (revertido a solo Monetag)
 
 REVEAL_SCRIPT = '''<script>
 var header = document.querySelector('[data-header]');
