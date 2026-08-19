@@ -8,11 +8,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, "dist")
 
 def ad(slot_key, label="Publicidad"):
-    """Devuelve el código Adsterra si está configurado; si no, un placeholder."""
+    """Devuelve el código del anuncio si está configurado; si no, no muestra nada."""
     code = SITE.get(slot_key, "")
-    inner = code if code else '<span class="ad-ph">Espacio publicitario</span>'
+    if not code:
+        return ""
     return f'''<div class="ad"><span class="ad-label">{label}</span>
-      <div class="ad-inner">{inner}</div></div>'''
+      <div class="ad-inner">{code}</div></div>'''
 
 MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 {SITE.get("monetag_push", "")}
