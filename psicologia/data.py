@@ -12,13 +12,13 @@ SITE = {
     "description": "Aprende a entender la psicología femenina, reconocer las señales de una "
                    "infidelidad y mejorar tus relaciones de pareja. Artículos claros, directos y "
                    "con vídeo sobre atracción, comportamiento y confianza.",
-    # ==== HUECOS DE ADSTERRA (pega aquí tus <script> cuando crees esta web en Adsterra) ====
+    # ==== ADSTERRA: desactivado (reemplazado por Monetag) ====
     # Deja el string vacío "" para que salga un placeholder "Publicidad" mientras tanto.
-    "ad_top": "<script type=\"text/javascript\">atOptions={'key':'4cc6893bc84e7afeb251d2250af83ae9','format':'iframe','height':90,'width':728,'params':{}};</script><script type=\"text/javascript\" src=\"https://www.highperformanceformat.com/4cc6893bc84e7afeb251d2250af83ae9/invoke.js\"></script>",  # banner superior 728x90
-    "ad_incontent": "<script type=\"text/javascript\">atOptions={'key':'1f8801b7132d1e9d33588546a2917c59','format':'iframe','height':250,'width':300,'params':{}};</script><script type=\"text/javascript\" src=\"https://www.highperformanceformat.com/1f8801b7132d1e9d33588546a2917c59/invoke.js\"></script>",  # 300x250 dentro del artículo
-    "ad_native": "<script async=\"async\" data-cfasync=\"false\" src=\"https://pl30477756.effectivecpmnetwork.com/758335b1c8d20ccab8242f1ba293f8e5/invoke.js\"></script><div id=\"container-758335b1c8d20ccab8242f1ba293f8e5\"></div>",  # native banner
-    "ad_bottom": "<script type=\"text/javascript\">atOptions={'key':'4cc6893bc84e7afeb251d2250af83ae9','format':'iframe','height':90,'width':728,'params':{}};</script><script type=\"text/javascript\" src=\"https://www.highperformanceformat.com/4cc6893bc84e7afeb251d2250af83ae9/invoke.js\"></script>",  # banner inferior 728x90 (reutiliza el de arriba)
-    "ad_social": "https://pl30477871.effectivecpmnetwork.com/1c/48/1c/1c481c4927402b655ce17c73ace94c6f.js",   # social bar (script, va en todas las páginas)
+    "ad_top": "",
+    "ad_incontent": "",
+    "ad_native": "",
+    "ad_bottom": "",
+    "ad_social": "",
 
     # ==== MONETAG (zona real de seduccion.pages.dev) ====
     "monetag_push": '<script src="https://5gvci.com/act/files/tag.min.js?z=11606544" data-cfasync="false" async></script>',
