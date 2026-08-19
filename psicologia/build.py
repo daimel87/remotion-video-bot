@@ -14,6 +14,13 @@ def ad(slot_key, label="Publicidad"):
     return f'''<div class="ad"><span class="ad-label">{label}</span>
       <div class="ad-inner">{inner}</div></div>'''
 
+MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
+{SITE.get("monetag_push", "")}
+<!-- Monetag In-Page Push -->
+{SITE.get("monetag_inpage_push", "")}
+<!-- Monetag Vignette -->
+{SITE.get("monetag_vignette", "")}'''
+
 def video(yt):
     return f'''<div class="video-frame">
       <iframe src="https://www.youtube.com/embed/{yt}" title="Vídeo" loading="lazy"
@@ -42,7 +49,7 @@ def head(title, desc, canonical):
 </head>
 <body>
 <header class="site-header">
-  <a class="logo" href="/">💬 {SITE['name']}</a>
+  <a class="logo" href="/">🔥 <span>{SITE['name']}</span></a>
   <nav><a href="/">Inicio</a> <a href="{SITE['facebook']}" target="_blank" rel="noopener">Facebook</a></nav>
 </header>
 <main>'''
@@ -55,6 +62,7 @@ FOOT = f'''</main>
   <p class="disclaimer">Contenido divulgativo sobre psicología y relaciones. No sustituye la ayuda
      de un profesional. Las señales descritas son orientativas, no diagnósticos.</p>
 </footer>
+{MONETAG_SITEWIDE}
 </body></html>'''
 
 def write(path, content):
@@ -116,9 +124,9 @@ def home():
           <p>{html.escape(a['summary'][:100])}…</p></a>\n'''
     body = f'''
   <section class="hero">
-    <h1>Psicología femenina, relaciones e infidelidad</h1>
+    <h1>Psicología femenina, atracción e infidelidad</h1>
     <p class="lead">{SITE['description']}</p>
-    <a class="btn" href="{SITE['facebook']}" target="_blank" rel="noopener">📘 Síguenos en Facebook</a>
+    <a class="btn" href="{SITE['facebook']}" target="_blank" rel="noopener">🔥 Síguenos en Facebook</a>
   </section>
   {ad("ad_top")}
   <section class="grid-wrap">

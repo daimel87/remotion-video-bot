@@ -19,6 +19,11 @@ SITE = {
     "ad_native": "<script async=\"async\" data-cfasync=\"false\" src=\"https://pl30477756.effectivecpmnetwork.com/758335b1c8d20ccab8242f1ba293f8e5/invoke.js\"></script><div id=\"container-758335b1c8d20ccab8242f1ba293f8e5\"></div>",  # native banner
     "ad_bottom": "<script type=\"text/javascript\">atOptions={'key':'4cc6893bc84e7afeb251d2250af83ae9','format':'iframe','height':90,'width':728,'params':{}};</script><script type=\"text/javascript\" src=\"https://www.highperformanceformat.com/4cc6893bc84e7afeb251d2250af83ae9/invoke.js\"></script>",  # banner inferior 728x90 (reutiliza el de arriba)
     "ad_social": "https://pl30477871.effectivecpmnetwork.com/1c/48/1c/1c481c4927402b655ce17c73ace94c6f.js",   # social bar (script, va en todas las páginas)
+
+    # ==== MONETAG (pega aquí los scripts de TU zona para seduccion.pages.dev) ====
+    "monetag_push": "",           # <script src="https://XXXX.com/act/files/tag.min.js?z=ZONEID" ...>
+    "monetag_inpage_push": "",    # in-page push
+    "monetag_vignette": "",       # vignette / popunder
 }
 
 # slug, title, cat, summary, yt (id de YouTube), body=[(subtítulo,[párrafos])]
