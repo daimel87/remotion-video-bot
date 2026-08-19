@@ -90,21 +90,32 @@ def write(path, content):
     with open(full, "w", encoding="utf-8") as f:
         f.write(content)
 
-def related(current):
+SLUGS = [a["slug"] for a in ARTICLES]
+
+def _pick(current, offset):
+    """Elige otro artículo distinto al actual, rotando por índice para repartir los
+    enlaces entre todos (evita que los primeros artículos acumulen todo el link juice)."""
+    i = SLUGS.index(current["slug"])
+    j = (i + offset) % len(ARTICLES)
+    if ARTICLES[j]["slug"] == current["slug"]:
+        j = (j + 1) % len(ARTICLES)
+    return ARTICLES[j]
+
+def related(current, n=4):
     out = ""
-    count = 0
-    for a in ARTICLES:
-        if a["slug"] == current["slug"]:
-            continue
+    for k in range(1, n + 1):
+        a = _pick(current, k)
         out += f'<a class="rel-card" href="/{a["slug"]}.html"><h4>{html.escape(a["title"])}</h4></a>\n'
-        count += 1
-        if count == 4:
-            break
     return out
+
+def inline_link(current, offset, cta):
+    a = _pick(current, offset)
+    return f'''<div class="inline-link"><a href="/{a['slug']}.html">{cta} <strong>{html.escape(a['title'])}</strong> →</a></div>'''
 
 # ---------- Página de artículo ----------
 def article_page(a):
     canonical = f"{SITE['domain']}/{a['slug']}.html"
+    n_sections = len(a["body"])
     sections = ""
     for i, (sub, paras) in enumerate(a["body"]):
         sections += f"<h2>{html.escape(sub)}</h2>\n"
@@ -113,6 +124,11 @@ def article_page(a):
         # anuncio native tras la 2ª sección (en pleno contenido = más CPM)
         if i == 1:
             sections += ad("ad_native", "Publicidad")
+        # enlaces internos "telaraña": uno temprano y otro cerca del final, a artículos distintos
+        if i == 0:
+            sections += inline_link(a, 3, "👉 Antes de seguir, te interesa:")
+        elif i == max(n_sections - 2, 1) and n_sections > 2:
+            sections += inline_link(a, 7, "🔎 Relacionado:")
     body = f'''
   <article class="post">
     <nav class="crumbs"><a href="/">Inicio</a> › <span>{html.escape(a['cat'])}</span></nav>
