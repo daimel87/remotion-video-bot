@@ -124,9 +124,16 @@ def home():
           <p>{html.escape(a['summary'][:100])}…</p></a>\n'''
     body = f'''
   <section class="hero">
-    <h1>Psicología femenina, atracción e infidelidad</h1>
-    <p class="lead">{SITE['description']}</p>
-    <a class="btn" href="{SITE['facebook']}" target="_blank" rel="noopener">🔥 Síguenos en Facebook</a>
+    <div class="hero-text">
+      <h1>Psicología femenina, atracción e infidelidad</h1>
+      <p class="lead">{SITE['description']}</p>
+      <a class="btn" href="{SITE['facebook']}" target="_blank" rel="noopener">🔥 Síguenos en Facebook</a>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-stat"><span class="hero-stat-num">{len(ARTICLES)}</span><span class="hero-stat-label">Artículos con vídeo</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">100%</span><span class="hero-stat-label">Basado en psicología real</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">0</span><span class="hero-stat-label">Juicios, solo señales</span></div>
+    </div>
   </section>
   {ad("ad_top")}
   <section class="grid-wrap">
