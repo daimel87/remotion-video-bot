@@ -20,10 +20,10 @@ SITE = {
     "ad_bottom": "<script type=\"text/javascript\">atOptions={'key':'4cc6893bc84e7afeb251d2250af83ae9','format':'iframe','height':90,'width':728,'params':{}};</script><script type=\"text/javascript\" src=\"https://www.highperformanceformat.com/4cc6893bc84e7afeb251d2250af83ae9/invoke.js\"></script>",  # banner inferior 728x90 (reutiliza el de arriba)
     "ad_social": "https://pl30477871.effectivecpmnetwork.com/1c/48/1c/1c481c4927402b655ce17c73ace94c6f.js",   # social bar (script, va en todas las páginas)
 
-    # ==== MONETAG (pega aquí los scripts de TU zona para seduccion.pages.dev) ====
-    "monetag_push": "",           # <script src="https://XXXX.com/act/files/tag.min.js?z=ZONEID" ...>
-    "monetag_inpage_push": "",    # in-page push
-    "monetag_vignette": "",       # vignette / popunder
+    # ==== MONETAG (zona real de seduccion.pages.dev) ====
+    "monetag_push": '<script src="https://5gvci.com/act/files/tag.min.js?z=11606544" data-cfasync="false" async></script>',
+    "monetag_inpage_push": "",    # pendiente: pega aquí el in-page push si lo tienes
+    "monetag_vignette": "",       # pendiente: pega aquí el vignette/popunder si lo tienes
 }
 
 # slug, title, cat, summary, yt (id de YouTube), body=[(subtítulo,[párrafos])]

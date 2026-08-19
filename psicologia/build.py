@@ -19,7 +19,12 @@ MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 <!-- Monetag In-Page Push -->
 {SITE.get("monetag_inpage_push", "")}
 <!-- Monetag Vignette -->
-{SITE.get("monetag_vignette", "")}'''
+{SITE.get("monetag_vignette", "")}
+<script>
+if ('serviceWorker' in navigator) {{
+  navigator.serviceWorker.register('/sw_2.js').catch(function(){{}});
+}}
+</script>'''
 
 def video(yt):
     return f'''<div class="video-frame">
@@ -62,6 +67,18 @@ FOOT = f'''</main>
   <p class="disclaimer">Contenido divulgativo sobre psicología y relaciones. No sustituye la ayuda
      de un profesional. Las señales descritas son orientativas, no diagnósticos.</p>
 </footer>
+<script>
+(function(){{
+  var els = document.querySelectorAll('.card');
+  if (!els.length) return;
+  var io = new IntersectionObserver(function(entries){{
+    entries.forEach(function(e){{
+      if (e.isIntersecting) {{ e.target.classList.add('in-view'); io.unobserve(e.target); }}
+    }});
+  }}, {{threshold: .12}});
+  els.forEach(function(el){{ io.observe(el); }});
+}})();
+</script>
 {MONETAG_SITEWIDE}
 </body></html>'''
 
@@ -172,6 +189,7 @@ def main():
         shutil.rmtree(DIST)
     os.makedirs(DIST)
     shutil.copy(os.path.join(HERE, "style.css"), os.path.join(DIST, "style.css"))
+    shutil.copy(os.path.join(HERE, "sw_2.js"), os.path.join(DIST, "sw_2.js"))
     home(); legal(); seo_files()
     for a in ARTICLES:
         article_page(a)
