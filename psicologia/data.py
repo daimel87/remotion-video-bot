@@ -23,8 +23,8 @@ SITE = {
     # ==== MONETAG (zona real de seduccion.pages.dev) ====
     "monetag_push": '<script src="https://5gvci.com/act/files/tag.min.js?z=11606557" data-cfasync="false" async></script>',
     "monetag_popunder": "<script>(function(s){s.dataset.zone='11606556',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
-    "monetag_inpage_push": "",    # pendiente: pega aquí el in-page push si lo tienes
-    "monetag_vignette": "",       # pendiente: pega aquí el vignette banner si lo tienes
+    "monetag_inpage_push": "<script>(function(s){s.dataset.zone='11606558',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
+    "monetag_vignette": "<script>(function(s){s.dataset.zone='11606559',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
 }
 
 # slug, title, cat, summary, yt (id de YouTube), body=[(subtítulo,[párrafos])]
