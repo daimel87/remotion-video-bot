@@ -16,13 +16,15 @@ def ad(slot_key, label="Publicidad"):
 
 MONETAG_SITEWIDE = f'''<!-- Monetag Push -->
 {SITE.get("monetag_push", "")}
+<!-- Monetag Popunder -->
+{SITE.get("monetag_popunder", "")}
 <!-- Monetag In-Page Push -->
 {SITE.get("monetag_inpage_push", "")}
 <!-- Monetag Vignette -->
 {SITE.get("monetag_vignette", "")}
 <script>
 if ('serviceWorker' in navigator) {{
-  navigator.serviceWorker.register('/sw_2.js').catch(function(){{}});
+  navigator.serviceWorker.register('/sw_3.js').catch(function(){{}});
 }}
 </script>'''
 
@@ -189,7 +191,7 @@ def main():
         shutil.rmtree(DIST)
     os.makedirs(DIST)
     shutil.copy(os.path.join(HERE, "style.css"), os.path.join(DIST, "style.css"))
-    shutil.copy(os.path.join(HERE, "sw_2.js"), os.path.join(DIST, "sw_2.js"))
+    shutil.copy(os.path.join(HERE, "sw_3.js"), os.path.join(DIST, "sw_3.js"))
     home(); legal(); seo_files()
     for a in ARTICLES:
         article_page(a)
