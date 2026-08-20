@@ -213,23 +213,28 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('visible'); });
 }
 
-/* Direct Link al hacer clic en una imagen de panel o en un botón de descarga, cada vez (sin límite).
+/* Direct Link: se dispara una sola vez por página vista (imagen, video o botón de descarga
+   real, lo que se toque primero), se resetea solo al navegar a otra página.
    NOTA: se probó antes a propósito SIN atarlo a .download por riesgo de que el navegador bloquee
    la 2ª ventana en móvil y la descarga real no abra. Se reactivó a pedido explícito — revisar en
    móvil tras el deploy que la descarga real siga funcionando. */
 (function(){
   var DL = window.__DL_URL;
   if (!DL) return;
+  var fired = false;
+  function fire(){
+    if (fired) return;
+    fired = true;
+    window.open(DL, '_blank', 'noopener');
+  }
   document.querySelectorAll('.feature-screen').forEach(function(el){
     el.style.cursor = 'pointer';
-    el.addEventListener('click', function(){
-      window.open(DL, '_blank', 'noopener');
-    });
+    el.addEventListener('click', fire);
   });
   document.addEventListener('click', function(e){
     var btn = e.target.closest('.download');
     if (!btn || btn.classList.contains('no-dl')) return;
-    window.open(DL, '_blank', 'noopener');
+    fire();
   }, true);
 })();
 </script>
