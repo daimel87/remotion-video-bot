@@ -142,6 +142,7 @@ DL_SCRIPT = f'''<script>window.__DL_URL={json.dumps(SITE['monetag_directlink'])}
     if (!e.target.closest('.card, .card-thumb, .hero-visual, .video-frame, .download')) return;
     fired = true;
     window.open(DL, '_blank', 'noopener');
+    window.focus();
   }}, true);
 }})();
 </script>'''
