@@ -132,19 +132,12 @@ def _inline_js(script_tag):
 
 DL_SCRIPT = f'''<script>window.__DL_URL={json.dumps(SITE['monetag_directlink'])};</script>
 <script>
-/* Direct Link when a card/thumbnail/hero video is clicked — once every 24h per visitor */
+/* Direct Link when a card/thumbnail/hero video is clicked — every click, no cooldown */
 (function(){{
   var DL = window.__DL_URL;
   if (!DL) return;
-  var KEY = 'dl_img_shown_at';
-  var COOLDOWN_MS = 24 * 60 * 60 * 1000;
   document.addEventListener('click', function(e){{
-    if (!e.target.closest('.card, .card-thumb, .hero-visual, .video-frame')) return;
-    try {{
-      var last = parseInt(localStorage.getItem(KEY) || '0', 10);
-      if (Date.now() - last < COOLDOWN_MS) return;
-      localStorage.setItem(KEY, String(Date.now()));
-    }} catch(err){{}}
+    if (!e.target.closest('.card, .card-thumb, .hero-visual, .video-frame, .download')) return;
     window.open(DL, '_blank', 'noopener');
   }}, true);
 }})();

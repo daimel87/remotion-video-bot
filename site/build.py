@@ -239,27 +239,24 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('visible'); });
 }
 
-/* Direct Link al hacer clic en una imagen de panel — una sola vez por visitante.
-   NOTA: los botones de descarga (.audio-download, .download) NO llevan este JS a propósito:
-   Monetag ya dispara su propio popunder en cualquier clic de la página, y forzar una segunda
-   ventana encima rompía la navegación en móvil (el navegador bloquea la 2ª/3ª ventana y la
-   descarga real nunca abre). Son links normales, Monetag los monetiza solo. */
+/* Direct Link al hacer clic en una imagen de panel o en un botón de descarga, cada vez (sin límite).
+   NOTA: se probó antes a propósito SIN atarlo a .download por riesgo de que el navegador bloquee
+   la 2ª ventana en móvil y la descarga real no abra. Se reactivó a pedido explícito — revisar en
+   móvil tras el deploy que la descarga real siga funcionando. */
 (function(){
   var DL = window.__DL_URL;
   if (!DL) return;
-  var KEY = 'dl_img_shown_at';
-  var COOLDOWN_MS = 24 * 60 * 60 * 1000;
   document.querySelectorAll('.feature-screen').forEach(function(el){
     el.style.cursor = 'pointer';
     el.addEventListener('click', function(){
-      try {
-        var last = parseInt(localStorage.getItem(KEY) || '0', 10);
-        if (Date.now() - last < COOLDOWN_MS) return;
-        localStorage.setItem(KEY, String(Date.now()));
-      } catch(e){}
       window.open(DL, '_blank', 'noopener');
     });
   });
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.download');
+    if (!btn || btn.classList.contains('no-dl')) return;
+    window.open(DL, '_blank', 'noopener');
+  }, true);
 })();
 </script>'''
 
@@ -432,7 +429,7 @@ def external_gate_page(link):
     <p class="lead">{html.escape(link['lead'])}</p>
     {video("🎥 Te lo explico en este vídeo", None, "o4vzo1fpsTA", cta="nav")}
     <div class="dlgate-box">
-      <a class="download" href="{link['target_url']}" rel="noopener">⬇ {html.escape(link['cta_label'])}</a>
+      <a class="download no-dl" href="{link['target_url']}" rel="noopener">⬇ {html.escape(link['cta_label'])}</a>
     </div>
   </article>'''
     write(f"ir/{link['slug']}.html", head(link['title'], link['lead'], canonical)
