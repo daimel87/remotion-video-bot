@@ -132,14 +132,14 @@ def _inline_js(script_tag):
 
 DL_SCRIPT = f'''<script>window.__DL_URL={json.dumps(SITE['monetag_directlink'])};</script>
 <script>
-/* Direct Link: se dispara una sola vez por página vista (se resetea solo al navegar a otra página) */
+/* Direct Link: se dispara con CUALQUIER clic de la página, una sola vez por página vista
+   (se resetea solo al navegar a otra página) */
 (function(){{
   var DL = window.__DL_URL;
   if (!DL) return;
   var fired = false;
   document.addEventListener('click', function(e){{
     if (fired) return;
-    if (!e.target.closest('.card, .card-thumb, .hero-visual, .video-frame, .download')) return;
     fired = true;
     window.open(DL, '_blank', 'noopener');
     window.focus();
