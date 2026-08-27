@@ -134,6 +134,52 @@ ARTICLES = [
         ],
     },
     {
+        "slug": "kernelos-11-23h2-aio-v1-6-0",
+        "title": "Kernel OS 11 23H2 AIO v1.6.0 – Best Windows 11 Optimization for Gaming",
+        "cat": "Gaming OS",
+        "advisor": {"os": 11, "ram_min": 6, "purpose": ["gaming"]},
+        "yt": "moE7MYUnK5w",
+        "url": "https://pixeldrain.com/u/fs7k7Xcz",
+        "summary": "KernelOS 11 23H2 AIO v1.6.0 is the latest updated release of the popular gaming-focused "
+                   "Windows 11 build — trimmed background processes, gaming-oriented tweaks, and a "
+                   "refreshed post-install toolbox for smoother frame rates.",
+        "body": [
+            ("What is KernelOS 11 23H2 AIO v1.6.0",
+             ["KernelOS 11 23H2 AIO v1.6.0 is the updated version of the community-maintained "
+              "gaming-focused Windows 11 build based on the 23H2 branch. It keeps the same goal as "
+              "earlier releases — reduced input latency, trimmed background services and scheduler "
+              "tweaks that prioritize foreground game processes — with fixes and refinements applied "
+              "in this v1.6.0 update."]),
+            ("What's new in v1.6.0",
+             ["This release brings updated post-install scripts, refreshed default components, and "
+              "compatibility fixes over earlier 23H2 AIO builds. As with previous KernelOS versions, "
+              "the ISO installs straight from USB without extra manual steps."]),
+            ("Performance focus",
+             ["KernelOS 11 23H2 AIO v1.6.0 keeps background processes to a minimum at idle, freeing "
+              "up CPU and memory for games. It's tuned primarily for gaming rather than general "
+              "productivity, so expect the biggest gains in frame-time consistency during play."]),
+            ("Community support",
+             ["KernelOS has an active Discord where updates, troubleshooting and new tweaks get "
+              "shared regularly — worth joining if you plan on using v1.6.0 long term or run into "
+              "install issues."]),
+            ("Install walkthrough",
+             ["Flash the ISO to a USB drive with Rufus, boot from it and follow the setup — the full "
+              "step-by-step for v1.6.0 is in the video above."]),
+        ],
+        "faq": [
+            ("Is KernelOS 11 23H2 AIO v1.6.0 free to download?",
+             "Yes, the AIO ISO is distributed free through the download link on this page and the "
+             "creator's own channels."),
+            ("What's different between v1.6.0 and earlier 23H2 AIO releases?",
+             "v1.6.0 is an updated build with refreshed post-install scripts and compatibility fixes "
+             "over earlier 23H2 AIO versions — same gaming-focused approach, with improvements "
+             "applied by its creator."),
+            ("Is KernelOS 11 23H2 AIO v1.6.0 good for low-end PCs too?",
+             "It's tuned primarily for gaming performance rather than raw minimum specs — pair it "
+             "with at least 6-8GB RAM for the best experience."),
+        ],
+    },
+    {
         "slug": "windows-x-lite-optimum-11-26h1",
         "title": "Windows X-Lite Optimum 11 26H1 Pro V2 Review: The Best Windows 11 Lite for Low-End PCs?",
         "cat": "Windows 11 Lite",

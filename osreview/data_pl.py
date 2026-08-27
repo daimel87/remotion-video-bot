@@ -181,6 +181,39 @@ ARTICLES_PL = [
         ],
     },
     {
+        "slug": "kernelos-11-23h2-aio-v1-6-0",
+        "title": "Kernel OS 11 23H2 AIO v1.6.0 – najlepsza optymalizacja Windows 11 do gier",
+        "cat": "System do gier",
+        "summary": "KernelOS 11 23H2 AIO v1.6.0 to zaktualizowana wersja popularnego buildu Windows 11 "
+                   "nastawionego na granie — ograniczone procesy w tle, tweaki pod kątem gier oraz "
+                   "odświeżony zestaw narzędzi po instalacji dla płynniejszej liczby klatek.",
+        "body": [
+            ("Czym jest KernelOS 11 23H2 AIO v1.6.0",
+             ["KernelOS 11 23H2 AIO v1.6.0 to zaktualizowana wersja utrzymywanego przez społeczność "
+              "buildu Windows 11 nastawionego na granie, opartego na gałęzi 23H2. Cel pozostaje ten sam "
+              "co we wcześniejszych wydaniach — zmniejszone opóźnienia wejścia, ograniczone usługi w tle "
+              "oraz tweaki harmonogramu priorytetyzujące procesy gier na pierwszym planie — z "
+              "poprawkami i udoskonaleniami wprowadzonymi w aktualizacji v1.6.0."]),
+            ("Co nowego w v1.6.0",
+             ["To wydanie wprowadza zaktualizowane skrypty post-install, odświeżone domyślne "
+              "komponenty oraz poprawki kompatybilności względem wcześniejszych buildów 23H2 AIO. "
+              "Podobnie jak wcześniejsze wersje KernelOS, plik ISO instaluje się od razu z USB bez "
+              "dodatkowych kroków."]),
+            ("Nastawienie na wydajność",
+             ["KernelOS 11 23H2 AIO v1.6.0 utrzymuje minimalną liczbę procesów w tle w spoczynku, "
+              "zwalniając CPU i pamięć dla gier. Jest dostrojony przede wszystkim pod kątem grania, a "
+              "nie ogólnej produktywności, więc największych korzyści można się spodziewać w "
+              "stabilności czasu klatek podczas gry."]),
+            ("Wsparcie społeczności",
+             ["KernelOS ma aktywny serwer Discord, na którym regularnie udostępniane są aktualizacje, "
+              "rozwiązywanie problemów i nowe tweaki — warto dołączyć, jeśli planujesz korzystać z "
+              "v1.6.0 długoterminowo lub napotkasz problemy z instalacją."]),
+            ("Poradnik instalacji",
+             ["Nagraj plik ISO na dysk USB za pomocą Rufus, uruchom komputer z niego i postępuj zgodnie "
+              "z instalacją — pełny poradnik krok po kroku dla v1.6.0 znajdziesz w filmie powyżej."]),
+        ],
+    },
+    {
         "slug": "windows-x-lite-optimum-11-26h1",
         "title": "Windows X-Lite Optimum 11 26H1 Pro V2 — recenzja: najlepszy lekki Windows 11 dla słabych komputerów?",
         "cat": "Windows 11 Lite",
