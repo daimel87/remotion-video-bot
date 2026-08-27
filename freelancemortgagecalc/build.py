@@ -552,6 +552,7 @@ def seo_files():
     write("sitemap", f'<?xml version="1.0" encoding="UTF-8"?>\n'
           f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{items}\n</urlset>')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['domain']}/sitemap\n")
+    write("_headers", "/sitemap\n  Content-Type: application/xml; charset=utf-8\n")
 
 def main():
     if os.path.exists(DIST):
