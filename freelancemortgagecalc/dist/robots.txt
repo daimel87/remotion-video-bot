@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://mortagecalculator.pages.dev/sitemap.xml
+Sitemap: https://mortagecalculator.pages.dev/sitemap
