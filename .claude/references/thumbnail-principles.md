@@ -36,6 +36,13 @@ visual promise that complements the title.
 3. **High contrast and separation.** The subject must pop off the background.
    Use a rim light, a blurred or darkened background, or a bold color the
    competitors are not using. It has to survive being shrunk to a sidebar.
+   This applies to EVERY element that carries meaning, not just the main
+   subject: on a dark/black background, a second object (an icon, a villain
+   element, a "what killed it" symbol) rendered in dark gray or black-on-black
+   disappears at 120 px even when the main subject (e.g. a shiny disc) still
+   pops. Any element the concept depends on to make its point must get its own
+   contrasting color (red, acid green, bright cyan) or a bright rim light, not
+   just texture or shading, or drop it from the concept.
 4. **At most 3 to 4 words of text**, and words the title does NOT also say. Big,
    legible, high-contrast type. The text adds the angle the image cannot show.
 5. **Reads at 120 pixels.** Before approving anything, shrink it to thumbnail
