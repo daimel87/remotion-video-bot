@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crónicas Ilustradas — Generador de Título/Miniatura/Descripción</title>
+<style>
+  :root{
+    --bg:#0e0f12; --panel:#17181c; --panel2:#1e2025; --border:#2a2c33;
+    --text:#e9e9ee; --muted:#9a9ca6; --accent:#f5c518; --accent2:#4fd1c5;
+    --ok:#3ecf6e; --warn:#e0a83e; --bad:#e5484d;
+    --mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.45}
+  header{padding:28px 24px 16px;border-bottom:1px solid var(--border)}
+  header h1{margin:0 0 6px;font-size:22px}
+  header p{margin:0;color:var(--muted);font-size:14px;max-width:760px}
+  .wrap{display:grid;grid-template-columns:400px 1fr;gap:0;min-height:calc(100vh - 96px)}
+  @media (max-width:900px){.wrap{grid-template-columns:1fr}}
+  .col{padding:20px}
+  .col-left{border-right:1px solid var(--border);background:var(--panel)}
+  label{display:block;font-size:12.5px;color:var(--muted);margin:14px 0 5px;font-weight:600;letter-spacing:.02em}
+  label small{font-weight:400;color:var(--muted)}
+  input[type=text],textarea{width:100%;background:var(--panel2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:9px 10px;font-size:14px;font-family:inherit;resize:vertical}
+  textarea{min-height:110px}
+  #transcript{min-height:180px;font-family:var(--mono);font-size:12.5px}
+  button.primary{margin-top:18px;width:100%;background:var(--accent);color:#1a1a1a;border:none;border-radius:8px;padding:12px;font-weight:700;font-size:14.5px;cursor:pointer}
+  button.primary:hover{filter:brightness(1.08)}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:4px}
+  .section{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:18px}
+  .section h2{margin:0 0 4px;font-size:15px}
+  .section .sub{color:var(--muted);font-size:12px;margin-bottom:14px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--border);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em}
+  .badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:11px;font-weight:700;margin-right:4px;white-space:nowrap}
+  .badge.ok{background:rgba(62,207,110,.15);color:var(--ok)}
+  .badge.warn{background:rgba(224,168,62,.15);color:var(--warn)}
+  .badge.bad{background:rgba(229,72,77,.15);color:var(--bad)}
+  .badge.formula{background:rgba(79,209,197,.15);color:var(--accent2)}
+  .title-lead{border:1px solid var(--accent);background:rgba(245,197,24,.06)}
+  .checklist{list-style:none;padding:0;margin:10px 0 0;font-size:12.5px}
+  .checklist li{padding:3px 0;display:flex;gap:8px;align-items:flex-start}
+  .checklist li .dot{width:16px;flex:0 0 16px;text-align:center}
+  pre.brief{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:14px;font-family:var(--mono);font-size:12px;white-space:pre-wrap;overflow-x:auto;margin:0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media (max-width:560px){.grid2{grid-template-columns:1fr}}
+  .counter{font-size:11.5px;color:var(--muted);margin-top:3px}
+  .counter.over{color:var(--bad)}
+  .empty{color:var(--muted);font-size:13px;font-style:italic}
+  .tag{display:inline-block;background:var(--panel2);border:1px solid var(--border);border-radius:5px;padding:1px 6px;font-size:11px;color:var(--muted);margin-right:5px}
+  footer{padding:16px 24px;color:var(--muted);font-size:11.5px;border-top:1px solid var(--border)}
+  a{color:var(--accent2)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Generador de Título / Miniatura / Descripción</h1>
+  <p>App standalone (HTML+JS, sin IA ni API keys, sin dependencia de Claude Code). Rellena mecánicamente las plantillas y checklists reales de las skills <span class="tag">yt-title-optimizer</span><span class="tag">yt-thumbnail-brief</span><span class="tag">yt-description-writer</span> a partir de los datos que tú le des — no adivina ni inventa el gancho por ti.</p>
+</header>
+
+<div class="wrap">
+  <div class="col col-left">
+    <label>Transcripción completa <small>(pégala con o sin timestamps [00:00:00])</small></label>
+    <textarea id="transcript" placeholder="Pega aquí la transcripción completa del video. Con un clic en Generar, la app detecta el tema, el dato/giro real, el número y los capítulos por patrones de texto (sin IA) — sin que tengas que llenar nada más."></textarea>
+
+    <button class="primary" onclick="generar()">Generar título, miniatura y descripción</button>
+    <p class="hint">Todo corre en tu navegador. Nada se envía a ningún servidor. Los campos de abajo se auto-completan al generar — revísalos y corrígelos si la detección se equivocó, luego vuelve a pulsar el botón.</p>
+
+    <details style="margin-top:18px">
+      <summary style="cursor:pointer;color:var(--muted);font-size:12.5px">Campos detectados automáticamente (editar si hace falta)</summary>
+
+      <label>Objeto / tema concreto</label>
+      <input type="text" id="tema" placeholder="se detecta al generar">
+
+      <label>El dato o giro real que sorprende</label>
+      <input type="text" id="dato" placeholder="se detecta al generar">
+
+      <label>Número específico</label>
+      <input type="text" id="numero" placeholder="se detecta al generar">
+
+      <label>Rival o segundo elemento <small>(fórmula Versus)</small></label>
+      <input type="text" id="rival" placeholder="opcional">
+
+      <label>Objeto visual A (miniatura)</label>
+      <input type="text" id="objA" placeholder="se detecta al generar">
+
+      <label>Objeto visual B (miniatura)</label>
+      <input type="text" id="objB" placeholder="se detecta al generar">
+
+      <label>Texto overlay miniatura <small>(máx. 4 palabras)</small></label>
+      <input type="text" id="overlay" placeholder="se detecta al generar">
+
+      <label>Keywords secundarias <small>(opcional, coma)</small></label>
+      <input type="text" id="keywords" placeholder="ej. GPS, navegación, historia tecnología">
+
+      <label>Hashtags <small>(opcional, máx. 5, sin #)</small></label>
+      <input type="text" id="hashtags" placeholder="ej. cronicasilustradas, historia">
+    </details>
+  </div>
+
+  <div class="col">
+    <div class="section">
+      <h2>Títulos (yt-title-optimizer)</h2>
+      <div class="sub">Fórmulas Y1/Y4/Y5/Y6/Y11 de <code>hook-formulas.md</code>, corridas contra <code>title-checklist.md</code> real.</div>
+      <div id="out-titles"><p class="empty">Completa los campos y pulsa "Generar".</p></div>
+    </div>
+
+    <div class="section">
+      <h2>Miniatura (yt-thumbnail-brief)</h2>
+      <div class="sub">Plantilla exacta de <code>brief-template.md</code>, con el checklist de los 5 no-negociables de <code>thumbnail-principles.md</code>.</div>
+      <div id="out-thumb"><p class="empty">—</p></div>
+    </div>
+
+    <div class="section">
+      <h2>Descripción SEO (yt-description-writer)</h2>
+      <div class="sub">Esqueleto de <code>description-template.md</code>. Capítulos auto-extraídos de los timestamps del transcript si los pegaste.</div>
+      <div id="out-desc"><p class="empty">—</p></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Reglas embebidas literalmente de las skills instaladas en <code>.claude/skills/yt-title-optimizer</code>, <code>yt-thumbnail-brief</code> y <code>yt-description-writer</code> (y su carpeta compartida <code>.claude/references/</code>). Ver <code>THIRD_PARTY_NOTICE.md</code> del proyecto para el origen de esas skills (MIT, sergebulaev/youtube-skills).
+</footer>
+
+<script>
+// ---------- persistence ----------
+const FIELDS = ['tema','dato','numero','rival','objA','objB','overlay','keywords','hashtags'];
+window.addEventListener('DOMContentLoaded', () => {
+  FIELDS.forEach(id => { const v = localStorage.getItem('gtm_'+id); if (v) document.getElementById(id).value = v; });
+});
+function persist(){ FIELDS.forEach(id => localStorage.setItem('gtm_'+id, document.getElementById(id).value)); }
+
+// ---------- helpers ----------
+function esc(s){ return (s||'').replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c])); }
+function countWords(s){ return (s||'').trim().split(/\s+/).filter(Boolean).length; }
+function hasEmDash(s){ return /—|–|--/.test(s||''); }
+function containsCI(haystack, needle){ if(!needle) return false; return (haystack||'').toLowerCase().includes(needle.toLowerCase()); }
+
+// ---------- auto-detección heurística (sin IA, solo patrones de texto) ----------
+const STOPWORDS_CAP = new Set(['El','La','Los','Las','Un','Una','Unos','Unas','Y','O','Pero','Porque','Si','No','Que','Esto','Esta','Este','Estos','Estas','Cuando','Como','Para','Por','En','Con','Sin','Desde','Hasta','Entre','Sobre','Capítulo','Introducción','Hoy','Aquí','Ahora']);
+
+function stripTimestamps(t){ return t.replace(/\[?\d{1,2}:\d{2}(?::\d{2})?\]?/g,' '); }
+
+function splitSentences(t){
+  return t.replace(/\s+/g,' ').split(/(?<=[.!?])\s+(?=[A-ZÁÉÍÓÚÑ¿¡])/).map(s=>s.trim()).filter(s=>s.length>4);
+}
+
+// Solo cuenta como "nombre propio" una palabra capitalizada que aparece
+// AL MENOS UNA VEZ fuera de la posición inicial de una frase — así se evita
+// contar palabras comunes que solo están en mayúscula por ir después de un
+// punto o abrir una cita (ej. "Gire a la derecha").
+function capitalizedWordFrequency(cleanText, exclude){
+  const sentences = splitSentences(cleanText);
+  const freq = {};
+  sentences.forEach(s => {
+    const tokens = s.match(/[A-ZÁÉÍÓÚÑ][a-záéíóúñA-ZÁÉÍÓÚÑ]{2,}/g) || [];
+    tokens.forEach((w, i) => {
+      if (i === 0) return; // ignora la primera palabra de cada frase
+      if (STOPWORDS_CAP.has(w)) return;
+      if (exclude && w === exclude) return;
+      freq[w] = (freq[w]||0) + 1;
+    });
+  });
+  return Object.entries(freq).sort((a,b) => b[1]-a[1]);
+}
+
+function guessTema(cleanText){
+  const sorted = capitalizedWordFrequency(cleanText, null);
+  return sorted.length ? sorted[0][0] : '';
+}
+
+function guessRival(cleanText, tema){
+  const sorted = capitalizedWordFrequency(cleanText, tema);
+  return sorted.length ? sorted[0][0] : '';
+}
+
+function guessDato(cleanText){
+  // corta el CTA de suscripción típico del final, luego toma frases reales
+  // sustanciosas (evita quedarse con fragmentos tipo "Se equivocaron.")
+  const ctaRe = /(si (esta historia|este video)|suscr[ií]bete|s[ií]guenos|d[eé]jame|comenta|cu[eé]ntame|activ[ae] la campanita)[\s\S]*$/i;
+  const withoutCTA = cleanText.replace(ctaRe, '').trim();
+  const sentences = splitSentences(withoutCTA).filter(s => countWords(s) >= 6);
+  if (!sentences.length) return '';
+  let dato = sentences[sentences.length - 1];
+  // si la última frase sustanciosa es corta, súmale la anterior para dar contexto
+  if (dato.length < 60 && sentences.length >= 2) {
+    dato = sentences[sentences.length - 2] + ' ' + dato;
+  }
+  if (dato.length > 180) dato = dato.slice(0, 177) + '...';
+  return dato.replace(/^./, c => c.toUpperCase());
+}
+
+function guessNumero(cleanText){
+  const patterns = [
+    /\$\s?[\d.,]+\s?(mil millones|millones|billones|mil)?/i,
+    /\b\d{1,3}(?:[.,]\d{3})*\s?(mil millones|millones|billones)\b/i,
+    /\b\d{1,3}\s?%/,
+    /\b\d{1,4}\s?(años|meses|d[ií]as|horas)\b/i,
+  ];
+  for (const re of patterns){
+    const m = cleanText.match(re);
+    if (m) return m[0].trim();
+  }
+  return '';
+}
+
+const STOP_OVERLAY = new Set(['que','de','la','el','los','las','en','y','a','un','una','no','se','lo','su','por','con','para','del','al','es','fue','ya','pero']);
+function guessOverlay(dato){
+  const words = (dato||'').replace(/[."'“”]/g,'').split(/\s+/).filter(w => w.length>2 && !STOP_OVERLAY.has(w.toLowerCase()));
+  return words.slice(0,3).join(' ').toUpperCase();
+}
+
+function autoDetectar(){
+  const raw = document.getElementById('transcript').value.trim();
+  if (!raw) return false;
+  const clean = stripTimestamps(raw);
+  const tema = guessTema(clean);
+  const dato = guessDato(clean);
+  const numero = guessNumero(clean);
+  const rival = guessRival(clean, tema);
+
+  if (!document.getElementById('tema').value.trim()) document.getElementById('tema').value = tema;
+  if (!document.getElementById('dato').value.trim()) document.getElementById('dato').value = dato;
+  if (!document.getElementById('numero').value.trim()) document.getElementById('numero').value = numero;
+  if (!document.getElementById('rival').value.trim()) document.getElementById('rival').value = '';
+  if (!document.getElementById('objA').value.trim()) document.getElementById('objA').value = tema;
+  if (!document.getElementById('objB').value.trim()) document.getElementById('objB').value = rival;
+  if (!document.getElementById('overlay').value.trim()) document.getElementById('overlay').value = guessOverlay(dato);
+  return true;
+}
+
+// ---------- title-checklist.md rubric, applied mechanically ----------
+function checkTitle(title, numero){
+  const len = title.length;
+  const checks = [];
+  checks.push({label:`Bajo 100 caracteres (hard cap)`, pass: len < 100});
+  checks.push({label:`Idealmente 40–60 caracteres (evita truncar en móvil)`, pass: len>=40 && len<=60, soft: len<100 && (len<40||len>60)});
+  checks.push({label:`Número específico presente`, pass: !!numero && containsCI(title, numero.replace(/[^0-9a-zA-ZñÑáéíóúÁÉÍÓÚ%$., ]/g,'').trim()===''? numero : numero)});
+  checks.push({label:`Sin em dash / en dash / doble guion`, pass: !hasEmDash(title)});
+  checks.push({label:`Sin ALL CAPS de principio a fin`, pass: title !== title.toUpperCase() || title.length < 4});
+  return {len, checks};
+}
+
+function badgeFor(pass, soft){
+  if (pass) return `<span class="badge ok">✓</span>`;
+  if (soft) return `<span class="badge warn">~</span>`;
+  return `<span class="badge bad">✕</span>`;
+}
+
+// ---------- title formulas (skeletons taken directly from hook-formulas.md, filled mechanically) ----------
+function buildTitles(tema, dato, numero, rival){
+  const out = [];
+  if(!tema || !dato){ return out; }
+
+  // Y1 - Curiosity-Gap (2 phrasings, per the skill's own two forms: statement+gap, and question form)
+  out.push({formula:'Y1', text: `${dato}${dato.endsWith('.')?'':'.'} Esto Es lo Que Nadie Te Contó de ${tema}`});
+  out.push({formula:'Y1', text: `Por Qué ${tema} Realmente ${dato.replace(/^./, c=>c.toLowerCase())}`});
+
+  // Y4 - Mistake / Negativity (adapted: "the cost/error" shape)
+  out.push({formula:'Y4', text: `El Error Detrás de ${tema} que Casi Nadie Vio Venir`});
+
+  // Y5 - Transformation / Before-After
+  if (numero) {
+    out.push({formula:'Y5', text: `${tema} Tenía Todo (${numero}) Hasta Que ${dato}`});
+  } else {
+    out.push({formula:'Y5', text: `${tema} lo Tenía Todo... y Así Terminó`});
+  }
+
+  // Y6 - Versus / Comparison (only if rival given)
+  if (rival) {
+    out.push({formula:'Y6', text: `${tema} vs ${rival}: Quién Ganó de Verdad`});
+  }
+
+  // Y11 - Third-Party Success/Origin (needs a number to make sense structurally)
+  if (numero) {
+    out.push({formula:'Y11', text: `Cómo ${tema} Llegó a ${numero} y lo Perdió Todo`});
+  }
+
+  return out;
+}
+
+// ---------- thumbnail brief (brief-template.md, filled mechanically) ----------
+function buildThumbBrief(leadTitle, dato, objA, objB, overlay){
+  const overlayWords = countWords(overlay);
+  const overlayRepeats = leadTitle && overlay ? leadTitle.toLowerCase().split(/\s+/).some(w => w.length>3 && overlay.toLowerCase().includes(w)) : false;
+  const brief = `CONCEPT: ${objA || '{objeto A}'} → ${objB || '{objeto B}'}
+ANGLE: complementa el título cargando la prueba visual concreta que el
+título no explicita
+
+TITLE PAIRING
+Title says: ${leadTitle || '{título elegido}'}
+Thumbnail carries: ${objB ? `la transformación hacia "${objB}"` : '{lo que el título no dice}'}
+
+FOCAL SUBJECT
+${objA || '{objeto A}'} transformándose en ${objB || '{objeto B}'}
+
+TEXT OVERLAY
+Words: "${overlay || '{texto ≤4 palabras}'}"
+Placement: definir según composición (evitar el rincón inferior derecho,
+ahí YouTube pone la duración)
+Style: sans bold condensada, blanco con contorno negro
+
+BACKGROUND & CONTRAST
+Fondo oscuro recomendado. Regla obligatoria: cualquier elemento oscuro
+sobre fondo oscuro se funde a 120px — dale a ${objB || 'el segundo objeto'}
+un color saturado (rojo/verde ácido/cian) o una pantalla encendida, nunca
+gris/negro sobre negro.
+
+COMPOSITION
+Un solo foco narrativo (la transformación), regla de tercios, sin relleno
+de otros elementos.
+
+120-PIXEL TEST
+El contorno de ambos objetos y el texto "${overlay||'...'}" deben leerse a
+120px; si se pierde detalle fino, conservar solo la silueta y el color.`;
+
+  const checklist = [
+    {label:'Un solo punto focal', pass: true},
+    {label:`Texto overlay ≤ 4 palabras (tiene ${overlayWords})`, pass: overlayWords>0 && overlayWords<=4},
+    {label:'El overlay NO repite palabras del título', pass: !overlayRepeats, soft: false},
+    {label:'Objeto A y objeto B definidos', pass: !!(objA && objB)},
+    {label:'Regla de contraste aplicada (recordatorio, verificar a mano)', pass: null},
+  ];
+  return {brief, checklist};
+}
+
+// ---------- description (description-template.md, filled mechanically) ----------
+function parseChapters(transcript){
+  if(!transcript) return [];
+  const re = /\[?(\d{1,2}:\d{2}(?::\d{2})?)\]?\s*([^\n\[]{0,80})/g;
+  const chapters = [];
+  let m; let last = -1;
+  while((m = re.exec(transcript)) && chapters.length < 12){
+    const ts = m[1];
+    const label = m[2].trim().replace(/[.,;:]+$/,'').slice(0,60);
+    // dedupe consecutive same timestamp, keep spacing
+    if(label) chapters.push({ts, label});
+  }
+  return chapters;
+}
+
+function buildDescription(tema, dato, numero, keywords, hashtags, transcript){
+  const hook = `${dato}${dato.endsWith('.')?'':'.'} La historia real de ${tema}${numero? ' (' + numero + ')':''}.`;
+  const kws = (keywords||'').split(',').map(s=>s.trim()).filter(Boolean);
+  const tags = (hashtags||'').split(',').map(s=>s.trim()).filter(Boolean).slice(0,5);
+  const chapters = parseChapters(transcript);
+
+  let chapterBlock = 'CAPÍTULOS\n0:00 Introducción';
+  if (chapters.length) {
+    chapterBlock = 'CAPÍTULOS\n' + chapters.map(c => `${c.ts} ${c.label || '...'}`).join('\n');
+    if (!/^0:00|00:00/.test(chapters[0].ts)) {
+      chapterBlock = 'CAPÍTULOS\n0:00 Introducción\n' + chapterBlock.split('\n').slice(1).join('\n');
+    }
+  }
+
+  const body = `${tema} parecía imparable${numero ? `, con ${numero}` : ''}. Esta es la historia real de ${dato.replace(/^./, c=>c.toLowerCase())}${kws.length ? `. Hablamos de ${kws.slice(0,3).join(', ')}` : ''}.`;
+
+  const desc = `${hook}
+
+${body}
+
+${chapterBlock}
+
+${tags.length ? tags.map(t=>'#'+t).join(' ') : '#cronicasilustradas #historia #documental'}`;
+
+  return { desc, hookLen: hook.length, totalLen: desc.length, chapters };
+}
+
+// ---------- render ----------
+function generar(){
+  persist();
+  let autoUsed = false;
+  if (!document.getElementById('tema').value.trim() || !document.getElementById('dato').value.trim()) {
+    autoUsed = autoDetectar();
+  }
+  const tema = document.getElementById('tema').value.trim();
+  const dato = document.getElementById('dato').value.trim();
+  const numero = document.getElementById('numero').value.trim();
+  const rival = document.getElementById('rival').value.trim();
+  const objA = document.getElementById('objA').value.trim();
+  const objB = document.getElementById('objB').value.trim();
+  const overlay = document.getElementById('overlay').value.trim();
+  const keywords = document.getElementById('keywords').value.trim();
+  const hashtags = document.getElementById('hashtags').value.trim();
+  const transcript = document.getElementById('transcript').value.trim();
+
+  const outTitles = document.getElementById('out-titles');
+  const outThumb = document.getElementById('out-thumb');
+  const outDesc = document.getElementById('out-desc');
+
+  if(!tema || !dato){
+    outTitles.innerHTML = `<p class="empty">Pega una transcripción (o completa "Objeto/tema" y "El dato o giro real" a mano).</p>`;
+    outThumb.innerHTML = `<p class="empty">—</p>`;
+    outDesc.innerHTML = `<p class="empty">—</p>`;
+    return;
+  }
+
+  let autoNote = '';
+  if (autoUsed) {
+    autoNote = `<p class="hint" style="color:var(--accent2)">⚠ Tema, dato, número y objetos se detectaron automáticamente por patrones de texto (sin IA) — revisa los campos de la izquierda y corrígelos si algo no encaja, luego pulsa "Generar" de nuevo.</p>`;
+  }
+
+  // titles
+  const titles = buildTitles(tema, dato, numero, rival);
+  const formulasUsed = new Set(titles.map(t=>t.formula));
+  let leadIdx = 0, leadScore = -1;
+  const rows = titles.map((t, i) => {
+    const {len, checks} = checkTitle(t.text, numero);
+    const score = checks.filter(c=>c.pass).length;
+    if (score > leadScore) { leadScore = score; leadIdx = i; }
+    return {t, len, checks, score};
+  });
+
+  let html = `<table><thead><tr><th>#</th><th>Título</th><th>Fórmula</th><th>Car.</th><th>Checklist</th></tr></thead><tbody>`;
+  rows.forEach((r, i) => {
+    const isLead = i === leadIdx;
+    html += `<tr class="${isLead?'title-lead':''}">
+      <td>${i+1}${isLead?' 🏆':''}</td>
+      <td>${esc(r.t.text)}</td>
+      <td><span class="badge formula">${r.t.formula}</span></td>
+      <td>${r.len}</td>
+      <td>${r.checks.map(c=>badgeFor(c.pass, c.soft)+' '+esc(c.label)).join('<br>')}</td>
+    </tr>`;
+  });
+  html += `</tbody></table>`;
+  html = autoNote + html;
+  html += `<p class="hint">${rows.length} variantes en ${formulasUsed.size} fórmula(s) distinta(s) ${formulasUsed.size>=2 ? '✓ cumple "al menos 2 fórmulas" del checklist' : '⚠ agrega un rival o número para desbloquear más fórmulas (Y6/Y11) y no repetir una sola'}.</p>`;
+  outTitles.innerHTML = html;
+
+  const leadTitle = rows[leadIdx].t.text;
+
+  // thumbnail
+  const {brief, checklist} = buildThumbBrief(leadTitle, dato, objA, objB, overlay);
+  let thumbHtml = `<pre class="brief">${esc(brief)}</pre><ul class="checklist">`;
+  checklist.forEach(c => {
+    const dot = c.pass === null ? '<span class="badge warn">!</span>' : (c.pass ? '<span class="badge ok">✓</span>' : '<span class="badge bad">✕</span>');
+    thumbHtml += `<li><span class="dot">${dot}</span> ${esc(c.label)}</li>`;
+  });
+  thumbHtml += `</ul>`;
+  outThumb.innerHTML = thumbHtml;
+
+  // description
+  const {desc, hookLen, totalLen, chapters} = buildDescription(tema, dato, numero, keywords, hashtags, transcript);
+  let descHtml = `<pre class="brief">${esc(desc)}</pre>`;
+  descHtml += `<p class="counter ${hookLen>150?'over':''}">Hook (primeros 150 car. visibles antes de "Mostrar más"): ${hookLen} / 150 ${hookLen>150?'⚠ se corta antes de terminar la idea, acórtalo':'✓'}</p>`;
+  descHtml += `<p class="counter ${totalLen>5000?'over':''}">Total: ${totalLen} / 5000 caracteres</p>`;
+  descHtml += `<p class="counter">${chapters.length ? `${chapters.length} capítulos detectados en el transcript por timestamp.` : 'No se detectaron timestamps en el transcript — se dejó un capítulo de ejemplo, edítalo a mano.'}</p>`;
+  outDesc.innerHTML = descHtml;
+}
+</script>
+
+</body>
+</html>
