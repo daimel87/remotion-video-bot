@@ -37,6 +37,7 @@ import {
 import {BLOQUE_2} from './odisea/cues-b2';
 import {BLOQUE_3} from './odisea/cues-b3';
 import {BLOQUE_4} from './odisea/cues-b4';
+import {RamTableEdit, FPS as RAM_FPS, DURATION as RAM_DURATION} from './RamTableEdit';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -91,6 +92,14 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={CANVAS_W}
         height={CANVAS_H}
+      />
+      <Composition
+        id="RamTableEdit"
+        component={RamTableEdit}
+        durationInFrames={RAM_DURATION}
+        fps={RAM_FPS}
+        width={1920}
+        height={1080}
       />
       <Composition
         id="CollageTest"
