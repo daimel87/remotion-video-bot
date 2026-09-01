@@ -100,6 +100,16 @@ export const RemotionRoot: React.FC = () => {
         fps={RAM_FPS}
         width={1920}
         height={1080}
+        defaultProps={{lang: 'es'}}
+      />
+      <Composition
+        id="RamTableEditEN"
+        component={RamTableEdit}
+        durationInFrames={RAM_DURATION}
+        fps={RAM_FPS}
+        width={1920}
+        height={1080}
+        defaultProps={{lang: 'en'}}
       />
       <Composition
         id="CollageTest"

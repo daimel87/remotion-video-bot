@@ -17,6 +17,33 @@ import {
 export const FPS = 30;
 export const DURATION = 60 * FPS; // 1800 frames / 60s
 
+export type Lang = 'es' | 'en';
+
+const STR = {
+  es: {
+    eyebrow: 'Configuracion de memoria virtual',
+    title: 'TAMAÑO DE PAGEFILE SEGÚN TU RAM',
+    subtitle: 'Tamaño inicial y máximo recomendados, por nivel de RAM',
+    header: ['RAM', 'TAMAÑO INICIAL', 'TAMAÑO MÁXIMO'],
+    tableTitle: 'Resumen por nivel de RAM',
+    formulaTitle: 'La fórmula es sencilla',
+    initialLabel: 'Tamaño inicial',
+    maxLabel: 'Tamaño máximo',
+    numberLocale: 'es-MX',
+  },
+  en: {
+    eyebrow: 'Virtual memory configuration',
+    title: 'PAGEFILE SIZE BASED ON YOUR RAM',
+    subtitle: 'Recommended initial and maximum size, by RAM tier',
+    header: ['RAM', 'INITIAL SIZE', 'MAXIMUM SIZE'],
+    tableTitle: 'Summary by RAM tier',
+    formulaTitle: "The formula is simple",
+    initialLabel: 'Initial size',
+    maxLabel: 'Maximum size',
+    numberLocale: 'en-US',
+  },
+} as const;
+
 const theme = {
   colors: {
     bg: '#050B16',
@@ -211,15 +238,16 @@ const Counter: React.FC<{
   target: number;
   delay?: number;
   suffix?: string;
+  locale?: string;
   style?: React.CSSProperties;
-}> = ({target, delay = 0, suffix = '', style}) => {
+}> = ({target, delay = 0, suffix = '', locale = 'es-MX', style}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const p = spring({frame: frame - delay, fps, config: {damping: 30, stiffness: 60}});
   const value = Math.round(interpolate(p, [0, 1], [0, target], {extrapolateRight: 'clamp'}));
   return (
     <span style={{fontVariantNumeric: 'tabular-nums', ...style}}>
-      {value.toLocaleString('es-MX')}
+      {value.toLocaleString(locale)}
       {suffix}
     </span>
   );
@@ -238,7 +266,8 @@ const ROW_START = [30, 330, 630, 930];
 const ROW_STAGGER = 8; // ram chip -> initial -> max, frame offsets within a row
 
 // ---------- Scene 1: intro title ----------
-const IntroScene: React.FC = () => {
+const IntroScene: React.FC<{lang: Lang}> = ({lang}) => {
+  const t = STR[lang];
   const frame = useCurrentFrame();
   const exitO = interpolate(frame, [120, 148], [1, 0], {
     extrapolateLeft: 'clamp',
@@ -265,12 +294,12 @@ const IntroScene: React.FC = () => {
             textAlign: 'center',
           }}
         >
-          Configuracion de memoria virtual
+          {t.eyebrow}
         </div>
       </Entrance>
       <div style={{maxWidth: 1400, textAlign: 'center'}}>
         <WordReveal
-          text="TAMAÑO DE PAGEFILE SEGÚN TU RAM"
+          text={t.title}
           delay={12}
           per={3}
           style={{
@@ -294,7 +323,7 @@ const IntroScene: React.FC = () => {
             textAlign: 'center',
           }}
         >
-          Tamaño inicial y máximo recomendados, por nivel de RAM
+          {t.subtitle}
         </div>
       </Entrance>
     </AbsoluteFill>
@@ -302,7 +331,7 @@ const IntroScene: React.FC = () => {
 };
 
 // ---------- table header ----------
-const HeaderRow: React.FC = () => (
+const HeaderRow: React.FC<{lang: Lang}> = ({lang}) => (
   <div
     style={{
       display: 'grid',
@@ -312,7 +341,7 @@ const HeaderRow: React.FC = () => (
       marginBottom: 18,
     }}
   >
-    {['RAM', 'TAMAÑO INICIAL', 'TAMAÑO MÁXIMO'].map((label) => (
+    {STR[lang].header.map((label) => (
       <div
         key={label}
         style={{
@@ -336,7 +365,8 @@ const TableRow: React.FC<{
   max: number;
   delay: number;
   breathePhase: number;
-}> = ({ram, initial, max, delay, breathePhase}) => {
+  locale: string;
+}> = ({ram, initial, max, delay, breathePhase, locale}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const p = spring({frame: frame - delay, fps, config: theme.spring.smooth});
@@ -386,6 +416,7 @@ const TableRow: React.FC<{
           target={initial}
           delay={delay + ROW_STAGGER}
           suffix=" MB"
+          locale={locale}
           style={{
             fontFamily: theme.fonts.mono,
             fontSize: 44,
@@ -399,6 +430,7 @@ const TableRow: React.FC<{
           target={max}
           delay={delay + ROW_STAGGER * 2}
           suffix=" MB"
+          locale={locale}
           style={{
             fontFamily: theme.fonts.mono,
             fontSize: 44,
@@ -412,7 +444,8 @@ const TableRow: React.FC<{
 };
 
 // ---------- Scene 2: the table builds row by row ----------
-const TableScene: React.FC = () => {
+const TableScene: React.FC<{lang: Lang}> = ({lang}) => {
+  const t = STR[lang];
   const frame = useCurrentFrame();
   const entrance = spring({frame: frame - 6, fps: FPS, config: theme.spring.smooth});
   const exitO = interpolate(frame, [1330, 1350], [1, 0], {
@@ -444,10 +477,10 @@ const TableScene: React.FC = () => {
           letterSpacing: 1,
         }}
       >
-        Resumen por nivel de RAM
+        {t.tableTitle}
       </div>
       <div style={{width: 1560}}>
-        <HeaderRow />
+        <HeaderRow lang={lang} />
         {ROWS.map((row, i) => (
           <TableRow
             key={row.ram}
@@ -456,6 +489,7 @@ const TableScene: React.FC = () => {
             max={row.max}
             delay={ROW_START[i]}
             breathePhase={i * 1.7}
+            locale={t.numberLocale}
           />
         ))}
       </div>
@@ -510,7 +544,8 @@ const FormulaCard: React.FC<{
   );
 };
 
-const FormulaScene: React.FC = () => {
+const FormulaScene: React.FC<{lang: Lang}> = ({lang}) => {
+  const t = STR[lang];
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const p = spring({frame, fps, config: theme.spring.smooth});
@@ -535,18 +570,18 @@ const FormulaScene: React.FC = () => {
             textAlign: 'center',
           }}
         >
-          La fórmula es sencilla
+          {t.formulaTitle}
         </div>
       </Entrance>
       <div style={{display: 'flex', gap: 42}}>
         <FormulaCard
-          label="Tamaño inicial"
+          label={t.initialLabel}
           formula="RAM × 1024 × 1.5"
           delay={14}
           color={theme.colors.accent}
         />
         <FormulaCard
-          label="Tamaño máximo"
+          label={t.maxLabel}
           formula="RAM × 1024 × 3"
           delay={22}
           color={theme.colors.primary}
@@ -557,18 +592,18 @@ const FormulaScene: React.FC = () => {
 };
 
 // ---------- root composition ----------
-export const RamTableEdit: React.FC = () => {
+export const RamTableEdit: React.FC<{lang?: Lang}> = ({lang = 'es'}) => {
   return (
     <AbsoluteFill style={{fontFamily: theme.fonts.display}}>
       <BgMesh />
       <Sequence from={0} durationInFrames={150}>
-        <IntroScene />
+        <IntroScene lang={lang} />
       </Sequence>
       <Sequence from={120} durationInFrames={1350}>
-        <TableScene />
+        <TableScene lang={lang} />
       </Sequence>
       <Sequence from={1440} durationInFrames={360}>
-        <FormulaScene />
+        <FormulaScene lang={lang} />
       </Sequence>
       <Grade />
       <Grain />
