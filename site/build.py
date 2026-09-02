@@ -965,6 +965,7 @@ def audio_page(a):
     <ol class="steps">{steps}</ol>
     {video("🎥 Vídeotutorial", None, a['video_id'], cta="audio", sub=f"Guía en vídeo para activar {a['brand']} en Windows, con el paso a paso completo.")}
     {f'<a class="download audio-download" href="{a["download_url"]}" target="_blank" rel="noopener nofollow">⬇ Descargar {html.escape(a["brand"])}</a>' if has_dl else ''}
+    {PROMO_BANNER}
     <p class="cta"><a class="btn" href="{watch_url}" target="_blank" rel="noopener">▶ Ver vídeo en YouTube</a></p>
     {related}
     {faq}
