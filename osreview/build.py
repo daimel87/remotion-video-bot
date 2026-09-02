@@ -277,11 +277,15 @@ def FOOT_HTML(lang="en"):
       <a href="https://dtechusb.pages.dev/" target="_blank" rel="noopener">{UI_PL['footer_other_site_label']}</a>
       <a href="/">{UI_PL['footer_en_label']}</a>
     </div>
-    <div>
-      <h4>Masz własną stronę?</h4>
-      <a href="https://monetag.com/?ref_id=tRmB" target="_blank" rel="noopener sponsored">Zmonetyzuj ją z Monetag</a>
-    </div>
   </div>
+  <a class="promo-banner" href="https://monetag.com/?ref_id=tRmB" target="_blank" rel="noopener sponsored">
+    <div>
+      <span class="promo-tag">💰 DLA WEBMASTERÓW</span>
+      <h3>Masz własną stronę?</h3>
+      <p>Zmonetyzuj ją z Monetag — łatwa akceptacja, brak skomplikowanych wymagań, dobre CPM.</p>
+    </div>
+    <span class="promo-btn">Zacznij teraz →</span>
+  </a>
   <p class="disclaimer">{UI_PL['footer_disclaimer_text']}</p>
 </footer>
 {ADBLOCK_DETECT_HTML('pl')}
@@ -316,11 +320,15 @@ def FOOT_HTML(lang="en"):
       <a href="https://dtechusb.pages.dev/" target="_blank" rel="noopener">D-Tech USB (ES) — USB repair tools</a>
       <a href="/pl/">Polska wersja / Polish version</a>
     </div>
-    <div>
-      <h4>Have your own website?</h4>
-      <a href="https://monetag.com/?ref_id=tRmB" target="_blank" rel="noopener sponsored">Monetize it with Monetag</a>
-    </div>
   </div>
+  <a class="promo-banner" href="https://monetag.com/?ref_id=tRmB" target="_blank" rel="noopener sponsored">
+    <div>
+      <span class="promo-tag">💰 FOR WEBMASTERS</span>
+      <h3>Have your own website?</h3>
+      <p>Monetize it with Monetag — easy approval, no complicated requirements, solid CPM.</p>
+    </div>
+    <span class="promo-btn">Get started →</span>
+  </a>
   <p class="disclaimer">Educational/review content about modified operating systems. Always keep a
      valid license for the OS you install and back up your data before reinstalling.</p>
 </footer>
