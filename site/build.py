@@ -366,6 +366,15 @@ ADBLOCK_DETECT = '''
 
 CF_WEB_ANALYTICS = '''<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "80a51d4b6d5649ea819a644cada2e937"}'></script><!-- End Cloudflare Web Analytics -->'''
 
+PROMO_BANNER = '''<a class="promo-banner" href="https://monetag.com/?ref_id=tRmB" target="_blank" rel="noopener sponsored">
+    <div>
+      <span class="promo-tag">💰 PARA WEBMASTERS</span>
+      <h3>¿Tienes tu propia web?</h3>
+      <p>Monetízala con Monetag — aprobación fácil, sin requisitos complicados, buen CPM.</p>
+    </div>
+    <span class="promo-btn">Empezar ahora →</span>
+  </a>'''
+
 FOOT = f'''</main>
 <footer class="site-footer">
   <img class="footer-logo" src="{SITE['logo']}" alt="{SITE['name']}" width="64" height="64" loading="lazy">
@@ -401,14 +410,6 @@ FOOT = f'''</main>
       <a href="https://paginaingles.pages.dev/" target="_blank" rel="noopener">Lite OS Reviews (EN)</a>
     </div>
   </div>
-  <a class="promo-banner" href="https://monetag.com/?ref_id=tRmB" target="_blank" rel="noopener sponsored">
-    <div>
-      <span class="promo-tag">💰 PARA WEBMASTERS</span>
-      <h3>¿Tienes tu propia web?</h3>
-      <p>Monetízala con Monetag — aprobación fácil, sin requisitos complicados, buen CPM.</p>
-    </div>
-    <span class="promo-btn">Empezar ahora →</span>
-  </a>
   <p class="disclaimer">Las herramientas enlazadas pertenecen a sus respectivos fabricantes.
      Úsalas bajo tu responsabilidad; una reparación de bajo nivel borra todos los datos de la USB.</p>
 </footer>
@@ -576,6 +577,7 @@ def tool_page(t):
     {AD_SLOT}
     {"" if has_answer else lower_video}
     {download}
+    {PROMO_BANNER}
     {fallback_video}
     {related_videos_block(t)}
     {faq}

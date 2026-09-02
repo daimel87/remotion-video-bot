@@ -278,14 +278,6 @@ def FOOT_HTML(lang="en"):
       <a href="/">{UI_PL['footer_en_label']}</a>
     </div>
   </div>
-  <a class="promo-banner" href="https://monetag.com/?ref_id=tRmB" target="_blank" rel="noopener sponsored">
-    <div>
-      <span class="promo-tag">💰 DLA WEBMASTERÓW</span>
-      <h3>Masz własną stronę?</h3>
-      <p>Zmonetyzuj ją z Monetag — łatwa akceptacja, brak skomplikowanych wymagań, dobre CPM.</p>
-    </div>
-    <span class="promo-btn">Zacznij teraz →</span>
-  </a>
   <p class="disclaimer">{UI_PL['footer_disclaimer_text']}</p>
 </footer>
 {ADBLOCK_DETECT_HTML('pl')}
@@ -321,14 +313,6 @@ def FOOT_HTML(lang="en"):
       <a href="/pl/">Polska wersja / Polish version</a>
     </div>
   </div>
-  <a class="promo-banner" href="https://monetag.com/?ref_id=tRmB" target="_blank" rel="noopener sponsored">
-    <div>
-      <span class="promo-tag">💰 FOR WEBMASTERS</span>
-      <h3>Have your own website?</h3>
-      <p>Monetize it with Monetag — easy approval, no complicated requirements, solid CPM.</p>
-    </div>
-    <span class="promo-btn">Get started →</span>
-  </a>
   <p class="disclaimer">Educational/review content about modified operating systems. Always keep a
      valid license for the OS you install and back up your data before reinstalling.</p>
 </footer>
@@ -340,6 +324,24 @@ def FOOT_HTML(lang="en"):
 {HILLTOP_INPAGE_PUSH}
 {CF_WEB_ANALYTICS}
 </body></html>'''
+
+PROMO_BANNER_EN = '''<a class="promo-banner" href="https://monetag.com/?ref_id=tRmB" target="_blank" rel="noopener sponsored">
+    <div>
+      <span class="promo-tag">💰 FOR WEBMASTERS</span>
+      <h3>Have your own website?</h3>
+      <p>Monetize it with Monetag — easy approval, no complicated requirements, solid CPM.</p>
+    </div>
+    <span class="promo-btn">Get started →</span>
+  </a>'''
+
+PROMO_BANNER_PL = '''<a class="promo-banner" href="https://monetag.com/?ref_id=tRmB" target="_blank" rel="noopener sponsored">
+    <div>
+      <span class="promo-tag">💰 DLA WEBMASTERÓW</span>
+      <h3>Masz własną stronę?</h3>
+      <p>Zmonetyzuj ją z Monetag — łatwa akceptacja, brak skomplikowanych wymagań, dobre CPM.</p>
+    </div>
+    <span class="promo-btn">Zacznij teraz →</span>
+  </a>'''
 
 FOOT = FOOT_HTML("en")
 
@@ -447,6 +449,7 @@ def article_page(a):
     <p class="lead">{html.escape(a['summary'])}</p>
     {video(a['yt'])}
     {download_block(a)}
+    {PROMO_BANNER_EN}
     <div class="video-cta-row">
       <a class="btn ghost" href="/advisor">🧭 Not sure? Find your build</a>
       <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">🔔 Subscribe on YouTube</a>
@@ -501,6 +504,7 @@ def article_page_pl(a_pl):
     <p class="lead">{html.escape(a_pl['summary'])}</p>
     {video(a['yt'])}
     {download_block(a, lang="pl")}
+    {PROMO_BANNER_PL}
     <div class="video-cta-row">
       <a class="btn ghost" href="/pl/advisor">{UI_PL['advisor_not_sure']}</a>
       <a class="btn ghost" href="{SITE['youtube']}" target="_blank" rel="noopener">{UI_PL['subscribe_yt']}</a>
