@@ -400,6 +400,10 @@ FOOT = f'''</main>
       <h4>Otros sitios</h4>
       <a href="https://paginaingles.pages.dev/" target="_blank" rel="noopener">Lite OS Reviews (EN)</a>
     </div>
+    <div>
+      <h4>¿Tienes tu propia web?</h4>
+      <a href="https://monetag.com/?ref_id=tRmB" target="_blank" rel="noopener sponsored">Monetízala con Monetag</a>
+    </div>
   </div>
   <p class="disclaimer">Las herramientas enlazadas pertenecen a sus respectivos fabricantes.
      Úsalas bajo tu responsabilidad; una reparación de bajo nivel borra todos los datos de la USB.</p>

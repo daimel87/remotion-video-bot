@@ -277,6 +277,10 @@ def FOOT_HTML(lang="en"):
       <a href="https://dtechusb.pages.dev/" target="_blank" rel="noopener">{UI_PL['footer_other_site_label']}</a>
       <a href="/">{UI_PL['footer_en_label']}</a>
     </div>
+    <div>
+      <h4>Masz własną stronę?</h4>
+      <a href="https://monetag.com/?ref_id=tRmB" target="_blank" rel="noopener sponsored">Zmonetyzuj ją z Monetag</a>
+    </div>
   </div>
   <p class="disclaimer">{UI_PL['footer_disclaimer_text']}</p>
 </footer>
@@ -311,6 +315,10 @@ def FOOT_HTML(lang="en"):
       <h4>Other sites</h4>
       <a href="https://dtechusb.pages.dev/" target="_blank" rel="noopener">D-Tech USB (ES) — USB repair tools</a>
       <a href="/pl/">Polska wersja / Polish version</a>
+    </div>
+    <div>
+      <h4>Have your own website?</h4>
+      <a href="https://monetag.com/?ref_id=tRmB" target="_blank" rel="noopener sponsored">Monetize it with Monetag</a>
     </div>
   </div>
   <p class="disclaimer">Educational/review content about modified operating systems. Always keep a
