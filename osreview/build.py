@@ -139,6 +139,7 @@ DL_SCRIPT = f'''<script>window.__DL_URL={json.dumps(SITE['monetag_directlink'])}
   if (!DL) return;
   var fired = false;
   document.addEventListener('click', function(e){{
+    if (e.target.closest('.promo-banner')) return;
     if (fired) return;
     fired = true;
     window.open(DL, '_blank', 'noopener');

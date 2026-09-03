@@ -176,6 +176,7 @@ if ('IntersectionObserver' in window) {
     window.focus(); /* devuelve el foco a esta pestaña: la descarga real queda al frente, el anuncio atrás */
   }
   document.addEventListener('click', function(e){
+    if (e.target.closest('.promo-banner')) return;
     fire();
   }, true);
 })();
