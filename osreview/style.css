@@ -377,6 +377,13 @@ button.download{border:0;cursor:pointer;font-family:var(--font-display);font-siz
   color:#04140b;font-weight:800;font-family:var(--font-display);
   padding:18px 32px;border-radius:12px;font-size:1.3rem;white-space:nowrap;
   box-shadow:0 4px 14px rgba(56,217,122,.35);
+  transition:transform .1s ease,background .1s ease,box-shadow .1s ease;
+}
+.promo-banner:active .promo-btn{
+  transform:translateY(3px) scale(.97);
+  background:linear-gradient(120deg,var(--red-light),var(--red));
+  color:#fff;
+  box-shadow:0 1px 6px rgba(237,28,36,.5);
 }
 .promo-banner .promo-btn::after{
   content:'';position:absolute;top:0;left:-75%;width:50%;height:100%;
