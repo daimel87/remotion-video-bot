@@ -24,47 +24,28 @@ viene de comparar **corridas sucesivas** en el tiempo:
    producir.
 
 **El tiempo mínimo de detección depende de qué tan seguido corras el
-script.** Una corrida suelta de vez en cuando no detecta aceleración (no
-tiene con qué comparar). Por eso se agregó automatización (ver abajo):
-corriendo cada 30 min, el peor caso para notar que algo está acelerando es
-~30-60 min desde que empezó a moverse — limitado por qué tan seguido
-actualizan sus datos las fuentes gratuitas (Reddit `rising` es casi en
-tiempo real; Google Trends "daily trends" solo se actualiza unas pocas
-veces al día, no en tiempo real, aunque el paso de noticias/Reddit sí
-puede adelantarse a eso).
+script.** Una corrida suelta no detecta aceleración por sí sola (no tiene
+con qué comparar) — se pone interesante a partir de la segunda corrida en
+adelante, comparando contra la anterior sin importar cuánto tiempo haya
+pasado entre una y otra.
 
-## Automatizar (para no depender de correrlo a mano)
+## Cómo correrlo (100% manual, tú decides cuándo)
 
-`.github/workflows/trend-hunter.yml` corre el script cada 30 minutos en
-GitHub Actions, sin que tengas que hacer nada:
+No hay cron ni nada corriendo en segundo plano — esto se dispara solo
+cuando tú quieres:
 
-- Guarda cada snapshot en la rama `trend-hunter-data` (rama de datos
-  gestionada por el bot, separada del código — no la edites a mano).
-- Publica el reporte completo de cada corrida como **resumen del run**
-  (pestaña Actions → el run → "Summary"), por si quieres revisar el detalle.
-- **Te avisa de verdad, sin que tengas que revisar nada:** si (y solo si)
-  detecta un tema 🆕 NUEVO o ⚡ acelerando con señal en 2+ fuentes, comenta
-  en un issue fijo llamado **"Trend Hunter — alertas"** (lo crea solo la
-  primera vez). Como es tu propio repo, GitHub te está "watching" por
-  defecto y te llega notificación (correo/app) cada vez que se comenta ahí
-  — igual que cualquier otro comentario en GitHub. Si en una corrida no hay
-  nada caliente, no comenta nada (cero spam cada 30 min).
+- **Desde GitHub:** pestaña **Actions → "Trend Hunter (corrida manual)" →
+  Run workflow**. Guarda el snapshot en la rama `trend-hunter-data` (rama
+  de datos separada del código, no la edites a mano) y publica el reporte
+  completo como **resumen del run** (Actions → el run → "Summary").
+- **Desde tu terminal:** `cd trend-hunter && npm run hunt` (ver abajo).
 - Necesita el secreto `YOUTUBE_API_KEY` en
-  `Settings → Secrets and variables → Actions` del repo (opcional: sin él,
-  se omite solo el chequeo de "hueco en YouTube").
-
-**Importante:**
-- Los workflows con `schedule` de GitHub solo se disparan cuando el
-  archivo vive en la rama por defecto (`main`). Mientras este cambio no
-  esté fusionado, solo puedes dispararlo a mano desde la pestaña Actions
-  ("Run workflow").
-- GitHub **desactiva automáticamente** los workflows programados si el
-  repo pasa 60 días sin actividad — si un día ves que dejó de correr,
-  revisa la pestaña Actions y reactívalo.
-- Reddit y Google (Trends/News) son endpoints no oficiales; correr cada 30
-  min desde los runners compartidos de GitHub Actions puede eventualmente
-  toparse con límites de tasa. Si empiezas a ver muchos 403 en el resumen,
-  baja la frecuencia del cron en el workflow (por ejemplo a cada hora).
+  `Settings → Secrets and variables → Actions` del repo si lo corres desde
+  GitHub (opcional: sin él, se omite solo el chequeo de "hueco en
+  YouTube").
+- Para ver el resultado sin entrar a Actions, revisa el dashboard en
+  `trend-hunter/public/` (se publica junto a los otros sitios) — lee el
+  último snapshot directo de la rama `trend-hunter-data`.
 
 ## Cómo funciona (fuentes)
 
