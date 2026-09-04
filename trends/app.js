@@ -312,6 +312,7 @@ function renderCard(row) {
         <span class="pct-badge ${pctClass}">${row.viralidad}%</span>
         <span class="topic-title">${row.query}</span>
         ${badgesForSourceTypes(row.sourceTypes || [])}
+        ${row.crossValidated === false ? `<span class="src-badge">⚠ sin cruzar</span>` : ""}
       </div>
       <div class="card-meta">
         Oferta en YouTube: ${row.totalResults == null ? "no calculado" : `${row.totalResults.toLocaleString("es-MX")} videos`}
@@ -351,6 +352,7 @@ async function runDiscoveryMode() {
   els.emptyState.hidden = true;
 
   setProgress("Consultando Reddit, Google Trends y Google News...");
+  const labels = ["reddit:rising", "reddit:r/worldnews", "reddit:r/news", "googletrends", "news:top"];
   const results = await Promise.all([
     proxyGet("reddit", { mode: "rising" }),
     proxyGet("reddit", { mode: "sub", sub: "worldnews" }),
@@ -360,30 +362,47 @@ async function runDiscoveryMode() {
   ]);
 
   const allFailed = results.every((r) => r.failed);
+  const diagnostic = results.map((r, i) => `${labels[i]}=${r.failed ? "falló" : r.items.length}`).join(", ");
+  console.info(`[trend-hunter] fuentes: ${diagnostic}`);
+
   const allItems = [...results.flatMap((r) => r.items), ...xManualItems()];
   const board = buildCrossBoard(allItems);
-  const crossed = board.filter((r) => r.sourceTypes.length >= 2).sort((a, b) => b.score - a.score);
+  let candidates = board.filter((r) => r.sourceTypes.length >= 2).sort((a, b) => b.score - a.score);
+  let crossValidated = true;
 
-  if (crossed.length === 0) {
-    setProgress(null);
-    els.emptyState.hidden = false;
-    els.emptyState.textContent = allFailed
-      ? "No se pudo contactar Reddit/Google Trends/Google News (los proxies públicos fallaron). Espera un momento y vuelve a intentar — no significa que no haya tendencias."
-      : "No hay temas con señal en 2+ fuentes distintas en este momento. Prueba otro país o vuelve a intentar más tarde.";
-    return;
+  if (candidates.length === 0) {
+    if (allFailed) {
+      setProgress(null);
+      els.emptyState.hidden = false;
+      els.emptyState.textContent = "No se pudo contactar Reddit/Google Trends/Google News (los 3 proxies públicos fallaron). Espera un momento y vuelve a intentar — no significa que no haya tendencias.";
+      return;
+    }
+    // No hubo ningún token compartido por 2+ fuentes distintas (pasa seguido:
+    // Reddit/Trends/Noticias rara vez usan la misma palabra exacta) — en vez
+    // de dejarte sin nada, se muestra el top por fuente única, marcado como
+    // "sin cruzar" para que sepas que es menos confiable.
+    crossValidated = false;
+    candidates = board.sort((a, b) => b.score - a.score);
+    if (candidates.length === 0) {
+      setProgress(null);
+      els.emptyState.hidden = false;
+      els.emptyState.textContent = `Las fuentes respondieron pero sin ningún título aprovechable (${diagnostic}). Prueba otro país.`;
+      return;
+    }
   }
 
-  const maxScore = Math.max(...crossed.map((r) => r.score));
-  const candidates = crossed.slice(0, topN).map((r) => ({
+  const maxScore = Math.max(...candidates.map((r) => r.score));
+  const top = candidates.slice(0, topN).map((r) => ({
     ...r,
     query: r.token,
     trendScore: Math.round((100 * Math.log1p(r.score)) / Math.log1p(maxScore)),
+    crossValidated,
   }));
 
   const rows = [];
-  for (let i = 0; i < candidates.length; i++) {
-    const c = candidates[i];
-    setProgress(`Revisando oferta en YouTube (${i + 1}/${candidates.length})...`);
+  for (let i = 0; i < top.length; i++) {
+    const c = top[i];
+    setProgress(`Revisando oferta en YouTube (${i + 1}/${top.length})...`);
     const publishedAfter = new Date(Date.now() - 5 * 86400000).toISOString();
     const [totalResults, topVideos] = await Promise.all([
       fetchSupply(c.query, publishedAfter),
@@ -395,7 +414,9 @@ async function runDiscoveryMode() {
 
   rows.sort((a, b) => b.viralidad - a.viralidad);
   renderResults(rows);
-  els.updatedAt.textContent = `Actualizado: ${new Date().toLocaleString("es-MX")} · ${rows.length} temas cruzados`;
+  els.updatedAt.textContent = crossValidated
+    ? `Actualizado: ${new Date().toLocaleString("es-MX")} · ${rows.length} temas cruzados en 2+ fuentes`
+    : `Actualizado: ${new Date().toLocaleString("es-MX")} · ${rows.length} temas SIN cruzar (ninguno compartió palabra exacta entre fuentes) · ${diagnostic}`;
   setProgress(null);
 }
 
