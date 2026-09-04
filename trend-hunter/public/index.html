@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trend Hunter · Temas antes de que exploten</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <h1>🔎 Trend Hunter</h1>
+      <p class="subtitle">
+        Temas cruzados en Reddit + Google Trends + Noticias/TV, ordenados por
+        aceleración (no solo por tamaño). Se actualiza solo cada 30 min vía
+        GitHub Actions.
+      </p>
+      <div class="meta-row">
+        <span id="status">Cargando...</span>
+        <button id="refresh-btn" class="refresh-btn">🔄 Recargar</button>
+        <a id="history-link" class="link-btn" target="_blank" rel="noopener">📜 Historial crudo</a>
+        <a id="actions-link" class="link-btn" target="_blank" rel="noopener">⚙ Ver corridas</a>
+        <a href="../index.html" class="link-btn">📈 Outliers →</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="list"></div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
