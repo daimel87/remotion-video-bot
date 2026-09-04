@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Trend Hunter · Temas antes de que exploten</title>
+  <title>Trend Hunter · % de viralidad</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -11,23 +11,88 @@
     <div class="topbar-inner">
       <h1>🔎 Trend Hunter</h1>
       <p class="subtitle">
-        Temas cruzados en Reddit + Google Trends + Noticias/TV, ordenados por
-        aceleración (no solo por tamaño). Se actualiza solo cada 30 min vía
-        GitHub Actions.
+        Temas ordenados por <strong>% de viralidad</strong>: 100% = está en
+        tendencia máxima <em>y</em> casi no hay video sobre eso en YouTube
+        todavía (oportunidad real). Corre 100% en tu navegador con tu propia
+        clave — nunca se sube a ningún servidor.
       </p>
       <div class="meta-row">
-        <span id="status">Cargando...</span>
-        <button id="refresh-btn" class="refresh-btn">🔄 Recargar</button>
-        <a id="history-link" class="link-btn" target="_blank" rel="noopener">📜 Historial crudo</a>
-        <a id="actions-link" class="link-btn" target="_blank" rel="noopener">⚙ Ver corridas</a>
+        <span id="updated-at">Sin datos todavía</span>
+        <button id="settings-btn" class="link-btn">🔑 Cambiar clave API</button>
         <a href="../index.html" class="link-btn">📈 Outliers →</a>
       </div>
     </div>
   </header>
 
   <main class="container">
+    <div class="controls-bar">
+      <label class="field">
+        <span>País</span>
+        <select id="region-select">
+          <option value="NP">Nepal</option>
+          <option value="US" selected>Estados Unidos</option>
+          <option value="MX">México</option>
+          <option value="ES">España</option>
+          <option value="IN">India</option>
+          <option value="GB">Reino Unido</option>
+          <option value="BR">Brasil</option>
+          <option value="AR">Argentina</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Categoría</span>
+        <select id="category-select">
+          <option value="">Todas (trending general)</option>
+          <option value="25">Noticias y política</option>
+          <option value="27">Educación</option>
+          <option value="28">Ciencia y tecnología</option>
+          <option value="24">Entretenimiento</option>
+          <option value="22">Personas y blogs</option>
+        </select>
+      </label>
+      <label class="field">
+        <span># de temas a analizar</span>
+        <select id="topn-select">
+          <option value="10">10 (barato en cuota)</option>
+          <option value="15" selected>15</option>
+          <option value="25">25</option>
+          <option value="40">40 (gasta más cuota)</option>
+        </select>
+      </label>
+      <button id="refresh-btn" class="refresh-btn">🔄 Ver tendencias oficiales</button>
+    </div>
+
+    <form id="term-form" class="term-search">
+      <input id="term-input" type="text" placeholder="O busca un tema puntual (ej: inundaciones Nepal, terremoto Turquía...)" autocomplete="off" />
+      <button type="submit" class="refresh-btn">🔍 Buscar este tema</button>
+    </form>
+
+    <div id="progress" class="progress" hidden></div>
+    <div id="empty-state" class="empty">Pulsa "Ver tendencias oficiales" o busca un tema para empezar.</div>
     <div id="list"></div>
   </main>
+
+  <div id="key-modal" class="modal-backdrop" hidden>
+    <div class="modal">
+      <h2>Tu clave de YouTube Data API v3</h2>
+      <p>
+        Se guarda solo en este navegador (localStorage) y se usa para llamar
+        directo a <code>googleapis.com</code> desde tu propio dispositivo —
+        nunca pasa por ningún servidor nuestro.
+      </p>
+      <input id="key-input" type="password" placeholder="AIza..." autocomplete="off" />
+      <div class="modal-actions">
+        <button id="key-save" class="refresh-btn">Guardar</button>
+        <button id="key-cancel" class="link-btn">Cancelar</button>
+      </div>
+      <p class="modal-help">
+        ¿No tienes una? Sácala gratis en la
+        <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer">
+          Google Cloud Console
+        </a> (habilita "YouTube Data API v3" y crea una credencial de tipo API key).
+      </p>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>

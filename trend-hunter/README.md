@@ -4,84 +4,63 @@ Detecta temas que están empezando a moverse **antes** de que exploten en
 YouTube — el tipo de señal que hubiera marcado "inundaciones en Nepal" el 26
 de agosto, antes de que el primer video viral saliera.
 
-## Cómo detecta "temprano" (lo importante)
+## Uso principal: la página HTML (`public/index.html`)
 
-Cruzar fuentes en un solo momento **no basta** — te dice "esto ya suena en
-2+ lugares ahora", pero no si está acelerando. La detección temprana real
-viene de comparar **corridas sucesivas** en el tiempo:
+Es la forma recomendada — igual que `outlier-tracker`: abres la página, pegas
+tu clave de YouTube Data API v3 (se guarda solo en tu navegador, nunca sale
+de tu dispositivo) y ves la lista ordenada por **% de viralidad**.
 
-1. Cada corrida guarda su resultado (`output/latest.json` +
-   `output/history/`).
-2. La siguiente corrida carga el snapshot anterior y calcula, por cada
-   tema, `scorePerHour` = cuánto subió su score entre una corrida y la
-   otra. Un tema con `⚡ +12.8/h` está acelerando de verdad; uno con score
-   alto pero estable no.
-3. Los temas se ordenan primero por **🆕 NUEVO** (no existía en la corrida
-   anterior) o **aceleración alta**, y solo después por score absoluto —
-   así lo que importa no se pierde entre lo que ya es viejo pero grande.
-4. Se cruza con YouTube: si el tema acelera pero YouTube casi no tiene
-   videos todavía, se marca `🟢 HUECO EN YOUTUBE` — el momento óptimo para
-   producir.
+### Qué es el % de viralidad
 
-**El tiempo mínimo de detección depende de qué tan seguido corras el
-script.** Una corrida suelta no detecta aceleración por sí sola (no tiene
-con qué comparar) — se pone interesante a partir de la segunda corrida en
-adelante, comparando contra la anterior sin importar cuánto tiempo haya
-pasado entre una y otra.
+Combina dos cosas — **hace falta que ambas sean altas para llegar a 100%**:
 
-## Cómo correrlo (100% manual, tú decides cuándo)
+- **Tendencia** (0-100%): qué tan rápido está ganando vistas el video
+  (vistas/hora), comparado contra los demás temas de esa corrida.
+- **Oportunidad** (0-100%): qué tan poca "oferta" hay ya en YouTube para ese
+  tema — menos videos existentes cubriéndolo = más alto. Se calcula
+  buscando el tema en YouTube y viendo cuántos resultados hay.
 
-No hay cron ni nada corriendo en segundo plano — esto se dispara solo
-cuando tú quieres:
+`viralidad% = raíz(tendencia × oportunidad)` — un tema con tendencia 100%
+pero mucha oferta (500+ videos ya cubriéndolo) da un score bajo; un tema con
+tendencia alta y casi nadie cubriéndolo todavía da un score alto. Ese es
+justo el caso "Nepal el 26 de agosto, antes del primer video viral".
 
-- **Desde GitHub:** pestaña **Actions → "Trend Hunter (corrida manual)" →
-  Run workflow**. Guarda el snapshot en la rama `trend-hunter-data` (rama
-  de datos separada del código, no la edites a mano) y publica el reporte
-  completo como **resumen del run** (Actions → el run → "Summary").
-- **Desde tu terminal:** `cd trend-hunter && npm run hunt` (ver abajo).
-- Necesita el secreto `YOUTUBE_API_KEY` en
-  `Settings → Secrets and variables → Actions` del repo si lo corres desde
-  GitHub (opcional: sin él, se omite solo el chequeo de "hueco en
-  YouTube").
-- Para ver el resultado sin entrar a Actions, revisa el dashboard en
-  `trend-hunter/public/` (se publica junto a los otros sitios) — lee el
-  último snapshot directo de la rama `trend-hunter-data`.
+### Dos modos
 
-## Cómo funciona (fuentes)
+1. **Tendencias oficiales**: llama al `chart=mostPopular` de YouTube por
+   país/categoría (la lista oficial de trending) y calcula el % para los N
+   temas más fuertes.
+2. **Buscar un tema puntual**: escribes cualquier cosa (ej. "inundaciones
+   Nepal", "terremoto Turquía") y calcula tendencia + oportunidad para ese
+   tema específico, aunque no esté en el trending oficial — útil para
+   monitorear un tema que viste en noticias/Reddit/X y quieres saber si
+   conviene producir ya.
 
-No hay una sola "API de tendencias" confiable y gratuita, así que este
-script cruza varias fuentes públicas y busca **temas que aparecen en dos o
-más fuentes distintas al mismo tiempo** — esa coincidencia es la señal de
-que algo está subiendo de verdad, no ruido de una sola fuente:
+### Cuota de la API
 
-1. **Reddit** (sin API key): `r/all/rising` (la señal más temprana: posts
-   ganando tracción rápido) + top diario de subs de noticias
-   (`r/worldnews`, `r/news`, etc.) + búsqueda de palabras "vigía".
-2. **Google Trends** (sin API key, endpoint no documentado que usa la propia
-   web de Google Trends): tendencias diarias por país.
-3. **Prensa y TV** (sin API key, vía RSS de Google News, que agrega miles de
-   medios incluyendo canales de TV): titulares top por país + búsqueda de
-   palabras "vigía".
-4. **YouTube Data API v3** (reutiliza la misma `YOUTUBE_API_KEY` que
-   `outlier-tracker` y `youtube-research-copilot`): para los temas que ya
-   tienen señal cruzada, revisa cuántos videos recientes hay y a qué
-   velocidad (vistas/hora). Si el tema tiene mucha señal en noticias/Reddit/
-   Trends pero **casi ningún video todavía**, se marca como
-   `🟢 HUECO EN YOUTUBE` — el momento ideal para producir antes que otros.
+Cada video candidato revisado cuesta ~100 unidades (por la búsqueda de
+oferta). Con 15 temas (default) son ~1.500 unidades de las 10.000 gratuitas
+diarias — puedes correrlo varias veces al día sin problema. Baja el "# de
+temas a analizar" si quieres gastar menos por corrida.
 
-### X/Twitter
+### Publicar la página
 
-X no tiene API de tendencias gratuita desde 2023 (requiere plan de pago). No
-se scrapea porque no hay forma confiable/estable de hacerlo sin login. Si ves
-algo trending en X a simple vista, agrégalo a mano en
-`config/seeds.json` → `watchKeywords` y se cruzará automáticamente con las
-demás fuentes en la siguiente corrida.
+Se publica junto a `outlier-tracker` en el mismo sitio de GitHub Pages
+(`.github/workflows/update-outliers.yml` ya incluye `trend-hunter/public/**`)
+en la ruta `/trends/`. También puedes abrir `public/index.html` directo en
+tu navegador sin publicar nada.
 
-## Uso
+## Uso alternativo (avanzado): script de terminal multi-fuente
+
+Además de la página HTML, hay un script de terminal más elaborado que cruza
+**Reddit + Google Trends + Google News (prensa/TV) + YouTube** — útil si
+quieres vigilancia más amplia que solo YouTube, o comparar corridas
+sucesivas para medir aceleración real (`⚡ +X/h`) en vez de una sola foto.
+No corre automático (sin cron): tú decides cuándo.
 
 ```bash
 cd trend-hunter
-echo "YOUTUBE_API_KEY=tu_clave" > ../.env   # opcional pero recomendado; reutiliza la del outlier-tracker
+echo "YOUTUBE_API_KEY=tu_clave" > ../.env   # opcional; reutiliza la del outlier-tracker
 npm run hunt
 ```
 
@@ -92,33 +71,32 @@ npm run hunt -- --geo NP,US     # limitar a países específicos (por defecto: N
 npm run hunt -- --top 15        # cuántos temas mostrar (default 20)
 ```
 
-Cada corrida guarda el reporte completo en `output/hunt-<fecha>.json`
-(ignorado por git) para que puedas revisar el detalle de cada fuente.
+También se puede disparar desde GitHub: pestaña **Actions → "Trend Hunter
+(corrida manual)" → Run workflow**. Guarda cada snapshot en la rama
+`trend-hunter-data` para poder comparar corridas y medir aceleración; el
+reporte completo queda en el resumen del run (Actions → el run →
+"Summary").
 
-## Ajustar qué vigila
+Ajustar qué vigila: edita `config/seeds.json` (`geos`, `redditSubs`,
+`watchKeywords`, `stopwords`).
 
-Edita `config/seeds.json`:
+### X/Twitter
 
-- `geos`: países/idiomas a monitorear (Google Trends + Google News).
-- `redditSubs`: subreddits de noticias a revisar.
-- `watchKeywords`: palabras clave tipo "desastre/disturbio" que se buscan
-  activamente en Reddit y noticias en cada corrida (no dependen de que ya
-  estén en portada).
-- `stopwords`: palabras comunes que se ignoran al cruzar títulos.
+X no tiene API de tendencias gratuita desde 2023. No se scrapea porque no
+hay forma confiable/estable de hacerlo sin login. Si ves algo trending en X,
+o bien lo escribes directo en el buscador de la página HTML, o lo agregas a
+`config/seeds.json → watchKeywords` para el script de terminal.
 
 ## Limitaciones honestas
 
-- Google Trends y el scraping de RSS usan endpoints no oficiales/públicos;
-  pueden cambiar de formato sin aviso (igual que el mecanismo de
-  transcripciones de `youtube-research-copilot`). El script no falla si una
-  fuente cae — simplemente la reporta como 0 resultados y sigue con las
+- El % de viralidad es una heurística, no una predicción garantizada:
+  "oferta" se mide buscando un texto derivado del título/tema, no
+  entendiendo el evento real — revisa siempre el video/búsqueda antes de
+  decidir producir.
+- `chart=mostPopular` es el trending general de YouTube (dominado a veces
+  por música/entretenimiento) — para temas de noticias/desastres el modo
+  "buscar un tema puntual" suele ser más útil que el trending oficial.
+- El script de terminal usa Google Trends y RSS de Google News, que son
+  endpoints no oficiales/públicos y pueden cambiar de formato sin aviso. No
+  falla si una fuente cae — la reporta como 0 resultados y sigue con las
   demás.
-- El cruce de señales es una heurística por palabras (tokenización simple),
-  no NLP real: agrupa por token, no por evento/entidad. Para temas con
-  nombres poco comunes (p. ej. un lugar específico) puede que el token
-  correcto no coincida entre fuentes con la misma frecuencia — revisa
-  siempre las `samples` de cada fila antes de decidir producir.
-- Es una foto del momento en que corres el script, no monitoreo continuo.
-  Para vigilancia real, corre `npm run hunt` varias veces al día (o
-  automatízalo con un workflow de GitHub Actions con cron) y compara los
-  JSON entre corridas para ver qué temas están **acelerando**.
