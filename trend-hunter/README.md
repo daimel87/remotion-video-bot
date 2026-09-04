@@ -7,8 +7,10 @@ de agosto, antes de que el primer video viral saliera.
 ## Uso principal: la página HTML (`public/index.html`)
 
 Es la forma recomendada — igual que `outlier-tracker`: abres la página,
-pegas tus claves (se guardan solo en tu navegador, nunca salen de tu
-dispositivo) y ves los temas ordenados por **% de viralidad**.
+pegas tu clave de YouTube Data API v3 (se guarda solo en tu navegador,
+nunca sale de tu dispositivo) y ves los temas ordenados por **% de
+viralidad**. Nada más que configurar — el cruce con Reddit/Trends/Noticias
+funciona solo, sin cuentas ni claves extra.
 
 ### Qué es el % de viralidad
 
@@ -32,22 +34,15 @@ video viral".
 
 Reddit, Google Trends y Google News no dejan llamarlos directo desde el
 navegador de otro sitio (bloqueo CORS). La página lo resuelve sola, sin que
-tengas que instalar nada:
+tengas que instalar ni configurar nada: pasa por un proxy CORS público y
+gratuito (`api.allorigins.win`). Al ser un servicio de terceros puede ser
+algo más lento o fallar de vez en cuando — si eso pasa, esa fuente
+simplemente devuelve 0 resultados esa vez y las demás siguen funcionando
+(no se rompe la página).
 
-- **Por defecto**: usa un proxy CORS público y gratuito
-  (`api.allorigins.win`) — no requiere cuenta ni configuración, funciona
-  apenas abres la página. Es un servicio de terceros, así que puede ser
-  algo más lento o fallar de vez en cuando (nada tuyo se rompe si eso
-  pasa: la página avisa y esa fuente devuelve 0 resultados esa vez).
-- **Opcional, para más estabilidad**: si quieres tu propio proxy (más
-  rápido y confiable, lo controlas tú), monta un Cloudflare Worker gratis
-  siguiendo [`worker/README.md`](worker/README.md) (5 minutos, sin
-  tarjeta) y pega su URL en la página, en **🔑 Claves y proxy**. Si lo
-  configuras, la página lo usa a él en vez del proxy público.
-
-Si ninguna fuente cruzada responde (proxy caído, red, etc.), la página cae
-como último recurso a estimar la tendencia solo con la velocidad de vistas
-en YouTube — se avisa en el resultado cuando pasa eso.
+Si ninguna fuente cruzada responde, la página cae como último recurso a
+estimar la tendencia solo con la velocidad de vistas en YouTube — se avisa
+en el resultado cuando pasa eso.
 
 ### X/Twitter
 
