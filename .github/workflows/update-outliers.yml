@@ -6,6 +6,7 @@ on:
     paths:
       - "outlier-tracker/public/**"
       - "youtube-research-copilot/public/**"
+      - "trend-hunter/public/**"
   workflow_dispatch: {}
 
 permissions:
@@ -28,6 +29,8 @@ jobs:
           cp -r outlier-tracker/public/. site/
           mkdir -p site/research
           cp -r youtube-research-copilot/public/. site/research/
+          mkdir -p site/trends
+          cp -r trend-hunter/public/. site/trends/
 
       - name: Publicar en rama gh-pages
         uses: peaceiris/actions-gh-pages@v4
