@@ -3,104 +3,100 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Trend Hunter · % de viralidad</title>
-  <link rel="stylesheet" href="style.css?v=3" />
+  <title>Trend Hunter · Outliers por tema</title>
+  <link rel="stylesheet" href="style.css?v=4" />
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
       <h1>🔎 Trend Hunter</h1>
       <p class="subtitle">
-        % de viralidad = <strong>tendencia real</strong> (cruce de Reddit +
-        Google Trends + Noticias + lo que veas en X) <strong>× oportunidad</strong>
-        (qué tan poca oferta hay ya en YouTube). 100% = está sonando fuerte en
-        varios lados a la vez y casi nadie lo cubrió todavía en video.
+        Por cada tema, busca videos de <strong>canales chicos</strong> con
+        <strong>vistas fuera de lo normal</strong> para su tamaño (ej. 13k
+        subs con 1M de vistas en la semana) y poca oferta en YouTube todavía.
+        100% de viralidad = ambas cosas al máximo a la vez. Solo usa la
+        YouTube Data API — sin proxies, sin bloqueos.
       </p>
       <div class="meta-row">
         <span id="updated-at">Sin datos todavía</span>
-        <button id="settings-btn" class="link-btn">🔑 Clave y proxy</button>
+        <button id="settings-btn" class="link-btn">🔑 Clave de YouTube</button>
         <a href="../index.html" class="link-btn">📈 Outliers →</a>
-      </div>
-      <div id="proxy-warning" class="warning" hidden>
-        ⚠ Los proxies públicos (para cruzar Reddit/Trends/Noticias) están
-        fallando — probablemente tu navegador o un ad-blocker los está
-        bloqueando (es común, no es que estén caídos). Configura tu propio
-        proxy en "🔑 Clave y proxy" → ver <code>trend-hunter/worker/README.md</code>
-        (5 min, gratis) para que funcione de verdad.
       </div>
     </div>
   </header>
 
   <main class="container">
+    <label class="field topics-field">
+      <span>Temas a escanear (uno por línea o separados por coma)</span>
+      <textarea id="topics-input" rows="5" placeholder="inundaciones&#10;terremoto&#10;historia real"></textarea>
+    </label>
+
     <div class="controls-bar">
       <label class="field">
-        <span>País (Trends/Noticias)</span>
-        <select id="region-select">
-          <option value="NP">Nepal</option>
-          <option value="US" selected>Estados Unidos</option>
-          <option value="MX">México</option>
-          <option value="ES">España</option>
-          <option value="IN">India</option>
-          <option value="GB">Reino Unido</option>
-          <option value="BR">Brasil</option>
-          <option value="AR">Argentina</option>
+        <span>Publicado en los últimos</span>
+        <select id="days-select">
+          <option value="3">3 días</option>
+          <option value="7" selected>7 días</option>
+          <option value="14">14 días</option>
+          <option value="30">30 días</option>
         </select>
       </label>
       <label class="field">
-        <span># de temas a analizar</span>
+        <span>Canal chico: hasta</span>
+        <select id="subs-select">
+          <option value="10000">10.000 subs</option>
+          <option value="50000" selected>50.000 subs</option>
+          <option value="100000">100.000 subs</option>
+          <option value="300000">300.000 subs</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Vistas mínimas</span>
+        <select id="minviews-select">
+          <option value="50000">50.000</option>
+          <option value="100000" selected>100.000</option>
+          <option value="500000">500.000</option>
+          <option value="1000000">1.000.000</option>
+        </select>
+      </label>
+      <label class="field">
+        <span># de resultados</span>
         <select id="topn-select">
-          <option value="10">10 (barato en cuota)</option>
+          <option value="10">10</option>
           <option value="15" selected>15</option>
           <option value="25">25</option>
         </select>
       </label>
-      <button id="refresh-btn" class="refresh-btn">🔄 Descubrir tendencias cruzadas</button>
     </div>
 
-    <label class="field xtrends-field">
-      <span>Tendencias que ves en X ahora mismo (opcional, sin API — X no tiene una gratis)</span>
-      <textarea id="xtrends-input" rows="2" placeholder="Separa por comas: ej. inundaciones nepal, terremoto turquia, eclipse solar"></textarea>
-    </label>
-
-    <form id="term-form" class="term-search">
-      <input id="term-input" type="text" placeholder="O busca un tema puntual (ej: inundaciones Nepal, terremoto Turquía...)" autocomplete="off" />
-      <button type="submit" class="refresh-btn">🔍 Buscar este tema</button>
-    </form>
+    <button id="refresh-btn" class="refresh-btn">🔍 Buscar outliers</button>
 
     <div id="progress" class="progress" hidden></div>
-    <div id="empty-state" class="empty">Pulsa "Descubrir tendencias cruzadas" o busca un tema para empezar.</div>
+    <div id="empty-state" class="empty">Escribe uno o más temas y pulsa "Buscar outliers".</div>
     <div id="list"></div>
   </main>
 
   <div id="key-modal" class="modal-backdrop" hidden>
     <div class="modal">
-      <h2>Clave y proxy</h2>
+      <h2>Tu clave de YouTube Data API v3</h2>
       <p>
-        Todo se guarda solo en este navegador (localStorage) y las llamadas
-        van directo desde tu dispositivo — nunca pasan por ningún servidor
+        Se guarda solo en este navegador (localStorage) y las llamadas van
+        directo desde tu dispositivo — nunca pasan por ningún servidor
         nuestro.
       </p>
-      <label class="modal-label" for="key-input">Clave de YouTube Data API v3 (obligatoria)</label>
       <input id="key-input" type="password" placeholder="AIza..." autocomplete="off" />
-      <label class="modal-label" for="proxy-input">
-        Tu proxy propio (recomendado — los públicos suelen estar bloqueados
-        por ad-blockers)
-      </label>
-      <input id="proxy-input" type="text" placeholder="https://tu-worker.workers.dev" autocomplete="off" />
       <div class="modal-actions">
         <button id="key-save" class="refresh-btn">Guardar</button>
         <button id="key-cancel" class="link-btn">Cancelar</button>
       </div>
       <p class="modal-help">
-        ¿No tienes clave de YouTube? Sácala gratis en la
-        <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer">Google Cloud Console</a>.
-        ¿No tienes proxy? Instrucciones en
-        <code>trend-hunter/worker/README.md</code> (5 min, gratis, sin tarjeta;
-        soluciona de raíz los fallos de "no se pudo contactar").
+        ¿No tienes una? Sácala gratis en la
+        <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer">Google Cloud Console</a>
+        (habilita "YouTube Data API v3" y crea una credencial de tipo API key).
       </p>
     </div>
   </div>
 
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>
