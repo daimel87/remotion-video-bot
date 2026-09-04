@@ -9,7 +9,7 @@
 //   npm run hunt -- --geo NP,US        # solo esos países
 //   npm run hunt -- --top 15           # cuántos temas mostrar (default 20)
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
+import { readFileSync, mkdirSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -19,6 +19,7 @@ import { fetchDailyTrends } from "./lib/googleTrends.mjs";
 import { fetchTopHeadlines, searchNews } from "./lib/news.mjs";
 import { searchRecentVideos } from "./lib/youtube.mjs";
 import { buildTrendBoard } from "./lib/score.mjs";
+import { loadLatestSnapshot, saveSnapshot, computeVelocity } from "./lib/history.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -86,9 +87,31 @@ const watchFlat = watchResults.flat();
 allItems.push(...watchFlat);
 console.log(`Palabras vigía (${seeds.watchKeywords.length}): ${watchFlat.length} menciones encontradas.\n`);
 
-// 5) Cruce de señales.
-const board = buildTrendBoard(allItems, seeds.stopwords);
-const top = board.filter((r) => r.distinctSourceTypes >= 2).slice(0, topN);
+// 5) Cruce de señales + velocidad respecto a la corrida anterior.
+const outDir = path.join(ROOT, "output");
+if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true });
+const previousSnapshot = loadLatestSnapshot(outDir);
+if (previousSnapshot) {
+  const hoursAgo = (Date.now() - new Date(previousSnapshot.generatedAt).getTime()) / 3600000;
+  console.log(`📈 Comparando contra la corrida anterior (hace ${hoursAgo.toFixed(1)}h) para medir aceleración.\n`);
+} else {
+  console.log("📈 Primera corrida: no hay corrida anterior con la que comparar velocidad todavía.\n");
+}
+
+const rawBoard = buildTrendBoard(allItems, seeds.stopwords);
+const board = computeVelocity(rawBoard, previousSnapshot);
+
+// Prioriza lo que ACELERA o es NUEVO por encima de lo que solo tiene score
+// alto pero estable — eso es lo que de verdad avisa temprano.
+const HOT_VELOCITY = 3; // score/hora
+const candidates = board.filter((r) => r.distinctSourceTypes >= 2);
+candidates.sort((a, b) => {
+  const aHot = a.isNew || (a.scorePerHour ?? 0) >= HOT_VELOCITY;
+  const bHot = b.isNew || (b.scorePerHour ?? 0) >= HOT_VELOCITY;
+  if (aHot !== bHot) return aHot ? -1 : 1;
+  return (b.scorePerHour ?? b.score) - (a.scorePerHour ?? a.score);
+});
+const top = candidates.slice(0, topN);
 
 if (top.length === 0) {
   console.log("No se encontraron temas con señal en 2+ fuentes distintas. Revisa el board completo en el JSON de salida.");
@@ -117,12 +140,17 @@ for (const row of top.slice(0, 10)) {
 
 // 7) Reporte en consola.
 console.log("=".repeat(70));
-console.log("TEMAS CON SEÑAL CRUZADA (multi-fuente), ordenados por score:");
+console.log("TEMAS CON SEÑAL CRUZADA, ordenados por ACELERACIÓN (no solo score):");
 console.log("=".repeat(70));
 for (const row of withYoutube) {
   const gapTag = row.gap ? "  🟢 HUECO EN YOUTUBE" : "";
+  const velTag = row.isNew
+    ? "  🆕 NUEVO"
+    : row.scorePerHour != null
+      ? `  ⚡ ${row.scorePerHour >= 0 ? "+" : ""}${row.scorePerHour}/h`
+      : "";
   console.log(
-    `\n#${row.token}  score=${row.score}  fuentes=${row.distinctSourceTypes}${gapTag}`
+    `\n#${row.token}  score=${row.score}  fuentes=${row.distinctSourceTypes}${velTag}${gapTag}`
   );
   console.log(`  YouTube: ${row.youtube.videoCount} videos recientes, máx ${row.youtube.maxViewsPerHour} vistas/hora`);
   for (const s of row.samples) {
@@ -141,13 +169,17 @@ console.log(
     " que se cruce con las demás fuentes en la próxima corrida."
 );
 
-// 8) Guardar JSON completo para inspección/uso posterior.
-const outDir = path.join(ROOT, "output");
-if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true });
-const stamp = new Date().toISOString().replace(/[:.]/g, "-");
-const outFile = path.join(outDir, `hunt-${stamp}.json`);
-writeFileSync(
-  outFile,
-  JSON.stringify({ generatedAt: new Date().toISOString(), geos: geos.map((g) => g.code), board, top: withYoutube }, null, 2)
+// 8) Guardar snapshot: se compara en la SIGUIENTE corrida para medir
+//    aceleración, y queda en output/history/ para ver la evolución completa.
+const snapshot = {
+  generatedAt: new Date().toISOString(),
+  geos: geos.map((g) => g.code),
+  board, // board completo (no solo el top) para poder comparar cualquier token en la próxima corrida
+  top: withYoutube,
+};
+saveSnapshot(outDir, snapshot);
+console.log(`\n💾 Snapshot guardado en trend-hunter/output/latest.json (+ copia en output/history/).`);
+console.log(
+  "   Corre 'npm run hunt' de nuevo más tarde (o automatízalo, ver README) para que la próxima" +
+    " corrida calcule velocidad real contra esta."
 );
-console.log(`\n💾 Reporte completo guardado en trend-hunter/${path.relative(ROOT, outFile)}`);

@@ -4,7 +4,63 @@ Detecta temas que están empezando a moverse **antes** de que exploten en
 YouTube — el tipo de señal que hubiera marcado "inundaciones en Nepal" el 26
 de agosto, antes de que el primer video viral saliera.
 
-## Cómo funciona
+## Cómo detecta "temprano" (lo importante)
+
+Cruzar fuentes en un solo momento **no basta** — te dice "esto ya suena en
+2+ lugares ahora", pero no si está acelerando. La detección temprana real
+viene de comparar **corridas sucesivas** en el tiempo:
+
+1. Cada corrida guarda su resultado (`output/latest.json` +
+   `output/history/`).
+2. La siguiente corrida carga el snapshot anterior y calcula, por cada
+   tema, `scorePerHour` = cuánto subió su score entre una corrida y la
+   otra. Un tema con `⚡ +12.8/h` está acelerando de verdad; uno con score
+   alto pero estable no.
+3. Los temas se ordenan primero por **🆕 NUEVO** (no existía en la corrida
+   anterior) o **aceleración alta**, y solo después por score absoluto —
+   así lo que importa no se pierde entre lo que ya es viejo pero grande.
+4. Se cruza con YouTube: si el tema acelera pero YouTube casi no tiene
+   videos todavía, se marca `🟢 HUECO EN YOUTUBE` — el momento óptimo para
+   producir.
+
+**El tiempo mínimo de detección depende de qué tan seguido corras el
+script.** Una corrida suelta de vez en cuando no detecta aceleración (no
+tiene con qué comparar). Por eso se agregó automatización (ver abajo):
+corriendo cada 30 min, el peor caso para notar que algo está acelerando es
+~30-60 min desde que empezó a moverse — limitado por qué tan seguido
+actualizan sus datos las fuentes gratuitas (Reddit `rising` es casi en
+tiempo real; Google Trends "daily trends" solo se actualiza unas pocas
+veces al día, no en tiempo real, aunque el paso de noticias/Reddit sí
+puede adelantarse a eso).
+
+## Automatizar (para no depender de correrlo a mano)
+
+`.github/workflows/trend-hunter.yml` corre el script cada 30 minutos en
+GitHub Actions, sin que tengas que hacer nada:
+
+- Guarda cada snapshot en la rama `trend-hunter-data` (rama de datos
+  gestionada por el bot, separada del código — no la edites a mano).
+- Publica el reporte de cada corrida como **resumen del run** (pestaña
+  Actions → el run → "Summary"), así puedes revisar rápido sin descargar
+  nada.
+- Necesita el secreto `YOUTUBE_API_KEY` en
+  `Settings → Secrets and variables → Actions` del repo (opcional: sin él,
+  se omite solo el chequeo de "hueco en YouTube").
+
+**Importante:**
+- Los workflows con `schedule` de GitHub solo se disparan cuando el
+  archivo vive en la rama por defecto (`main`). Mientras este cambio no
+  esté fusionado, solo puedes dispararlo a mano desde la pestaña Actions
+  ("Run workflow").
+- GitHub **desactiva automáticamente** los workflows programados si el
+  repo pasa 60 días sin actividad — si un día ves que dejó de correr,
+  revisa la pestaña Actions y reactívalo.
+- Reddit y Google (Trends/News) son endpoints no oficiales; correr cada 30
+  min desde los runners compartidos de GitHub Actions puede eventualmente
+  toparse con límites de tasa. Si empiezas a ver muchos 403 en el resumen,
+  baja la frecuencia del cron en el workflow (por ejemplo a cada hora).
+
+## Cómo funciona (fuentes)
 
 No hay una sola "API de tendencias" confiable y gratuita, así que este
 script cruza varias fuentes públicas y busca **temas que aparecen en dos o

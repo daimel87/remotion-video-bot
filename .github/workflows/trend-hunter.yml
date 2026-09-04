@@ -1,0 +1,79 @@
+name: Trend Hunter (corridas periódicas)
+
+# NOTA: los workflows con "schedule" solo se disparan cuando este archivo
+# vive en la rama por defecto del repo (normalmente main). Mientras esta
+# rama no esté fusionada, solo se puede correr a mano con "Run workflow".
+
+on:
+  schedule:
+    - cron: "*/30 * * * *" # cada 30 min — ajusta si Reddit/Google empiezan a bloquear al runner
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: trend-hunter-data
+  cancel-in-progress: false
+
+jobs:
+  hunt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Restaurar snapshot anterior (para medir aceleración)
+        run: |
+          mkdir -p trend-hunter/output
+          git clone --depth 1 --branch trend-hunter-data \
+            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" \
+            /tmp/prev-data 2>/dev/null || true
+          if [ -f /tmp/prev-data/trend-hunter/output/latest.json ]; then
+            cp /tmp/prev-data/trend-hunter/output/latest.json trend-hunter/output/latest.json
+            echo "Snapshot anterior restaurado."
+          else
+            echo "No hay snapshot anterior (primera corrida o rama trend-hunter-data aún no existe)."
+          fi
+
+      - name: Correr Trend Hunter
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: |
+          cd trend-hunter
+          node scripts/hunt.mjs --top 15 2>&1 | tee /tmp/hunt-output.txt
+
+      - name: Publicar resumen en el run de Actions
+        if: always()
+        run: |
+          {
+            echo "## 🔎 Trend Hunter — $(date -u +'%Y-%m-%d %H:%M UTC')"
+            echo '```'
+            cat /tmp/hunt-output.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Guardar snapshot en la rama trend-hunter-data
+        if: always()
+        run: |
+          if [ ! -f trend-hunter/output/latest.json ]; then
+            echo "No se generó snapshot esta corrida, nada que guardar."
+            exit 0
+          fi
+          rm -rf /tmp/data-branch
+          mkdir -p /tmp/data-branch/trend-hunter
+          cp -r trend-hunter/output /tmp/data-branch/trend-hunter/output
+          cd /tmp/data-branch
+          git init -q
+          git checkout -q -b trend-hunter-data
+          git config user.name "trend-hunter-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          git add .
+          git commit -q -m "Snapshot $(date -u +'%Y-%m-%dT%H:%MZ')"
+          git push -f origin trend-hunter-data
