@@ -9,8 +9,7 @@ de agosto, antes de que el primer video viral saliera.
 Es la forma recomendada — igual que `outlier-tracker`: abres la página,
 pegas tu clave de YouTube Data API v3 (se guarda solo en tu navegador,
 nunca sale de tu dispositivo) y ves los temas ordenados por **% de
-viralidad**. Nada más que configurar — el cruce con Reddit/Trends/Noticias
-funciona solo, sin cuentas ni claves extra.
+viralidad**.
 
 ### Qué es el % de viralidad
 
@@ -33,16 +32,27 @@ video viral".
 ### Cómo se salta el bloqueo de CORS
 
 Reddit, Google Trends y Google News no dejan llamarlos directo desde el
-navegador de otro sitio (bloqueo CORS). La página lo resuelve sola, sin que
-tengas que instalar ni configurar nada: pasa por un proxy CORS público y
-gratuito (`api.allorigins.win`). Al ser un servicio de terceros puede ser
-algo más lento o fallar de vez en cuando — si eso pasa, esa fuente
-simplemente devuelve 0 resultados esa vez y las demás siguen funcionando
-(no se rompe la página).
+navegador de otro sitio (bloqueo CORS). Hay dos formas, en este orden:
+
+1. **Tu proxy propio** (Cloudflare Worker), si lo configuraste en
+   "🔑 Clave y proxy" — instrucciones en
+   [`worker/README.md`](worker/README.md) (5 minutos, gratis, sin
+   tarjeta). **Esta es la que de verdad funciona siempre.**
+2. **Proxies CORS públicos gratuitos** como respaldo automático si no
+   configuraste el propio (o si el propio falla): se prueban varios en
+   cadena. **En la práctica fallan seguido** — no porque estén caídos, sino
+   porque muchos ad-blockers y navegadores con protección de privacidad
+   (uBlock Origin, Brave Shields, Firefox estricto...) los bloquean por
+   defecto al estar en listas de "proxies de evasión". Si la página te dice
+   que no pudo contactar nada, casi siempre es esto — la solución real es
+   el paso 1, no reintentar.
 
 Si ninguna fuente cruzada responde, la página cae como último recurso a
 estimar la tendencia solo con la velocidad de vistas en YouTube — se avisa
-en el resultado cuando pasa eso.
+en el resultado cuando pasa eso. Y si hay datos pero ninguno comparte la
+misma palabra exacta entre 2+ fuentes (pasa seguido, sobre todo en inglés),
+muestra el top de cada fuente marcado `⚠ sin cruzar` en vez de dejarte sin
+nada.
 
 ### X/Twitter
 

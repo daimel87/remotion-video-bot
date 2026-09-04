@@ -1,18 +1,22 @@
-// Todo corre en el navegador. La clave de YouTube se guarda en localStorage
-// — nunca pasa por ningún servidor nuestro.
+// Todo corre en el navegador. La clave de YouTube y la URL de tu proxy
+// propio (opcional) se guardan en localStorage — nunca pasan por ningún
+// servidor nuestro.
 //
 // % de viralidad = raíz(tendencia × oportunidad):
 //  - tendencia: sale de cruzar Reddit + Google Trends + Google News + lo que
-//    tú pegues de X. Para poder llamar esas fuentes sin chocar con el
-//    bloqueo de CORS del navegador, se pasa por un proxy CORS público
-//    gratuito (api.allorigins.win) — no requiere ninguna configuración. Si
-//    ninguna fuente cruzada responde, cae a estimar con la velocidad de
-//    vistas de YouTube como último recurso.
+//    tú pegues de X. Para llamar esas fuentes sin chocar con el bloqueo de
+//    CORS del navegador, se usa (en este orden): 1) tu proxy propio si lo
+//    configuraste, 2) una cadena de proxies CORS públicos gratuitos. Los
+//    públicos suelen fallar porque ad-blockers/extensiones de privacidad
+//    los bloquean por defecto — por eso el proxy propio es la opción que
+//    de verdad funciona siempre. Si ninguna fuente cruzada responde, cae a
+//    estimar con la velocidad de vistas de YouTube como último recurso.
 //  - oportunidad: qué tan poca "oferta" hay ya en YouTube para ese tema
 //    (menos videos existentes cubriéndolo = más alto).
 // Hace falta que AMBAS sean altas para llegar a 100%.
 
 const KEY_STORAGE = "trendhunter_youtube_key";
+const PROXY_STORAGE = "trendhunter_proxy_url";
 const XTRENDS_STORAGE = "trendhunter_xtrends";
 const API_BASE = "https://www.googleapis.com/youtube/v3";
 
@@ -39,6 +43,7 @@ const els = {
   settingsBtn: document.getElementById("settings-btn"),
   modal: document.getElementById("key-modal"),
   keyInput: document.getElementById("key-input"),
+  proxyInput: document.getElementById("proxy-input"),
   keySave: document.getElementById("key-save"),
   keyCancel: document.getElementById("key-cancel"),
   regionSelect: document.getElementById("region-select"),
@@ -51,11 +56,13 @@ const els = {
   emptyState: document.getElementById("empty-state"),
   list: document.getElementById("list"),
   updatedAt: document.getElementById("updated-at"),
+  proxyWarning: document.getElementById("proxy-warning"),
 };
 
 const REGION_TO_HL = { NP: "en-IN", US: "en-US", MX: "es-419", ES: "es-419", IN: "en-IN", GB: "en-GB", BR: "pt-BR", AR: "es-419" };
 
 function getKey() { return localStorage.getItem(KEY_STORAGE) || ""; }
+function getProxyUrl() { return (localStorage.getItem(PROXY_STORAGE) || "").replace(/\/$/, ""); }
 function getXTrends() { return localStorage.getItem(XTRENDS_STORAGE) || ""; }
 
 els.xtrendsInput.value = getXTrends();
@@ -65,6 +72,7 @@ els.xtrendsInput.addEventListener("change", () => {
 
 function openModal() {
   els.keyInput.value = getKey();
+  els.proxyInput.value = getProxyUrl();
   els.modal.hidden = false;
 }
 function closeModal() { els.modal.hidden = true; }
@@ -73,13 +81,20 @@ els.settingsBtn.addEventListener("click", openModal);
 els.keyCancel.addEventListener("click", closeModal);
 els.keySave.addEventListener("click", () => {
   const key = els.keyInput.value.trim();
+  const proxy = els.proxyInput.value.trim();
   if (key) localStorage.setItem(KEY_STORAGE, key);
+  if (proxy) localStorage.setItem(PROXY_STORAGE, proxy);
+  else localStorage.removeItem(PROXY_STORAGE);
   closeModal();
 });
 
 function setProgress(text) {
   els.progress.hidden = !text;
   els.progress.textContent = text || "";
+}
+
+function reportProxyFailure(failed) {
+  els.proxyWarning.hidden = !(failed && !getProxyUrl());
 }
 
 // ---------- YouTube (oportunidad = oferta ya existente) ----------
@@ -126,10 +141,24 @@ async function fetchTopVideosForQuery(query, publishedAfterIso) {
 // ---------- Cruce de fuentes: Reddit + Google Trends + Google News ----------
 //
 // Ninguna de las tres deja llamarla directo desde el navegador de otro sitio
-// (bloqueo CORS), así que se pasa por un proxy CORS público y gratuito —
-// sin configurar nada. Estos servicios de terceros fallan seguido (caídas,
-// límites de tasa), así que se prueban varios en orden: si el primero no
-// responde, se intenta el siguiente antes de rendirse.
+// (bloqueo CORS). Orden de intento:
+//  1. Tu proxy propio (worker/social-proxy.js), si lo configuraste — el que
+//     de verdad funciona siempre, porque no está en listas de bloqueo.
+//  2. Una cadena de proxies CORS públicos gratuitos — suelen fallar porque
+//     ad-blockers/extensiones de privacidad los bloquean por defecto (están
+//     en listas como "proxies de evasión"), no porque estén caídos.
+
+async function fetchViaCustomWorker(source, params) {
+  const base = getProxyUrl();
+  const url = new URL(base);
+  url.searchParams.set("source", source);
+  for (const [k, v] of Object.entries(params || {})) url.searchParams.set(k, v);
+  const res = await fetch(url.toString());
+  if (!res.ok) throw new Error(`proxy propio HTTP ${res.status}`);
+  const json = await res.json();
+  if (json.error) throw new Error(`proxy propio: ${json.error}`);
+  return json.items || [];
+}
 
 const PUBLIC_CORS_PROXIES = [
   (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
@@ -231,6 +260,15 @@ async function directSource(source, params) {
 // fallaron para esta llamada (distinto de "no hay resultados", que es
 // items:[] con failed:false).
 async function proxyGet(source, params) {
+  if (getProxyUrl()) {
+    try {
+      const items = await fetchViaCustomWorker(source, params || {});
+      return { items, failed: false };
+    } catch (err) {
+      console.warn(`Proxy propio falló (${source}), probando públicos: ${err.message}`);
+      // sigue abajo e intenta los públicos como respaldo
+    }
+  }
   try {
     const items = await directSource(source, params || {});
     return { items, failed: false };
@@ -350,6 +388,7 @@ async function runDiscoveryMode() {
 
   els.list.innerHTML = "";
   els.emptyState.hidden = true;
+  reportProxyFailure(false);
 
   setProgress("Consultando Reddit, Google Trends y Google News...");
   const labels = ["reddit:rising", "reddit:r/worldnews", "reddit:r/news", "googletrends", "news:top"];
@@ -364,6 +403,7 @@ async function runDiscoveryMode() {
   const allFailed = results.every((r) => r.failed);
   const diagnostic = results.map((r, i) => `${labels[i]}=${r.failed ? "falló" : r.items.length}`).join(", ");
   console.info(`[trend-hunter] fuentes: ${diagnostic}`);
+  reportProxyFailure(allFailed);
 
   const allItems = [...results.flatMap((r) => r.items), ...xManualItems()];
   const board = buildCrossBoard(allItems);
@@ -429,6 +469,7 @@ async function runTermSearch(term) {
 
   els.list.innerHTML = "";
   els.emptyState.hidden = true;
+  reportProxyFailure(false);
   setProgress(`Cruzando "${term}" en Reddit/Trends/Noticias/X...`);
 
   const termTokens = tokenize(term);
@@ -442,6 +483,7 @@ async function runTermSearch(term) {
     proxyGet("trends", { geo: region, hl }),
   ]);
   const crossSourceTotalFailure = redditRes.failed && newsRes.failed && trendsRes.failed;
+  reportProxyFailure(crossSourceTotalFailure);
   const redditHits = redditRes.items;
   const newsHits = newsRes.items;
   const xHits = xManualItems().filter((it) => overlapsTokens(tokenize(it.title), termTokens));
