@@ -1,5 +1,9 @@
 # Directivas del proyecto (videos documentales tipo Crónicas Ilustradas)
 
+## Regla de idioma (obligatoria)
+
+Todas las instrucciones, explicaciones y mensajes para el usuario van **siempre en español**, sin excepción.
+
 ## Regla de producción — NO REPETIR ARCHIVOS (obligatoria)
 
 Para cada video nuevo se sigue este flujo, en orden, y **no se empieza a
