@@ -12,12 +12,21 @@ Igual que `outlier-tracker`: pegas tu clave de YouTube Data API v3 (se
 guarda solo en tu navegador, nunca sale de tu dispositivo) y le das
 **"🔍 Buscar outliers"**. La caja de temas es opcional:
 
-- **Vacía** (por defecto): escanea categorías generales de YouTube
-  (Noticias, Entretenimiento, Educación, Ciencia y tecnología, Comedia,
-  Personas y blogs) — no hace falta escribir nada, solo pegar la clave y
-  buscar.
+- **Vacía** (por defecto): usa una lista de nichos específicos internos
+  ("inundaciones", "terremoto", "historia real", "misterio sin resolver",
+  "documental", "tragedia aérea", "sobrevivientes", "windows xp
+  nostalgia") — no hace falta escribir nada, solo pegar la clave y buscar.
 - **Con texto**: uno o más temas propios (uno por línea o separados por
-  coma) para apuntar a algo específico en vez del escaneo general.
+  coma) para apuntar a algo específico en vez de los nichos por defecto.
+
+**Importante: tienen que ser nichos acotados, no categorías anchas.**
+Ordenar por vistas dentro de una categoría entera de YouTube (Noticias,
+Entretenimiento...) o sin ningún filtro de tema siempre saca a los
+canales gigantes — tienen millones de vistas de sobra y un canal chico
+jamás les compite en ranking absoluto. Dentro de un nicho específico
+("inundaciones" en vez de "noticias") hay muchísima menos competencia, y
+ahí sí un canal chico puede aparecer entre los más vistos si de verdad
+está explotando.
 
 **100% YouTube, sin proxies ni servicios de terceros.** Versiones
 anteriores de esta herramienta intentaban cruzar con Reddit, Google Trends

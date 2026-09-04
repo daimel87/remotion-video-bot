@@ -22,17 +22,22 @@ const TOPICS_STORAGE = "trendhunter_topics";
 const API_BASE = "https://www.googleapis.com/youtube/v3";
 const REFERENCE_RATIO = 80; // vistas/suscriptor que se considera "100% anomalía"
 
-// Si no escribís ningún tema, se escanean estas categorías generales de
-// YouTube en su lugar (sin necesidad de palabra clave — search.list acepta
-// videoCategoryId solo, sin "q") para poder simplemente pegar la clave y
-// darle a "Buscar outliers" sin escribir nada.
-const DEFAULT_CATEGORIES = [
-  { id: "25", label: "Noticias y política" },
-  { id: "24", label: "Entretenimiento" },
-  { id: "22", label: "Personas y blogs" },
-  { id: "27", label: "Educación" },
-  { id: "28", label: "Ciencia y tecnología" },
-  { id: "23", label: "Comedia" },
+// Si no escribís ningún tema, se buscan estos nichos específicos en su
+// lugar (para poder pegar la clave y darle a "Buscar outliers" sin escribir
+// nada). Tienen que ser nichos ACOTADOS, no categorías anchas de YouTube:
+// dentro de una categoría entera (Entretenimiento, Noticias...) ordenar por
+// vistas siempre saca a los canales gigantes, un canal chico nunca compite
+// ahí en ranking absoluto. Dentro de un nicho específico sí hay margen real
+// para que un canal chico aparezca entre los más vistos.
+const DEFAULT_TOPICS = [
+  "inundaciones",
+  "terremoto",
+  "historia real",
+  "misterio sin resolver",
+  "documental",
+  "tragedia aérea",
+  "sobrevivientes",
+  "windows xp nostalgia",
 ];
 
 const els = {
@@ -111,25 +116,19 @@ function finalScore(a, b) {
   return Math.round(Math.sqrt(Math.max(0, a) * Math.max(0, b)));
 }
 
-// Busca los videos más vistos publicados en la ventana de días, junto con
-// las estadísticas de sus canales (suscriptores) en un solo lote extra —
-// 1 search.list (100 unidades) + 1 videos.list + 1 channels.list (1 unidad
-// cada uno, ambos por lote) por tema/categoría.
-//
-// spec es { label, q } para un tema escrito a mano, o { label, categoryId }
-// para escanear una categoría general de YouTube sin palabra clave (así se
-// puede buscar sin escribir nada).
-async function fetchTopicCandidates(spec, publishedAfterIso, subThreshold, minViews) {
+// Busca los videos más vistos publicados en la ventana de días para un
+// tema/nicho, junto con las estadísticas de sus canales (suscriptores) en
+// un solo lote extra — 1 search.list (100 unidades) + 1 videos.list +
+// 1 channels.list (1 unidad cada uno, ambos por lote) por tema.
+async function fetchTopicCandidates(topic, publishedAfterIso, subThreshold, minViews) {
   const searchJson = await ytGet("search", {
     part: "snippet",
-    q: spec.q,
-    videoCategoryId: spec.categoryId,
+    q: topic,
     type: "video",
     order: "viewCount",
     publishedAfter: publishedAfterIso,
     maxResults: 25,
   });
-  const topic = spec.label;
   const totalResults = Number(searchJson.pageInfo?.totalResults ?? 0);
   const ids = (searchJson.items || []).map((it) => it.id.videoId).filter(Boolean);
   if (ids.length === 0) return { topic, totalResults, candidates: [] };
@@ -218,10 +217,8 @@ async function runSearch() {
     .map((t) => t.trim())
     .filter(Boolean);
 
-  // Sin temas escritos: escanea categorías generales en vez de pedir texto.
-  const specs = typedTopics.length > 0
-    ? typedTopics.map((t) => ({ label: t, q: t }))
-    : DEFAULT_CATEGORIES.map((c) => ({ label: c.label, categoryId: c.id }));
+  // Sin temas escritos: usa los nichos por defecto en vez de pedir texto.
+  const topics = typedTopics.length > 0 ? typedTopics : DEFAULT_TOPICS;
 
   const days = Number(els.daysSelect.value);
   const subThreshold = Number(els.subsSelect.value);
@@ -234,11 +231,11 @@ async function runSearch() {
 
   const allCandidates = [];
   let errorCount = 0;
-  for (let i = 0; i < specs.length; i++) {
-    const spec = specs[i];
-    setProgress(`Buscando outliers en "${spec.label}" (${i + 1}/${specs.length})...`);
+  for (let i = 0; i < topics.length; i++) {
+    const topic = topics[i];
+    setProgress(`Buscando outliers en "${topic}" (${i + 1}/${topics.length})...`);
     try {
-      const { totalResults, candidates } = await fetchTopicCandidates(spec, publishedAfter, subThreshold, minViews);
+      const { totalResults, candidates } = await fetchTopicCandidates(topic, publishedAfter, subThreshold, minViews);
       const opportunityScore = opportunityFromTotalResults(totalResults);
       for (const c of candidates) {
         const trendScore = anomalyFromViewsPerSub(c.viewsPerSub);
@@ -246,13 +243,13 @@ async function runSearch() {
       }
     } catch (err) {
       errorCount++;
-      console.warn(`"${spec.label}" falló: ${err.message}`);
+      console.warn(`"${topic}" falló: ${err.message}`);
     }
   }
 
   setProgress(null);
 
-  if (allCandidates.length === 0 && errorCount === specs.length) {
+  if (allCandidates.length === 0 && errorCount === topics.length) {
     els.emptyState.hidden = false;
     els.emptyState.textContent = "Todas las búsquedas fallaron — revisa tu clave de YouTube (¿tiene cuota disponible hoy?).";
     return;
@@ -261,8 +258,8 @@ async function runSearch() {
   allCandidates.sort((a, b) => b.viralidad - a.viralidad);
   const rows = allCandidates.slice(0, topN);
   renderResults(rows);
-  const modeLabel = typedTopics.length > 0 ? "tema(s)" : "categoría(s) generales";
-  els.updatedAt.textContent = `Actualizado: ${new Date().toLocaleString("es-MX")} · ${allCandidates.length} outlier(es) encontrados en ${specs.length} ${modeLabel}${errorCount ? ` (${errorCount} con error)` : ""}`;
+  const modeLabel = typedTopics.length > 0 ? "tema(s)" : "nicho(s) por defecto";
+  els.updatedAt.textContent = `Actualizado: ${new Date().toLocaleString("es-MX")} · ${allCandidates.length} outlier(es) encontrados en ${topics.length} ${modeLabel}${errorCount ? ` (${errorCount} con error)` : ""}`;
 }
 
 els.refreshBtn.addEventListener("click", runSearch);
