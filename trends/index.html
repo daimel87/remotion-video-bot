@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Trend Hunter · % de viralidad</title>
-  <link rel="stylesheet" href="style.css?v=2" />
+  <link rel="stylesheet" href="style.css?v=3" />
 </head>
 <body>
   <header class="topbar">
@@ -18,8 +18,15 @@
       </p>
       <div class="meta-row">
         <span id="updated-at">Sin datos todavía</span>
-        <button id="settings-btn" class="link-btn">🔑 Clave de YouTube</button>
+        <button id="settings-btn" class="link-btn">🔑 Clave y proxy</button>
         <a href="../index.html" class="link-btn">📈 Outliers →</a>
+      </div>
+      <div id="proxy-warning" class="warning" hidden>
+        ⚠ Los proxies públicos (para cruzar Reddit/Trends/Noticias) están
+        fallando — probablemente tu navegador o un ad-blocker los está
+        bloqueando (es común, no es que estén caídos). Configura tu propio
+        proxy en "🔑 Clave y proxy" → ver <code>trend-hunter/worker/README.md</code>
+        (5 min, gratis) para que funcione de verdad.
       </div>
     </div>
   </header>
@@ -67,25 +74,33 @@
 
   <div id="key-modal" class="modal-backdrop" hidden>
     <div class="modal">
-      <h2>Tu clave de YouTube Data API v3</h2>
+      <h2>Clave y proxy</h2>
       <p>
-        Se guarda solo en este navegador (localStorage) y las llamadas van
-        directo desde tu dispositivo — nunca pasan por ningún servidor
+        Todo se guarda solo en este navegador (localStorage) y las llamadas
+        van directo desde tu dispositivo — nunca pasan por ningún servidor
         nuestro.
       </p>
+      <label class="modal-label" for="key-input">Clave de YouTube Data API v3 (obligatoria)</label>
       <input id="key-input" type="password" placeholder="AIza..." autocomplete="off" />
+      <label class="modal-label" for="proxy-input">
+        Tu proxy propio (recomendado — los públicos suelen estar bloqueados
+        por ad-blockers)
+      </label>
+      <input id="proxy-input" type="text" placeholder="https://tu-worker.workers.dev" autocomplete="off" />
       <div class="modal-actions">
         <button id="key-save" class="refresh-btn">Guardar</button>
         <button id="key-cancel" class="link-btn">Cancelar</button>
       </div>
       <p class="modal-help">
-        ¿No tienes una? Sácala gratis en la
-        <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer">Google Cloud Console</a>
-        (habilita "YouTube Data API v3" y crea una credencial de tipo API key).
+        ¿No tienes clave de YouTube? Sácala gratis en la
+        <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer">Google Cloud Console</a>.
+        ¿No tienes proxy? Instrucciones en
+        <code>trend-hunter/worker/README.md</code> (5 min, gratis, sin tarjeta;
+        soluciona de raíz los fallos de "no se pudo contactar").
       </p>
     </div>
   </div>
 
-  <script src="app.js?v=4"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>
