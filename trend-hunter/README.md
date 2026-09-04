@@ -56,7 +56,12 @@ guarda en tu navegador y se cruza igual que las demás fuentes.
 1. **Descubrir tendencias cruzadas**: junta Reddit (rising + subs de
    noticias) + Google Trends + Google News + tu lista de X, agrupa por
    palabra clave y muestra los temas que aparecen en 2 o más fuentes a la
-   vez, ordenados por % de viralidad.
+   vez, ordenados por % de viralidad. El cruce real (misma palabra exacta
+   en 2+ fuentes) no siempre encuentra algo — es normal, sobre todo en
+   inglés donde Reddit/Trends/Noticias rara vez repiten la misma palabra.
+   Cuando no hay cruce, muestra el top de cada fuente por separado, marcado
+   como `⚠ sin cruzar` para que sepas que es menos confiable que uno
+   confirmado en varias fuentes.
 2. **Buscar un tema puntual**: escribes cualquier cosa (ej. "inundaciones
    Nepal") y calcula tendencia (cruzando las fuentes disponibles) +
    oportunidad para ese tema específico. Si ninguna fuente cruzada tiene
