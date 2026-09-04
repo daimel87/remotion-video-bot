@@ -6,42 +6,67 @@ de agosto, antes de que el primer video viral saliera.
 
 ## Uso principal: la página HTML (`public/index.html`)
 
-Es la forma recomendada — igual que `outlier-tracker`: abres la página, pegas
-tu clave de YouTube Data API v3 (se guarda solo en tu navegador, nunca sale
-de tu dispositivo) y ves la lista ordenada por **% de viralidad**.
+Es la forma recomendada — igual que `outlier-tracker`: abres la página,
+pegas tus claves (se guardan solo en tu navegador, nunca salen de tu
+dispositivo) y ves los temas ordenados por **% de viralidad**.
 
 ### Qué es el % de viralidad
 
 Combina dos cosas — **hace falta que ambas sean altas para llegar a 100%**:
 
-- **Tendencia** (0-100%): qué tan rápido está ganando vistas el video
-  (vistas/hora), comparado contra los demás temas de esa corrida.
+- **Tendencia** (0-100%): sale de **cruzar Reddit + Google Trends + Google
+  News + lo que tú pegues de X** — un tema que aparece en 3-4 fuentes a la
+  vez puntúa mucho más alto que uno que solo suena en una. Esto es lo que
+  de verdad detecta algo "antes de que explote", no solo lo que ya está
+  viral en YouTube.
 - **Oportunidad** (0-100%): qué tan poca "oferta" hay ya en YouTube para ese
-  tema — menos videos existentes cubriéndolo = más alto. Se calcula
-  buscando el tema en YouTube y viendo cuántos resultados hay.
+  tema — menos videos existentes cubriéndolo = más alto.
 
-`viralidad% = raíz(tendencia × oportunidad)` — un tema con tendencia 100%
-pero mucha oferta (500+ videos ya cubriéndolo) da un score bajo; un tema con
-tendencia alta y casi nadie cubriéndolo todavía da un score alto. Ese es
-justo el caso "Nepal el 26 de agosto, antes del primer video viral".
+`viralidad% = raíz(tendencia × oportunidad)` — un tema sonando fuerte en
+todos lados pero con 500+ videos ya cubriéndolo da un score bajo; un tema
+recién cruzando 3 fuentes y con casi nadie cubriéndolo en YouTube da un
+score alto. Ese es justo el caso "Nepal el 26 de agosto, antes del primer
+video viral".
+
+### El proxy social (necesario para el cruce real)
+
+Reddit, Google Trends y Google News **no dejan llamarlos directo desde el
+navegador** (bloqueo CORS) — por eso hace falta un pequeño proxy gratis
+(Cloudflare Worker), exactamente el mismo patrón que ya usa
+`youtube-research-copilot` para las transcripciones. Instrucciones
+completas en [`worker/README.md`](worker/README.md) (5 minutos, gratis, sin
+tarjeta). La URL del proxy se pega en la página, en **🔑 Claves y proxy**.
+
+**Sin el proxy configurado**, la página funciona igual pero el % se calcula
+**solo con YouTube** (no hay cruce real con Reddit/Trends/Noticias) — se
+avisa claramente en la página cuando está en ese modo.
+
+### X/Twitter
+
+X no tiene API de tendencias gratuita desde 2023 y no se scrapea (no hay
+forma confiable de hacerlo sin login). En vez de eso, hay un cuadro de
+texto en la página para pegar a mano lo que tú veas trending en X — se
+guarda en tu navegador y se cruza igual que las demás fuentes.
 
 ### Dos modos
 
-1. **Tendencias oficiales**: llama al `chart=mostPopular` de YouTube por
-   país/categoría (la lista oficial de trending) y calcula el % para los N
-   temas más fuertes.
+1. **Descubrir tendencias cruzadas**: junta Reddit (rising + subs de
+   noticias) + Google Trends + Google News + tu lista de X, agrupa por
+   palabra clave y muestra los temas que aparecen en 2 o más fuentes a la
+   vez, ordenados por % de viralidad. Necesita el proxy.
 2. **Buscar un tema puntual**: escribes cualquier cosa (ej. "inundaciones
-   Nepal", "terremoto Turquía") y calcula tendencia + oportunidad para ese
-   tema específico, aunque no esté en el trending oficial — útil para
-   monitorear un tema que viste en noticias/Reddit/X y quieres saber si
-   conviene producir ya.
+   Nepal") y calcula tendencia (cruzando las fuentes disponibles) +
+   oportunidad para ese tema específico. Funciona con o sin proxy (sin
+   proxy, la tendencia se estima con la velocidad de vistas de los videos
+   que ya existen en YouTube sobre ese tema).
 
-### Cuota de la API
+### Cuota de la API de YouTube
 
-Cada video candidato revisado cuesta ~100 unidades (por la búsqueda de
-oferta). Con 15 temas (default) son ~1.500 unidades de las 10.000 gratuitas
-diarias — puedes correrlo varias veces al día sin problema. Baja el "# de
-temas a analizar" si quieres gastar menos por corrida.
+Cada tema revisado gasta ~100 unidades (por la búsqueda de oferta) de las
+10.000 gratuitas diarias. Con 15 temas (default) son ~1.500 unidades —
+puedes correrlo varias veces al día sin problema. Baja el "# de temas a
+analizar" si quieres gastar menos por corrida. El proxy social no gasta
+cuota de YouTube (es tráfico aparte, directo a Reddit/Google).
 
 ### Publicar la página
 
@@ -50,13 +75,11 @@ Se publica junto a `outlier-tracker` en el mismo sitio de GitHub Pages
 en la ruta `/trends/`. También puedes abrir `public/index.html` directo en
 tu navegador sin publicar nada.
 
-## Uso alternativo (avanzado): script de terminal multi-fuente
+## Uso alternativo (avanzado): script de terminal
 
-Además de la página HTML, hay un script de terminal más elaborado que cruza
-**Reddit + Google Trends + Google News (prensa/TV) + YouTube** — útil si
-quieres vigilancia más amplia que solo YouTube, o comparar corridas
-sucesivas para medir aceleración real (`⚡ +X/h`) en vez de una sola foto.
-No corre automático (sin cron): tú decides cuándo.
+Además de la página HTML, hay un script de terminal equivalente (misma
+lógica de cruce de fuentes) para quien prefiera correrlo desde la
+consola o comparar corridas sucesivas guardadas en disco.
 
 ```bash
 cd trend-hunter
@@ -80,23 +103,13 @@ reporte completo queda en el resumen del run (Actions → el run →
 Ajustar qué vigila: edita `config/seeds.json` (`geos`, `redditSubs`,
 `watchKeywords`, `stopwords`).
 
-### X/Twitter
-
-X no tiene API de tendencias gratuita desde 2023. No se scrapea porque no
-hay forma confiable/estable de hacerlo sin login. Si ves algo trending en X,
-o bien lo escribes directo en el buscador de la página HTML, o lo agregas a
-`config/seeds.json → watchKeywords` para el script de terminal.
-
 ## Limitaciones honestas
 
-- El % de viralidad es una heurística, no una predicción garantizada:
-  "oferta" se mide buscando un texto derivado del título/tema, no
-  entendiendo el evento real — revisa siempre el video/búsqueda antes de
-  decidir producir.
-- `chart=mostPopular` es el trending general de YouTube (dominado a veces
-  por música/entretenimiento) — para temas de noticias/desastres el modo
-  "buscar un tema puntual" suele ser más útil que el trending oficial.
-- El script de terminal usa Google Trends y RSS de Google News, que son
-  endpoints no oficiales/públicos y pueden cambiar de formato sin aviso. No
-  falla si una fuente cae — la reporta como 0 resultados y sigue con las
-  demás.
+- El % de viralidad es una heurística por palabras (agrupa por token, no
+  por evento/entidad real), no una predicción garantizada — revisa siempre
+  las muestras/links de cada tarjeta antes de decidir producir.
+- Reddit, Google Trends y Google News son endpoints no oficiales/públicos
+  (tanto en el Worker como en el script de terminal): pueden cambiar de
+  formato sin aviso. No truenan si una fuente cae — esa fuente devuelve 0
+  resultados y las demás siguen funcionando.
+- El cuadro de "tendencias en X" es 100% manual — nadie lo llena por ti.
