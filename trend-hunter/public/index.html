@@ -27,8 +27,8 @@
 
   <main class="container">
     <label class="field topics-field">
-      <span>Temas a escanear (uno por línea o separados por coma)</span>
-      <textarea id="topics-input" rows="5" placeholder="inundaciones&#10;terremoto&#10;historia real"></textarea>
+      <span>Temas a escanear (opcional — vacío = categorías generales de YouTube)</span>
+      <textarea id="topics-input" rows="5" placeholder="Déjalo vacío para escanear categorías generales, o escribe temas propios (uno por línea o separados por coma): inundaciones&#10;terremoto&#10;historia real"></textarea>
     </label>
 
     <div class="controls-bar">
@@ -72,7 +72,7 @@
     <button id="refresh-btn" class="refresh-btn">🔍 Buscar outliers</button>
 
     <div id="progress" class="progress" hidden></div>
-    <div id="empty-state" class="empty">Escribe uno o más temas y pulsa "Buscar outliers".</div>
+    <div id="empty-state" class="empty">Pulsa "Buscar outliers" — sin escribir nada escanea categorías generales de YouTube.</div>
     <div id="list"></div>
   </main>
 
@@ -97,6 +97,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=6"></script>
+  <script src="app.js?v=7"></script>
 </body>
 </html>

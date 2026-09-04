@@ -10,9 +10,14 @@ de producir antes de que se sature).
 
 Igual que `outlier-tracker`: pegas tu clave de YouTube Data API v3 (se
 guarda solo en tu navegador, nunca sale de tu dispositivo) y le das
-**"🔍 Buscar outliers"**. La caja de temas ya viene precargada con 5 temas
-de ejemplo — no tienes que escribir nada si no quieres, solo pegar la clave
-y buscar. Editala cuando quieras apuntar a temas específicos.
+**"🔍 Buscar outliers"**. La caja de temas es opcional:
+
+- **Vacía** (por defecto): escanea categorías generales de YouTube
+  (Noticias, Entretenimiento, Educación, Ciencia y tecnología, Comedia,
+  Personas y blogs) — no hace falta escribir nada, solo pegar la clave y
+  buscar.
+- **Con texto**: uno o más temas propios (uno por línea o separados por
+  coma) para apuntar a algo específico en vez del escaneo general.
 
 **100% YouTube, sin proxies ni servicios de terceros.** Versiones
 anteriores de esta herramienta intentaban cruzar con Reddit, Google Trends
