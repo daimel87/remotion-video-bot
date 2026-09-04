@@ -11,15 +11,20 @@
     <div class="topbar-inner">
       <h1>🔎 Trend Hunter</h1>
       <p class="subtitle">
-        Temas ordenados por <strong>% de viralidad</strong>: 100% = está en
-        tendencia máxima <em>y</em> casi no hay video sobre eso en YouTube
-        todavía (oportunidad real). Corre 100% en tu navegador con tu propia
-        clave — nunca se sube a ningún servidor.
+        % de viralidad = <strong>tendencia real</strong> (cruce de Reddit +
+        Google Trends + Noticias + lo que veas en X) <strong>× oportunidad</strong>
+        (qué tan poca oferta hay ya en YouTube). 100% = está sonando fuerte en
+        varios lados a la vez y casi nadie lo cubrió todavía en video.
       </p>
       <div class="meta-row">
         <span id="updated-at">Sin datos todavía</span>
-        <button id="settings-btn" class="link-btn">🔑 Cambiar clave API</button>
+        <button id="settings-btn" class="link-btn">🔑 Claves y proxy</button>
         <a href="../index.html" class="link-btn">📈 Outliers →</a>
+      </div>
+      <div id="proxy-warning" class="warning" hidden>
+        ⚠ No configuraste el proxy social — el % se calcula solo con YouTube
+        (sin cruzar Reddit/Trends/Noticias). Ve a "🔑 Claves y proxy" → ver
+        <code>trend-hunter/worker/README.md</code> para activarlo (5 min, gratis).
       </div>
     </div>
   </header>
@@ -27,7 +32,7 @@
   <main class="container">
     <div class="controls-bar">
       <label class="field">
-        <span>País</span>
+        <span>País (Trends/Noticias)</span>
         <select id="region-select">
           <option value="NP">Nepal</option>
           <option value="US" selected>Estados Unidos</option>
@@ -40,27 +45,20 @@
         </select>
       </label>
       <label class="field">
-        <span>Categoría</span>
-        <select id="category-select">
-          <option value="">Todas (trending general)</option>
-          <option value="25">Noticias y política</option>
-          <option value="27">Educación</option>
-          <option value="28">Ciencia y tecnología</option>
-          <option value="24">Entretenimiento</option>
-          <option value="22">Personas y blogs</option>
-        </select>
-      </label>
-      <label class="field">
         <span># de temas a analizar</span>
         <select id="topn-select">
           <option value="10">10 (barato en cuota)</option>
           <option value="15" selected>15</option>
           <option value="25">25</option>
-          <option value="40">40 (gasta más cuota)</option>
         </select>
       </label>
-      <button id="refresh-btn" class="refresh-btn">🔄 Ver tendencias oficiales</button>
+      <button id="refresh-btn" class="refresh-btn">🔄 Descubrir tendencias cruzadas</button>
     </div>
+
+    <label class="field xtrends-field">
+      <span>Tendencias que ves en X ahora mismo (opcional, sin API — X no tiene una gratis)</span>
+      <textarea id="xtrends-input" rows="2" placeholder="Separa por comas: ej. inundaciones nepal, terremoto turquia, eclipse solar"></textarea>
+    </label>
 
     <form id="term-form" class="term-search">
       <input id="term-input" type="text" placeholder="O busca un tema puntual (ej: inundaciones Nepal, terremoto Turquía...)" autocomplete="off" />
@@ -68,28 +66,31 @@
     </form>
 
     <div id="progress" class="progress" hidden></div>
-    <div id="empty-state" class="empty">Pulsa "Ver tendencias oficiales" o busca un tema para empezar.</div>
+    <div id="empty-state" class="empty">Pulsa "Descubrir tendencias cruzadas" o busca un tema para empezar.</div>
     <div id="list"></div>
   </main>
 
   <div id="key-modal" class="modal-backdrop" hidden>
     <div class="modal">
-      <h2>Tu clave de YouTube Data API v3</h2>
+      <h2>Claves y proxy</h2>
       <p>
-        Se guarda solo en este navegador (localStorage) y se usa para llamar
-        directo a <code>googleapis.com</code> desde tu propio dispositivo —
-        nunca pasa por ningún servidor nuestro.
+        Todo se guarda solo en este navegador (localStorage) y las llamadas
+        van directo desde tu dispositivo — nunca pasan por ningún servidor
+        nuestro.
       </p>
+      <label class="modal-label" for="key-input">Clave de YouTube Data API v3</label>
       <input id="key-input" type="password" placeholder="AIza..." autocomplete="off" />
+      <label class="modal-label" for="proxy-input">URL de tu proxy social (opcional)</label>
+      <input id="proxy-input" type="text" placeholder="https://tu-worker.workers.dev" autocomplete="off" />
       <div class="modal-actions">
         <button id="key-save" class="refresh-btn">Guardar</button>
         <button id="key-cancel" class="link-btn">Cancelar</button>
       </div>
       <p class="modal-help">
-        ¿No tienes una? Sácala gratis en la
-        <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer">
-          Google Cloud Console
-        </a> (habilita "YouTube Data API v3" y crea una credencial de tipo API key).
+        ¿No tienes clave de YouTube? Sácala gratis en la
+        <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer">Google Cloud Console</a>.
+        ¿No tienes proxy? Instrucciones en
+        <code>trend-hunter/worker/README.md</code> (5 min, gratis, sin tarjeta).
       </p>
     </div>
   </div>
