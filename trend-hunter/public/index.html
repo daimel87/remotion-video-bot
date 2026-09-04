@@ -22,9 +22,11 @@
         <a href="../index.html" class="link-btn">📈 Outliers →</a>
       </div>
       <div id="proxy-warning" class="warning" hidden>
-        ⚠ No configuraste el proxy social — el % se calcula solo con YouTube
-        (sin cruzar Reddit/Trends/Noticias). Ve a "🔑 Claves y proxy" → ver
-        <code>trend-hunter/worker/README.md</code> para activarlo (5 min, gratis).
+        ℹ Cruzando Reddit/Trends/Noticias vía un proxy CORS público gratuito
+        (sin nada que instalar). Puede ser algo lento o fallar de vez en
+        cuando por ser un servicio de terceros — si eso pasa seguido, monta
+        tu propio proxy (más estable, 5 min gratis) en "🔑 Claves y proxy" →
+        <code>trend-hunter/worker/README.md</code>.
       </div>
     </div>
   </header>
@@ -80,7 +82,10 @@
       </p>
       <label class="modal-label" for="key-input">Clave de YouTube Data API v3</label>
       <input id="key-input" type="password" placeholder="AIza..." autocomplete="off" />
-      <label class="modal-label" for="proxy-input">URL de tu proxy social (opcional)</label>
+      <label class="modal-label" for="proxy-input">
+        Tu propio proxy (opcional — sin esto ya funciona, usando un proxy
+        público gratuito)
+      </label>
       <input id="proxy-input" type="text" placeholder="https://tu-worker.workers.dev" autocomplete="off" />
       <div class="modal-actions">
         <button id="key-save" class="refresh-btn">Guardar</button>
@@ -88,8 +93,9 @@
       </div>
       <p class="modal-help">
         ¿No tienes clave de YouTube? Sácala gratis en la
-        <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer">Google Cloud Console</a>.
-        ¿No tienes proxy? Instrucciones en
+        <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer">Google Cloud Console</a>
+        (esta sí es obligatoria). El proxy propio es opcional, solo para
+        cuando el público falle mucho — instrucciones en
         <code>trend-hunter/worker/README.md</code> (5 min, gratis, sin tarjeta).
       </p>
     </div>

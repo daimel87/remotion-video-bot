@@ -28,18 +28,26 @@ recién cruzando 3 fuentes y con casi nadie cubriéndolo en YouTube da un
 score alto. Ese es justo el caso "Nepal el 26 de agosto, antes del primer
 video viral".
 
-### El proxy social (necesario para el cruce real)
+### Cómo se salta el bloqueo de CORS
 
-Reddit, Google Trends y Google News **no dejan llamarlos directo desde el
-navegador** (bloqueo CORS) — por eso hace falta un pequeño proxy gratis
-(Cloudflare Worker), exactamente el mismo patrón que ya usa
-`youtube-research-copilot` para las transcripciones. Instrucciones
-completas en [`worker/README.md`](worker/README.md) (5 minutos, gratis, sin
-tarjeta). La URL del proxy se pega en la página, en **🔑 Claves y proxy**.
+Reddit, Google Trends y Google News no dejan llamarlos directo desde el
+navegador de otro sitio (bloqueo CORS). La página lo resuelve sola, sin que
+tengas que instalar nada:
 
-**Sin el proxy configurado**, la página funciona igual pero el % se calcula
-**solo con YouTube** (no hay cruce real con Reddit/Trends/Noticias) — se
-avisa claramente en la página cuando está en ese modo.
+- **Por defecto**: usa un proxy CORS público y gratuito
+  (`api.allorigins.win`) — no requiere cuenta ni configuración, funciona
+  apenas abres la página. Es un servicio de terceros, así que puede ser
+  algo más lento o fallar de vez en cuando (nada tuyo se rompe si eso
+  pasa: la página avisa y esa fuente devuelve 0 resultados esa vez).
+- **Opcional, para más estabilidad**: si quieres tu propio proxy (más
+  rápido y confiable, lo controlas tú), monta un Cloudflare Worker gratis
+  siguiendo [`worker/README.md`](worker/README.md) (5 minutos, sin
+  tarjeta) y pega su URL en la página, en **🔑 Claves y proxy**. Si lo
+  configuras, la página lo usa a él en vez del proxy público.
+
+Si ninguna fuente cruzada responde (proxy caído, red, etc.), la página cae
+como último recurso a estimar la tendencia solo con la velocidad de vistas
+en YouTube — se avisa en el resultado cuando pasa eso.
 
 ### X/Twitter
 
@@ -53,20 +61,20 @@ guarda en tu navegador y se cruza igual que las demás fuentes.
 1. **Descubrir tendencias cruzadas**: junta Reddit (rising + subs de
    noticias) + Google Trends + Google News + tu lista de X, agrupa por
    palabra clave y muestra los temas que aparecen en 2 o más fuentes a la
-   vez, ordenados por % de viralidad. Necesita el proxy.
+   vez, ordenados por % de viralidad.
 2. **Buscar un tema puntual**: escribes cualquier cosa (ej. "inundaciones
    Nepal") y calcula tendencia (cruzando las fuentes disponibles) +
-   oportunidad para ese tema específico. Funciona con o sin proxy (sin
-   proxy, la tendencia se estima con la velocidad de vistas de los videos
-   que ya existen en YouTube sobre ese tema).
+   oportunidad para ese tema específico. Si ninguna fuente cruzada tiene
+   señal, cae a estimar con la velocidad de vistas de los videos que ya
+   existen en YouTube sobre ese tema.
 
 ### Cuota de la API de YouTube
 
 Cada tema revisado gasta ~100 unidades (por la búsqueda de oferta) de las
 10.000 gratuitas diarias. Con 15 temas (default) son ~1.500 unidades —
 puedes correrlo varias veces al día sin problema. Baja el "# de temas a
-analizar" si quieres gastar menos por corrida. El proxy social no gasta
-cuota de YouTube (es tráfico aparte, directo a Reddit/Google).
+analizar" si quieres gastar menos por corrida. El cruce con Reddit/Trends/
+Noticias no gasta cuota de YouTube (es tráfico aparte).
 
 ### Publicar la página
 

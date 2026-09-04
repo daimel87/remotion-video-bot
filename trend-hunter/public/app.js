@@ -1,10 +1,14 @@
-// Todo corre en el navegador. La clave de YouTube y la URL del proxy social
-// se guardan en localStorage — nunca pasan por ningún servidor propio.
+// Todo corre en el navegador. La clave de YouTube y la URL de un proxy
+// propio (opcional) se guardan en localStorage — nunca pasan por ningún
+// servidor nuestro.
 //
 // % de viralidad = raíz(tendencia × oportunidad):
 //  - tendencia: sale de cruzar Reddit + Google Trends + Google News + lo que
-//    tú pegues de X (vía el proxy social, worker/social-proxy.js). Sin
-//    proxy configurado, cae a un modo YouTube-only (vistas/hora).
+//    tú pegues de X. Por defecto usa un proxy CORS público gratuito para
+//    poder llamar esas fuentes sin bloqueo de CORS (sin instalar nada); si
+//    configuras tu propio Worker (worker/social-proxy.js) lo usa a él en
+//    su lugar, más estable. Si ninguna fuente cruzada responde, cae a
+//    estimar con la velocidad de vistas de YouTube como último recurso.
 //  - oportunidad: qué tan poca "oferta" hay ya en YouTube para ese tema
 //    (menos videos existentes cubriéndolo = más alto).
 // Hace falta que AMBAS sean altas para llegar a 100%.
@@ -134,20 +138,115 @@ async function fetchTopVideosForQuery(query, publishedAfterIso) {
   }
 }
 
-// ---------- Proxy social (Reddit + Google Trends + Google News) ----------
+// ---------- Cruce de fuentes: Reddit + Google Trends + Google News ----------
+//
+// Ninguna de las tres deja llamarla directo desde el navegador de otro sitio
+// (bloqueo CORS). Hay dos formas de saltarlo, en este orden de preferencia:
+//  1. Tu propio proxy (Cloudflare Worker, ver worker/README.md) — más
+//     confiable, tú lo controlas.
+//  2. Sin configurar nada: un proxy CORS público y gratuito
+//     (api.allorigins.win) que reenvía la respuesta cruda. Funciona sin
+//     instalar nada, pero es un tercero fuera de tu control — puede ser más
+//     lento o fallar más seguido que tu propio Worker.
+
+const PUBLIC_CORS_PROXY = "https://api.allorigins.win/raw?url=";
+
+const UA_HINT_HEADERS = {}; // fetch del navegador no permite forzar User-Agent; no hace falta, estos endpoints no lo exigen.
+
+function mapRedditPosts(data, source) {
+  const children = data?.data?.children || [];
+  return children.map((c) => ({
+    source,
+    title: c.data.title,
+    score: c.data.score,
+    url: `https://reddit.com${c.data.permalink}`,
+  }));
+}
+
+function stripJsonPrefix(text) {
+  const idx = text.indexOf("{");
+  return idx === -1 ? text : text.slice(idx);
+}
+
+function extractTag(xml, tag) {
+  const re = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, "g");
+  const out = [];
+  let m;
+  while ((m = re.exec(xml))) out.push(m[1]);
+  return out;
+}
+
+function decodeEntities(str = "") {
+  return str
+    .replace(/<!\[CDATA\[/g, "")
+    .replace(/\]\]>/g, "")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .trim();
+}
+
+function parseRssItems(xml, source) {
+  return xml
+    .split("<item>")
+    .slice(1)
+    .map((chunk) => ({ source, title: decodeEntities(extractTag(chunk, "title")[0] || "") }));
+}
+
+async function fetchViaPublicCorsProxy(targetUrl) {
+  const res = await fetch(PUBLIC_CORS_PROXY + encodeURIComponent(targetUrl), UA_HINT_HEADERS);
+  if (!res.ok) throw new Error(`proxy público HTTP ${res.status}`);
+  return res.text();
+}
+
+async function directSource(source, params) {
+  if (source === "reddit") {
+    const mode = params.mode || "rising";
+    let url, label;
+    if (mode === "rising") { url = "https://www.reddit.com/r/all/rising.json?limit=30"; label = "reddit:rising"; }
+    else if (mode === "sub") { url = `https://www.reddit.com/r/${params.sub}/top.json?limit=15&t=day`; label = `reddit:r/${params.sub}`; }
+    else { url = `https://www.reddit.com/search.json?q=${encodeURIComponent(params.q)}&sort=new&limit=15`; label = `reddit:search(${params.q})`; }
+    const text = await fetchViaPublicCorsProxy(url);
+    return mapRedditPosts(JSON.parse(text), label);
+  }
+
+  if (source === "trends") {
+    const url = `https://trends.google.com/trends/api/dailytrends?hl=${params.hl}&tz=-360&geo=${params.geo}&ns=15`;
+    const text = await fetchViaPublicCorsProxy(url);
+    const parsed = JSON.parse(stripJsonPrefix(text));
+    const days = parsed?.default?.trendingSearchesDays || [];
+    const items = [];
+    for (const day of days) for (const t of day.trendingSearches || []) items.push({ source: `googletrends:${params.geo}`, title: t.title?.query });
+    return items;
+  }
+
+  if (source === "news") {
+    const url = params.q
+      ? `https://news.google.com/rss/search?q=${encodeURIComponent(params.q)}&hl=${params.hl}&gl=${params.gl}&ceid=${params.ceid}`
+      : `https://news.google.com/rss?hl=${params.hl}&gl=${params.gl}&ceid=${params.ceid}`;
+    const text = await fetchViaPublicCorsProxy(url);
+    return parseRssItems(text, params.q ? `news:search(${params.q})` : `news:top:${params.gl}`);
+  }
+
+  return [];
+}
 
 async function proxyGet(source, params) {
-  const base = getProxyUrl();
-  if (!base) return [];
-  const url = new URL(base);
-  url.searchParams.set("source", source);
-  for (const [k, v] of Object.entries(params || {})) url.searchParams.set(k, v);
+  const custom = getProxyUrl();
   try {
-    const res = await fetch(url.toString());
-    const json = await res.json();
-    return json.items || [];
+    if (custom) {
+      const url = new URL(custom);
+      url.searchParams.set("source", source);
+      for (const [k, v] of Object.entries(params || {})) url.searchParams.set(k, v);
+      const res = await fetch(url.toString());
+      const json = await res.json();
+      return json.items || [];
+    }
+    return await directSource(source, params || {});
   } catch (err) {
-    console.warn(`Proxy falló (${source}): ${err.message}`);
+    console.warn(`Cruce de fuentes falló (${source}): ${err.message}`);
     return [];
   }
 }
@@ -258,17 +357,9 @@ async function runDiscoveryMode() {
   const region = els.regionSelect.value;
   const hl = REGION_TO_HL[region] || "en-US";
   const topN = Number(els.topnSelect.value);
-  const usingProxy = !!getProxyUrl();
 
   els.list.innerHTML = "";
   els.emptyState.hidden = true;
-
-  if (!usingProxy) {
-    els.emptyState.hidden = false;
-    els.emptyState.textContent =
-      "Falta configurar el proxy social (🔑 Claves y proxy) para descubrir tendencias cruzadas. Mientras tanto, usa \"Buscar este tema\" para un tema puntual (funciona solo con YouTube).";
-    return;
-  }
 
   setProgress("Consultando Reddit, Google Trends y Google News...");
   const [rising, subWorld, subNews, trends, news] = await Promise.all([
@@ -322,40 +413,38 @@ async function runTermSearch(term) {
   if (!getKey()) return openModal();
   const region = els.regionSelect.value;
   const hl = REGION_TO_HL[region] || "en-US";
-  const usingProxy = !!getProxyUrl();
 
   els.list.innerHTML = "";
   els.emptyState.hidden = true;
-  setProgress(`Cruzando "${term}" en las fuentes disponibles...`);
+  setProgress(`Cruzando "${term}" en Reddit/Trends/Noticias/X...`);
 
   const termTokens = tokenize(term);
-  let trendScore;
+  let trendScore = null;
   let sourceTypes = [];
   let samples = [];
 
-  if (usingProxy) {
-    const [redditHits, newsHits, trendsList] = await Promise.all([
-      proxyGet("reddit", { mode: "search", q: term }),
-      proxyGet("news", { q: term, hl, gl: region, ceid: `${region}:${hl.split("-")[0]}` }),
-      proxyGet("trends", { geo: region, hl }),
-    ]);
-    const xHits = xManualItems().filter((it) => overlapsTokens(tokenize(it.title), termTokens));
-    const trendsMatch = trendsList.filter((t) => overlapsTokens(tokenize(t.title), termTokens));
+  const [redditHits, newsHits, trendsList] = await Promise.all([
+    proxyGet("reddit", { mode: "search", q: term }),
+    proxyGet("news", { q: term, hl, gl: region, ceid: `${region}:${hl.split("-")[0]}` }),
+    proxyGet("trends", { geo: region, hl }),
+  ]);
+  const xHits = xManualItems().filter((it) => overlapsTokens(tokenize(it.title), termTokens));
+  const trendsMatch = trendsList.filter((t) => overlapsTokens(tokenize(t.title), termTokens));
 
-    const redditScore = redditHits.reduce((s, it) => s + (it.score || 0), 0);
-    if (redditHits.length) sourceTypes.push("reddit");
-    if (newsHits.length) sourceTypes.push("news");
-    if (trendsMatch.length) sourceTypes.push("googletrends");
-    if (xHits.length) sourceTypes.push("x");
+  const redditScore = redditHits.reduce((s, it) => s + (it.score || 0), 0);
+  if (redditHits.length) sourceTypes.push("reddit");
+  if (newsHits.length) sourceTypes.push("news");
+  if (trendsMatch.length) sourceTypes.push("googletrends");
+  if (xHits.length) sourceTypes.push("x");
 
+  if (sourceTypes.length > 0) {
     const base = sourceTypes.length * 20;
     const magnitude = Math.min(20, Math.log1p(redditScore) * 3 + Math.log1p(newsHits.length) * 5);
     trendScore = Math.max(0, Math.min(100, Math.round(base + magnitude)));
     samples = [...redditHits.slice(0, 2), ...newsHits.slice(0, 2), ...trendsMatch.slice(0, 1), ...xHits.slice(0, 1)];
-  } else {
-    // Sin proxy: cae a estimar tendencia con vistas/hora de los videos existentes en YouTube.
-    trendScore = null;
   }
+  // Si no hubo señal en ninguna fuente cruzada (o el proxy falló), trendScore
+  // se calcula más abajo con la velocidad de vistas de YouTube como respaldo.
 
   const sevenDaysAgo = new Date(Date.now() - 7 * 86400000).toISOString();
   const searchJson = await ytGet("search", { part: "snippet", q: term, type: "video", order: "viewCount", publishedAfter: sevenDaysAgo, maxResults: 10 }).catch((err) => {
@@ -379,8 +468,8 @@ async function runTermSearch(term) {
     });
     topVideos = vids.slice(0, 3);
     if (trendScore == null) {
-      // Sin proxy no hay con qué comparar en relativo, así que se usa una
-      // referencia absoluta: 5.000 vistas/hora = tendencia 100%.
+      // Sin señal cruzada no hay con qué comparar en relativo, así que se
+      // usa una referencia absoluta: 5.000 vistas/hora = tendencia 100%.
       const REFERENCE_VPH = 5000;
       const maxVph = Math.max(0, ...vids.map((v) => v.viewsPerHour));
       trendScore = Math.max(0, Math.min(100, Math.round((100 * Math.log1p(maxVph)) / Math.log1p(REFERENCE_VPH))));
@@ -393,9 +482,9 @@ async function runTermSearch(term) {
   const viralidad = finalScore(trendScore, opportunityScore);
   renderResults([{ query: term, trendScore, opportunityScore, viralidad, totalResults, topVideos, sourceTypes, samples }]);
 
-  els.updatedAt.textContent = usingProxy
-    ? `"${term}": cruzado en ${sourceTypes.length} fuente(s) · oferta ${totalResults.toLocaleString("es-MX")} videos`
-    : `"${term}": modo solo-YouTube (configura el proxy social para cruzar con Reddit/Trends/Noticias)`;
+  els.updatedAt.textContent = sourceTypes.includes("youtube")
+    ? `"${term}": sin señal cruzada, estimado solo con YouTube · oferta ${totalResults.toLocaleString("es-MX")} videos`
+    : `"${term}": cruzado en ${sourceTypes.length} fuente(s) · oferta ${totalResults.toLocaleString("es-MX")} videos`;
   setProgress(null);
 }
 
