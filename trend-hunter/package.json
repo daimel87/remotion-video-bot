@@ -1,9 +1,0 @@
-{
-  "name": "trend-hunter",
-  "version": "1.0.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "hunt": "node scripts/hunt.mjs"
-  }
-}

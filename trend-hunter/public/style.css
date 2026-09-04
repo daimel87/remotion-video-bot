@@ -95,20 +95,20 @@ main.container {
   font-size: 0.85rem;
 }
 
-.term-search {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
+.topics-field {
+  margin-bottom: 14px;
 }
 
-.term-search input {
-  flex: 1;
+.topics-field textarea {
+  width: 100%;
   background: var(--card);
   color: var(--text);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 9px 12px;
-  font-size: 0.9rem;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  resize: vertical;
 }
 
 #progress {
@@ -260,56 +260,3 @@ main.container {
 }
 
 .modal-help a { color: var(--accent); }
-
-.modal-label {
-  display: block;
-  font-size: 0.78rem;
-  color: var(--muted);
-  margin-top: 4px;
-}
-
-.warning {
-  margin-top: 10px;
-  padding: 10px 12px;
-  border: 1px solid var(--yellow);
-  color: var(--yellow);
-  border-radius: 8px;
-  font-size: 0.82rem;
-  line-height: 1.4;
-}
-
-.warning code {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 1px 5px;
-  border-radius: 4px;
-}
-
-.xtrends-field {
-  margin-bottom: 14px;
-}
-
-.xtrends-field textarea {
-  width: 100%;
-  background: var(--card);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px 10px;
-  font-size: 0.85rem;
-  font-family: inherit;
-  resize: vertical;
-}
-
-.topic-title {
-  font-weight: 700;
-  font-size: 1rem;
-  text-transform: capitalize;
-}
-
-.src-badge {
-  font-size: 0.7rem;
-  padding: 2px 8px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  color: var(--muted);
-}

@@ -1,133 +1,70 @@
 # Trend Hunter
 
-Detecta temas que están empezando a moverse **antes** de que exploten en
-YouTube — el tipo de señal que hubiera marcado "inundaciones en Nepal" el 26
-de agosto, antes de que el primer video viral saliera.
+Encuentra videos que están "explotando" de forma anormal: un canal chico
+(pocos suscriptores) con una cantidad de vistas fuera de lo normal para su
+tamaño — ej. 13.000 suscriptores con 1.000.000 de vistas en una semana — y
+que además el tema todavía tiene poca oferta en YouTube (oportunidad real
+de producir antes de que se sature).
 
-## Uso principal: la página HTML (`public/index.html`)
+## Uso: la página HTML (`public/index.html`)
 
-Es la forma recomendada — igual que `outlier-tracker`: abres la página,
-pegas tu clave de YouTube Data API v3 (se guarda solo en tu navegador,
-nunca sale de tu dispositivo) y ves los temas ordenados por **% de
-viralidad**.
+Igual que `outlier-tracker`: pegas tu clave de YouTube Data API v3 (se
+guarda solo en tu navegador, nunca sale de tu dispositivo) y le das
+**"🔍 Buscar outliers"**. La caja de temas ya viene precargada con 5 temas
+de ejemplo — no tienes que escribir nada si no quieres, solo pegar la clave
+y buscar. Editala cuando quieras apuntar a temas específicos.
 
-### Qué es el % de viralidad
+**100% YouTube, sin proxies ni servicios de terceros.** Versiones
+anteriores de esta herramienta intentaban cruzar con Reddit, Google Trends
+y Google News, pero esas fuentes bloquean por reputación de IP cualquier
+tráfico que venga de proxies/datacenters (tu propio Worker incluido) — no
+había forma confiable de arreglarlo. YouTube Data API sí funciona bien
+desde el navegador con solo tu clave, sin bloqueos de ningún tipo.
 
-Combina dos cosas — **hace falta que ambas sean altas para llegar a 100%**:
+## Qué es el % de viralidad
 
-- **Tendencia** (0-100%): sale de **cruzar Reddit + Google Trends + Google
-  News + lo que tú pegues de X** — un tema que aparece en 3-4 fuentes a la
-  vez puntúa mucho más alto que uno que solo suena en una. Esto es lo que
-  de verdad detecta algo "antes de que explote", no solo lo que ya está
-  viral en YouTube.
-- **Oportunidad** (0-100%): qué tan poca "oferta" hay ya en YouTube para ese
-  tema — menos videos existentes cubriéndolo = más alto.
+Combina dos cosas — **hace falta que ambas sean altas para llegar a
+100%**:
 
-`viralidad% = raíz(tendencia × oportunidad)` — un tema sonando fuerte en
-todos lados pero con 500+ videos ya cubriéndolo da un score bajo; un tema
-recién cruzando 3 fuentes y con casi nadie cubriéndolo en YouTube da un
-score alto. Ese es justo el caso "Nepal el 26 de agosto, antes del primer
-video viral".
+- **Anomalía** (0-100%): `vistas ÷ suscriptores del canal`, comparado
+  contra una referencia de 80x (80 veces sus suscriptores en vistas =
+  100%). El ejemplo "13k subs, 1M vistas" (≈77x) da ≈99%.
+- **Oportunidad** (0-100%): cuántos videos existen en total en YouTube
+  sobre ese tema — menos oferta = más alto.
 
-### Cómo se salta el bloqueo de CORS
+`viralidad% = raíz(anomalía × oportunidad)` — el mismo video outlier en un
+tema saturado (miles de videos ya cubriéndolo) da un score mucho más bajo
+que en un tema con poca competencia. Un canal grande con muchas vistas
+pero proporcional a su tamaño normal (ej. 2M subs con 1M vistas) ni
+aparece — no es anómalo.
 
-Reddit, Google Trends y Google News no dejan llamarlos directo desde el
-navegador de otro sitio (bloqueo CORS). Hay dos formas, en este orden:
+## Los filtros
 
-1. **Tu proxy propio** (Cloudflare Worker), si lo configuraste en
-   "🔑 Clave y proxy" — instrucciones en
-   [`worker/README.md`](worker/README.md) (5 minutos, gratis, sin
-   tarjeta). **Esta es la que de verdad funciona siempre.**
-2. **Proxies CORS públicos gratuitos** como respaldo automático si no
-   configuraste el propio (o si el propio falla): se prueban varios en
-   cadena. **En la práctica fallan seguido** — no porque estén caídos, sino
-   porque muchos ad-blockers y navegadores con protección de privacidad
-   (uBlock Origin, Brave Shields, Firefox estricto...) los bloquean por
-   defecto al estar en listas de "proxies de evasión". Si la página te dice
-   que no pudo contactar nada, casi siempre es esto — la solución real es
-   el paso 1, no reintentar.
+- **Publicado en los últimos N días**: ventana de tiempo para considerar
+  el video "reciente" (default 7 días).
+- **Canal chico: hasta N subs**: tope de suscriptores para considerar un
+  canal "chico" (default 50.000). Si el canal oculta su contador de subs,
+  se descarta (no se puede calcular la anomalía).
+- **Vistas mínimas**: filtro de piso para no marcar como "outlier" un
+  video con pocas vistas absolutas aunque el ratio sea alto (default
+  100.000).
+- **# de resultados**: cuántos outliers mostrar al final, de todos los
+  temas combinados.
 
-Si ninguna fuente cruzada responde, la página cae como último recurso a
-estimar la tendencia solo con la velocidad de vistas en YouTube — se avisa
-en el resultado cuando pasa eso. Y si hay datos pero ninguno comparte la
-misma palabra exacta entre 2+ fuentes (pasa seguido, sobre todo en inglés),
-muestra el top de cada fuente marcado `⚠ sin cruzar` en vez de dejarte sin
-nada.
+## Cuota de la API
 
-### X/Twitter
-
-X no tiene API de tendencias gratuita desde 2023 y no se scrapea (no hay
-forma confiable de hacerlo sin login). En vez de eso, hay un cuadro de
-texto en la página para pegar a mano lo que tú veas trending en X — se
-guarda en tu navegador y se cruza igual que las demás fuentes.
-
-### Dos modos
-
-1. **Descubrir tendencias cruzadas**: junta Reddit (rising + subs de
-   noticias) + Google Trends + Google News + tu lista de X, agrupa por
-   palabra clave y muestra los temas que aparecen en 2 o más fuentes a la
-   vez, ordenados por % de viralidad. El cruce real (misma palabra exacta
-   en 2+ fuentes) no siempre encuentra algo — es normal, sobre todo en
-   inglés donde Reddit/Trends/Noticias rara vez repiten la misma palabra.
-   Cuando no hay cruce, muestra el top de cada fuente por separado, marcado
-   como `⚠ sin cruzar` para que sepas que es menos confiable que uno
-   confirmado en varias fuentes.
-2. **Buscar un tema puntual**: escribes cualquier cosa (ej. "inundaciones
-   Nepal") y calcula tendencia (cruzando las fuentes disponibles) +
-   oportunidad para ese tema específico. Si ninguna fuente cruzada tiene
-   señal, cae a estimar con la velocidad de vistas de los videos que ya
-   existen en YouTube sobre ese tema.
-
-### Cuota de la API de YouTube
-
-Cada tema revisado gasta ~100 unidades (por la búsqueda de oferta) de las
-10.000 gratuitas diarias. Con 15 temas (default) son ~1.500 unidades —
-puedes correrlo varias veces al día sin problema. Baja el "# de temas a
-analizar" si quieres gastar menos por corrida. El cruce con Reddit/Trends/
-Noticias no gasta cuota de YouTube (es tráfico aparte).
-
-### Publicar la página
-
-Se publica junto a `outlier-tracker` en el mismo sitio de GitHub Pages
-(`.github/workflows/update-outliers.yml` ya incluye `trend-hunter/public/**`)
-en la ruta `/trends/`. También puedes abrir `public/index.html` directo en
-tu navegador sin publicar nada.
-
-## Uso alternativo (avanzado): script de terminal
-
-Además de la página HTML, hay un script de terminal equivalente (misma
-lógica de cruce de fuentes) para quien prefiera correrlo desde la
-consola o comparar corridas sucesivas guardadas en disco.
-
-```bash
-cd trend-hunter
-echo "YOUTUBE_API_KEY=tu_clave" > ../.env   # opcional; reutiliza la del outlier-tracker
-npm run hunt
-```
-
-Opciones:
-
-```bash
-npm run hunt -- --geo NP,US     # limitar a países específicos (por defecto: NP, US, MX, ES)
-npm run hunt -- --top 15        # cuántos temas mostrar (default 20)
-```
-
-También se puede disparar desde GitHub: pestaña **Actions → "Trend Hunter
-(corrida manual)" → Run workflow**. Guarda cada snapshot en la rama
-`trend-hunter-data` para poder comparar corridas y medir aceleración; el
-reporte completo queda en el resumen del run (Actions → el run →
-"Summary").
-
-Ajustar qué vigila: edita `config/seeds.json` (`geos`, `redditSubs`,
-`watchKeywords`, `stopwords`).
+Por cada tema: 1 búsqueda (100 unidades) + 1 lote de estadísticas de video
++ 1 lote de estadísticas de canal (1 unidad cada uno) ≈ 102 unidades. Con
+los 5 temas por defecto son ~510 unidades de las 10.000 gratuitas diarias
+— podés correrlo muchas veces al día sin problema.
 
 ## Limitaciones honestas
 
-- El % de viralidad es una heurística por palabras (agrupa por token, no
-  por evento/entidad real), no una predicción garantizada — revisa siempre
-  las muestras/links de cada tarjeta antes de decidir producir.
-- Reddit, Google Trends y Google News son endpoints no oficiales/públicos
-  (tanto en el Worker como en el script de terminal): pueden cambiar de
-  formato sin aviso. No truenan si una fuente cae — esa fuente devuelve 0
-  resultados y las demás siguen funcionando.
-- El cuadro de "tendencias en X" es 100% manual — nadie lo llena por ti.
+- Es una heurística sobre datos públicos de YouTube, no una predicción
+  garantizada — revisa siempre el video antes de decidir producir sobre
+  ese tema.
+- "Oferta" se mide con `search.list` sobre el texto del tema tal cual lo
+  escribiste — un tema mal redactado (muy genérico o muy específico) puede
+  dar una cifra de oferta poco representativa.
+- Los canales que ocultan su contador de suscriptores (`hiddenSubscriberCount`)
+  quedan fuera del cálculo de anomalía porque no hay con qué comparar.
