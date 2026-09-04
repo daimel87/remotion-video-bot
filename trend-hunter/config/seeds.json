@@ -1,0 +1,36 @@
+{
+  "geos": [
+    { "code": "NP", "label": "Nepal", "hl": "en-IN", "gl": "NP", "newsCeid": "NP:en" },
+    { "code": "US", "label": "EE.UU.", "hl": "en-US", "gl": "US", "newsCeid": "US:en" },
+    { "code": "MX", "label": "México", "hl": "es-419", "gl": "MX", "newsCeid": "MX:es" },
+    { "code": "ES", "label": "España", "hl": "es-419", "gl": "ES", "newsCeid": "ES:es" }
+  ],
+  "redditSubs": [
+    "worldnews",
+    "news",
+    "UpliftingNews",
+    "CatastrophicFailure",
+    "NatureIsFuckingLit",
+    "Damnthatsinteresting"
+  ],
+  "watchKeywords": [
+    "flood",
+    "earthquake",
+    "volcano eruption",
+    "wildfire",
+    "landslide",
+    "tsunami",
+    "hurricane",
+    "protest",
+    "coup",
+    "blackout",
+    "explosion",
+    "crash",
+    "shipwreck",
+    "heatwave",
+    "storm"
+  ],
+  "stopwords": [
+    "the","and","for","with","from","that","this","have","says","after","over","into","about","their","will","been","were","what","when","where","which","who","how","new","update","live","video","watch","report","breaking","news","says","amid","could","would","also","more","than","just","says","during","following","says","says"
+  ]
+}
