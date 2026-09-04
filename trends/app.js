@@ -1,20 +1,18 @@
-// Todo corre en el navegador. La clave de YouTube y la URL de un proxy
-// propio (opcional) se guardan en localStorage — nunca pasan por ningún
-// servidor nuestro.
+// Todo corre en el navegador. La clave de YouTube se guarda en localStorage
+// — nunca pasa por ningún servidor nuestro.
 //
 // % de viralidad = raíz(tendencia × oportunidad):
 //  - tendencia: sale de cruzar Reddit + Google Trends + Google News + lo que
-//    tú pegues de X. Por defecto usa un proxy CORS público gratuito para
-//    poder llamar esas fuentes sin bloqueo de CORS (sin instalar nada); si
-//    configuras tu propio Worker (worker/social-proxy.js) lo usa a él en
-//    su lugar, más estable. Si ninguna fuente cruzada responde, cae a
-//    estimar con la velocidad de vistas de YouTube como último recurso.
+//    tú pegues de X. Para poder llamar esas fuentes sin chocar con el
+//    bloqueo de CORS del navegador, se pasa por un proxy CORS público
+//    gratuito (api.allorigins.win) — no requiere ninguna configuración. Si
+//    ninguna fuente cruzada responde, cae a estimar con la velocidad de
+//    vistas de YouTube como último recurso.
 //  - oportunidad: qué tan poca "oferta" hay ya en YouTube para ese tema
 //    (menos videos existentes cubriéndolo = más alto).
 // Hace falta que AMBAS sean altas para llegar a 100%.
 
 const KEY_STORAGE = "trendhunter_youtube_key";
-const PROXY_STORAGE = "trendhunter_proxy_url";
 const XTRENDS_STORAGE = "trendhunter_xtrends";
 const API_BASE = "https://www.googleapis.com/youtube/v3";
 
@@ -41,7 +39,6 @@ const els = {
   settingsBtn: document.getElementById("settings-btn"),
   modal: document.getElementById("key-modal"),
   keyInput: document.getElementById("key-input"),
-  proxyInput: document.getElementById("proxy-input"),
   keySave: document.getElementById("key-save"),
   keyCancel: document.getElementById("key-cancel"),
   regionSelect: document.getElementById("region-select"),
@@ -54,13 +51,11 @@ const els = {
   emptyState: document.getElementById("empty-state"),
   list: document.getElementById("list"),
   updatedAt: document.getElementById("updated-at"),
-  proxyWarning: document.getElementById("proxy-warning"),
 };
 
 const REGION_TO_HL = { NP: "en-IN", US: "en-US", MX: "es-419", ES: "es-419", IN: "en-IN", GB: "en-GB", BR: "pt-BR", AR: "es-419" };
 
 function getKey() { return localStorage.getItem(KEY_STORAGE) || ""; }
-function getProxyUrl() { return (localStorage.getItem(PROXY_STORAGE) || "").replace(/\/$/, ""); }
 function getXTrends() { return localStorage.getItem(XTRENDS_STORAGE) || ""; }
 
 els.xtrendsInput.value = getXTrends();
@@ -68,14 +63,8 @@ els.xtrendsInput.addEventListener("change", () => {
   localStorage.setItem(XTRENDS_STORAGE, els.xtrendsInput.value);
 });
 
-function updateProxyWarning() {
-  els.proxyWarning.hidden = !!getProxyUrl();
-}
-updateProxyWarning();
-
 function openModal() {
   els.keyInput.value = getKey();
-  els.proxyInput.value = getProxyUrl();
   els.modal.hidden = false;
 }
 function closeModal() { els.modal.hidden = true; }
@@ -84,11 +73,7 @@ els.settingsBtn.addEventListener("click", openModal);
 els.keyCancel.addEventListener("click", closeModal);
 els.keySave.addEventListener("click", () => {
   const key = els.keyInput.value.trim();
-  const proxy = els.proxyInput.value.trim();
   if (key) localStorage.setItem(KEY_STORAGE, key);
-  if (proxy) localStorage.setItem(PROXY_STORAGE, proxy);
-  else localStorage.removeItem(PROXY_STORAGE);
-  updateProxyWarning();
   closeModal();
 });
 
@@ -141,13 +126,11 @@ async function fetchTopVideosForQuery(query, publishedAfterIso) {
 // ---------- Cruce de fuentes: Reddit + Google Trends + Google News ----------
 //
 // Ninguna de las tres deja llamarla directo desde el navegador de otro sitio
-// (bloqueo CORS). Hay dos formas de saltarlo, en este orden de preferencia:
-//  1. Tu propio proxy (Cloudflare Worker, ver worker/README.md) — más
-//     confiable, tú lo controlas.
-//  2. Sin configurar nada: un proxy CORS público y gratuito
-//     (api.allorigins.win) que reenvía la respuesta cruda. Funciona sin
-//     instalar nada, pero es un tercero fuera de tu control — puede ser más
-//     lento o fallar más seguido que tu propio Worker.
+// (bloqueo CORS), así que se pasa por un proxy CORS público y gratuito
+// (api.allorigins.win) que reenvía la respuesta cruda — sin configurar nada.
+// Es un tercero fuera de tu control, así que puede ser algo lento o fallar
+// de vez en cuando; si eso pasa, esa fuente simplemente devuelve 0
+// resultados y las demás siguen funcionando.
 
 const PUBLIC_CORS_PROXY = "https://api.allorigins.win/raw?url=";
 
@@ -234,16 +217,7 @@ async function directSource(source, params) {
 }
 
 async function proxyGet(source, params) {
-  const custom = getProxyUrl();
   try {
-    if (custom) {
-      const url = new URL(custom);
-      url.searchParams.set("source", source);
-      for (const [k, v] of Object.entries(params || {})) url.searchParams.set(k, v);
-      const res = await fetch(url.toString());
-      const json = await res.json();
-      return json.items || [];
-    }
     return await directSource(source, params || {});
   } catch (err) {
     console.warn(`Cruce de fuentes falló (${source}): ${err.message}`);

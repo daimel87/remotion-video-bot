@@ -18,15 +18,8 @@
       </p>
       <div class="meta-row">
         <span id="updated-at">Sin datos todavía</span>
-        <button id="settings-btn" class="link-btn">🔑 Claves y proxy</button>
+        <button id="settings-btn" class="link-btn">🔑 Clave de YouTube</button>
         <a href="../index.html" class="link-btn">📈 Outliers →</a>
-      </div>
-      <div id="proxy-warning" class="warning" hidden>
-        ℹ Cruzando Reddit/Trends/Noticias vía un proxy CORS público gratuito
-        (sin nada que instalar). Puede ser algo lento o fallar de vez en
-        cuando por ser un servicio de terceros — si eso pasa seguido, monta
-        tu propio proxy (más estable, 5 min gratis) en "🔑 Claves y proxy" →
-        <code>trend-hunter/worker/README.md</code>.
       </div>
     </div>
   </header>
@@ -74,29 +67,21 @@
 
   <div id="key-modal" class="modal-backdrop" hidden>
     <div class="modal">
-      <h2>Claves y proxy</h2>
+      <h2>Tu clave de YouTube Data API v3</h2>
       <p>
-        Todo se guarda solo en este navegador (localStorage) y las llamadas
-        van directo desde tu dispositivo — nunca pasan por ningún servidor
+        Se guarda solo en este navegador (localStorage) y las llamadas van
+        directo desde tu dispositivo — nunca pasan por ningún servidor
         nuestro.
       </p>
-      <label class="modal-label" for="key-input">Clave de YouTube Data API v3</label>
       <input id="key-input" type="password" placeholder="AIza..." autocomplete="off" />
-      <label class="modal-label" for="proxy-input">
-        Tu propio proxy (opcional — sin esto ya funciona, usando un proxy
-        público gratuito)
-      </label>
-      <input id="proxy-input" type="text" placeholder="https://tu-worker.workers.dev" autocomplete="off" />
       <div class="modal-actions">
         <button id="key-save" class="refresh-btn">Guardar</button>
         <button id="key-cancel" class="link-btn">Cancelar</button>
       </div>
       <p class="modal-help">
-        ¿No tienes clave de YouTube? Sácala gratis en la
+        ¿No tienes una? Sácala gratis en la
         <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer">Google Cloud Console</a>
-        (esta sí es obligatoria). El proxy propio es opcional, solo para
-        cuando el público falle mucho — instrucciones en
-        <code>trend-hunter/worker/README.md</code> (5 min, gratis, sin tarjeta).
+        (habilita "YouTube Data API v3" y crea una credencial de tipo API key).
       </p>
     </div>
   </div>
