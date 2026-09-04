@@ -40,9 +40,15 @@ GitHub Actions, sin que tengas que hacer nada:
 
 - Guarda cada snapshot en la rama `trend-hunter-data` (rama de datos
   gestionada por el bot, separada del código — no la edites a mano).
-- Publica el reporte de cada corrida como **resumen del run** (pestaña
-  Actions → el run → "Summary"), así puedes revisar rápido sin descargar
-  nada.
+- Publica el reporte completo de cada corrida como **resumen del run**
+  (pestaña Actions → el run → "Summary"), por si quieres revisar el detalle.
+- **Te avisa de verdad, sin que tengas que revisar nada:** si (y solo si)
+  detecta un tema 🆕 NUEVO o ⚡ acelerando con señal en 2+ fuentes, comenta
+  en un issue fijo llamado **"Trend Hunter — alertas"** (lo crea solo la
+  primera vez). Como es tu propio repo, GitHub te está "watching" por
+  defecto y te llega notificación (correo/app) cada vez que se comenta ahí
+  — igual que cualquier otro comentario en GitHub. Si en una corrida no hay
+  nada caliente, no comenta nada (cero spam cada 30 min).
 - Necesita el secreto `YOUTUBE_API_KEY` en
   `Settings → Secrets and variables → Actions` del repo (opcional: sin él,
   se omite solo el chequeo de "hueco en YouTube").
