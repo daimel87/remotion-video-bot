@@ -126,15 +126,16 @@ async function fetchTopVideosForQuery(query, publishedAfterIso) {
 // ---------- Cruce de fuentes: Reddit + Google Trends + Google News ----------
 //
 // Ninguna de las tres deja llamarla directo desde el navegador de otro sitio
-// (bloqueo CORS), así que se pasa por un proxy CORS público y gratuito
-// (api.allorigins.win) que reenvía la respuesta cruda — sin configurar nada.
-// Es un tercero fuera de tu control, así que puede ser algo lento o fallar
-// de vez en cuando; si eso pasa, esa fuente simplemente devuelve 0
-// resultados y las demás siguen funcionando.
+// (bloqueo CORS), así que se pasa por un proxy CORS público y gratuito —
+// sin configurar nada. Estos servicios de terceros fallan seguido (caídas,
+// límites de tasa), así que se prueban varios en orden: si el primero no
+// responde, se intenta el siguiente antes de rendirse.
 
-const PUBLIC_CORS_PROXY = "https://api.allorigins.win/raw?url=";
-
-const UA_HINT_HEADERS = {}; // fetch del navegador no permite forzar User-Agent; no hace falta, estos endpoints no lo exigen.
+const PUBLIC_CORS_PROXIES = [
+  (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  (url) => `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
+  (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+];
 
 function mapRedditPosts(data, source) {
   const children = data?.data?.children || [];
@@ -179,9 +180,19 @@ function parseRssItems(xml, source) {
 }
 
 async function fetchViaPublicCorsProxy(targetUrl) {
-  const res = await fetch(PUBLIC_CORS_PROXY + encodeURIComponent(targetUrl), UA_HINT_HEADERS);
-  if (!res.ok) throw new Error(`proxy público HTTP ${res.status}`);
-  return res.text();
+  const errors = [];
+  for (const buildUrl of PUBLIC_CORS_PROXIES) {
+    try {
+      const res = await fetch(buildUrl(targetUrl));
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      if (!text) throw new Error("respuesta vacía");
+      return text;
+    } catch (err) {
+      errors.push(err.message);
+    }
+  }
+  throw new Error(`todos los proxies fallaron (${errors.join(" · ")})`);
 }
 
 async function directSource(source, params) {
@@ -216,12 +227,16 @@ async function directSource(source, params) {
   return [];
 }
 
+// Devuelve { items, failed } — failed:true solo cuando los 3 proxies
+// fallaron para esta llamada (distinto de "no hay resultados", que es
+// items:[] con failed:false).
 async function proxyGet(source, params) {
   try {
-    return await directSource(source, params || {});
+    const items = await directSource(source, params || {});
+    return { items, failed: false };
   } catch (err) {
     console.warn(`Cruce de fuentes falló (${source}): ${err.message}`);
-    return [];
+    return { items: [], failed: true };
   }
 }
 
@@ -336,7 +351,7 @@ async function runDiscoveryMode() {
   els.emptyState.hidden = true;
 
   setProgress("Consultando Reddit, Google Trends y Google News...");
-  const [rising, subWorld, subNews, trends, news] = await Promise.all([
+  const results = await Promise.all([
     proxyGet("reddit", { mode: "rising" }),
     proxyGet("reddit", { mode: "sub", sub: "worldnews" }),
     proxyGet("reddit", { mode: "sub", sub: "news" }),
@@ -344,14 +359,17 @@ async function runDiscoveryMode() {
     proxyGet("news", { hl, gl: region, ceid: `${region}:${hl.split("-")[0]}` }),
   ]);
 
-  const allItems = [...rising, ...subWorld, ...subNews, ...trends, ...news, ...xManualItems()];
+  const allFailed = results.every((r) => r.failed);
+  const allItems = [...results.flatMap((r) => r.items), ...xManualItems()];
   const board = buildCrossBoard(allItems);
   const crossed = board.filter((r) => r.sourceTypes.length >= 2).sort((a, b) => b.score - a.score);
 
   if (crossed.length === 0) {
     setProgress(null);
     els.emptyState.hidden = false;
-    els.emptyState.textContent = "No hay temas con señal en 2+ fuentes distintas en este momento. Prueba otro país o vuelve a intentar más tarde.";
+    els.emptyState.textContent = allFailed
+      ? "No se pudo contactar Reddit/Google Trends/Google News (los proxies públicos fallaron). Espera un momento y vuelve a intentar — no significa que no haya tendencias."
+      : "No hay temas con señal en 2+ fuentes distintas en este momento. Prueba otro país o vuelve a intentar más tarde.";
     return;
   }
 
@@ -397,13 +415,16 @@ async function runTermSearch(term) {
   let sourceTypes = [];
   let samples = [];
 
-  const [redditHits, newsHits, trendsList] = await Promise.all([
+  const [redditRes, newsRes, trendsRes] = await Promise.all([
     proxyGet("reddit", { mode: "search", q: term }),
     proxyGet("news", { q: term, hl, gl: region, ceid: `${region}:${hl.split("-")[0]}` }),
     proxyGet("trends", { geo: region, hl }),
   ]);
+  const crossSourceTotalFailure = redditRes.failed && newsRes.failed && trendsRes.failed;
+  const redditHits = redditRes.items;
+  const newsHits = newsRes.items;
   const xHits = xManualItems().filter((it) => overlapsTokens(tokenize(it.title), termTokens));
-  const trendsMatch = trendsList.filter((t) => overlapsTokens(tokenize(t.title), termTokens));
+  const trendsMatch = trendsRes.items.filter((t) => overlapsTokens(tokenize(t.title), termTokens));
 
   const redditScore = redditHits.reduce((s, it) => s + (it.score || 0), 0);
   if (redditHits.length) sourceTypes.push("reddit");
@@ -456,9 +477,13 @@ async function runTermSearch(term) {
   const viralidad = finalScore(trendScore, opportunityScore);
   renderResults([{ query: term, trendScore, opportunityScore, viralidad, totalResults, topVideos, sourceTypes, samples }]);
 
-  els.updatedAt.textContent = sourceTypes.includes("youtube")
-    ? `"${term}": sin señal cruzada, estimado solo con YouTube · oferta ${totalResults.toLocaleString("es-MX")} videos`
-    : `"${term}": cruzado en ${sourceTypes.length} fuente(s) · oferta ${totalResults.toLocaleString("es-MX")} videos`;
+  if (crossSourceTotalFailure) {
+    els.updatedAt.textContent = `"${term}": no se pudo contactar Reddit/Trends/Noticias (proxies públicos caídos) — estimado solo con YouTube · oferta ${totalResults.toLocaleString("es-MX")} videos`;
+  } else {
+    els.updatedAt.textContent = sourceTypes.includes("youtube")
+      ? `"${term}": sin señal cruzada, estimado solo con YouTube · oferta ${totalResults.toLocaleString("es-MX")} videos`
+      : `"${term}": cruzado en ${sourceTypes.length} fuente(s) · oferta ${totalResults.toLocaleString("es-MX")} videos`;
+  }
   setProgress(null);
 }
 
