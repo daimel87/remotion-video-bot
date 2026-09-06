@@ -600,7 +600,7 @@ def tool_page(t):
   {next_steps_box(t)}
   {brand_grid(t) if t.get("answer") else related_tools(t)}
   {schema}'''
-    desc = t['intro'][:155]
+    desc = t.get('meta_desc') or t['intro'][:155]
     write(f"{t['slug']}.html", head(t['title'], desc, canonical) + body + FOOT)
 
 # ---------- Home ----------

@@ -333,6 +333,9 @@ for slug, brand, url in _CONTROLLERS:
 TOOLS.append({
     "slug": "quitar-proteccion-escritura-usb",
     "title": "Quitar la Protección Contra Escritura de una USB o Pendrive (Guía 2026)",
+    "meta_desc": "Aprende a quitar o desactivar la protección contra escritura de una USB, pendrive "
+                 "o tarjeta SD. Solución paso a paso con Diskpart, registro de Windows y "
+                 "reparación por controlador, además de vídeo tutorial completo.",
     "brand": "Quitar protección contra escritura",
     "url": None,
     "kind": "guide",
