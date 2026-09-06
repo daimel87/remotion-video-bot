@@ -4,7 +4,7 @@ Edit here, then run build.py"""
 
 SITE = {
     "name": "Lite OS Reviews",
-    "tagline": "Best Debloated Windows 11 & 10 Builds for Gaming (2026 Reviews)",
+    "tagline": "Best Debloated Windows Builds for Gaming (2026)",
     "domain": "https://paginaingles.pages.dev",  # Cloudflare Pages production URL
     "youtube": "https://www.youtube.com/channel/UCsAZA8xdUfr41QsX8WoyOQA?sub_confirmation=1",  # channel subscribe link
     "google_verify": "4t1k_fsPm-BsPZ6JQFLArsFhmg_LqMMaYAX1iqdFg4E",  # Google Search Console verification code
@@ -30,7 +30,7 @@ SITE = {
 VIDEO_HUBS = [
     {
         "slug": "windows-11-lite-gaming-builds-videos",
-        "title": "Windows 11 Lite & Debloated Gaming Builds — Full Video Guide Playlist",
+        "title": "Windows 11 Lite Gaming Builds — Video Guide Playlist",
         "meta_desc": "Every Windows 11 lite, debloated and gaming-optimized build we've covered on "
                      "video — KernelOS, Ghost Spectre, X-Lite and more, install walkthroughs and "
                      "performance reviews in one playlist.",
@@ -71,7 +71,7 @@ VIDEO_HUBS = [
 ARTICLES = [
     {
         "slug": "kernelos-11-25h2-aio",
-        "title": "KernelOS 11 25H2 AIO v1.5.1 Review: Best Gaming Windows for GTA 6, Roblox and More",
+        "title": "KernelOS 11 25H2 AIO v1.5.1 Review: Gaming Windows Build",
         "cat": "Gaming OS",
         "advisor": {"os": 11, "ram_min": 8, "purpose": ["gaming"]},
         "yt": "fUBxSvXTw50",
@@ -135,7 +135,7 @@ ARTICLES = [
     },
     {
         "slug": "kernelos-11-23h2-aio-v1-6-0",
-        "title": "Kernel OS 11 23H2 AIO v1.6.0 – Best Windows 11 Optimization for Gaming",
+        "title": "KernelOS 11 23H2 AIO v1.6.0 – Windows 11 Gaming Build",
         "cat": "Gaming OS",
         "advisor": {"os": 11, "ram_min": 6, "purpose": ["gaming"]},
         "yt": "moE7MYUnK5w",
@@ -181,7 +181,7 @@ ARTICLES = [
     },
     {
         "slug": "windows-x-lite-optimum-11-26h1",
-        "title": "Windows X-Lite Optimum 11 26H1 Pro V2 Review: The Best Windows 11 Lite for Low-End PCs?",
+        "title": "Windows X-Lite Optimum 11 26H1 Pro V2 Review",
         "cat": "Windows 11 Lite",
         "advisor": {"os": 11, "ram_min": 4, "purpose": ["everyday", "gaming", "revive"]},
         "yt": "gxZ62u0h5sE",
@@ -274,7 +274,7 @@ ARTICLES = [
     },
     {
         "slug": "ghost-spectre-windows-10-superlite-se",
-        "title": "Windows 10 Ghost Spectre Superlite SE Review: Should You Install It in 2026?",
+        "title": "Windows 10 Ghost Spectre Superlite SE Review (2026)",
         "cat": "Windows 10 Lite",
         "advisor": {"os": 10, "ram_min": 2, "purpose": ["revive", "everyday"]},
         "yt": "PcxGzfQk-RI",
@@ -314,7 +314,7 @@ ARTICLES = [
     },
     {
         "slug": "ghost-spectre-windows-10-superlite-2025",
-        "title": "Windows 10 Ghost Spectre Superlite (2025) Review: The Ultimate Performance Boost",
+        "title": "Windows 10 Ghost Spectre Superlite (2025) Review",
         "cat": "Windows 10 Lite",
         "advisor": {"os": 10, "ram_min": 2, "purpose": ["revive", "everyday"]},
         "yt": "c_9IIgFvSFA",
@@ -508,7 +508,7 @@ ARTICLES = [
     },
     {
         "slug": "deepin-os-25",
-        "title": "Deepin OS 25.1 Review: This Chinese Linux Distro Runs on 1.5GB RAM",
+        "title": "Deepin OS 25.1 Review: Runs on Just 1.5GB RAM",
         "cat": "Linux",
         "advisor": {"os": "linux", "ram_min": 1.5, "purpose": ["revive", "everyday"]},
         "yt": "uLh_0cbcL7c",
@@ -605,7 +605,7 @@ TESTIMONIALS = [
 # Comparison hub page targeting broad "best lightweight Windows 11 builds" searches
 BEST_BUILDS_PAGE = {
     "slug": "best-lightweight-windows-11-builds",
-    "title": "Best Lightweight & Debloated Windows 11 Builds for Gaming and Low-End PCs (2026)",
+    "title": "Best Lightweight & Debloated Windows 11 Builds (2026)",
     "meta_desc": "We compare the best lightweight, debloated Windows 11 and Windows 10 builds for "
                  "gaming and low-end PCs in 2026 — KernelOS, Ghost Spectre, ReviOS, AtlasOS, X-Lite "
                  "and more, with RAM requirements and who each build is for.",

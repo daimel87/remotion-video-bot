@@ -3,7 +3,7 @@
 Edit here, then run build.py (which generates /pl/... pages from this file)."""
 
 SITE_PL = {
-    "tagline": "Recenzje zmodyfikowanych wersji Windows i lekkich systemów operacyjnych do gier i słabszych komputerów",
+    "tagline": "Lekkie systemy Windows do gier",
     "description": "Szczere recenzje i poradniki instalacji zmodyfikowanych wersji Windows (Ghost Spectre, "
                    "AtlasOS, KernelOS, ReviOS, X-Lite) oraz lekkich systemów operacyjnych stworzonych "
                    "z myślą o graczach i słabszych komputerach.",
@@ -131,7 +131,7 @@ UI_PL = {
 ARTICLES_PL = [
     {
         "slug": "kernelos-11-25h2-aio",
-        "title": "KernelOS 11 25H2 AIO v1.5.1 — recenzja: najlepszy Windows do gier na GTA 6, Roblox i inne",
+        "title": "KernelOS 11 25H2 AIO v1.5.1 — recenzja: Windows do gier",
         "cat": "System do gier",
         "summary": "KernelOS 11 25H2 AIO v1.5.1 to zmodyfikowana i zoptymalizowana wersja Windows 11 "
                    "do gier — niskie zużycie zasobów w spoczynku, wbudowany zestaw narzędzi po "
@@ -182,7 +182,7 @@ ARTICLES_PL = [
     },
     {
         "slug": "kernelos-11-23h2-aio-v1-6-0",
-        "title": "Kernel OS 11 23H2 AIO v1.6.0 – najlepsza optymalizacja Windows 11 do gier",
+        "title": "KernelOS 11 23H2 AIO v1.6.0 – Windows 11 do gier",
         "cat": "System do gier",
         "summary": "KernelOS 11 23H2 AIO v1.6.0 to zaktualizowana wersja popularnego buildu Windows 11 "
                    "nastawionego na granie — ograniczone procesy w tle, tweaki pod kątem gier oraz "
@@ -215,7 +215,7 @@ ARTICLES_PL = [
     },
     {
         "slug": "windows-x-lite-optimum-11-26h1",
-        "title": "Windows X-Lite Optimum 11 26H1 Pro V2 — recenzja: najlepszy lekki Windows 11 dla słabych komputerów?",
+        "title": "Windows X-Lite Optimum 11 26H1 Pro V2 — recenzja",
         "cat": "Windows 11 Lite",
         "summary": "Odchudzona wersja Windows 11 26H1 Pro nastawiona na wyciśnięcie maksimum wydajności "
                    "ze słabszego i starszego sprzętu. Sprawdzamy co usunięto, co zostało i czy warto "
@@ -250,7 +250,7 @@ ARTICLES_PL = [
     },
     {
         "slug": "ghost-spectre-windows-11",
-        "title": "Ghost Spectre Windows 11 — recenzja: czysta wydajność, zero zbędnych dodatków!",
+        "title": "Ghost Spectre Windows 11 — recenzja: czysta wydajność",
         "cat": "Windows 11 Lite",
         "summary": "Ghost Spectre to jedna z najpopularniejszych zmodyfikowanych wersji Windows 11 dla "
                    "graczy. Sprawdzamy, co odróżnia ją od standardowej instalacji i czy zyski wydajności "
@@ -278,7 +278,7 @@ ARTICLES_PL = [
     },
     {
         "slug": "ghost-spectre-windows-10-superlite-se",
-        "title": "Windows 10 Ghost Spectre Superlite SE — recenzja: czy warto zainstalować w 2026?",
+        "title": "Ghost Spectre Superlite SE — recenzja (2026)",
         "cat": "Windows 10 Lite",
         "summary": "Edycja Superlite SE Ghost Spectre dla Windows 10 idzie jeszcze dalej niż "
                    "standardowa wersja. Czy to nadal dobry wybór teraz, gdy wsparcie Windows 10 się "
@@ -307,7 +307,7 @@ ARTICLES_PL = [
     },
     {
         "slug": "ghost-spectre-windows-10-superlite-2025",
-        "title": "Windows 10 Ghost Spectre Superlite (2025) — recenzja: maksymalny wzrost wydajności",
+        "title": "Windows 10 Ghost Spectre Superlite (2025) — recenzja",
         "cat": "Windows 10 Lite",
         "summary": "Odświeżona w 2025 roku wersja Superlite Windows 10 od Ghost Spectre, spakowana "
                    "jako ISO typu AIO (All-In-One). Sprawdzamy, co się zmieniło i jak działa.",
@@ -334,7 +334,7 @@ ARTICLES_PL = [
     },
     {
         "slug": "kernelos-atlasos-gaming",
-        "title": "KernelOS + AtlasOS — recenzja: zamień swój komputer w bestię do gier",
+        "title": "KernelOS + AtlasOS — recenzja: komputer do gier",
         "cat": "System do gier",
         "summary": "AtlasOS przyjmuje inne podejście niż zmodyfikowany plik ISO: to zestaw narzędzi "
                    "(Ame Wizard + Playbook) stosowany na Twojej istniejącej, oryginalnej instalacji "
@@ -387,7 +387,7 @@ ARTICLES_PL = [
     },
     {
         "slug": "revios-2026",
-        "title": "Jak zainstalować ReviOS w 2026 — najlepszy system do gier w tym roku?",
+        "title": "Jak zainstalować ReviOS w 2026 — system do gier",
         "cat": "System do gier",
         "summary": "ReviOS wciąż zyskuje na popularności jako wersja Windows nastawiona na gry. "
                    "Omawiamy, co nowego w 2026 i jak zainstalować go bez błędów.",
@@ -438,7 +438,7 @@ ARTICLES_PL = [
     },
     {
         "slug": "deepin-os-25",
-        "title": "Deepin OS 25.1 — recenzja: ta chińska dystrybucja Linuksa działa na 1,5 GB RAM-u",
+        "title": "Deepin OS 25.1 — recenzja: działa na 1,5 GB RAM-u",
         "cat": "Linux",
         "summary": "Zapomnij całkowicie o Windows — Deepin to dopracowana dystrybucja Linuksa z Chin, "
                    "która działa komfortowo na sprzęcie, na którym Windows 11 odmówiłby uruchomienia.",
@@ -468,7 +468,7 @@ ARTICLES_PL = [
 # Strona hub kierowana na ogólne wyszukiwania "optymalizacja Windows 11 pod gry" w Polsce
 BEST_BUILDS_PAGE_PL = {
     "slug": "best-lightweight-windows-11-builds",
-    "title": "Jak zoptymalizować Windows 11 pod gry — porównanie najlepszych zoptymalizowanych wersji (2026)",
+    "title": "Najlepsze zoptymalizowane wersje Windows 11 do gier (2026)",
     "meta_desc": "Porównanie najlepszych zoptymalizowanych i odchudzonych wersji Windows 11 oraz "
                  "Windows 10 do gier i słabszych komputerów w 2026 — KernelOS, Ghost Spectre, ReviOS, "
                  "AtlasOS, X-Lite i inne, z wymaganiami RAM i dla kogo są przeznaczone.",

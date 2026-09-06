@@ -974,7 +974,7 @@ def advisor_page_pl():
     box.scrollIntoView({{behavior:'smooth', block:'start'}});
   }}
   </script>'''
-    write("pl/advisor.html", head("Doradca PC — który system Windows pasuje do Twojego PC? — " + SITE['name'],
+    write("pl/advisor.html", head("Doradca PC — który Windows pasuje do Twojego PC?",
           UI_PL['advisor_lead'], SITE['domain'] + "/pl/advisor",
           lang="pl", en_url=SITE['domain']+"/advisor", pl_url=SITE['domain']+"/pl/advisor", nav=nav_html)
           + body + FOOT_HTML("pl"))
