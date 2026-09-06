@@ -416,6 +416,50 @@ TOOLS.append({
         "Vuelve a formatear en Windows una vez reparada — ahora sí debería completarse sin errores.",
     ],
 })
+TOOLS.append({
+    "slug": "procesos-innecesarios-que-consumen-ram-windows",
+    "title": "El proceso invisible que le está robando RAM a tu PC (y cómo eliminarlo)",
+    "brand": "Liberar RAM en Windows",
+    "url": None,
+    "kind": "guide",
+    "video_id": "vaPxzj6Sr1M",
+    "img": "/images/tools/procesos-innecesarios-que-consumen-ram-windows.png",
+    "intro": "Windows activa por defecto varios servicios y procesos en segundo plano que no "
+             "necesitas para el uso diario — consumen RAM y CPU sin que lo notes. Aquí tienes "
+             "todos los que puedes desactivar de forma segura para liberar memoria al instante, "
+             "sin instalar nada raro y usando solo herramientas oficiales de Windows.",
+    "why": "Windows viene configurado para \"funcionar para todos\" por defecto, así que activa "
+           "telemetría, indexado de búsqueda, servicios de impresión, Bluetooth y otros procesos "
+           "que la mayoría de usuarios nunca usan. Cada uno por separado consume poco, pero "
+           "sumados pueden estar comiéndose cientos de MB de RAM y ciclos de CPU las 24 horas.",
+    "steps": [
+        "Abre <code>Windows + R</code>, escribe <code>services.msc</code> y dale a Aceptar.",
+        "Busca <strong>Experiencias del usuario y telemetría asociada</strong> (Connected User Experiences and Telemetry): solo recolecta datos de uso y los manda al fabricante. Clic derecho → Detener, luego clic derecho → Propiedades → Tipo de inicio → <strong>Deshabilitado</strong> → Aplicar.",
+        "Busca <strong>Windows Search</strong>: indexa todos tus archivos 24/7 para que las búsquedas sean más rápidas, pero consume RAM y CPU constantemente. Detenlo y ponlo en <strong>Deshabilitado</strong> igual que el anterior (la búsqueda con la lupa será algo más lenta al no tener índice guardado).",
+        "Descarga <strong>RAMMap</strong> (herramienta oficial de Microsoft, gratis, sin instalación) desde la propia web de Microsoft.",
+        "Ábrelo, ve al menú <strong>Empty</strong> → <strong>Empty Standby List</strong>. Esto libera al instante toda la memoria \"en caché\" que Windows retiene sin usar realmente.",
+        "Revisa también los servicios de la sección \"Otros servicios que puedes desactivar\" más abajo según tu caso.",
+    ],
+    "variants": [
+        "<strong>SysMain (Superfetch)</strong>: precarga apps en RAM anticipándose a que las abras; si usas SSD, desactivarlo no afecta el rendimiento y libera memoria.",
+        "<strong>Cola de impresión (Print Spooler)</strong>: si no tienes impresora conectada, no la necesitas activa.",
+        "<strong>Fax</strong>: prácticamente nadie lo usa hoy en día; seguro desactivarlo.",
+        "<strong>Optimización de entrega de Windows Update</strong>: comparte actualizaciones con otros PCs por red (como un P2P), consume ancho de banda y RAM en segundo plano.",
+        "<strong>Registro remoto (Remote Registry)</strong>: solo necesario si administras el PC desde otro equipo en red; si no es tu caso, desactívalo por seguridad y rendimiento.",
+        "<strong>Bluetooth Support Service</strong>: si tu PC no usa Bluetooth (o es de escritorio sin adaptador), puedes deshabilitarlo.",
+        "<strong>Administrador de mapas descargados</strong>: gestiona mapas offline que casi nadie usa en un PC de escritorio.",
+    ],
+    "faq": [
+        ("¿Es seguro desactivar estos servicios?",
+         "Sí. Todos los mencionados son opcionales para el uso normal de un PC — no forman parte del núcleo de Windows ni afectan la seguridad del sistema. Si en algún momento necesitas alguno (por ejemplo, conectar una impresora), puedes volver a activarlo en cualquier momento desde el mismo panel de Servicios."),
+        ("¿RAMMap es seguro? ¿No es un programa raro de terceros?",
+         "Es 100% oficial de Microsoft (parte del paquete Sysinternals), no instala nada ni modifica el sistema — solo te muestra y te permite liberar memoria que Windows retiene innecesariamente."),
+        ("¿Esto sirve igual en Windows 10 y Windows 11?",
+         "Sí, todos los servicios y la herramienta RAMMap funcionan igual en ambas versiones."),
+        ("Después de desactivar Windows Search, ¿pierdo la búsqueda de archivos?",
+         "No, la lupa de Windows sigue funcionando — solo que al no tener un índice guardado, las búsquedas tardan un poco más en mostrar resultados, especialmente si tienes muchos archivos."),
+    ],
+})
 
 # ---- Páginas por marca ("¿Qué marca es tu USB dañada?") ----
 TOOLS.append({

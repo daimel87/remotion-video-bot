@@ -456,10 +456,22 @@ def tool_page(t):
     is_guide = t.get("kind") == "guide"
 
     if is_guide:
-        # Página informativa: sin descarga, sin popunder/smartlink; FAQ genérica.
+        # Página informativa: sin descarga, sin popunder/smartlink; FAQ genérica (o personalizada si t["faq"] existe).
         download = ""
         steps_title = "Pasos a seguir"
-        faq = f'''
+        if t.get("faq"):
+            faq_pairs = t["faq"]
+            faq_items = "\n".join(
+                f'<details><summary>{html.escape(q)}</summary>\n        <p>{a}</p></details>'
+                for q, a in faq_pairs
+            )
+            faq = f'''
+    <section class="faq reveal">
+      <h2>Preguntas frecuentes</h2>
+      {faq_items}
+    </section>'''
+        else:
+            faq = f'''
     <section class="faq reveal">
       <h2>Preguntas frecuentes</h2>
       <details><summary>¿Es gratis?</summary>
@@ -470,11 +482,11 @@ def tool_page(t):
         <p>Identifica el controlador de tu USB con <a href="/chipgenius">ChipGenius</a> y usa la
            herramienta de reparación correspondiente de esta web.</p></details>
     </section>'''
-        faq_pairs = [
-            ("¿Es gratis?", "Sí, totalmente gratis. Sigue los pasos y mira los vídeos de esta página."),
-            ("¿Necesito conocimientos técnicos?", "No. Los tutoriales están explicados paso a paso para cualquier usuario."),
-            ("¿Y si sigo con problemas?", "Identifica el controlador de tu USB con ChipGenius y usa la herramienta de reparación correspondiente de esta web."),
-        ]
+            faq_pairs = [
+                ("¿Es gratis?", "Sí, totalmente gratis. Sigue los pasos y mira los vídeos de esta página."),
+                ("¿Necesito conocimientos técnicos?", "No. Los tutoriales están explicados paso a paso para cualquier usuario."),
+                ("¿Y si sigo con problemas?", "Identifica el controlador de tu USB con ChipGenius y usa la herramienta de reparación correspondiente de esta web."),
+            ]
     else:
         download = f'''<a class="download" href="{t['url']}" target="_blank" rel="noopener nofollow">
        ⬇ Descargar {html.escape(t['brand'])}</a>
