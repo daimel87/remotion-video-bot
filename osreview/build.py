@@ -1126,9 +1126,10 @@ def seo_files():
              SITE['domain'] + "/pl/about", SITE['domain'] + "/pl/" + BEST_BUILDS_PAGE_PL['slug']]
     urls += [f"{SITE['domain']}/pl/{a['slug']}" for a in ARTICLES_PL]
     items = "\n".join(f"  <url><loc>{u}</loc><changefreq>weekly</changefreq></url>" for u in urls)
-    write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n'
+    write("sitemap", f'<?xml version="1.0" encoding="UTF-8"?>\n'
           f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{items}\n</urlset>')
-    write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['domain']}/sitemap.xml\n")
+    write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE['domain']}/sitemap\n")
+    write("_headers", "/sitemap\n  Content-Type: application/xml; charset=utf-8\n")
 
 def main():
     if os.path.exists(DIST):
