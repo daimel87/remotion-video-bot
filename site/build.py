@@ -276,6 +276,22 @@ SITE_JSONLD = f'''<script type="application/ld+json">{json.dumps({
     "url": SITE["domain"] + "/",
 }, ensure_ascii=False)}</script>'''
 
+def smart_desc(text, limit=157):
+    """Recorta una meta descripción sin cortar a media palabra ni a media frase.
+    Prioriza terminar en un punto/cierre de frase; si no hay ninguno cerca del
+    límite, corta en el último espacio y agrega puntos suspensivos."""
+    text = text.strip()
+    if len(text) <= limit:
+        return text
+    cut = text[:limit]
+    last_period = max(cut.rfind(". "), cut.rfind("? "), cut.rfind("! "))
+    if last_period >= int(limit * 0.55):
+        return cut[:last_period + 1].strip()
+    last_space = cut.rfind(" ")
+    if last_space == -1:
+        return cut.strip()
+    return cut[:last_space].strip() + "…"
+
 def head(title, desc, canonical):
     return f'''<!DOCTYPE html>
 <html lang="es">
@@ -600,7 +616,7 @@ def tool_page(t):
   {next_steps_box(t)}
   {brand_grid(t) if t.get("answer") else related_tools(t)}
   {schema}'''
-    desc = t.get('meta_desc') or t['intro'][:155]
+    desc = smart_desc(t.get('meta_desc') or t['intro'])
     write(f"{t['slug']}.html", head(t['title'], desc, canonical) + body + FOOT)
 
 # ---------- Home ----------
@@ -750,7 +766,7 @@ def home():
     ]
     schema = faq_schema(faq_pairs)
     write("index.html", head("Cómo Reparar una Memoria USB Dañada (Gratis) — " + SITE['name'],
-                             SITE['description'],
+                             smart_desc(SITE['description']),
                              SITE['domain'] + "/") + body + schema + FOOT)
 
 # ---------- Página de herramientas (separada, carga anuncios propios) ----------
@@ -830,7 +846,7 @@ def problem_page(p):
        <a href="/chipgenius">Identifícalo con ChipGenius</a>.</p>
   </article>
   {schema}'''
-    write(f"problemas/{p['slug']}.html", head(p['title'], p['explanation'][:155], canonical) + body + FOOT)
+    write(f"problemas/{p['slug']}.html", head(p['title'], smart_desc(p['explanation']), canonical) + body + FOOT)
 
 # ---------- Páginas legales (requeridas por AdSense/Adsterra) ----------
 def legal():
@@ -996,7 +1012,7 @@ def audio_page(a):
     <div class="grid">{"".join(f'<a class="card" href="/{o["slug"]}">{_audio_thumb(o)}<h3>{html.escape(o["brand"])}</h3><p>{html.escape(o["intro"][:90])}…</p><span class="go">Ver cómo activarlo →</span></a>' for o in AUDIO_TOOLS if o["slug"] != a["slug"])}</div>
   </section>
   {schema}'''
-    desc = a['intro'][:155]
+    desc = smart_desc(a['intro'])
     write(f"{a['slug']}.html", head(a['title'], desc, canonical) + body + FOOT)
 
 def audio_cards():
