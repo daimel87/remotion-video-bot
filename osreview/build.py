@@ -35,6 +35,21 @@ def video(yt):
         frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen></iframe></div>'''
 
+def smart_desc(text, limit=157):
+    """Trims a meta description without cutting mid-word or mid-sentence.
+    Prefers ending on a sentence boundary; falls back to the last full word."""
+    text = text.strip()
+    if len(text) <= limit:
+        return text
+    cut = text[:limit]
+    last_period = max(cut.rfind(". "), cut.rfind("? "), cut.rfind("! "))
+    if last_period >= int(limit * 0.55):
+        return cut[:last_period + 1].strip()
+    last_space = cut.rfind(" ")
+    if last_space == -1:
+        return cut.strip()
+    return cut[:last_space].strip() + "…"
+
 def head(title, desc, canonical, lang="en", en_url=None, pl_url=None, nav=None):
     verify = f'<meta name="google-site-verification" content="{SITE["google_verify"]}">' if SITE.get("google_verify") else ""
     verify += '\n<meta name="a0d9e3bc8e313f4840584cc3ac41318120070eb1" content="a0d9e3bc8e313f4840584cc3ac41318120070eb1" />'
@@ -474,7 +489,7 @@ def article_page(a):
   {review_jsonld(a, canonical)}'''
     en_url = canonical
     pl_url = f"{SITE['domain']}/pl/{a['slug']}"
-    write(f"{a['slug']}.html", head(a['title'], a['summary'][:155], canonical, lang="en", en_url=en_url, pl_url=pl_url) + body + FOOT)
+    write(f"{a['slug']}.html", head(a['title'], smart_desc(a['summary']), canonical, lang="en", en_url=en_url, pl_url=pl_url) + body + FOOT)
 
 def related_pl(current):
     same_cat = [a for a in ARTICLES_PL if a["slug"] != current["slug"] and a["cat"] == current["cat"]]
@@ -520,7 +535,7 @@ def article_page_pl(a_pl):
     <h2>{UI_PL['more_reviews']}</h2>
     <div class="rel-grid">{related_pl(a_pl)}</div>
   </article>'''
-    write(f"pl/{a['slug']}.html", head(a_pl['title'], a_pl['summary'][:155], pl_url, lang="pl", en_url=en_url, pl_url=pl_url, nav=nav_html) + body + FOOT_HTML("pl"))
+    write(f"pl/{a['slug']}.html", head(a_pl['title'], smart_desc(a_pl['summary']), pl_url, lang="pl", en_url=en_url, pl_url=pl_url, nav=nav_html) + body + FOOT_HTML("pl"))
 
 # ---------- Best builds comparison hub ----------
 def best_builds_page():
@@ -553,7 +568,7 @@ def best_builds_page():
     {faq_visible}
   </article>
   {faq_ld}'''
-    write(f"{p['slug']}.html", head(p["title"], p["meta_desc"], canonical, lang="en",
+    write(f"{p['slug']}.html", head(p["title"], smart_desc(p["meta_desc"]), canonical, lang="en",
           en_url=canonical, pl_url=SITE['domain']+"/pl/") + body + FOOT)
 
 def best_builds_page_pl():
@@ -590,7 +605,7 @@ def best_builds_page_pl():
     {faq_visible}
   </article>
   {faq_ld}'''
-    write(f"pl/{p['slug']}.html", head(p["title"], p["meta_desc"], canonical, lang="pl",
+    write(f"pl/{p['slug']}.html", head(p["title"], smart_desc(p["meta_desc"]), canonical, lang="pl",
           en_url=en_url, pl_url=canonical, nav=nav_html) + body + FOOT_HTML("pl"))
 
 # ---------- Video hub pages (one per YouTube playlist) ----------
@@ -621,7 +636,7 @@ def video_hub_page(v):
     <h2>Related reviews</h2>
     <div class="rel-grid">{rel_html}</div>
   </article>'''
-    write(f"{v['slug']}.html", head(v["title"], v["meta_desc"], canonical, lang="en",
+    write(f"{v['slug']}.html", head(v["title"], smart_desc(v["meta_desc"]), canonical, lang="en",
           en_url=canonical, pl_url=SITE['domain']+"/pl/") + body + FOOT)
 
 # ---------- Reviews index (separate page, like the Advisor/video hubs) ----------
@@ -763,7 +778,7 @@ def home():
        &nbsp;·&nbsp;
        <a href="/best-lightweight-windows-11-builds">📊 Full build comparison table →</a></p>
   </section>'''
-    write("index.html", head(f"{SITE['name']} — {SITE['tagline']}", SITE['description'],
+    write("index.html", head(f"{SITE['name']} — {SITE['tagline']}", smart_desc(SITE["description"]),
                              SITE['domain'] + "/", lang="en", en_url=SITE['domain']+"/", pl_url=SITE['domain']+"/pl/")
           + body + faq_ld + FOOT)
 
@@ -790,7 +805,7 @@ def home_pl():
     <h2>{UI_PL['reviews_heading']}</h2>
     <div class="grid">{cards}</div>
   </section>'''
-    write("pl/index.html", head(f"{SITE['name']} — {SITE_PL['tagline']}", SITE_PL['description'],
+    write("pl/index.html", head(f"{SITE['name']} — {SITE_PL['tagline']}", smart_desc(SITE_PL['description']),
           SITE['domain'] + "/pl/", lang="pl", en_url=SITE['domain']+"/", pl_url=SITE['domain']+"/pl/", nav=nav_html)
           + body + FOOT_HTML("pl"))
 
@@ -1052,10 +1067,10 @@ def legal_pl():
     disc = f'''<article class="post"><h1>{UI_PL['disclaimer_title']}</h1>
       <p>{UI_PL['disclaimer_body']}</p></article>'''
     write("pl/privacy.html", head(f"{UI_PL['privacy_title']} — " + SITE['name'],
-          UI_PL['privacy_body'][:155], SITE['domain']+"/pl/privacy", lang="pl",
+          smart_desc(UI_PL['privacy_body']), SITE['domain']+"/pl/privacy", lang="pl",
           en_url=SITE['domain']+"/privacy", pl_url=SITE['domain']+"/pl/privacy", nav=nav_html) + priv + FOOT_HTML("pl"))
     write("pl/disclaimer.html", head(f"{UI_PL['disclaimer_title']} — " + SITE['name'],
-          UI_PL['disclaimer_body'][:155], SITE['domain']+"/pl/disclaimer", lang="pl",
+          smart_desc(UI_PL['disclaimer_body']), SITE['domain']+"/pl/disclaimer", lang="pl",
           en_url=SITE['domain']+"/disclaimer", pl_url=SITE['domain']+"/pl/disclaimer", nav=nav_html) + disc + FOOT_HTML("pl"))
 
     items_html = "\n".join(f"<li>{it}</li>" for it in UI_PL['terms_items'])
@@ -1074,7 +1089,7 @@ def legal_pl():
          <a href="{SITE['youtube']}" target="_blank" rel="noopener">YouTube</a>
          {UI_PL['contact_alt_suffix']}</p></article>'''
     write("pl/contact.html", head(f"{UI_PL['contact_title']} — " + SITE['name'],
-          UI_PL['contact_lead'][:155], SITE['domain']+"/pl/contact", lang="pl",
+          smart_desc(UI_PL['contact_lead']), SITE['domain']+"/pl/contact", lang="pl",
           en_url=SITE['domain']+"/contact", pl_url=SITE['domain']+"/pl/contact", nav=nav_html) + contact + FOOT_HTML("pl"))
 
     about = f'''<article class="post simple-page"><h1>{UI_PL['about_title']}</h1>
@@ -1085,7 +1100,7 @@ def legal_pl():
          {UI_PL['about_p3_suffix']}</p>
       <a class="btn" href="/pl/contact">{UI_PL['about_contact_btn']}</a></article>'''
     write("pl/about.html", head(f"{UI_PL['about_title']} — " + SITE['name'],
-          UI_PL['about_lead'][:155], SITE['domain']+"/pl/about", lang="pl",
+          smart_desc(UI_PL['about_lead']), SITE['domain']+"/pl/about", lang="pl",
           en_url=SITE['domain']+"/about", pl_url=SITE['domain']+"/pl/about", nav=nav_html) + about + FOOT_HTML("pl"))
 
 def not_found_pl():
@@ -1096,7 +1111,7 @@ def not_found_pl():
       <a class="btn" href="/pl/advisor">{UI_PL['notfound_btn']}</a>
       <a class="btn ghost" href="/pl/">{UI_PL['notfound_home']}</a></article>'''
     write("pl/404.html", head(f"{UI_PL['notfound_title']} — " + SITE['name'],
-          UI_PL['notfound_lead'][:155], SITE['domain']+"/pl/404", lang="pl",
+          smart_desc(UI_PL['notfound_lead']), SITE['domain']+"/pl/404", lang="pl",
           en_url=SITE['domain']+"/404", pl_url=SITE['domain']+"/pl/404", nav=nav_html) + body + FOOT_HTML("pl"))
 
 def seo_files():
