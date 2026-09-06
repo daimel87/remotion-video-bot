@@ -332,7 +332,7 @@ for slug, brand, url in _CONTROLLERS:
 # ---- Páginas-guía (temas muy buscados en Google, sin descarga) ----
 TOOLS.append({
     "slug": "quitar-proteccion-escritura-usb",
-    "title": "Cómo quitar la protección contra escritura de una USB",
+    "title": "Quitar la Protección Contra Escritura de una USB o Pendrive (Guía 2026)",
     "brand": "Quitar protección contra escritura",
     "url": None,
     "kind": "guide",
