@@ -206,7 +206,7 @@ TESTIMONIALS = [
 TOOLS = [
     {
         "slug": "chipgenius",
-        "title": "ChipGenius v4.21 en Español – Descargar Gratis para Identificar el Controlador de tu USB (2026)",
+        "title": "ChipGenius v4.21 en Español (Descargar Gratis 2026)",
         "brand": "ChipGenius",
         "url": "https://www.mediafire.com/file/v58c3jvkisf1ok7/ChipGenius-con-lanzador+4.21.0701.rar/file",
         "key": "repusb",
@@ -309,7 +309,7 @@ _IMAGES = {
 for slug, brand, url in _CONTROLLERS:
     TOOLS.append({
         "slug": slug,
-        "title": f"Herramienta {brand} – Reparar y formatear USB {brand}",
+        "title": f"Herramienta {brand} – Reparar USB Dañada",
         "brand": brand,
         "url": url,
         "kind": "mptool",
@@ -332,7 +332,7 @@ for slug, brand, url in _CONTROLLERS:
 # ---- Páginas-guía (temas muy buscados en Google, sin descarga) ----
 TOOLS.append({
     "slug": "quitar-proteccion-escritura-usb",
-    "title": "Quitar la Protección Contra Escritura de una USB o Pendrive (Guía 2026)",
+    "title": "Quitar la Protección Contra Escritura de un USB (2026)",
     "meta_desc": "Aprende a quitar o desactivar la protección contra escritura de una USB, pendrive "
                  "o tarjeta SD. Solución paso a paso con Diskpart, registro de Windows y "
                  "reparación por controlador, además de vídeo tutorial completo.",
@@ -421,7 +421,7 @@ TOOLS.append({
 })
 TOOLS.append({
     "slug": "procesos-innecesarios-que-consumen-ram-windows",
-    "title": "El proceso invisible que le está robando RAM a tu PC (y cómo eliminarlo)",
+    "title": "El Proceso Invisible que le Roba RAM a tu PC",
     "brand": "Liberar RAM en Windows",
     "url": None,
     "kind": "guide",
@@ -467,7 +467,7 @@ TOOLS.append({
 # ---- Páginas por marca ("¿Qué marca es tu USB dañada?") ----
 TOOLS.append({
     "slug": "usb-kingston-100g3-danada",
-    "title": "USB Kingston DataTraveler 100 G3 dañada: cómo repararla (protección contra escritura)",
+    "title": "USB Kingston DataTraveler 100 G3 Dañada: Solución",
     "brand": "Kingston DataTraveler 100 G3",
     "url": None,
     "kind": "guide",
@@ -499,7 +499,7 @@ TOOLS.append({
 })
 TOOLS.append({
     "slug": "usb-kingston-101g2-danada",
-    "title": "USB Kingston DataTraveler 101 G2 dañada: cómo repararla en 1 minuto",
+    "title": "USB Kingston DataTraveler 101 G2 Dañada: Solución",
     "brand": "Kingston DataTraveler 101 G2",
     "url": None,
     "kind": "guide",
@@ -530,7 +530,7 @@ TOOLS.append({
 })
 TOOLS.append({
     "slug": "usb-kingston-exodia-danada",
-    "title": "USB Kingston Exodia dañada: cómo repararla (protección contra escritura y no detecta)",
+    "title": "USB Kingston Exodia Dañada: Cómo Repararla",
     "brand": "Kingston Exodia",
     "url": None,
     "kind": "guide",
@@ -564,7 +564,7 @@ TOOLS.append({
 })
 TOOLS.append({
     "slug": "usb-adata-danada",
-    "title": "USB Adata dañada: cómo repararla con ChipGenius (UV210 y otros modelos)",
+    "title": "USB Adata Dañada: Cómo Repararla (UV210 y más)",
     "brand": "Adata",
     "url": None,
     "kind": "guide",
@@ -732,7 +732,7 @@ AUDIO_TOOLS = [
     {
         "slug": "desbloquear-dolby-atmos-windows-gratis",
         "download_url": "https://mega.nz/file/arhTwQaa#F3B7AF84pGl1dSzH0af6RAE0KziitxmqiBu1IXtoSGc",
-        "title": "Windows Bloquea Dolby Atmos: Cómo Desbloquearlo Gratis (Sin Pagar la Store)",
+        "title": "Windows Bloquea Dolby Atmos: Cómo Desbloquearlo Gratis",
         "brand": "Desbloquear Dolby Atmos",
         "kind": "audio",
         "video_id": "EVJacCtV-gU",
@@ -753,7 +753,7 @@ AUDIO_TOOLS = [
     {
         "slug": "instalar-nahimic-3-windows",
         "download_url": "https://drive.google.com/file/d/1Z81kF9Gbx9oSjDHx_Bhpa927j3cNOsK7/view",
-        "title": "Cómo Instalar Nahimic 3 en Windows 10/11 (Audio Envolvente Gratis)",
+        "title": "Cómo Instalar Nahimic 3 en Windows 10/11 Gratis",
         "brand": "Nahimic 3",
         "kind": "audio",
         "video_id": "TuiOX1jFLyA",
