@@ -1058,6 +1058,7 @@ def main():
     shutil.copy(os.path.join(HERE, "sw.js"), os.path.join(DIST, "sw.js"))
     shutil.copy(os.path.join(HERE, "ca24f8a547c40171c917.txt"), os.path.join(DIST, "ca24f8a547c40171c917.txt"))
     shutil.copytree(os.path.join(HERE, "images"), os.path.join(DIST, "images"))
+    write("_redirects", "/usb-danada-ilegible /problemas/usb-danada-ilegible 301\n")
     home(); herramientas_page(); legal(); seo_files()
     problems_hub_page()
     for p in PROBLEMS:
