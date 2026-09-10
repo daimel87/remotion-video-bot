@@ -37,6 +37,42 @@ import {
 import {BLOQUE_2} from './odisea/cues-b2';
 import {BLOQUE_3} from './odisea/cues-b3';
 import {BLOQUE_4} from './odisea/cues-b4';
+import {FoxReactionTest} from './FoxReactionTest';
+import {AnimalFactTest} from './AnimalFactTest';
+import {AnimalFactFrog} from './AnimalFactFrog';
+import {AnimalFactBeetle} from './AnimalFactBeetle';
+import {AnimalFactFungus} from './AnimalFactFungus';
+import {AnimalFactOctopus} from './AnimalFactOctopus';
+import {AnimalFactHamster} from './AnimalFactHamster';
+import {AnimalFactCat} from './AnimalFactCat';
+import {AnimalFactMantis} from './AnimalFactMantis';
+import {MongooseFight} from './MongooseFight';
+import {KomodoDragon} from './KomodoDragon';
+import {HoneyBadger} from './HoneyBadger';
+import {BeforeAfter} from './BeforeAfter';
+import {AnimalFactJellyfish} from './AnimalFactJellyfish';
+import {AnimalFactMorayEel} from './AnimalFactMorayEel';
+import {AnimalFactShark} from './AnimalFactShark';
+import {AnimalFactLizard} from './AnimalFactLizard';
+import {AnimalFactBullfrog} from './AnimalFactBullfrog';
+import {AnimalFactBullfrog2} from './AnimalFactBullfrog2';
+import {AnimalFactShrew} from './AnimalFactShrew';
+import {AnimalFactAxolotl} from './AnimalFactAxolotl';
+import {AnimalFactCreeper} from './AnimalFactCreeper';
+import {AnimalFactCymothoa} from './AnimalFactCymothoa';
+import {AnimalFactWhale} from './AnimalFactWhale';
+import {AnimalFactMantisShrimp} from './AnimalFactMantisShrimp';
+import {AnimalDeathsRanking} from './AnimalDeathsRanking';
+import {WorldCupAnimals} from './WorldCupAnimals';
+import {RankingDogs} from './RankingDogs';
+import {ChannelBanner} from './ChannelBanner';
+import {MovieFactXMenLogo} from './MovieFactXMenLogo';
+import {MovieFactSpiderMan} from './MovieFactSpiderMan';
+import {MovieFactCars} from './MovieFactCars';
+import {MovieFactWarOfWorlds} from './MovieFactWarOfWorlds';
+import {MovieFactKongSquid} from './MovieFactKongSquid';
+import {MovieFactXMenSpiderMan} from './MovieFactXMenSpiderMan';
+import {CatBreedsIQRanking} from './CatBreedsIQRanking';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -301,12 +337,300 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
+        id="FoxReactionTest"
+        component={FoxReactionTest}
+        durationInFrames={192}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactTest"
+        component={AnimalFactTest}
+        durationInFrames={192}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactFrog"
+        component={AnimalFactFrog}
+        durationInFrames={192}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactBeetle"
+        component={AnimalFactBeetle}
+        durationInFrames={192}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactFungus"
+        component={AnimalFactFungus}
+        durationInFrames={192}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactOctopus"
+        component={AnimalFactOctopus}
+        durationInFrames={192}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactHamster"
+        component={AnimalFactHamster}
+        durationInFrames={132}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactCat"
+        component={AnimalFactCat}
+        durationInFrames={192}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactMantis"
+        component={AnimalFactMantis}
+        durationInFrames={192}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="MongooseFight"
+        component={MongooseFight}
+        durationInFrames={582}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="KomodoDragon"
+        component={KomodoDragon}
+        durationInFrames={670}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="HoneyBadger"
+        component={HoneyBadger}
+        durationInFrames={628}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="BeforeAfter"
+        component={BeforeAfter}
+        durationInFrames={888}
+        fps={30}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactJellyfish"
+        component={AnimalFactJellyfish}
+        durationInFrames={192}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactMorayEel"
+        component={AnimalFactMorayEel}
+        durationInFrames={120}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactShark"
+        component={AnimalFactShark}
+        durationInFrames={120}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactLizard"
+        component={AnimalFactLizard}
+        durationInFrames={120}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactBullfrog"
+        component={AnimalFactBullfrog}
+        durationInFrames={120}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactBullfrog2"
+        component={AnimalFactBullfrog2}
+        durationInFrames={120}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalDeathsRanking"
+        component={AnimalDeathsRanking}
+        durationInFrames={5400}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
         id="HealthCookingEdit"
         component={HealthCookingEdit}
         durationInFrames={Math.round(HEALTH_SECS * 30)}
         fps={30}
         width={1920}
         height={1080}
+      />
+      <Composition
+        id="CatBreedsIQRanking"
+        component={CatBreedsIQRanking}
+        durationInFrames={7200}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="AnimalFactMantisShrimp"
+        component={AnimalFactMantisShrimp}
+        durationInFrames={120}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactWhale"
+        component={AnimalFactWhale}
+        durationInFrames={120}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactCymothoa"
+        component={AnimalFactCymothoa}
+        durationInFrames={120}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactCreeper"
+        component={AnimalFactCreeper}
+        durationInFrames={120}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactAxolotl"
+        component={AnimalFactAxolotl}
+        durationInFrames={120}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="AnimalFactShrew"
+        component={AnimalFactShrew}
+        durationInFrames={120}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="WorldCupAnimals"
+        component={WorldCupAnimals}
+        durationInFrames={1232}
+        fps={30}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="RankingDogs"
+        component={RankingDogs}
+        durationInFrames={1492}
+        fps={30}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="MovieFactXMenLogo"
+        component={MovieFactXMenLogo}
+        durationInFrames={144}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="MovieFactSpiderMan"
+        component={MovieFactSpiderMan}
+        durationInFrames={144}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="MovieFactCars"
+        component={MovieFactCars}
+        durationInFrames={144}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="MovieFactWarOfWorlds"
+        component={MovieFactWarOfWorlds}
+        durationInFrames={144}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="MovieFactKongSquid"
+        component={MovieFactKongSquid}
+        durationInFrames={144}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="MovieFactXMenSpiderMan"
+        component={MovieFactXMenSpiderMan}
+        durationInFrames={192}
+        fps={24}
+        width={720}
+        height={1280}
+      />
+      <Composition
+        id="ChannelBanner"
+        component={ChannelBanner}
+        durationInFrames={1}
+        fps={1}
+        width={2560}
+        height={1440}
       />
     </>
   );
