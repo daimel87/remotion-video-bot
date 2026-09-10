@@ -58,6 +58,13 @@ npm run fetch
 Edita `public/data/niches.json`. Cada entrada es `{ id, label, query }`, donde
 `query` es el texto de búsqueda que se manda a la YouTube Search API.
 
+`query` también puede ser un **array de strings** en vez de uno solo. El motor
+rota por todas las frases y junta los resultados (sin duplicar video), lo que
+da mucha más variedad que una sola query fija — una sola frase con
+`order: viewCount` siempre devuelve el mismo top mientras esos videos no se
+salgan de la ventana de 30 días. Ojo: cada frase adicional consume su propia
+cuota de búsqueda (ver abajo).
+
 ## Ajustar umbrales
 
 En `public/outliers-engine.js` (y opcionalmente en `scripts/fetch-outliers.mjs`
@@ -70,6 +77,9 @@ si usas el snapshot por terminal):
 ## Cuota de la API
 
 Cada búsqueda consume aproximadamente 500-700 unidades de las 10.000
-gratuitas diarias de YouTube Data API v3 (con 5 nichos). Como solo se gasta
-cuota cuando pulsas "Actualizar ahora", puedes usarlo varias veces al día sin
-problema.
+gratuitas diarias de YouTube Data API v3 (con 5 nichos de una sola query
+cada uno). Si un nicho tiene varias queries (array), cada frase extra suma
+~100-200 unidades más para ese nicho. Como solo se gasta cuota cuando pulsas
+"Actualizar ahora", puedes usarlo varias veces al día sin problema, pero si
+le agregas muchas queries a muchos nichos vigila que no te acerques al
+límite diario.
