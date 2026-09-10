@@ -46,34 +46,43 @@ async function ytFetch(apiKey, endpoint, params) {
 }
 
 async function searchNicheVideos(apiKey, niche, cutoffDate) {
+  // niche.query puede ser un string o un array de strings: si son varias,
+  // se rota por todas y se juntan los resultados (sin duplicar videoId) para
+  // no quedar atado a una sola frase que siempre devuelve el mismo top fijo.
+  const queries = Array.isArray(niche.query) ? niche.query : [niche.query];
+  const seen = new Set();
   const results = [];
-  let pageToken;
-  for (let page = 0; page < 2; page++) {
-    const json = await ytFetch(apiKey, "search", {
-      part: "snippet",
-      q: niche.query,
-      type: "video",
-      order: "viewCount",
-      publishedAfter: cutoffDate.toISOString(),
-      maxResults: "50",
-      ...(pageToken ? { pageToken } : {}),
-    });
-    for (const item of json.items ?? []) {
-      results.push({
-        videoId: item.id.videoId,
-        channelId: item.snippet.channelId,
-        channelTitle: item.snippet.channelTitle,
-        title: item.snippet.title,
-        publishedAt: item.snippet.publishedAt,
-        thumbnail:
-          item.snippet.thumbnails?.high?.url ??
-          item.snippet.thumbnails?.medium?.url ??
-          item.snippet.thumbnails?.default?.url,
-        nicheId: niche.id,
+  for (const q of queries) {
+    let pageToken;
+    for (let page = 0; page < 2; page++) {
+      const json = await ytFetch(apiKey, "search", {
+        part: "snippet",
+        q,
+        type: "video",
+        order: "viewCount",
+        publishedAfter: cutoffDate.toISOString(),
+        maxResults: "50",
+        ...(pageToken ? { pageToken } : {}),
       });
+      for (const item of json.items ?? []) {
+        if (seen.has(item.id.videoId)) continue;
+        seen.add(item.id.videoId);
+        results.push({
+          videoId: item.id.videoId,
+          channelId: item.snippet.channelId,
+          channelTitle: item.snippet.channelTitle,
+          title: item.snippet.title,
+          publishedAt: item.snippet.publishedAt,
+          thumbnail:
+            item.snippet.thumbnails?.high?.url ??
+            item.snippet.thumbnails?.medium?.url ??
+            item.snippet.thumbnails?.default?.url,
+          nicheId: niche.id,
+        });
+      }
+      pageToken = json.nextPageToken;
+      if (!pageToken) break;
     }
-    pageToken = json.nextPageToken;
-    if (!pageToken) break;
   }
   return results;
 }
