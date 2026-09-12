@@ -78,7 +78,7 @@ FOOT = f'''</main>
     entries.forEach(function(e){{
       if (e.isIntersecting) {{ e.target.classList.add('in-view'); io.unobserve(e.target); }}
     }});
-  }}, {{threshold: .12}});
+  }}, {{threshold: .01}});
   els.forEach(function(el){{ io.observe(el); }});
 }})();
 </script>

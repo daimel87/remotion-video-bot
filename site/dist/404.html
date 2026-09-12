@@ -153,7 +153,7 @@ if ('IntersectionObserver' in window) {
     entries.forEach(function(entry){
       if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
     });
-  }, {threshold:.12});
+  }, {threshold:.01});
   document.querySelectorAll('.reveal').forEach(function(el){ observer.observe(el); });
 } else {
   document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('visible'); });
